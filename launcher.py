@@ -19,16 +19,24 @@ if sys.stdout is None:
 if sys.stderr is None:
     sys.stderr = open(os.devnull, 'w')
 
-def _get_base_dir():
+def _get_resource_dir():
+    """bundled data lives here (onefile: _MEIPASS temp dir; onedir/dev: script dir)"""
+    if getattr(sys, 'frozen', False):
+        return getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
+    return os.path.dirname(os.path.abspath(__file__))
+
+def _get_app_dir():
+    """exe's real directory (for saving config)"""
     if getattr(sys, 'frozen', False):
         return os.path.dirname(sys.executable)
     return os.path.dirname(os.path.abspath(__file__))
 
-BASE_DIR = _get_base_dir()
-CONFIG_FILE = os.path.join(BASE_DIR, 'launcher_config.json')
-ICON_PATH = os.path.join(BASE_DIR, 'icon.ico')
+RESOURCE_DIR = _get_resource_dir()
+APP_DIR = _get_app_dir()
+CONFIG_FILE = os.path.join(APP_DIR, 'launcher_config.json')
+ICON_PATH = os.path.join(RESOURCE_DIR, 'icon.ico')
 
-sys.path.insert(0, BASE_DIR)
+sys.path.insert(0, RESOURCE_DIR)
 import server
 
 
@@ -157,7 +165,7 @@ class LauncherApp:
 
         server.COMFYUI_URL = url.rstrip('/')
         server.PORT = port
-        server.STATIC_DIR = BASE_DIR
+        server.STATIC_DIR = RESOURCE_DIR
 
         from urllib.parse import urlparse
         parsed = urlparse(server.COMFYUI_URL)

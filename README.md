@@ -6,9 +6,9 @@
 
 ## 📥 下载
 
-👉 [**点击下载 ComfyUI-Web v1.0.0（Windows 免安装版）**](https://github.com/mhmoma/comfyui-Web/releases/download/v1.0.0/ComfyUI-Web-v1.0.zip)
+👉 [**点击下载 ComfyUI-Web.exe（Windows 免安装版）**](https://github.com/mhmoma/comfyui-Web/releases/download/v1.0.0/ComfyUI-Web.exe)
 
-下载后解压，双击 `ComfyUI-Web.exe` 即可使用，无需安装 Python 🎉
+下载后直接双击运行，无需解压，无需安装 Python 🎉
 
 ---
 
@@ -20,7 +20,7 @@
 - 🧠 **多架构支持** — SDXL (Checkpoint) / Anima (Diffusion Model)
 - 🎛️ **丰富的可选模块** — LoRA、高清放大、ControlNet、img2img
 - 📌 **系统托盘** — 最小化到托盘后台运行
-- 📦 **开箱即用** — 解压即用，不需要任何环境
+- 📦 **开箱即用** — 单个 exe 文件，不需要任何环境
 
 ---
 
