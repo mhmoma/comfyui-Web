@@ -1504,7 +1504,7 @@
 
     async function loadTags() {
         try {
-            const res = await fetch(`${getServer() || ''}/tags.json`);
+            const res = await fetch('tags.json');
             tagData = await res.json();
         } catch (e) {
             console.warn('标签数据加载失败:', e);
