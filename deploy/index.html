@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComfyUI Web</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1>ComfyUI Web</h1>
+            <button id="btn-settings" class="btn-icon" title="设置">⚙️</button>
+        </header>
+
+        <main class="main">
+            <aside class="sidebar">
+                <!-- 基础参数 -->
+                <section class="panel">
+                    <h2>模型架构</h2>
+                    <select id="sel-arch">
+                        <option value="sdxl">SDXL (Checkpoint)</option>
+                        <option value="anima">Anima (Diffusion Model)</option>
+                    </select>
+                </section>
+
+                <section class="panel" id="panel-sdxl-model">
+                    <h2>Checkpoint</h2>
+                    <select id="sel-checkpoint"></select>
+                </section>
+
+                <section class="panel hidden" id="panel-anima-model">
+                    <h2>Anima 模型</h2>
+                    <label>扩散模型
+                        <select id="sel-unet"></select>
+                    </label>
+                    <label>文本编码器
+                        <select id="sel-clip"></select>
+                    </label>
+                    <label>VAE
+                        <select id="sel-anima-vae"></select>
+                    </label>
+                </section>
+
+                <section class="panel">
+                    <h2>采样参数</h2>
+                    <label>采样器
+                        <select id="sel-sampler"></select>
+                    </label>
+                    <label>调度器
+                        <select id="sel-scheduler"></select>
+                    </label>
+                    <label>步数
+                        <input type="number" id="inp-steps" value="20" min="1" max="150">
+                    </label>
+                    <label>CFG Scale
+                        <input type="number" id="inp-cfg" value="7" min="1" max="30" step="0.5">
+                    </label>
+                </section>
+
+                <section class="panel">
+                    <h2>图片尺寸</h2>
+                    <div class="size-row">
+                        <label>宽 <input type="number" id="inp-width" value="1024" min="64" max="2048" step="64"></label>
+                        <span>×</span>
+                        <label>高 <input type="number" id="inp-height" value="1536" min="64" max="2048" step="64"></label>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <h2>种子</h2>
+                    <div class="seed-row">
+                        <input type="number" id="inp-seed" value="-1">
+                        <button id="btn-random-seed" class="btn-icon" title="随机">🎲</button>
+                    </div>
+                    <small>-1 = 随机种子</small>
+                </section>
+
+                <!-- 可选模块：VAE -->
+                <section class="panel optional-panel">
+                    <div class="panel-header">
+                        <h2>VAE 选择</h2>
+                        <label class="toggle">
+                            <input type="checkbox" id="chk-vae">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="panel-body" id="panel-vae">
+                        <select id="sel-vae"></select>
+                    </div>
+                </section>
+
+                <!-- 可选模块：LoRA (多个) -->
+                <section class="panel optional-panel">
+                    <div class="panel-header">
+                        <h2>LoRA</h2>
+                        <label class="toggle">
+                            <input type="checkbox" id="chk-lora">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="panel-body" id="panel-lora">
+                        <div id="lora-list"></div>
+                        <button id="btn-add-lora" class="btn-secondary" style="width:100%;margin-top:8px">+ 添加 LoRA</button>
+                    </div>
+                </section>
+
+                <!-- 可选模块：Hires Fix -->
+                <section class="panel optional-panel">
+                    <div class="panel-header">
+                        <h2>高清放大</h2>
+                        <label class="toggle">
+                            <input type="checkbox" id="chk-hires">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="panel-body" id="panel-hires">
+                        <label>放大倍数
+                            <input type="number" id="inp-hires-scale" value="2" min="1" max="4" step="0.5">
+                        </label>
+                        <label>放大方法
+                            <select id="sel-upscale-method">
+                                <option value="nearest-exact">nearest-exact</option>
+                                <option value="bilinear">bilinear</option>
+                                <option value="area">area</option>
+                                <option value="bicubic">bicubic</option>
+                                <option value="lanczos">lanczos</option>
+                            </select>
+                        </label>
+                        <label>重绘强度
+                            <input type="number" id="inp-hires-denoise" value="0.5" min="0" max="1" step="0.05">
+                        </label>
+                        <label>放大步数
+                            <input type="number" id="inp-hires-steps" value="15" min="1" max="100">
+                        </label>
+                    </div>
+                </section>
+
+                <!-- 可选模块：ControlNet -->
+                <section class="panel optional-panel">
+                    <div class="panel-header">
+                        <h2>ControlNet</h2>
+                        <label class="toggle">
+                            <input type="checkbox" id="chk-controlnet">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="panel-body" id="panel-controlnet">
+                        <label>ControlNet 模型
+                            <select id="sel-controlnet"></select>
+                        </label>
+                        <div class="cn-model-desc" id="cn-model-desc"></div>
+                        <label>强度
+                            <input type="number" id="inp-cn-strength" value="1" min="0" max="2" step="0.05">
+                        </label>
+                        <label>开始 %
+                            <input type="number" id="inp-cn-start" value="0" min="0" max="1" step="0.05">
+                        </label>
+                        <label>结束 %
+                            <input type="number" id="inp-cn-end" value="1" min="0" max="1" step="0.05">
+                        </label>
+                        <label>控制图片
+                            <input type="file" id="inp-cn-image" accept="image/*">
+                        </label>
+                        <div id="cn-upload-preview" class="file-preview hidden">
+                            <img id="cn-upload-img" alt="上传图预览">
+                        </div>
+                        <button id="btn-cn-preview" class="btn-secondary" style="width:100%;margin-top:6px">🔍 预览底图</button>
+                        <div id="cn-processed-preview" class="file-preview hidden">
+                            <small>预处理结果：</small>
+                            <img id="cn-processed-img" alt="预处理结果">
+                        </div>
+                        <small class="cn-tip">💡 上传图片后点"预览底图"查看预处理效果</small>
+                    </div>
+                </section>
+
+                <!-- 可选模块：img2img -->
+                <section class="panel optional-panel">
+                    <div class="panel-header">
+                        <h2>参考图 (img2img)</h2>
+                        <label class="toggle">
+                            <input type="checkbox" id="chk-img2img">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="panel-body" id="panel-img2img">
+                        <label>参考图片
+                            <input type="file" id="inp-ref-image" accept="image/*">
+                        </label>
+                        <div id="ref-preview-container" class="file-preview hidden">
+                            <img id="ref-preview" alt="参考图预览">
+                        </div>
+                        <label>重绘强度
+                            <input type="number" id="inp-denoise" value="0.7" min="0" max="1" step="0.05">
+                        </label>
+                    </div>
+                </section>
+            </aside>
+
+            <div class="content">
+                <section class="prompt-area">
+                    <!-- 正向提示词 + 标签选择器 -->
+                    <div class="prompt-block">
+                        <div class="prompt-label-row">
+                            <span>正向提示词</span>
+                            <button class="btn-copy-prompt" data-target="txt-positive" title="复制">📋 复制</button>
+                        </div>
+                        <textarea id="txt-positive" rows="3" placeholder="描述你想生成的图片..."></textarea>
+                        <div class="tag-picker" id="tag-picker-pos">
+                            <div class="tag-group-row">
+                                <div class="tag-tabs" data-picker="pos"></div>
+                                <input type="text" class="tag-search" data-picker="pos" placeholder="搜索标签...">
+                            </div>
+                            <div class="tag-subtabs" data-picker="pos"></div>
+                            <div class="tag-grid" data-picker="pos"></div>
+                        </div>
+                    </div>
+
+                    <!-- 反向提示词 + 折叠标签选择器 -->
+                    <div class="prompt-block">
+                        <div class="prompt-label-row">
+                            <span>反向提示词</span>
+                            <button class="btn-copy-prompt" data-target="txt-negative" title="复制">📋 复制</button>
+                        </div>
+                        <textarea id="txt-negative" rows="2" placeholder="不想出现的元素..."></textarea>
+                        <div class="tag-picker-collapse">
+                            <div class="tag-collapse-header" id="neg-collapse-toggle">▶ 展开标签选择器</div>
+                            <div class="tag-picker hidden" id="tag-picker-neg">
+                                <div class="tag-group-row">
+                                    <div class="tag-tabs" data-picker="neg"></div>
+                                    <input type="text" class="tag-search" data-picker="neg" placeholder="搜索标签...">
+                                </div>
+                                <div class="tag-subtabs" data-picker="neg"></div>
+                                <div class="tag-grid" data-picker="neg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="action-bar">
+                    <button id="btn-generate" class="btn-primary">生成图片</button>
+                    <div id="progress-container" class="progress-container hidden">
+                        <div id="progress-bar" class="progress-bar"></div>
+                        <span id="progress-text">0%</span>
+                    </div>
+                </div>
+
+                <section class="result-area">
+                    <div id="result-placeholder" class="placeholder">生成的图片将显示在这里</div>
+                    <img id="result-image" class="result-image hidden" alt="生成结果">
+                    <div id="result-actions" class="result-actions hidden">
+                        <button id="btn-download" class="btn-secondary">下载图片</button>
+                        <button id="btn-send-to-history" class="btn-secondary">保存到历史</button>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="history-panel">
+                <h2>历史记录</h2>
+                <div id="history-grid" class="history-grid"></div>
+                <button id="btn-clear-history" class="btn-danger">清空历史</button>
+            </aside>
+        </main>
+    </div>
+
+    <!-- 设置弹窗 -->
+    <div id="modal-settings" class="modal hidden">
+        <div class="modal-content">
+            <h2>设置</h2>
+            <label>ComfyUI 服务器地址
+                <input type="text" id="inp-server" placeholder="http://127.0.0.1:8188">
+            </label>
+            <div class="modal-actions">
+                <button id="btn-save-settings" class="btn-primary">保存</button>
+                <button id="btn-cancel-settings" class="btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 历史图片大图预览 -->
+    <div id="modal-preview" class="modal hidden">
+        <div class="modal-content preview-content">
+            <img id="preview-image" alt="预览">
+            <button id="btn-close-preview" class="btn-icon close-btn">✕</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
