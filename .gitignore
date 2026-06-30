@@ -5,3 +5,5 @@ __pycache__/
 *.pyc
 launcher_config.json
 *.zip
+.netlify/
+deploy/.netlify/

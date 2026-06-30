@@ -7,10 +7,9 @@ redirects = []
 [functions."*"]
 
 [build]
-publish = "D:\\桌宠\\comfyui-web\\deploy\\public"
-publishOrigin = "ui"
-commandOrigin = "ui"
-command = "hugo"
+publish = "D:\\桌宠\\comfyui-web\\deploy"
+publishOrigin = "default"
+base = "D:\\桌宠\\comfyui-web\\deploy"
 
 [build.environment]
 

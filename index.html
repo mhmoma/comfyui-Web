@@ -16,129 +16,118 @@
 
         <main class="main">
             <aside class="sidebar">
-                <!-- 基础参数 -->
-                <section class="panel">
-                    <h2>模型架构</h2>
-                    <select id="sel-arch">
-                        <option value="sdxl">SDXL (Checkpoint)</option>
-                        <option value="anima">Anima (Diffusion Model)</option>
-                    </select>
-                </section>
+                <!-- 模式切换 -->
+                <div class="mode-switcher">
+                    <button class="mode-tab active" data-mode="simple">简易模式</button>
+                    <button class="mode-tab" data-mode="workflow">工作流模式</button>
+                </div>
 
-                <section class="panel" id="panel-sdxl-model">
-                    <h2>Checkpoint</h2>
-                    <select id="sel-checkpoint"></select>
-                </section>
-
-                <section class="panel hidden" id="panel-anima-model">
-                    <h2>Anima 模型</h2>
-                    <label>扩散模型
-                        <select id="sel-unet"></select>
-                    </label>
-                    <label>文本编码器
-                        <select id="sel-clip"></select>
-                    </label>
-                    <label>VAE
-                        <select id="sel-anima-vae"></select>
-                    </label>
-                </section>
-
-                <section class="panel">
-                    <h2>采样参数</h2>
-                    <label>采样器
-                        <select id="sel-sampler"></select>
-                    </label>
-                    <label>调度器
-                        <select id="sel-scheduler"></select>
-                    </label>
-                    <label>步数
-                        <input type="number" id="inp-steps" value="20" min="1" max="150">
-                    </label>
-                    <label>CFG Scale
-                        <input type="number" id="inp-cfg" value="7" min="1" max="30" step="0.5">
-                    </label>
-                </section>
-
-                <section class="panel">
-                    <h2>图片尺寸</h2>
-                    <div class="size-row">
-                        <label>宽 <input type="number" id="inp-width" value="1024" min="64" max="2048" step="64"></label>
-                        <span>×</span>
-                        <label>高 <input type="number" id="inp-height" value="1536" min="64" max="2048" step="64"></label>
-                    </div>
-                </section>
-
-                <section class="panel">
-                    <h2>种子</h2>
-                    <div class="seed-row">
-                        <input type="number" id="inp-seed" value="-1">
-                        <button id="btn-random-seed" class="btn-icon" title="随机">🎲</button>
-                    </div>
-                    <small>-1 = 随机种子</small>
-                </section>
-
-                <!-- 可选模块：VAE -->
-                <section class="panel optional-panel">
-                    <div class="panel-header">
-                        <h2>VAE 选择</h2>
-                        <label class="toggle">
-                            <input type="checkbox" id="chk-vae">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="panel-body" id="panel-vae">
-                        <select id="sel-vae"></select>
-                    </div>
-                </section>
-
-                <!-- 可选模块：LoRA (多个) -->
-                <section class="panel optional-panel">
-                    <div class="panel-header">
-                        <h2>LoRA</h2>
-                        <label class="toggle">
-                            <input type="checkbox" id="chk-lora">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="panel-body" id="panel-lora">
-                        <div id="lora-list"></div>
-                        <button id="btn-add-lora" class="btn-secondary" style="width:100%;margin-top:8px">+ 添加 LoRA</button>
-                    </div>
-                </section>
-
-                <!-- 可选模块：Hires Fix -->
-                <section class="panel optional-panel">
-                    <div class="panel-header">
-                        <h2>高清放大</h2>
-                        <label class="toggle">
-                            <input type="checkbox" id="chk-hires">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="panel-body" id="panel-hires">
-                        <label>放大倍数
-                            <input type="number" id="inp-hires-scale" value="2" min="1" max="4" step="0.5">
-                        </label>
-                        <label>放大方法
-                            <select id="sel-upscale-method">
-                                <option value="nearest-exact">nearest-exact</option>
-                                <option value="bilinear">bilinear</option>
-                                <option value="area">area</option>
-                                <option value="bicubic">bicubic</option>
-                                <option value="lanczos">lanczos</option>
+                <!-- 简易模式内容 -->
+                <div class="mode-content" id="mode-simple">
+                <!-- 分组1：基础设置 -->
+                <div class="panel-group open" data-group="basic">
+                    <div class="panel-group-header">基础设置</div>
+                    <div class="panel-group-body">
+                        <section class="panel">
+                            <h2>模型架构</h2>
+                            <select id="sel-arch">
+                                <option value="sdxl">SDXL (Checkpoint)</option>
+                                <option value="anima">Anima (Diffusion Model)</option>
                             </select>
-                        </label>
-                        <label>重绘强度
-                            <input type="number" id="inp-hires-denoise" value="0.5" min="0" max="1" step="0.05">
-                        </label>
-                        <label>放大步数
-                            <input type="number" id="inp-hires-steps" value="15" min="1" max="100">
-                        </label>
-                    </div>
-                </section>
+                        </section>
 
-                <!-- 可选模块：ControlNet -->
-                <section class="panel optional-panel">
+                        <section class="panel" id="panel-sdxl-model">
+                            <h2>Checkpoint</h2>
+                            <select id="sel-checkpoint"></select>
+                        </section>
+
+                        <section class="panel hidden" id="panel-anima-model">
+                            <h2>Anima 模型</h2>
+                            <label>扩散模型 <select id="sel-unet"></select></label>
+                            <label>文本编码器 <select id="sel-clip"></select></label>
+                            <label>VAE <select id="sel-anima-vae"></select></label>
+                        </section>
+
+                        <section class="panel">
+                            <h2>采样参数</h2>
+                            <div class="compact-row">
+                                <label>采样器 <select id="sel-sampler"></select></label>
+                                <label>调度器 <select id="sel-scheduler"></select></label>
+                            </div>
+                            <div class="compact-row">
+                                <label>步数 <input type="number" id="inp-steps" value="20" min="1" max="150"></label>
+                                <label>CFG <input type="number" id="inp-cfg" value="7" min="1" max="30" step="0.5"></label>
+                            </div>
+                        </section>
+
+                        <section class="panel">
+                            <div class="compact-row">
+                                <label>宽 <input type="number" id="inp-width" value="1024" min="64" max="2048" step="64"></label>
+                                <label>高 <input type="number" id="inp-height" value="1536" min="64" max="2048" step="64"></label>
+                            </div>
+                            <div class="seed-row" style="margin-top:8px">
+                                <label style="flex:1;margin:0">种子 <input type="number" id="inp-seed" value="-1"></label>
+                                <button id="btn-random-seed" class="btn-icon" title="随机">🎲</button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- 分组2：增强功能 -->
+                <div class="panel-group" data-group="enhance">
+                    <div class="panel-group-header">增强功能</div>
+                    <div class="panel-group-body">
+                        <section class="panel optional-panel">
+                            <div class="panel-header">
+                                <h2>VAE 选择</h2>
+                                <label class="toggle"><input type="checkbox" id="chk-vae"><span class="toggle-slider"></span></label>
+                            </div>
+                            <div class="panel-body" id="panel-vae">
+                                <select id="sel-vae"></select>
+                            </div>
+                        </section>
+
+                        <section class="panel optional-panel">
+                            <div class="panel-header">
+                                <h2>LoRA</h2>
+                                <label class="toggle"><input type="checkbox" id="chk-lora"><span class="toggle-slider"></span></label>
+                            </div>
+                            <div class="panel-body" id="panel-lora">
+                                <div id="lora-list"></div>
+                                <button id="btn-add-lora" class="btn-secondary" style="width:100%;margin-top:8px">+ 添加 LoRA</button>
+                            </div>
+                        </section>
+
+                        <section class="panel optional-panel">
+                            <div class="panel-header">
+                                <h2>高清放大</h2>
+                                <label class="toggle"><input type="checkbox" id="chk-hires"><span class="toggle-slider"></span></label>
+                            </div>
+                            <div class="panel-body" id="panel-hires">
+                                <div class="compact-row">
+                                    <label>倍数 <input type="number" id="inp-hires-scale" value="2" min="1" max="4" step="0.5"></label>
+                                    <label>步数 <input type="number" id="inp-hires-steps" value="15" min="1" max="100"></label>
+                                </div>
+                                <div class="compact-row">
+                                    <label>方法 <select id="sel-upscale-method">
+                                        <option value="nearest-exact">nearest-exact</option>
+                                        <option value="bilinear">bilinear</option>
+                                        <option value="area">area</option>
+                                        <option value="bicubic">bicubic</option>
+                                        <option value="lanczos">lanczos</option>
+                                    </select></label>
+                                    <label>强度 <input type="number" id="inp-hires-denoise" value="0.5" min="0" max="1" step="0.05"></label>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- 分组3：图像控制 -->
+                <div class="panel-group" data-group="control">
+                    <div class="panel-group-header">图像控制</div>
+                    <div class="panel-group-body">
+                        <section class="panel optional-panel">
                     <div class="panel-header">
                         <h2>ControlNet</h2>
                         <label class="toggle">
@@ -196,7 +185,93 @@
                         </label>
                     </div>
                 </section>
+
+                <!-- 可选模块：区域提示词 -->
+                <section class="panel optional-panel">
+                    <div class="panel-header">
+                        <h2>区域提示词</h2>
+                        <label class="toggle"><input type="checkbox" id="chk-regional"><span class="toggle-slider"></span></label>
+                    </div>
+                    <div class="panel-body" id="panel-regional">
+                        <div class="regional-canvas-wrap">
+                            <canvas id="regional-canvas" width="270" height="180"></canvas>
+                        </div>
+                        <div class="regional-presets">
+                            <button class="btn-preset" data-preset="lr" title="左右分">◫</button>
+                            <button class="btn-preset" data-preset="tb" title="上下分">⬒</button>
+                            <button class="btn-preset" data-preset="quad" title="四宫格">⊞</button>
+                            <button class="btn-preset" data-preset="center" title="中心+背景">◎</button>
+                            <button class="btn-preset" data-preset="clear" title="清空">✕</button>
+                        </div>
+                        <div id="regional-list"></div>
+                        <button id="btn-add-region" class="btn-secondary" style="width:100%;margin-top:8px">+ 添加区域</button>
+                    </div>
+                </section>
+                    </div>
+                </div>
+
+                <!-- 分组4：后处理 -->
+                <div class="panel-group" data-group="post">
+                    <div class="panel-group-header">后处理</div>
+                    <div class="panel-group-body">
+                        <section class="panel optional-panel">
+                            <div class="panel-header">
+                                <h2>ADetailer 面部修复</h2>
+                                <label class="toggle"><input type="checkbox" id="chk-adetailer"><span class="toggle-slider"></span></label>
+                            </div>
+                            <div class="panel-body" id="panel-adetailer">
+                                <label>检测模型
+                                    <select id="sel-adetailer-model">
+                                        <option value="bbox/face_yolov8m.pt">face_yolov8m (人脸)</option>
+                                        <option value="bbox/hand_yolov8s.pt">hand_yolov8s (手部)</option>
+                                        <option value="segm/person_yolov8m-seg.pt">person_yolov8m-seg (人体)</option>
+                                        <option value="segm/face_yolov8m-seg_60.pt">face_yolov8m-seg (人脸分割)</option>
+                                    </select>
+                                </label>
+                                <div class="compact-row">
+                                    <label>步数 <input type="number" id="inp-adetailer-steps" value="16" min="1" max="100"></label>
+                                    <label>强度 <input type="number" id="inp-adetailer-denoise" value="0.30" min="0" max="1" step="0.05"></label>
+                                </div>
+                                <div class="compact-row">
+                                    <label>阈值 <input type="number" id="inp-adetailer-threshold" value="0.44" min="0" max="1" step="0.01"></label>
+                                    <label>膨胀 <input type="number" id="inp-adetailer-dilation" value="8" min="0" max="64" step="1"></label>
+                                </div>
+                                <div class="compact-row">
+                                    <label>羽化 <input type="number" id="inp-adetailer-feather" value="16" min="0" max="64" step="1"></label>
+                                    <label>循环 <input type="number" id="inp-adetailer-cycle" value="1" min="1" max="5"></label>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                </div><!-- /mode-simple -->
+
+                <!-- 工作流模式内容 -->
+                <div class="mode-content hidden" id="mode-workflow">
+                    <div class="wf-section">
+                        <div class="wf-header-row">
+                            <h2>工作流</h2>
+                            <div class="wf-actions">
+                                <button id="btn-wf-import" class="btn-secondary btn-sm">导入</button>
+                                <button id="btn-wf-paste" class="btn-secondary btn-sm">粘贴</button>
+                            </div>
+                        </div>
+                        <select id="sel-workflow">
+                            <option value="">-- 选择已保存的工作流 --</option>
+                        </select>
+                        <div id="wf-info" class="wf-info hidden">
+                            <span id="wf-node-count"></span>
+                            <button id="btn-wf-delete" class="btn-icon btn-sm" title="删除此工作流">🗑️</button>
+                        </div>
+                    </div>
+
+                    <div id="wf-params" class="wf-params">
+                        <div class="wf-placeholder">导入或选择一个工作流以开始</div>
+                    </div>
+                </div><!-- /mode-workflow -->
             </aside>
+
+            <div class="sidebar-resizer" id="sidebar-resizer"></div>
 
             <div class="content">
                 <section class="prompt-area">
@@ -204,16 +279,47 @@
                     <div class="prompt-block">
                         <div class="prompt-label-row">
                             <span>正向提示词</span>
-                            <button class="btn-copy-prompt" data-target="txt-positive" title="复制">📋 复制</button>
-                        </div>
-                        <textarea id="txt-positive" rows="3" placeholder="描述你想生成的图片..."></textarea>
-                        <div class="tag-picker" id="tag-picker-pos">
-                            <div class="tag-group-row">
-                                <div class="tag-tabs" data-picker="pos"></div>
-                                <input type="text" class="tag-search" data-picker="pos" placeholder="搜索标签...">
+                            <div class="prompt-tools">
+                                <button id="btn-wildcard" class="btn-copy-prompt" title="插入通配符">🎲 通配符</button>
+                                <button class="btn-copy-prompt" data-target="txt-positive" title="复制">📋 复制</button>
                             </div>
-                            <div class="tag-subtabs" data-picker="pos"></div>
-                            <div class="tag-grid" data-picker="pos"></div>
+                        </div>
+                        <textarea id="txt-positive" rows="3" placeholder="描述你想生成的图片... 支持通配符 __类别名__"></textarea>
+                        <div id="wildcard-hint" class="wildcard-hint hidden"></div>
+                        <div id="wildcard-panel" class="wildcard-panel hidden">
+                            <div class="wildcard-panel-header">
+                                <div class="wildcard-tabs">
+                                    <span class="tab active" data-wc-tab="builtin">内置标签</span>
+                                    <span class="tab" data-wc-tab="custom">自定义</span>
+                                </div>
+                                <input type="text" id="wildcard-search" placeholder="搜索..." class="wildcard-search-input">
+                            </div>
+                            <div id="wildcard-list" class="wildcard-list"></div>
+                            <div id="wildcard-custom" class="wildcard-custom hidden">
+                                <div class="wc-custom-form">
+                                    <input type="text" id="wc-custom-name" placeholder="类别名（如：表情）">
+                                    <textarea id="wc-custom-values" rows="3" placeholder="每行一个选项，如：&#10;smile&#10;blush&#10;wink"></textarea>
+                                    <div class="wc-custom-actions">
+                                        <button id="btn-wc-add" class="btn-secondary">添加</button>
+                                        <label class="btn-secondary wc-import-label">
+                                            导入 txt
+                                            <input type="file" id="inp-wc-import" accept=".txt" hidden>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div id="wc-custom-list" class="wc-custom-list"></div>
+                            </div>
+                        </div>
+                        <div class="tag-picker-collapse">
+                            <div class="tag-collapse-header expanded" id="pos-collapse-toggle">▼ 收起标签选择器</div>
+                            <div class="tag-picker" id="tag-picker-pos">
+                                <div class="tag-group-row">
+                                    <div class="tag-tabs" data-picker="pos"></div>
+                                    <input type="text" class="tag-search" data-picker="pos" placeholder="搜索标签...">
+                                </div>
+                                <div class="tag-subtabs" data-picker="pos"></div>
+                                <div class="tag-grid" data-picker="pos"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -252,6 +358,8 @@
                     <div id="result-actions" class="result-actions hidden">
                         <button id="btn-download" class="btn-secondary">下载图片</button>
                         <button id="btn-send-to-history" class="btn-secondary">保存到历史</button>
+                        <button id="btn-use-as-ref" class="btn-secondary">用作参考图</button>
+                        <button id="btn-compare" class="btn-secondary hidden">对比效果</button>
                     </div>
                 </section>
             </div>
@@ -282,7 +390,30 @@
     <div id="modal-preview" class="modal hidden">
         <div class="modal-content preview-content">
             <img id="preview-image" alt="预览">
+            <div class="preview-actions">
+                <button id="btn-preview-ref" class="btn-secondary">用作参考图</button>
+                <button id="btn-preview-download" class="btn-secondary">下载</button>
+            </div>
             <button id="btn-close-preview" class="btn-icon close-btn">✕</button>
+        </div>
+    </div>
+
+    <!-- 图片对比弹窗 -->
+    <div id="modal-compare" class="modal hidden">
+        <div class="modal-content compare-content">
+            <h2>效果对比</h2>
+            <div class="compare-container" id="compare-container">
+                <img id="compare-before" class="compare-img" alt="修复前">
+                <img id="compare-after" class="compare-img" alt="修复后">
+                <div class="compare-slider" id="compare-slider">
+                    <div class="compare-handle"></div>
+                </div>
+                <span class="compare-label compare-label-left">修复前</span>
+                <span class="compare-label compare-label-right">修复后</span>
+            </div>
+            <div class="modal-actions">
+                <button id="btn-close-compare" class="btn-primary">关闭</button>
+            </div>
         </div>
     </div>
 
@@ -340,6 +471,23 @@
             </div>
         </div>
     </div>
+
+    <!-- 工作流粘贴弹窗 -->
+    <div id="modal-wf-paste" class="modal hidden">
+        <div class="modal-content">
+            <h2>粘贴工作流 JSON</h2>
+            <textarea id="txt-wf-paste" rows="10" placeholder="粘贴 ComfyUI 导出的工作流 JSON..."></textarea>
+            <label>工作流名称
+                <input type="text" id="inp-wf-name" placeholder="给工作流起个名字">
+            </label>
+            <div class="modal-actions">
+                <button id="btn-wf-paste-ok" class="btn-primary">导入</button>
+                <button id="btn-wf-paste-cancel" class="btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="inp-wf-file" accept=".json" hidden>
 
     <script src="script.js"></script>
 </body>
