@@ -1,5 +1,7 @@
 # 🎨 ComfyUI Web
 
+![ComfyUI Web Banner](banner.png)
+
 > ✨ 一个轻量级的 ComfyUI 网页端工具，让 AI 绘图变得更简单！
 
 ---
