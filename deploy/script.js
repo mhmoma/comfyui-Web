@@ -12,9 +12,9 @@
     }
 
     function getServer() {
+        if (isLocalProxy()) return '';
         const saved = localStorage.getItem('comfyui_address');
         if (saved) return saved;
-        if (isLocalProxy()) return '';
         return DEFAULT_SERVER;
     }
 
@@ -57,6 +57,9 @@
         btnSendToHistory: $('#btn-send-to-history'),
         historyGrid: $('#history-grid'),
         btnClearHistory: $('#btn-clear-history'),
+        btnTutorial: $('#btn-tutorial'),
+        modalTutorial: $('#modal-tutorial'),
+        btnCloseTutorial: $('#btn-close-tutorial'),
         btnSettings: $('#btn-settings'),
         modalSettings: $('#modal-settings'),
         inpServer: $('#inp-server'),
@@ -850,6 +853,17 @@
             if (confirm('确定清空所有历史记录？')) clearHistory();
         });
 
+        // Tutorial modal
+        dom.btnTutorial.addEventListener('click', () => {
+            dom.modalTutorial.classList.remove('hidden');
+        });
+        dom.btnCloseTutorial.addEventListener('click', () => {
+            dom.modalTutorial.classList.add('hidden');
+        });
+        dom.modalTutorial.addEventListener('click', (e) => {
+            if (e.target === dom.modalTutorial) dom.modalTutorial.classList.add('hidden');
+        });
+
         // Settings modal
         dom.btnSettings.addEventListener('click', () => {
             dom.inpServer.value = getComfyUIAddress();
@@ -879,6 +893,19 @@
 
         dom.modalSettings.addEventListener('click', (e) => {
             if (e.target === dom.modalSettings) dom.modalSettings.classList.add('hidden');
+        });
+
+        // Tutorial modal
+        dom.btnTutorial.addEventListener('click', () => {
+            dom.modalTutorial.classList.remove('hidden');
+        });
+
+        dom.btnCloseTutorial.addEventListener('click', () => {
+            dom.modalTutorial.classList.add('hidden');
+        });
+
+        dom.modalTutorial.addEventListener('click', (e) => {
+            if (e.target === dom.modalTutorial) dom.modalTutorial.classList.add('hidden');
         });
 
         // LoRA add button
