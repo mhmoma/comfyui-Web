@@ -1586,12 +1586,20 @@
 
             const selected = this.getSelectedTags();
 
+            const isArtistGroup = tagData[this.groupIdx]?.name?.includes('画师');
+
             items.forEach(tag => {
                 const div = document.createElement('div');
                 const isSelected = selected.has(tag.t);
                 const weight = this.getTagWeight(tag.t);
-                div.className = 'tag-item' + (isSelected ? ' selected' : '');
-                div.innerHTML = `<span class="tag-desc">${tag.d}</span><span class="tag-text">${tag.t}</span><span class="tag-weight">${weight.toFixed(1)}</span>`;
+                div.className = 'tag-item' + (isSelected ? ' selected' : '') + (isArtistGroup ? ' tag-artist' : '');
+                if (isArtistGroup) {
+                    const displayName = tag.t.replace(/_/g, ' ');
+                    const desc = tag.d && !tag.d.match(/^\d+作品$/) ? tag.d : '';
+                    div.innerHTML = `<span class="tag-text">${displayName}</span>${desc ? `<span class="tag-desc">${desc}</span>` : ''}<span class="tag-weight">${weight.toFixed(1)}</span>`;
+                } else {
+                    div.innerHTML = `<span class="tag-desc">${tag.d}</span><span class="tag-text">${tag.t}</span><span class="tag-weight">${weight.toFixed(1)}</span>`;
+                }
                 div.addEventListener('click', (e) => {
                     if (e.shiftKey && isSelected) {
                         this.adjustWeight(tag.t, 0.1);
