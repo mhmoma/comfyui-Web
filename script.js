@@ -3434,11 +3434,39 @@
         });
     }
 
+    function showToast(msg, duration = 3000) {
+        let el = document.getElementById('toast-msg');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'toast-msg';
+            Object.assign(el.style, {
+                position: 'fixed', bottom: '32px', left: '50%', transform: 'translateX(-50%)',
+                background: 'rgba(0,0,0,0.8)', color: '#fff', padding: '10px 24px',
+                borderRadius: '8px', fontSize: '14px', zIndex: '99999',
+                transition: 'opacity .3s', pointerEvents: 'none'
+            });
+            document.body.appendChild(el);
+        }
+        el.textContent = msg;
+        el.style.opacity = '1';
+        clearTimeout(el._timer);
+        el._timer = setTimeout(() => { el.style.opacity = '0'; }, duration);
+    }
+
     function setupDzmm() {
         const btn = document.getElementById('btn-dzmm');
         if (!btn) return;
         const DZMM_URL = 'https://www.dzmm.ai/draw/generate/create';
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
+            const positive = document.getElementById('txt-positive').value.trim();
+            if (positive) {
+                try {
+                    await navigator.clipboard.writeText(positive);
+                    showToast('正向提示词已复制到剪贴板，请在 dzmm 中粘贴');
+                } catch {
+                    showToast('复制失败，请手动复制提示词');
+                }
+            }
             window.open(DZMM_URL, 'dzmm_window', 'width=1280,height=900,menubar=no,toolbar=no,location=yes,status=no');
         });
     }
