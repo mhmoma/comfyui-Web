@@ -7,3 +7,10 @@ launcher_config.json
 *.zip
 .netlify/
 deploy/.netlify/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
