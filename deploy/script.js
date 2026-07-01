@@ -3861,7 +3861,7 @@
         return {
             useProxy: true,
             submitUrl: `${proxyBase}/generate`,
-            resultUrl: (jobId) => `${proxyBase}/result/${encodeURIComponent(jobId)}`,
+            resultUrl: (jobId) => `${proxyBase}/result?id=${encodeURIComponent(jobId)}`,
             headers: hdrs
         };
     }
