@@ -3847,7 +3847,7 @@
             return {
                 useProxy: false,
                 submitUrl: `${NAI_API_BASE}/generate_image`,
-                resultUrl: (jobId) => `${NAI_API_BASE}/get_result/${jobId}`,
+                resultUrl: (jobId) => `${NAI_API_BASE}/get_result/${encodeURIComponent(jobId)}`,
                 headers: {
                     'Authorization': `Bearer ${customApiKey}`,
                     'Content-Type': 'application/json'
@@ -3861,7 +3861,7 @@
         return {
             useProxy: true,
             submitUrl: `${proxyBase}/generate`,
-            resultUrl: (jobId) => `${proxyBase}/result/${jobId}`,
+            resultUrl: (jobId) => `${proxyBase}/result/${encodeURIComponent(jobId)}`,
             headers: hdrs
         };
     }

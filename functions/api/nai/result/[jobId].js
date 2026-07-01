@@ -8,10 +8,11 @@ export async function onRequestGet(context) {
     return jsonResponse(500, { error: '服务器未配置 API Key' });
   }
 
-  const jobId = params.jobId;
-  if (!jobId) {
+  const rawJobId = params.jobId;
+  if (!rawJobId) {
     return jsonResponse(400, { error: '缺少 jobId' });
   }
+  const jobId = decodeURIComponent(rawJobId);
 
   try {
     const res = await fetch(`${NAI_API}/get_result/${jobId}`, {
