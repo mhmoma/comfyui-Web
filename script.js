@@ -3049,6 +3049,350 @@
         }
     }
 
+    // ==================== 图片元数据解析 ====================
+    const MetaParser = {
+        parsePNG(buffer) {
+            const view = new DataView(buffer);
+            if (view.getUint32(0) !== 0x89504E47) return null;
+            const texts = {};
+            let offset = 8;
+            while (offset < buffer.byteLength - 4) {
+                const len = view.getUint32(offset);
+                const typeBytes = new Uint8Array(buffer, offset + 4, 4);
+                const type = String.fromCharCode(...typeBytes);
+                if (type === 'tEXt') {
+                    const data = new Uint8Array(buffer, offset + 8, len);
+                    const nullIdx = data.indexOf(0);
+                    if (nullIdx > 0) {
+                        const key = new TextDecoder().decode(data.slice(0, nullIdx));
+                        const val = new TextDecoder().decode(data.slice(nullIdx + 1));
+                        texts[key] = val;
+                    }
+                } else if (type === 'iTXt') {
+                    const data = new Uint8Array(buffer, offset + 8, len);
+                    const nullIdx = data.indexOf(0);
+                    if (nullIdx > 0) {
+                        const key = new TextDecoder().decode(data.slice(0, nullIdx));
+                        let rest = nullIdx + 1;
+                        const compressionFlag = data[rest]; rest++;
+                        rest++; // compression method
+                        const langEnd = data.indexOf(0, rest); rest = langEnd + 1;
+                        const kwEnd = data.indexOf(0, rest); rest = kwEnd + 1;
+                        let val;
+                        if (compressionFlag === 0) {
+                            val = new TextDecoder('utf-8').decode(data.slice(rest));
+                        } else {
+                            try {
+                                const ds = new DecompressionStream('deflate');
+                                const readable = new Blob([data.slice(rest)]).stream().pipeThrough(ds);
+                                // fallback: skip compressed iTXt if we can't decompress synchronously
+                                val = new TextDecoder('utf-8').decode(data.slice(rest));
+                            } catch { val = ''; }
+                        }
+                        texts[key] = val;
+                    }
+                } else if (type === 'IEND') {
+                    break;
+                }
+                offset += 12 + len;
+            }
+            return Object.keys(texts).length ? texts : null;
+        },
+
+        parseEXIF(buffer) {
+            const view = new DataView(buffer);
+            if (view.getUint16(0) !== 0xFFD8) return null;
+            const texts = {};
+            let offset = 2;
+            while (offset < buffer.byteLength - 2) {
+                const marker = view.getUint16(offset);
+                if (marker === 0xFFE1) { // APP1 (EXIF)
+                    const segLen = view.getUint16(offset + 2);
+                    const segData = new Uint8Array(buffer, offset + 4, segLen - 2);
+                    const str = new TextDecoder('utf-8', { fatal: false }).decode(segData);
+                    if (str.includes('parameters')) {
+                        const pIdx = str.indexOf('parameters');
+                        if (pIdx >= 0) texts['parameters'] = str.substring(pIdx + 10).replace(/^\0+/, '').trim();
+                    }
+                    if (str.includes('UserComment')) {
+                        const ucIdx = str.indexOf('UserComment');
+                        if (ucIdx >= 0) {
+                            let val = str.substring(ucIdx + 11).replace(/^\0+/, '').trim();
+                            if (val.startsWith('UNICODE')) val = val.substring(7).replace(/^\0+/, '');
+                            texts['UserComment'] = val;
+                        }
+                    }
+                    offset += 2 + segLen;
+                    continue;
+                } else if (marker === 0xFFDA) {
+                    break;
+                } else if ((marker & 0xFF00) === 0xFF00) {
+                    const segLen = view.getUint16(offset + 2);
+                    offset += 2 + segLen;
+                } else {
+                    break;
+                }
+            }
+            return Object.keys(texts).length ? texts : null;
+        },
+
+        parseA1111(text) {
+            const result = { source: 'A1111/Forge' };
+            const negIdx = text.indexOf('Negative prompt:');
+            const stepsIdx = text.search(/\nSteps:/);
+            const paramsStart = stepsIdx >= 0 ? stepsIdx : text.search(/\n[A-Z][a-z]+ *:/);
+
+            if (negIdx >= 0) {
+                result.positive = text.substring(0, negIdx).trim();
+                const afterNeg = text.substring(negIdx + 16);
+                const paramLineIdx = afterNeg.search(/\nSteps:|^Steps:/m);
+                if (paramLineIdx >= 0) {
+                    result.negative = afterNeg.substring(0, paramLineIdx).trim();
+                    const paramStr = afterNeg.substring(paramLineIdx).replace(/^\n/, '');
+                    Object.assign(result, this.parseParamLine(paramStr));
+                } else {
+                    result.negative = afterNeg.trim();
+                }
+            } else if (paramsStart >= 0) {
+                result.positive = text.substring(0, paramsStart).trim();
+                const paramStr = text.substring(paramsStart).replace(/^\n/, '');
+                Object.assign(result, this.parseParamLine(paramStr));
+            } else {
+                result.positive = text.trim();
+            }
+            return result;
+        },
+
+        parseParamLine(str) {
+            const r = {};
+            const extract = (key) => {
+                const re = new RegExp(key + '\\s*:\\s*([^,]+)', 'i');
+                const m = str.match(re);
+                return m ? m[1].trim() : null;
+            };
+            const steps = extract('Steps'); if (steps) r.steps = parseInt(steps);
+            const sampler = extract('Sampler'); if (sampler) r.sampler = sampler;
+            const cfg = extract('CFG scale'); if (cfg) r.cfg = parseFloat(cfg);
+            const seed = extract('Seed'); if (seed) r.seed = seed;
+            const size = extract('Size');
+            if (size) { const [w, h] = size.split('x'); r.width = parseInt(w); r.height = parseInt(h); }
+            const model = extract('Model'); if (model) r.model = model;
+            const modelHash = extract('Model hash'); if (modelHash) r.modelHash = modelHash;
+            const clipSkip = extract('Clip skip'); if (clipSkip) r.clipSkip = parseInt(clipSkip);
+            const denoise = extract('Denoising strength'); if (denoise) r.denoise = parseFloat(denoise);
+            const scheduler = extract('Schedule type'); if (scheduler) r.scheduler = scheduler;
+            return r;
+        },
+
+        parseComfyUI(promptStr, workflowStr) {
+            const result = { source: 'ComfyUI' };
+            try {
+                const prompt = JSON.parse(promptStr);
+                for (const [nodeId, node] of Object.entries(prompt)) {
+                    const ct = node.class_type;
+                    if (ct === 'CLIPTextEncode' || ct === 'WeiLinPromptUIWithoutLora') {
+                        const txt = node.inputs?.text || node.inputs?.temp_str || '';
+                        if (!result.positive) result.positive = txt;
+                        else if (!result.negative) result.negative = txt;
+                    }
+                    if (ct === 'KSampler' || ct === 'KSampler (Efficient)' || ct === 'KSamplerAdvanced') {
+                        if (node.inputs?.seed != null) result.seed = String(node.inputs.seed);
+                        if (node.inputs?.steps) result.steps = node.inputs.steps;
+                        if (node.inputs?.cfg) result.cfg = node.inputs.cfg;
+                        if (node.inputs?.sampler_name) result.sampler = node.inputs.sampler_name;
+                        if (node.inputs?.scheduler) result.scheduler = node.inputs.scheduler;
+                        if (node.inputs?.denoise) result.denoise = node.inputs.denoise;
+                    }
+                    if (ct === 'EmptyLatentImage') {
+                        if (node.inputs?.width) result.width = node.inputs.width;
+                        if (node.inputs?.height) result.height = node.inputs.height;
+                    }
+                    if (ct === 'CheckpointLoaderSimple' || ct === 'UNETLoader') {
+                        result.model = node.inputs?.ckpt_name || node.inputs?.unet_name || '';
+                    }
+                }
+            } catch {}
+            if (workflowStr) {
+                try { result.workflow = JSON.parse(workflowStr); } catch {}
+            }
+            return result;
+        },
+
+        parseNovelAI(text) {
+            const result = { source: 'NovelAI' };
+            try {
+                const data = JSON.parse(text);
+                result.positive = data.prompt || '';
+                result.negative = data.uc || '';
+                if (data.steps) result.steps = data.steps;
+                if (data.scale) result.cfg = data.scale;
+                if (data.seed) result.seed = String(data.seed);
+                if (data.sampler) result.sampler = data.sampler;
+                if (data.width) result.width = data.width;
+                if (data.height) result.height = data.height;
+            } catch {
+                result.positive = text;
+            }
+            return result;
+        },
+
+        async parseFile(file) {
+            const buffer = await file.arrayBuffer();
+            let texts = null;
+
+            if (file.type === 'image/png') {
+                texts = this.parsePNG(buffer);
+            } else {
+                texts = this.parseEXIF(buffer);
+            }
+
+            if (!texts) return { source: '未检测到元数据', noData: true };
+
+            // ComfyUI: has "prompt" key with JSON
+            if (texts.prompt) {
+                try {
+                    JSON.parse(texts.prompt);
+                    return this.parseComfyUI(texts.prompt, texts.workflow);
+                } catch {}
+            }
+
+            // A1111/Forge: has "parameters" key
+            if (texts.parameters) {
+                return this.parseA1111(texts.parameters);
+            }
+
+            // NovelAI: has "Comment" or "Description"
+            if (texts.Comment) return this.parseNovelAI(texts.Comment);
+            if (texts.Description) return this.parseNovelAI(texts.Description);
+
+            // Unknown format: return raw texts
+            const firstVal = Object.values(texts)[0] || '';
+            if (firstVal.includes('Steps:') || firstVal.includes('Negative prompt:')) {
+                return this.parseA1111(firstVal);
+            }
+
+            return { source: '未知格式', positive: firstVal, raw: texts };
+        }
+    };
+
+    function setupMetaImport() {
+        const btn = document.getElementById('btn-import-meta');
+        const inp = document.getElementById('inp-import-meta');
+        const modal = document.getElementById('modal-meta');
+        if (!btn || !inp || !modal) return;
+
+        let parsedData = null;
+        let previewUrl = null;
+
+        btn.addEventListener('click', () => inp.click());
+
+        inp.addEventListener('change', async () => {
+            const file = inp.files[0];
+            if (!file) return;
+            inp.value = '';
+
+            parsedData = await MetaParser.parseFile(file);
+            previewUrl = URL.createObjectURL(file);
+
+            const img = document.getElementById('meta-preview-img');
+            img.src = previewUrl;
+
+            const source = document.getElementById('meta-source');
+            source.textContent = parsedData.noData
+                ? '⚠️ 该图片未检测到生成参数元数据'
+                : `来源: ${parsedData.source || '未知'}`;
+            source.className = 'meta-source' + (parsedData.noData ? ' meta-no-data' : '');
+
+            const fields = document.getElementById('meta-fields');
+            fields.innerHTML = '';
+
+            if (!parsedData.noData) {
+                const rows = [
+                    ['正面提示词', parsedData.positive, 'positive'],
+                    ['负面提示词', parsedData.negative, 'negative'],
+                    ['模型', parsedData.model, 'model'],
+                    ['采样器', parsedData.sampler, 'sampler'],
+                    ['调度器', parsedData.scheduler, 'scheduler'],
+                    ['步数', parsedData.steps, 'steps'],
+                    ['CFG', parsedData.cfg, 'cfg'],
+                    ['种子', parsedData.seed, 'seed'],
+                    ['尺寸', parsedData.width && parsedData.height ? `${parsedData.width}×${parsedData.height}` : null, 'size'],
+                    ['重绘强度', parsedData.denoise, 'denoise'],
+                    ['Clip Skip', parsedData.clipSkip, 'clipSkip'],
+                ];
+                rows.forEach(([label, value, key]) => {
+                    if (value == null || value === '') return;
+                    const row = document.createElement('div');
+                    row.className = 'meta-field';
+                    const lbl = document.createElement('span');
+                    lbl.className = 'meta-field-label';
+                    lbl.textContent = label;
+                    const val = document.createElement('span');
+                    val.className = 'meta-field-value';
+                    val.textContent = String(value).length > 200
+                        ? String(value).substring(0, 200) + '...'
+                        : String(value);
+                    val.title = String(value);
+                    row.append(lbl, val);
+                    fields.appendChild(row);
+                });
+            }
+
+            const rawToggle = document.getElementById('meta-raw-toggle');
+            const rawContent = document.getElementById('meta-raw-content');
+            const rawSection = document.getElementById('meta-raw');
+            rawContent.classList.add('hidden');
+            rawToggle.textContent = '▶ 原始数据';
+            if (parsedData.raw || parsedData.workflow) {
+                rawSection.classList.remove('hidden');
+                rawContent.textContent = JSON.stringify(parsedData.raw || parsedData.workflow || parsedData, null, 2);
+            } else {
+                rawSection.classList.add('hidden');
+            }
+
+            modal.classList.remove('hidden');
+        });
+
+        document.getElementById('meta-raw-toggle').addEventListener('click', () => {
+            const content = document.getElementById('meta-raw-content');
+            const toggle = document.getElementById('meta-raw-toggle');
+            const isHidden = content.classList.toggle('hidden');
+            toggle.textContent = isHidden ? '▶ 原始数据' : '▼ 原始数据';
+        });
+
+        document.getElementById('btn-meta-apply').addEventListener('click', () => {
+            if (!parsedData || parsedData.noData) { modal.classList.add('hidden'); return; }
+            if (parsedData.positive) {
+                dom.txtPositive.value = parsedData.positive;
+                dom.txtPositive.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+            if (parsedData.negative) {
+                dom.txtNegative.value = parsedData.negative;
+                dom.txtNegative.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+            if (parsedData.seed) dom.inpSeed.value = parsedData.seed;
+            if (parsedData.steps) dom.inpSteps.value = parsedData.steps;
+            if (parsedData.cfg) dom.inpCfg.value = parsedData.cfg;
+            if (parsedData.width) dom.inpWidth.value = parsedData.width;
+            if (parsedData.height) dom.inpHeight.value = parsedData.height;
+            if (parsedData.sampler) {
+                const opt = [...dom.selSampler.options].find(o => o.value.toLowerCase() === parsedData.sampler.toLowerCase());
+                if (opt) dom.selSampler.value = opt.value;
+            }
+            if (parsedData.scheduler) {
+                const opt = [...dom.selScheduler.options].find(o => o.value.toLowerCase() === parsedData.scheduler.toLowerCase());
+                if (opt) dom.selScheduler.value = opt.value;
+            }
+            modal.classList.add('hidden');
+            if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; }
+        });
+
+        document.getElementById('btn-meta-cancel').addEventListener('click', () => {
+            modal.classList.add('hidden');
+            if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; }
+        });
+    }
+
     setupTheme();
     setupToggles();
     setupArchSwitch();
@@ -3058,5 +3402,6 @@
     setupWorkflowMode();
     bindEvents();
     setupPromptTagEditor();
+    setupMetaImport();
     init();
 })();

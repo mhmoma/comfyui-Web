@@ -294,10 +294,12 @@
                         <div class="prompt-label-row">
                             <span>正向提示词</span>
                             <div class="prompt-tools">
+                                <button id="btn-import-meta" class="btn-copy-prompt" title="从图片导入生成参数">📥 导入参数</button>
                                 <button id="btn-wildcard" class="btn-copy-prompt" title="插入通配符">🎲 通配符</button>
                                 <button class="btn-copy-prompt" data-target="txt-positive" title="复制">📋 复制</button>
                             </div>
                         </div>
+                        <input type="file" id="inp-import-meta" accept="image/png,image/jpeg,image/webp" hidden>
                         <textarea id="txt-positive" rows="3" placeholder="描述你想生成的图片... 支持通配符 __类别名__"></textarea>
                         <div class="prompt-tags-bar">
                             <div id="prompt-tags-pos" class="prompt-tags" data-for="txt-positive"></div>
@@ -516,6 +518,26 @@
     </div>
 
     <input type="file" id="inp-wf-file" accept=".json" hidden>
+
+    <!-- 元数据解析弹窗 -->
+    <div id="modal-meta" class="modal hidden">
+        <div class="modal-content modal-meta-content">
+            <h2>图片参数解析</h2>
+            <div id="meta-source" class="meta-source"></div>
+            <div id="meta-preview" class="meta-preview">
+                <img id="meta-preview-img" alt="预览">
+            </div>
+            <div id="meta-fields" class="meta-fields"></div>
+            <div id="meta-raw" class="meta-raw hidden">
+                <div class="meta-raw-toggle" id="meta-raw-toggle">▶ 原始数据</div>
+                <pre id="meta-raw-content" class="hidden"></pre>
+            </div>
+            <div class="modal-actions">
+                <button id="btn-meta-apply" class="btn-primary">一键填入</button>
+                <button id="btn-meta-cancel" class="btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

@@ -2471,8 +2471,99 @@ textarea {
 .prompt-tag-zh {
     font-size: 10px;
     color: var(--accent-teal);
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
     line-height: 1.2;
+}
+
+/* ==================== 元数据解析弹窗 ==================== */
+.modal-meta-content {
+    max-width: 620px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.meta-source {
+    font-size: 13px;
+    color: var(--accent-blue);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.meta-source.meta-no-data {
+    color: var(--accent);
+}
+
+.meta-preview {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.meta-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    object-fit: contain;
+}
+
+.meta-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.meta-field {
+    display: flex;
+    gap: 8px;
+    padding: 5px 8px;
+    background: var(--bg-input);
+    border-radius: 4px;
+    font-size: 12px;
+    align-items: flex-start;
+}
+
+.meta-field-label {
+    min-width: 70px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.meta-field-value {
+    color: var(--text-primary);
+    word-break: break-all;
+    flex: 1;
+    max-height: 80px;
+    overflow-y: auto;
+    line-height: 1.4;
+}
+
+.meta-raw {
+    margin-top: 10px;
+}
+
+.meta-raw-toggle {
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 4px 0;
+    user-select: none;
+}
+
+.meta-raw-toggle:hover {
+    color: var(--accent-blue);
+}
+
+.meta-raw pre {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 11px;
+    max-height: 200px;
+    overflow: auto;
+    margin-top: 4px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: var(--text-secondary);
 }
