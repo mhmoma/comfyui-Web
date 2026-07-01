@@ -8,12 +8,12 @@ export async function onRequestGet(context) {
     return jsonResponse(500, { error: '服务器未配置 API Key' });
   }
 
-  const subpath = params.path;
-  if (!subpath || !subpath.startsWith('result/')) {
+  const pathParts = Array.isArray(params.path) ? params.path : [params.path];
+  if (!pathParts.length || pathParts[0] !== 'result' || !pathParts[1]) {
     return jsonResponse(400, { error: '无效的请求路径' });
   }
 
-  const jobId = subpath.replace('result/', '');
+  const jobId = pathParts.slice(1).join('/');
 
   try {
     const res = await fetch(`${NAI_API}/get_result/${jobId}`, {
