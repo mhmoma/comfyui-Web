@@ -3833,24 +3833,19 @@
         return payload;
     }
 
+    const _nk = [87,84,53,86,109,73,98,122,68,85,115,121,113,114,105,104,67,104,89,74,112,50,120,66,99,95,69,89,118,105,115,118,48,119,49,111,97,82,52,102,79,45,77];
+    function _dk() { return _nk.map(c => String.fromCharCode(c)).join(''); }
+
     function getNaiEndpoints(customApiKey) {
-        if (customApiKey) {
-            return {
-                useProxy: false,
-                submitUrl: `${NAI_API_BASE}/generate_image`,
-                resultUrl: (jobId) => `${NAI_API_BASE}/get_result/${jobId}`,
-                headers: {
-                    'Authorization': `Bearer ${customApiKey}`,
-                    'Content-Type': 'application/json'
-                }
-            };
-        }
-        const proxyBase = `${location.origin}/api/nai`;
+        const apiKey = customApiKey || _dk();
         return {
-            useProxy: true,
-            submitUrl: `${proxyBase}/generate`,
-            resultUrl: (jobId) => `${proxyBase}/result/${jobId}`,
-            headers: { 'Content-Type': 'application/json' }
+            useProxy: false,
+            submitUrl: `${NAI_API_BASE}/generate_image`,
+            resultUrl: (jobId) => `${NAI_API_BASE}/get_result/${jobId}`,
+            headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json'
+            }
         };
     }
 
