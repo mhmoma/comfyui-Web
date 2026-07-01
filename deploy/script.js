@@ -3429,30 +3429,10 @@
 
     function setupDzmm() {
         const btn = document.getElementById('btn-dzmm');
-        const panel = document.getElementById('dzmm-panel');
-        const iframe = document.getElementById('dzmm-iframe');
-        const closeBtn = document.getElementById('btn-dzmm-close');
-        if (!btn || !panel) return;
-
+        if (!btn) return;
         const DZMM_URL = 'https://www.dzmm.ai/draw/generate/create';
-
         btn.addEventListener('click', () => {
-            if (panel.classList.contains('hidden')) {
-                panel.classList.remove('hidden');
-                if (iframe.src === 'about:blank') {
-                    iframe.src = DZMM_URL;
-                    iframe.onerror = () => {
-                        window.open(DZMM_URL, '_blank');
-                        panel.classList.add('hidden');
-                    };
-                }
-            } else {
-                panel.classList.add('hidden');
-            }
-        });
-
-        closeBtn.addEventListener('click', () => {
-            panel.classList.add('hidden');
+            window.open(DZMM_URL, 'dzmm_window', 'width=1280,height=900,menubar=no,toolbar=no,location=yes,status=no');
         });
     }
 
