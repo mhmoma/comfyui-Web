@@ -794,11 +794,15 @@ textarea {
     border-radius: 4px;
     font-size: 0.7rem;
     cursor: pointer;
-    white-space: nowrap;
     background: var(--bg-input);
     border: 1px solid var(--border);
     color: var(--text-secondary);
     transition: all 0.2s;
+    text-align: center;
+}
+
+.tag-tabs .tab {
+    white-space: nowrap;
 }
 
 .tag-tabs .tab:hover, .tag-subtabs .tab:hover {
@@ -820,10 +824,12 @@ textarea {
 }
 
 .tag-subtabs {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 3px;
     padding: 6px 10px;
-    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 160px;
     border-bottom: 1px solid var(--border);
     min-height: 30px;
 }
