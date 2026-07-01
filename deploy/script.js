@@ -3315,14 +3315,21 @@
         let parsedData = null;
         let previewUrl = null;
 
-        btn.addEventListener('click', () => inp.click());
+        btn.addEventListener('click', () => {
+            inp.value = '';
+            inp.click();
+        });
 
         inp.addEventListener('change', async () => {
             const file = inp.files[0];
             if (!file) return;
+
+            const buffer = await file.arrayBuffer();
+            const blob = new Blob([buffer], { type: file.type });
+            const parseFile = new File([blob], file.name, { type: file.type });
             inp.value = '';
 
-            parsedData = await MetaParser.parseFile(file);
+            parsedData = await MetaParser.parseFile(parseFile);
             previewUrl = URL.createObjectURL(file);
 
             const img = document.getElementById('meta-preview-img');
