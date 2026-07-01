@@ -3532,7 +3532,6 @@
             ['rng-nai-steps', 'nai-steps-val', v => v],
             ['rng-nai-cfg', 'nai-cfg-val', v => parseFloat(v).toFixed(1)],
             ['rng-nai-rescale', 'nai-rescale-val', v => parseFloat(v).toFixed(2)],
-            ['rng-nai-batch', 'nai-batch-val', v => v],
             ['rng-nai-duration', 'nai-duration-val', v => parseFloat(v).toFixed(1)],
             ['rng-nai-video-steps', 'nai-video-steps-val', v => v],
             ['rng-nai-video-guidance', 'nai-video-guidance-val', v => parseFloat(v).toFixed(1)],
@@ -3653,7 +3652,7 @@
                 document.querySelector('.nai-size-btn[data-w="832"]').classList.add('active');
                 document.getElementById('inp-nai-seed').value = '-1';
                 document.getElementById('sel-nai-sampler').value = 'k_euler';
-                const resetSliders = { 'rng-nai-steps': '23', 'rng-nai-cfg': '5', 'rng-nai-rescale': '0', 'rng-nai-batch': '1' };
+                const resetSliders = { 'rng-nai-steps': '23', 'rng-nai-cfg': '5', 'rng-nai-rescale': '0' };
                 Object.entries(resetSliders).forEach(([id, val]) => {
                     const el = document.getElementById(id);
                     if (el) { el.value = val; el.dispatchEvent(new Event('input')); }
@@ -3887,7 +3886,6 @@
             return;
         }
 
-        const batchCount = isVideo ? 1 : (parseInt(document.getElementById('rng-nai-batch').value) || 1);
         const btnGen = document.getElementById('btn-nai-generate');
         const progressContainer = document.getElementById('progress-container');
         const progressBar = document.getElementById('progress-bar');
@@ -3898,135 +3896,124 @@
         progressContainer.classList.remove('hidden');
 
         try {
-            for (let batch = 0; batch < batchCount; batch++) {
-                if (batchCount > 1) {
-                    progressText.textContent = `第 ${batch + 1}/${batchCount} 张`;
+            progressBar.style.width = '10%';
+
+            const payload = isVideo ? getNaiVideoPayload() : getNaiPayload();
+
+            // Submit with auto-retry queue
+            let job_id;
+            const maxRetries = 60;
+            for (let retry = 0; retry <= maxRetries; retry++) {
+                const submitRes = await fetch(endpoints.submitUrl, {
+                    method: 'POST',
+                    headers: endpoints.headers,
+                    body: JSON.stringify(payload)
+                });
+
+                if (submitRes.status === 429) {
+                    const errData = await submitRes.json().catch(() => ({}));
+                    if (errData._debug) console.log('Admin debug:', errData._debug);
+                    if (errData.rate_limited || errData.queue_full) {
+                        throw new Error(errData.error);
+                    }
+                    const waitSec = errData.retry_after || 10;
+                    if (retry >= maxRetries) {
+                        throw new Error('排队超时，请稍后再试');
+                    }
+                    const pos = errData.queue_position || '?';
+                    const total = errData.queue_total || '?';
+                    progressText.textContent = `🔄 排队中（第${pos}位 / 共${total}人等待）`;
+                    progressBar.style.width = `${Math.min(3 + retry, 15)}%`;
+                    await new Promise(r => setTimeout(r, waitSec * 1000));
+                    continue;
                 }
-                progressBar.style.width = '10%';
 
-                const payload = isVideo ? getNaiVideoPayload() : getNaiPayload();
-
-                // Submit with auto-retry queue
-                let job_id;
-                const maxRetries = 60;
-                for (let retry = 0; retry <= maxRetries; retry++) {
-                    const submitRes = await fetch(endpoints.submitUrl, {
-                        method: 'POST',
-                        headers: endpoints.headers,
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (submitRes.status === 429) {
-                        const errData = await submitRes.json().catch(() => ({}));
-                        if (errData._debug) console.log('Admin debug:', errData._debug);
-                        if (errData.rate_limited || errData.queue_full) {
-                            throw new Error(errData.error);
-                        }
-                        const waitSec = errData.retry_after || 10;
-                        if (retry >= maxRetries) {
-                            throw new Error('排队超时，请稍后再试');
-                        }
-                        const pos = errData.queue_position || '?';
-                        const total = errData.queue_total || '?';
-                        progressText.textContent = `🔄 排队中（第${pos}位 / 共${total}人等待）`;
-                        progressBar.style.width = `${Math.min(3 + retry, 15)}%`;
-                        await new Promise(r => setTimeout(r, waitSec * 1000));
-                        continue;
-                    }
-
-                    if (!submitRes.ok) {
-                        const errData = await submitRes.json().catch(() => ({}));
-                        throw new Error(errData.error || `提交失败 (${submitRes.status})`);
-                    }
-
-                    const submitData = await submitRes.json();
-                    job_id = submitData.job_id;
-                    break;
+                if (!submitRes.ok) {
+                    const errData = await submitRes.json().catch(() => ({}));
+                    throw new Error(errData.error || `提交失败 (${submitRes.status})`);
                 }
-                progressBar.style.width = '30%';
-                progressText.textContent = batchCount > 1 ? `第 ${batch + 1}/${batchCount} 张 - 排队中...` : '排队中...';
 
-                // Poll
-                let attempts = 0;
-                let pollErrors = 0;
-                const maxAttempts = 120;
-                const maxPollErrors = 5;
-                while (attempts < maxAttempts) {
-                    await new Promise(r => setTimeout(r, 5000));
-                    attempts++;
+                const submitData = await submitRes.json();
+                job_id = submitData.job_id;
+                break;
+            }
+            progressBar.style.width = '30%';
+            progressText.textContent = '排队中...';
 
-                    let resultRes;
-                    try {
-                        resultRes = await fetch(endpoints.resultUrl(job_id), { headers: endpoints.headers });
-                    } catch (fetchErr) {
-                        pollErrors++;
-                        if (pollErrors >= maxPollErrors) throw new Error('网络错误，查询多次失败');
-                        progressText.textContent = `查询暂时失败，重试中 (${pollErrors}/${maxPollErrors})...`;
-                        continue;
-                    }
-                    if (!resultRes.ok) {
-                        pollErrors++;
-                        if (pollErrors >= maxPollErrors) throw new Error(`查询失败 (${resultRes.status})，已重试 ${maxPollErrors} 次`);
-                        progressText.textContent = `查询暂时失败 (${resultRes.status})，重试中 (${pollErrors}/${maxPollErrors})...`;
-                        continue;
-                    }
-                    pollErrors = 0;
+            // Poll
+            let attempts = 0;
+            let pollErrors = 0;
+            const maxAttempts = 120;
+            const maxPollErrors = 5;
+            while (attempts < maxAttempts) {
+                await new Promise(r => setTimeout(r, 5000));
+                attempts++;
 
-                    const result = await resultRes.json();
-                    const pct = Math.min(30 + (attempts / maxAttempts) * 60, 90);
-                    progressBar.style.width = pct + '%';
+                let resultRes;
+                try {
+                    resultRes = await fetch(endpoints.resultUrl(job_id), { headers: endpoints.headers });
+                } catch (fetchErr) {
+                    pollErrors++;
+                    if (pollErrors >= maxPollErrors) throw new Error('网络错误，查询多次失败');
+                    progressText.textContent = `查询暂时失败，重试中 (${pollErrors}/${maxPollErrors})...`;
+                    continue;
+                }
+                if (!resultRes.ok) {
+                    pollErrors++;
+                    if (pollErrors >= maxPollErrors) throw new Error(`查询失败 (${resultRes.status})，已重试 ${maxPollErrors} 次`);
+                    progressText.textContent = `查询暂时失败 (${resultRes.status})，重试中 (${pollErrors}/${maxPollErrors})...`;
+                    continue;
+                }
+                pollErrors = 0;
 
-                    if (result.status === 'completed') {
-                        progressBar.style.width = '100%';
-                        const mediaUrl = result.image_url || result.video_url;
-                        if (mediaUrl) {
-                            const resultImg = document.getElementById('result-image');
-                            const placeholder = document.getElementById('result-placeholder');
-                            const actions = document.getElementById('result-actions');
+                const result = await resultRes.json();
+                const pct = Math.min(30 + (attempts / maxAttempts) * 60, 90);
+                progressBar.style.width = pct + '%';
 
-                            if (result.video_url) {
-                                // Replace img with video element
-                                let videoEl = document.getElementById('result-video');
-                                if (!videoEl) {
-                                    videoEl = document.createElement('video');
-                                    videoEl.id = 'result-video';
-                                    videoEl.className = 'result-image';
-                                    videoEl.controls = true;
-                                    videoEl.autoplay = true;
-                                    videoEl.loop = true;
-                                    resultImg.parentNode.insertBefore(videoEl, resultImg.nextSibling);
-                                }
-                                videoEl.src = result.video_url;
-                                videoEl.classList.remove('hidden');
-                                resultImg.classList.add('hidden');
-                                showToast('视频生成完成！');
-                            } else {
-                                const videoEl = document.getElementById('result-video');
-                                if (videoEl) videoEl.classList.add('hidden');
-                                resultImg.src = mediaUrl;
-                                resultImg.classList.remove('hidden');
-                                showToast(batchCount > 1 ? `第 ${batch + 1}/${batchCount} 张生成完成！` : '图片生成完成！');
+                if (result.status === 'completed') {
+                    progressBar.style.width = '100%';
+                    const mediaUrl = result.image_url || result.video_url;
+                    if (mediaUrl) {
+                        const resultImg = document.getElementById('result-image');
+                        const placeholder = document.getElementById('result-placeholder');
+                        const actions = document.getElementById('result-actions');
+
+                        if (result.video_url) {
+                            let videoEl = document.getElementById('result-video');
+                            if (!videoEl) {
+                                videoEl = document.createElement('video');
+                                videoEl.id = 'result-video';
+                                videoEl.className = 'result-image';
+                                videoEl.controls = true;
+                                videoEl.autoplay = true;
+                                videoEl.loop = true;
+                                resultImg.parentNode.insertBefore(videoEl, resultImg.nextSibling);
                             }
-                            placeholder.classList.add('hidden');
-                            if (actions) actions.classList.remove('hidden');
+                            videoEl.src = result.video_url;
+                            videoEl.classList.remove('hidden');
+                            resultImg.classList.add('hidden');
+                            showToast('视频生成完成！');
+                        } else {
+                            const videoEl = document.getElementById('result-video');
+                            if (videoEl) videoEl.classList.add('hidden');
+                            resultImg.src = mediaUrl;
+                            resultImg.classList.remove('hidden');
+                            showToast('图片生成完成！');
                         }
-                        break;
-                    } else if (result.status === 'failed') {
-                        throw new Error(`生成失败: ${result.error || '未知错误'}`);
-                    } else {
-                        const statusText = result.status === 'queued' ? '排队中...' : '生成中...';
-                        progressText.textContent = batchCount > 1 ? `第 ${batch + 1}/${batchCount} 张 - ${statusText}` : statusText;
+                        placeholder.classList.add('hidden');
+                        if (actions) actions.classList.remove('hidden');
                     }
+                    break;
+                } else if (result.status === 'failed') {
+                    throw new Error(`生成失败: ${result.error || '未知错误'}`);
+                } else {
+                    const statusText = result.status === 'queued' ? '排队中...' : '生成中...';
+                    progressText.textContent = statusText;
                 }
+            }
 
-                if (attempts >= maxAttempts) {
-                    throw new Error('生成超时，请稍后重试');
-                }
-
-                if (batch < batchCount - 1) {
-                    progressText.textContent = '等待下一张...';
-                    await new Promise(r => setTimeout(r, 20000));
-                }
+            if (attempts >= maxAttempts) {
+                throw new Error('生成超时，请稍后重试');
             }
         } catch (err) {
             showToast(`错误: ${err.message}`);
