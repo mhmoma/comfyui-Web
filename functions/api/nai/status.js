@@ -19,8 +19,8 @@ export async function onRequestGet(context) {
       headers: { 'Authorization': `Bearer ${apiKey}` },
     });
 
-    if (res.status >= 500) {
-      return jsonResponse(200, { status: 'processing', _note: `upstream ${res.status}` });
+    if (res.status >= 500 || res.status === 404) {
+      return jsonResponse(200, { status: 'processing', _note: `upstream ${res.status}, job may still be starting` });
     }
 
     const data = await res.text();
