@@ -3885,19 +3885,37 @@
 
                 const payload = isVideo ? getNaiVideoPayload() : getNaiPayload();
 
-                // Submit
-                const submitRes = await fetch(endpoints.submitUrl, {
-                    method: 'POST',
-                    headers: endpoints.headers,
-                    body: JSON.stringify(payload)
-                });
+                // Submit with auto-retry on 429
+                let job_id;
+                const maxRetries = 20;
+                for (let retry = 0; retry <= maxRetries; retry++) {
+                    const submitRes = await fetch(endpoints.submitUrl, {
+                        method: 'POST',
+                        headers: endpoints.headers,
+                        body: JSON.stringify(payload)
+                    });
 
-                if (!submitRes.ok) {
-                    const errData = await submitRes.json().catch(() => ({}));
-                    throw new Error(errData.error || `提交失败 (${submitRes.status})`);
+                    if (submitRes.status === 429) {
+                        const errData = await submitRes.json().catch(() => ({}));
+                        const waitSec = errData.retry_after || 15;
+                        if (retry >= maxRetries) {
+                            throw new Error('排队超时，请稍后再试');
+                        }
+                        progressText.textContent = `排队中，${errData.error || '请等待'}（${waitSec}秒后重试）`;
+                        progressBar.style.width = '5%';
+                        await new Promise(r => setTimeout(r, waitSec * 1000));
+                        continue;
+                    }
+
+                    if (!submitRes.ok) {
+                        const errData = await submitRes.json().catch(() => ({}));
+                        throw new Error(errData.error || `提交失败 (${submitRes.status})`);
+                    }
+
+                    const submitData = await submitRes.json();
+                    job_id = submitData.job_id;
+                    break;
                 }
-
-                const { job_id } = await submitRes.json();
                 progressBar.style.width = '30%';
                 progressText.textContent = batchCount > 1 ? `第 ${batch + 1}/${batchCount} 张 - 排队中...` : '排队中...';
 
