@@ -1,19 +1,17 @@
 const NAI_API = 'https://api.idlecloud.cc/api';
 
 export async function onRequestGet(context) {
-  const { request, env, params } = context;
+  const { env, params } = context;
   const apiKey = env.NAI_API_KEY;
 
   if (!apiKey) {
     return jsonResponse(500, { error: '服务器未配置 API Key' });
   }
 
-  const pathParts = Array.isArray(params.path) ? params.path : [params.path];
-  if (!pathParts.length || pathParts[0] !== 'result' || !pathParts[1]) {
-    return jsonResponse(400, { error: '无效的请求路径' });
+  const jobId = params.jobId;
+  if (!jobId) {
+    return jsonResponse(400, { error: '缺少 jobId' });
   }
-
-  const jobId = pathParts.slice(1).join('/');
 
   try {
     const res = await fetch(`${NAI_API}/get_result/${jobId}`, {
