@@ -964,6 +964,28 @@ textarea {
     gap: 16px;
 }
 
+.btn-dzmm {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.btn-dzmm:hover {
+    background: linear-gradient(135deg, #5a6fd6, #6a4198);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+}
+
 .progress-container {
     flex: 1;
     display: flex;
