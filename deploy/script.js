@@ -3860,7 +3860,7 @@
         return {
             useProxy: true,
             submitUrl: `${proxyBase}/generate`,
-            resultUrl: (jobId) => `${proxyBase}/result?id=${encodeURIComponent(jobId)}`,
+            resultUrl: (jobId) => `${proxyBase}/status?id=${encodeURIComponent(jobId)}`,
             headers: hdrs
         };
     }
