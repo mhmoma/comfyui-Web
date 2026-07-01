@@ -1750,10 +1750,24 @@
             toggle.classList.toggle('expanded', !hidden);
         });
 
+        // Clear buttons
+        document.querySelectorAll('.btn-clear-prompt').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const textarea = document.getElementById(btn.dataset.target);
+                if (!textarea) return;
+                textarea.value = '';
+                textarea.dispatchEvent(new Event('input', { bubbles: true }));
+                btn.textContent = '✓ 已清空';
+                setTimeout(() => btn.textContent = '🗑️ 清空', 1500);
+            });
+        });
+
         // Copy buttons
-        document.querySelectorAll('.btn-copy-prompt').forEach(btn => {
+        document.querySelectorAll('.btn-copy-prompt:not(.btn-clear-prompt)').forEach(btn => {
             btn.addEventListener('click', () => {
                 const textarea = document.getElementById(btn.dataset.target);
+                if (!textarea) return;
                 navigator.clipboard.writeText(textarea.value).then(() => {
                     btn.textContent = '✓ 已复制';
                     setTimeout(() => btn.textContent = '📋 复制', 1500);

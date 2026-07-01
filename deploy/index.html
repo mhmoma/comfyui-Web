@@ -295,6 +295,7 @@
                             <span>正向提示词</span>
                             <div class="prompt-tools">
                                 <button id="btn-import-meta" class="btn-copy-prompt" title="从图片导入生成参数">📥 导入参数</button>
+                                <button class="btn-copy-prompt btn-clear-prompt" data-target="txt-positive" title="清空">🗑️ 清空</button>
                                 <button id="btn-wildcard" class="btn-copy-prompt" title="插入通配符">🎲 通配符</button>
                                 <button class="btn-copy-prompt" data-target="txt-positive" title="复制">📋 复制</button>
                             </div>
@@ -347,7 +348,10 @@
                     <div class="prompt-block">
                         <div class="prompt-label-row">
                             <span>反向提示词</span>
-                            <button class="btn-copy-prompt" data-target="txt-negative" title="复制">📋 复制</button>
+                            <div class="prompt-tools">
+                                <button class="btn-copy-prompt btn-clear-prompt" data-target="txt-negative" title="清空">🗑️ 清空</button>
+                                <button class="btn-copy-prompt" data-target="txt-negative" title="复制">📋 复制</button>
+                            </div>
                         </div>
                         <textarea id="txt-negative" rows="2" placeholder="不想出现的元素..."></textarea>
                         <div class="prompt-tags-bar">
