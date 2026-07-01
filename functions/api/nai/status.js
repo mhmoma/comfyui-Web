@@ -25,14 +25,21 @@ export async function onRequestGet(context) {
     });
     const fetchDuration = Date.now() - fetchStart;
 
-    if (res.status >= 500 || res.status === 404) {
-      log('UPSTREAM_ERR', `job_id=${jobId}, upstream_status=${res.status}, fetchDuration=${fetchDuration}ms, treating as processing`);
-      return jsonResponse(200, { status: 'processing', _note: `upstream ${res.status}, job may still be starting`, _upstream_status: res.status });
-    }
-
     const data = await res.text();
     let parsed;
     try { parsed = JSON.parse(data); } catch (e) { parsed = {}; }
+
+    if (res.status >= 500 || res.status === 404) {
+      log('UPSTREAM_ERR', `job_id=${jobId}, upstream_status=${res.status}, fetchDuration=${fetchDuration}ms, body=${data.substring(0, 500)}`);
+      return jsonResponse(200, {
+        status: 'processing',
+        _upstream_status: res.status,
+        _upstream_body: data.substring(0, 500),
+        _note: `upstream ${res.status}`,
+        _fetchDuration: fetchDuration,
+      });
+    }
+
     log('POLL', `job_id=${jobId}, status=${parsed.status || 'unknown'}, upstream_http=${res.status}, fetchDuration=${fetchDuration}ms, has_video_url=${!!parsed.video_url}, has_image_url=${!!parsed.image_url}, has_error=${!!parsed.error}`);
 
     if (parsed.status === 'failed') {
@@ -47,8 +54,14 @@ export async function onRequestGet(context) {
       },
     });
   } catch (err) {
-    log('FETCH_EXCEPTION', `job_id=${jobId}, error=${err.message}, fetchDuration=${Date.now() - fetchStart}ms`);
-    return jsonResponse(200, { status: 'processing', _note: `fetch error: ${err.message}` });
+    const fetchDuration = Date.now() - fetchStart;
+    log('FETCH_EXCEPTION', `job_id=${jobId}, error=${err.message}, fetchDuration=${fetchDuration}ms`);
+    return jsonResponse(200, {
+      status: 'processing',
+      _note: `fetch error: ${err.message}`,
+      _error_type: err.constructor.name,
+      _fetchDuration: fetchDuration,
+    });
   }
 }
 

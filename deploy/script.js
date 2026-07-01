@@ -4003,12 +4003,15 @@
                 const pct = Math.min(30 + (attempts / maxAttempts) * 60, 90);
                 progressBar.style.width = pct + '%';
 
+                if (result._note || result._upstream_status || result._upstream_body) {
+                    _log('POLL_RAW_UPSTREAM', `attempt: ${attempts}, _note: ${result._note}, _upstream_status: ${result._upstream_status}, _upstream_body: ${result._upstream_body}, _fetchDuration: ${result._fetchDuration}ms`);
+                }
                 if (result.status !== lastStatus) {
-                    _log('POLL_STATUS_CHANGE', `${lastStatus || '(init)'} -> ${result.status}, attempt: ${attempts}, poll_elapsed: ${Date.now() - pollStartTime}ms, total_elapsed: ${Date.now() - _startTime}ms`);
+                    _log('POLL_STATUS_CHANGE', `${lastStatus || '(init)'} -> ${result.status}, attempt: ${attempts}, poll_elapsed: ${Date.now() - pollStartTime}ms, total_elapsed: ${Date.now() - _startTime}ms, full_response: ${JSON.stringify(result)}`);
                     lastStatus = result.status;
                 }
                 if (attempts % 12 === 0) {
-                    _log('POLL_HEARTBEAT', `attempt: ${attempts}/${maxAttempts}, status: ${result.status}, poll_elapsed: ${Date.now() - pollStartTime}ms, total_elapsed: ${Date.now() - _startTime}ms, result_keys: ${Object.keys(result).join(',')}`);
+                    _log('POLL_HEARTBEAT', `attempt: ${attempts}/${maxAttempts}, status: ${result.status}, poll_elapsed: ${Date.now() - pollStartTime}ms, total_elapsed: ${Date.now() - _startTime}ms, full_response: ${JSON.stringify(result)}`);
                 }
 
                 if (result.status === 'completed') {
