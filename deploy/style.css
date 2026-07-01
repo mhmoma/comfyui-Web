@@ -5,17 +5,28 @@
 }
 
 :root {
-    --bg-primary: #1a1a2e;
-    --bg-secondary: #16213e;
-    --bg-panel: #0f3460;
-    --bg-input: #1a1a3e;
+    --bg-primary: #181825;
+    --bg-secondary: #1e1e32;
+    --bg-panel: #252540;
+    --bg-input: #1a1a30;
     --accent: #e94560;
     --accent-hover: #ff6b6b;
-    --text-primary: #eaeaea;
-    --text-secondary: #a0a0b0;
-    --border: #2a2a4e;
+    --accent-blue: #4a9eff;
+    --accent-green: #50c878;
+    --accent-purple: #a78bfa;
+    --accent-amber: #f59e0b;
+    --accent-teal: #2dd4bf;
+    --text-primary: #e8e8f0;
+    --text-secondary: #9898b0;
+    --border: #2e2e4a;
+    --border-subtle: #252540;
     --radius: 8px;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+    --sidebar-bg: #1a1a30;
+    --content-bg: #1c1828;
+    --history-bg: #1a1e2e;
+    --header-bg: linear-gradient(135deg, #1e1e36, #1a2038);
 }
 
 body {
@@ -37,8 +48,9 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 12px 24px;
-    background: var(--bg-secondary);
+    background: var(--header-bg);
     border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .header h1 {
@@ -147,7 +159,7 @@ body {
     width: 300px;
     min-width: 240px;
     max-width: 600px;
-    background: var(--bg-secondary);
+    background: var(--sidebar-bg);
     border-right: 1px solid var(--border);
     padding: 10px;
     overflow-y: auto;
@@ -178,7 +190,28 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
-    transition: color 0.2s;
+    transition: color 0.2s, background 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.panel-group[data-group="basic"] .panel-group-header {
+    border-left-color: var(--accent-blue);
+    color: #8ec5ff;
+}
+
+.panel-group[data-group="enhance"] .panel-group-header {
+    border-left-color: var(--accent-purple);
+    color: #c4b5fd;
+}
+
+.panel-group[data-group="control"] .panel-group-header {
+    border-left-color: var(--accent-teal);
+    color: #7ee8d4;
+}
+
+.panel-group[data-group="post"] .panel-group-header {
+    border-left-color: var(--accent-amber);
+    color: #fbbf4e;
 }
 
 .panel-group-header::before {
@@ -326,8 +359,8 @@ body {
 }
 
 .toggle input:checked + .toggle-slider {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-green);
+    border-color: var(--accent-green);
 }
 
 .toggle input:checked + .toggle-slider::before {
@@ -495,12 +528,17 @@ textarea {
     gap: 16px;
     flex: 1;
     min-width: 0;
+    background: var(--content-bg);
 }
 
 .prompt-area {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    background: rgba(30, 30, 50, 0.5);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: 16px;
 }
 
 .prompt-area .prompt-block {
@@ -522,6 +560,16 @@ textarea {
     justify-content: space-between;
     font-size: 0.85rem;
     color: var(--text-secondary);
+}
+
+.prompt-block:first-child .prompt-label-row > span:first-child {
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+.prompt-block:nth-child(2) .prompt-label-row > span:first-child {
+    color: var(--accent);
+    font-weight: 600;
 }
 
 .btn-copy-prompt {
@@ -908,7 +956,7 @@ textarea {
 
 .progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, var(--accent), #ff9a9e);
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent));
     border-radius: 20px;
     width: 0%;
     transition: width 0.3s ease;
@@ -936,10 +984,11 @@ textarea {
     color: var(--text-secondary);
     font-size: 0.9rem;
     padding: 60px;
-    border: 2px dashed var(--border);
+    border: 2px dashed rgba(74, 158, 255, 0.3);
     border-radius: var(--radius);
     text-align: center;
     width: 100%;
+    background: rgba(74, 158, 255, 0.03);
 }
 
 .result-image {
@@ -958,7 +1007,7 @@ textarea {
 /* History Panel */
 .history-panel {
     width: 200px;
-    background: var(--bg-secondary);
+    background: var(--history-bg);
     border-left: 1px solid var(--border);
     padding: 16px;
     overflow-y: auto;
@@ -971,7 +1020,7 @@ textarea {
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--text-secondary);
+    color: var(--accent-amber);
     margin-bottom: 12px;
 }
 
@@ -1375,10 +1424,11 @@ textarea {
     gap: 0;
     padding: 8px 12px;
     border-bottom: 1px solid var(--border);
-    background: var(--bg-secondary);
+    background: rgba(20, 20, 40, 0.8);
     position: sticky;
     top: 0;
     z-index: 10;
+    backdrop-filter: blur(8px);
 }
 
 .mode-tab {
