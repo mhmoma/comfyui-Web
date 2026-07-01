@@ -18,6 +18,10 @@ export async function onRequestGet(context) {
       headers: { 'Authorization': `Bearer ${apiKey}` },
     });
 
+    if (res.status >= 500) {
+      return jsonResponse(200, { status: 'processing', _note: `upstream ${res.status}` });
+    }
+
     const data = await res.text();
     return new Response(data, {
       status: res.status,
@@ -27,7 +31,7 @@ export async function onRequestGet(context) {
       },
     });
   } catch (err) {
-    return jsonResponse(502, { error: `查询失败: ${err.message}` });
+    return jsonResponse(200, { status: 'processing', _note: `fetch error: ${err.message}` });
   }
 }
 
