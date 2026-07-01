@@ -31,6 +31,25 @@ export async function onRequestGet(context) {
 
     if (res.status >= 500 || res.status === 404) {
       log('UPSTREAM_ERR', `job_id=${jobId}, upstream_status=${res.status}, fetchDuration=${fetchDuration}ms, body=${data.substring(0, 500)}`);
+
+      if (parsed.status === 'failed' || parsed.status === 'expired') {
+        log('JOB_TERMINAL', `job_id=${jobId}, status=${parsed.status}, error=${parsed.error}`);
+        return jsonResponse(200, {
+          status: 'failed',
+          error: parsed.error || `上游错误 (HTTP ${res.status})`,
+          _upstream_status: res.status,
+        });
+      }
+
+      if (res.status === 404 && (parsed.error?.includes('过期') || parsed.error?.includes('未找到'))) {
+        log('JOB_GONE', `job_id=${jobId}, error=${parsed.error}`);
+        return jsonResponse(200, {
+          status: 'failed',
+          error: parsed.error || '任务已过期或不存在',
+          _upstream_status: res.status,
+        });
+      }
+
       return jsonResponse(200, {
         status: 'processing',
         _upstream_status: res.status,
