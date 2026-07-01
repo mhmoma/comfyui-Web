@@ -1393,14 +1393,21 @@
     function resolveWildcards(text) {
         const cats = getWildcardCategories();
         const custom = getCustomWildcards();
+        const anima = isAnimaMode();
         return text.replace(/__(.+?)__/g, (match, name) => {
             const customCat = custom.find(c => c.name === name);
             if (customCat && customCat.values.length > 0) {
-                return customCat.values[Math.floor(Math.random() * customCat.values.length)];
+                const val = customCat.values[Math.floor(Math.random() * customCat.values.length)];
+                return anima ? formatAnimaTag(val) : val;
             }
             const cat = cats.find(c => c.name === name);
             if (!cat || cat.tags.length === 0) return match;
-            return cat.tags[Math.floor(Math.random() * cat.tags.length)];
+            const tag = cat.tags[Math.floor(Math.random() * cat.tags.length)];
+            if (anima) {
+                const isArtist = cat.group?.includes('画师');
+                return isArtist ? formatAnimaArtistTag(tag) : formatAnimaTag(tag);
+            }
+            return tag;
         });
     }
 
