@@ -2331,7 +2331,7 @@ textarea {
 
 .prompt-tag {
     display: inline-flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 3px;
     padding: 3px 6px;
     border-radius: 4px;
@@ -2342,7 +2342,7 @@ textarea {
     cursor: grab;
     user-select: none;
     transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
-    max-width: 100%;
+    max-width: 200px;
     position: relative;
     flex-shrink: 0;
 }
@@ -2366,10 +2366,14 @@ textarea {
     display: flex;
     flex-direction: column;
     min-width: 0;
+    flex: 1;
+    overflow: hidden;
     line-height: 1.2;
 }
 
 .prompt-tag-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
@@ -2467,6 +2471,8 @@ textarea {
 .prompt-tag-zh {
     font-size: 10px;
     color: var(--accent-teal);
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
     line-height: 1.2;
 }
