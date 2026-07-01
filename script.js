@@ -3909,6 +3909,7 @@
 
                     if (submitRes.status === 429) {
                         const errData = await submitRes.json().catch(() => ({}));
+                        if (errData._debug) console.log('Admin debug:', errData._debug);
                         if (errData.rate_limited || errData.queue_full) {
                             throw new Error(errData.error);
                         }
