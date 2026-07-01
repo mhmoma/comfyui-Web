@@ -63,6 +63,18 @@ export async function onRequestPost(context) {
           } else {
             await env.NAI_KV.delete('active_job');
           }
+        } else {
+          const errBody = await statusRes.text().catch(() => '');
+          let errParsed;
+          try { errParsed = JSON.parse(errBody); } catch (e) { errParsed = {}; }
+          log('ACTIVE_JOB_CHECK', `job_id=${activeJob.jobId}, upstream_status=${statusRes.status}, body=${errBody.substring(0, 200)}`);
+          if (errParsed.status === 'failed' || errParsed.status === 'expired' || statusRes.status === 404) {
+            await env.NAI_KV.delete('active_job');
+          } else if (elapsed > 60000) {
+            await env.NAI_KV.delete('active_job');
+          } else {
+            jobBusy = true;
+          }
         }
       } catch (e) {
         if (elapsed < 60000) jobBusy = true;
