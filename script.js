@@ -1765,6 +1765,7 @@
 
         // Copy buttons
         document.querySelectorAll('.btn-copy-prompt:not(.btn-clear-prompt)').forEach(btn => {
+            if (!btn.dataset.target) return;
             btn.addEventListener('click', () => {
                 const textarea = document.getElementById(btn.dataset.target);
                 if (!textarea) return;
@@ -3225,16 +3226,17 @@
                         else if (!result.negative) result.negative = txt;
                     }
                     if (ct === 'KSampler' || ct === 'KSampler (Efficient)' || ct === 'KSamplerAdvanced') {
-                        if (node.inputs?.seed != null) result.seed = String(node.inputs.seed);
-                        if (node.inputs?.steps) result.steps = node.inputs.steps;
-                        if (node.inputs?.cfg) result.cfg = node.inputs.cfg;
-                        if (node.inputs?.sampler_name) result.sampler = node.inputs.sampler_name;
-                        if (node.inputs?.scheduler) result.scheduler = node.inputs.scheduler;
-                        if (node.inputs?.denoise) result.denoise = node.inputs.denoise;
+                        const seedVal = node.inputs?.seed ?? node.inputs?.noise_seed;
+                        if (seedVal != null && !Array.isArray(seedVal)) result.seed = String(seedVal);
+                        if (node.inputs?.steps && typeof node.inputs.steps === 'number') result.steps = node.inputs.steps;
+                        if (node.inputs?.cfg && typeof node.inputs.cfg === 'number') result.cfg = node.inputs.cfg;
+                        if (typeof node.inputs?.sampler_name === 'string') result.sampler = node.inputs.sampler_name;
+                        if (typeof node.inputs?.scheduler === 'string') result.scheduler = node.inputs.scheduler;
+                        if (node.inputs?.denoise && typeof node.inputs.denoise === 'number') result.denoise = node.inputs.denoise;
                     }
                     if (ct === 'EmptyLatentImage') {
-                        if (node.inputs?.width) result.width = node.inputs.width;
-                        if (node.inputs?.height) result.height = node.inputs.height;
+                        if (typeof node.inputs?.width === 'number') result.width = node.inputs.width;
+                        if (typeof node.inputs?.height === 'number') result.height = node.inputs.height;
                     }
                     if (ct === 'CheckpointLoaderSimple' || ct === 'UNETLoader') {
                         result.model = node.inputs?.ckpt_name || node.inputs?.unet_name || '';
@@ -3399,11 +3401,14 @@
                 dom.txtNegative.value = parsedData.negative;
                 dom.txtNegative.dispatchEvent(new Event('input', { bubbles: true }));
             }
-            if (parsedData.seed) dom.inpSeed.value = parsedData.seed;
-            if (parsedData.steps) dom.inpSteps.value = parsedData.steps;
-            if (parsedData.cfg) dom.inpCfg.value = parsedData.cfg;
-            if (parsedData.width) dom.inpWidth.value = parsedData.width;
-            if (parsedData.height) dom.inpHeight.value = parsedData.height;
+            if (parsedData.seed) {
+                const seedVal = String(parsedData.seed).split(',')[0].trim();
+                if (/^\d+$/.test(seedVal)) dom.inpSeed.value = seedVal;
+            }
+            if (parsedData.steps && Number.isFinite(parsedData.steps)) dom.inpSteps.value = parsedData.steps;
+            if (parsedData.cfg && Number.isFinite(parsedData.cfg)) dom.inpCfg.value = parsedData.cfg;
+            if (parsedData.width && Number.isFinite(parsedData.width)) dom.inpWidth.value = parsedData.width;
+            if (parsedData.height && Number.isFinite(parsedData.height)) dom.inpHeight.value = parsedData.height;
             if (parsedData.sampler) {
                 const opt = [...dom.selSampler.options].find(o => o.value.toLowerCase() === parsedData.sampler.toLowerCase());
                 if (opt) dom.selSampler.value = opt.value;
