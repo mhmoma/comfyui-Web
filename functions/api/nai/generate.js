@@ -173,7 +173,14 @@ export async function onRequestPost(context) {
 async function submitToApi(apiKey, request, env, clientIP) {
   try {
     const body = await request.text();
-    const res = await fetch(`${NAI_API}/generate_image`, {
+    let apiEndpoint = `${NAI_API}/generate_image`;
+    try {
+      const parsed = JSON.parse(body);
+      if (parsed.model && parsed.model.startsWith('wan2')) {
+        apiEndpoint = `${NAI_API}/generate_video`;
+      }
+    } catch (e) {}
+    const res = await fetch(apiEndpoint, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,

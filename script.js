@@ -3821,32 +3821,31 @@
         let seed = parseInt(document.getElementById('inp-nai-video-seed').value);
         if (seed < 0) seed = Math.floor(Math.random() * 4294967295);
 
+        const images = [];
+        if (_naiStartFrameBase64) images.push(_naiStartFrameBase64);
+        if (_naiEndFrameBase64) images.push(_naiEndFrameBase64);
+
         const payload = {
             model: document.getElementById('sel-nai-model').value,
             positivePrompt: document.getElementById('txt-positive').value.trim(),
             negativePrompt: document.getElementById('txt-negative').value.trim(),
             seed: seed,
-            steps: parseInt(document.getElementById('rng-nai-video-steps').value),
-            scale: parseFloat(document.getElementById('rng-nai-video-guidance').value),
-            duration: parseFloat(document.getElementById('rng-nai-duration').value),
-            fps: parseInt(document.getElementById('sel-nai-fps').value),
+            inferenceSteps: parseInt(document.getElementById('rng-nai-video-steps').value),
+            guidance_scale_high: parseFloat(document.getElementById('rng-nai-video-guidance').value),
+            seconds: parseFloat(document.getElementById('rng-nai-duration').value),
+            videoFluidity: parseInt(document.getElementById('sel-nai-fps').value),
+            image: images,
         };
-
-        if (_naiStartFrameBase64) {
-            payload.image = [_naiStartFrameBase64];
-        }
-        if (_naiEndFrameBase64) {
-            payload.end_image = [_naiEndFrameBase64];
-        }
 
         return payload;
     }
 
-    function getNaiEndpoints(customApiKey) {
+    function getNaiEndpoints(customApiKey, isVideo) {
         if (customApiKey) {
+            const apiPath = isVideo ? 'generate_video' : 'generate_image';
             return {
                 useProxy: false,
-                submitUrl: `${NAI_API_BASE}/generate_image`,
+                submitUrl: `${NAI_API_BASE}/${apiPath}`,
                 resultUrl: (jobId) => `${NAI_API_BASE}/get_result/${encodeURIComponent(jobId)}`,
                 headers: {
                     'Authorization': `Bearer ${customApiKey}`,
@@ -3868,10 +3867,10 @@
 
     async function naiGenerate() {
         const customApiKey = document.getElementById('inp-nai-apikey').value.trim();
-        const endpoints = getNaiEndpoints(customApiKey);
 
         const model = document.getElementById('sel-nai-model').value;
         const isVideo = model.startsWith('wan2');
+        const endpoints = getNaiEndpoints(customApiKey, isVideo);
 
         if (isVideo && !_naiStartFrameBase64) {
             showToast('视频生成需要上传首帧图片');
