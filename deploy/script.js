@@ -366,21 +366,57 @@
         return uploadImage(file);
     }
 
+    const ANIMA_DEFAULTS = {
+        positive: 'masterpiece, best quality, score_7, safe',
+        negative: 'worst quality, low quality, score_1, score_2, score_3, blurry, jpeg artifacts, sepia, bad hands, bad arm, bad knees, missing fingers, extra fingers, anatomical nonsense, bad perspective',
+        width: 832,
+        height: 1216,
+        steps: 30,
+        cfg: 4,
+    };
+
+    const SDXL_DEFAULTS = {
+        width: 1024,
+        height: 1536,
+        steps: 30,
+        cfg: 6,
+    };
+
+    function isAnimaMode() {
+        return dom.selArch.value === 'anima';
+    }
+
+    function formatAnimaArtistTag(tag) {
+        let name = tag.replace(/_/g, ' ');
+        if (!name.startsWith('@')) name = '@' + name;
+        return name;
+    }
+
+    function formatAnimaTag(tag) {
+        return tag.replace(/_/g, ' ');
+    }
+
     function setupArchSwitch() {
         dom.selArch.addEventListener('change', () => {
-            const isAnima = dom.selArch.value === 'anima';
+            const isAnima = isAnimaMode();
             dom.panelSdxlModel.classList.toggle('hidden', isAnima);
             dom.panelAnimaModel.classList.toggle('hidden', !isAnima);
             if (isAnima) {
-                dom.inpWidth.value = 832;
-                dom.inpHeight.value = 1216;
-                dom.inpSteps.value = 30;
-                dom.inpCfg.value = 4;
+                dom.inpWidth.value = ANIMA_DEFAULTS.width;
+                dom.inpHeight.value = ANIMA_DEFAULTS.height;
+                dom.inpSteps.value = ANIMA_DEFAULTS.steps;
+                dom.inpCfg.value = ANIMA_DEFAULTS.cfg;
+                if (!dom.txtPositive.value.trim()) {
+                    dom.txtPositive.value = ANIMA_DEFAULTS.positive;
+                }
+                if (!dom.txtNegative.value.trim()) {
+                    dom.txtNegative.value = ANIMA_DEFAULTS.negative;
+                }
             } else {
-                dom.inpWidth.value = 1024;
-                dom.inpHeight.value = 1536;
-                dom.inpSteps.value = 30;
-                dom.inpCfg.value = 6;
+                dom.inpWidth.value = SDXL_DEFAULTS.width;
+                dom.inpHeight.value = SDXL_DEFAULTS.height;
+                dom.inpSteps.value = SDXL_DEFAULTS.steps;
+                dom.inpCfg.value = SDXL_DEFAULTS.cfg;
             }
         });
     }
@@ -1620,7 +1656,13 @@
             const set = new Set();
             parts.forEach(p => {
                 const m = p.match(/^\((.+?):([\d.]+)\)$/);
-                set.add(m ? m[1] : p);
+                const name = m ? m[1] : p;
+                set.add(name);
+                if (name.startsWith('@')) set.add(name.slice(1).replace(/ /g, '_'));
+                if (!name.startsWith('@')) {
+                    set.add(name.replace(/ /g, '_'));
+                    set.add(name.replace(/_/g, ' '));
+                }
             });
             return set;
         }
@@ -1636,15 +1678,22 @@
         }
 
         toggleTag(tagText) {
+            const isArtist = tagData[this.groupIdx]?.name?.includes('画师');
+            let formatted = tagText;
+            if (isAnimaMode()) {
+                formatted = isArtist ? formatAnimaArtistTag(tagText) : formatAnimaTag(tagText);
+            }
+
             let parts = this.textarea.value.split(',').map(s => s.trim()).filter(Boolean);
             const idx = parts.findIndex(p => {
                 const m = p.match(/^\((.+?):([\d.]+)\)$/);
-                return (m ? m[1] : p) === tagText;
+                const name = m ? m[1] : p;
+                return name === tagText || name === formatted;
             });
             if (idx >= 0) {
                 parts.splice(idx, 1);
             } else {
-                parts.push(tagText);
+                parts.push(formatted);
             }
             this.textarea.value = parts.join(', ');
             this.textarea.dispatchEvent(new Event('input', { bubbles: true }));
