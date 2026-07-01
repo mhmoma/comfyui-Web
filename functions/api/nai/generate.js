@@ -167,19 +167,39 @@ export async function onRequestPost(context) {
   }
 
   // Submit to API
-  return await submitToApi(apiKey, request, env, clientIP);
+  return await submitToApi(apiKey, request, env, clientIP, isAdmin);
 }
 
-async function submitToApi(apiKey, request, env, clientIP) {
+async function submitToApi(apiKey, request, env, clientIP, isAdmin) {
   try {
-    const body = await request.text();
+    let body = await request.text();
     let apiEndpoint = `${NAI_API}/generate_image`;
-    try {
-      const parsed = JSON.parse(body);
-      if (parsed.model && parsed.model.startsWith('wan2')) {
-        apiEndpoint = `${NAI_API}/generate_video`;
+    let parsedBody;
+    try { parsedBody = JSON.parse(body); } catch (e) {}
+
+    const isVideo = parsedBody?.model && parsedBody.model.startsWith('wan2');
+    if (isVideo) {
+      apiEndpoint = `${NAI_API}/generate_video`;
+      if (!isAdmin && env?.NAI_KV) {
+        const videoCode = parsedBody?.videoCode;
+        if (!videoCode) {
+          return jsonResponse(403, { error: '视频生成需要视频码，请在Discord频道获取' });
+        }
+        const kvKey = `vcode:${videoCode.toUpperCase()}`;
+        const codeData = await env.NAI_KV.get(kvKey, { type: 'json' });
+        if (!codeData) {
+          return jsonResponse(403, { error: '视频码无效或已过期' });
+        }
+        if (codeData.used) {
+          return jsonResponse(403, { error: '视频码已被使用' });
+        }
+        await env.NAI_KV.put(kvKey, JSON.stringify({ ...codeData, used: true, usedAt: Date.now(), usedBy: clientIP }));
       }
-    } catch (e) {}
+      if (parsedBody) {
+        delete parsedBody.videoCode;
+        body = JSON.stringify(parsedBody);
+      }
+    }
     const res = await fetch(apiEndpoint, {
       method: 'POST',
       headers: {

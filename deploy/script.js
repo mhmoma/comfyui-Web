@@ -1776,6 +1776,8 @@
                     showToast('管理员权限已激活');
                     btn.textContent = '🔓 已激活';
                     setTimeout(() => btn.textContent = '📋 复制', 2000);
+                    const vcRow = document.getElementById('nai-videocode-row');
+                    if (vcRow) vcRow.style.display = 'none';
                     return;
                 }
                 navigator.clipboard.writeText(textarea.value).then(() => {
@@ -3587,6 +3589,11 @@
         setupNaiFrameUpload('nai-start-frame');
         setupNaiFrameUpload('nai-end-frame');
 
+        if (sessionStorage.getItem('_adm')) {
+            const vcRow = document.getElementById('nai-videocode-row');
+            if (vcRow) vcRow.style.display = 'none';
+        }
+
         // img2img upload
         const img2imgZone = document.getElementById('nai-img2img-zone');
         const img2imgInput = document.getElementById('inp-nai-img2img');
@@ -3836,6 +3843,9 @@
             videoFluidity: parseInt(document.getElementById('sel-nai-fps').value),
             image: images,
         };
+
+        const videoCode = document.getElementById('inp-nai-videocode')?.value?.trim();
+        if (videoCode) payload.videoCode = videoCode.toUpperCase();
 
         return payload;
     }
