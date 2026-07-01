@@ -2590,3 +2590,219 @@ textarea {
     word-break: break-all;
     color: var(--text-secondary);
 }
+
+/* ========== NAI 在线生图模式 ========== */
+.btn-nai {
+    background: linear-gradient(135deg, #0d9488, #14b8a6);
+    border: none;
+    color: #fff;
+}
+.btn-nai:hover {
+    background: linear-gradient(135deg, #0f766e, #0d9488);
+}
+
+.nai-apikey-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+.nai-apikey-row input {
+    flex: 1;
+}
+
+.nai-size-presets {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.nai-size-btn {
+    flex: 1;
+    min-width: 100px;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-input);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 12px;
+    text-align: center;
+    transition: all .2s;
+}
+.nai-size-btn:hover {
+    border-color: var(--accent-blue);
+    color: var(--text-primary);
+}
+.nai-size-btn.active {
+    border-color: #14b8a6;
+    background: rgba(20,184,166,.15);
+    color: #14b8a6;
+    font-weight: 600;
+}
+
+.nai-upscale-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+.nai-premium-badge {
+    font-size: 11px;
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    color: #fff;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.nai-slider-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+}
+.nai-slider-row label {
+    min-width: 80px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+}
+.nai-slider-row input[type="range"] {
+    flex: 1;
+    accent-color: #14b8a6;
+}
+.nai-slider-val {
+    min-width: 32px;
+    text-align: right;
+    font-size: 13px;
+    color: #14b8a6;
+    font-weight: 600;
+}
+
+.nai-toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+}
+.nai-toggles label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+.nai-toggles input[type="checkbox"] {
+    accent-color: #14b8a6;
+}
+
+.nai-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.nai-upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+.nai-upload-zone:hover {
+    border-color: #14b8a6;
+    background: rgba(20,184,166,.05);
+}
+.nai-upload-zone.nai-premium-zone {
+    border-color: rgba(168,85,247,.3);
+}
+.nai-upload-zone.nai-premium-zone:hover {
+    border-color: #a855f7;
+    background: rgba(168,85,247,.05);
+}
+
+.nai-remove-img {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(0,0,0,.6);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nai-character-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.nai-character-item {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 8px;
+}
+.nai-character-item h3 {
+    font-size: 13px;
+    margin: 0 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.nai-character-item textarea {
+    width: 100%;
+    min-height: 40px;
+    resize: vertical;
+    font-size: 12px;
+}
+
+.nai-vibe-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.nai-video-frames {
+    display: flex;
+    gap: 12px;
+}
+.nai-frame-col {
+    flex: 1;
+}
+.nai-frame-col h3 {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0 0 6px;
+}
+.nai-frame-zone {
+    min-height: 100px;
+    padding: 16px;
+}
+.nai-frame-col .file-preview {
+    position: relative;
+}
+.nai-frame-col .file-preview img {
+    width: 100%;
+    border-radius: 6px;
+}

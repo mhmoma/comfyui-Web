@@ -1842,19 +1842,22 @@
         const tabs = document.querySelectorAll('.mode-tab');
         const modeSimple = document.getElementById('mode-simple');
         const modeWorkflow = document.getElementById('mode-workflow');
+        const modeNai = document.getElementById('mode-nai');
+        const btnGenerate = document.getElementById('btn-generate');
+        const btnNaiGenerate = document.getElementById('btn-nai-generate');
+        const btnDzmm = document.getElementById('btn-dzmm');
 
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 tabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 const mode = tab.dataset.mode;
-                if (mode === 'simple') {
-                    modeSimple.classList.remove('hidden');
-                    modeWorkflow.classList.add('hidden');
-                } else {
-                    modeSimple.classList.add('hidden');
-                    modeWorkflow.classList.remove('hidden');
-                }
+                modeSimple.classList.toggle('hidden', mode !== 'simple');
+                modeWorkflow.classList.toggle('hidden', mode !== 'workflow');
+                if (modeNai) modeNai.classList.toggle('hidden', mode !== 'nai');
+                if (btnGenerate) btnGenerate.classList.toggle('hidden', mode === 'nai');
+                if (btnNaiGenerate) btnNaiGenerate.classList.toggle('hidden', mode !== 'nai');
+                if (btnDzmm) btnDzmm.classList.toggle('hidden', mode === 'nai');
             });
         });
 
@@ -3434,13 +3437,547 @@
         });
     }
 
+    function showToast(msg, duration = 3000) {
+        let el = document.getElementById('toast-msg');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'toast-msg';
+            Object.assign(el.style, {
+                position: 'fixed', bottom: '32px', left: '50%', transform: 'translateX(-50%)',
+                background: 'rgba(0,0,0,0.8)', color: '#fff', padding: '10px 24px',
+                borderRadius: '8px', fontSize: '14px', zIndex: '99999',
+                transition: 'opacity .3s', pointerEvents: 'none'
+            });
+            document.body.appendChild(el);
+        }
+        el.textContent = msg;
+        el.style.opacity = '1';
+        clearTimeout(el._timer);
+        el._timer = setTimeout(() => { el.style.opacity = '0'; }, duration);
+    }
+
     function setupDzmm() {
         const btn = document.getElementById('btn-dzmm');
         if (!btn) return;
         const DZMM_URL = 'https://www.dzmm.ai/draw/generate/create';
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
+            const positive = document.getElementById('txt-positive').value.trim();
+            if (positive) {
+                try {
+                    await navigator.clipboard.writeText(positive);
+                    showToast('正向提示词已复制到剪贴板，请在 dzmm 中粘贴');
+                } catch {
+                    showToast('复制失败，请手动复制提示词');
+                }
+            }
             window.open(DZMM_URL, 'dzmm_window', 'width=1280,height=900,menubar=no,toolbar=no,location=yes,status=no');
         });
+    }
+
+    // ==================== NAI 在线生图 ====================
+    const NAI_API_BASE = 'https://api.idlecloud.cc/api';
+    const NAI_STORAGE_KEY = 'nai_api_key';
+
+    function setupNai() {
+        const apiKeyInput = document.getElementById('inp-nai-apikey');
+        const toggleBtn = document.getElementById('btn-nai-apikey-toggle');
+        if (!apiKeyInput) return;
+
+        // Load saved API key
+        const savedKey = localStorage.getItem(NAI_STORAGE_KEY);
+        if (savedKey) apiKeyInput.value = savedKey;
+
+        apiKeyInput.addEventListener('change', () => {
+            localStorage.setItem(NAI_STORAGE_KEY, apiKeyInput.value.trim());
+        });
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                apiKeyInput.type = apiKeyInput.type === 'password' ? 'text' : 'password';
+            });
+        }
+
+        // Size presets
+        document.querySelectorAll('.nai-size-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.nai-size-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Upscale premium gate
+        const chkUpscale = document.getElementById('chk-nai-upscale');
+        if (chkUpscale) {
+            chkUpscale.addEventListener('change', () => {
+                if (chkUpscale.checked) {
+                    showToast('大图模式需要高级权限，请加入 Discord 群获取资格');
+                    chkUpscale.checked = false;
+                }
+            });
+        }
+
+        // Sliders
+        const sliders = [
+            ['rng-nai-steps', 'nai-steps-val', v => v],
+            ['rng-nai-cfg', 'nai-cfg-val', v => parseFloat(v).toFixed(1)],
+            ['rng-nai-rescale', 'nai-rescale-val', v => parseFloat(v).toFixed(2)],
+            ['rng-nai-batch', 'nai-batch-val', v => v],
+            ['rng-nai-duration', 'nai-duration-val', v => parseFloat(v).toFixed(1)],
+            ['rng-nai-video-steps', 'nai-video-steps-val', v => v],
+            ['rng-nai-video-guidance', 'nai-video-guidance-val', v => parseFloat(v).toFixed(1)],
+        ];
+        sliders.forEach(([sliderId, valId, fmt]) => {
+            const slider = document.getElementById(sliderId);
+            const valEl = document.getElementById(valId);
+            if (slider && valEl) {
+                slider.addEventListener('input', () => { valEl.textContent = fmt(slider.value); });
+            }
+        });
+
+        // Random seed
+        const btnSeed = document.getElementById('btn-nai-random-seed');
+        if (btnSeed) {
+            btnSeed.addEventListener('click', () => {
+                document.getElementById('inp-nai-seed').value = Math.floor(Math.random() * 4294967295);
+            });
+        }
+
+        // Video random seed
+        const btnVideoSeed = document.getElementById('btn-nai-video-random-seed');
+        if (btnVideoSeed) {
+            btnVideoSeed.addEventListener('click', () => {
+                document.getElementById('inp-nai-video-seed').value = Math.floor(Math.random() * 4294967295);
+            });
+        }
+
+        // Model switch: show/hide video panel vs image panels
+        const selModel = document.getElementById('sel-nai-model');
+        if (selModel) {
+            const imageOnlyGroups = ['nai-basic', 'nai-img2img', 'nai-vibe', 'nai-director-ref', 'nai-character', 'nai-extra'];
+            selModel.addEventListener('change', () => {
+                const isVideo = selModel.value.startsWith('wan2');
+                const videoPanel = document.getElementById('nai-video-panel');
+                if (videoPanel) videoPanel.classList.toggle('hidden', !isVideo);
+                // Hide image-specific panels that don't apply to video
+                const imageSizePanels = document.querySelectorAll('#mode-nai [data-group="nai-basic"] .panel');
+                const sizePanel = imageSizePanels[2]; // image size panel
+                const samplingPanel = imageSizePanels[3]; // sampling panel
+                const specialPanel = imageSizePanels[4]; // special features panel
+                if (sizePanel) sizePanel.style.display = isVideo ? 'none' : '';
+                if (samplingPanel) samplingPanel.style.display = isVideo ? 'none' : '';
+                if (specialPanel) specialPanel.style.display = isVideo ? 'none' : '';
+                // Hide image-only groups for video mode
+                ['nai-img2img', 'nai-vibe', 'nai-director-ref', 'nai-character', 'nai-extra'].forEach(g => {
+                    const el = document.querySelector(`#mode-nai [data-group="${g}"]`);
+                    if (el) el.style.display = isVideo ? 'none' : '';
+                });
+            });
+        }
+
+        // Video frame upload helpers
+        setupNaiFrameUpload('nai-start-frame');
+        setupNaiFrameUpload('nai-end-frame');
+
+        // img2img upload
+        const img2imgZone = document.getElementById('nai-img2img-zone');
+        const img2imgInput = document.getElementById('inp-nai-img2img');
+        if (img2imgZone && img2imgInput) {
+            img2imgZone.addEventListener('click', () => img2imgInput.click());
+            img2imgZone.addEventListener('dragover', e => { e.preventDefault(); img2imgZone.style.borderColor = '#14b8a6'; });
+            img2imgZone.addEventListener('dragleave', () => { img2imgZone.style.borderColor = ''; });
+            img2imgZone.addEventListener('drop', e => {
+                e.preventDefault();
+                img2imgZone.style.borderColor = '';
+                if (e.dataTransfer.files.length) handleNaiImg2imgFile(e.dataTransfer.files[0]);
+            });
+            img2imgInput.addEventListener('change', () => {
+                if (img2imgInput.files[0]) handleNaiImg2imgFile(img2imgInput.files[0]);
+            });
+        }
+
+        // Premium zones
+        document.querySelectorAll('.nai-premium-zone').forEach(zone => {
+            zone.addEventListener('click', () => {
+                showToast('该功能需要高级权限，请加入 Discord 群获取资格');
+            });
+        });
+
+        // Character control
+        const btnAddChar = document.getElementById('btn-nai-add-character');
+        if (btnAddChar) {
+            btnAddChar.addEventListener('click', () => {
+                const list = document.getElementById('nai-character-list');
+                const count = list.querySelectorAll('.nai-character-item').length;
+                if (count >= 6) { showToast('最多支持 6 个角色'); return; }
+                const idx = count + 1;
+                const item = document.createElement('div');
+                item.className = 'nai-character-item';
+                item.innerHTML = `<h3>角色 ${idx} <button class="btn-icon btn-sm nai-remove-char" title="删除">🗑️</button></h3>
+                    <textarea placeholder="角色正向提示词..." class="nai-char-prompt" rows="2"></textarea>
+                    <textarea placeholder="角色反向提示词..." class="nai-char-uc" rows="1" style="margin-top:4px"></textarea>
+                    <div class="compact-row" style="margin-top:4px">
+                        <label>X <input type="number" class="nai-char-x" value="0.5" min="0" max="1" step="0.1"></label>
+                        <label>Y <input type="number" class="nai-char-y" value="0.5" min="0" max="1" step="0.1"></label>
+                    </div>`;
+                item.querySelector('.nai-remove-char').addEventListener('click', () => {
+                    item.remove();
+                    updateNaiCharInfo();
+                });
+                list.appendChild(item);
+                updateNaiCharInfo();
+            });
+        }
+
+        // Reset
+        const btnReset = document.getElementById('btn-nai-reset');
+        if (btnReset) {
+            btnReset.addEventListener('click', () => {
+                document.getElementById('sel-nai-model').value = 'nai-diffusion-4-5-full';
+                document.querySelectorAll('.nai-size-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.nai-size-btn[data-w="832"]').classList.add('active');
+                document.getElementById('inp-nai-seed').value = '-1';
+                document.getElementById('sel-nai-sampler').value = 'k_euler';
+                const resetSliders = { 'rng-nai-steps': '23', 'rng-nai-cfg': '5', 'rng-nai-rescale': '0', 'rng-nai-batch': '1' };
+                Object.entries(resetSliders).forEach(([id, val]) => {
+                    const el = document.getElementById(id);
+                    if (el) { el.value = val; el.dispatchEvent(new Event('input')); }
+                });
+                document.getElementById('sel-nai-noise-schedule').value = 'karras';
+                ['chk-nai-smea','chk-nai-dyn','chk-nai-variety','chk-nai-decrisp','chk-nai-legacy','chk-nai-legacy-uc','chk-nai-legacy-v3','chk-nai-auto-smea','chk-nai-euler-bug'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.checked = false;
+                });
+                document.getElementById('chk-nai-brownian').checked = true;
+                document.getElementById('sel-nai-uc-preset').value = '1';
+                document.getElementById('nai-character-list').innerHTML = '';
+                updateNaiCharInfo();
+                showToast('已重置所有参数');
+            });
+        }
+
+        // Generate button
+        const btnNaiGen = document.getElementById('btn-nai-generate');
+        if (btnNaiGen) {
+            btnNaiGen.addEventListener('click', () => naiGenerate());
+        }
+    }
+
+    let _naiImg2imgBase64 = null;
+    let _naiStartFrameBase64 = null;
+    let _naiEndFrameBase64 = null;
+
+    function setupNaiFrameUpload(prefix) {
+        const zone = document.getElementById(`${prefix}-zone`);
+        const input = document.getElementById(`inp-${prefix}`);
+        if (!zone || !input) return;
+
+        zone.addEventListener('click', () => input.click());
+        zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = '#14b8a6'; });
+        zone.addEventListener('dragleave', () => { zone.style.borderColor = ''; });
+        zone.addEventListener('drop', e => {
+            e.preventDefault();
+            zone.style.borderColor = '';
+            if (e.dataTransfer.files.length) handleNaiFrameFile(prefix, e.dataTransfer.files[0]);
+        });
+        input.addEventListener('change', () => {
+            if (input.files[0]) handleNaiFrameFile(prefix, input.files[0]);
+        });
+
+        const removeBtn = document.querySelector(`.nai-remove-img[data-target="${prefix}"]`);
+        if (removeBtn) {
+            removeBtn.addEventListener('click', () => {
+                if (prefix === 'nai-start-frame') _naiStartFrameBase64 = null;
+                else _naiEndFrameBase64 = null;
+                document.getElementById(`${prefix}-preview`).classList.add('hidden');
+                zone.classList.remove('hidden');
+                document.getElementById(`inp-${prefix}`).value = '';
+            });
+        }
+    }
+
+    function handleNaiFrameFile(prefix, file) {
+        if (!file.type.startsWith('image/')) { showToast('请上传图片文件'); return; }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const b64 = e.target.result.split(',')[1];
+            if (prefix === 'nai-start-frame') _naiStartFrameBase64 = b64;
+            else _naiEndFrameBase64 = b64;
+            const preview = document.getElementById(`${prefix}-preview`);
+            const img = document.getElementById(`${prefix}-img`);
+            img.src = e.target.result;
+            preview.classList.remove('hidden');
+            document.getElementById(`${prefix}-zone`).classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function handleNaiImg2imgFile(file) {
+        if (!file.type.startsWith('image/')) { showToast('请上传图片文件'); return; }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            _naiImg2imgBase64 = e.target.result.split(',')[1];
+            const preview = document.getElementById('nai-img2img-preview');
+            const img = document.getElementById('nai-img2img-img');
+            img.src = e.target.result;
+            preview.classList.remove('hidden');
+            document.getElementById('nai-img2img-zone').classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+
+        const removeBtn = document.querySelector('.nai-remove-img[data-target="nai-img2img"]');
+        if (removeBtn) {
+            removeBtn.onclick = () => {
+                _naiImg2imgBase64 = null;
+                document.getElementById('nai-img2img-preview').classList.add('hidden');
+                document.getElementById('nai-img2img-zone').classList.remove('hidden');
+                document.getElementById('inp-nai-img2img').value = '';
+            };
+        }
+    }
+
+    function updateNaiCharInfo() {
+        const list = document.getElementById('nai-character-list');
+        const info = document.getElementById('nai-character-info');
+        if (!list || !info) return;
+        const count = list.querySelectorAll('.nai-character-item').length;
+        info.textContent = `已配置 ${count}/6 个角色，当前启用 ${count} 个。`;
+    }
+
+    function getNaiPayload() {
+        const activeSize = document.querySelector('.nai-size-btn.active');
+        const w = activeSize ? parseInt(activeSize.dataset.w) : 1024;
+        const h = activeSize ? parseInt(activeSize.dataset.h) : 1536;
+        let seed = parseInt(document.getElementById('inp-nai-seed').value);
+        if (seed < 0) seed = Math.floor(Math.random() * 4294967295);
+
+        const payload = {
+            model: document.getElementById('sel-nai-model').value,
+            positivePrompt: document.getElementById('txt-positive').value.trim(),
+            negativePrompt: document.getElementById('txt-negative').value.trim(),
+            width: w,
+            height: h,
+            steps: parseInt(document.getElementById('rng-nai-steps').value),
+            scale: parseFloat(document.getElementById('rng-nai-cfg').value),
+            sampler: document.getElementById('sel-nai-sampler').value,
+            seed: seed,
+            noise_schedule: document.getElementById('sel-nai-noise-schedule').value,
+            promptGuidanceRescale: parseFloat(document.getElementById('rng-nai-rescale').value),
+            sm: document.getElementById('chk-nai-smea').checked,
+            sm_dyn: document.getElementById('chk-nai-dyn').checked,
+            decrisp: document.getElementById('chk-nai-decrisp').checked,
+            variety: document.getElementById('chk-nai-variety').checked,
+            prefer_brownian: document.getElementById('chk-nai-brownian').checked,
+            deliberate_euler_ancestral_bug: document.getElementById('chk-nai-euler-bug').checked,
+            legacy: document.getElementById('chk-nai-legacy').checked,
+            legacy_uc: document.getElementById('chk-nai-legacy-uc').checked,
+            legacy_v3_extend: document.getElementById('chk-nai-legacy-v3').checked,
+            ucPreset: parseInt(document.getElementById('sel-nai-uc-preset').value),
+            autoSmea: document.getElementById('chk-nai-auto-smea').checked,
+            use_coords: !(document.getElementById('chk-nai-use-coords')?.checked),
+            use_upscale_credits: false,
+        };
+
+        // img2img
+        if (_naiImg2imgBase64) {
+            payload.action = true;
+            payload.image = _naiImg2imgBase64;
+            payload.strength = parseFloat(document.getElementById('inp-nai-strength').value);
+            payload.noise = parseFloat(document.getElementById('inp-nai-noise').value);
+        }
+
+        // Character prompts (V4)
+        const charItems = document.querySelectorAll('.nai-character-item');
+        if (charItems.length > 0) {
+            const characterPrompts = [];
+            const v4Captions = [];
+            const v4NegCaptions = [];
+            charItems.forEach(item => {
+                const prompt = item.querySelector('.nai-char-prompt').value.trim();
+                const uc = item.querySelector('.nai-char-uc').value.trim();
+                const x = parseFloat(item.querySelector('.nai-char-x').value) || 0.5;
+                const y = parseFloat(item.querySelector('.nai-char-y').value) || 0.5;
+                characterPrompts.push({ prompt, uc, center: { x, y } });
+                v4Captions.push({ char_caption: prompt, centers: [{ x, y }] });
+                v4NegCaptions.push({ char_caption: uc, centers: [{ x, y }] });
+            });
+            payload.characterPrompts = characterPrompts;
+            payload.v4_prompt_char_captions = v4Captions;
+            payload.v4_negative_prompt_char_captions = v4NegCaptions;
+        }
+
+        return payload;
+    }
+
+    function getNaiVideoPayload() {
+        let seed = parseInt(document.getElementById('inp-nai-video-seed').value);
+        if (seed < 0) seed = Math.floor(Math.random() * 4294967295);
+
+        const payload = {
+            model: document.getElementById('sel-nai-model').value,
+            positivePrompt: document.getElementById('txt-positive').value.trim(),
+            negativePrompt: document.getElementById('txt-negative').value.trim(),
+            seed: seed,
+            steps: parseInt(document.getElementById('rng-nai-video-steps').value),
+            scale: parseFloat(document.getElementById('rng-nai-video-guidance').value),
+            duration: parseFloat(document.getElementById('rng-nai-duration').value),
+            fps: parseInt(document.getElementById('sel-nai-fps').value),
+        };
+
+        if (_naiStartFrameBase64) {
+            payload.image = _naiStartFrameBase64;
+        }
+        if (_naiEndFrameBase64) {
+            payload.end_image = _naiEndFrameBase64;
+        }
+
+        return payload;
+    }
+
+    function getNaiEndpoints(customApiKey) {
+        if (customApiKey) {
+            return {
+                useProxy: false,
+                submitUrl: `${NAI_API_BASE}/generate_image`,
+                resultUrl: (jobId) => `${NAI_API_BASE}/get_result/${jobId}`,
+                headers: {
+                    'Authorization': `Bearer ${customApiKey}`,
+                    'Content-Type': 'application/json'
+                }
+            };
+        }
+        const proxyBase = `${location.origin}/api/nai`;
+        return {
+            useProxy: true,
+            submitUrl: `${proxyBase}/generate`,
+            resultUrl: (jobId) => `${proxyBase}/result/${jobId}`,
+            headers: { 'Content-Type': 'application/json' }
+        };
+    }
+
+    async function naiGenerate() {
+        const customApiKey = document.getElementById('inp-nai-apikey').value.trim();
+        const endpoints = getNaiEndpoints(customApiKey);
+
+        const model = document.getElementById('sel-nai-model').value;
+        const isVideo = model.startsWith('wan2');
+
+        if (isVideo && !_naiStartFrameBase64) {
+            showToast('视频生成需要上传首帧图片');
+            return;
+        }
+
+        const batchCount = isVideo ? 1 : (parseInt(document.getElementById('rng-nai-batch').value) || 1);
+        const btnGen = document.getElementById('btn-nai-generate');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+
+        btnGen.disabled = true;
+        btnGen.textContent = '生成中...';
+        progressContainer.classList.remove('hidden');
+
+        try {
+            for (let batch = 0; batch < batchCount; batch++) {
+                if (batchCount > 1) {
+                    progressText.textContent = `第 ${batch + 1}/${batchCount} 张`;
+                }
+                progressBar.style.width = '10%';
+
+                const payload = isVideo ? getNaiVideoPayload() : getNaiPayload();
+
+                // Submit
+                const submitRes = await fetch(endpoints.submitUrl, {
+                    method: 'POST',
+                    headers: endpoints.headers,
+                    body: JSON.stringify(payload)
+                });
+
+                if (!submitRes.ok) {
+                    const errData = await submitRes.json().catch(() => ({}));
+                    throw new Error(errData.error || `提交失败 (${submitRes.status})`);
+                }
+
+                const { job_id } = await submitRes.json();
+                progressBar.style.width = '30%';
+                progressText.textContent = batchCount > 1 ? `第 ${batch + 1}/${batchCount} 张 - 排队中...` : '排队中...';
+
+                // Poll
+                let attempts = 0;
+                const maxAttempts = 120;
+                while (attempts < maxAttempts) {
+                    await new Promise(r => setTimeout(r, 5000));
+                    attempts++;
+
+                    const resultRes = await fetch(endpoints.resultUrl(job_id), { headers: endpoints.headers });
+                    if (!resultRes.ok) {
+                        throw new Error(`查询失败 (${resultRes.status})`);
+                    }
+
+                    const result = await resultRes.json();
+                    const pct = Math.min(30 + (attempts / maxAttempts) * 60, 90);
+                    progressBar.style.width = pct + '%';
+
+                    if (result.status === 'completed') {
+                        progressBar.style.width = '100%';
+                        const mediaUrl = result.image_url || result.video_url;
+                        if (mediaUrl) {
+                            const resultImg = document.getElementById('result-image');
+                            const placeholder = document.getElementById('result-placeholder');
+                            const actions = document.getElementById('result-actions');
+
+                            if (result.video_url) {
+                                // Replace img with video element
+                                let videoEl = document.getElementById('result-video');
+                                if (!videoEl) {
+                                    videoEl = document.createElement('video');
+                                    videoEl.id = 'result-video';
+                                    videoEl.className = 'result-image';
+                                    videoEl.controls = true;
+                                    videoEl.autoplay = true;
+                                    videoEl.loop = true;
+                                    resultImg.parentNode.insertBefore(videoEl, resultImg.nextSibling);
+                                }
+                                videoEl.src = result.video_url;
+                                videoEl.classList.remove('hidden');
+                                resultImg.classList.add('hidden');
+                                showToast('视频生成完成！');
+                            } else {
+                                const videoEl = document.getElementById('result-video');
+                                if (videoEl) videoEl.classList.add('hidden');
+                                resultImg.src = mediaUrl;
+                                resultImg.classList.remove('hidden');
+                                showToast(batchCount > 1 ? `第 ${batch + 1}/${batchCount} 张生成完成！` : '图片生成完成！');
+                            }
+                            placeholder.classList.add('hidden');
+                            if (actions) actions.classList.remove('hidden');
+                        }
+                        break;
+                    } else if (result.status === 'failed') {
+                        throw new Error(`生成失败: ${result.error || '未知错误'}`);
+                    } else {
+                        const statusText = result.status === 'queued' ? '排队中...' : '生成中...';
+                        progressText.textContent = batchCount > 1 ? `第 ${batch + 1}/${batchCount} 张 - ${statusText}` : statusText;
+                    }
+                }
+
+                if (attempts >= maxAttempts) {
+                    throw new Error('生成超时，请稍后重试');
+                }
+
+                if (batch < batchCount - 1) {
+                    progressText.textContent = '等待下一张...';
+                    await new Promise(r => setTimeout(r, 20000));
+                }
+            }
+        } catch (err) {
+            showToast(`错误: ${err.message}`);
+            console.error('NAI generate error:', err);
+        } finally {
+            btnGen.disabled = false;
+            btnGen.textContent = 'NAI 在线生图';
+            progressContainer.classList.add('hidden');
+            progressBar.style.width = '0%';
+        }
     }
 
     setupTheme();
@@ -3454,5 +3991,6 @@
     setupPromptTagEditor();
     setupMetaImport();
     setupDzmm();
+    setupNai();
     init();
 })();

@@ -34,6 +34,7 @@
                 <div class="mode-switcher">
                     <button class="mode-tab active" data-mode="simple">简易模式</button>
                     <button class="mode-tab" data-mode="workflow">工作流模式</button>
+                    <button class="mode-tab" data-mode="nai">在线生图</button>
                 </div>
 
                 <!-- 简易模式内容 -->
@@ -283,6 +284,268 @@
                         <div class="wf-placeholder">导入或选择一个工作流以开始</div>
                     </div>
                 </div><!-- /mode-workflow -->
+
+                <!-- 在线生图模式内容 -->
+                <div class="mode-content hidden" id="mode-nai">
+                    <!-- 分组1：API 与模型 -->
+                    <div class="panel-group open" data-group="nai-basic">
+                        <div class="panel-group-header">模型与基础参数</div>
+                        <div class="panel-group-body">
+                            <section class="panel">
+                                <h2>API Key</h2>
+                                <div class="nai-apikey-row">
+                                    <input type="password" id="inp-nai-apikey" placeholder="留空使用公共Key，或输入自己的Key">
+                                    <button id="btn-nai-apikey-toggle" class="btn-icon" title="显示/隐藏">👁️</button>
+                                </div>
+                            </section>
+
+                            <section class="panel">
+                                <h2>AI 模型</h2>
+                                <select id="sel-nai-model">
+                                    <option value="nai-diffusion-4-5-full">NAI Diffusion V4.5 Full</option>
+                                    <option value="nai-diffusion-4-full">NAI Diffusion V4 Full</option>
+                                    <option value="nai-diffusion-3">NAI Diffusion V3</option>
+                                    <option value="wan2-2">wan2-2 I2V (图像转视频) 💎</option>
+                                </select>
+                            </section>
+
+                            <section class="panel">
+                                <h2>图像尺寸</h2>
+                                <div class="nai-size-presets">
+                                    <button class="nai-size-btn" data-w="1024" data-h="1024">方形 1024x1024</button>
+                                    <button class="nai-size-btn" data-w="1216" data-h="832">横向 1216x832</button>
+                                    <button class="nai-size-btn active" data-w="832" data-h="1216">纵向 832x1216</button>
+                                </div>
+                                <div class="nai-upscale-row">
+                                    <label><input type="checkbox" id="chk-nai-upscale"> 启用大图模式</label>
+                                    <small class="nai-premium-badge">💎 高级</small>
+                                </div>
+                            </section>
+
+                            <section class="panel">
+                                <h2>采样参数</h2>
+                                <div class="seed-row">
+                                    <label style="flex:1;margin:0">种子 <input type="number" id="inp-nai-seed" value="-1"></label>
+                                    <button id="btn-nai-random-seed" class="btn-icon" title="随机">🎲</button>
+                                </div>
+                                <label>采样算法
+                                    <select id="sel-nai-sampler">
+                                        <option value="k_euler" selected>Euler</option>
+                                        <option value="k_euler_ancestral">Euler Ancestral</option>
+                                        <option value="k_dpmpp_2s_ancestral">DPM++ 2S Ancestral</option>
+                                        <option value="k_dpmpp_2m_sde">DPM++ 2M SDE</option>
+                                        <option value="k_dpmpp_2m">DPM++ 2M</option>
+                                        <option value="k_dpmpp_sde">DPM++ SDE</option>
+                                        <option value="ddim">DDIM</option>
+                                    </select>
+                                </label>
+                                <div class="nai-slider-row">
+                                    <label>采样步数</label>
+                                    <input type="range" id="rng-nai-steps" min="1" max="28" value="23">
+                                    <span id="nai-steps-val" class="nai-slider-val">23</span>
+                                </div>
+                                <div class="nai-slider-row">
+                                    <label>引导比例 (CFG)</label>
+                                    <input type="range" id="rng-nai-cfg" min="0" max="10" step="0.1" value="5">
+                                    <span id="nai-cfg-val" class="nai-slider-val">5.0</span>
+                                </div>
+                                <div class="nai-slider-row">
+                                    <label>Prompt Guidance Rescale</label>
+                                    <input type="range" id="rng-nai-rescale" min="0" max="1" step="0.01" value="0">
+                                    <span id="nai-rescale-val" class="nai-slider-val">0.00</span>
+                                </div>
+                                <label>噪声调度
+                                    <select id="sel-nai-noise-schedule">
+                                        <option value="karras" selected>Karras</option>
+                                        <option value="native">Native</option>
+                                        <option value="exponential">Exponential</option>
+                                        <option value="polyexponential">Polyexponential</option>
+                                    </select>
+                                </label>
+                            </section>
+
+                            <section class="panel">
+                                <h2>特殊功能</h2>
+                                <div class="nai-toggles">
+                                    <label><input type="checkbox" id="chk-nai-smea"> SMEA</label>
+                                    <label><input type="checkbox" id="chk-nai-dyn"> DYN</label>
+                                    <label><input type="checkbox" id="chk-nai-variety"> Variety</label>
+                                    <label><input type="checkbox" id="chk-nai-decrisp"> Decrisp</label>
+                                </div>
+                                <div class="nai-slider-row" style="margin-top:8px">
+                                    <label>连续绘制次数</label>
+                                    <input type="range" id="rng-nai-batch" min="1" max="8" value="1">
+                                    <span id="nai-batch-val" class="nai-slider-val">1</span>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- 分组2：图生图 -->
+                    <div class="panel-group" data-group="nai-img2img">
+                        <div class="panel-group-header">图生图</div>
+                        <div class="panel-group-body">
+                            <section class="panel">
+                                <p class="nai-desc">上传一张参考图像作为生成的基础，AI将在保留原图结构的基础上进行创作。</p>
+                                <div class="nai-upload-zone" id="nai-img2img-zone">
+                                    <span>📤</span>
+                                    <span>点击或拖拽图像到此处上传</span>
+                                    <input type="file" id="inp-nai-img2img" accept="image/*" hidden>
+                                </div>
+                                <div id="nai-img2img-preview" class="file-preview hidden">
+                                    <img id="nai-img2img-img" alt="参考图预览">
+                                    <button class="btn-icon nai-remove-img" data-target="nai-img2img">✕</button>
+                                </div>
+                                <div class="compact-row" style="margin-top:8px">
+                                    <label>重绘强度 <input type="number" id="inp-nai-strength" value="0.7" min="0.01" max="0.99" step="0.05"></label>
+                                    <label>噪声 <input type="number" id="inp-nai-noise" value="0.1" min="0" max="0.99" step="0.05"></label>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- 分组3：Vibe Transfer (高级) -->
+                    <div class="panel-group" data-group="nai-vibe">
+                        <div class="panel-group-header">Vibe Transfer <small class="nai-premium-badge">💎 高级</small></div>
+                        <div class="panel-group-body">
+                            <section class="panel">
+                                <p class="nai-desc">V4模型：上传参考图或 .naiv4vibe 文件以转换风格。最多支持4个Vibe。</p>
+                                <div class="nai-upload-zone nai-premium-zone" id="nai-vibe-zone">
+                                    <span>📤</span>
+                                    <span>点击或拖拽图像或V4 Vibe文件至此处</span>
+                                </div>
+                                <div id="nai-vibe-list" class="nai-vibe-list"></div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- 分组4：角色参考 (高级) -->
+                    <div class="panel-group" data-group="nai-director-ref">
+                        <div class="panel-group-header">角色参考 <small class="nai-premium-badge">💎 高级</small></div>
+                        <div class="panel-group-body">
+                            <section class="panel">
+                                <p class="nai-desc">精确定义图像中人物的外观、表情和姿势，最多支持 6 个角色。</p>
+                                <div class="nai-upload-zone nai-premium-zone" id="nai-director-zone">
+                                    <span>📤</span>
+                                    <span>上传角色参考图像</span>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- 分组5：角色控制 (V4) -->
+                    <div class="panel-group" data-group="nai-character">
+                        <div class="panel-group-header">角色控制</div>
+                        <div class="panel-group-body">
+                            <section class="panel">
+                                <p class="nai-desc">精确定义图像中人物的外观、表情和姿势，最多支持 6 个角色。</p>
+                                <div id="nai-character-list"></div>
+                                <div class="nai-character-actions">
+                                    <button id="btn-nai-add-character" class="btn-secondary">+ 添加角色</button>
+                                    <label><input type="checkbox" id="chk-nai-use-coords"> AI决定位置</label>
+                                </div>
+                                <div id="nai-character-info" class="nai-desc">已配置 0/6 个角色，当前启用 0 个。</div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- 分组：视频生成参数 (wan2-2选中时显示) -->
+                    <div class="panel-group hidden" data-group="nai-video" id="nai-video-panel">
+                        <div class="panel-group-header">视频生成参数</div>
+                        <div class="panel-group-body">
+                            <section class="panel">
+                                <div class="nai-video-frames">
+                                    <div class="nai-frame-col">
+                                        <h3>首帧 (Start Frame)</h3>
+                                        <div class="nai-upload-zone nai-frame-zone" id="nai-start-frame-zone">
+                                            <span>📤</span>
+                                            <span>点击或拖拽图像上传</span>
+                                            <input type="file" id="inp-nai-start-frame" accept="image/*" hidden>
+                                        </div>
+                                        <div id="nai-start-frame-preview" class="file-preview hidden">
+                                            <img id="nai-start-frame-img" alt="首帧预览">
+                                            <button class="btn-icon nai-remove-img" data-target="nai-start-frame">✕</button>
+                                        </div>
+                                    </div>
+                                    <div class="nai-frame-col">
+                                        <h3>末尾帧 (End Frame) - 可选</h3>
+                                        <div class="nai-upload-zone nai-frame-zone" id="nai-end-frame-zone">
+                                            <span>🎬</span>
+                                            <span>点击或拖拽图像上传</span>
+                                            <input type="file" id="inp-nai-end-frame" accept="image/*" hidden>
+                                        </div>
+                                        <div id="nai-end-frame-preview" class="file-preview hidden">
+                                            <img id="nai-end-frame-img" alt="末尾帧预览">
+                                            <button class="btn-icon nai-remove-img" data-target="nai-end-frame">✕</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="panel">
+                                <div class="seed-row">
+                                    <label style="flex:1;margin:0">种子 <input type="number" id="inp-nai-video-seed" value="-1"></label>
+                                    <button id="btn-nai-video-random-seed" class="btn-icon" title="随机">🎲</button>
+                                </div>
+                                <div class="nai-slider-row">
+                                    <label>视频时长(秒)</label>
+                                    <input type="range" id="rng-nai-duration" min="1" max="6" step="0.5" value="3.5">
+                                    <span id="nai-duration-val" class="nai-slider-val">3.5</span>
+                                </div>
+                                <label>每秒帧数
+                                    <select id="sel-nai-fps">
+                                        <option value="16" selected>16 FPS</option>
+                                        <option value="32">32 FPS</option>
+                                        <option value="64">64 FPS</option>
+                                        <option value="128">128 FPS</option>
+                                    </select>
+                                </label>
+                                <div class="nai-slider-row">
+                                    <label>推理步数</label>
+                                    <input type="range" id="rng-nai-video-steps" min="1" max="8" value="4">
+                                    <span id="nai-video-steps-val" class="nai-slider-val">4</span>
+                                </div>
+                                <div class="nai-slider-row">
+                                    <label>Guidance Scale</label>
+                                    <input type="range" id="rng-nai-video-guidance" min="0" max="2" step="0.1" value="1.0">
+                                    <span id="nai-video-guidance-val" class="nai-slider-val">1.0</span>
+                                </div>
+                                <p class="nai-desc" style="margin-top:8px">如果生成失败，请尝试降低生成步数、视频时长、每秒帧数和引导强度；如果使用默认参数多次仍无法生成，请再报告问题。</p>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- 分组6：额外参数 -->
+                    <div class="panel-group" data-group="nai-extra">
+                        <div class="panel-group-header">额外参数配置</div>
+                        <div class="panel-group-body">
+                            <section class="panel">
+                                <h2>兼容设置</h2>
+                                <div class="nai-toggles">
+                                    <label><input type="checkbox" id="chk-nai-legacy"> 旧版兼容</label>
+                                    <label><input type="checkbox" id="chk-nai-legacy-uc"> 传统提示词调节模式</label>
+                                    <label><input type="checkbox" id="chk-nai-legacy-v3"> V3传统扩展</label>
+                                </div>
+                            </section>
+                            <section class="panel">
+                                <h2>负面提示预设强度</h2>
+                                <select id="sel-nai-uc-preset">
+                                    <option value="0">Heavy</option>
+                                    <option value="1" selected>Light</option>
+                                    <option value="2">Human Focus</option>
+                                </select>
+                            </section>
+                            <section class="panel">
+                                <h2>特殊功能</h2>
+                                <div class="nai-toggles">
+                                    <label><input type="checkbox" id="chk-nai-auto-smea"> 自动SMEA</label>
+                                    <label><input type="checkbox" id="chk-nai-brownian" checked> 布朗运动</label>
+                                    <label><input type="checkbox" id="chk-nai-euler-bug"> 保留采样器Bug</label>
+                                </div>
+                            </section>
+                            <button id="btn-nai-reset" class="btn-secondary" style="width:100%;margin-top:8px">🔄 重置所有参数为默认值</button>
+                        </div>
+                    </div>
+                </div><!-- /mode-nai -->
             </aside>
 
             <div class="sidebar-resizer" id="sidebar-resizer"></div>
@@ -373,6 +636,7 @@
 
                 <div class="action-bar">
                     <button id="btn-generate" class="btn-primary">生成图片</button>
+                    <button id="btn-nai-generate" class="btn-primary btn-nai hidden">NAI 在线生图</button>
                     <button id="btn-dzmm" class="btn-dzmm" title="使用 dzmm.ai 在线生图">使用dzmm生图</button>
                     <div id="progress-container" class="progress-container hidden">
                         <div id="progress-bar" class="progress-bar"></div>

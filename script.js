@@ -3833,9 +3833,30 @@
         return payload;
     }
 
+    function getNaiEndpoints(customApiKey) {
+        if (customApiKey) {
+            return {
+                useProxy: false,
+                submitUrl: `${NAI_API_BASE}/generate_image`,
+                resultUrl: (jobId) => `${NAI_API_BASE}/get_result/${jobId}`,
+                headers: {
+                    'Authorization': `Bearer ${customApiKey}`,
+                    'Content-Type': 'application/json'
+                }
+            };
+        }
+        const proxyBase = `${location.origin}/api/nai`;
+        return {
+            useProxy: true,
+            submitUrl: `${proxyBase}/generate`,
+            resultUrl: (jobId) => `${proxyBase}/result/${jobId}`,
+            headers: { 'Content-Type': 'application/json' }
+        };
+    }
+
     async function naiGenerate() {
-        const apiKey = document.getElementById('inp-nai-apikey').value.trim();
-        if (!apiKey) { showToast('请先输入 API Key'); return; }
+        const customApiKey = document.getElementById('inp-nai-apikey').value.trim();
+        const endpoints = getNaiEndpoints(customApiKey);
 
         const model = document.getElementById('sel-nai-model').value;
         const isVideo = model.startsWith('wan2');
@@ -3863,21 +3884,17 @@
                 progressBar.style.width = '10%';
 
                 const payload = isVideo ? getNaiVideoPayload() : getNaiPayload();
-                const headers = {
-                    'Authorization': `Bearer ${apiKey}`,
-                    'Content-Type': 'application/json'
-                };
 
                 // Submit
-                const submitRes = await fetch(`${NAI_API_BASE}/generate_image`, {
+                const submitRes = await fetch(endpoints.submitUrl, {
                     method: 'POST',
-                    headers,
+                    headers: endpoints.headers,
                     body: JSON.stringify(payload)
                 });
 
                 if (!submitRes.ok) {
-                    const errText = await submitRes.text();
-                    throw new Error(`提交失败 (${submitRes.status}): ${errText}`);
+                    const errData = await submitRes.json().catch(() => ({}));
+                    throw new Error(errData.error || `提交失败 (${submitRes.status})`);
                 }
 
                 const { job_id } = await submitRes.json();
@@ -3891,7 +3908,7 @@
                     await new Promise(r => setTimeout(r, 5000));
                     attempts++;
 
-                    const resultRes = await fetch(`${NAI_API_BASE}/get_result/${job_id}`, { headers });
+                    const resultRes = await fetch(endpoints.resultUrl(job_id), { headers: endpoints.headers });
                     if (!resultRes.ok) {
                         throw new Error(`查询失败 (${resultRes.status})`);
                     }
