@@ -3885,9 +3885,9 @@
 
                 const payload = isVideo ? getNaiVideoPayload() : getNaiPayload();
 
-                // Submit with auto-retry on 429
+                // Submit with auto-retry queue
                 let job_id;
-                const maxRetries = 20;
+                const maxRetries = 60;
                 for (let retry = 0; retry <= maxRetries; retry++) {
                     const submitRes = await fetch(endpoints.submitUrl, {
                         method: 'POST',
@@ -3897,12 +3897,17 @@
 
                     if (submitRes.status === 429) {
                         const errData = await submitRes.json().catch(() => ({}));
-                        const waitSec = errData.retry_after || 15;
+                        if (errData.rate_limited || errData.queue_full) {
+                            throw new Error(errData.error);
+                        }
+                        const waitSec = errData.retry_after || 10;
                         if (retry >= maxRetries) {
                             throw new Error('排队超时，请稍后再试');
                         }
-                        progressText.textContent = `排队中，${errData.error || '请等待'}（${waitSec}秒后重试）`;
-                        progressBar.style.width = '5%';
+                        const pos = errData.queue_position || '?';
+                        const total = errData.queue_total || '?';
+                        progressText.textContent = `🔄 排队中（第${pos}位 / 共${total}人等待）`;
+                        progressBar.style.width = `${Math.min(3 + retry, 15)}%`;
                         await new Promise(r => setTimeout(r, waitSec * 1000));
                         continue;
                     }
