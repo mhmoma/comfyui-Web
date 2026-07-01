@@ -299,7 +299,10 @@
                             </div>
                         </div>
                         <textarea id="txt-positive" rows="3" placeholder="描述你想生成的图片... 支持通配符 __类别名__"></textarea>
-                        <div id="prompt-tags-pos" class="prompt-tags" data-for="txt-positive"></div>
+                        <div class="prompt-tags-bar">
+                            <div id="prompt-tags-pos" class="prompt-tags" data-for="txt-positive"></div>
+                            <button id="btn-translate-toggle" class="btn-translate-toggle" title="切换原文/中文">译</button>
+                        </div>
                         <div id="wildcard-hint" class="wildcard-hint hidden"></div>
                         <div id="wildcard-panel" class="wildcard-panel hidden">
                             <div class="wildcard-panel-header">
@@ -345,7 +348,9 @@
                             <button class="btn-copy-prompt" data-target="txt-negative" title="复制">📋 复制</button>
                         </div>
                         <textarea id="txt-negative" rows="2" placeholder="不想出现的元素..."></textarea>
-                        <div id="prompt-tags-neg" class="prompt-tags" data-for="txt-negative"></div>
+                        <div class="prompt-tags-bar">
+                            <div id="prompt-tags-neg" class="prompt-tags" data-for="txt-negative"></div>
+                        </div>
                         <div class="tag-picker-collapse">
                             <div class="tag-collapse-header" id="neg-collapse-toggle">▶ 展开标签选择器</div>
                             <div class="tag-picker hidden" id="tag-picker-neg">
@@ -394,6 +399,13 @@
             <h2>设置</h2>
             <label>ComfyUI 服务器地址
                 <input type="text" id="inp-server" placeholder="http://127.0.0.1:8188">
+            </label>
+            <label>标签翻译服务
+                <select id="sel-translate-provider">
+                    <option value="local">仅本地（tags.json）</option>
+                    <option value="mymemory">MyMemory 翻译</option>
+                    <option value="google" selected>Google 翻译</option>
+                </select>
             </label>
             <div class="modal-actions">
                 <button id="btn-save-settings" class="btn-primary">保存</button>

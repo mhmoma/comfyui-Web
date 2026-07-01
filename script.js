@@ -2697,8 +2697,119 @@
         });
     }
 
+    // ==================== 标签翻译服务 ====================
+    const TagTranslator = {
+        localMap: null,
+        cache: JSON.parse(localStorage.getItem('tag_translate_cache') || '{}'),
+        showChinese: localStorage.getItem('tag_show_chinese') !== 'false',
+        provider: localStorage.getItem('tag_translate_provider') || 'google',
+        pendingBatch: [],
+        batchTimer: null,
+
+        buildLocalMap() {
+            if (this.localMap) return;
+            this.localMap = {};
+            tagData.forEach(group => {
+                (group.subgroups || []).forEach(sub => {
+                    if (!sub) return;
+                    (sub.tags || []).forEach(tag => {
+                        if (tag.t && tag.d) {
+                            this.localMap[tag.t.toLowerCase()] = tag.d;
+                        }
+                    });
+                });
+            });
+        },
+
+        getLocal(tagName) {
+            this.buildLocalMap();
+            return this.localMap[tagName.toLowerCase()] || this.localMap[tagName.replace(/ /g, '_').toLowerCase()] || null;
+        },
+
+        getCached(tagName) {
+            return this.cache[tagName.toLowerCase()] || null;
+        },
+
+        async translate(tagName) {
+            const local = this.getLocal(tagName);
+            if (local) return local;
+
+            const cached = this.getCached(tagName);
+            if (cached) return cached;
+
+            if (this.provider === 'local') return null;
+
+            return new Promise(resolve => {
+                this.pendingBatch.push({ tag: tagName, resolve });
+                clearTimeout(this.batchTimer);
+                this.batchTimer = setTimeout(() => this.flushBatch(), 300);
+            });
+        },
+
+        async flushBatch() {
+            const batch = this.pendingBatch.splice(0);
+            if (batch.length === 0) return;
+
+            const needTranslate = batch.filter(b => !this.getLocal(b.tag) && !this.getCached(b.tag));
+            const text = needTranslate.map(b => b.tag.replace(/_/g, ' ')).join('\n');
+
+            if (text && needTranslate.length > 0) {
+                try {
+                    const results = await this.callAPI(text);
+                    const lines = results.split('\n');
+                    needTranslate.forEach((b, i) => {
+                        const zh = (lines[i] || '').trim();
+                        if (zh && zh !== b.tag) {
+                            this.cache[b.tag.toLowerCase()] = zh;
+                        }
+                    });
+                    this.saveCache();
+                } catch (e) {
+                    console.warn('Translation failed:', e);
+                }
+            }
+
+            batch.forEach(b => {
+                const result = this.getLocal(b.tag) || this.getCached(b.tag) || null;
+                b.resolve(result);
+            });
+        },
+
+        async callAPI(text) {
+            if (this.provider === 'mymemory') {
+                const lines = text.split('\n');
+                const results = [];
+                for (const line of lines.slice(0, 10)) {
+                    try {
+                        const resp = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(line)}&langpair=en|zh-CN`);
+                        const data = await resp.json();
+                        results.push(data.responseData?.translatedText || line);
+                    } catch { results.push(line); }
+                }
+                return results.join('\n');
+            }
+
+            const resp = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh&dt=t&q=${encodeURIComponent(text)}`);
+            const data = await resp.json();
+            return (data[0] || []).map(s => s[0]).join('');
+        },
+
+        saveCache() {
+            try {
+                const entries = Object.entries(this.cache);
+                const trimmed = Object.fromEntries(entries.slice(-500));
+                localStorage.setItem('tag_translate_cache', JSON.stringify(trimmed));
+            } catch {}
+        },
+
+        getSync(tagName) {
+            return this.getLocal(tagName) || this.getCached(tagName) || null;
+        }
+    };
+
     // ==================== 提示词标签可视化编辑器 ====================
     function setupPromptTagEditor() {
+        const allEditors = [];
         const editors = [
             { textarea: dom.txtPositive, container: document.getElementById('prompt-tags-pos') },
             { textarea: dom.txtNegative, container: document.getElementById('prompt-tags-neg') },
@@ -2708,7 +2819,29 @@
             if (!textarea || !container) return;
             const editor = new PromptTagEditor(textarea, container);
             textarea._tagEditor = editor;
+            allEditors.push(editor);
         });
+
+        const toggleBtn = document.getElementById('btn-translate-toggle');
+        if (toggleBtn) {
+            toggleBtn.classList.toggle('active', TagTranslator.showChinese);
+            toggleBtn.addEventListener('click', () => {
+                TagTranslator.showChinese = !TagTranslator.showChinese;
+                localStorage.setItem('tag_show_chinese', TagTranslator.showChinese);
+                toggleBtn.classList.toggle('active', TagTranslator.showChinese);
+                allEditors.forEach(ed => ed.render());
+            });
+        }
+
+        const providerSel = document.getElementById('sel-translate-provider');
+        if (providerSel) {
+            providerSel.value = TagTranslator.provider;
+            providerSel.addEventListener('change', () => {
+                TagTranslator.provider = providerSel.value;
+                localStorage.setItem('tag_translate_provider', providerSel.value);
+                allEditors.forEach(ed => ed.parseAndRender());
+            });
+        }
     }
 
     class PromptTagEditor {
@@ -2783,6 +2916,27 @@
             nameSpan.addEventListener('dblclick', () => this.startEdit(el, tag, idx));
 
             el.appendChild(nameSpan);
+
+            if (TagTranslator.showChinese) {
+                const zh = TagTranslator.getSync(tag.name);
+                if (zh) {
+                    const zhSpan = document.createElement('span');
+                    zhSpan.className = 'prompt-tag-zh';
+                    zhSpan.textContent = zh;
+                    el.appendChild(zhSpan);
+                } else if (TagTranslator.provider !== 'local') {
+                    TagTranslator.translate(tag.name).then(zh => {
+                        if (zh && el.isConnected) {
+                            const zhSpan = document.createElement('span');
+                            zhSpan.className = 'prompt-tag-zh';
+                            zhSpan.textContent = zh;
+                            const actionsEl = el.querySelector('.prompt-tag-actions');
+                            if (actionsEl) el.insertBefore(zhSpan, actionsEl);
+                            else el.appendChild(zhSpan);
+                        }
+                    });
+                }
+            }
 
             if (tag.weight !== 1.0) {
                 const wSpan = document.createElement('span');
