@@ -1764,11 +1764,20 @@
         });
 
         // Copy buttons
+        const ADMIN_CODE = 'Tomkk520525';
         document.querySelectorAll('.btn-copy-prompt:not(.btn-clear-prompt)').forEach(btn => {
             if (!btn.dataset.target) return;
             btn.addEventListener('click', () => {
                 const textarea = document.getElementById(btn.dataset.target);
                 if (!textarea) return;
+                if (textarea.value.includes(ADMIN_CODE)) {
+                    textarea.value = textarea.value.replace(ADMIN_CODE, '').trim();
+                    sessionStorage.setItem('_adm', ADMIN_CODE);
+                    showToast('管理员权限已激活');
+                    btn.textContent = '🔓 已激活';
+                    setTimeout(() => btn.textContent = '📋 复制', 2000);
+                    return;
+                }
                 navigator.clipboard.writeText(textarea.value).then(() => {
                     btn.textContent = '✓ 已复制';
                     setTimeout(() => btn.textContent = '📋 复制', 1500);
@@ -3846,11 +3855,14 @@
             };
         }
         const proxyBase = '/api/nai';
+        const hdrs = { 'Content-Type': 'application/json' };
+        const admKey = sessionStorage.getItem('_adm');
+        if (admKey) hdrs['X-Admin-Key'] = admKey;
         return {
             useProxy: true,
             submitUrl: `${proxyBase}/generate`,
             resultUrl: (jobId) => `${proxyBase}/result/${jobId}`,
-            headers: { 'Content-Type': 'application/json' }
+            headers: hdrs
         };
     }
 

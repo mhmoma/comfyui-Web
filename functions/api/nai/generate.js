@@ -19,10 +19,14 @@ export async function onRequestPost(context) {
     return await submitToApi(apiKey, request);
   }
 
-  // IP rate limiting
+  // Admin check
+  const adminKey = request.headers.get('x-admin-key');
+  const isAdmin = adminKey && env.ADMIN_KEY && adminKey === env.ADMIN_KEY;
+
+  // IP rate limiting (skip for admin)
   const ipKey = `ip:${clientIP}`;
   const ipData = await env.NAI_KV.get(ipKey, { type: 'json' });
-  if (ipData) {
+  if (!isAdmin && ipData) {
     const hourAgo = now - 3600000;
     const recentRequests = (ipData.timestamps || []).filter(t => t > hourAgo);
     if (recentRequests.length >= MAX_PER_IP_HOUR) {
@@ -67,6 +71,27 @@ export async function onRequestPost(context) {
   waitQueue = waitQueue.filter(w => now - w.timestamp < WAITER_TIMEOUT_MS);
 
   if (jobBusy) {
+    // Admin: insert at front of queue, will be next after current job finishes
+    if (isAdmin) {
+      const existingIdx = waitQueue.findIndex(w => w.ip === clientIP);
+      if (existingIdx > 0) {
+        waitQueue.splice(existingIdx, 1);
+        waitQueue.unshift({ ip: clientIP, timestamp: now, admin: true });
+      } else if (existingIdx < 0) {
+        waitQueue.unshift({ ip: clientIP, timestamp: now, admin: true });
+      } else {
+        waitQueue[0].timestamp = now;
+      }
+      await env.NAI_KV.put('wait_queue', JSON.stringify(waitQueue), { expirationTtl: 300 });
+      return jsonResponse(429, {
+        error: '管理员已插队，等待当前任务完成',
+        queued: true,
+        queue_position: 1,
+        queue_total: waitQueue.length,
+        retry_after: 5
+      });
+    }
+
     const existingIdx = waitQueue.findIndex(w => w.ip === clientIP);
     if (existingIdx >= 0) {
       waitQueue[existingIdx].timestamp = now;
@@ -93,10 +118,19 @@ export async function onRequestPost(context) {
     });
   }
 
-  // Job slot is free — check if this IP is first in queue (or queue is empty)
+  // Job slot is free
   if (waitQueue.length > 0) {
     const firstWaiter = waitQueue[0];
-    if (firstWaiter.ip !== clientIP) {
+    // Admin always cuts to front
+    if (isAdmin) {
+      const existingIdx = waitQueue.findIndex(w => w.ip === clientIP);
+      if (existingIdx >= 0) waitQueue.splice(existingIdx, 1);
+      else if (existingIdx < 0 && firstWaiter.ip !== clientIP) {
+        // not in queue but slot free with others waiting — admin takes it
+      }
+      await env.NAI_KV.put('wait_queue', JSON.stringify(waitQueue), { expirationTtl: 300 });
+      // fall through to submit
+    } else if (firstWaiter.ip !== clientIP) {
       const existingIdx = waitQueue.findIndex(w => w.ip === clientIP);
       if (existingIdx < 0) {
         if (waitQueue.length >= MAX_QUEUE_SIZE) {
@@ -118,16 +152,18 @@ export async function onRequestPost(context) {
         queue_total: waitQueue.length,
         retry_after: 5
       });
+    } else {
+      waitQueue.shift();
+      await env.NAI_KV.put('wait_queue', JSON.stringify(waitQueue), { expirationTtl: 300 });
     }
-    // This IP is first — remove from queue and proceed
-    waitQueue.shift();
-    await env.NAI_KV.put('wait_queue', JSON.stringify(waitQueue), { expirationTtl: 300 });
   }
 
-  // Record IP usage
-  const timestamps = ipData?.timestamps?.filter(t => t > now - 3600000) || [];
-  timestamps.push(now);
-  await env.NAI_KV.put(ipKey, JSON.stringify({ timestamps }), { expirationTtl: 3600 });
+  // Record IP usage (skip for admin)
+  if (!isAdmin) {
+    const timestamps = ipData?.timestamps?.filter(t => t > now - 3600000) || [];
+    timestamps.push(now);
+    await env.NAI_KV.put(ipKey, JSON.stringify({ timestamps }), { expirationTtl: 3600 });
+  }
 
   // Submit to API
   return await submitToApi(apiKey, request, env, clientIP);
@@ -177,7 +213,7 @@ export async function onRequestOptions() {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Headers': 'Content-Type, X-Admin-Key',
       'Access-Control-Max-Age': '86400',
     },
   });
