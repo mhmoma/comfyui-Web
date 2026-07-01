@@ -2366,14 +2366,11 @@ textarea {
     display: flex;
     flex-direction: column;
     min-width: 0;
-    flex-shrink: 1;
-    max-width: calc(100% - 40px);
     line-height: 1.2;
 }
 
 .prompt-tag-name {
-    word-break: break-word;
-    min-width: 0;
+    white-space: nowrap;
     flex-shrink: 1;
 }
 
@@ -2471,6 +2468,6 @@ textarea {
 .prompt-tag-zh {
     font-size: 10px;
     color: var(--accent-teal);
-    word-break: break-word;
+    white-space: nowrap;
     line-height: 1.2;
 }
