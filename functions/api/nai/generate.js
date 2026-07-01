@@ -4,9 +4,14 @@ const MAX_QUEUE_SIZE = 5;
 const JOB_TIMEOUT_MS = 300000;
 const WAITER_TIMEOUT_MS = 120000;
 
+function log(tag, ...args) {
+  console.log(`[NAI-Gen][${tag}]`, ...args);
+}
+
 export async function onRequestPost(context) {
   const { request, env } = context;
   const apiKey = env.NAI_API_KEY;
+  const reqStart = Date.now();
 
   if (!apiKey) {
     return jsonResponse(500, { error: '服务器未配置 API Key' });
@@ -14,6 +19,7 @@ export async function onRequestPost(context) {
 
   const clientIP = request.headers.get('cf-connecting-ip') || 'unknown';
   const now = Date.now();
+  log('REQUEST', `ip=${clientIP}`);
 
   if (!env.NAI_KV) {
     return await submitToApi(apiKey, request);
@@ -171,6 +177,7 @@ export async function onRequestPost(context) {
 }
 
 async function submitToApi(apiKey, request, env, clientIP, isAdmin) {
+  const submitStart = Date.now();
   try {
     let body = await request.text();
     let apiEndpoint = `${NAI_API}/generate_image`;
@@ -178,28 +185,48 @@ async function submitToApi(apiKey, request, env, clientIP, isAdmin) {
     try { parsedBody = JSON.parse(body); } catch (e) {}
 
     const isVideo = parsedBody?.model && parsedBody.model.startsWith('wan2');
+    log('SUBMIT', `model=${parsedBody?.model}, isVideo=${isVideo}, isAdmin=${isAdmin}, ip=${clientIP}`);
+
     if (isVideo) {
       apiEndpoint = `${NAI_API}/generate_video`;
+      log('VIDEO_PARAMS', JSON.stringify({
+        seconds: parsedBody?.seconds,
+        videoFluidity: parsedBody?.videoFluidity,
+        inferenceSteps: parsedBody?.inferenceSteps,
+        guidance_scale_high: parsedBody?.guidance_scale_high,
+        seed: parsedBody?.seed,
+        imageCount: parsedBody?.image?.length || 0,
+        promptLength: parsedBody?.positivePrompt?.length || 0,
+        hasVideoCode: !!parsedBody?.videoCode,
+      }));
+
       if (!isAdmin && env?.NAI_KV) {
         const videoCode = parsedBody?.videoCode;
         if (!videoCode) {
+          log('VIDEO_CODE_MISSING', `ip=${clientIP}`);
           return jsonResponse(403, { error: '视频生成需要视频码，请在Discord频道获取' });
         }
         const kvKey = `vcode:${videoCode.toUpperCase()}`;
         const codeData = await env.NAI_KV.get(kvKey, { type: 'json' });
         if (!codeData) {
+          log('VIDEO_CODE_INVALID', `code=${videoCode}, ip=${clientIP}`);
           return jsonResponse(403, { error: '视频码无效或已过期' });
         }
         if (codeData.used) {
+          log('VIDEO_CODE_USED', `code=${videoCode}, usedAt=${codeData.usedAt}, usedBy=${codeData.usedBy}`);
           return jsonResponse(403, { error: '视频码已被使用' });
         }
         await env.NAI_KV.put(kvKey, JSON.stringify({ ...codeData, used: true, usedAt: Date.now(), usedBy: clientIP }));
+        log('VIDEO_CODE_OK', `code=${videoCode}`);
       }
       if (parsedBody) {
         delete parsedBody.videoCode;
         body = JSON.stringify(parsedBody);
       }
     }
+
+    log('API_CALL', `endpoint=${apiEndpoint}, bodyLength=${body.length}`);
+    const fetchStart = Date.now();
     const res = await fetch(apiEndpoint, {
       method: 'POST',
       headers: {
@@ -208,17 +235,25 @@ async function submitToApi(apiKey, request, env, clientIP, isAdmin) {
       },
       body,
     });
+    const fetchDuration = Date.now() - fetchStart;
 
     const data = await res.text();
+    log('API_RESPONSE', `status=${res.status}, bodyLength=${data.length}, fetchDuration=${fetchDuration}ms, totalDuration=${Date.now() - submitStart}ms`);
+
+    if (!res.ok) {
+      log('API_ERROR', `status=${res.status}, body=${data.substring(0, 500)}`);
+    }
 
     if (res.ok && env?.NAI_KV) {
       try {
         const parsed = JSON.parse(data);
         if (parsed.job_id) {
+          log('JOB_CREATED', `job_id=${parsed.job_id}`);
           await env.NAI_KV.put('active_job', JSON.stringify({
             jobId: parsed.job_id,
             startTime: Date.now(),
             ip: clientIP || 'unknown',
+            isVideo,
           }), { expirationTtl: 600 });
         }
       } catch (e) {}
@@ -232,6 +267,7 @@ async function submitToApi(apiKey, request, env, clientIP, isAdmin) {
       },
     });
   } catch (err) {
+    log('SUBMIT_EXCEPTION', `error=${err.message}, duration=${Date.now() - submitStart}ms`);
     return jsonResponse(502, { error: `代理请求失败: ${err.message}` });
   }
 }

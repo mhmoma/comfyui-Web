@@ -3881,6 +3881,10 @@
         const isVideo = model.startsWith('wan2');
         const endpoints = getNaiEndpoints(customApiKey, isVideo);
 
+        const _log = (tag, ...args) => console.log(`[NAI-${isVideo ? 'Video' : 'Image'}] [${tag}]`, ...args);
+        const _startTime = Date.now();
+        _log('INIT', 'model:', model, 'isVideo:', isVideo, 'hasApiKey:', !!customApiKey);
+
         if (isVideo && !_naiStartFrameBase64) {
             showToast('视频生成需要上传首帧图片');
             return;
@@ -3899,10 +3903,29 @@
             progressBar.style.width = '10%';
 
             const payload = isVideo ? getNaiVideoPayload() : getNaiPayload();
+            _log('PAYLOAD', JSON.stringify({
+                model: payload.model,
+                seed: payload.seed,
+                ...(isVideo ? {
+                    seconds: payload.seconds,
+                    videoFluidity: payload.videoFluidity,
+                    inferenceSteps: payload.inferenceSteps,
+                    guidance_scale_high: payload.guidance_scale_high,
+                    hasStartFrame: !!(payload.image && payload.image[0]),
+                    hasEndFrame: !!(payload.image && payload.image[1]),
+                    promptLength: payload.positivePrompt?.length || 0,
+                } : {
+                    width: payload.width,
+                    height: payload.height,
+                    steps: payload.steps,
+                    cfg: payload.cfg_scale,
+                })
+            }));
 
             // Submit with auto-retry queue
             let job_id;
             const maxRetries = 60;
+            let queueStartTime = null;
             for (let retry = 0; retry <= maxRetries; retry++) {
                 const submitRes = await fetch(endpoints.submitUrl, {
                     method: 'POST',
@@ -3910,8 +3933,12 @@
                     body: JSON.stringify(payload)
                 });
 
+                _log('SUBMIT', `attempt ${retry}/${maxRetries}, status: ${submitRes.status}, elapsed: ${Date.now() - _startTime}ms`);
+
                 if (submitRes.status === 429) {
+                    if (!queueStartTime) queueStartTime = Date.now();
                     const errData = await submitRes.json().catch(() => ({}));
+                    _log('QUEUE', 'position:', errData.queue_position, 'total:', errData.queue_total, 'retry_after:', errData.retry_after, 'rate_limited:', errData.rate_limited, 'queue_full:', errData.queue_full);
                     if (errData._debug) console.log('Admin debug:', errData._debug);
                     if (errData.rate_limited || errData.queue_full) {
                         throw new Error(errData.error);
@@ -3930,11 +3957,13 @@
 
                 if (!submitRes.ok) {
                     const errData = await submitRes.json().catch(() => ({}));
+                    _log('SUBMIT_ERROR', 'status:', submitRes.status, 'body:', JSON.stringify(errData));
                     throw new Error(errData.error || `提交失败 (${submitRes.status})`);
                 }
 
                 const submitData = await submitRes.json();
                 job_id = submitData.job_id;
+                _log('SUBMITTED', 'job_id:', job_id, 'queue_wait:', queueStartTime ? `${Date.now() - queueStartTime}ms` : 'none', 'total_elapsed:', `${Date.now() - _startTime}ms`);
                 break;
             }
             progressBar.style.width = '30%';
@@ -3945,6 +3974,8 @@
             let pollErrors = 0;
             const maxAttempts = 120;
             const maxPollErrors = 5;
+            let lastStatus = '';
+            const pollStartTime = Date.now();
             while (attempts < maxAttempts) {
                 await new Promise(r => setTimeout(r, 5000));
                 attempts++;
@@ -3954,12 +3985,14 @@
                     resultRes = await fetch(endpoints.resultUrl(job_id), { headers: endpoints.headers });
                 } catch (fetchErr) {
                     pollErrors++;
+                    _log('POLL_FETCH_ERR', `attempt ${attempts}, error: ${fetchErr.message}, pollErrors: ${pollErrors}/${maxPollErrors}`);
                     if (pollErrors >= maxPollErrors) throw new Error('网络错误，查询多次失败');
                     progressText.textContent = `查询暂时失败，重试中 (${pollErrors}/${maxPollErrors})...`;
                     continue;
                 }
                 if (!resultRes.ok) {
                     pollErrors++;
+                    _log('POLL_HTTP_ERR', `attempt ${attempts}, status: ${resultRes.status}, pollErrors: ${pollErrors}/${maxPollErrors}`);
                     if (pollErrors >= maxPollErrors) throw new Error(`查询失败 (${resultRes.status})，已重试 ${maxPollErrors} 次`);
                     progressText.textContent = `查询暂时失败 (${resultRes.status})，重试中 (${pollErrors}/${maxPollErrors})...`;
                     continue;
@@ -3970,7 +4003,16 @@
                 const pct = Math.min(30 + (attempts / maxAttempts) * 60, 90);
                 progressBar.style.width = pct + '%';
 
+                if (result.status !== lastStatus) {
+                    _log('POLL_STATUS_CHANGE', `${lastStatus || '(init)'} -> ${result.status}, attempt: ${attempts}, poll_elapsed: ${Date.now() - pollStartTime}ms, total_elapsed: ${Date.now() - _startTime}ms`);
+                    lastStatus = result.status;
+                }
+                if (attempts % 12 === 0) {
+                    _log('POLL_HEARTBEAT', `attempt: ${attempts}/${maxAttempts}, status: ${result.status}, poll_elapsed: ${Date.now() - pollStartTime}ms, total_elapsed: ${Date.now() - _startTime}ms, result_keys: ${Object.keys(result).join(',')}`);
+                }
+
                 if (result.status === 'completed') {
+                    _log('COMPLETED', `total_elapsed: ${Date.now() - _startTime}ms, poll_elapsed: ${Date.now() - pollStartTime}ms, attempts: ${attempts}, has_video_url: ${!!result.video_url}, has_image_url: ${!!result.image_url}`);
                     progressBar.style.width = '100%';
                     const mediaUrl = result.image_url || result.video_url;
                     if (mediaUrl) {
@@ -4005,6 +4047,7 @@
                     }
                     break;
                 } else if (result.status === 'failed') {
+                    _log('FAILED', `error: ${result.error}, total_elapsed: ${Date.now() - _startTime}ms, full_result: ${JSON.stringify(result)}`);
                     throw new Error(`生成失败: ${result.error || '未知错误'}`);
                 } else {
                     const statusText = result.status === 'queued' ? '排队中...' : '生成中...';
@@ -4013,9 +4056,11 @@
             }
 
             if (attempts >= maxAttempts) {
+                _log('TIMEOUT', `maxAttempts reached (${maxAttempts}), total_elapsed: ${Date.now() - _startTime}ms, lastStatus: ${lastStatus}`);
                 throw new Error('生成超时，请稍后重试');
             }
         } catch (err) {
+            _log('ERROR', `message: ${err.message}, total_elapsed: ${Date.now() - _startTime}ms`);
             showToast(`错误: ${err.message}`);
             console.error('NAI generate error:', err);
         } finally {
