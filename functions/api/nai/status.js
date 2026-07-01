@@ -15,7 +15,7 @@ export async function onRequestGet(context) {
   }
 
   try {
-    const res = await fetch(`${NAI_API}/get_result/${jobId}`, {
+    const res = await fetch(`${NAI_API}/get_result/${encodeURIComponent(jobId)}`, {
       headers: { 'Authorization': `Bearer ${apiKey}` },
     });
 

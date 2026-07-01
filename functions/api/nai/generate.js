@@ -47,7 +47,7 @@ export async function onRequestPost(context) {
     const elapsed = now - activeJob.startTime;
     if (elapsed < JOB_TIMEOUT_MS) {
       try {
-        const statusRes = await fetch(`${NAI_API}/get_result/${activeJob.jobId}`, {
+        const statusRes = await fetch(`${NAI_API}/get_result/${encodeURIComponent(activeJob.jobId)}`, {
           headers: { 'Authorization': `Bearer ${apiKey}` },
         });
         if (statusRes.ok) {
