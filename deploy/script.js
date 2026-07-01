@@ -2684,6 +2684,202 @@
         });
     }
 
+    // ==================== 提示词标签可视化编辑器 ====================
+    function setupPromptTagEditor() {
+        const editors = [
+            { textarea: dom.txtPositive, container: document.getElementById('prompt-tags-pos') },
+            { textarea: dom.txtNegative, container: document.getElementById('prompt-tags-neg') },
+        ];
+
+        editors.forEach(({ textarea, container }) => {
+            if (!textarea || !container) return;
+            const editor = new PromptTagEditor(textarea, container);
+            textarea._tagEditor = editor;
+        });
+    }
+
+    class PromptTagEditor {
+        constructor(textarea, container) {
+            this.textarea = textarea;
+            this.container = container;
+            this.tags = [];
+            this.dragIdx = -1;
+            this.suppressSync = false;
+
+            this.textarea.addEventListener('blur', (e) => {
+                if (this.container.contains(e.relatedTarget)) return;
+                this.parseAndRender();
+            });
+
+            this.textarea.addEventListener('input', () => {
+                if (!this.suppressSync) this.parseAndRender();
+            });
+
+            this.container.addEventListener('dragover', (e) => e.preventDefault());
+            this.container.addEventListener('drop', (e) => e.preventDefault());
+
+            this.parseAndRender();
+        }
+
+        parsePrompt(text) {
+            if (!text.trim()) return [];
+            return text.split(',').map(s => s.trim()).filter(Boolean).map(raw => {
+                const wm = raw.match(/^\((.+?):([\d.]+)\)$/);
+                if (wm) return { name: wm[1], weight: parseFloat(wm[2]) };
+                return { name: raw, weight: 1.0 };
+            });
+        }
+
+        tagsToText() {
+            return this.tags.map(t => {
+                if (t.weight !== 1.0) return `(${t.name}:${t.weight.toFixed(1)})`;
+                return t.name;
+            }).join(', ');
+        }
+
+        syncToTextarea() {
+            this.suppressSync = true;
+            this.textarea.value = this.tagsToText();
+            this.textarea.dispatchEvent(new Event('input', { bubbles: true }));
+            this.suppressSync = false;
+        }
+
+        parseAndRender() {
+            this.tags = this.parsePrompt(this.textarea.value);
+            this.render();
+        }
+
+        render() {
+            this.container.innerHTML = '';
+            this.tags.forEach((tag, idx) => {
+                const el = this.createTagElement(tag, idx);
+                this.container.appendChild(el);
+            });
+        }
+
+        createTagElement(tag, idx) {
+            const el = document.createElement('div');
+            el.className = 'prompt-tag';
+            el.draggable = true;
+            el.dataset.idx = idx;
+
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'prompt-tag-name';
+            nameSpan.textContent = tag.name;
+            nameSpan.title = tag.name;
+            nameSpan.addEventListener('dblclick', () => this.startEdit(el, tag, idx));
+
+            el.appendChild(nameSpan);
+
+            if (tag.weight !== 1.0) {
+                const wSpan = document.createElement('span');
+                wSpan.className = 'prompt-tag-weight';
+                wSpan.textContent = tag.weight.toFixed(1);
+                el.appendChild(wSpan);
+            }
+
+            const actions = document.createElement('span');
+            actions.className = 'prompt-tag-actions';
+
+            const btnUp = this.makeBtn('▲', 'btn-weight-up', () => this.changeWeight(idx, 0.1));
+            const btnDown = this.makeBtn('▼', 'btn-weight-down', () => this.changeWeight(idx, -0.1));
+            const btnCopy = this.makeBtn('📋', 'btn-tag-copy', () => {
+                navigator.clipboard.writeText(tag.weight !== 1.0 ? `(${tag.name}:${tag.weight.toFixed(1)})` : tag.name);
+            });
+            const btnDel = this.makeBtn('✕', 'btn-tag-delete', () => this.removeTag(idx));
+
+            actions.append(btnUp, btnDown, btnCopy, btnDel);
+            el.appendChild(actions);
+
+            el.addEventListener('dragstart', (e) => {
+                this.dragIdx = idx;
+                el.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            });
+
+            el.addEventListener('dragend', () => {
+                el.classList.remove('dragging');
+                this.container.querySelectorAll('.prompt-tag').forEach(t => t.classList.remove('drag-over'));
+            });
+
+            el.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const dragging = this.container.querySelector('.dragging');
+                if (dragging && dragging !== el) {
+                    el.classList.add('drag-over');
+                }
+            });
+
+            el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
+
+            el.addEventListener('drop', (e) => {
+                e.preventDefault();
+                el.classList.remove('drag-over');
+                const fromIdx = this.dragIdx;
+                const toIdx = idx;
+                if (fromIdx === toIdx || fromIdx < 0) return;
+                const [moved] = this.tags.splice(fromIdx, 1);
+                this.tags.splice(toIdx, 0, moved);
+                this.syncToTextarea();
+                this.render();
+            });
+
+            return el;
+        }
+
+        makeBtn(label, cls, onClick) {
+            const btn = document.createElement('button');
+            btn.className = `prompt-tag-btn ${cls}`;
+            btn.textContent = label;
+            btn.tabIndex = -1;
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                onClick();
+            });
+            return btn;
+        }
+
+        changeWeight(idx, delta) {
+            const tag = this.tags[idx];
+            if (!tag) return;
+            tag.weight = Math.max(0.1, Math.round((tag.weight + delta) * 10) / 10);
+            this.syncToTextarea();
+            this.render();
+        }
+
+        removeTag(idx) {
+            this.tags.splice(idx, 1);
+            this.syncToTextarea();
+            this.render();
+        }
+
+        startEdit(el, tag, idx) {
+            const nameSpan = el.querySelector('.prompt-tag-name');
+            const input = document.createElement('input');
+            input.className = 'prompt-tag-input';
+            input.value = tag.name;
+
+            const finish = () => {
+                const newName = input.value.trim();
+                if (newName && newName !== tag.name) {
+                    this.tags[idx].name = newName;
+                    this.syncToTextarea();
+                }
+                this.render();
+            };
+
+            input.addEventListener('blur', finish);
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') { e.preventDefault(); finish(); }
+                if (e.key === 'Escape') { this.render(); }
+            });
+
+            nameSpan.replaceWith(input);
+            input.focus();
+            input.select();
+        }
+    }
+
     setupTheme();
     setupToggles();
     setupArchSwitch();
@@ -2692,5 +2888,6 @@
     setupWildcard();
     setupWorkflowMode();
     bindEvents();
+    setupPromptTagEditor();
     init();
 })();

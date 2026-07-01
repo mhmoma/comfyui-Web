@@ -1,0 +1,7273 @@
+{
+  "genshin_impact": {
+    "cn": "原神",
+    "existing": true,
+    "characters": [
+      {
+        "name": "scaramouche_(genshin_impact)",
+        "count": 25464
+      },
+      {
+        "name": "raiden_shogun",
+        "count": 21707
+      },
+      {
+        "name": "lumine_(genshin_impact)",
+        "count": 21394
+      },
+      {
+        "name": "ganyu_(genshin_impact)",
+        "count": 20025
+      },
+      {
+        "name": "wanderer_(genshin_impact)",
+        "count": 14204
+      },
+      {
+        "name": "hu_tao_(genshin_impact)",
+        "count": 14371
+      },
+      {
+        "name": "furina_(genshin_impact)",
+        "count": 13463
+      },
+      {
+        "name": "aether_(genshin_impact)",
+        "count": 13521
+      },
+      {
+        "name": "nahida_(genshin_impact)",
+        "count": 12901
+      },
+      {
+        "name": "yae_miko",
+        "count": 12276
+      },
+      {
+        "name": "zhongli_(genshin_impact)",
+        "count": 10083
+      },
+      {
+        "name": "mona_(genshin_impact)",
+        "count": 9719
+      },
+      {
+        "name": "columbina_(genshin_impact)",
+        "count": 7976
+      },
+      {
+        "name": "keqing_(genshin_impact)",
+        "count": 8372
+      },
+      {
+        "name": "kamisato_ayaka",
+        "count": 7277
+      },
+      {
+        "name": "klee_(genshin_impact)",
+        "count": 7100
+      },
+      {
+        "name": "venti_(genshin_impact)",
+        "count": 8302
+      },
+      {
+        "name": "tartaglia_(genshin_impact)",
+        "count": 7199
+      },
+      {
+        "name": "paimon_(genshin_impact)",
+        "count": 8110
+      },
+      {
+        "name": "nilou_(genshin_impact)",
+        "count": 5904
+      },
+      {
+        "name": "arlecchino_(genshin_impact)",
+        "count": 5594
+      },
+      {
+        "name": "xiao_(genshin_impact)",
+        "count": 6164
+      },
+      {
+        "name": "boo_tao_(genshin_impact)",
+        "count": 5747
+      },
+      {
+        "name": "shenhe_(genshin_impact)",
+        "count": 6343
+      },
+      {
+        "name": "eula_(genshin_impact)",
+        "count": 6360
+      },
+      {
+        "name": "sandrone_(genshin_impact)",
+        "count": 4885
+      },
+      {
+        "name": "yelan_(genshin_impact)",
+        "count": 4650
+      },
+      {
+        "name": "alhaitham_(genshin_impact)",
+        "count": 3706
+      },
+      {
+        "name": "kaedehara_kazuha",
+        "count": 4440
+      },
+      {
+        "name": "fischl_(genshin_impact)",
+        "count": 4110
+      }
+    ]
+  },
+  "blue_archive": {
+    "cn": "蓝色档案",
+    "existing": true,
+    "characters": [
+      {
+        "name": "sensei_(blue_archive)",
+        "count": 36629
+      },
+      {
+        "name": "yuuka_(blue_archive)",
+        "count": 18298
+      },
+      {
+        "name": "doodle_sensei_(blue_archive)",
+        "count": 20941
+      },
+      {
+        "name": "hina_(blue_archive)",
+        "count": 18699
+      },
+      {
+        "name": "mika_(blue_archive)",
+        "count": 15480
+      },
+      {
+        "name": "asuna_(blue_archive)",
+        "count": 17684
+      },
+      {
+        "name": "hoshino_(blue_archive)",
+        "count": 14467
+      },
+      {
+        "name": "rio_(blue_archive)",
+        "count": 14103
+      },
+      {
+        "name": "kayoko_(blue_archive)",
+        "count": 10835
+      },
+      {
+        "name": "shiroko_(blue_archive)",
+        "count": 11187
+      },
+      {
+        "name": "mari_(blue_archive)",
+        "count": 10859
+      },
+      {
+        "name": "aris_(blue_archive)",
+        "count": 10945
+      },
+      {
+        "name": "toki_(blue_archive)",
+        "count": 11620
+      },
+      {
+        "name": "kisaki_(blue_archive)",
+        "count": 11884
+      },
+      {
+        "name": "kazusa_(blue_archive)",
+        "count": 10515
+      },
+      {
+        "name": "koharu_(blue_archive)",
+        "count": 9933
+      },
+      {
+        "name": "noa_(blue_archive)",
+        "count": 8117
+      },
+      {
+        "name": "seia_(blue_archive)",
+        "count": 8838
+      },
+      {
+        "name": "karin_(blue_archive)",
+        "count": 8244
+      },
+      {
+        "name": "plana_(blue_archive)",
+        "count": 8055
+      },
+      {
+        "name": "aru_(blue_archive)",
+        "count": 7386
+      },
+      {
+        "name": "kanna_(blue_archive)",
+        "count": 6308
+      },
+      {
+        "name": "ako_(blue_archive)",
+        "count": 6849
+      },
+      {
+        "name": "arona_(blue_archive)",
+        "count": 7603
+      },
+      {
+        "name": "momoi_(blue_archive)",
+        "count": 7523
+      },
+      {
+        "name": "hasumi_(blue_archive)",
+        "count": 6757
+      },
+      {
+        "name": "asuna_(bunny)_(blue_archive)",
+        "count": 6790
+      },
+      {
+        "name": "saori_(blue_archive)",
+        "count": 6177
+      },
+      {
+        "name": "neru_(blue_archive)",
+        "count": 5355
+      },
+      {
+        "name": "nozomi_(blue_archive)",
+        "count": 6185
+      }
+    ]
+  },
+  "fate_(series)": {
+    "cn": "Fate",
+    "existing": true,
+    "characters": [
+      {
+        "name": "artoria_pendragon_(fate)",
+        "count": 45514
+      },
+      {
+        "name": "saber_(fate)",
+        "count": 20933
+      },
+      {
+        "name": "mash_kyrielight",
+        "count": 20366
+      },
+      {
+        "name": "fujimaru_ritsuka_(male)",
+        "count": 18569
+      },
+      {
+        "name": "fujimaru_ritsuka_(female)",
+        "count": 16054
+      },
+      {
+        "name": "jeanne_d'arc_alter_(fate)",
+        "count": 13553
+      },
+      {
+        "name": "abigail_williams_(fate)",
+        "count": 12616
+      },
+      {
+        "name": "illyasviel_von_einzbern",
+        "count": 10904
+      },
+      {
+        "name": "tohsaka_rin",
+        "count": 10625
+      },
+      {
+        "name": "nero_claudius_(fate)",
+        "count": 11233
+      },
+      {
+        "name": "scathach_(fate)",
+        "count": 9421
+      },
+      {
+        "name": "tamamo_no_mae_(fate)",
+        "count": 9040
+      },
+      {
+        "name": "emiya_shirou",
+        "count": 7675
+      },
+      {
+        "name": "saber_alter",
+        "count": 7208
+      },
+      {
+        "name": "archer_(fate)",
+        "count": 7051
+      },
+      {
+        "name": "gilgamesh_(fate)",
+        "count": 8217
+      },
+      {
+        "name": "baobhan_sith_(fate)",
+        "count": 7127
+      },
+      {
+        "name": "shuten_douji_(fate)",
+        "count": 7658
+      },
+      {
+        "name": "cu_chulainn_(fate)",
+        "count": 6934
+      },
+      {
+        "name": "astolfo_(fate)",
+        "count": 7544
+      },
+      {
+        "name": "matou_sakura",
+        "count": 6871
+      },
+      {
+        "name": "bb_(fate)",
+        "count": 6461
+      },
+      {
+        "name": "ereshkigal_(fate)",
+        "count": 5497
+      },
+      {
+        "name": "minamoto_no_raikou_(fate)",
+        "count": 6491
+      },
+      {
+        "name": "morgan_le_fay_(fate)",
+        "count": 6045
+      },
+      {
+        "name": "jeanne_d'arc_(fate)",
+        "count": 8650
+      },
+      {
+        "name": "medusa_(fate)",
+        "count": 5782
+      },
+      {
+        "name": "okita_souji_(fate)",
+        "count": 7883
+      },
+      {
+        "name": "mordred_(fate)",
+        "count": 6530
+      },
+      {
+        "name": "artoria_pendragon_(lancer)_(fate)",
+        "count": 5661
+      }
+    ]
+  },
+  "azur_lane": {
+    "cn": "碧蓝航线",
+    "existing": true,
+    "characters": [
+      {
+        "name": "manjuu_(azur_lane)",
+        "count": 10992
+      },
+      {
+        "name": "bremerton_(azur_lane)",
+        "count": 5370
+      },
+      {
+        "name": "taihou_(azur_lane)",
+        "count": 6299
+      },
+      {
+        "name": "atago_(azur_lane)",
+        "count": 4853
+      },
+      {
+        "name": "sirius_(azur_lane)",
+        "count": 4258
+      },
+      {
+        "name": "prinz_eugen_(azur_lane)",
+        "count": 4874
+      },
+      {
+        "name": "belfast_(azur_lane)",
+        "count": 4274
+      },
+      {
+        "name": "unicorn_(azur_lane)",
+        "count": 3646
+      },
+      {
+        "name": "formidable_(azur_lane)",
+        "count": 4976
+      },
+      {
+        "name": "commander_(azur_lane)",
+        "count": 4860
+      },
+      {
+        "name": "enterprise_(azur_lane)",
+        "count": 2768
+      },
+      {
+        "name": "illustrious_(azur_lane)",
+        "count": 3302
+      },
+      {
+        "name": "ayanami_(azur_lane)",
+        "count": 3395
+      },
+      {
+        "name": "laffey_(azur_lane)",
+        "count": 2909
+      },
+      {
+        "name": "kaga_(azur_lane)",
+        "count": 2828
+      },
+      {
+        "name": "takao_(azur_lane)",
+        "count": 2746
+      },
+      {
+        "name": "akagi_(azur_lane)",
+        "count": 2621
+      },
+      {
+        "name": "le_malin_(azur_lane)",
+        "count": 1865
+      },
+      {
+        "name": "st._louis_(azur_lane)",
+        "count": 2375
+      },
+      {
+        "name": "javelin_(azur_lane)",
+        "count": 2144
+      },
+      {
+        "name": "bremerton_(scorching-hot_training)_(azur_lane)",
+        "count": 1714
+      },
+      {
+        "name": "shinano_(azur_lane)",
+        "count": 2078
+      },
+      {
+        "name": "kashino_(azur_lane)",
+        "count": 1627
+      },
+      {
+        "name": "amagi_(azur_lane)",
+        "count": 1363
+      },
+      {
+        "name": "honolulu_(azur_lane)",
+        "count": 1914
+      },
+      {
+        "name": "z23_(azur_lane)",
+        "count": 1943
+      },
+      {
+        "name": "baltimore_(azur_lane)",
+        "count": 1824
+      },
+      {
+        "name": "dido_(azur_lane)",
+        "count": 1625
+      },
+      {
+        "name": "nagato_(azur_lane)",
+        "count": 1523
+      },
+      {
+        "name": "cheshire_(azur_lane)",
+        "count": 1383
+      }
+    ]
+  },
+  "arknights": {
+    "cn": "明日方舟",
+    "existing": true,
+    "characters": [
+      {
+        "name": "doctor_(arknights)",
+        "count": 12474
+      },
+      {
+        "name": "amiya_(arknights)",
+        "count": 11502
+      },
+      {
+        "name": "texas_(arknights)",
+        "count": 8361
+      },
+      {
+        "name": "lappland_(arknights)",
+        "count": 6874
+      },
+      {
+        "name": "kal'tsit_(arknights)",
+        "count": 6147
+      },
+      {
+        "name": "suzuran_(arknights)",
+        "count": 6660
+      },
+      {
+        "name": "skadi_(arknights)",
+        "count": 6758
+      },
+      {
+        "name": "exusiai_(arknights)",
+        "count": 5478
+      },
+      {
+        "name": "surtr_(arknights)",
+        "count": 5145
+      },
+      {
+        "name": "angelina_(arknights)",
+        "count": 4677
+      },
+      {
+        "name": "ch'en_(arknights)",
+        "count": 4363
+      },
+      {
+        "name": "w_(arknights)",
+        "count": 4600
+      },
+      {
+        "name": "shu_(arknights)",
+        "count": 4689
+      },
+      {
+        "name": "mudrock_(arknights)",
+        "count": 4156
+      },
+      {
+        "name": "dusk_(arknights)",
+        "count": 3996
+      },
+      {
+        "name": "mostima_(arknights)",
+        "count": 3478
+      },
+      {
+        "name": "specter_(arknights)",
+        "count": 2914
+      },
+      {
+        "name": "endministrator_(arknights)",
+        "count": 2869
+      },
+      {
+        "name": "saria_(arknights)",
+        "count": 2326
+      },
+      {
+        "name": "nian_(arknights)",
+        "count": 3363
+      },
+      {
+        "name": "skadi_the_corrupting_heart_(arknights)",
+        "count": 2763
+      },
+      {
+        "name": "goldenglow_(arknights)",
+        "count": 2543
+      },
+      {
+        "name": "irene_(arknights)",
+        "count": 2462
+      },
+      {
+        "name": "sussurro_(arknights)",
+        "count": 2447
+      },
+      {
+        "name": "female_endministrator_(arknights)",
+        "count": 2094
+      },
+      {
+        "name": "schwarz_(arknights)",
+        "count": 1722
+      },
+      {
+        "name": "male_doctor_(arknights)",
+        "count": 1992
+      },
+      {
+        "name": "blue_poison_(arknights)",
+        "count": 1867
+      },
+      {
+        "name": "eyjafjalla_(arknights)",
+        "count": 2165
+      },
+      {
+        "name": "yvonne_(arknights)",
+        "count": 1919
+      }
+    ]
+  },
+  "hololive": {
+    "cn": "Hololive",
+    "existing": true,
+    "characters": [
+      {
+        "name": "gawr_gura",
+        "count": 16285
+      },
+      {
+        "name": "houshou_marine",
+        "count": 17515
+      },
+      {
+        "name": "shirakami_fubuki",
+        "count": 15451
+      },
+      {
+        "name": "hoshimachi_suisei",
+        "count": 14848
+      },
+      {
+        "name": "nekomata_okayu",
+        "count": 11397
+      },
+      {
+        "name": "ouro_kronii",
+        "count": 13825
+      },
+      {
+        "name": "mori_calliope",
+        "count": 12250
+      },
+      {
+        "name": "usada_pekora",
+        "count": 11659
+      },
+      {
+        "name": "ninomae_ina'nis",
+        "count": 12261
+      },
+      {
+        "name": "takanashi_kiara",
+        "count": 10215
+      },
+      {
+        "name": "minato_aqua",
+        "count": 9495
+      },
+      {
+        "name": "nanashi_mumei",
+        "count": 9535
+      },
+      {
+        "name": "tokoyami_towa",
+        "count": 9720
+      },
+      {
+        "name": "ookami_mio",
+        "count": 7914
+      },
+      {
+        "name": "sakura_miko",
+        "count": 10006
+      },
+      {
+        "name": "nerissa_ravencroft",
+        "count": 7219
+      },
+      {
+        "name": "oozora_subaru",
+        "count": 7664
+      },
+      {
+        "name": "watson_amelia",
+        "count": 7249
+      },
+      {
+        "name": "inugami_korone",
+        "count": 7181
+      },
+      {
+        "name": "gawr_gura_(1st_costume)",
+        "count": 7540
+      },
+      {
+        "name": "amane_kanata",
+        "count": 7646
+      },
+      {
+        "name": "shirogane_noel",
+        "count": 7059
+      },
+      {
+        "name": "sakamata_chloe",
+        "count": 7007
+      },
+      {
+        "name": "hakos_baelz",
+        "count": 7212
+      },
+      {
+        "name": "yukihana_lamy",
+        "count": 7478
+      },
+      {
+        "name": "shiori_novella",
+        "count": 7366
+      },
+      {
+        "name": "houshou_marine_(1st_costume)",
+        "count": 6101
+      },
+      {
+        "name": "la+_darknesss",
+        "count": 5796
+      },
+      {
+        "name": "shishiro_botan",
+        "count": 6409
+      },
+      {
+        "name": "irys_(hololive)",
+        "count": 5679
+      }
+    ]
+  },
+  "touhou": {
+    "cn": "东方Project",
+    "existing": true,
+    "characters": [
+      {
+        "name": "hakurei_reimu",
+        "count": 96953
+      },
+      {
+        "name": "kirisame_marisa",
+        "count": 84592
+      },
+      {
+        "name": "flandre_scarlet",
+        "count": 61038
+      },
+      {
+        "name": "remilia_scarlet",
+        "count": 60633
+      },
+      {
+        "name": "izayoi_sakuya",
+        "count": 52185
+      },
+      {
+        "name": "konpaku_youmu",
+        "count": 40101
+      },
+      {
+        "name": "komeiji_koishi",
+        "count": 43780
+      },
+      {
+        "name": "kochiya_sanae",
+        "count": 40362
+      },
+      {
+        "name": "patchouli_knowledge",
+        "count": 38014
+      },
+      {
+        "name": "cirno",
+        "count": 39834
+      },
+      {
+        "name": "alice_margatroid",
+        "count": 39169
+      },
+      {
+        "name": "yakumo_yukari",
+        "count": 37520
+      },
+      {
+        "name": "fujiwara_no_mokou",
+        "count": 30141
+      },
+      {
+        "name": "reisen_udongein_inaba",
+        "count": 30581
+      },
+      {
+        "name": "shameimaru_aya",
+        "count": 33531
+      },
+      {
+        "name": "hong_meiling",
+        "count": 27726
+      },
+      {
+        "name": "komeiji_satori",
+        "count": 30373
+      },
+      {
+        "name": "saigyouji_yuyuko",
+        "count": 27505
+      },
+      {
+        "name": "inubashiri_momiji",
+        "count": 25556
+      },
+      {
+        "name": "kaenbyou_rin",
+        "count": 22404
+      },
+      {
+        "name": "konpaku_youmu_(ghost)",
+        "count": 22397
+      },
+      {
+        "name": "kawashiro_nitori",
+        "count": 18368
+      },
+      {
+        "name": "rumia",
+        "count": 21664
+      },
+      {
+        "name": "moriya_suwako",
+        "count": 21495
+      },
+      {
+        "name": "yakumo_ran",
+        "count": 22373
+      },
+      {
+        "name": "reiuji_utsuho",
+        "count": 20343
+      },
+      {
+        "name": "chen",
+        "count": 20280
+      },
+      {
+        "name": "kazami_yuuka",
+        "count": 19995
+      },
+      {
+        "name": "hinanawi_tenshi",
+        "count": 17642
+      },
+      {
+        "name": "kamishirasawa_keine",
+        "count": 17634
+      }
+    ]
+  },
+  "vocaloid": {
+    "cn": "Vocaloid",
+    "existing": true,
+    "characters": [
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "kagamine_rin",
+        "count": 25416
+      },
+      {
+        "name": "kagamine_len",
+        "count": 16948
+      },
+      {
+        "name": "megurine_luka",
+        "count": 13683
+      },
+      {
+        "name": "kaito_(vocaloid)",
+        "count": 8813
+      },
+      {
+        "name": "yuzuki_yukari",
+        "count": 9566
+      },
+      {
+        "name": "meiko_(vocaloid)",
+        "count": 6873
+      },
+      {
+        "name": "gumi",
+        "count": 5866
+      },
+      {
+        "name": "yuki_miku",
+        "count": 5032
+      },
+      {
+        "name": "kasane_teto",
+        "count": 16720
+      },
+      {
+        "name": "sakura_miku",
+        "count": 3345
+      },
+      {
+        "name": "magical_mirai_miku",
+        "count": 2593
+      },
+      {
+        "name": "ia_(vocaloid)",
+        "count": 2676
+      },
+      {
+        "name": "brazilian_miku",
+        "count": 2082
+      },
+      {
+        "name": "kizuna_akari",
+        "count": 4461
+      },
+      {
+        "name": "yowane_haku",
+        "count": 1935
+      },
+      {
+        "name": "rabbit_yukine",
+        "count": 2044
+      },
+      {
+        "name": "akita_neru",
+        "count": 2074
+      },
+      {
+        "name": "racing_miku",
+        "count": 1708
+      },
+      {
+        "name": "kasane_teto_(utau)",
+        "count": 5474
+      },
+      {
+        "name": "kamui_gakupo",
+        "count": 1766
+      },
+      {
+        "name": "flower_(vocaloid)",
+        "count": 1144
+      },
+      {
+        "name": "hatsune_miku_(append)",
+        "count": 1610
+      },
+      {
+        "name": "luo_tianyi",
+        "count": 1101
+      },
+      {
+        "name": "otomachi_una",
+        "count": 1638
+      },
+      {
+        "name": "kaai_yuki",
+        "count": 1090
+      },
+      {
+        "name": "flower_(vocaloid4)",
+        "count": 834
+      },
+      {
+        "name": "takoluka",
+        "count": 1029
+      },
+      {
+        "name": "master_(vocaloid)",
+        "count": 854
+      },
+      {
+        "name": "chibi_miku",
+        "count": 834
+      }
+    ]
+  },
+  "honkai:_star_rail": {
+    "cn": "崩坏星穹铁道",
+    "existing": true,
+    "characters": [
+      {
+        "name": "trailblazer_(honkai:_star_rail)",
+        "count": 20093
+      },
+      {
+        "name": "firefly_(honkai:_star_rail)",
+        "count": 16121
+      },
+      {
+        "name": "stelle_(honkai:_star_rail)",
+        "count": 12569
+      },
+      {
+        "name": "phainon_(honkai:_star_rail)",
+        "count": 9431
+      },
+      {
+        "name": "caelus_(honkai:_star_rail)",
+        "count": 8332
+      },
+      {
+        "name": "cyrene_(honkai:_star_rail)",
+        "count": 8390
+      },
+      {
+        "name": "kafka_(honkai:_star_rail)",
+        "count": 7878
+      },
+      {
+        "name": "march_7th_(honkai:_star_rail)",
+        "count": 9295
+      },
+      {
+        "name": "sparkle_(honkai:_star_rail)",
+        "count": 7344
+      },
+      {
+        "name": "acheron_(honkai:_star_rail)",
+        "count": 6659
+      },
+      {
+        "name": "mydei_(honkai:_star_rail)",
+        "count": 6269
+      },
+      {
+        "name": "silver_wolf_(honkai:_star_rail)",
+        "count": 5763
+      },
+      {
+        "name": "cyrene_(demiurge)_(honkai:_star_rail)",
+        "count": 5296
+      },
+      {
+        "name": "robin_(honkai:_star_rail)",
+        "count": 4628
+      },
+      {
+        "name": "dan_heng_(honkai:_star_rail)",
+        "count": 4682
+      },
+      {
+        "name": "herta_(honkai:_star_rail)",
+        "count": 4661
+      },
+      {
+        "name": "aventurine_(honkai:_star_rail)",
+        "count": 4211
+      },
+      {
+        "name": "march_7th_(preservation)_(honkai:_star_rail)",
+        "count": 4261
+      },
+      {
+        "name": "castorice_(honkai:_star_rail)",
+        "count": 4375
+      },
+      {
+        "name": "cyrene_(philia093)_(honkai:_star_rail)",
+        "count": 3525
+      },
+      {
+        "name": "the_herta_(honkai:_star_rail)",
+        "count": 3416
+      },
+      {
+        "name": "blade_(honkai:_star_rail)",
+        "count": 3448
+      },
+      {
+        "name": "sunday_(honkai:_star_rail)",
+        "count": 2847
+      },
+      {
+        "name": "black_swan_(honkai:_star_rail)",
+        "count": 3199
+      },
+      {
+        "name": "ruan_mei_(honkai:_star_rail)",
+        "count": 2563
+      },
+      {
+        "name": "anaxa_(honkai:_star_rail)",
+        "count": 2444
+      },
+      {
+        "name": "evernight_(honkai:_star_rail)",
+        "count": 2560
+      },
+      {
+        "name": "hyacine_(honkai:_star_rail)",
+        "count": 2522
+      },
+      {
+        "name": "dr._ratio_(honkai:_star_rail)",
+        "count": 2247
+      },
+      {
+        "name": "topaz_(honkai:_star_rail)",
+        "count": 1952
+      }
+    ]
+  },
+  "chainsaw_man": {
+    "cn": "电锯人",
+    "existing": true,
+    "characters": [
+      {
+        "name": "makima_(chainsaw_man)",
+        "count": 10640
+      },
+      {
+        "name": "reze_(chainsaw_man)",
+        "count": 9386
+      },
+      {
+        "name": "denji_(chainsaw_man)",
+        "count": 7726
+      },
+      {
+        "name": "power_(chainsaw_man)",
+        "count": 6503
+      },
+      {
+        "name": "yoru_(chainsaw_man)",
+        "count": 3365
+      },
+      {
+        "name": "hayakawa_aki",
+        "count": 2906
+      },
+      {
+        "name": "higashiyama_kobeni",
+        "count": 3092
+      },
+      {
+        "name": "mitaka_asa",
+        "count": 2823
+      },
+      {
+        "name": "pochita_(chainsaw_man)",
+        "count": 2439
+      },
+      {
+        "name": "angel_devil_(chainsaw_man)",
+        "count": 1947
+      },
+      {
+        "name": "himeno_(chainsaw_man)",
+        "count": 2009
+      },
+      {
+        "name": "fami_(chainsaw_man)",
+        "count": 1317
+      },
+      {
+        "name": "quanxi_(chainsaw_man)",
+        "count": 1105
+      },
+      {
+        "name": "nayuta_(chainsaw_man)",
+        "count": 1105
+      },
+      {
+        "name": "yoshida_hirofumi",
+        "count": 953
+      },
+      {
+        "name": "bomb_devil_(chainsaw_man)",
+        "count": 1057
+      },
+      {
+        "name": "meowy_(chainsaw_man)",
+        "count": 752
+      },
+      {
+        "name": "bakugou_katsuki",
+        "count": 6894
+      },
+      {
+        "name": "gotoh_hitori",
+        "count": 17547
+      },
+      {
+        "name": "kugisaki_nobara",
+        "count": 2456
+      },
+      {
+        "name": "itadori_yuji",
+        "count": 4205
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "gojo_satoru",
+        "count": 5484
+      },
+      {
+        "name": "fushiguro_megumi",
+        "count": 3315
+      },
+      {
+        "name": "ouro_kronii",
+        "count": 13825
+      },
+      {
+        "name": "son_goku",
+        "count": 7030
+      },
+      {
+        "name": "ayase_momo",
+        "count": 4076
+      },
+      {
+        "name": "shiori_novella",
+        "count": 7366
+      },
+      {
+        "name": "morrigan_aensland",
+        "count": 7079
+      },
+      {
+        "name": "anya_(spy_x_family)",
+        "count": 6659
+      }
+    ]
+  },
+  "bocchi_the_rock!": {
+    "cn": "孤独摇滚",
+    "existing": true,
+    "characters": [
+      {
+        "name": "gotoh_hitori",
+        "count": 17547
+      },
+      {
+        "name": "kita_ikuyo",
+        "count": 9090
+      },
+      {
+        "name": "ijichi_nijika",
+        "count": 7526
+      },
+      {
+        "name": "yamada_ryo",
+        "count": 6407
+      },
+      {
+        "name": "hiroi_kikuri",
+        "count": 4049
+      },
+      {
+        "name": "ijichi_seika",
+        "count": 1140
+      },
+      {
+        "name": "pa-san",
+        "count": 1036
+      },
+      {
+        "name": "gotoh_hitori_(octopus)",
+        "count": 759
+      },
+      {
+        "name": "gotoh_hitori_(tsuchinoko)",
+        "count": 740
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "chihaya_anon",
+        "count": 10101
+      },
+      {
+        "name": "kawaragi_momoka",
+        "count": 7024
+      },
+      {
+        "name": "suzumiya_haruhi",
+        "count": 10948
+      },
+      {
+        "name": "nagato_yuki",
+        "count": 9232
+      },
+      {
+        "name": "hirasawa_yui",
+        "count": 8880
+      },
+      {
+        "name": "kinomoto_sakura",
+        "count": 8768
+      },
+      {
+        "name": "kafuu_chino",
+        "count": 8111
+      },
+      {
+        "name": "iseri_nina",
+        "count": 7492
+      },
+      {
+        "name": "miyu_(blue_archive)",
+        "count": 5311
+      },
+      {
+        "name": "pochita_(chainsaw_man)",
+        "count": 2439
+      },
+      {
+        "name": "ibuki_suika",
+        "count": 15685
+      },
+      {
+        "name": "nishikino_maki",
+        "count": 8329
+      },
+      {
+        "name": "kuroki_tomoko",
+        "count": 4823
+      },
+      {
+        "name": "chando_(ado)",
+        "count": 3143
+      },
+      {
+        "name": "kaname_raana",
+        "count": 3048
+      },
+      {
+        "name": "kearsarge_(azur_lane)",
+        "count": 651
+      },
+      {
+        "name": "flandre_scarlet",
+        "count": 61038
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "kirby",
+        "count": 10663
+      },
+      {
+        "name": "nishizumi_miho",
+        "count": 10512
+      }
+    ]
+  },
+  "spy_x_family": {
+    "cn": "间谍过家家",
+    "existing": true,
+    "characters": [
+      {
+        "name": "yor_briar",
+        "count": 11209
+      },
+      {
+        "name": "anya_(spy_x_family)",
+        "count": 6659
+      },
+      {
+        "name": "twilight_(spy_x_family)",
+        "count": 4749
+      },
+      {
+        "name": "damian_desmond",
+        "count": 1564
+      },
+      {
+        "name": "bond_(spy_x_family)",
+        "count": 998
+      },
+      {
+        "name": "becky_blackbell",
+        "count": 817
+      },
+      {
+        "name": "yuri_briar",
+        "count": 614
+      },
+      {
+        "name": "chun-li",
+        "count": 8905
+      },
+      {
+        "name": "ada_wong",
+        "count": 2083
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "klee_(genshin_impact)",
+        "count": 7100
+      },
+      {
+        "name": "kanna_kamui",
+        "count": 3224
+      },
+      {
+        "name": "power_(chainsaw_man)",
+        "count": 6503
+      },
+      {
+        "name": "hornet_(hollow_knight)",
+        "count": 2352
+      },
+      {
+        "name": "tifa_lockhart",
+        "count": 16180
+      },
+      {
+        "name": "denji_(chainsaw_man)",
+        "count": 7726
+      },
+      {
+        "name": "komi_shouko",
+        "count": 2432
+      },
+      {
+        "name": "lumine_(genshin_impact)",
+        "count": 21394
+      },
+      {
+        "name": "kirby",
+        "count": 10663
+      },
+      {
+        "name": "fern_(sousou_no_frieren)",
+        "count": 9368
+      },
+      {
+        "name": "pochita_(chainsaw_man)",
+        "count": 2439
+      },
+      {
+        "name": "nagatoro_hayase",
+        "count": 2202
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "mori_calliope",
+        "count": 12250
+      },
+      {
+        "name": "makima_(chainsaw_man)",
+        "count": 10640
+      },
+      {
+        "name": "princess_peach",
+        "count": 8386
+      },
+      {
+        "name": "tartaglia_(genshin_impact)",
+        "count": 7199
+      },
+      {
+        "name": "kitagawa_marin",
+        "count": 6316
+      },
+      {
+        "name": "cloud_strife",
+        "count": 15048
+      },
+      {
+        "name": "2b_(nier:automata)",
+        "count": 12074
+      }
+    ]
+  },
+  "oshi_no_ko": {
+    "cn": "我推的孩子",
+    "existing": true,
+    "characters": [
+      {
+        "name": "arima_kana",
+        "count": 3510
+      },
+      {
+        "name": "hoshino_ai",
+        "count": 2365
+      },
+      {
+        "name": "hoshino_ruby",
+        "count": 2006
+      },
+      {
+        "name": "hoshino_aquamarine",
+        "count": 1894
+      },
+      {
+        "name": "kurokawa_akane",
+        "count": 1176
+      },
+      {
+        "name": "memcho",
+        "count": 637
+      },
+      {
+        "name": "shinomiya_kaguya",
+        "count": 2549
+      },
+      {
+        "name": "my_melody",
+        "count": 1578
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "maizono_sayaka",
+        "count": 1792
+      },
+      {
+        "name": "maruyama_aya",
+        "count": 1192
+      },
+      {
+        "name": "shirakami_fubuki",
+        "count": 15451
+      },
+      {
+        "name": "mari_(blue_archive)",
+        "count": 10859
+      },
+      {
+        "name": "mayuzumi_fuyuko",
+        "count": 3879
+      },
+      {
+        "name": "hu_tao_(genshin_impact)",
+        "count": 14371
+      },
+      {
+        "name": "sakura_miko",
+        "count": 10006
+      },
+      {
+        "name": "sensei_(blue_archive)",
+        "count": 36629
+      },
+      {
+        "name": "gotoh_hitori",
+        "count": 17547
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "hoshimachi_suisei",
+        "count": 14848
+      },
+      {
+        "name": "mori_calliope",
+        "count": 12250
+      },
+      {
+        "name": "kita_ikuyo",
+        "count": 9090
+      },
+      {
+        "name": "almond_eye_(umamusume)",
+        "count": 2035
+      },
+      {
+        "name": "mari_(idol)_(blue_archive)",
+        "count": 1390
+      },
+      {
+        "name": "shirasagi_chisato",
+        "count": 844
+      },
+      {
+        "name": "shirogane_miyuki",
+        "count": 578
+      },
+      {
+        "name": "remilia_scarlet",
+        "count": 60633
+      },
+      {
+        "name": "izayoi_sakuya",
+        "count": 52185
+      },
+      {
+        "name": "kagamine_rin",
+        "count": 25416
+      },
+      {
+        "name": "doodle_sensei_(blue_archive)",
+        "count": 20941
+      }
+    ]
+  },
+  "goddess_of_victory:_nikke": {
+    "cn": "胜利女神:NIKKE",
+    "existing": true,
+    "characters": [
+      {
+        "name": "anis_(nikke)",
+        "count": 3561
+      },
+      {
+        "name": "rapi_(nikke)",
+        "count": 2742
+      },
+      {
+        "name": "elegg_(nikke)",
+        "count": 2407
+      },
+      {
+        "name": "commander_(nikke)",
+        "count": 2455
+      },
+      {
+        "name": "cinderella_(nikke)",
+        "count": 2347
+      },
+      {
+        "name": "red_hood_(nikke)",
+        "count": 1603
+      },
+      {
+        "name": "rapi_(red_hood)_(nikke)",
+        "count": 1462
+      },
+      {
+        "name": "dorothy_(nikke)",
+        "count": 1257
+      },
+      {
+        "name": "viper_(nikke)",
+        "count": 1123
+      },
+      {
+        "name": "alice_(nikke)",
+        "count": 1172
+      },
+      {
+        "name": "blanc_(nikke)",
+        "count": 1034
+      },
+      {
+        "name": "helm_(nikke)",
+        "count": 1054
+      },
+      {
+        "name": "doro_(nikke)",
+        "count": 992
+      },
+      {
+        "name": "anis_(sparkling_summer)_(nikke)",
+        "count": 993
+      },
+      {
+        "name": "noir_(nikke)",
+        "count": 820
+      },
+      {
+        "name": "privaty_(nikke)",
+        "count": 948
+      },
+      {
+        "name": "label_(nikke)",
+        "count": 955
+      },
+      {
+        "name": "scarlet_(nikke)",
+        "count": 905
+      },
+      {
+        "name": "little_mermaid_(nikke)",
+        "count": 781
+      },
+      {
+        "name": "elegg_(boom_and_shock)_(nikke)",
+        "count": 785
+      },
+      {
+        "name": "bay_(nikke)",
+        "count": 708
+      },
+      {
+        "name": "sora_(nikke)",
+        "count": 657
+      },
+      {
+        "name": "nayuta_(nikke)",
+        "count": 573
+      },
+      {
+        "name": "snow_white_(nikke)",
+        "count": 772
+      },
+      {
+        "name": "soda_(nikke)",
+        "count": 770
+      },
+      {
+        "name": "ade_(nikke)",
+        "count": 646
+      },
+      {
+        "name": "arcana_(nikke)",
+        "count": 645
+      },
+      {
+        "name": "rupee_(nikke)",
+        "count": 615
+      },
+      {
+        "name": "d_(nikke)",
+        "count": 554
+      },
+      {
+        "name": "rapi_(red_hood)_(red_flavor)_(nikke)",
+        "count": 529
+      }
+    ]
+  },
+  "kimetsu_no_yaiba": {
+    "cn": "鬼灭之刃",
+    "existing": true,
+    "characters": [
+      {
+        "name": "kochou_shinobu",
+        "count": 3769
+      },
+      {
+        "name": "tomioka_giyuu",
+        "count": 3781
+      },
+      {
+        "name": "kamado_nezuko",
+        "count": 3334
+      },
+      {
+        "name": "kanroji_mitsuri",
+        "count": 2780
+      },
+      {
+        "name": "kamado_tanjirou",
+        "count": 2585
+      },
+      {
+        "name": "rengoku_kyoujurou",
+        "count": 1471
+      },
+      {
+        "name": "agatsuma_zenitsu",
+        "count": 1173
+      },
+      {
+        "name": "tsuyuri_kanao",
+        "count": 1044
+      },
+      {
+        "name": "shinazugawa_sanemi",
+        "count": 826
+      },
+      {
+        "name": "hashibira_inosuke",
+        "count": 770
+      },
+      {
+        "name": "tokitou_muichirou",
+        "count": 826
+      },
+      {
+        "name": "iguro_obanai",
+        "count": 585
+      },
+      {
+        "name": "douma_(kimetsu_no_yaiba)",
+        "count": 533
+      },
+      {
+        "name": "midoriya_izuku",
+        "count": 7944
+      },
+      {
+        "name": "monkey_d._luffy",
+        "count": 7843
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "uzumaki_naruto",
+        "count": 5351
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "yor_briar",
+        "count": 11209
+      },
+      {
+        "name": "nami_(one_piece)",
+        "count": 10299
+      },
+      {
+        "name": "link",
+        "count": 20057
+      },
+      {
+        "name": "pikachu",
+        "count": 16894
+      },
+      {
+        "name": "ibuki_suika",
+        "count": 15685
+      },
+      {
+        "name": "nekomata_okayu",
+        "count": 11397
+      },
+      {
+        "name": "rem_(re:zero)",
+        "count": 9988
+      },
+      {
+        "name": "denji_(chainsaw_man)",
+        "count": 7726
+      },
+      {
+        "name": "son_goku",
+        "count": 7030
+      },
+      {
+        "name": "bakugou_katsuki",
+        "count": 6894
+      },
+      {
+        "name": "power_(chainsaw_man)",
+        "count": 6503
+      },
+      {
+        "name": "uraraka_ochaco",
+        "count": 5751
+      }
+    ]
+  },
+  "jujutsu_kaisen": {
+    "cn": "咒术回战",
+    "existing": true,
+    "characters": [
+      {
+        "name": "gojo_satoru",
+        "count": 5484
+      },
+      {
+        "name": "itadori_yuji",
+        "count": 4205
+      },
+      {
+        "name": "fushiguro_megumi",
+        "count": 3315
+      },
+      {
+        "name": "geto_suguru",
+        "count": 2594
+      },
+      {
+        "name": "kugisaki_nobara",
+        "count": 2456
+      },
+      {
+        "name": "ryoumen_sukuna_(jujutsu_kaisen)",
+        "count": 2296
+      },
+      {
+        "name": "nanami_kento",
+        "count": 1910
+      },
+      {
+        "name": "zen'in_maki",
+        "count": 1305
+      },
+      {
+        "name": "fushiguro_toji",
+        "count": 1245
+      },
+      {
+        "name": "okkotsu_yuta",
+        "count": 1093
+      },
+      {
+        "name": "choso_(jujutsu_kaisen)",
+        "count": 761
+      },
+      {
+        "name": "todo_aoi_(jujutsu_kaisen)",
+        "count": 755
+      },
+      {
+        "name": "zen'in_maki_(post_shibuya)",
+        "count": 705
+      },
+      {
+        "name": "mahito_(jujutsu_kaisen)",
+        "count": 825
+      },
+      {
+        "name": "ieiri_shoko",
+        "count": 690
+      },
+      {
+        "name": "makima_(chainsaw_man)",
+        "count": 10640
+      },
+      {
+        "name": "denji_(chainsaw_man)",
+        "count": 7726
+      },
+      {
+        "name": "power_(chainsaw_man)",
+        "count": 6503
+      },
+      {
+        "name": "sensei_(blue_archive)",
+        "count": 36629
+      },
+      {
+        "name": "pochita_(chainsaw_man)",
+        "count": 2439
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "uzumaki_naruto",
+        "count": 5351
+      },
+      {
+        "name": "doodle_sensei_(blue_archive)",
+        "count": 20941
+      },
+      {
+        "name": "hoshino_(blue_archive)",
+        "count": 14467
+      },
+      {
+        "name": "hakurei_reimu",
+        "count": 96953
+      },
+      {
+        "name": "koharu_(blue_archive)",
+        "count": 9933
+      },
+      {
+        "name": "aris_(blue_archive)",
+        "count": 10945
+      },
+      {
+        "name": "hayakawa_aki",
+        "count": 2906
+      },
+      {
+        "name": "son_goku",
+        "count": 7030
+      },
+      {
+        "name": "agnes_tachyon_(umamusume)",
+        "count": 13299
+      }
+    ]
+  },
+  "re:zero_kara_hajimeru_isekai_seikatsu": {
+    "cn": "Re:Zero",
+    "existing": true,
+    "characters": [
+      {
+        "name": "rem_(re:zero)",
+        "count": 9988
+      },
+      {
+        "name": "emilia_(re:zero)",
+        "count": 4905
+      },
+      {
+        "name": "ram_(re:zero)",
+        "count": 3372
+      },
+      {
+        "name": "natsuki_subaru",
+        "count": 2943
+      },
+      {
+        "name": "beatrice_(re:zero)",
+        "count": 1411
+      },
+      {
+        "name": "echidna_(re:zero)",
+        "count": 885
+      },
+      {
+        "name": "puck_(re:zero)",
+        "count": 606
+      },
+      {
+        "name": "felix_argyle",
+        "count": 573
+      },
+      {
+        "name": "aqua_(konosuba)",
+        "count": 6487
+      },
+      {
+        "name": "megumin",
+        "count": 10337
+      },
+      {
+        "name": "astolfo_(fate)",
+        "count": 7544
+      },
+      {
+        "name": "satou_kazuma",
+        "count": 3381
+      },
+      {
+        "name": "tanya_degurechaff",
+        "count": 1300
+      },
+      {
+        "name": "albedo_(overlord)",
+        "count": 1544
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "kafuu_chino",
+        "count": 8111
+      },
+      {
+        "name": "mash_kyrielight",
+        "count": 20366
+      },
+      {
+        "name": "ayanami_rei",
+        "count": 10263
+      },
+      {
+        "name": "bridget_(guilty_gear)",
+        "count": 4291
+      },
+      {
+        "name": "raphtalia",
+        "count": 2674
+      },
+      {
+        "name": "chomusuke",
+        "count": 1056
+      },
+      {
+        "name": "soda_(nikke)",
+        "count": 770
+      },
+      {
+        "name": "ade_(nikke)",
+        "count": 646
+      },
+      {
+        "name": "artoria_pendragon_(fate)",
+        "count": 45514
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "hamakaze_(kancolle)",
+        "count": 10807
+      },
+      {
+        "name": "venti_(genshin_impact)",
+        "count": 8302
+      },
+      {
+        "name": "shuten_douji_(fate)",
+        "count": 7658
+      },
+      {
+        "name": "zero_two_(darling_in_the_franxx)",
+        "count": 4442
+      },
+      {
+        "name": "holo",
+        "count": 4302
+      }
+    ]
+  },
+  "sword_art_online": {
+    "cn": "刀剑神域",
+    "existing": true,
+    "characters": [
+      {
+        "name": "asuna_(sao)",
+        "count": 6021
+      },
+      {
+        "name": "kirito",
+        "count": 3663
+      },
+      {
+        "name": "sinon",
+        "count": 2275
+      },
+      {
+        "name": "kirigaya_suguha",
+        "count": 2128
+      },
+      {
+        "name": "leafa_(sao)",
+        "count": 1839
+      },
+      {
+        "name": "yuuki_(sao)",
+        "count": 1431
+      },
+      {
+        "name": "alice_zuberg",
+        "count": 1199
+      },
+      {
+        "name": "silica",
+        "count": 1197
+      },
+      {
+        "name": "lisbeth_(sao)",
+        "count": 775
+      },
+      {
+        "name": "asuna_(sao-alo)",
+        "count": 757
+      },
+      {
+        "name": "yui_(sao)",
+        "count": 548
+      },
+      {
+        "name": "eugeo",
+        "count": 618
+      },
+      {
+        "name": "kirito_(sao-ggo)",
+        "count": 582
+      },
+      {
+        "name": "sinon_(sao-alo)",
+        "count": 528
+      },
+      {
+        "name": "artoria_pendragon_(fate)",
+        "count": 45514
+      },
+      {
+        "name": "misaka_mikoto",
+        "count": 10611
+      },
+      {
+        "name": "kuroyukihime",
+        "count": 601
+      },
+      {
+        "name": "mash_kyrielight",
+        "count": 20366
+      },
+      {
+        "name": "mash_kyrielight_(dangerous_beast)",
+        "count": 2922
+      },
+      {
+        "name": "takanashi_rikka",
+        "count": 2408
+      },
+      {
+        "name": "hakurei_reimu",
+        "count": 96953
+      },
+      {
+        "name": "inoue_takina",
+        "count": 6609
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "kaname_madoka",
+        "count": 29275
+      },
+      {
+        "name": "saber_(fate)",
+        "count": 20933
+      }
+    ]
+  },
+  "one_piece": {
+    "cn": "海贼王",
+    "existing": true,
+    "characters": [
+      {
+        "name": "nami_(one_piece)",
+        "count": 10299
+      },
+      {
+        "name": "monkey_d._luffy",
+        "count": 7843
+      },
+      {
+        "name": "nico_robin",
+        "count": 7160
+      },
+      {
+        "name": "roronoa_zoro",
+        "count": 6249
+      },
+      {
+        "name": "sanji_(one_piece)",
+        "count": 5097
+      },
+      {
+        "name": "trafalgar_law",
+        "count": 3470
+      },
+      {
+        "name": "boa_hancock",
+        "count": 2090
+      },
+      {
+        "name": "yamato_(one_piece)",
+        "count": 2308
+      },
+      {
+        "name": "tony_tony_chopper",
+        "count": 2395
+      },
+      {
+        "name": "portgas_d._ace",
+        "count": 2067
+      },
+      {
+        "name": "usopp",
+        "count": 1792
+      },
+      {
+        "name": "perona",
+        "count": 1549
+      },
+      {
+        "name": "uta_(one_piece)",
+        "count": 1248
+      },
+      {
+        "name": "shanks_(one_piece)",
+        "count": 1210
+      },
+      {
+        "name": "donquixote_doflamingo",
+        "count": 1139
+      },
+      {
+        "name": "crocodile_(one_piece)",
+        "count": 1136
+      },
+      {
+        "name": "franky_(one_piece)",
+        "count": 1089
+      },
+      {
+        "name": "brook_(one_piece)",
+        "count": 1160
+      },
+      {
+        "name": "sabo_(one_piece)",
+        "count": 1223
+      },
+      {
+        "name": "nefertari_vivi",
+        "count": 896
+      },
+      {
+        "name": "smoker_(one_piece)",
+        "count": 765
+      },
+      {
+        "name": "dracule_mihawk",
+        "count": 829
+      },
+      {
+        "name": "buggy_the_clown",
+        "count": 956
+      },
+      {
+        "name": "eustass_kid",
+        "count": 638
+      },
+      {
+        "name": "donquixote_rocinante",
+        "count": 791
+      },
+      {
+        "name": "jinbe_(one_piece)",
+        "count": 772
+      },
+      {
+        "name": "ulti_(one_piece)",
+        "count": 715
+      },
+      {
+        "name": "carrot_(one_piece)",
+        "count": 588
+      },
+      {
+        "name": "silvers_rayleigh",
+        "count": 531
+      },
+      {
+        "name": "gol_d._roger",
+        "count": 510
+      }
+    ]
+  },
+  "naruto_(series)": {
+    "cn": "火影忍者",
+    "existing": true,
+    "characters": [
+      {
+        "name": "uzumaki_naruto",
+        "count": 5351
+      },
+      {
+        "name": "haruno_sakura",
+        "count": 5245
+      },
+      {
+        "name": "hyuuga_hinata",
+        "count": 4381
+      },
+      {
+        "name": "uchiha_sasuke",
+        "count": 4218
+      },
+      {
+        "name": "tsunade_(naruto)",
+        "count": 2322
+      },
+      {
+        "name": "hatake_kakashi",
+        "count": 1410
+      },
+      {
+        "name": "uchiha_sarada",
+        "count": 1228
+      },
+      {
+        "name": "yamanaka_ino",
+        "count": 1220
+      },
+      {
+        "name": "uzumaki_boruto",
+        "count": 1004
+      },
+      {
+        "name": "uchiha_itachi",
+        "count": 867
+      },
+      {
+        "name": "temari_(naruto)",
+        "count": 810
+      },
+      {
+        "name": "uchiha_obito",
+        "count": 619
+      },
+      {
+        "name": "deidara_(naruto)",
+        "count": 671
+      },
+      {
+        "name": "naruko_(naruto)",
+        "count": 627
+      },
+      {
+        "name": "nara_shikamaru",
+        "count": 614
+      },
+      {
+        "name": "sasori_(naruto)",
+        "count": 505
+      },
+      {
+        "name": "tenten_(naruto)",
+        "count": 577
+      },
+      {
+        "name": "monkey_d._luffy",
+        "count": 7843
+      },
+      {
+        "name": "matsumoto_rangiku",
+        "count": 1946
+      },
+      {
+        "name": "son_goku",
+        "count": 7030
+      },
+      {
+        "name": "nami_(one_piece)",
+        "count": 10299
+      },
+      {
+        "name": "kurosaki_ichigo",
+        "count": 2867
+      },
+      {
+        "name": "midoriya_izuku",
+        "count": 7944
+      },
+      {
+        "name": "itadori_yuji",
+        "count": 4205
+      },
+      {
+        "name": "sakata_gintoki",
+        "count": 2712
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "pikachu",
+        "count": 16894
+      }
+    ]
+  },
+  "pokemon_(series)": {
+    "cn": "宝可梦",
+    "existing": true,
+    "characters": []
+  },
+  "love_live!": {
+    "cn": "LoveLive",
+    "existing": true,
+    "characters": [
+      {
+        "name": "hinoshita_kaho",
+        "count": 8549
+      },
+      {
+        "name": "nishikino_maki",
+        "count": 8329
+      },
+      {
+        "name": "sonoda_umi",
+        "count": 7694
+      },
+      {
+        "name": "yazawa_nico",
+        "count": 7734
+      },
+      {
+        "name": "ayase_eli",
+        "count": 7223
+      },
+      {
+        "name": "tojo_nozomi",
+        "count": 7748
+      },
+      {
+        "name": "fujishima_megumi",
+        "count": 7250
+      },
+      {
+        "name": "watanabe_you",
+        "count": 6719
+      },
+      {
+        "name": "momose_ginko",
+        "count": 6776
+      },
+      {
+        "name": "murano_sayaka",
+        "count": 6627
+      },
+      {
+        "name": "otomune_kozue",
+        "count": 6838
+      },
+      {
+        "name": "minami_kotori",
+        "count": 5826
+      },
+      {
+        "name": "osawa_rurino",
+        "count": 6237
+      },
+      {
+        "name": "kachimachi_kosuzu",
+        "count": 5141
+      },
+      {
+        "name": "anyoji_hime",
+        "count": 5541
+      },
+      {
+        "name": "kosaka_honoka",
+        "count": 5236
+      },
+      {
+        "name": "yugiri_tsuzuri",
+        "count": 5528
+      },
+      {
+        "name": "hoshizora_rin",
+        "count": 5082
+      },
+      {
+        "name": "sakurauchi_riko",
+        "count": 4327
+      },
+      {
+        "name": "tsushima_yoshiko",
+        "count": 4546
+      },
+      {
+        "name": "koizumi_hanayo",
+        "count": 4205
+      },
+      {
+        "name": "takami_chika",
+        "count": 4017
+      },
+      {
+        "name": "yuki_setsuna",
+        "count": 3430
+      },
+      {
+        "name": "matsuura_kanan",
+        "count": 3194
+      },
+      {
+        "name": "uehara_ayumu",
+        "count": 3488
+      },
+      {
+        "name": "kurosawa_ruby",
+        "count": 2843
+      },
+      {
+        "name": "kurosawa_dia",
+        "count": 3038
+      },
+      {
+        "name": "ohara_mari",
+        "count": 2577
+      },
+      {
+        "name": "kunikida_hanamaru",
+        "count": 2818
+      },
+      {
+        "name": "takasaki_yu",
+        "count": 2782
+      }
+    ]
+  },
+  "kono_subarashii_sekai_ni_shukufuku_wo!": {
+    "cn": "为美好世界献上祝福",
+    "existing": true,
+    "characters": [
+      {
+        "name": "megumin",
+        "count": 10337
+      },
+      {
+        "name": "aqua_(konosuba)",
+        "count": 6487
+      },
+      {
+        "name": "satou_kazuma",
+        "count": 3381
+      },
+      {
+        "name": "darkness_(konosuba)",
+        "count": 3340
+      },
+      {
+        "name": "yunyun_(konosuba)",
+        "count": 1591
+      },
+      {
+        "name": "wiz_(konosuba)",
+        "count": 1108
+      },
+      {
+        "name": "chomusuke",
+        "count": 1056
+      },
+      {
+        "name": "iris_(konosuba)",
+        "count": 523
+      },
+      {
+        "name": "rem_(re:zero)",
+        "count": 9988
+      },
+      {
+        "name": "emilia_(re:zero)",
+        "count": 4905
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "ram_(re:zero)",
+        "count": 3372
+      },
+      {
+        "name": "natsuki_subaru",
+        "count": 2943
+      },
+      {
+        "name": "tanya_degurechaff",
+        "count": 1300
+      },
+      {
+        "name": "artoria_pendragon_(fate)",
+        "count": 45514
+      },
+      {
+        "name": "gawr_gura",
+        "count": 16285
+      },
+      {
+        "name": "princess_zelda",
+        "count": 16075
+      },
+      {
+        "name": "roxy_migurdia",
+        "count": 2413
+      },
+      {
+        "name": "albedo_(overlord)",
+        "count": 1544
+      },
+      {
+        "name": "raphtalia",
+        "count": 2674
+      },
+      {
+        "name": "puck_(re:zero)",
+        "count": 606
+      },
+      {
+        "name": "saber_(fate)",
+        "count": 20933
+      },
+      {
+        "name": "misaka_mikoto",
+        "count": 10611
+      },
+      {
+        "name": "tatsumaki",
+        "count": 4877
+      },
+      {
+        "name": "tohru_(maidragon)",
+        "count": 2130
+      },
+      {
+        "name": "katsuragi_misato",
+        "count": 2045
+      },
+      {
+        "name": "rimuru_tempest",
+        "count": 1424
+      },
+      {
+        "name": "link",
+        "count": 20057
+      },
+      {
+        "name": "souryuu_asuka_langley",
+        "count": 17132
+      },
+      {
+        "name": "gawr_gura_(1st_costume)",
+        "count": 7540
+      }
+    ]
+  },
+  "kantai_collection": {
+    "cn": "舰队Collection",
+    "existing": false,
+    "characters": [
+      {
+        "name": "admiral_(kancolle)",
+        "count": 38852
+      },
+      {
+        "name": "kaga_(kancolle)",
+        "count": 22100
+      },
+      {
+        "name": "shimakaze_(kancolle)",
+        "count": 20435
+      },
+      {
+        "name": "shigure_(kancolle)",
+        "count": 17655
+      },
+      {
+        "name": "hibiki_(kancolle)",
+        "count": 17905
+      },
+      {
+        "name": "kongou_(kancolle)",
+        "count": 14000
+      },
+      {
+        "name": "inazuma_(kancolle)",
+        "count": 13514
+      },
+      {
+        "name": "akagi_(kancolle)",
+        "count": 12944
+      },
+      {
+        "name": "yuudachi_(kancolle)",
+        "count": 12118
+      },
+      {
+        "name": "shigure_kai_ni_(kancolle)",
+        "count": 11547
+      },
+      {
+        "name": "fubuki_(kancolle)",
+        "count": 12827
+      },
+      {
+        "name": "hamakaze_(kancolle)",
+        "count": 10807
+      },
+      {
+        "name": "tenryuu_(kancolle)",
+        "count": 11970
+      },
+      {
+        "name": "ikazuchi_(kancolle)",
+        "count": 11399
+      },
+      {
+        "name": "zuikaku_(kancolle)",
+        "count": 10714
+      },
+      {
+        "name": "nagato_(kancolle)",
+        "count": 9802
+      },
+      {
+        "name": "haruna_(kancolle)",
+        "count": 10319
+      },
+      {
+        "name": "yuudachi_kai_ni_(kancolle)",
+        "count": 9903
+      },
+      {
+        "name": "akatsuki_(kancolle)",
+        "count": 10654
+      },
+      {
+        "name": "ryuujou_(kancolle)",
+        "count": 8910
+      },
+      {
+        "name": "kashima_(kancolle)",
+        "count": 9950
+      },
+      {
+        "name": "suzuya_(kancolle)",
+        "count": 9334
+      },
+      {
+        "name": "murakumo_(kancolle)",
+        "count": 7716
+      },
+      {
+        "name": "houshou_(kancolle)",
+        "count": 8275
+      },
+      {
+        "name": "northern_ocean_princess",
+        "count": 6757
+      },
+      {
+        "name": "akebono_(kancolle)",
+        "count": 6944
+      },
+      {
+        "name": "asashio_(kancolle)",
+        "count": 6235
+      },
+      {
+        "name": "takao_(kancolle)",
+        "count": 5600
+      },
+      {
+        "name": "ushio_(kancolle)",
+        "count": 7415
+      },
+      {
+        "name": "amatsukaze_(kancolle)",
+        "count": 7704
+      }
+    ]
+  },
+  "idolmaster": {
+    "cn": "偶像大师",
+    "existing": false,
+    "characters": [
+      {
+        "name": "producer_(idolmaster)",
+        "count": 11246
+      },
+      {
+        "name": "shibuya_rin",
+        "count": 7434
+      },
+      {
+        "name": "higuchi_madoka",
+        "count": 5871
+      },
+      {
+        "name": "kisaragi_chihaya",
+        "count": 6611
+      },
+      {
+        "name": "hoshii_miki",
+        "count": 6717
+      },
+      {
+        "name": "amami_haruka",
+        "count": 6164
+      },
+      {
+        "name": "kikuchi_makoto",
+        "count": 5668
+      },
+      {
+        "name": "shinosawa_hiro",
+        "count": 6381
+      },
+      {
+        "name": "yumemi_riamu",
+        "count": 5558
+      },
+      {
+        "name": "shijou_takane",
+        "count": 5542
+      },
+      {
+        "name": "minase_iori",
+        "count": 5039
+      },
+      {
+        "name": "shirasaka_koume",
+        "count": 5404
+      },
+      {
+        "name": "fujita_kotone",
+        "count": 3915
+      },
+      {
+        "name": "futaba_anzu",
+        "count": 4096
+      },
+      {
+        "name": "kanzaki_ranko",
+        "count": 3981
+      },
+      {
+        "name": "mayuzumi_fuyuko",
+        "count": 3879
+      },
+      {
+        "name": "takagaki_kaede",
+        "count": 4619
+      },
+      {
+        "name": "sagisawa_fumika",
+        "count": 4760
+      },
+      {
+        "name": "nitta_minami",
+        "count": 3703
+      },
+      {
+        "name": "shimamura_uzuki",
+        "count": 4861
+      },
+      {
+        "name": "jougasaki_mika",
+        "count": 4132
+      },
+      {
+        "name": "tachibana_arisu",
+        "count": 4985
+      },
+      {
+        "name": "anastasia_(idolmaster)",
+        "count": 3537
+      },
+      {
+        "name": "koshimizu_sachiko",
+        "count": 3601
+      },
+      {
+        "name": "hachimiya_meguru",
+        "count": 2739
+      },
+      {
+        "name": "ganaha_hibiki",
+        "count": 4698
+      },
+      {
+        "name": "miura_azusa",
+        "count": 3458
+      },
+      {
+        "name": "takatsuki_yayoi",
+        "count": 4428
+      },
+      {
+        "name": "sakurai_momoka",
+        "count": 3465
+      },
+      {
+        "name": "ichinose_shiki",
+        "count": 3878
+      }
+    ]
+  },
+  "bang_dream!": {
+    "cn": "BanG Dream!",
+    "existing": false,
+    "characters": [
+      {
+        "name": "togawa_sakiko",
+        "count": 10597
+      },
+      {
+        "name": "chihaya_anon",
+        "count": 10101
+      },
+      {
+        "name": "nagasaki_soyo",
+        "count": 8913
+      },
+      {
+        "name": "shiina_taki",
+        "count": 7431
+      },
+      {
+        "name": "misumi_uika",
+        "count": 7030
+      },
+      {
+        "name": "wakaba_mutsumi",
+        "count": 7131
+      },
+      {
+        "name": "yahata_umiri",
+        "count": 6792
+      },
+      {
+        "name": "takamatsu_tomori",
+        "count": 4740
+      },
+      {
+        "name": "kaname_raana",
+        "count": 3048
+      },
+      {
+        "name": "mortis_(bang_dream!)",
+        "count": 2749
+      },
+      {
+        "name": "yuutenji_nyamu",
+        "count": 2767
+      },
+      {
+        "name": "oblivionis_(bang_dream!)",
+        "count": 2343
+      },
+      {
+        "name": "mortis_(costume)_(bang_dream!)",
+        "count": 2204
+      },
+      {
+        "name": "hikawa_sayo",
+        "count": 2374
+      },
+      {
+        "name": "hikawa_hina",
+        "count": 1996
+      },
+      {
+        "name": "doloris_(bang_dream!)",
+        "count": 1682
+      },
+      {
+        "name": "mitake_ran",
+        "count": 1570
+      },
+      {
+        "name": "timoris_(bang_dream!)",
+        "count": 1269
+      },
+      {
+        "name": "imai_lisa",
+        "count": 1303
+      },
+      {
+        "name": "tsurumaki_kokoro",
+        "count": 1219
+      },
+      {
+        "name": "mortis_(persona)_(bang_dream!)",
+        "count": 1157
+      },
+      {
+        "name": "aoba_moca",
+        "count": 1232
+      },
+      {
+        "name": "okusawa_misaki",
+        "count": 1132
+      },
+      {
+        "name": "minato_yukina",
+        "count": 1225
+      },
+      {
+        "name": "maruyama_aya",
+        "count": 1192
+      },
+      {
+        "name": "matsubara_kanon",
+        "count": 1048
+      },
+      {
+        "name": "shirokane_rinko",
+        "count": 954
+      },
+      {
+        "name": "ichigaya_arisa",
+        "count": 933
+      },
+      {
+        "name": "amoris_(bang_dream!)",
+        "count": 782
+      },
+      {
+        "name": "toyama_kasumi",
+        "count": 851
+      }
+    ]
+  },
+  "mahou_shoujo_madoka_magica": {
+    "cn": "魔法少女小圆",
+    "existing": false,
+    "characters": [
+      {
+        "name": "kaname_madoka",
+        "count": 29275
+      },
+      {
+        "name": "akemi_homura",
+        "count": 29385
+      },
+      {
+        "name": "miki_sayaka",
+        "count": 19890
+      },
+      {
+        "name": "tomoe_mami",
+        "count": 16670
+      },
+      {
+        "name": "sakura_kyoko",
+        "count": 16927
+      },
+      {
+        "name": "akemi_homura_(magical_girl)",
+        "count": 12974
+      },
+      {
+        "name": "kaname_madoka_(magical_girl)",
+        "count": 10363
+      },
+      {
+        "name": "kyubey",
+        "count": 9298
+      },
+      {
+        "name": "tomoe_mami_(magical_girl)",
+        "count": 8991
+      },
+      {
+        "name": "miki_sayaka_(magical_girl)",
+        "count": 8653
+      },
+      {
+        "name": "sakura_kyoko_(magical_girl)",
+        "count": 7008
+      },
+      {
+        "name": "ultimate_madoka",
+        "count": 4851
+      },
+      {
+        "name": "charlotte_(madoka_magica)",
+        "count": 3056
+      },
+      {
+        "name": "akuma_homura",
+        "count": 2769
+      },
+      {
+        "name": "tamaki_iroha",
+        "count": 2582
+      },
+      {
+        "name": "nanami_yachiyo",
+        "count": 1250
+      },
+      {
+        "name": "momoe_nagisa",
+        "count": 1432
+      },
+      {
+        "name": "alina_gray",
+        "count": 1284
+      },
+      {
+        "name": "oktavia_von_seckendorff",
+        "count": 1061
+      },
+      {
+        "name": "misono_karin",
+        "count": 823
+      },
+      {
+        "name": "futaba_sana",
+        "count": 743
+      },
+      {
+        "name": "akemi_homura_(black_dress)",
+        "count": 679
+      },
+      {
+        "name": "shizuki_hitomi",
+        "count": 575
+      },
+      {
+        "name": "yui_tsuruno",
+        "count": 574
+      },
+      {
+        "name": "mitsuki_felicia",
+        "count": 519
+      },
+      {
+        "name": "momoe_nagisa_(magical_girl)",
+        "count": 571
+      },
+      {
+        "name": "minami_rena",
+        "count": 561
+      },
+      {
+        "name": "walpurgisnacht_(madoka_magica)",
+        "count": 562
+      },
+      {
+        "name": "tamaki_ui",
+        "count": 550
+      },
+      {
+        "name": "togame_momoko",
+        "count": 525
+      }
+    ]
+  },
+  "neon_genesis_evangelion": {
+    "cn": "EVA新世纪福音战士",
+    "existing": false,
+    "characters": [
+      {
+        "name": "souryuu_asuka_langley",
+        "count": 17132
+      },
+      {
+        "name": "ayanami_rei",
+        "count": 10263
+      },
+      {
+        "name": "ikari_shinji",
+        "count": 6046
+      },
+      {
+        "name": "nagisa_kaworu",
+        "count": 4287
+      },
+      {
+        "name": "makinami_mari_illustrious",
+        "count": 2787
+      },
+      {
+        "name": "katsuragi_misato",
+        "count": 2045
+      },
+      {
+        "name": "eva_02",
+        "count": 1131
+      },
+      {
+        "name": "eva_01",
+        "count": 1098
+      },
+      {
+        "name": "akagi_ritsuko",
+        "count": 577
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "yoko_littner",
+        "count": 5389
+      },
+      {
+        "name": "godzilla",
+        "count": 1622
+      },
+      {
+        "name": "kaname_madoka",
+        "count": 29275
+      },
+      {
+        "name": "suzumiya_haruhi",
+        "count": 10948
+      },
+      {
+        "name": "nagato_yuki",
+        "count": 9232
+      },
+      {
+        "name": "samus_aran",
+        "count": 7688
+      },
+      {
+        "name": "nadia_la_arwall",
+        "count": 1114
+      },
+      {
+        "name": "hakurei_reimu",
+        "count": 96953
+      },
+      {
+        "name": "akemi_homura",
+        "count": 29385
+      },
+      {
+        "name": "d.va_(overwatch)",
+        "count": 5300
+      },
+      {
+        "name": "nia_teppelin",
+        "count": 3182
+      },
+      {
+        "name": "katsuragi_(kancolle)",
+        "count": 1919
+      },
+      {
+        "name": "admiral_(kancolle)",
+        "count": 38852
+      },
+      {
+        "name": "kongou_(kancolle)",
+        "count": 14000
+      },
+      {
+        "name": "akemi_homura_(magical_girl)",
+        "count": 12974
+      },
+      {
+        "name": "2b_(nier:automata)",
+        "count": 12074
+      },
+      {
+        "name": "akiyama_mio",
+        "count": 10513
+      },
+      {
+        "name": "kaname_madoka_(magical_girl)",
+        "count": 10363
+      },
+      {
+        "name": "kiana_kaslana",
+        "count": 7474
+      },
+      {
+        "name": "izumi_konata",
+        "count": 6403
+      }
+    ]
+  },
+  "dragon_ball": {
+    "cn": "龙珠",
+    "existing": false,
+    "characters": [
+      {
+        "name": "son_goku",
+        "count": 7030
+      },
+      {
+        "name": "vegeta",
+        "count": 3145
+      },
+      {
+        "name": "android_18",
+        "count": 2905
+      },
+      {
+        "name": "bulma",
+        "count": 2423
+      },
+      {
+        "name": "son_gohan",
+        "count": 2358
+      },
+      {
+        "name": "chi-chi_(dragon_ball)",
+        "count": 1819
+      },
+      {
+        "name": "android_21",
+        "count": 1902
+      },
+      {
+        "name": "gogeta",
+        "count": 1416
+      },
+      {
+        "name": "trunks_(dragon_ball)",
+        "count": 1462
+      },
+      {
+        "name": "pan_(dragon_ball)",
+        "count": 1170
+      },
+      {
+        "name": "vegetto",
+        "count": 1074
+      },
+      {
+        "name": "piccolo",
+        "count": 1127
+      },
+      {
+        "name": "videl",
+        "count": 996
+      },
+      {
+        "name": "majin_android_21",
+        "count": 1003
+      },
+      {
+        "name": "son_goten",
+        "count": 805
+      },
+      {
+        "name": "kuririn",
+        "count": 895
+      },
+      {
+        "name": "trunks_(future)_(dragon_ball)",
+        "count": 755
+      },
+      {
+        "name": "broly_(dragon_ball_super)",
+        "count": 721
+      },
+      {
+        "name": "frieza",
+        "count": 718
+      },
+      {
+        "name": "broly_(dragon_ball_z)",
+        "count": 604
+      },
+      {
+        "name": "bardock",
+        "count": 501
+      },
+      {
+        "name": "caulifla",
+        "count": 534
+      },
+      {
+        "name": "sonic_the_hedgehog",
+        "count": 5951
+      },
+      {
+        "name": "hakurei_reimu",
+        "count": 96953
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "cirno",
+        "count": 39834
+      },
+      {
+        "name": "flandre_scarlet",
+        "count": 61038
+      },
+      {
+        "name": "izayoi_sakuya",
+        "count": 52185
+      },
+      {
+        "name": "gardevoir",
+        "count": 17136
+      },
+      {
+        "name": "uzumaki_naruto",
+        "count": 5351
+      }
+    ]
+  },
+  "attack_on_titan": {
+    "cn": "进击的巨人",
+    "existing": false,
+    "characters": [
+      {
+        "name": "mikasa_ackerman",
+        "count": 4553
+      },
+      {
+        "name": "eren_yeager",
+        "count": 4064
+      },
+      {
+        "name": "levi_(shingeki_no_kyojin)",
+        "count": 2513
+      },
+      {
+        "name": "krista_lenz",
+        "count": 2064
+      },
+      {
+        "name": "armin_arlert",
+        "count": 1615
+      },
+      {
+        "name": "ymir_(shingeki_no_kyojin)",
+        "count": 1604
+      },
+      {
+        "name": "reiner_braun",
+        "count": 1595
+      },
+      {
+        "name": "annie_leonhart",
+        "count": 1205
+      },
+      {
+        "name": "titan_(shingeki_no_kyojin)",
+        "count": 976
+      },
+      {
+        "name": "hange_zoe",
+        "count": 1024
+      },
+      {
+        "name": "erwin_smith",
+        "count": 793
+      },
+      {
+        "name": "bertolt_hoover",
+        "count": 773
+      },
+      {
+        "name": "sasha_blouse",
+        "count": 714
+      },
+      {
+        "name": "jean_kirstein",
+        "count": 665
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "konpaku_youmu",
+        "count": 40101
+      },
+      {
+        "name": "hakurei_reimu",
+        "count": 96953
+      },
+      {
+        "name": "saitama_(one-punch_man)",
+        "count": 2080
+      },
+      {
+        "name": "kirisame_marisa",
+        "count": 84592
+      },
+      {
+        "name": "saigyouji_yuyuko",
+        "count": 27505
+      },
+      {
+        "name": "ibuki_suika",
+        "count": 15685
+      },
+      {
+        "name": "2b_(nier:automata)",
+        "count": 12074
+      },
+      {
+        "name": "matoi_ryuuko",
+        "count": 8667
+      },
+      {
+        "name": "izayoi_sakuya",
+        "count": 52185
+      },
+      {
+        "name": "artoria_pendragon_(fate)",
+        "count": 45514
+      },
+      {
+        "name": "kochiya_sanae",
+        "count": 40362
+      },
+      {
+        "name": "pikachu",
+        "count": 16894
+      },
+      {
+        "name": "remilia_scarlet",
+        "count": 60633
+      },
+      {
+        "name": "cirno",
+        "count": 39834
+      },
+      {
+        "name": "tifa_lockhart",
+        "count": 16180
+      }
+    ]
+  },
+  "honkai_impact_3rd": {
+    "cn": "崩坏3rd",
+    "existing": false,
+    "characters": [
+      {
+        "name": "elysia_(honkai_impact)",
+        "count": 12683
+      },
+      {
+        "name": "kiana_kaslana",
+        "count": 7474
+      },
+      {
+        "name": "raiden_mei",
+        "count": 5574
+      },
+      {
+        "name": "fu_hua",
+        "count": 5068
+      },
+      {
+        "name": "elysia_(herrscher_of_human:_ego)_(honkai_impact)",
+        "count": 4435
+      },
+      {
+        "name": "bronya_zaychik",
+        "count": 4804
+      },
+      {
+        "name": "elysia_(miss_pink_elf)_(honkai_impact)",
+        "count": 4089
+      },
+      {
+        "name": "seele_vollerei",
+        "count": 3462
+      },
+      {
+        "name": "yae_sakura",
+        "count": 2589
+      },
+      {
+        "name": "theresa_apocalypse",
+        "count": 2642
+      },
+      {
+        "name": "rita_rossweisse",
+        "count": 2088
+      },
+      {
+        "name": "herrscher_of_sentience",
+        "count": 2054
+      },
+      {
+        "name": "mobius_(honkai_impact)",
+        "count": 1799
+      },
+      {
+        "name": "elysia_(hi_love_elf)_(honkai_impact)",
+        "count": 1760
+      },
+      {
+        "name": "raiden_mei_(herrscher_of_thunder)",
+        "count": 1592
+      },
+      {
+        "name": "bronya_zaychik_(silverwing:_n-ex)",
+        "count": 1660
+      },
+      {
+        "name": "kiana_kaslana_(herrscher_of_finality)",
+        "count": 1534
+      },
+      {
+        "name": "captain_(honkai_impact)",
+        "count": 1385
+      },
+      {
+        "name": "durandal_(honkai_impact)",
+        "count": 1319
+      },
+      {
+        "name": "eden_(honkai_impact)",
+        "count": 1384
+      },
+      {
+        "name": "seele_(alter_ego)",
+        "count": 1370
+      },
+      {
+        "name": "murata_himeko",
+        "count": 1486
+      },
+      {
+        "name": "homu_(honkai_impact)",
+        "count": 1423
+      },
+      {
+        "name": "kiana_kaslana_(herrscher_of_flamescion)",
+        "count": 1103
+      },
+      {
+        "name": "griseo",
+        "count": 1126
+      },
+      {
+        "name": "aponia",
+        "count": 1187
+      },
+      {
+        "name": "kiana_kaslana_(herrscher_of_the_void)",
+        "count": 874
+      },
+      {
+        "name": "rozaliya_olenyeva",
+        "count": 986
+      },
+      {
+        "name": "yae_sakura_(gyakushinn_miko)",
+        "count": 828
+      },
+      {
+        "name": "kevin_kaslana",
+        "count": 885
+      }
+    ]
+  },
+  "girls_frontline": {
+    "cn": "少女前线",
+    "existing": false,
+    "characters": [
+      {
+        "name": "hk416_(girls'_frontline)",
+        "count": 6597
+      },
+      {
+        "name": "ump45_(girls'_frontline)",
+        "count": 4501
+      },
+      {
+        "name": "wa2000_(girls'_frontline)",
+        "count": 3154
+      },
+      {
+        "name": "ump9_(girls'_frontline)",
+        "count": 2803
+      },
+      {
+        "name": "commander_(girls'_frontline)",
+        "count": 2562
+      },
+      {
+        "name": "springfield_(girls'_frontline)",
+        "count": 2541
+      },
+      {
+        "name": "ak-12_(girls'_frontline)",
+        "count": 2479
+      },
+      {
+        "name": "g11_(girls'_frontline)",
+        "count": 2161
+      },
+      {
+        "name": "an-94_(girls'_frontline)",
+        "count": 2244
+      },
+      {
+        "name": "m200_(girls'_frontline)",
+        "count": 1846
+      },
+      {
+        "name": "m16a1_(girls'_frontline)",
+        "count": 1853
+      },
+      {
+        "name": "m4_sopmod_ii_(girls'_frontline)",
+        "count": 1824
+      },
+      {
+        "name": "m4a1_(girls'_frontline)",
+        "count": 1872
+      },
+      {
+        "name": "ro635_(girls'_frontline)",
+        "count": 1485
+      },
+      {
+        "name": "suomi_(girls'_frontline)",
+        "count": 1407
+      },
+      {
+        "name": "st_ar-15_(girls'_frontline)",
+        "count": 1685
+      },
+      {
+        "name": "rpk-16_(girls'_frontline)",
+        "count": 1438
+      },
+      {
+        "name": "ak-15_(girls'_frontline)",
+        "count": 1149
+      },
+      {
+        "name": "g36_(girls'_frontline)",
+        "count": 1201
+      },
+      {
+        "name": "klukai_(girls'_frontline_2)",
+        "count": 1029
+      },
+      {
+        "name": "vsk-94_(girls'_frontline)",
+        "count": 877
+      },
+      {
+        "name": "ots-14_(girls'_frontline)",
+        "count": 1120
+      },
+      {
+        "name": "type_95_(girls'_frontline)",
+        "count": 1143
+      },
+      {
+        "name": "dinergate_(girls'_frontline)",
+        "count": 1022
+      },
+      {
+        "name": "female_commander_(girls'_frontline)",
+        "count": 859
+      },
+      {
+        "name": "negev_(girls'_frontline)",
+        "count": 786
+      },
+      {
+        "name": "spas-12_(girls'_frontline)",
+        "count": 977
+      },
+      {
+        "name": "p90_(girls'_frontline)",
+        "count": 879
+      },
+      {
+        "name": "g41_(girls'_frontline)",
+        "count": 826
+      },
+      {
+        "name": "kalina_(girls'_frontline)",
+        "count": 1027
+      }
+    ]
+  },
+  "umamusume": {
+    "cn": "赛马娘",
+    "existing": false,
+    "characters": [
+      {
+        "name": "trainer_(umamusume)",
+        "count": 13723
+      },
+      {
+        "name": "agnes_tachyon_(umamusume)",
+        "count": 13299
+      },
+      {
+        "name": "manhattan_cafe_(umamusume)",
+        "count": 12309
+      },
+      {
+        "name": "gold_ship_(umamusume)",
+        "count": 9955
+      },
+      {
+        "name": "rice_shower_(umamusume)",
+        "count": 9444
+      },
+      {
+        "name": "mejiro_mcqueen_(umamusume)",
+        "count": 8269
+      },
+      {
+        "name": "daiwa_scarlet_(umamusume)",
+        "count": 8488
+      },
+      {
+        "name": "silence_suzuka_(umamusume)",
+        "count": 6069
+      },
+      {
+        "name": "tokai_teio_(umamusume)",
+        "count": 6852
+      },
+      {
+        "name": "nice_nature_(umamusume)",
+        "count": 5326
+      },
+      {
+        "name": "satono_diamond_(umamusume)",
+        "count": 5304
+      },
+      {
+        "name": "oguri_cap_(umamusume)",
+        "count": 6289
+      },
+      {
+        "name": "symboli_rudolf_(umamusume)",
+        "count": 4910
+      },
+      {
+        "name": "agnes_tachyon_(tach-nology)_(umamusume)",
+        "count": 5137
+      },
+      {
+        "name": "kitasan_black_(umamusume)",
+        "count": 4906
+      },
+      {
+        "name": "special_week_(umamusume)",
+        "count": 4728
+      },
+      {
+        "name": "king_halo_(umamusume)",
+        "count": 3788
+      },
+      {
+        "name": "haru_urara_(umamusume)",
+        "count": 4279
+      },
+      {
+        "name": "t-head_trainer_(umamusume)",
+        "count": 3783
+      },
+      {
+        "name": "t.m._opera_o_(umamusume)",
+        "count": 3726
+      },
+      {
+        "name": "gentildonna_(umamusume)",
+        "count": 3668
+      },
+      {
+        "name": "curren_chan_(umamusume)",
+        "count": 4401
+      },
+      {
+        "name": "vodka_(umamusume)",
+        "count": 3477
+      },
+      {
+        "name": "seiun_sky_(umamusume)",
+        "count": 3299
+      },
+      {
+        "name": "admire_vega_(umamusume)",
+        "count": 3891
+      },
+      {
+        "name": "tamamo_cross_(umamusume)",
+        "count": 3872
+      },
+      {
+        "name": "cheval_grand_(umamusume)",
+        "count": 3837
+      },
+      {
+        "name": "mayano_top_gun_(umamusume)",
+        "count": 3513
+      },
+      {
+        "name": "mihono_bourbon_(umamusume)",
+        "count": 3703
+      },
+      {
+        "name": "narita_brian_(umamusume)",
+        "count": 2682
+      }
+    ]
+  },
+  "lycoris_recoil": {
+    "cn": "Lycoris Recoil 莉可丽丝",
+    "existing": false,
+    "characters": [
+      {
+        "name": "nishikigi_chisato",
+        "count": 8223
+      },
+      {
+        "name": "inoue_takina",
+        "count": 6609
+      },
+      {
+        "name": "kurumi_(lycoris_recoil)",
+        "count": 522
+      },
+      {
+        "name": "kousaka_reina",
+        "count": 1793
+      },
+      {
+        "name": "gotoh_hitori",
+        "count": 17547
+      },
+      {
+        "name": "chitanda_eru",
+        "count": 2800
+      },
+      {
+        "name": "suletta_mercury",
+        "count": 7908
+      },
+      {
+        "name": "akemi_homura",
+        "count": 29385
+      },
+      {
+        "name": "akiyama_mio",
+        "count": 10513
+      },
+      {
+        "name": "miorine_rembran",
+        "count": 7151
+      },
+      {
+        "name": "kitashirakawa_tamako",
+        "count": 1059
+      },
+      {
+        "name": "akemi_homura_(magical_girl)",
+        "count": 12974
+      },
+      {
+        "name": "shibuya_rin",
+        "count": 7434
+      },
+      {
+        "name": "shirai_kuroko",
+        "count": 3910
+      },
+      {
+        "name": "oumae_kumiko",
+        "count": 2599
+      },
+      {
+        "name": "kyubey",
+        "count": 9298
+      },
+      {
+        "name": "hoshimachi_suisei",
+        "count": 14848
+      },
+      {
+        "name": "rem_(re:zero)",
+        "count": 9988
+      },
+      {
+        "name": "awa_subaru",
+        "count": 3224
+      },
+      {
+        "name": "shirokane_rinko",
+        "count": 954
+      },
+      {
+        "name": "gold_ship_(umamusume)",
+        "count": 9955
+      },
+      {
+        "name": "yamada_ryo",
+        "count": 6407
+      },
+      {
+        "name": "commander_(nikke)",
+        "count": 2455
+      },
+      {
+        "name": "kaname_madoka",
+        "count": 29275
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "hoshino_(blue_archive)",
+        "count": 14467
+      },
+      {
+        "name": "ninomae_ina'nis",
+        "count": 12261
+      },
+      {
+        "name": "nishizumi_miho",
+        "count": 10512
+      },
+      {
+        "name": "fern_(sousou_no_frieren)",
+        "count": 9368
+      },
+      {
+        "name": "mejiro_mcqueen_(umamusume)",
+        "count": 8269
+      }
+    ]
+  },
+  "my_hero_academia": {
+    "cn": "我的英雄学院",
+    "existing": false,
+    "characters": [
+      {
+        "name": "midoriya_izuku",
+        "count": 7944
+      },
+      {
+        "name": "bakugou_katsuki",
+        "count": 6894
+      },
+      {
+        "name": "mirko",
+        "count": 6188
+      },
+      {
+        "name": "uraraka_ochaco",
+        "count": 5751
+      },
+      {
+        "name": "toga_himiko",
+        "count": 3705
+      },
+      {
+        "name": "todoroki_shoto",
+        "count": 2762
+      },
+      {
+        "name": "endeavor_(boku_no_hero_academia)",
+        "count": 2451
+      },
+      {
+        "name": "asui_tsuyu",
+        "count": 2521
+      },
+      {
+        "name": "yaoyorozu_momo",
+        "count": 2390
+      },
+      {
+        "name": "hawks_(boku_no_hero_academia)",
+        "count": 1951
+      },
+      {
+        "name": "ashido_mina",
+        "count": 2192
+      },
+      {
+        "name": "jiro_kyoka",
+        "count": 1749
+      },
+      {
+        "name": "hado_nejire",
+        "count": 1314
+      },
+      {
+        "name": "hagakure_toru",
+        "count": 1271
+      },
+      {
+        "name": "kirishima_eijiro",
+        "count": 1062
+      },
+      {
+        "name": "all_might",
+        "count": 785
+      },
+      {
+        "name": "aizawa_shota",
+        "count": 785
+      },
+      {
+        "name": "dabi_(boku_no_hero_academia)",
+        "count": 673
+      },
+      {
+        "name": "kaminari_denki",
+        "count": 632
+      },
+      {
+        "name": "eri_(boku_no_hero_academia)",
+        "count": 532
+      },
+      {
+        "name": "iida_tenya",
+        "count": 502
+      },
+      {
+        "name": "shigaraki_tomura",
+        "count": 592
+      },
+      {
+        "name": "mineta_minoru",
+        "count": 528
+      },
+      {
+        "name": "mount_lady",
+        "count": 503
+      },
+      {
+        "name": "shihouin_yoruichi",
+        "count": 2763
+      },
+      {
+        "name": "bomb_devil_(chainsaw_man)",
+        "count": 1057
+      },
+      {
+        "name": "reze_(chainsaw_man)",
+        "count": 9386
+      },
+      {
+        "name": "monkey_d._luffy",
+        "count": 7843
+      },
+      {
+        "name": "uzumaki_naruto",
+        "count": 5351
+      },
+      {
+        "name": "kirby",
+        "count": 10663
+      }
+    ]
+  },
+  "to_aru_majutsu_no_index": {
+    "cn": "魔法禁书目录",
+    "existing": false,
+    "characters": [
+      {
+        "name": "misaka_mikoto",
+        "count": 10611
+      },
+      {
+        "name": "shokuhou_misaki",
+        "count": 4015
+      },
+      {
+        "name": "shirai_kuroko",
+        "count": 3910
+      },
+      {
+        "name": "saten_ruiko",
+        "count": 2794
+      },
+      {
+        "name": "kamijou_touma",
+        "count": 2975
+      },
+      {
+        "name": "accelerator_(toaru_majutsu_no_index)",
+        "count": 2830
+      },
+      {
+        "name": "index_(toaru_majutsu_no_index)",
+        "count": 2043
+      },
+      {
+        "name": "last_order_(toaru_majutsu_no_index)",
+        "count": 1933
+      },
+      {
+        "name": "uiharu_kazari",
+        "count": 1718
+      },
+      {
+        "name": "gekota",
+        "count": 1336
+      },
+      {
+        "name": "misaka_imouto",
+        "count": 1153
+      },
+      {
+        "name": "misaka_worst",
+        "count": 645
+      },
+      {
+        "name": "kanzaki_kaori",
+        "count": 557
+      },
+      {
+        "name": "mugino_shizuri",
+        "count": 500
+      },
+      {
+        "name": "kyubey",
+        "count": 9298
+      },
+      {
+        "name": "kaname_madoka",
+        "count": 29275
+      },
+      {
+        "name": "akemi_homura",
+        "count": 29385
+      },
+      {
+        "name": "pikachu",
+        "count": 16894
+      },
+      {
+        "name": "ikamusume",
+        "count": 2237
+      },
+      {
+        "name": "izumi_konata",
+        "count": 6403
+      },
+      {
+        "name": "aisaka_taiga",
+        "count": 3464
+      },
+      {
+        "name": "kirisame_marisa",
+        "count": 84592
+      },
+      {
+        "name": "sakura_kyoko",
+        "count": 16927
+      },
+      {
+        "name": "akemi_homura_(magical_girl)",
+        "count": 12974
+      },
+      {
+        "name": "aris_(blue_archive)",
+        "count": 10945
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "flandre_scarlet",
+        "count": 61038
+      },
+      {
+        "name": "patchouli_knowledge",
+        "count": 38014
+      },
+      {
+        "name": "miki_sayaka",
+        "count": 19890
+      },
+      {
+        "name": "kaname_madoka_(magical_girl)",
+        "count": 10363
+      }
+    ]
+  },
+  "date_a_live": {
+    "cn": "约会大作战",
+    "existing": false,
+    "characters": [
+      {
+        "name": "tokisaki_kurumi",
+        "count": 2477
+      },
+      {
+        "name": "tokisaki_kurumi_(spirit)",
+        "count": 1633
+      },
+      {
+        "name": "yatogami_tohka",
+        "count": 730
+      },
+      {
+        "name": "itsuka_kotori",
+        "count": 684
+      },
+      {
+        "name": "tobiichi_origami",
+        "count": 638
+      },
+      {
+        "name": "himekawa_yoshino",
+        "count": 534
+      },
+      {
+        "name": "kousaka_kirino",
+        "count": 2855
+      },
+      {
+        "name": "manjuu_(azur_lane)",
+        "count": 10992
+      },
+      {
+        "name": "purple_heart_(neptunia)",
+        "count": 1774
+      },
+      {
+        "name": "sakamoto_(nichijou)",
+        "count": 572
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "artoria_pendragon_(fate)",
+        "count": 45514
+      },
+      {
+        "name": "misaka_mikoto",
+        "count": 10611
+      },
+      {
+        "name": "tojo_nozomi",
+        "count": 7748
+      },
+      {
+        "name": "neptune_(neptunia)",
+        "count": 2312
+      },
+      {
+        "name": "lala_satalin_deviluke",
+        "count": 1111
+      },
+      {
+        "name": "pyukumuku",
+        "count": 623
+      },
+      {
+        "name": "akemi_homura",
+        "count": 29385
+      },
+      {
+        "name": "kiana_kaslana",
+        "count": 7474
+      },
+      {
+        "name": "nakano_nino",
+        "count": 4591
+      },
+      {
+        "name": "hestia_(danmachi)",
+        "count": 4128
+      },
+      {
+        "name": "shirai_kuroko",
+        "count": 3910
+      },
+      {
+        "name": "rory_mercury",
+        "count": 587
+      },
+      {
+        "name": "sparkle_(honkai:_star_rail)",
+        "count": 7344
+      },
+      {
+        "name": "raiden_mei",
+        "count": 5574
+      },
+      {
+        "name": "bronya_zaychik",
+        "count": 4804
+      },
+      {
+        "name": "shana",
+        "count": 2639
+      },
+      {
+        "name": "little_red_riding_hood_(fairy_tale_character)",
+        "count": 2465
+      },
+      {
+        "name": "tennouboshi_uzume",
+        "count": 764
+      },
+      {
+        "name": "nana_asta_deviluke",
+        "count": 637
+      }
+    ]
+  },
+  "princess_connect!": {
+    "cn": "公主连结",
+    "existing": false,
+    "characters": [
+      {
+        "name": "karyl_(princess_connect!)",
+        "count": 4504
+      },
+      {
+        "name": "kokkoro_(princess_connect!)",
+        "count": 3881
+      },
+      {
+        "name": "pecorine_(princess_connect!)",
+        "count": 3514
+      },
+      {
+        "name": "saren_(princess_connect!)",
+        "count": 2044
+      },
+      {
+        "name": "kyoka_(princess_connect!)",
+        "count": 1428
+      },
+      {
+        "name": "yui_(princess_connect!)",
+        "count": 1251
+      },
+      {
+        "name": "yuuki_(princess_connect!)",
+        "count": 1198
+      },
+      {
+        "name": "yuni_(princess_connect!)",
+        "count": 1017
+      },
+      {
+        "name": "saren_(summer)_(princess_connect!)",
+        "count": 754
+      },
+      {
+        "name": "chloe_(princess_connect!)",
+        "count": 853
+      },
+      {
+        "name": "karyl_(summer)_(princess_connect!)",
+        "count": 719
+      },
+      {
+        "name": "pecorine_(summer)_(princess_connect!)",
+        "count": 629
+      },
+      {
+        "name": "chieru_(princess_connect!)",
+        "count": 574
+      },
+      {
+        "name": "makoto_(princess_connect!)",
+        "count": 554
+      },
+      {
+        "name": "misogi_(princess_connect!)",
+        "count": 594
+      },
+      {
+        "name": "shiori_(princess_connect!)",
+        "count": 587
+      },
+      {
+        "name": "eriko_(princess_connect!)",
+        "count": 619
+      },
+      {
+        "name": "mimi_(princess_connect!)",
+        "count": 557
+      },
+      {
+        "name": "shizuru_(princess_connect!)",
+        "count": 500
+      },
+      {
+        "name": "monika_weisswind",
+        "count": 566
+      }
+    ]
+  },
+  "dungeon_meshi": {
+    "cn": "迷宫饭",
+    "existing": false,
+    "characters": [
+      {
+        "name": "marcille_donato",
+        "count": 5712
+      },
+      {
+        "name": "falin_touden",
+        "count": 3761
+      },
+      {
+        "name": "laios_touden",
+        "count": 3281
+      },
+      {
+        "name": "senshi_(dungeon_meshi)",
+        "count": 2383
+      },
+      {
+        "name": "mithrun",
+        "count": 2235
+      },
+      {
+        "name": "falin_touden_(tallman)",
+        "count": 1814
+      },
+      {
+        "name": "kabru",
+        "count": 1781
+      },
+      {
+        "name": "chilchuck_tims",
+        "count": 1826
+      },
+      {
+        "name": "falin_touden_(chimera)",
+        "count": 1354
+      },
+      {
+        "name": "izutsumi",
+        "count": 1247
+      },
+      {
+        "name": "marcille_donato_(lord)",
+        "count": 584
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "princess_zelda",
+        "count": 16075
+      },
+      {
+        "name": "fern_(sousou_no_frieren)",
+        "count": 9368
+      },
+      {
+        "name": "gotoh_hitori",
+        "count": 17547
+      },
+      {
+        "name": "doctor_(arknights)",
+        "count": 12474
+      },
+      {
+        "name": "stark_(sousou_no_frieren)",
+        "count": 2765
+      },
+      {
+        "name": "sanji_(one_piece)",
+        "count": 5097
+      },
+      {
+        "name": "himmel_(sousou_no_frieren)",
+        "count": 2298
+      },
+      {
+        "name": "link",
+        "count": 20057
+      },
+      {
+        "name": "muelsyse_(arknights)",
+        "count": 2010
+      },
+      {
+        "name": "ceobe_(arknights)",
+        "count": 1553
+      },
+      {
+        "name": "amiya_(arknights)",
+        "count": 11502
+      },
+      {
+        "name": "kal'tsit_(arknights)",
+        "count": 6147
+      },
+      {
+        "name": "coco_(tongari_boushi_no_atelier)",
+        "count": 722
+      }
+    ]
+  },
+  "frieren": {
+    "cn": "葬送的芙莉莲",
+    "existing": false,
+    "characters": [
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "fern_(sousou_no_frieren)",
+        "count": 9368
+      },
+      {
+        "name": "himmel_(sousou_no_frieren)",
+        "count": 2298
+      },
+      {
+        "name": "stark_(sousou_no_frieren)",
+        "count": 2765
+      },
+      {
+        "name": "aura_(sousou_no_frieren)",
+        "count": 1350
+      },
+      {
+        "name": "serie_(sousou_no_frieren)",
+        "count": 652
+      },
+      {
+        "name": "ubel_(sousou_no_frieren)",
+        "count": 2479
+      },
+      {
+        "name": "marcille_donato",
+        "count": 5712
+      },
+      {
+        "name": "tatsumaki",
+        "count": 4877
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "land_(sousou_no_frieren)",
+        "count": 540
+      },
+      {
+        "name": "megumin",
+        "count": 10337
+      },
+      {
+        "name": "gotoh_hitori",
+        "count": 17547
+      },
+      {
+        "name": "laios_touden",
+        "count": 3281
+      },
+      {
+        "name": "princess_zelda",
+        "count": 16075
+      },
+      {
+        "name": "saitama_(one-punch_man)",
+        "count": 2080
+      },
+      {
+        "name": "anya_(spy_x_family)",
+        "count": 6659
+      },
+      {
+        "name": "maomao_(kusuriya_no_hitorigoto)",
+        "count": 1898
+      },
+      {
+        "name": "female_robin_(fire_emblem)",
+        "count": 2805
+      },
+      {
+        "name": "senshi_(dungeon_meshi)",
+        "count": 2383
+      },
+      {
+        "name": "chilchuck_tims",
+        "count": 1826
+      },
+      {
+        "name": "seia_(blue_archive)",
+        "count": 8838
+      },
+      {
+        "name": "aqua_(konosuba)",
+        "count": 6487
+      },
+      {
+        "name": "falin_touden",
+        "count": 3761
+      },
+      {
+        "name": "roxy_migurdia",
+        "count": 2413
+      },
+      {
+        "name": "link",
+        "count": 20057
+      },
+      {
+        "name": "yor_briar",
+        "count": 11209
+      },
+      {
+        "name": "satou_kazuma",
+        "count": 3381
+      },
+      {
+        "name": "rimuru_tempest",
+        "count": 1424
+      },
+      {
+        "name": "emilia_(re:zero)",
+        "count": 4905
+      }
+    ]
+  },
+  "mushoku_tensei": {
+    "cn": "无职转生",
+    "existing": false,
+    "characters": [
+      {
+        "name": "roxy_migurdia",
+        "count": 2413
+      },
+      {
+        "name": "eris_greyrat",
+        "count": 2324
+      },
+      {
+        "name": "sylphiette_(mushoku_tensei)",
+        "count": 1606
+      },
+      {
+        "name": "rudeus_greyrat",
+        "count": 1076
+      },
+      {
+        "name": "ghislaine_dedoldia",
+        "count": 944
+      },
+      {
+        "name": "mirko",
+        "count": 6188
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "megumin",
+        "count": 10337
+      },
+      {
+        "name": "emilia_(re:zero)",
+        "count": 4905
+      },
+      {
+        "name": "satou_kazuma",
+        "count": 3381
+      },
+      {
+        "name": "elaina_(majo_no_tabitabi)",
+        "count": 1659
+      },
+      {
+        "name": "mona_(genshin_impact)",
+        "count": 9719
+      },
+      {
+        "name": "aqua_(konosuba)",
+        "count": 6487
+      },
+      {
+        "name": "natsuki_subaru",
+        "count": 2943
+      },
+      {
+        "name": "marcille_donato",
+        "count": 5712
+      },
+      {
+        "name": "shihouin_yoruichi",
+        "count": 2763
+      },
+      {
+        "name": "oyama_mahiro",
+        "count": 7720
+      },
+      {
+        "name": "rem_(re:zero)",
+        "count": 9988
+      },
+      {
+        "name": "fern_(sousou_no_frieren)",
+        "count": 9368
+      },
+      {
+        "name": "darkness_(konosuba)",
+        "count": 3340
+      },
+      {
+        "name": "himmel_(sousou_no_frieren)",
+        "count": 2298
+      },
+      {
+        "name": "yuni_(princess_connect!)",
+        "count": 1017
+      },
+      {
+        "name": "souryuu_asuka_langley",
+        "count": 17132
+      },
+      {
+        "name": "shiroko_(blue_archive)",
+        "count": 11187
+      },
+      {
+        "name": "ranni_the_witch",
+        "count": 2226
+      },
+      {
+        "name": "chomusuke",
+        "count": 1056
+      },
+      {
+        "name": "mash_kyrielight",
+        "count": 20366
+      },
+      {
+        "name": "2b_(nier:automata)",
+        "count": 12074
+      },
+      {
+        "name": "ayanami_rei",
+        "count": 10263
+      },
+      {
+        "name": "denji_(chainsaw_man)",
+        "count": 7726
+      }
+    ]
+  },
+  "violet_evergarden": {
+    "cn": "紫罗兰永恒花园",
+    "existing": false,
+    "characters": [
+      {
+        "name": "violet_evergarden",
+        "count": 1201
+      },
+      {
+        "name": "zero_two_(darling_in_the_franxx)",
+        "count": 4442
+      },
+      {
+        "name": "darjeeling_(girls_und_panzer)",
+        "count": 6656
+      },
+      {
+        "name": "2b_(nier:automata)",
+        "count": 12074
+      },
+      {
+        "name": "tohru_(maidragon)",
+        "count": 2130
+      },
+      {
+        "name": "artoria_pendragon_(fate)",
+        "count": 45514
+      },
+      {
+        "name": "kuriyama_mirai",
+        "count": 581
+      },
+      {
+        "name": "saber_(fate)",
+        "count": 20933
+      },
+      {
+        "name": "yor_briar",
+        "count": 11209
+      },
+      {
+        "name": "oumae_kumiko",
+        "count": 2599
+      },
+      {
+        "name": "nanase_haruka_(free!)",
+        "count": 563
+      },
+      {
+        "name": "hirasawa_yui",
+        "count": 8880
+      },
+      {
+        "name": "takanashi_rikka",
+        "count": 2408
+      },
+      {
+        "name": "kitashirakawa_tamako",
+        "count": 1059
+      },
+      {
+        "name": "kanna_kamui",
+        "count": 3224
+      },
+      {
+        "name": "anya_(spy_x_family)",
+        "count": 6659
+      },
+      {
+        "name": "chitanda_eru",
+        "count": 2800
+      },
+      {
+        "name": "ichigo_(darling_in_the_franxx)",
+        "count": 1066
+      },
+      {
+        "name": "mikasa_ackerman",
+        "count": 4553
+      },
+      {
+        "name": "enterprise_(azur_lane)",
+        "count": 2768
+      },
+      {
+        "name": "kawakami_mai",
+        "count": 701
+      },
+      {
+        "name": "toki_(blue_archive)",
+        "count": 11620
+      },
+      {
+        "name": "suzumiya_haruhi",
+        "count": 10948
+      },
+      {
+        "name": "takagi-san",
+        "count": 1886
+      },
+      {
+        "name": "pipimi",
+        "count": 1780
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "souryuu_asuka_langley",
+        "count": 17132
+      },
+      {
+        "name": "tomoe_mami",
+        "count": 16670
+      },
+      {
+        "name": "gawr_gura",
+        "count": 16285
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      }
+    ]
+  },
+  "made_in_abyss": {
+    "cn": "来自深渊",
+    "existing": false,
+    "characters": [
+      {
+        "name": "nanachi_(made_in_abyss)",
+        "count": 1691
+      },
+      {
+        "name": "reg_(made_in_abyss)",
+        "count": 957
+      },
+      {
+        "name": "faputa",
+        "count": 749
+      },
+      {
+        "name": "riko_(made_in_abyss)",
+        "count": 701
+      },
+      {
+        "name": "ozen",
+        "count": 629
+      },
+      {
+        "name": "gotoh_hitori",
+        "count": 17547
+      },
+      {
+        "name": "doctor_(arknights)",
+        "count": 12474
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "pikachu",
+        "count": 16894
+      },
+      {
+        "name": "agnes_tachyon_(umamusume)",
+        "count": 13299
+      },
+      {
+        "name": "pochita_(chainsaw_man)",
+        "count": 2439
+      },
+      {
+        "name": "amiya_(arknights)",
+        "count": 11502
+      },
+      {
+        "name": "kirby",
+        "count": 10663
+      },
+      {
+        "name": "suletta_mercury",
+        "count": 7908
+      },
+      {
+        "name": "eevee",
+        "count": 6942
+      },
+      {
+        "name": "anya_(spy_x_family)",
+        "count": 6659
+      },
+      {
+        "name": "marcille_donato",
+        "count": 5712
+      },
+      {
+        "name": "saitama_(one-punch_man)",
+        "count": 2080
+      },
+      {
+        "name": "senko_(sewayaki_kitsune_no_senko-san)",
+        "count": 801
+      },
+      {
+        "name": "alice_margatroid",
+        "count": 39169
+      },
+      {
+        "name": "shirakami_fubuki",
+        "count": 15451
+      },
+      {
+        "name": "serval_(kemono_friends)",
+        "count": 8328
+      },
+      {
+        "name": "kaku_seiga",
+        "count": 8248
+      },
+      {
+        "name": "sunny_(omori)",
+        "count": 7835
+      },
+      {
+        "name": "astolfo_(fate)",
+        "count": 7544
+      },
+      {
+        "name": "sonic_the_hedgehog",
+        "count": 5951
+      },
+      {
+        "name": "kaban_(kemono_friends)",
+        "count": 5862
+      },
+      {
+        "name": "omori_(omori)",
+        "count": 4892
+      },
+      {
+        "name": "laios_touden",
+        "count": 3281
+      },
+      {
+        "name": "yuuri_(shoujo_shuumatsu_ryokou)",
+        "count": 1356
+      }
+    ]
+  },
+  "nier_(series)": {
+    "cn": "尼尔",
+    "existing": false,
+    "characters": [
+      {
+        "name": "2b_(nier:automata)",
+        "count": 12074
+      },
+      {
+        "name": "9s_(nier:automata)",
+        "count": 2717
+      },
+      {
+        "name": "pod_(nier:automata)",
+        "count": 1666
+      },
+      {
+        "name": "a2_(nier:automata)",
+        "count": 1614
+      },
+      {
+        "name": "kaine_(nier)",
+        "count": 1415
+      },
+      {
+        "name": "nier_(brother)",
+        "count": 512
+      },
+      {
+        "name": "warrior_of_light_(ff14)",
+        "count": 21622
+      },
+      {
+        "name": "tifa_lockhart",
+        "count": 16180
+      },
+      {
+        "name": "eve_(stellar_blade)",
+        "count": 1045
+      },
+      {
+        "name": "rapi_(nikke)",
+        "count": 2742
+      },
+      {
+        "name": "zero_(drag-on_dragoon)",
+        "count": 661
+      },
+      {
+        "name": "cloud_strife",
+        "count": 15048
+      },
+      {
+        "name": "raiden_(metal_gear)",
+        "count": 506
+      },
+      {
+        "name": "aerith_gainsborough",
+        "count": 11239
+      },
+      {
+        "name": "chun-li",
+        "count": 8905
+      },
+      {
+        "name": "sephiroth",
+        "count": 5585
+      },
+      {
+        "name": "kitten_(gravity_daze)",
+        "count": 801
+      },
+      {
+        "name": "samus_aran",
+        "count": 7688
+      },
+      {
+        "name": "yuffie_kisaragi",
+        "count": 2760
+      },
+      {
+        "name": "konpaku_youmu",
+        "count": 40101
+      },
+      {
+        "name": "shiori_novella",
+        "count": 7366
+      },
+      {
+        "name": "hakos_baelz",
+        "count": 7212
+      },
+      {
+        "name": "bea_(pokemon)",
+        "count": 3585
+      },
+      {
+        "name": "android_18",
+        "count": 2905
+      },
+      {
+        "name": "lucia_(pgr)",
+        "count": 1358
+      },
+      {
+        "name": "mirko",
+        "count": 6188
+      },
+      {
+        "name": "isabella_valentine",
+        "count": 595
+      },
+      {
+        "name": "princess_zelda",
+        "count": 16075
+      },
+      {
+        "name": "takanashi_kiara",
+        "count": 10215
+      },
+      {
+        "name": "y'shtola_rhul",
+        "count": 1473
+      }
+    ]
+  },
+  "final_fantasy": {
+    "cn": "最终幻想",
+    "existing": false,
+    "characters": [
+      {
+        "name": "warrior_of_light_(ff14)",
+        "count": 21622
+      },
+      {
+        "name": "tifa_lockhart",
+        "count": 16180
+      },
+      {
+        "name": "cloud_strife",
+        "count": 15048
+      },
+      {
+        "name": "aerith_gainsborough",
+        "count": 11239
+      },
+      {
+        "name": "sephiroth",
+        "count": 5585
+      },
+      {
+        "name": "yuffie_kisaragi",
+        "count": 2760
+      },
+      {
+        "name": "zack_fair",
+        "count": 3126
+      },
+      {
+        "name": "squall_leonhart",
+        "count": 2067
+      },
+      {
+        "name": "terra_branford",
+        "count": 2290
+      },
+      {
+        "name": "moogle",
+        "count": 2264
+      },
+      {
+        "name": "adventurer_(ff11)",
+        "count": 2274
+      },
+      {
+        "name": "vincent_valentine",
+        "count": 1611
+      },
+      {
+        "name": "g'raha_tia",
+        "count": 1243
+      },
+      {
+        "name": "white_mage_(final_fantasy)",
+        "count": 1505
+      },
+      {
+        "name": "zidane_tribal",
+        "count": 1710
+      },
+      {
+        "name": "garnet_til_alexandros_xvii",
+        "count": 1574
+      },
+      {
+        "name": "rydia_(ff4)",
+        "count": 1410
+      },
+      {
+        "name": "sephiroth_(ever_crisis)",
+        "count": 1310
+      },
+      {
+        "name": "yuna_(ff10)",
+        "count": 1277
+      },
+      {
+        "name": "clive_rosfield",
+        "count": 1171
+      },
+      {
+        "name": "lightning_farron",
+        "count": 1147
+      },
+      {
+        "name": "y'shtola_rhul",
+        "count": 1473
+      },
+      {
+        "name": "lenna_charlotte_tycoon",
+        "count": 1091
+      },
+      {
+        "name": "celes_chere",
+        "count": 1091
+      },
+      {
+        "name": "rinoa_heartilly",
+        "count": 1008
+      },
+      {
+        "name": "rydia_(adult)_(ff4)",
+        "count": 1018
+      },
+      {
+        "name": "bartz_klauser",
+        "count": 911
+      },
+      {
+        "name": "venat_(ff14)",
+        "count": 1094
+      },
+      {
+        "name": "adventurer_(ff14)",
+        "count": 1023
+      },
+      {
+        "name": "agrias_oaks",
+        "count": 845
+      }
+    ]
+  },
+  "granblue_fantasy": {
+    "cn": "碧蓝幻想",
+    "existing": false,
+    "characters": [
+      {
+        "name": "djeeta_(granblue_fantasy)",
+        "count": 4502
+      },
+      {
+        "name": "narmaya_(granblue_fantasy)",
+        "count": 3764
+      },
+      {
+        "name": "gran_(granblue_fantasy)",
+        "count": 2746
+      },
+      {
+        "name": "zeta_(granblue_fantasy)",
+        "count": 1530
+      },
+      {
+        "name": "anila_(granblue_fantasy)",
+        "count": 1634
+      },
+      {
+        "name": "cagliostro_(granblue_fantasy)",
+        "count": 1510
+      },
+      {
+        "name": "vikala_(granblue_fantasy)",
+        "count": 1470
+      },
+      {
+        "name": "vane_(granblue_fantasy)",
+        "count": 1114
+      },
+      {
+        "name": "lyria_(granblue_fantasy)",
+        "count": 1144
+      },
+      {
+        "name": "sandalphon_(granblue_fantasy)",
+        "count": 1199
+      },
+      {
+        "name": "ferry_(granblue_fantasy)",
+        "count": 1124
+      },
+      {
+        "name": "clarisse_(granblue_fantasy)",
+        "count": 1104
+      },
+      {
+        "name": "andira_(granblue_fantasy)",
+        "count": 992
+      },
+      {
+        "name": "vira_(granblue_fantasy)",
+        "count": 1028
+      },
+      {
+        "name": "galleon_(granblue_fantasy)",
+        "count": 964
+      },
+      {
+        "name": "beatrix_(granblue_fantasy)",
+        "count": 925
+      },
+      {
+        "name": "danua",
+        "count": 1086
+      },
+      {
+        "name": "zooey_(granblue_fantasy)",
+        "count": 822
+      },
+      {
+        "name": "fighter_(granblue_fantasy)",
+        "count": 912
+      },
+      {
+        "name": "vyrn_(granblue_fantasy)",
+        "count": 756
+      },
+      {
+        "name": "yuel_(granblue_fantasy)",
+        "count": 793
+      },
+      {
+        "name": "charlotta_(granblue_fantasy)",
+        "count": 702
+      },
+      {
+        "name": "catura_(granblue_fantasy)",
+        "count": 596
+      },
+      {
+        "name": "heles",
+        "count": 603
+      },
+      {
+        "name": "jeanne_d'arc_(granblue_fantasy)",
+        "count": 679
+      },
+      {
+        "name": "silva_(granblue_fantasy)",
+        "count": 681
+      },
+      {
+        "name": "europa_(granblue_fantasy)",
+        "count": 512
+      },
+      {
+        "name": "vampy",
+        "count": 736
+      },
+      {
+        "name": "tweyen_(granblue_fantasy)",
+        "count": 580
+      },
+      {
+        "name": "monika_weisswind",
+        "count": 566
+      }
+    ]
+  },
+  "k-on!": {
+    "cn": "轻音少女",
+    "existing": false,
+    "characters": [
+      {
+        "name": "akiyama_mio",
+        "count": 10513
+      },
+      {
+        "name": "nakano_azusa",
+        "count": 9217
+      },
+      {
+        "name": "hirasawa_yui",
+        "count": 8880
+      },
+      {
+        "name": "tainaka_ritsu",
+        "count": 7516
+      },
+      {
+        "name": "kotobuki_tsumugi",
+        "count": 5872
+      },
+      {
+        "name": "hirasawa_ui",
+        "count": 1587
+      },
+      {
+        "name": "manabe_nodoka",
+        "count": 1038
+      },
+      {
+        "name": "suzuki_jun",
+        "count": 672
+      },
+      {
+        "name": "yamanaka_sawako",
+        "count": 602
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "suzumiya_haruhi",
+        "count": 10948
+      },
+      {
+        "name": "izumi_konata",
+        "count": 6403
+      },
+      {
+        "name": "gotoh_hitori",
+        "count": 17547
+      },
+      {
+        "name": "nagato_yuki",
+        "count": 9232
+      },
+      {
+        "name": "asahina_mikuru",
+        "count": 4356
+      },
+      {
+        "name": "hiiragi_kagami",
+        "count": 6430
+      },
+      {
+        "name": "kyon",
+        "count": 4075
+      },
+      {
+        "name": "akemi_homura",
+        "count": 29385
+      },
+      {
+        "name": "kyubey",
+        "count": 9298
+      },
+      {
+        "name": "hiiragi_tsukasa",
+        "count": 3659
+      },
+      {
+        "name": "asakura_ryoko",
+        "count": 2521
+      },
+      {
+        "name": "hakurei_reimu",
+        "count": 96953
+      },
+      {
+        "name": "souryuu_asuka_langley",
+        "count": 17132
+      },
+      {
+        "name": "yoko_littner",
+        "count": 5389
+      },
+      {
+        "name": "chitanda_eru",
+        "count": 2800
+      },
+      {
+        "name": "tomoe_mami",
+        "count": 16670
+      },
+      {
+        "name": "aisaka_taiga",
+        "count": 3464
+      },
+      {
+        "name": "takara_miyuki",
+        "count": 2034
+      },
+      {
+        "name": "flandre_scarlet",
+        "count": 61038
+      },
+      {
+        "name": "kaname_madoka",
+        "count": 29275
+      }
+    ]
+  },
+  "kill_la_kill": {
+    "cn": "斩服少女",
+    "existing": false,
+    "characters": [
+      {
+        "name": "matoi_ryuuko",
+        "count": 8667
+      },
+      {
+        "name": "senketsu",
+        "count": 5400
+      },
+      {
+        "name": "kiryuuin_satsuki",
+        "count": 5142
+      },
+      {
+        "name": "mankanshoku_mako",
+        "count": 3038
+      },
+      {
+        "name": "junketsu",
+        "count": 2558
+      },
+      {
+        "name": "jakuzure_nonon",
+        "count": 2055
+      },
+      {
+        "name": "gamagoori_ira",
+        "count": 1602
+      },
+      {
+        "name": "sanageyama_uzu",
+        "count": 1056
+      },
+      {
+        "name": "harime_nui",
+        "count": 861
+      },
+      {
+        "name": "inumuta_houka",
+        "count": 850
+      },
+      {
+        "name": "mikisugi_aikurou",
+        "count": 580
+      },
+      {
+        "name": "stocking_(psg)",
+        "count": 5430
+      },
+      {
+        "name": "panty_(psg)",
+        "count": 3303
+      },
+      {
+        "name": "kagari_atsuko",
+        "count": 2654
+      },
+      {
+        "name": "yoko_littner",
+        "count": 5389
+      },
+      {
+        "name": "kijin_seija",
+        "count": 6560
+      },
+      {
+        "name": "simon_(ttgl)",
+        "count": 2558
+      },
+      {
+        "name": "akemi_homura",
+        "count": 29385
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "2b_(nier:automata)",
+        "count": 12074
+      },
+      {
+        "name": "tenryuu_(kancolle)",
+        "count": 11970
+      },
+      {
+        "name": "zero_two_(darling_in_the_franxx)",
+        "count": 4442
+      },
+      {
+        "name": "shadow_the_hedgehog",
+        "count": 3270
+      },
+      {
+        "name": "nia_teppelin",
+        "count": 3182
+      },
+      {
+        "name": "kaname_madoka",
+        "count": 29275
+      },
+      {
+        "name": "souryuu_asuka_langley",
+        "count": 17132
+      },
+      {
+        "name": "mikasa_ackerman",
+        "count": 4553
+      },
+      {
+        "name": "chisa_(wuthering_waves)",
+        "count": 3097
+      },
+      {
+        "name": "lio_fotia",
+        "count": 2407
+      },
+      {
+        "name": "sucy_manbavaran",
+        "count": 1271
+      }
+    ]
+  },
+  "danganronpa_(series)": {
+    "cn": "弹丸论破",
+    "existing": false,
+    "characters": [
+      {
+        "name": "nanami_chiaki",
+        "count": 13375
+      },
+      {
+        "name": "oma_kokichi",
+        "count": 9621
+      },
+      {
+        "name": "saihara_shuichi",
+        "count": 7863
+      },
+      {
+        "name": "komaeda_nagito",
+        "count": 7408
+      },
+      {
+        "name": "hinata_hajime",
+        "count": 6556
+      },
+      {
+        "name": "akamatsu_kaede",
+        "count": 4734
+      },
+      {
+        "name": "kirigiri_kyoko",
+        "count": 4283
+      },
+      {
+        "name": "enoshima_junko",
+        "count": 4194
+      },
+      {
+        "name": "harukawa_maki",
+        "count": 3459
+      },
+      {
+        "name": "tsumiki_mikan",
+        "count": 2925
+      },
+      {
+        "name": "monokuma",
+        "count": 2894
+      },
+      {
+        "name": "naegi_makoto",
+        "count": 2479
+      },
+      {
+        "name": "momota_kaito",
+        "count": 2431
+      },
+      {
+        "name": "monomi_(danganronpa)",
+        "count": 1859
+      },
+      {
+        "name": "yumeno_himiko",
+        "count": 1849
+      },
+      {
+        "name": "celestia_ludenberg",
+        "count": 1895
+      },
+      {
+        "name": "iruma_miu",
+        "count": 1937
+      },
+      {
+        "name": "kamukura_izuru",
+        "count": 1674
+      },
+      {
+        "name": "maizono_sayaka",
+        "count": 1792
+      },
+      {
+        "name": "fukawa_toko",
+        "count": 1818
+      },
+      {
+        "name": "amami_rantaro",
+        "count": 1736
+      },
+      {
+        "name": "fujisaki_chihiro",
+        "count": 1561
+      },
+      {
+        "name": "mioda_ibuki",
+        "count": 1795
+      },
+      {
+        "name": "yonaga_angie",
+        "count": 1359
+      },
+      {
+        "name": "chabashira_tenko",
+        "count": 1310
+      },
+      {
+        "name": "k1-b0",
+        "count": 1352
+      },
+      {
+        "name": "saionji_hiyoko",
+        "count": 1184
+      },
+      {
+        "name": "ikusaba_mukuro",
+        "count": 1105
+      },
+      {
+        "name": "sonia_nevermind",
+        "count": 1246
+      },
+      {
+        "name": "shirogane_tsumugi",
+        "count": 1147
+      }
+    ]
+  },
+  "the_quintessential_quintuplets": {
+    "cn": "五等分的新娘",
+    "existing": false,
+    "characters": [
+      {
+        "name": "nakano_nino",
+        "count": 4591
+      },
+      {
+        "name": "nakano_miku",
+        "count": 4082
+      },
+      {
+        "name": "nakano_yotsuba",
+        "count": 3623
+      },
+      {
+        "name": "nakano_itsuki",
+        "count": 2555
+      },
+      {
+        "name": "nakano_ichika",
+        "count": 2277
+      },
+      {
+        "name": "uesugi_fuutarou",
+        "count": 1267
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "alice_(alice_in_wonderland)",
+        "count": 3864
+      },
+      {
+        "name": "rem_(re:zero)",
+        "count": 9988
+      },
+      {
+        "name": "gawr_gura",
+        "count": 16285
+      },
+      {
+        "name": "eevee",
+        "count": 6942
+      },
+      {
+        "name": "hestia_(danmachi)",
+        "count": 4128
+      },
+      {
+        "name": "kousaka_kirino",
+        "count": 2855
+      },
+      {
+        "name": "shinomiya_kaguya",
+        "count": 2549
+      },
+      {
+        "name": "spider-man",
+        "count": 2375
+      },
+      {
+        "name": "crewmate_(among_us)",
+        "count": 1483
+      },
+      {
+        "name": "isshiki_iroha",
+        "count": 1275
+      },
+      {
+        "name": "apollo_justice",
+        "count": 943
+      },
+      {
+        "name": "koiwai_yotsuba",
+        "count": 771
+      },
+      {
+        "name": "hakurei_reimu",
+        "count": 96953
+      },
+      {
+        "name": "kirisame_marisa",
+        "count": 84592
+      },
+      {
+        "name": "houshou_marine",
+        "count": 17515
+      },
+      {
+        "name": "pikachu",
+        "count": 16894
+      },
+      {
+        "name": "ninomae_ina'nis",
+        "count": 12261
+      },
+      {
+        "name": "2b_(nier:automata)",
+        "count": 12074
+      },
+      {
+        "name": "kirby",
+        "count": 10663
+      },
+      {
+        "name": "megumin",
+        "count": 10337
+      },
+      {
+        "name": "ayanami_rei",
+        "count": 10263
+      },
+      {
+        "name": "oma_kokichi",
+        "count": 9621
+      },
+      {
+        "name": "keqing_(genshin_impact)",
+        "count": 8372
+      }
+    ]
+  },
+  "tensei_shitara_slime_datta_ken": {
+    "cn": "关于我转生变成史莱姆这档事",
+    "existing": false,
+    "characters": [
+      {
+        "name": "rimuru_tempest",
+        "count": 1424
+      },
+      {
+        "name": "megumin",
+        "count": 10337
+      },
+      {
+        "name": "frieren",
+        "count": 15544
+      },
+      {
+        "name": "aqua_(konosuba)",
+        "count": 6487
+      },
+      {
+        "name": "satou_kazuma",
+        "count": 3381
+      },
+      {
+        "name": "tanya_degurechaff",
+        "count": 1300
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "asuna_(sao)",
+        "count": 6021
+      },
+      {
+        "name": "uzuki_(kancolle)",
+        "count": 3028
+      },
+      {
+        "name": "rem_(re:zero)",
+        "count": 9988
+      },
+      {
+        "name": "yor_briar",
+        "count": 11209
+      },
+      {
+        "name": "kafuu_chino",
+        "count": 8111
+      },
+      {
+        "name": "anya_(spy_x_family)",
+        "count": 6659
+      },
+      {
+        "name": "darkness_(konosuba)",
+        "count": 3340
+      },
+      {
+        "name": "raphtalia",
+        "count": 2674
+      },
+      {
+        "name": "pochita_(chainsaw_man)",
+        "count": 2439
+      },
+      {
+        "name": "saitama_(one-punch_man)",
+        "count": 2080
+      },
+      {
+        "name": "artoria_pendragon_(fate)",
+        "count": 45514
+      },
+      {
+        "name": "gotoh_hitori",
+        "count": 17547
+      },
+      {
+        "name": "midoriya_izuku",
+        "count": 7944
+      },
+      {
+        "name": "denji_(chainsaw_man)",
+        "count": 7726
+      },
+      {
+        "name": "c.c.",
+        "count": 5849
+      },
+      {
+        "name": "anchovy_(girls_und_panzer)",
+        "count": 5827
+      },
+      {
+        "name": "marcille_donato",
+        "count": 5712
+      },
+      {
+        "name": "kamado_nezuko",
+        "count": 3334
+      },
+      {
+        "name": "shinomiya_kaguya",
+        "count": 2549
+      },
+      {
+        "name": "kobo_kanaeru",
+        "count": 1264
+      },
+      {
+        "name": "chomusuke",
+        "count": 1056
+      },
+      {
+        "name": "akemi_homura",
+        "count": 29385
+      },
+      {
+        "name": "kaname_madoka",
+        "count": 29275
+      }
+    ]
+  },
+  "steins;gate": {
+    "cn": "命运石之门",
+    "existing": false,
+    "characters": [
+      {
+        "name": "makise_kurisu",
+        "count": 4290
+      },
+      {
+        "name": "okabe_rintarou",
+        "count": 1872
+      },
+      {
+        "name": "shiina_mayuri",
+        "count": 1290
+      },
+      {
+        "name": "hiyajou_maho",
+        "count": 1111
+      },
+      {
+        "name": "akiha_rumiho",
+        "count": 987
+      },
+      {
+        "name": "amane_suzuha",
+        "count": 928
+      },
+      {
+        "name": "urushibara_luka",
+        "count": 735
+      },
+      {
+        "name": "kiryuu_moeka",
+        "count": 514
+      },
+      {
+        "name": "sakihata_rimi",
+        "count": 914
+      },
+      {
+        "name": "onoe_serika",
+        "count": 634
+      },
+      {
+        "name": "akemi_homura",
+        "count": 29385
+      },
+      {
+        "name": "narusawa_ryouka",
+        "count": 616
+      },
+      {
+        "name": "c.c.",
+        "count": 5849
+      },
+      {
+        "name": "akemi_homura_(magical_girl)",
+        "count": 12974
+      },
+      {
+        "name": "kyubey",
+        "count": 9298
+      },
+      {
+        "name": "kaname_madoka",
+        "count": 29275
+      },
+      {
+        "name": "hatsune_miku",
+        "count": 139988
+      },
+      {
+        "name": "shimakaze_(kancolle)",
+        "count": 20435
+      },
+      {
+        "name": "tomoe_mami",
+        "count": 16670
+      },
+      {
+        "name": "senjougahara_hitagi",
+        "count": 3254
+      },
+      {
+        "name": "kisaragi_chihaya",
+        "count": 6611
+      },
+      {
+        "name": "oshino_shinobu",
+        "count": 6436
+      },
+      {
+        "name": "black_rock_shooter_(character)",
+        "count": 4453
+      },
+      {
+        "name": "nishijou_nanami",
+        "count": 506
+      },
+      {
+        "name": "astolfo_(fate)",
+        "count": 7544
+      },
+      {
+        "name": "bridget_(guilty_gear)",
+        "count": 4291
+      },
+      {
+        "name": "gokou_ruri",
+        "count": 3588
+      },
+      {
+        "name": "aisaka_taiga",
+        "count": 3464
+      },
+      {
+        "name": "kaburagi_t._kotetsu",
+        "count": 3314
+      },
+      {
+        "name": "charlotte_dunois",
+        "count": 1427
+      }
+    ]
+  },
+  "kobayashi-san_chi_no_maidragon": {
+    "cn": "小林家的龙女仆",
+    "existing": false,
+    "characters": [
+      {
+        "name": "kanna_kamui",
+        "count": 3224
+      },
+      {
+        "name": "tohru_(maidragon)",
+        "count": 2130
+      },
+      {
+        "name": "lucoa_(maidragon)",
+        "count": 1623
+      },
+      {
+        "name": "ilulu_(maidragon)",
+        "count": 1561
+      },
+      {
+        "name": "kobayashi_(maidragon)",
+        "count": 1055
+      },
+      {
+        "name": "elma_(maidragon)",
+        "count": 749
+      },
+      {
+        "name": "makima_(chainsaw_man)",
+        "count": 10640
+      },
+      {
+        "name": "anya_(spy_x_family)",
+        "count": 6659
+      },
+      {
+        "name": "rem_(re:zero)",
+        "count": 9988
+      },
+      {
+        "name": "miia_(monster_musume)",
+        "count": 1192
+      },
+      {
+        "name": "hong_meiling",
+        "count": 27726
+      },
+      {
+        "name": "power_(chainsaw_man)",
+        "count": 6503
+      },
+      {
+        "name": "aqua_(konosuba)",
+        "count": 6487
+      },
+      {
+        "name": "tatsumaki",
+        "count": 4877
+      },
+      {
+        "name": "remilia_scarlet",
+        "count": 60633
+      },
+      {
+        "name": "megumin",
+        "count": 10337
+      },
+      {
+        "name": "son_goku",
+        "count": 7030
+      },
+      {
+        "name": "izumi_sagiri",
+        "count": 2998
+      },
+      {
+        "name": "violet_evergarden",
+        "count": 1201
+      },
+      {
+        "name": "artoria_pendragon_(fate)",
+        "count": 45514
+      },
+      {
+        "name": "denji_(chainsaw_man)",
+        "count": 7726
+      },
+      {
+        "name": "hiroi_kikuri",
+        "count": 4049
+      },
+      {
+        "name": "elizabeth_bathory_(fate)",
+        "count": 3435
+      },
+      {
+        "name": "natsuki_subaru",
+        "count": 2943
+      },
+      {
+        "name": "kagari_atsuko",
+        "count": 2654
+      },
+      {
+        "name": "katsuragi_misato",
+        "count": 2045
+      },
+      {
+        "name": "platelet_(hataraku_saibou)",
+        "count": 803
+      },
+      {
+        "name": "nanase_haruka_(free!)",
+        "count": 563
+      },
+      {
+        "name": "2b_(nier:automata)",
+        "count": 12074
+      },
+      {
+        "name": "suzumiya_haruhi",
+        "count": 10948
+      }
+    ]
+  },
+  "high_school_dxd": {
+    "cn": "恶魔高校DxD",
+    "existing": false,
+    "characters": [
+      {
+        "name": "rias_gremory",
+        "count": 1730
+      },
+      {
+        "name": "himejima_akeno",
+        "count": 1326
+      },
+      {
+        "name": "xenovia_quarta",
+        "count": 675
+      },
+      {
+        "name": "toujou_koneko",
+        "count": 624
+      },
+      {
+        "name": "asia_argento",
+        "count": 566
+      },
+      {
+        "name": "kuroka_(high_school_dxd)",
+        "count": 604
+      },
+      {
+        "name": "rossweisse",
+        "count": 610
+      },
+      {
+        "name": "taihou_(azur_lane)",
+        "count": 6299
+      },
+      {
+        "name": "inoue_orihime",
+        "count": 2803
+      },
+      {
+        "name": "yumi_(senran_kagura)",
+        "count": 2060
+      },
+      {
+        "name": "asuka_(senran_kagura)",
+        "count": 1327
+      },
+      {
+        "name": "ikaruga_(senran_kagura)",
+        "count": 1223
+      },
+      {
+        "name": "emiya_shirou",
+        "count": 7675
+      },
+      {
+        "name": "lucy_heartfilia",
+        "count": 1448
+      },
+      {
+        "name": "bb_(fate)",
+        "count": 6461
+      },
+      {
+        "name": "kiryuuin_satsuki",
+        "count": 5142
+      },
+      {
+        "name": "atago_(azur_lane)",
+        "count": 4853
+      },
+      {
+        "name": "dark_magician_girl",
+        "count": 4278
+      },
+      {
+        "name": "hestia_(danmachi)",
+        "count": 4128
+      },
+      {
+        "name": "aigis_(persona)",
+        "count": 2969
+      },
+      {
+        "name": "maka_albarn",
+        "count": 1664
+      },
+      {
+        "name": "erza_scarlet",
+        "count": 1191
+      },
+      {
+        "name": "taihou_(enraptured_companion)_(azur_lane)",
+        "count": 1021
+      },
+      {
+        "name": "katsura_hinagiku",
+        "count": 972
+      },
+      {
+        "name": "atago_(stunning_speedster)_(azur_lane)",
+        "count": 964
+      },
+      {
+        "name": "esdeath",
+        "count": 576
+      },
+      {
+        "name": "ryoubi_(senran_kagura)",
+        "count": 576
+      },
+      {
+        "name": "yonomori_kobeni",
+        "count": 500
+      },
+      {
+        "name": "nanami_chiaki",
+        "count": 13375
+      },
+      {
+        "name": "akiyama_mio",
+        "count": 10513
+      }
+    ]
+  },
+  "darling_in_the_franxx": {
+    "cn": "DARLING in the FRANXX",
+    "existing": false,
+    "characters": [
+      {
+        "name": "zero_two_(darling_in_the_franxx)",
+        "count": 4442
+      },
+      {
+        "name": "hiro_(darling_in_the_franxx)",
+        "count": 1736
+      },
+      {
+        "name": "ichigo_(darling_in_the_franxx)",
+        "count": 1066
+      },
+      {
+        "name": "souryuu_asuka_langley",
+        "count": 17132
+      },
+      {
+        "name": "violet_evergarden",
+        "count": 1201
+      },
+      {
+        "name": "matoi_ryuuko",
+        "count": 8667
+      },
+      {
+        "name": "power_(chainsaw_man)",
+        "count": 6503
+      },
+      {
+        "name": "senketsu",
+        "count": 5400
+      },
+      {
+        "name": "2b_(nier:automata)",
+        "count": 12074
+      },
+      {
+        "name": "rem_(re:zero)",
+        "count": 9988
+      },
+      {
+        "name": "c.c.",
+        "count": 5849
+      },
+      {
+        "name": "albedo_(overlord)",
+        "count": 1544
+      },
+      {
+        "name": "kochou_shinobu",
+        "count": 3769
+      },
+      {
+        "name": "megumin",
+        "count": 10337
+      },
+      {
+        "name": "kiryuuin_satsuki",
+        "count": 5142
+      },
+      {
+        "name": "pipimi",
+        "count": 1780
+      },
+      {
+        "name": "platelet_(hataraku_saibou)",
+        "count": 803
+      },
+      {
+        "name": "tifa_lockhart",
+        "count": 16180
+      },
+      {
+        "name": "ayanami_rei",
+        "count": 10263
+      },
+      {
+        "name": "kitagawa_marin",
+        "count": 6316
+      },
+      {
+        "name": "shinjou_akane",
+        "count": 2765
+      },
+      {
+        "name": "raphtalia",
+        "count": 2674
+      },
+      {
+        "name": "kagari_atsuko",
+        "count": 2654
+      },
+      {
+        "name": "lio_fotia",
+        "count": 2407
+      },
+      {
+        "name": "diana_cavendish",
+        "count": 1606
+      },
+      {
+        "name": "sakurajima_mai",
+        "count": 1398
+      },
+      {
+        "name": "eva_01",
+        "count": 1098
+      },
+      {
+        "name": "shimakaze_(kancolle)",
+        "count": 20435
+      },
+      {
+        "name": "makima_(chainsaw_man)",
+        "count": 10640
+      },
+      {
+        "name": "nishikigi_chisato",
+        "count": 8223
+      }
+    ]
+  },
+  "zenless_zone_zero": {
+    "cn": "绝区零",
+    "existing": false,
+    "characters": [
+      {
+        "name": "ellen_joe",
+        "count": 8898
+      },
+      {
+        "name": "belle_(zenless_zone_zero)",
+        "count": 8423
+      },
+      {
+        "name": "wise_(zenless_zone_zero)",
+        "count": 7934
+      },
+      {
+        "name": "hoshimi_miyabi",
+        "count": 7375
+      },
+      {
+        "name": "jane_doe_(zenless_zone_zero)",
+        "count": 5661
+      },
+      {
+        "name": "nicole_demara",
+        "count": 4249
+      },
+      {
+        "name": "zhu_yuan",
+        "count": 3688
+      },
+      {
+        "name": "tsukishiro_yanagi",
+        "count": 3843
+      },
+      {
+        "name": "vivian_banshee",
+        "count": 4254
+      },
+      {
+        "name": "evelyn_chevalier",
+        "count": 4177
+      },
+      {
+        "name": "ukinami_yuzuha",
+        "count": 2767
+      },
+      {
+        "name": "yixuan_(zenless_zone_zero)",
+        "count": 3248
+      },
+      {
+        "name": "alice_thymefield",
+        "count": 2723
+      },
+      {
+        "name": "sunna_(zenless_zone_zero)",
+        "count": 3270
+      },
+      {
+        "name": "burnice_white",
+        "count": 3300
+      },
+      {
+        "name": "eous_(zenless_zone_zero)",
+        "count": 2831
+      },
+      {
+        "name": "astra_yao",
+        "count": 2968
+      },
+      {
+        "name": "von_lycaon",
+        "count": 2364
+      },
+      {
+        "name": "ju_fufu",
+        "count": 2648
+      },
+      {
+        "name": "luciana_de_montefio",
+        "count": 2277
+      },
+      {
+        "name": "aria_(zenless_zone_zero)",
+        "count": 2502
+      },
+      {
+        "name": "asaba_harumasa",
+        "count": 2037
+      },
+      {
+        "name": "ye_shunguang",
+        "count": 2177
+      },
+      {
+        "name": "anby_demara",
+        "count": 2218
+      },
+      {
+        "name": "nangong_yu",
+        "count": 2369
+      },
+      {
+        "name": "corin_wickes",
+        "count": 1847
+      },
+      {
+        "name": "ellen_joe_(on_campus)",
+        "count": 1475
+      },
+      {
+        "name": "soukaku_(zenless_zone_zero)",
+        "count": 1742
+      },
+      {
+        "name": "aria_(human)_(zenless_zone_zero)",
+        "count": 1943
+      },
+      {
+        "name": "caesar_king_(zenless_zone_zero)",
+        "count": 1667
+      }
+    ]
+  },
+  "wuthering_waves": {
+    "cn": "鸣潮",
+    "existing": false,
+    "characters": [
+      {
+        "name": "rover_(wuthering_waves)",
+        "count": 8642
+      },
+      {
+        "name": "zani_(wuthering_waves)",
+        "count": 5007
+      },
+      {
+        "name": "male_rover_(wuthering_waves)",
+        "count": 4707
+      },
+      {
+        "name": "female_rover_(wuthering_waves)",
+        "count": 4777
+      },
+      {
+        "name": "changli_(wuthering_waves)",
+        "count": 3575
+      },
+      {
+        "name": "chisa_(wuthering_waves)",
+        "count": 3097
+      },
+      {
+        "name": "aemeath_(wuthering_waves)",
+        "count": 2890
+      },
+      {
+        "name": "phoebe_(wuthering_waves)",
+        "count": 2936
+      },
+      {
+        "name": "shorekeeper_(wuthering_waves)",
+        "count": 2544
+      },
+      {
+        "name": "camellya_(wuthering_waves)",
+        "count": 2266
+      },
+      {
+        "name": "cartethyia_(wuthering_waves)",
+        "count": 2233
+      },
+      {
+        "name": "phrolova_(wuthering_waves)",
+        "count": 1960
+      },
+      {
+        "name": "iuno_(wuthering_waves)",
+        "count": 2157
+      },
+      {
+        "name": "denia_(wuthering_waves)",
+        "count": 1935
+      },
+      {
+        "name": "carlotta_(wuthering_waves)",
+        "count": 2214
+      },
+      {
+        "name": "cantarella_(wuthering_waves)",
+        "count": 1896
+      },
+      {
+        "name": "jinhsi_(wuthering_waves)",
+        "count": 1790
+      },
+      {
+        "name": "lynae_(wuthering_waves)",
+        "count": 1792
+      },
+      {
+        "name": "mornye_(wuthering_waves)",
+        "count": 1482
+      },
+      {
+        "name": "fleurdelys_(wuthering_waves)",
+        "count": 1457
+      },
+      {
+        "name": "hiyuki_(wuthering_waves)",
+        "count": 1398
+      },
+      {
+        "name": "lupa_(wuthering_waves)",
+        "count": 1227
+      },
+      {
+        "name": "yinlin_(wuthering_waves)",
+        "count": 1157
+      },
+      {
+        "name": "sigrika_(wuthering_waves)",
+        "count": 1012
+      },
+      {
+        "name": "augusta_(wuthering_waves)",
+        "count": 1032
+      },
+      {
+        "name": "yangyang_(wuthering_waves)",
+        "count": 818
+      },
+      {
+        "name": "galbrena_(wuthering_waves)",
+        "count": 1023
+      },
+      {
+        "name": "brant_(wuthering_waves)",
+        "count": 830
+      },
+      {
+        "name": "abby_(wuthering_waves)",
+        "count": 702
+      },
+      {
+        "name": "lucilla_(wuthering_waves)",
+        "count": 582
+      }
+    ]
+  },
+  "reverse:1999": {
+    "cn": "重返未来:1999",
+    "existing": false,
+    "characters": [
+      {
+        "name": "vertin_(reverse:1999)",
+        "count": 2923
+      },
+      {
+        "name": "sonetto_(reverse:1999)",
+        "count": 2066
+      },
+      {
+        "name": "37_(reverse:1999)",
+        "count": 1469
+      },
+      {
+        "name": "isolde_(reverse:1999)",
+        "count": 1234
+      },
+      {
+        "name": "regulus_(reverse:1999)",
+        "count": 949
+      },
+      {
+        "name": "schneider_(reverse:1999)",
+        "count": 837
+      },
+      {
+        "name": "kakania_(reverse:1999)",
+        "count": 860
+      },
+      {
+        "name": "voyager_(reverse:1999)",
+        "count": 781
+      },
+      {
+        "name": "apple_(reverse:1999)",
+        "count": 688
+      },
+      {
+        "name": "marcus_(reverse:1999)",
+        "count": 704
+      },
+      {
+        "name": "matilda_bouanich",
+        "count": 623
+      },
+      {
+        "name": "sotheby",
+        "count": 569
+      },
+      {
+        "name": "windsong_(reverse:1999)",
+        "count": 555
+      },
+      {
+        "name": "tooth_fairy_(reverse:1999)",
+        "count": 584
+      },
+      {
+        "name": "jessica_(reverse:1999)",
+        "count": 501
+      }
+    ]
+  },
+  "limbus_company": {
+    "cn": "Limbus Company",
+    "existing": false,
+    "characters": [
+      {
+        "name": "don_quixote_(project_moon)",
+        "count": 5968
+      },
+      {
+        "name": "ishmael_(project_moon)",
+        "count": 5889
+      },
+      {
+        "name": "faust_(project_moon)",
+        "count": 4246
+      },
+      {
+        "name": "hong_lu_(project_moon)",
+        "count": 4045
+      },
+      {
+        "name": "sinclair_(project_moon)",
+        "count": 4009
+      },
+      {
+        "name": "ryoshu_(project_moon)",
+        "count": 3574
+      },
+      {
+        "name": "yi_sang_(project_moon)",
+        "count": 3579
+      },
+      {
+        "name": "dante_(limbus_company)",
+        "count": 2737
+      },
+      {
+        "name": "heathcliff_(project_moon)",
+        "count": 2802
+      },
+      {
+        "name": "outis_(project_moon)",
+        "count": 2353
+      },
+      {
+        "name": "rodion_(project_moon)",
+        "count": 2198
+      },
+      {
+        "name": "gregor_(project_moon)",
+        "count": 1792
+      },
+      {
+        "name": "meursault_(project_moon)",
+        "count": 1716
+      },
+      {
+        "name": "sancho_(project_moon)",
+        "count": 1197
+      },
+      {
+        "name": "jia_xichun_(project_moon)",
+        "count": 810
+      },
+      {
+        "name": "la_manchaland's_don_quixote_(project_moon)",
+        "count": 549
+      },
+      {
+        "name": "kromer_(project_moon)",
+        "count": 638
+      },
+      {
+        "name": "roland_(project_moon)",
+        "count": 1342
+      },
+      {
+        "name": "carmen_(project_moon)",
+        "count": 638
+      },
+      {
+        "name": "angela_(project_moon)",
+        "count": 1949
+      },
+      {
+        "name": "binah_(project_moon)",
+        "count": 841
+      },
+      {
+        "name": "kal'tsit_(arknights)",
+        "count": 6147
+      },
+      {
+        "name": "argalia_(project_moon)",
+        "count": 596
+      },
+      {
+        "name": "malkuth_(project_moon)",
+        "count": 592
+      },
+      {
+        "name": "hod_(project_moon)",
+        "count": 690
+      },
+      {
+        "name": "skadi_(arknights)",
+        "count": 6758
+      }
+    ]
+  },
+  "persona": {
+    "cn": "女神异闻录",
+    "existing": false,
+    "characters": [
+      {
+        "name": "narukami_yu",
+        "count": 5430
+      },
+      {
+        "name": "amamiya_ren",
+        "count": 5170
+      },
+      {
+        "name": "yuuki_makoto_(persona_3)",
+        "count": 5289
+      },
+      {
+        "name": "shirogane_naoto",
+        "count": 3624
+      },
+      {
+        "name": "satonaka_chie",
+        "count": 3489
+      },
+      {
+        "name": "takeba_yukari",
+        "count": 2896
+      },
+      {
+        "name": "takamaki_ann",
+        "count": 2841
+      },
+      {
+        "name": "kujikawa_rise",
+        "count": 2764
+      },
+      {
+        "name": "shiomi_kotone",
+        "count": 2806
+      },
+      {
+        "name": "sakura_futaba",
+        "count": 2691
+      },
+      {
+        "name": "aigis_(persona)",
+        "count": 2969
+      },
+      {
+        "name": "amagi_yukiko",
+        "count": 2519
+      },
+      {
+        "name": "hanamura_yousuke",
+        "count": 2608
+      },
+      {
+        "name": "kirijou_mitsuru",
+        "count": 2290
+      },
+      {
+        "name": "niijima_makoto",
+        "count": 2103
+      },
+      {
+        "name": "akechi_goro",
+        "count": 1571
+      },
+      {
+        "name": "okumura_haru",
+        "count": 1510
+      },
+      {
+        "name": "yoshizawa_kasumi",
+        "count": 1513
+      },
+      {
+        "name": "tatsumi_kanji",
+        "count": 1584
+      },
+      {
+        "name": "doujima_nanako",
+        "count": 1268
+      },
+      {
+        "name": "adachi_tooru",
+        "count": 1391
+      },
+      {
+        "name": "kuma_(persona_4)",
+        "count": 1572
+      },
+      {
+        "name": "joker_(persona_5)",
+        "count": 1361
+      },
+      {
+        "name": "morgana_(persona_5)",
+        "count": 1361
+      },
+      {
+        "name": "yamagishi_fuuka",
+        "count": 1255
+      },
+      {
+        "name": "sanada_akihiko",
+        "count": 1138
+      },
+      {
+        "name": "aragaki_shinjirou",
+        "count": 1096
+      },
+      {
+        "name": "kawakami_sadayo",
+        "count": 1051
+      },
+      {
+        "name": "iori_junpei",
+        "count": 868
+      },
+      {
+        "name": "mochizuki_ryouji",
+        "count": 876
+      }
+    ]
+  }
+}

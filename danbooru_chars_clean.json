@@ -1,0 +1,302 @@
+{
+  "genshin_impact": {
+    "cn": "原神",
+    "existing": true,
+    "characters": []
+  },
+  "blue_archive": {
+    "cn": "蓝色档案",
+    "existing": true,
+    "characters": []
+  },
+  "fate_(series)": {
+    "cn": "Fate",
+    "existing": true,
+    "characters": []
+  },
+  "azur_lane": {
+    "cn": "碧蓝航线",
+    "existing": true,
+    "characters": []
+  },
+  "arknights": {
+    "cn": "明日方舟",
+    "existing": true,
+    "characters": []
+  },
+  "hololive": {
+    "cn": "Hololive",
+    "existing": true,
+    "characters": []
+  },
+  "touhou": {
+    "cn": "东方Project",
+    "existing": true,
+    "characters": []
+  },
+  "vocaloid": {
+    "cn": "Vocaloid",
+    "existing": true,
+    "characters": []
+  },
+  "honkai:_star_rail": {
+    "cn": "崩坏星穹铁道",
+    "existing": true,
+    "characters": []
+  },
+  "chainsaw_man": {
+    "cn": "电锯人",
+    "existing": true,
+    "characters": []
+  },
+  "bocchi_the_rock!": {
+    "cn": "孤独摇滚",
+    "existing": true,
+    "characters": []
+  },
+  "spy_x_family": {
+    "cn": "间谍过家家",
+    "existing": true,
+    "characters": []
+  },
+  "oshi_no_ko": {
+    "cn": "我推的孩子",
+    "existing": true,
+    "characters": []
+  },
+  "goddess_of_victory:_nikke": {
+    "cn": "胜利女神:NIKKE",
+    "existing": true,
+    "characters": []
+  },
+  "kimetsu_no_yaiba": {
+    "cn": "鬼灭之刃",
+    "existing": true,
+    "characters": []
+  },
+  "jujutsu_kaisen": {
+    "cn": "咒术回战",
+    "existing": true,
+    "characters": []
+  },
+  "re:zero_kara_hajimeru_isekai_seikatsu": {
+    "cn": "Re:Zero",
+    "existing": true,
+    "characters": []
+  },
+  "sword_art_online": {
+    "cn": "刀剑神域",
+    "existing": true,
+    "characters": []
+  },
+  "one_piece": {
+    "cn": "海贼王",
+    "existing": true,
+    "characters": []
+  },
+  "naruto_(series)": {
+    "cn": "火影忍者",
+    "existing": true,
+    "characters": []
+  },
+  "pokemon_(series)": {
+    "cn": "宝可梦",
+    "existing": true,
+    "characters": []
+  },
+  "love_live!": {
+    "cn": "LoveLive",
+    "existing": true,
+    "characters": []
+  },
+  "kono_subarashii_sekai_ni_shukufuku_wo!": {
+    "cn": "为美好世界献上祝福",
+    "existing": true,
+    "characters": []
+  },
+  "kantai_collection": {
+    "cn": "舰队Collection",
+    "existing": false,
+    "characters": []
+  },
+  "idolmaster": {
+    "cn": "偶像大师",
+    "existing": false,
+    "characters": []
+  },
+  "bang_dream!": {
+    "cn": "BanG Dream!",
+    "existing": false,
+    "characters": []
+  },
+  "mahou_shoujo_madoka_magica": {
+    "cn": "魔法少女小圆",
+    "existing": false,
+    "characters": []
+  },
+  "neon_genesis_evangelion": {
+    "cn": "EVA新世纪福音战士",
+    "existing": false,
+    "characters": []
+  },
+  "dragon_ball": {
+    "cn": "龙珠",
+    "existing": false,
+    "characters": []
+  },
+  "shingeki_no_kyojin": {
+    "cn": "进击的巨人",
+    "existing": false,
+    "characters": []
+  },
+  "honkai_impact_3rd": {
+    "cn": "崩坏3rd",
+    "existing": false,
+    "characters": []
+  },
+  "girls_frontline": {
+    "cn": "少女前线",
+    "existing": false,
+    "characters": []
+  },
+  "umamusume": {
+    "cn": "赛马娘",
+    "existing": false,
+    "characters": []
+  },
+  "lycoris_recoil": {
+    "cn": "Lycoris Recoil 莉可丽丝",
+    "existing": false,
+    "characters": []
+  },
+  "boku_no_hero_academia": {
+    "cn": "我的英雄学院",
+    "existing": false,
+    "characters": []
+  },
+  "toaru_majutsu_no_index": {
+    "cn": "魔法禁书目录",
+    "existing": false,
+    "characters": []
+  },
+  "date_a_live": {
+    "cn": "约会大作战",
+    "existing": false,
+    "characters": []
+  },
+  "princess_connect!": {
+    "cn": "公主连结",
+    "existing": false,
+    "characters": []
+  },
+  "dungeon_meshi": {
+    "cn": "迷宫饭",
+    "existing": false,
+    "characters": []
+  },
+  "sousou_no_frieren": {
+    "cn": "葬送的芙莉莲",
+    "existing": false,
+    "characters": []
+  },
+  "mushoku_tensei": {
+    "cn": "无职转生",
+    "existing": false,
+    "characters": []
+  },
+  "violet_evergarden": {
+    "cn": "紫罗兰永恒花园",
+    "existing": false,
+    "characters": []
+  },
+  "made_in_abyss": {
+    "cn": "来自深渊",
+    "existing": false,
+    "characters": []
+  },
+  "nier_(series)": {
+    "cn": "尼尔",
+    "existing": false,
+    "characters": []
+  },
+  "final_fantasy": {
+    "cn": "最终幻想",
+    "existing": false,
+    "characters": []
+  },
+  "granblue_fantasy": {
+    "cn": "碧蓝幻想",
+    "existing": false,
+    "characters": []
+  },
+  "k-on!": {
+    "cn": "轻音少女",
+    "existing": false,
+    "characters": []
+  },
+  "kill_la_kill": {
+    "cn": "斩服少女",
+    "existing": false,
+    "characters": []
+  },
+  "danganronpa_(series)": {
+    "cn": "弹丸论破",
+    "existing": false,
+    "characters": []
+  },
+  "go-toubun_no_hanayome": {
+    "cn": "五等分的新娘",
+    "existing": false,
+    "characters": []
+  },
+  "tensei_shitara_slime_datta_ken": {
+    "cn": "转生史莱姆",
+    "existing": false,
+    "characters": []
+  },
+  "steins;gate": {
+    "cn": "命运石之门",
+    "existing": false,
+    "characters": []
+  },
+  "kobayashi-san_chi_no_maidragon": {
+    "cn": "小林家的龙女仆",
+    "existing": false,
+    "characters": []
+  },
+  "high_school_dxd": {
+    "cn": "恶魔高校DxD",
+    "existing": false,
+    "characters": []
+  },
+  "darling_in_the_franxx": {
+    "cn": "DARLING in the FRANXX",
+    "existing": false,
+    "characters": []
+  },
+  "zenless_zone_zero": {
+    "cn": "绝区零",
+    "existing": false,
+    "characters": []
+  },
+  "wuthering_waves": {
+    "cn": "鸣潮",
+    "existing": false,
+    "characters": []
+  },
+  "reverse:1999": {
+    "cn": "重返未来:1999",
+    "existing": false,
+    "characters": []
+  },
+  "limbus_company": {
+    "cn": "Limbus Company",
+    "existing": false,
+    "characters": []
+  },
+  "persona": {
+    "cn": "女神异闻录",
+    "existing": false,
+    "characters": []
+  }
+}
