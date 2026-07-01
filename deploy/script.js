@@ -1554,7 +1554,7 @@
 
         renderSubTabs() {
             this.subTabsEl.innerHTML = '';
-            const subs = tagData[this.groupIdx]?.subgroups || [];
+            const subs = (tagData[this.groupIdx]?.subgroups || []).filter(Boolean);
             subs.forEach((s, i) => {
                 const tab = document.createElement('span');
                 tab.className = 'tab' + (i === this.subIdx ? ' active' : '');
