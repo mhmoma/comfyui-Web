@@ -3824,10 +3824,10 @@
         };
 
         if (_naiStartFrameBase64) {
-            payload.image = _naiStartFrameBase64;
+            payload.image = [_naiStartFrameBase64];
         }
         if (_naiEndFrameBase64) {
-            payload.end_image = _naiEndFrameBase64;
+            payload.end_image = [_naiEndFrameBase64];
         }
 
         return payload;
