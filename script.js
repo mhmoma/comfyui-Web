@@ -3926,15 +3926,29 @@
 
                 // Poll
                 let attempts = 0;
+                let pollErrors = 0;
                 const maxAttempts = 120;
+                const maxPollErrors = 5;
                 while (attempts < maxAttempts) {
                     await new Promise(r => setTimeout(r, 5000));
                     attempts++;
 
-                    const resultRes = await fetch(endpoints.resultUrl(job_id), { headers: endpoints.headers });
-                    if (!resultRes.ok) {
-                        throw new Error(`查询失败 (${resultRes.status})`);
+                    let resultRes;
+                    try {
+                        resultRes = await fetch(endpoints.resultUrl(job_id), { headers: endpoints.headers });
+                    } catch (fetchErr) {
+                        pollErrors++;
+                        if (pollErrors >= maxPollErrors) throw new Error('网络错误，查询多次失败');
+                        progressText.textContent = `查询暂时失败，重试中 (${pollErrors}/${maxPollErrors})...`;
+                        continue;
                     }
+                    if (!resultRes.ok) {
+                        pollErrors++;
+                        if (pollErrors >= maxPollErrors) throw new Error(`查询失败 (${resultRes.status})，已重试 ${maxPollErrors} 次`);
+                        progressText.textContent = `查询暂时失败 (${resultRes.status})，重试中 (${pollErrors}/${maxPollErrors})...`;
+                        continue;
+                    }
+                    pollErrors = 0;
 
                     const result = await resultRes.json();
                     const pct = Math.min(30 + (attempts / maxAttempts) * 60, 90);
