@@ -3522,6 +3522,9 @@
             ['rng-nai-cfg', 'nai-cfg-val', v => parseFloat(v).toFixed(1)],
             ['rng-nai-rescale', 'nai-rescale-val', v => parseFloat(v).toFixed(2)],
             ['rng-nai-batch', 'nai-batch-val', v => v],
+            ['rng-nai-duration', 'nai-duration-val', v => parseFloat(v).toFixed(1)],
+            ['rng-nai-video-steps', 'nai-video-steps-val', v => v],
+            ['rng-nai-video-guidance', 'nai-video-guidance-val', v => parseFloat(v).toFixed(1)],
         ];
         sliders.forEach(([sliderId, valId, fmt]) => {
             const slider = document.getElementById(sliderId);
@@ -3538,6 +3541,42 @@
                 document.getElementById('inp-nai-seed').value = Math.floor(Math.random() * 4294967295);
             });
         }
+
+        // Video random seed
+        const btnVideoSeed = document.getElementById('btn-nai-video-random-seed');
+        if (btnVideoSeed) {
+            btnVideoSeed.addEventListener('click', () => {
+                document.getElementById('inp-nai-video-seed').value = Math.floor(Math.random() * 4294967295);
+            });
+        }
+
+        // Model switch: show/hide video panel vs image panels
+        const selModel = document.getElementById('sel-nai-model');
+        if (selModel) {
+            const imageOnlyGroups = ['nai-basic', 'nai-img2img', 'nai-vibe', 'nai-director-ref', 'nai-character', 'nai-extra'];
+            selModel.addEventListener('change', () => {
+                const isVideo = selModel.value.startsWith('wan2');
+                const videoPanel = document.getElementById('nai-video-panel');
+                if (videoPanel) videoPanel.classList.toggle('hidden', !isVideo);
+                // Hide image-specific panels that don't apply to video
+                const imageSizePanels = document.querySelectorAll('#mode-nai [data-group="nai-basic"] .panel');
+                const sizePanel = imageSizePanels[2]; // image size panel
+                const samplingPanel = imageSizePanels[3]; // sampling panel
+                const specialPanel = imageSizePanels[4]; // special features panel
+                if (sizePanel) sizePanel.style.display = isVideo ? 'none' : '';
+                if (samplingPanel) samplingPanel.style.display = isVideo ? 'none' : '';
+                if (specialPanel) specialPanel.style.display = isVideo ? 'none' : '';
+                // Hide image-only groups for video mode
+                ['nai-img2img', 'nai-vibe', 'nai-director-ref', 'nai-character', 'nai-extra'].forEach(g => {
+                    const el = document.querySelector(`#mode-nai [data-group="${g}"]`);
+                    if (el) el.style.display = isVideo ? 'none' : '';
+                });
+            });
+        }
+
+        // Video frame upload helpers
+        setupNaiFrameUpload('nai-start-frame');
+        setupNaiFrameUpload('nai-end-frame');
 
         // img2img upload
         const img2imgZone = document.getElementById('nai-img2img-zone');
@@ -3624,6 +3663,53 @@
     }
 
     let _naiImg2imgBase64 = null;
+    let _naiStartFrameBase64 = null;
+    let _naiEndFrameBase64 = null;
+
+    function setupNaiFrameUpload(prefix) {
+        const zone = document.getElementById(`${prefix}-zone`);
+        const input = document.getElementById(`inp-${prefix}`);
+        if (!zone || !input) return;
+
+        zone.addEventListener('click', () => input.click());
+        zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = '#14b8a6'; });
+        zone.addEventListener('dragleave', () => { zone.style.borderColor = ''; });
+        zone.addEventListener('drop', e => {
+            e.preventDefault();
+            zone.style.borderColor = '';
+            if (e.dataTransfer.files.length) handleNaiFrameFile(prefix, e.dataTransfer.files[0]);
+        });
+        input.addEventListener('change', () => {
+            if (input.files[0]) handleNaiFrameFile(prefix, input.files[0]);
+        });
+
+        const removeBtn = document.querySelector(`.nai-remove-img[data-target="${prefix}"]`);
+        if (removeBtn) {
+            removeBtn.addEventListener('click', () => {
+                if (prefix === 'nai-start-frame') _naiStartFrameBase64 = null;
+                else _naiEndFrameBase64 = null;
+                document.getElementById(`${prefix}-preview`).classList.add('hidden');
+                zone.classList.remove('hidden');
+                document.getElementById(`inp-${prefix}`).value = '';
+            });
+        }
+    }
+
+    function handleNaiFrameFile(prefix, file) {
+        if (!file.type.startsWith('image/')) { showToast('请上传图片文件'); return; }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const b64 = e.target.result.split(',')[1];
+            if (prefix === 'nai-start-frame') _naiStartFrameBase64 = b64;
+            else _naiEndFrameBase64 = b64;
+            const preview = document.getElementById(`${prefix}-preview`);
+            const img = document.getElementById(`${prefix}-img`);
+            img.src = e.target.result;
+            preview.classList.remove('hidden');
+            document.getElementById(`${prefix}-zone`).classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+    }
 
     function handleNaiImg2imgFile(file) {
         if (!file.type.startsWith('image/')) { showToast('请上传图片文件'); return; }
@@ -3722,11 +3808,44 @@
         return payload;
     }
 
+    function getNaiVideoPayload() {
+        let seed = parseInt(document.getElementById('inp-nai-video-seed').value);
+        if (seed < 0) seed = Math.floor(Math.random() * 4294967295);
+
+        const payload = {
+            model: document.getElementById('sel-nai-model').value,
+            positivePrompt: document.getElementById('txt-positive').value.trim(),
+            negativePrompt: document.getElementById('txt-negative').value.trim(),
+            seed: seed,
+            steps: parseInt(document.getElementById('rng-nai-video-steps').value),
+            scale: parseFloat(document.getElementById('rng-nai-video-guidance').value),
+            duration: parseFloat(document.getElementById('rng-nai-duration').value),
+            fps: parseInt(document.getElementById('sel-nai-fps').value),
+        };
+
+        if (_naiStartFrameBase64) {
+            payload.image = _naiStartFrameBase64;
+        }
+        if (_naiEndFrameBase64) {
+            payload.end_image = _naiEndFrameBase64;
+        }
+
+        return payload;
+    }
+
     async function naiGenerate() {
         const apiKey = document.getElementById('inp-nai-apikey').value.trim();
         if (!apiKey) { showToast('请先输入 API Key'); return; }
 
-        const batchCount = parseInt(document.getElementById('rng-nai-batch').value) || 1;
+        const model = document.getElementById('sel-nai-model').value;
+        const isVideo = model.startsWith('wan2');
+
+        if (isVideo && !_naiStartFrameBase64) {
+            showToast('视频生成需要上传首帧图片');
+            return;
+        }
+
+        const batchCount = isVideo ? 1 : (parseInt(document.getElementById('rng-nai-batch').value) || 1);
         const btnGen = document.getElementById('btn-nai-generate');
         const progressContainer = document.getElementById('progress-container');
         const progressBar = document.getElementById('progress-bar');
@@ -3743,7 +3862,7 @@
                 }
                 progressBar.style.width = '10%';
 
-                const payload = getNaiPayload();
+                const payload = isVideo ? getNaiVideoPayload() : getNaiPayload();
                 const headers = {
                     'Authorization': `Bearer ${apiKey}`,
                     'Content-Type': 'application/json'
@@ -3783,16 +3902,37 @@
 
                     if (result.status === 'completed') {
                         progressBar.style.width = '100%';
-                        const imageUrl = result.image_url || result.video_url;
-                        if (imageUrl) {
+                        const mediaUrl = result.image_url || result.video_url;
+                        if (mediaUrl) {
                             const resultImg = document.getElementById('result-image');
                             const placeholder = document.getElementById('result-placeholder');
                             const actions = document.getElementById('result-actions');
-                            resultImg.src = imageUrl;
-                            resultImg.classList.remove('hidden');
+
+                            if (result.video_url) {
+                                // Replace img with video element
+                                let videoEl = document.getElementById('result-video');
+                                if (!videoEl) {
+                                    videoEl = document.createElement('video');
+                                    videoEl.id = 'result-video';
+                                    videoEl.className = 'result-image';
+                                    videoEl.controls = true;
+                                    videoEl.autoplay = true;
+                                    videoEl.loop = true;
+                                    resultImg.parentNode.insertBefore(videoEl, resultImg.nextSibling);
+                                }
+                                videoEl.src = result.video_url;
+                                videoEl.classList.remove('hidden');
+                                resultImg.classList.add('hidden');
+                                showToast('视频生成完成！');
+                            } else {
+                                const videoEl = document.getElementById('result-video');
+                                if (videoEl) videoEl.classList.add('hidden');
+                                resultImg.src = mediaUrl;
+                                resultImg.classList.remove('hidden');
+                                showToast(batchCount > 1 ? `第 ${batch + 1}/${batchCount} 张生成完成！` : '图片生成完成！');
+                            }
                             placeholder.classList.add('hidden');
                             if (actions) actions.classList.remove('hidden');
-                            showToast(batchCount > 1 ? `第 ${batch + 1}/${batchCount} 张生成完成！` : '图片生成完成！');
                         }
                         break;
                     } else if (result.status === 'failed') {

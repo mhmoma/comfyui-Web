@@ -305,6 +305,7 @@
                                     <option value="nai-diffusion-4-5-full">NAI Diffusion V4.5 Full</option>
                                     <option value="nai-diffusion-4-full">NAI Diffusion V4 Full</option>
                                     <option value="nai-diffusion-3">NAI Diffusion V3</option>
+                                    <option value="wan2-2">wan2-2 I2V (图像转视频) 💎</option>
                                 </select>
                             </section>
 
@@ -440,6 +441,71 @@
                                     <label><input type="checkbox" id="chk-nai-use-coords"> AI决定位置</label>
                                 </div>
                                 <div id="nai-character-info" class="nai-desc">已配置 0/6 个角色，当前启用 0 个。</div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- 分组：视频生成参数 (wan2-2选中时显示) -->
+                    <div class="panel-group hidden" data-group="nai-video" id="nai-video-panel">
+                        <div class="panel-group-header">视频生成参数</div>
+                        <div class="panel-group-body">
+                            <section class="panel">
+                                <div class="nai-video-frames">
+                                    <div class="nai-frame-col">
+                                        <h3>首帧 (Start Frame)</h3>
+                                        <div class="nai-upload-zone nai-frame-zone" id="nai-start-frame-zone">
+                                            <span>📤</span>
+                                            <span>点击或拖拽图像上传</span>
+                                            <input type="file" id="inp-nai-start-frame" accept="image/*" hidden>
+                                        </div>
+                                        <div id="nai-start-frame-preview" class="file-preview hidden">
+                                            <img id="nai-start-frame-img" alt="首帧预览">
+                                            <button class="btn-icon nai-remove-img" data-target="nai-start-frame">✕</button>
+                                        </div>
+                                    </div>
+                                    <div class="nai-frame-col">
+                                        <h3>末尾帧 (End Frame) - 可选</h3>
+                                        <div class="nai-upload-zone nai-frame-zone" id="nai-end-frame-zone">
+                                            <span>🎬</span>
+                                            <span>点击或拖拽图像上传</span>
+                                            <input type="file" id="inp-nai-end-frame" accept="image/*" hidden>
+                                        </div>
+                                        <div id="nai-end-frame-preview" class="file-preview hidden">
+                                            <img id="nai-end-frame-img" alt="末尾帧预览">
+                                            <button class="btn-icon nai-remove-img" data-target="nai-end-frame">✕</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="panel">
+                                <div class="seed-row">
+                                    <label style="flex:1;margin:0">种子 <input type="number" id="inp-nai-video-seed" value="-1"></label>
+                                    <button id="btn-nai-video-random-seed" class="btn-icon" title="随机">🎲</button>
+                                </div>
+                                <div class="nai-slider-row">
+                                    <label>视频时长(秒)</label>
+                                    <input type="range" id="rng-nai-duration" min="1" max="6" step="0.5" value="3.5">
+                                    <span id="nai-duration-val" class="nai-slider-val">3.5</span>
+                                </div>
+                                <label>每秒帧数
+                                    <select id="sel-nai-fps">
+                                        <option value="16" selected>16 FPS</option>
+                                        <option value="32">32 FPS</option>
+                                        <option value="64">64 FPS</option>
+                                        <option value="128">128 FPS</option>
+                                    </select>
+                                </label>
+                                <div class="nai-slider-row">
+                                    <label>推理步数</label>
+                                    <input type="range" id="rng-nai-video-steps" min="1" max="8" value="4">
+                                    <span id="nai-video-steps-val" class="nai-slider-val">4</span>
+                                </div>
+                                <div class="nai-slider-row">
+                                    <label>Guidance Scale</label>
+                                    <input type="range" id="rng-nai-video-guidance" min="0" max="2" step="0.1" value="1.0">
+                                    <span id="nai-video-guidance-val" class="nai-slider-val">1.0</span>
+                                </div>
+                                <p class="nai-desc" style="margin-top:8px">如果生成失败，请尝试降低生成步数、视频时长、每秒帧数和引导强度；如果使用默认参数多次仍无法生成，请再报告问题。</p>
                             </section>
                         </div>
                     </div>
