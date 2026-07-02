@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS characters (
   thumb_url TEXT DEFAULT '',
   count INTEGER DEFAULT 0,
   lora_url TEXT DEFAULT '',
+  tags TEXT DEFAULT '',
   FOREIGN KEY (series_id) REFERENCES series(id)
 );
 CREATE INDEX IF NOT EXISTS idx_chars_series ON characters(series_id);
@@ -70,8 +71,8 @@ export async function onRequestPost(context) {
     for (const s of batch) {
       const charStmts = s.characters.map(ch =>
         db.prepare(
-          'INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES (?, ?, ?, ?, ?, ?)'
-        ).bind(s.id, ch.t, ch.n, ch.th || '', ch.c || 0, ch.lora || '')
+          'INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url, tags) VALUES (?, ?, ?, ?, ?, ?, ?)'
+        ).bind(s.id, ch.t, ch.n, ch.th || '', ch.c || 0, ch.lora || '', ch.tags ? JSON.stringify(ch.tags) : '')
       );
       if (charStmts.length > 0) {
         await db.batch(charStmts);

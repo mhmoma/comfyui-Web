@@ -1826,7 +1826,12 @@
                     <div class="char-preview-info">
                         <div class="char-preview-name"></div>
                         <div class="char-preview-trigger"></div>
+                        <div class="char-preview-tags"></div>
                         <div class="char-preview-lora"></div>
+                        <div class="char-preview-actions">
+                            <button class="char-preview-btn" data-action="trigger">Trigger</button>
+                            <button class="char-preview-btn" data-action="trigger-tags">Trigger + Tags</button>
+                        </div>
                     </div>
                     <button class="char-preview-close">✕</button>
                 </div>`;
@@ -1835,12 +1840,34 @@
                 if (e.target === overlay || e.target.classList.contains('char-preview-close')) {
                     overlay.classList.add('hidden');
                 }
+                if (e.target.dataset.action) {
+                    const storedTag = overlay._currentTag;
+                    if (!storedTag) return;
+                    let text = storedTag.t;
+                    if (e.target.dataset.action === 'trigger-tags' && storedTag.tags && storedTag.tags.length > 0) {
+                        text = text + ', ' + storedTag.tags.join(', ');
+                    }
+                    const ta = dom.txtPositive;
+                    const cur = ta.value.trim();
+                    ta.value = cur ? cur + ', ' + text : text;
+                    ta.dispatchEvent(new Event('input', { bubbles: true }));
+                    overlay.classList.add('hidden');
+                }
             });
         }
+        overlay._currentTag = tag;
         overlay.querySelector('.char-preview-img').src = imgUrl;
         overlay.querySelector('.char-preview-img').alt = tag.d;
         overlay.querySelector('.char-preview-name').textContent = tag.d;
         overlay.querySelector('.char-preview-trigger').textContent = tag.t;
+        const tagsEl = overlay.querySelector('.char-preview-tags');
+        if (tag.tags && tag.tags.length > 0) {
+            tagsEl.innerHTML = tag.tags.map(t => `<span class="char-tag-pill">${t}</span>`).join('');
+            tagsEl.classList.remove('hidden');
+        } else {
+            tagsEl.innerHTML = '';
+            tagsEl.classList.add('hidden');
+        }
         const loraEl = overlay.querySelector('.char-preview-lora');
         if (tag.lora) {
             loraEl.innerHTML = `<a href="${tag.lora}" target="_blank" rel="noopener">CivitAI LoRA</a>`;

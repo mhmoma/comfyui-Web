@@ -22,7 +22,7 @@ export async function onRequestGet(context) {
   try {
     const pattern = `%${q}%`;
     const { results } = await db.prepare(
-      `SELECT c.trigger_text AS t, c.name AS d, c.thumb_url AS th, c.lora_url AS lora, c.count,
+      `SELECT c.trigger_text AS t, c.name AS d, c.thumb_url AS th, c.lora_url AS lora, c.tags, c.count,
               s.name AS series_name
        FROM characters c
        JOIN series s ON c.series_id = s.id
@@ -36,6 +36,7 @@ export async function onRequestGet(context) {
       d: r.d,
       th: r.th || undefined,
       lora: r.lora || undefined,
+      tags: r.tags ? JSON.parse(r.tags) : undefined,
       series: r.series_name,
     }));
 

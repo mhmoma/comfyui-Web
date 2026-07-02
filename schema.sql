@@ -15,6 +15,7 @@ CREATE TABLE characters (
   thumb_url TEXT DEFAULT '',
   count INTEGER DEFAULT 0,
   lora_url TEXT DEFAULT '',
+  tags TEXT DEFAULT '',
   FOREIGN KEY (series_id) REFERENCES series(id)
 );
 

@@ -146,6 +146,7 @@ function main() {
       th: c.thumb_url || '',
       c: c.count || 0,
       lora: (c.loras && c.loras.length > 0) ? c.loras[0].url : undefined,
+      tags: (c.tags && c.tags.length > 0) ? c.tags : undefined,
     })),
   }));
 

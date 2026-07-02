@@ -19,7 +19,7 @@ export async function onRequestGet(context) {
 
   try {
     const { results } = await db.prepare(
-      `SELECT trigger_text AS t, name AS d, thumb_url AS th, lora_url AS lora
+      `SELECT trigger_text AS t, name AS d, thumb_url AS th, lora_url AS lora, tags
        FROM characters
        WHERE series_id = ?
        ORDER BY count DESC`
@@ -30,6 +30,7 @@ export async function onRequestGet(context) {
       d: r.d,
       th: r.th || undefined,
       lora: r.lora || undefined,
+      tags: r.tags ? JSON.parse(r.tags) : undefined,
     }));
 
     return new Response(JSON.stringify(mapped), {

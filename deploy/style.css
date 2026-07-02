@@ -2806,3 +2806,170 @@ textarea {
     width: 100%;
     border-radius: 6px;
 }
+
+/* ==================== 角色缩略图标签 ==================== */
+.tag-item.tag-char {
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    min-width: 120px;
+    max-width: 180px;
+}
+
+.tag-thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+}
+
+.tag-item.tag-char .tag-desc {
+    font-size: 0.72rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tag-item.tag-char .tag-text {
+    font-size: 0.58rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ==================== 角色预览弹窗 ==================== */
+.char-preview-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(6px);
+}
+
+.char-preview-overlay.hidden {
+    display: none;
+}
+
+.char-preview-card {
+    position: relative;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    max-width: 480px;
+    max-height: 85vh;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.char-preview-img {
+    width: 100%;
+    max-height: 65vh;
+    object-fit: contain;
+    display: block;
+    background: var(--bg-input);
+}
+
+.char-preview-info {
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.char-preview-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.char-preview-trigger {
+    font-size: 0.8rem;
+    color: var(--accent-blue);
+    font-family: 'Consolas', monospace;
+    word-break: break-all;
+    line-height: 1.4;
+}
+
+.char-preview-lora a {
+    font-size: 0.8rem;
+    color: var(--accent-green);
+    text-decoration: none;
+}
+
+.char-preview-lora a:hover {
+    text-decoration: underline;
+}
+
+.char-preview-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 4px 0;
+}
+
+.char-preview-tags.hidden {
+    display: none;
+}
+
+.char-tag-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: rgba(139, 92, 246, 0.15);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    color: var(--accent-purple);
+    font-size: 0.7rem;
+    white-space: nowrap;
+}
+
+.char-preview-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.char-preview-btn {
+    flex: 1;
+    padding: 6px 12px;
+    border: 1px solid var(--accent-purple);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--accent-purple);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.char-preview-btn:hover {
+    background: var(--accent-purple);
+    color: white;
+}
+
+.char-preview-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.char-preview-close:hover {
+    background: var(--accent);
+}

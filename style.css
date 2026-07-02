@@ -2907,6 +2907,51 @@ textarea {
     text-decoration: underline;
 }
 
+.char-preview-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 4px 0;
+}
+
+.char-preview-tags.hidden {
+    display: none;
+}
+
+.char-tag-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: rgba(139, 92, 246, 0.15);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    color: var(--accent-purple);
+    font-size: 0.7rem;
+    white-space: nowrap;
+}
+
+.char-preview-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.char-preview-btn {
+    flex: 1;
+    padding: 6px 12px;
+    border: 1px solid var(--accent-purple);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--accent-purple);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.char-preview-btn:hover {
+    background: var(--accent-purple);
+    color: white;
+}
+
 .char-preview-close {
     position: absolute;
     top: 8px;
