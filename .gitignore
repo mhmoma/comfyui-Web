@@ -7,3 +7,4 @@ launcher_config.json
 *.zip
 .netlify/
 deploy/.netlify/
+animadex_raw.json
