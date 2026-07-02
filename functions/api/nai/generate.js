@@ -40,7 +40,6 @@ export async function onRequestPost(context) {
         error: `每小时最多 ${MAX_PER_IP_HOUR} 次请求，请稍后再试`,
         retry_after: Math.ceil((recentRequests[0] + 3600000 - now) / 1000),
         rate_limited: true,
-        _debug: { hasHeader: !!adminKey, hasEnv: !!env.ADMIN_KEY, match: isAdmin }
       });
     }
   }

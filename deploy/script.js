@@ -1544,6 +1544,9 @@
 
     // ==================== 标签选择器（双面板） ====================
     let tagData = [];
+    const _charCache = {};
+    let _charGroupIdx = -1;
+    const CHAR_BASE_SUBS = 1;
 
     async function loadTags() {
         try {
@@ -1552,6 +1555,43 @@
         } catch (e) {
             console.warn('标签数据加载失败:', e);
         }
+        try {
+            const res = await fetch('/api/characters/series');
+            if (res.ok) {
+                const seriesList = await res.json();
+                _charGroupIdx = tagData.findIndex(g => g.name === '人物');
+                if (_charGroupIdx >= 0) {
+                    const group = tagData[_charGroupIdx];
+                    const baseSubs = group.subgroups.filter(s => s && (s.name === '对象' || s.name === '属性'));
+                    const dbSubs = seriesList.map(s => ({
+                        name: s.name,
+                        _seriesId: s.id,
+                        tags: [],
+                    }));
+                    group.subgroups = [...baseSubs, ...dbSubs];
+                    console.log(`[D1] Loaded ${seriesList.length} series from database`);
+                }
+            }
+        } catch (e) {
+            console.warn('[D1] 角色系列加载失败，使用本地数据:', e);
+        }
+    }
+
+    async function _fetchSeriesChars(seriesId) {
+        if (_charCache[seriesId]) return _charCache[seriesId];
+        const res = await fetch(`/api/characters/${encodeURIComponent(seriesId)}`);
+        if (!res.ok) return [];
+        const data = await res.json();
+        _charCache[seriesId] = data;
+        return data;
+    }
+
+    async function _searchCharsFromDb(query) {
+        try {
+            const res = await fetch(`/api/characters/search?q=${encodeURIComponent(query)}&limit=100`);
+            if (!res.ok) return [];
+            return await res.json();
+        } catch { return []; }
     }
 
     class TagPicker {
@@ -1617,42 +1657,78 @@
                 tab.addEventListener('click', () => {
                     this.subIdx = i;
                     this.renderSubTabs();
-                    this.renderGrid();
+                    if (this.groupIdx === _charGroupIdx && i >= CHAR_BASE_SUBS && s._seriesId && s.tags.length === 0) {
+                        this.gridEl.innerHTML = '<div style="padding:20px;color:#999">加载中...</div>';
+                        _fetchSeriesChars(s._seriesId).then(tags => {
+                            s.tags = tags;
+                            this.renderGrid();
+                        });
+                    } else {
+                        this.renderGrid();
+                    }
                 });
                 this.subTabsEl.appendChild(tab);
             });
         }
 
         renderGrid() {
-            console.log(`[TagPicker ${this.id}] renderGrid, tabsEl:`, this.tabsEl, 'subTabsEl:', this.subTabsEl, 'gridEl:', this.gridEl);
             if (!this.gridEl || !this.subTabsEl) { console.error('Missing elements!'); return; }
             this.gridEl.innerHTML = '';
             const search = this.searchEl.value.toLowerCase();
             let items;
             if (search) {
                 items = [];
-                tagData.forEach(g => g.subgroups.forEach(s => s.tags.forEach(t => {
+                tagData.forEach(g => g.subgroups.forEach(s => (s.tags || []).forEach(t => {
                     if (t.t.toLowerCase().includes(search) || t.d.includes(search)) items.push(t);
                 })));
                 items = items.slice(0, 100);
+                if (this.groupIdx === _charGroupIdx && items.length < 20) {
+                    _searchCharsFromDb(search).then(dbItems => {
+                        const existing = new Set(items.map(i => i.t));
+                        const extra = dbItems.filter(d => !existing.has(d.t));
+                        if (extra.length > 0) {
+                            this._renderItems([...items, ...extra.slice(0, 100 - items.length)]);
+                        }
+                    });
+                }
             } else {
-                items = tagData[this.groupIdx]?.subgroups[this.subIdx]?.tags || [];
+                const sub = tagData[this.groupIdx]?.subgroups[this.subIdx];
+                if (sub && sub._seriesId && sub.tags.length === 0) {
+                    this.gridEl.innerHTML = '<div style="padding:20px;color:#999">加载中...</div>';
+                    _fetchSeriesChars(sub._seriesId).then(tags => {
+                        sub.tags = tags;
+                        this._renderItems(tags);
+                    });
+                    return;
+                }
+                items = sub?.tags || [];
             }
 
-            const selected = this.getSelectedTags();
+            this._renderItems(items);
+        }
 
+        _renderItems(items) {
+            this.gridEl.innerHTML = '';
+            const selected = this.getSelectedTags();
             const isArtistGroup = tagData[this.groupIdx]?.name?.includes('画师');
 
             items.forEach(tag => {
                 const div = document.createElement('div');
                 const isSelected = selected.has(tag.t);
                 const weight = this.getTagWeight(tag.t);
-                div.className = 'tag-item' + (isSelected ? ' selected' : '') + (isArtistGroup ? ' tag-artist' : '');
+                const hasThumb = !!tag.th;
+                div.className = 'tag-item' + (isSelected ? ' selected' : '') + (isArtistGroup ? ' tag-artist' : '') + (hasThumb ? ' tag-char' : '');
                 div.dataset.tag = tag.t;
                 if (isArtistGroup) {
                     const displayName = tag.t.replace(/_/g, ' ');
                     const desc = tag.d && !tag.d.match(/^\d+作品$/) ? tag.d : '';
                     div.innerHTML = `<span class="tag-text">${displayName}</span>${desc ? `<span class="tag-desc">${desc}</span>` : ''}<span class="tag-weight">${weight.toFixed(1)}</span>`;
+                } else if (hasThumb) {
+                    div.innerHTML = `<img class="tag-thumb" src="${tag.th}" alt="${tag.d}" loading="lazy"><span class="tag-desc">${tag.d}</span><span class="tag-text">${tag.t.split(',')[0]}</span><span class="tag-weight">${weight.toFixed(1)}</span>`;
+                    div.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        showCharPreview(tag);
+                    });
                 } else {
                     div.innerHTML = `<span class="tag-desc">${tag.d}</span><span class="tag-text">${tag.t}</span><span class="tag-weight">${weight.toFixed(1)}</span>`;
                 }
@@ -1666,7 +1742,9 @@
                     }
                     this.renderGrid();
                 });
-                div.title = '点击添加/移除 | Shift+点击加权重 | Ctrl+点击减权重';
+                div.title = hasThumb
+                    ? '点击添加/移除 | 右键预览 | Shift+点击加权重 | Ctrl+点击减权重'
+                    : '点击添加/移除 | Shift+点击加权重 | Ctrl+点击减权重';
                 this.gridEl.appendChild(div);
             });
         }
@@ -1732,6 +1810,45 @@
             this.textarea.value = parts.join(', ');
             this.textarea.dispatchEvent(new Event('input', { bubbles: true }));
         }
+    }
+
+    function showCharPreview(tag) {
+        const imgUrl = tag.th ? tag.th.replace('/thumbs/', '/').replace('.webp', '.png') : '';
+        if (!imgUrl) return;
+        let overlay = document.getElementById('char-preview-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'char-preview-overlay';
+            overlay.className = 'char-preview-overlay';
+            overlay.innerHTML = `
+                <div class="char-preview-card">
+                    <img class="char-preview-img" alt="">
+                    <div class="char-preview-info">
+                        <div class="char-preview-name"></div>
+                        <div class="char-preview-trigger"></div>
+                        <div class="char-preview-lora"></div>
+                    </div>
+                    <button class="char-preview-close">✕</button>
+                </div>`;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay || e.target.classList.contains('char-preview-close')) {
+                    overlay.classList.add('hidden');
+                }
+            });
+        }
+        overlay.querySelector('.char-preview-img').src = imgUrl;
+        overlay.querySelector('.char-preview-img').alt = tag.d;
+        overlay.querySelector('.char-preview-name').textContent = tag.d;
+        overlay.querySelector('.char-preview-trigger').textContent = tag.t;
+        const loraEl = overlay.querySelector('.char-preview-lora');
+        if (tag.lora) {
+            loraEl.innerHTML = `<a href="${tag.lora}" target="_blank" rel="noopener">CivitAI LoRA</a>`;
+            loraEl.classList.remove('hidden');
+        } else {
+            loraEl.classList.add('hidden');
+        }
+        overlay.classList.remove('hidden');
     }
 
     function setupTagPickers() {
