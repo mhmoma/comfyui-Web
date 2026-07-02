@@ -1,0 +1,173 @@
+---
+description: ComfyUI-Web 项目部署、Git 推送、D1 数据库操作的完整规范与凭据
+globs: *
+alwaysApply: true
+---
+
+# ComfyUI-Web 部署与 D1 数据库操作规范
+
+> **部署版本**: 1.01  
+> **版本记录**: 见底部「版本历史」  
+> **重要**: 每次推送或填充数据库后，必须更新本文件的版本号和版本历史。
+
+---
+
+## 1. 项目基本信息
+
+- **项目名称**: ComfyUI Web (AI 绘图前端工具)
+- **工作区路径**: `d:\桌宠\comfyui-web`
+- **线上地址**: https://comfyui-web-89u.pages.dev/
+- **部署平台**: Cloudflare Pages (自动部署，推送即生效)
+- **数据库**: Cloudflare D1
+  - 数据库名: `comfyui-characters`
+  - 数据库 ID: `3ea1156e-cbaa-40ec-b85c-4b55be6ecc58`
+  - 绑定变量名: `DB`
+
+---
+
+## 2. Git 仓库与推送
+
+### 2.1 仓库地址
+
+| 远程名 | 地址 | 用途 |
+|--------|------|------|
+| `origin` | https://github.com/mhmoma/comfyui-Web.git | 主仓库，Cloudflare Pages 连接此仓库自动部署 |
+| `deploy` | https://github.com/mhmoma/arcane-survivors-kcn2id.git | 备用部署仓库 |
+
+### 2.2 推送命令（必须绕过代理）
+
+本机 git 配置了代理 `http://127.0.0.1:7890` 和 `http://127.0.0.1:18888`，直连 GitHub 时代理可能不通。**必须用以下方式绕过代理推送**：
+
+```powershell
+# PowerShell 环境下推送（清除环境变量 + git 参数绕过）
+$env:ALL_PROXY=''; $env:HTTP_PROXY=''; $env:HTTPS_PROXY=''
+git -c http.proxy='' -c https.proxy='' push origin main
+git -c http.proxy='' -c https.proxy='' push deploy main
+```
+
+> **注意**: 不要用 `&&` 连接命令（PowerShell 不支持旧版 `&&`），用 `;` 分隔或分开执行。
+
+### 2.3 推送后
+
+推送到 `origin` 后 Cloudflare Pages 会自动部署，通常 1-2 分钟生效。推送到 `deploy` 仅为备份。
+
+---
+
+## 3. D1 数据库操作
+
+### 3.1 当前数据规模
+
+- 系列 (series): 862 个
+- 角色 (characters): 12,460 个
+- 数据来源: AnimaDex API (`animadex_raw.json` → `characters.json`)
+
+### 3.2 数据库 Schema
+
+两张表 `series` 和 `characters`，定义在 `schema.sql`：
+
+- `series`: id (TEXT PK), name (TEXT), count (INTEGER)
+- `characters`: id (AUTO), series_id (TEXT FK), trigger_text, name, thumb_url, count, lora_url
+
+### 3.3 填充数据库（Seed）
+
+**通过 HTTP API 分页填充**（因 Worker 单次调用 API 请求数有上限 ~1000）：
+
+- **端点**: `POST /api/characters/seed?page=N`
+- **认证**: 请求头 `x-admin-key: Tomkk520525`
+- **ADMIN_KEY**: `Tomkk520525`（已配置在 Cloudflare Pages 环境变量中）
+- **分页**: 每页 50 个系列，总共 18 页 (page=0 到 page=17)
+- **page=0 时**: 自动创建表结构 + 清空旧数据 + 插入前 50 个系列
+- **最后一页**: 返回 `"done": true`
+
+**填充命令（PowerShell）**：
+
+```powershell
+# 清除代理
+$env:ALL_PROXY=''; $env:HTTP_PROXY=''; $env:HTTPS_PROXY=''
+
+# 第一页（创建表 + 清空 + 插入）
+curl.exe --max-time 120 -X POST "https://comfyui-web-89u.pages.dev/api/characters/seed?page=0" -H "x-admin-key: Tomkk520525"
+
+# 批量执行剩余页
+foreach ($p in 1..17) {
+    Write-Host "Seeding page $p..."
+    $r = curl.exe --max-time 120 -s -X POST "https://comfyui-web-89u.pages.dev/api/characters/seed?page=$p" -H "x-admin-key: Tomkk520525"
+    Write-Host $r
+    Start-Sleep -Seconds 1
+}
+```
+
+### 3.4 验证数据库
+
+```
+GET https://comfyui-web-89u.pages.dev/api/characters/series
+→ 应返回 862 个系列的 JSON 数组
+
+GET https://comfyui-web-89u.pages.dev/api/characters/search?q=ganyu&limit=5
+→ 应返回甘雨角色数据（含 trigger、缩略图、LoRA）
+
+GET https://comfyui-web-89u.pages.dev/api/characters/genshin_impact
+→ 应返回原神所有角色
+```
+
+### 3.5 seed.js 的数据源
+
+seed 函数从 GitHub Raw 获取 `characters.json`：
+```
+https://raw.githubusercontent.com/mhmoma/comfyui-Web/main/characters.json
+```
+所以 `characters.json` 必须存在于 origin 仓库的 main 分支中。
+
+---
+
+## 4. API 端点汇总
+
+| 路径 | 方法 | 说明 | 认证 |
+|------|------|------|------|
+| `/api/characters/series` | GET | 获取所有系列列表 | 无 |
+| `/api/characters/search?q=XXX&limit=N` | GET | 搜索角色 | 无 |
+| `/api/characters/{seriesId}` | GET | 获取指定系列的所有角色 | 无 |
+| `/api/characters/seed?page=N` | POST | 填充数据库（分页） | x-admin-key |
+| `/api/nai/generate` | POST | NAI 生图 | 参见 env.NAI_API_KEY |
+| `/api/nai/status` | GET | 生图状态 | 无 |
+
+---
+
+## 5. Cloudflare 环境变量
+
+在 Cloudflare Pages → Settings → Environment variables 中配置：
+
+| 变量名 | 值 | 说明 |
+|--------|------|------|
+| `ADMIN_KEY` | `Tomkk520525` | seed API 和管理接口认证 |
+| `NAI_API_KEY` | (已配置) | NAI 生图 API 密钥 |
+
+D1 绑定在 Settings → Functions → D1 database bindings：
+
+| 变量名 | 数据库 |
+|--------|--------|
+| `DB` | comfyui-characters (3ea1156e-cbaa-40ec-b85c-4b55be6ecc58) |
+
+---
+
+## 6. 关键文件说明
+
+| 文件 | 说明 |
+|------|------|
+| `wrangler.toml` | D1 绑定配置（本地开发用） |
+| `schema.sql` | 数据库表结构 |
+| `seed_d1.js` | 生成 seed.sql 的 Node 脚本 |
+| `seed.sql` | 生成的种子数据 SQL |
+| `build_characters.js` | 从 animadex_raw.json 构建 characters.json |
+| `strip_chars_from_tags.js` | 从 tags.json 移除角色数据 |
+| `fetch_animadex.js` | 从 AnimaDex API 拉取角色数据 |
+| `characters.json` | 完整角色数据（862 系列 / 12,460 角色） |
+| `tags.json` | 标签数据（不含角色，416KB） |
+
+---
+
+## 7. 版本历史
+
+| 版本 | 日期 | 操作 | 说明 |
+|------|------|------|------|
+| 1.01 | 2026-07-02 | 首次推送 + 填充 | D1 数据库整合完成，862 系列 / 12,460 角色写入，前端改为懒加载 |
