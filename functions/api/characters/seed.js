@@ -43,11 +43,10 @@ export async function onRequestPost(context) {
       await db.prepare(stmt).run();
     }
 
-    const url = new URL(request.url);
-    const charUrl = `${url.origin}/characters.json`;
-    const res = await fetch(charUrl);
+    const githubUrl = 'https://raw.githubusercontent.com/mhmoma/comfyui-Web/main/characters.json';
+    const res = await fetch(githubUrl);
     if (!res.ok) {
-      return json(500, { error: `Failed to fetch characters.json: ${res.status}` });
+      return json(500, { error: `Failed to fetch characters.json from GitHub: ${res.status}` });
     }
     const data = await res.json();
 
