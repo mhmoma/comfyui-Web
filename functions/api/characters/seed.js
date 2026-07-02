@@ -1,4 +1,6 @@
 const SCHEMA = `
+DROP TABLE IF EXISTS characters;
+DROP TABLE IF EXISTS series;
 CREATE TABLE IF NOT EXISTS series (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
