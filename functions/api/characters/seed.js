@@ -23,7 +23,8 @@ CREATE INDEX IF NOT EXISTS idx_chars_name ON characters(name COLLATE NOCASE);
 CREATE INDEX IF NOT EXISTS idx_chars_trigger ON characters(trigger_text COLLATE NOCASE);
 `;
 
-const SERIES_PER_BATCH = 50;
+const SERIES_PER_BATCH = 10;
+const CHARS_PER_BATCH = 100;
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -71,14 +72,15 @@ export async function onRequestPost(context) {
     await db.batch(seriesStmts);
 
     for (const s of batch) {
-      const charStmts = s.characters.map(ch =>
+      const allCharStmts = s.characters.map(ch =>
         db.prepare(
           'INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url, tags) VALUES (?, ?, ?, ?, ?, ?, ?)'
         ).bind(s.id, ch.t, ch.n, ch.th || '', ch.c || 0, ch.lora || '', ch.tags ? JSON.stringify(ch.tags) : '')
       );
-      if (charStmts.length > 0) {
-        await db.batch(charStmts);
-        charCount += charStmts.length;
+      for (let i = 0; i < allCharStmts.length; i += CHARS_PER_BATCH) {
+        const chunk = allCharStmts.slice(i, i + CHARS_PER_BATCH);
+        await db.batch(chunk);
+        charCount += chunk.length;
       }
     }
 

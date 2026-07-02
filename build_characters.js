@@ -95,7 +95,6 @@ const SERIES_CN = {
 };
 
 const MIN_CHARS_PER_SERIES = 3;
-const MAX_CHARS_PER_SERIES = 30;
 const MIN_SERIES_TOTAL_COUNT = 500;
 
 function getSeriesCN(copyright) {
@@ -128,8 +127,7 @@ function main() {
       totalCount: chars.reduce((sum, c) => sum + (c.count || 0), 0),
       chars: chars
         .filter(c => c.has_image !== false)
-        .sort((a, b) => (b.count || 0) - (a.count || 0))
-        .slice(0, MAX_CHARS_PER_SERIES),
+        .sort((a, b) => (b.count || 0) - (a.count || 0)),
     }))
     .filter(s => s.chars.length >= MIN_CHARS_PER_SERIES && s.totalCount >= MIN_SERIES_TOTAL_COUNT)
     .sort((a, b) => b.totalCount - a.totalCount);
