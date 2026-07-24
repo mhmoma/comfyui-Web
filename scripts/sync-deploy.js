@@ -37,6 +37,8 @@ function main() {
         ['index.html', 'index.html'],
         ['feed.xml', 'feed.xml'],
         ['sitemap.xml', 'sitemap.xml'],
+        ['manifest.webmanifest', 'manifest.webmanifest'],
+        ['sw.js', 'sw.js'],
     ];
     for (const [src, dest] of files) {
         const srcPath = path.join(ROOT, src);
