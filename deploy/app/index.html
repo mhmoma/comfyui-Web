@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v4.70</title>
-    <link rel="stylesheet" href="style.css?v=455">
+    <title>生图工具 · ComfyUI Web v4.71</title>
+    <link rel="stylesheet" href="style.css?v=456">
 </head>
 <body>
     <div class="app">
         <header class="header">
 <a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.70</span></h1>
+            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.71</span></h1>
             <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
                 <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
                 <span class="conn-text" id="conn-text">检测中</span>
@@ -748,7 +748,7 @@
                     </div>
                 </section>
 
-                <div class="action-bar">
+                <div class="action-bar" id="action-bar">
                     <div class="action-bar-main">
                         <button id="btn-generate" class="btn-primary">生成图片</button>
                         <button id="btn-nai-generate" class="btn-primary btn-nai hidden">NAI 在线生图</button>
@@ -758,7 +758,7 @@
                         <div id="progress-bar" class="progress-bar"></div>
                         <span id="progress-text">0%</span>
                     </div>
-                    <div class="dzmm-controls" title="DZMM 模型 / 画幅 / 配额">
+                    <div class="dzmm-controls" id="dzmm-controls" title="DZMM 模型 / 画幅 / 配额">
                         <select id="sel-dzmm-model" class="dzmm-select" title="DZMM 模型" aria-label="DZMM 模型">
                             <option value="anime">Anime 动漫</option>
                             <option value="iroha">Iroha</option>
@@ -767,6 +767,13 @@
                         <select id="sel-dzmm-dimension" class="dzmm-select" title="DZMM 画幅" aria-label="DZMM 画幅"></select>
                         <span id="dzmm-quota-badge" class="dzmm-quota-badge" title="当前账号免费配额">配额 --</span>
                         <span id="dzmm-quota-pool-badge" class="dzmm-quota-badge dzmm-pool-badge hidden" title="账号池合计配额">池 --</span>
+                    </div>
+                    <div class="dzmm-mobile-dock" id="dzmm-mobile-dock" aria-label="DZMM 快捷栏">
+                        <button type="button" id="btn-dzmm-panel-toggle" class="dzmm-dock-d" title="展开/收起 DZMM 设置" aria-label="展开或收起 DZMM 设置" aria-expanded="false">D</button>
+                        <button type="button" id="btn-dzmm-fab-gen" class="dzmm-dock-play" title="DZMM 生图" aria-label="DZMM 生图">
+                            <span class="dzmm-dock-play-tri" aria-hidden="true"></span>
+                            <span class="dzmm-dock-count" id="dzmm-dock-count" hidden></span>
+                        </button>
                     </div>
                 </div>
 
@@ -1587,6 +1594,6 @@
     <script src="vendor/jsQR.js"></script>
     <script src="dzmm-dewmark.js?v=1"></script>
     <script src="lora-library.js?v=4"></script>
-    <script src="script.js?v=467"></script>
+    <script src="script.js?v=468"></script>
 </body>
 </html>

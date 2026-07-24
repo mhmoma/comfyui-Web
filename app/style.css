@@ -1527,6 +1527,11 @@ textarea {
     border-color: rgba(102, 180, 234, 0.45);
 }
 
+/* 手机端 DZMM 悬浮坞：默认隐藏，仅窄屏显示 */
+.dzmm-mobile-dock {
+    display: none;
+}
+
 .dzmm-account-list {
     display: flex;
     flex-direction: column;
@@ -4459,7 +4464,8 @@ body.char-browser-open {
 
     /* 全屏角色浏览浮层（手机端触控尺寸覆盖） */
     body.char-browser-open .mobile-nav,
-    body.char-browser-open .generate-fab {
+    body.char-browser-open .generate-fab,
+    body.char-browser-open .dzmm-mobile-dock {
         display: none !important;
     }
 
@@ -4937,7 +4943,7 @@ body.char-browser-open {
         width: 100%;
     }
 
-    /* Fixed dzmm bar above bottom nav */
+    /* Fixed dzmm bar above bottom nav — 默认收起为悬浮坞，展开才显示设置 */
     .main.mobile-tab-create .action-bar {
         position: fixed;
         left: 0;
@@ -4947,12 +4953,165 @@ body.char-browser-open {
         order: unset;
         flex-direction: column;
         align-items: stretch;
-        gap: 4px;
-        padding: 6px 12px;
+        gap: 6px;
+        padding: 0;
         margin: 0;
+        background: transparent;
+        border-top: none;
+        box-shadow: none;
+        pointer-events: none;
+    }
+
+    .main.mobile-tab-create .action-bar > * {
+        pointer-events: auto;
+    }
+
+    .main.mobile-tab-create .action-bar:not(.dzmm-panel-open) .action-bar-main,
+    .main.mobile-tab-create .action-bar:not(.dzmm-panel-open) .dzmm-controls,
+    .main.mobile-tab-create .action-bar:not(.dzmm-panel-open) .progress-container {
+        display: none !important;
+    }
+
+    .main.mobile-tab-create .action-bar.dzmm-panel-open {
+        padding: 8px 12px calc(58px + env(safe-area-inset-bottom, 0px));
         background: var(--bg-secondary);
         border-top: 1px solid var(--border);
         box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.22);
+        max-height: min(42vh, 280px);
+        overflow-y: auto;
+    }
+
+    .main.mobile-tab-create .action-bar.dzmm-panel-open .action-bar-main {
+        display: none !important;
+    }
+
+    .main.mobile-tab-create .action-bar.dzmm-panel-open .dzmm-controls {
+        display: flex !important;
+        order: 1;
+        width: 100%;
+        margin: 0;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .main.mobile-tab-create .action-bar.dzmm-panel-open .progress-container {
+        order: 2;
+        width: 100%;
+    }
+
+    .main.mobile-tab-create .dzmm-mobile-dock {
+        display: inline-flex;
+        position: fixed;
+        left: 12px;
+        bottom: calc(56px + 10px + env(safe-area-inset-bottom, 0px));
+        z-index: 220;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        width: auto;
+        height: 48px;
+        padding: 3px;
+        box-sizing: border-box;
+        border: 2px solid #7b8cff;
+        border-radius: 12px;
+        background: rgba(12, 14, 28, 0.55);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        box-shadow: 0 4px 18px rgba(102, 126, 234, 0.28);
+        pointer-events: auto;
+    }
+
+    .main.mobile-tab-create .action-bar.dzmm-panel-open .dzmm-mobile-dock {
+        border-color: #a78bfa;
+        box-shadow: 0 4px 18px rgba(167, 139, 250, 0.35);
+    }
+
+    .dzmm-dock-d,
+    .dzmm-dock-play {
+        position: relative;
+        flex: 0 0 42px;
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        max-width: 42px;
+        min-height: 42px;
+        max-height: 42px;
+        padding: 0;
+        margin: 0;
+        border: none;
+        border-radius: 9px;
+        background: transparent;
+        color: #c5cdff;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+
+    .dzmm-dock-d {
+        font-size: 1.15rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        line-height: 1;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .dzmm-dock-d[aria-expanded="true"] {
+        color: #e9d5ff;
+        background: rgba(167, 139, 250, 0.18);
+    }
+
+    .dzmm-dock-play {
+        color: #8ef0c0;
+    }
+
+    .dzmm-dock-play:active,
+    .dzmm-dock-d:active {
+        transform: scale(0.94);
+    }
+
+    .dzmm-dock-play.is-busy {
+        color: #ffe08a;
+    }
+
+    .dzmm-dock-play-tri {
+        display: block;
+        width: 0;
+        height: 0;
+        margin: 0 auto;
+        border-style: solid;
+        border-width: 8px 0 8px 14px;
+        border-color: transparent transparent transparent currentColor;
+        transform: translateX(1px);
+    }
+
+    .dzmm-dock-play.is-busy .dzmm-dock-play-tri {
+        opacity: 0.22;
+    }
+
+    .dzmm-dock-count {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0 2px;
+        box-sizing: border-box;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+        color: #fff6c8;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+        pointer-events: none;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .dzmm-dock-count[hidden] {
+        display: none !important;
     }
 
     .main.mobile-tab-create .action-bar-main {
@@ -4988,7 +5147,7 @@ body.char-browser-open {
         font-size: 14px;
     }
 
-    /* 移动端保持原纵向堆叠，不做 PC 右侧布局 */
+    /* 移动端展开面板内控件紧凑 */
     .dzmm-controls {
         width: 100%;
         margin-left: 0;
@@ -5000,15 +5159,19 @@ body.char-browser-open {
         flex: 1;
         max-width: none;
         min-width: 0;
-        padding: 10px 12px;
+        padding: 8px 10px;
         font-size: 13px;
     }
 
     .dzmm-quota-badge {
-        width: 100%;
+        flex: 1 1 calc(50% - 4px);
+        width: auto;
         text-align: center;
-        font-size: 12px;
-        padding: 6px 10px;
+        font-size: 11px;
+        padding: 5px 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .action-bar {
@@ -5025,6 +5188,18 @@ body.char-browser-open {
 
     .main.mobile-tab-create .progress-container {
         width: 100%;
+    }
+
+    .main.mobile-tab-create .progress-container #progress-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        font-size: 12px;
+    }
+
+    body.dzmm-panel-open .main.mobile-tab-create .content {
+        padding-bottom: calc(56px + 200px + env(safe-area-inset-bottom, 0px));
     }
 
     .result-actions {

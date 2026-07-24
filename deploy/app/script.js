@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.70');
+        console.log('[ComfyUI Web] v4.71');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -13873,6 +13873,57 @@
         const dzmmTasks = new Map();
         let dzmmTaskSeq = 0;
         const DZMM_BTN_LABEL = '使用dzmm生图';
+        const DZMM_PANEL_KEY = 'dzmm_mobile_panel_open';
+        const actionBar = document.getElementById('action-bar');
+        const dockToggle = document.getElementById('btn-dzmm-panel-toggle');
+        const dockPlay = document.getElementById('btn-dzmm-fab-gen');
+        const dockCount = document.getElementById('dzmm-dock-count');
+
+        function isMobileDzmmUi() {
+            return window.matchMedia('(max-width: 640px)').matches;
+        }
+
+        function isDzmmPanelOpen() {
+            return !!actionBar?.classList.contains('dzmm-panel-open');
+        }
+
+        function setDzmmPanelOpen(open) {
+            const next = !!open;
+            actionBar?.classList.toggle('dzmm-panel-open', next);
+            document.body.classList.toggle('dzmm-panel-open', next);
+            if (dockToggle) {
+                dockToggle.setAttribute('aria-expanded', next ? 'true' : 'false');
+                dockToggle.title = next ? '收起 DZMM 设置' : '展开 DZMM 设置';
+            }
+            try { localStorage.setItem(DZMM_PANEL_KEY, next ? '1' : '0'); } catch { /* ignore */ }
+            updateDzmmTaskUI();
+        }
+
+        function fitDzmmDockCount(n) {
+            if (!dockCount || !dockPlay) return;
+            if (!n || n < 1) {
+                dockCount.hidden = true;
+                dockCount.textContent = '';
+                dockCount.style.fontSize = '';
+                dockPlay.classList.remove('is-busy');
+                return;
+            }
+            dockPlay.classList.add('is-busy');
+            dockCount.hidden = false;
+            dockCount.textContent = String(n);
+            // 固定按钮尺寸：按位数缩放字号，绝不撑大按钮
+            const digits = String(n).length;
+            const size = Math.max(8, Math.min(16, Math.floor(28 / Math.max(digits, 1))));
+            dockCount.style.fontSize = `${size}px`;
+            // 二次校正：若仍溢出则继续缩小
+            requestAnimationFrame(() => {
+                let s = size;
+                while (s > 7 && (dockCount.scrollWidth > dockPlay.clientWidth - 2 || dockCount.scrollHeight > dockPlay.clientHeight - 2)) {
+                    s -= 1;
+                    dockCount.style.fontSize = `${s}px`;
+                }
+            });
+        }
 
         function countActiveDzmmTasks() {
             let n = 0;
@@ -13884,17 +13935,30 @@
 
         function updateDzmmTaskUI() {
             const active = countActiveDzmmTasks();
-            btn.textContent = active > 0 ? `${DZMM_BTN_LABEL} (${active})` : DZMM_BTN_LABEL;
-            if (active > 0) {
+            fitDzmmDockCount(active);
+            const mobile = isMobileDzmmUi();
+            const collapsed = mobile && !isDzmmPanelOpen();
+
+            // 桌面 / 展开：保留原按钮文案；收起：不写「生成中」长文案
+            if (!collapsed) {
+                btn.textContent = active > 0 ? `${DZMM_BTN_LABEL} (${active})` : DZMM_BTN_LABEL;
+            } else {
+                btn.textContent = DZMM_BTN_LABEL;
+            }
+
+            if (active > 0 && !collapsed) {
                 progressContainer?.classList.remove('hidden');
                 if (progressText) {
                     progressText.textContent = active === 1
                         ? 'DZMM 生成中…'
-                        : `DZMM 进行中 ${active} 个任务`;
+                        : `进行中 ${active}`;
                 }
                 if (progressBar) {
                     progressBar.style.width = `${Math.min(92, 12 + active * 18)}%`;
                 }
+            } else if (active > 0 && collapsed) {
+                // 收起态：进度条不占屏，只在播放键显示数字
+                progressContainer?.classList.add('hidden');
             } else {
                 setTimeout(() => {
                     if (countActiveDzmmTasks() === 0) {
@@ -13903,6 +13967,27 @@
                     }
                 }, 600);
             }
+        }
+
+        dockToggle?.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setDzmmPanelOpen(!isDzmmPanelOpen());
+        });
+
+        dockPlay?.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (btn.disabled) return;
+            btn.click();
+        });
+
+        // 手机端默认收起，避免挡反向提示词；记住用户上次选择
+        try {
+            const saved = localStorage.getItem(DZMM_PANEL_KEY);
+            setDzmmPanelOpen(saved === '1');
+        } catch {
+            setDzmmPanelOpen(false);
         }
 
         async function pollDzmmTaskUntilDone(taskId, model, cookie) {
