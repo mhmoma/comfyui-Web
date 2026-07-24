@@ -4417,14 +4417,14 @@ body.char-browser-open {
         content: none;
     }
 
-    /* 生成 FAB — 默认贴底栏上方，可拖动 */
+    /* 生成 FAB — 默认贴底栏上方，可拖动（不再预留旧 DZMM 底条 44px） */
     .generate-fab {
         display: flex;
         align-items: center;
         justify-content: center;
         position: fixed;
         right: 14px;
-        bottom: calc(56px + 44px + 10px + env(safe-area-inset-bottom, 0px));
+        bottom: calc(56px + 10px + env(safe-area-inset-bottom, 0px));
         z-index: 210;
         width: 52px;
         height: 52px;
@@ -4586,11 +4586,13 @@ body.char-browser-open {
         overflow-x: hidden;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        padding-bottom: calc(56px + 48px + 12px + env(safe-area-inset-bottom, 0px));
+        /* 底栏 56 + 少量留白；DZMM 悬浮坞不占固定底条 */
+        padding-bottom: calc(56px + 12px + env(safe-area-inset-bottom, 0px));
     }
 
     body.prompt-tag-sheet-open .main.mobile-tab-create .content {
-        padding-bottom: calc(56px + 48px + 132px + env(safe-area-inset-bottom, 0px));
+        /* 底栏 + 标签调节面板高度，不再加旧 DZMM 底条 48px */
+        padding-bottom: calc(56px + 132px + env(safe-area-inset-bottom, 0px));
     }
 
     .main.mobile-tab-create .prompt-area {
@@ -5290,13 +5292,14 @@ body.char-browser-open {
         position: fixed;
         left: 0;
         right: 0;
-        bottom: calc(56px + 44px + env(safe-area-inset-bottom, 0px));
+        /* DZMM 已改为悬浮坞，不再占底栏上方 44px；紧贴底部 Tab */
+        bottom: calc(56px + env(safe-area-inset-bottom, 0px));
         z-index: 205;
         display: block;
         background: var(--bg-secondary);
         border-top: 1px solid var(--border);
         box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.28);
-        padding-bottom: env(safe-area-inset-bottom, 0px);
+        padding-bottom: 0;
     }
 
     .prompt-tag-mobile-sheet.hidden {
