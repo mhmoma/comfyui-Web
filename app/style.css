@@ -2048,12 +2048,22 @@ textarea {
     padding: 12px;
     max-width: 90vw;
     max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
 }
 
 .preview-content img {
+    display: block;
     max-width: 100%;
     max-height: 80vh;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    object-fit: contain;
     border-radius: var(--radius);
+    background: rgba(0, 0, 0, 0.25);
 }
 
 /* Post-process base preview modal: avoid actions being cut off on small screens */
@@ -2619,9 +2629,16 @@ body.inpaint-open {
 /* Preview Actions */
 .preview-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     justify-content: center;
-    margin-top: 10px;
+    flex-shrink: 0;
+}
+
+.preview-actions .btn-secondary {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    white-space: nowrap;
 }
 
 /* Regional Canvas */
@@ -4521,8 +4538,18 @@ body.char-browser-open {
         width: calc(33.333% - 6px);
         flex: 0 0 calc(33.333% - 6px);
         min-width: 0;
-        aspect-ratio: 1;
+        aspect-ratio: 3 / 4;
         align-self: auto;
+        background: rgba(0, 0, 0, 0.35);
+    }
+
+    .main.mobile-tab-history .history-item img {
+        object-fit: contain;
+        object-position: center top;
+    }
+
+    .main.mobile-tab-history .history-overlay {
+        display: none !important;
     }
 
     .main {
@@ -5193,19 +5220,9 @@ body.char-browser-open {
         padding: 24px 16px;
     }
 
-    /* History overlay always visible on touch devices */
+    /* 手机端小图只显示图，工具键放到大图预览底部 */
     .history-overlay {
-        opacity: 1;
-        background: linear-gradient(transparent 40%, rgba(0, 0, 0, 0.65));
-    }
-
-    .btn-history-ref,
-    .btn-history-inpaint,
-    .btn-history-composite,
-    .btn-history-cutout {
-        padding: 6px 10px;
-        font-size: 0.75rem;
-        min-height: 32px;
+        display: none !important;
     }
 
     .history-panel {
@@ -5214,6 +5231,44 @@ body.char-browser-open {
         border-top: 1px solid var(--border);
         max-height: 160px;
         padding: 8px;
+    }
+
+    #modal-preview .preview-content {
+        width: min(96vw, 100%);
+        max-width: 96vw;
+        max-height: 92dvh;
+        padding: 10px;
+        gap: 8px;
+        box-sizing: border-box;
+    }
+
+    #modal-preview .preview-content img {
+        flex: 1 1 auto;
+        width: 100%;
+        max-width: 100%;
+        max-height: calc(92dvh - 96px);
+        height: auto;
+        object-fit: contain;
+        object-position: center center;
+    }
+
+    #modal-preview .preview-actions {
+        gap: 6px;
+        margin-top: 0;
+    }
+
+    #modal-preview .preview-actions .btn-secondary {
+        flex: 1 1 calc(33.333% - 6px);
+        min-width: 0;
+        max-width: calc(33.333% - 4px);
+        padding: 8px 4px;
+        font-size: 0.78rem;
+        line-height: 1.2;
+    }
+
+    #modal-preview .close-btn {
+        top: 6px;
+        right: 6px;
     }
 
     .history-resizer {
@@ -5391,7 +5446,7 @@ body.char-browser-open {
     }
 
     .preview-content img {
-        max-height: 70vh;
+        max-height: calc(92dvh - 96px);
     }
 
     /* Seed row mobile */
