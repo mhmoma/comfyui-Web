@@ -13969,15 +13969,110 @@
             }
         }
 
+        // 手机端 DZMM 悬浮坞可自由拖动，位置本地记忆
+        const dock = document.getElementById('dzmm-mobile-dock');
+        const DZMM_DOCK_POS_KEY = 'dzmm_mobile_dock_pos_v1';
+        let dockDragging = false;
+        let dockDragMoved = false;
+        let dockStartX = 0;
+        let dockStartY = 0;
+        let dockOrigLeft = 0;
+        let dockOrigTop = 0;
+
+        function applySavedDzmmDockPos() {
+            if (!dock || !isMobileDzmmUi()) return;
+            try {
+                const raw = localStorage.getItem(DZMM_DOCK_POS_KEY);
+                if (!raw) return;
+                const pos = JSON.parse(raw);
+                if (typeof pos.x === 'number' && typeof pos.y === 'number') {
+                    dock.classList.add('is-custom-pos');
+                    dock.style.left = `${pos.x}px`;
+                    dock.style.top = `${pos.y}px`;
+                    dock.style.right = 'auto';
+                    dock.style.bottom = 'auto';
+                }
+            } catch { /* ignore */ }
+        }
+
+        function clampDzmmDockPos(nx, ny) {
+            const w = dock.offsetWidth || 96;
+            const h = dock.offsetHeight || 48;
+            return {
+                x: Math.max(8, Math.min(window.innerWidth - w - 8, nx)),
+                y: Math.max(8, Math.min(window.innerHeight - h - 8, ny)),
+            };
+        }
+
+        applySavedDzmmDockPos();
+
+        dock?.addEventListener('pointerdown', (e) => {
+            if (!isMobileDzmmUi() || e.button !== 0) return;
+            dockDragMoved = false;
+            dockDragging = true;
+            dock.classList.add('is-dragging');
+            try { dock.setPointerCapture(e.pointerId); } catch { /* ignore */ }
+            const rect = dock.getBoundingClientRect();
+            dockStartX = e.clientX;
+            dockStartY = e.clientY;
+            dockOrigLeft = rect.left;
+            dockOrigTop = rect.top;
+            dock.classList.add('is-custom-pos');
+            dock.style.right = 'auto';
+            dock.style.bottom = 'auto';
+            dock.style.left = `${dockOrigLeft}px`;
+            dock.style.top = `${dockOrigTop}px`;
+        });
+
+        dock?.addEventListener('pointermove', (e) => {
+            if (!dockDragging) return;
+            const dx = e.clientX - dockStartX;
+            const dy = e.clientY - dockStartY;
+            if (Math.abs(dx) + Math.abs(dy) > 5) dockDragMoved = true;
+            const next = clampDzmmDockPos(dockOrigLeft + dx, dockOrigTop + dy);
+            dock.style.left = `${next.x}px`;
+            dock.style.top = `${next.y}px`;
+        });
+
+        function endDzmmDockDrag(e) {
+            if (!dockDragging) return;
+            dockDragging = false;
+            dock?.classList.remove('is-dragging');
+            try { dock?.releasePointerCapture(e.pointerId); } catch { /* ignore */ }
+            if (dockDragMoved && dock) {
+                try {
+                    localStorage.setItem(DZMM_DOCK_POS_KEY, JSON.stringify({
+                        x: parseInt(dock.style.left, 10) || 0,
+                        y: parseInt(dock.style.top, 10) || 0,
+                    }));
+                } catch { /* ignore */ }
+            }
+        }
+
+        dock?.addEventListener('pointerup', endDzmmDockDrag);
+        dock?.addEventListener('pointercancel', endDzmmDockDrag);
+
+        window.addEventListener('resize', () => {
+            if (!dock?.classList.contains('is-custom-pos')) return;
+            const next = clampDzmmDockPos(
+                parseInt(dock.style.left, 10) || 0,
+                parseInt(dock.style.top, 10) || 0
+            );
+            dock.style.left = `${next.x}px`;
+            dock.style.top = `${next.y}px`;
+        });
+
         dockToggle?.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
+            if (dockDragMoved) return;
             setDzmmPanelOpen(!isDzmmPanelOpen());
         });
 
         dockPlay?.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
+            if (dockDragMoved) return;
             if (btn.disabled) return;
             btn.click();
         });

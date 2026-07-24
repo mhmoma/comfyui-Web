@@ -5019,6 +5019,22 @@ body.char-browser-open {
         -webkit-backdrop-filter: blur(8px);
         box-shadow: 0 4px 18px rgba(102, 126, 234, 0.28);
         pointer-events: auto;
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .main.mobile-tab-create .dzmm-mobile-dock.is-custom-pos {
+        right: auto;
+        bottom: auto;
+    }
+
+    .main.mobile-tab-create .dzmm-mobile-dock.is-dragging {
+        cursor: grabbing;
+        transform: scale(1.04);
+        box-shadow: 0 6px 22px rgba(102, 126, 234, 0.45);
+        border-color: #a78bfa;
     }
 
     .main.mobile-tab-create .action-bar.dzmm-panel-open .dzmm-mobile-dock {
