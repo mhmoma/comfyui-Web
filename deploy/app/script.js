@@ -6334,10 +6334,11 @@
     }
 
     function createHistoryItemElement(item) {
+        const displayUrl = item.fullUrl || item.url;
         const div = document.createElement('div');
         div.className = 'history-item';
         const img = document.createElement('img');
-        img.src = item.url;
+        img.src = displayUrl;
         img.alt = '历史图片';
         img.loading = 'lazy';
         div.appendChild(img);
@@ -6346,23 +6347,23 @@
         overlay.innerHTML = '<button class="btn-history-ref" title="用作参考图">📌</button><button class="btn-history-inpaint" title="局部重绘">🖌</button><button class="btn-history-composite" title="图层合成">🧩</button><button class="btn-history-cutout" title="抠图">✂️</button>';
         overlay.querySelector('.btn-history-ref').addEventListener('click', (e) => {
             e.stopPropagation();
-            useImageAsRef(item.url);
+            useImageAsRef(displayUrl);
         });
         overlay.querySelector('.btn-history-inpaint').addEventListener('click', (e) => {
             e.stopPropagation();
-            openInpaintModal(item.url);
+            openInpaintModal(displayUrl);
         });
         overlay.querySelector('.btn-history-composite').addEventListener('click', (e) => {
             e.stopPropagation();
-            openCompositorModal({ baseUrl: item.url });
+            openCompositorModal({ baseUrl: displayUrl });
         });
         overlay.querySelector('.btn-history-cutout').addEventListener('click', (e) => {
             e.stopPropagation();
-            openCutoutModal({ imageUrl: item.url });
+            openCutoutModal({ imageUrl: displayUrl });
         });
         div.appendChild(overlay);
         div.addEventListener('click', () => {
-            dom.previewImage.src = item.url;
+            dom.previewImage.src = displayUrl;
             dom.modalPreview.classList.remove('hidden');
         });
         return div;
@@ -9403,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.67');
+        console.log('[ComfyUI Web] v4.70');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
