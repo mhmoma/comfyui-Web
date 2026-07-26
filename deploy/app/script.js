@@ -11677,6 +11677,148 @@
             } catch { return null; }
         },
 
+        async _decompressToBytes(data, format) {
+            try {
+                const ds = new DecompressionStream(format);
+                const writer = ds.writable.getWriter();
+                writer.write(data instanceof Uint8Array ? data : new Uint8Array(data));
+                writer.close();
+                const reader = ds.readable.getReader();
+                const chunks = [];
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    chunks.push(value);
+                }
+                const totalLen = chunks.reduce((s, c) => s + c.length, 0);
+                const result = new Uint8Array(totalLen);
+                let pos = 0;
+                for (const c of chunks) { result.set(c, pos); pos += c.length; }
+                return result;
+            } catch { return null; }
+        },
+
+        async _gunzipToString(data) {
+            const bytes = await this._decompressToBytes(data, 'gzip');
+            if (!bytes) return null;
+            return new TextDecoder('utf-8').decode(bytes);
+        },
+
+        /**
+         * NovelAI / stealth PNG Info：从 alpha LSB 提取元数据。
+         * 像素遍历顺序与官方一致：先 x 后 y（列优先）。
+         * 魔数 stealth_pngcomp = gzip JSON；stealth_pnginfo = 明文。
+         */
+        async extractStealthMetadata(source) {
+            try {
+                const blob = source instanceof Blob
+                    ? source
+                    : new Blob([source], { type: 'image/png' });
+                let bitmap;
+                try {
+                    bitmap = await createImageBitmap(blob);
+                } catch {
+                    return null;
+                }
+                const w = bitmap.width;
+                const h = bitmap.height;
+                if (w < 1 || h < 1) {
+                    bitmap.close?.();
+                    return null;
+                }
+
+                const canvas = typeof OffscreenCanvas !== 'undefined'
+                    ? new OffscreenCanvas(w, h)
+                    : Object.assign(document.createElement('canvas'), { width: w, height: h });
+                const ctx = canvas.getContext('2d', {
+                    willReadFrequently: true,
+                    alpha: true,
+                    colorSpace: 'srgb',
+                });
+                if (!ctx) {
+                    bitmap.close?.();
+                    return null;
+                }
+                ctx.drawImage(bitmap, 0, 0);
+                bitmap.close?.();
+                const pixels = ctx.getImageData(0, 0, w, h).data;
+                const totalPixels = w * h;
+
+                const readBytes = (startPixel, nBytes) => {
+                    const out = new Uint8Array(nBytes);
+                    let p = startPixel;
+                    for (let i = 0; i < nBytes; i++) {
+                        let byte = 0;
+                        for (let b = 0; b < 8; b++) {
+                            if (p >= totalPixels) return null;
+                            const x = Math.floor(p / h);
+                            const y = p % h;
+                            const alpha = pixels[(y * w + x) * 4 + 3];
+                            byte = (byte << 1) | (alpha & 1);
+                            p++;
+                        }
+                        out[i] = byte;
+                    }
+                    return { bytes: out, nextPixel: p };
+                };
+
+                const sigResult = readBytes(0, 15);
+                if (!sigResult) return null;
+                const sig = new TextDecoder('utf-8').decode(sigResult.bytes);
+                let compressed = false;
+                if (sig === 'stealth_pngcomp') compressed = true;
+                else if (sig === 'stealth_pnginfo') compressed = false;
+                else return null;
+
+                const lenResult = readBytes(sigResult.nextPixel, 4);
+                if (!lenResult) return null;
+                const bitLen = ((lenResult.bytes[0] << 24) | (lenResult.bytes[1] << 16) |
+                    (lenResult.bytes[2] << 8) | lenResult.bytes[3]) >>> 0;
+                const byteLen = Math.floor(bitLen / 8);
+                if (byteLen <= 0 || byteLen > totalPixels) return null;
+
+                const dataResult = readBytes(lenResult.nextPixel, byteLen);
+                if (!dataResult) return null;
+
+                let payloadStr;
+                if (compressed) {
+                    payloadStr = await this._gunzipToString(dataResult.bytes);
+                } else {
+                    payloadStr = new TextDecoder('utf-8').decode(dataResult.bytes);
+                }
+                if (!payloadStr) return null;
+
+                try {
+                    const data = JSON.parse(payloadStr);
+                    if (typeof data.Comment === 'string') {
+                        try { data.Comment = JSON.parse(data.Comment); } catch { /* keep string */ }
+                    }
+                    data._stealthSig = sig;
+                    return data;
+                } catch {
+                    return { _stealthRaw: payloadStr, _stealthSig: sig };
+                }
+            } catch {
+                return null;
+            }
+        },
+
+        _stealthToResult(stealth) {
+            if (!stealth) return null;
+            if (stealth._stealthRaw) {
+                const raw = stealth._stealthRaw;
+                if (raw.includes('Steps:') || raw.includes('Negative prompt:')) {
+                    const r = this.parseA1111(raw);
+                    r.source = 'Stealth PNG Info';
+                    return r;
+                }
+                return { source: 'Stealth PNG Info', positive: raw };
+            }
+            const r = this.parseNovelAI(stealth);
+            if (stealth._stealthSig) r.stealth = stealth._stealthSig;
+            return r;
+        },
+
         async parsePNG(buffer) {
             const view = new DataView(buffer);
             if (view.getUint32(0) !== 0x89504E47) return null;
@@ -12787,25 +12929,75 @@
             return result;
         },
 
-        parseNovelAI(text) {
+        parseNovelAI(input) {
             const result = { source: 'NovelAI' };
-            try {
-                const data = JSON.parse(text);
-                result.positive = data.prompt || '';
-                result.negative = data.uc || '';
-                if (data.steps) result.steps = data.steps;
-                if (data.scale) result.cfg = data.scale;
-                if (data.seed) result.seed = String(data.seed);
-                if (data.sampler) result.sampler = data.sampler;
-                if (data.width) result.width = data.width;
-                if (data.height) result.height = data.height;
-                if (data.noise_schedule) result.scheduler = data.noise_schedule;
-                if (data.sm !== undefined) result.smea = data.sm;
-                if (data.sm_dyn !== undefined) result.smeaDyn = data.sm_dyn;
-                if (data.strength) result.denoise = data.strength;
-            } catch {
-                result.positive = text;
+            let commentObj = null;
+            let description = '';
+
+            const takeComment = (c) => {
+                if (!c) return;
+                if (typeof c === 'object') {
+                    commentObj = c;
+                    return;
+                }
+                if (typeof c === 'string') {
+                    try { commentObj = JSON.parse(c); } catch { /* ignore */ }
+                }
+            };
+
+            if (input && typeof input === 'object') {
+                if (typeof input.Description === 'string') description = input.Description;
+                if (input.Comment !== undefined) takeComment(input.Comment);
+                else if (input.prompt !== undefined || input.uc !== undefined || input.steps !== undefined) {
+                    commentObj = input;
+                }
+                if (typeof input.Source === 'string' && input.Source.trim()) {
+                    result.model = input.Source.trim();
+                }
+            } else if (typeof input === 'string') {
+                try {
+                    const data = JSON.parse(input);
+                    if (data && typeof data === 'object') {
+                        if (data.Description || data.Comment || data.Software === 'NovelAI') {
+                            return this.parseNovelAI(data);
+                        }
+                        commentObj = data;
+                    }
+                } catch {
+                    description = input;
+                }
             }
+
+            if (commentObj) {
+                result.positive = commentObj.prompt || description || '';
+                result.negative = commentObj.uc || '';
+                if (commentObj.steps) result.steps = commentObj.steps;
+                if (commentObj.scale != null) result.cfg = commentObj.scale;
+                if (commentObj.seed != null) result.seed = String(commentObj.seed);
+                if (commentObj.sampler) result.sampler = commentObj.sampler;
+                if (commentObj.width) result.width = commentObj.width;
+                if (commentObj.height) result.height = commentObj.height;
+                if (commentObj.noise_schedule) result.scheduler = commentObj.noise_schedule;
+                if (commentObj.sm !== undefined) result.smea = commentObj.sm;
+                if (commentObj.sm_dyn !== undefined) result.smeaDyn = commentObj.sm_dyn;
+                if (commentObj.strength != null) result.denoise = commentObj.strength;
+            } else {
+                result.positive = description || '';
+            }
+            return result;
+        },
+
+        parseNovelAIFromTexts(texts) {
+            if (!texts) return null;
+            const payload = {
+                Description: texts.Description || '',
+                Comment: texts.Comment,
+                Source: texts.Source,
+                Software: texts.Software,
+            };
+            if (texts.UserComment && !payload.Comment) payload.Comment = texts.UserComment;
+            const result = this.parseNovelAI(payload);
+            if (!result.positive && !result.negative && !result.seed && !result.steps) return null;
             return result;
         },
 
@@ -12877,7 +13069,19 @@
                 texts = this.parseJPEG(buffer);
             }
 
-            if (!texts) return { source: '未检测到元数据', noData: true };
+            const tryStealth = async () => {
+                if (format === 'jpeg') return null;
+                const stealth = await this.extractStealthMetadata(
+                    new Blob([buffer], { type: file.type || (format === 'webp' ? 'image/webp' : 'image/png') })
+                );
+                return this._stealthToResult(stealth);
+            };
+
+            if (!texts) {
+                const stealthResult = await tryStealth();
+                if (stealthResult) return stealthResult;
+                return { source: '未检测到元数据', noData: true };
+            }
 
             // ComfyUI: has "prompt" key with JSON
             if (texts.prompt) {
@@ -12904,9 +13108,29 @@
                 return this.parseSwarmUI(texts.sui_image_params);
             }
 
-            // NovelAI: has "Comment" or "Description"
-            if (texts.Comment) return this.parseNovelAI(texts.Comment);
-            if (texts.Description) return this.parseNovelAI(texts.Description);
+            // NovelAI: Comment / Description / Software，并在缺字段时回退 alpha 隐写
+            const looksNai = !!(texts.Comment || texts.Description ||
+                (texts.Software && String(texts.Software).includes('NovelAI')));
+            if (looksNai) {
+                let nai = this.parseNovelAIFromTexts(texts);
+                const needStealth = !nai || !nai.positive || (nai.seed == null && nai.steps == null);
+                if (needStealth) {
+                    const stealthResult = await tryStealth();
+                    if (stealthResult && !stealthResult.noData) {
+                        if (!nai) return stealthResult;
+                        if (!nai.positive && stealthResult.positive) nai.positive = stealthResult.positive;
+                        if (!nai.negative && stealthResult.negative) nai.negative = stealthResult.negative;
+                        if (nai.seed == null && stealthResult.seed != null) nai.seed = stealthResult.seed;
+                        if (nai.steps == null && stealthResult.steps != null) nai.steps = stealthResult.steps;
+                        if (nai.cfg == null && stealthResult.cfg != null) nai.cfg = stealthResult.cfg;
+                        if (!nai.sampler && stealthResult.sampler) nai.sampler = stealthResult.sampler;
+                        if (!nai.width && stealthResult.width) nai.width = stealthResult.width;
+                        if (!nai.height && stealthResult.height) nai.height = stealthResult.height;
+                        if (stealthResult.stealth) nai.stealth = stealthResult.stealth;
+                    }
+                }
+                if (nai) return nai;
+            }
 
             // UserComment fallback
             if (texts.UserComment) {
@@ -12917,7 +13141,10 @@
                 if (texts.UserComment.includes('Steps:')) return this.parseA1111(texts.UserComment);
             }
 
-            // Unknown format: return raw texts
+            // Unknown format: try stealth before giving up
+            const stealthResult = await tryStealth();
+            if (stealthResult) return stealthResult;
+
             const firstVal = Object.values(texts)[0] || '';
             if (firstVal.includes('Steps:') || firstVal.includes('Negative prompt:')) {
                 return this.parseA1111(firstVal);
@@ -13013,7 +13240,7 @@
             const source = document.getElementById('meta-source');
             source.textContent = parsedData.noData
                 ? '⚠️ 该图片未检测到生成参数元数据'
-                : `来源: ${parsedData.source || '未知'}`;
+                : `来源: ${parsedData.source || '未知'}${parsedData.stealth ? ` (${parsedData.stealth})` : ''}`;
             source.className = 'meta-source' + (parsedData.noData ? ' meta-no-data' : '');
 
             const fields = document.getElementById('meta-fields');
