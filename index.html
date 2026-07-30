@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>ComfyUI Web · AI 绘画与角色创作</title>
-    <meta name="description" content="本地出图，云端备选；角色库与角色卡同站完成。ComfyUI / NAI 生图，3 万+ Trigger，同域写卡。">
+    <title>ComfyUI Web · 二次元 AI 创作站</title>
+    <meta name="description" content="862 作品系列、3 万+ 角色 Trigger；本地 ComfyUI（Anima/SDXL）与 NAI/DZMM 云端生图；同域 SillyTavern 角色卡。选角、出图、写卡一站完成。">
     <meta name="theme-color" content="#e94560">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,18 +13,18 @@
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-    <meta property="og:title" content="ComfyUI Web · AI 绘画与角色创作">
-    <meta property="og:description" content="本地 / 云端生图，角色库与角色卡同站完成。有 GPU 连 ComfyUI，没显卡用 NAI。">
+    <meta property="og:title" content="ComfyUI Web · 二次元 AI 创作站">
+    <meta property="og:description" content="3 万+ 角色 Trigger · 本地/云端生图 · SillyTavern 写卡。选角到出图再到写卡，同站完成。">
     <meta property="og:url" content="https://comfyui-web-89u.pages.dev/">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://comfyui-web-89u.pages.dev/assets/hero-app-preview.png?v=165">
+    <meta property="og:image" content="https://comfyui-web-89u.pages.dev/assets/hero-app-preview.png?v=167">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ComfyUI Web · AI 绘画与角色创作">
-    <meta name="twitter:description" content="本地 / 云端生图，角色库与角色卡同站完成。有 GPU 连 ComfyUI，没显卡用 NAI。">
-    <meta name="twitter:image" content="https://comfyui-web-89u.pages.dev/assets/hero-app-preview.png?v=165">
+    <meta name="twitter:title" content="ComfyUI Web · 二次元 AI 创作站">
+    <meta name="twitter:description" content="3 万+ 角色 Trigger · 本地/云端生图 · SillyTavern 写卡。选角到出图再到写卡，同站完成。">
+    <meta name="twitter:image" content="https://comfyui-web-89u.pages.dev/assets/hero-app-preview.png?v=167">
     <link rel="canonical" href="https://comfyui-web-89u.pages.dev/">
     <link rel="alternate" type="application/rss+xml" title="ComfyUI Web 资讯" href="/feed.xml">
-    <link rel="stylesheet" href="/assets/site.css?v=15">
+    <link rel="stylesheet" href="/assets/site.css?v=16">
 </head>
 <body>
     <header class="site-header">
@@ -37,7 +37,7 @@
                 <a href="/card/">角色卡</a>
                 <a href="/about/">关于</a>
             </nav>
-            <a href="/app/" class="site-cta">进入生图 →</a>
+            <a href="/app/" class="site-cta">开始创作 →</a>
         </div>
     </header>
 
@@ -45,11 +45,11 @@
         <section class="hero">
             <div class="hero-grid">
                 <div class="hero-content">
-                    <p class="hero-tagline">AI 绘画 · 角色创作</p>
-                    <h1>本地出图，云端备选<br>角色库与角色卡同站完成</h1>
-                    <p class="hero-desc">有 GPU 连 ComfyUI（Anima / SDXL）；没显卡用 NAI 云端。3 万+ Trigger、画师库、局部重绘，再加同域角色卡生成——网页操作，按需选路。</p>
+                    <p class="hero-tagline">二次元创作者的 AI 工作站</p>
+                    <h1>从选角到出图<br>再到写卡，一条链路做完</h1>
+                    <p class="hero-desc">862 作品 · 3 万角色 Trigger 点选即用。有显卡连 ComfyUI（Anima / SDXL），没显卡走 NAI 或 DZMM；同域还能写 SillyTavern 角色卡——网页操作，按算力选路。</p>
                     <div class="hero-actions">
-                        <a href="/app/?arch=anima" class="btn-primary">🎨 进入生图工具</a>
+                        <a href="/app/?arch=anima" class="btn-primary">🎨 开始创作</a>
                         <a href="/card/" class="btn-accent">🃏 角色卡生成</a>
                         <a href="/news/" class="btn-secondary">📖 看教程</a>
                     </div>
@@ -81,19 +81,19 @@
                     <div class="hero-preview-frame">
                         <img src="/assets/hero-app-preview.png" alt="ComfyUI Web 角色库界面预览" width="390" height="844" loading="eager">
                     </div>
-                    <p class="hero-preview-caption">生图工具 · 角色库 / 云端 / 角色卡</p>
+                    <p class="hero-preview-caption">选角 · 出图 · 写卡 · 同站闭环</p>
                 </div>
             </div>
         </section>
 
         <section class="onboarding" aria-label="新手上路">
-            <h2 class="section-title">按需上路</h2>
+            <h2 class="section-title">三条路，按你情况选</h2>
             <div class="onboarding-steps">
                 <a href="/news/detail?slug=comfyui-cors-troubleshoot" class="onboarding-step">
                     <span class="onboarding-num">1</span>
                     <span class="onboarding-text">
                         <strong>本地有显卡</strong>
-                        <small>开 ComfyUI + CORS，连上生图</small>
+                        <small>开 ComfyUI + CORS，网页连本机出图</small>
                     </span>
                 </a>
                 <span class="onboarding-arrow" aria-hidden="true">/</span>
@@ -101,7 +101,7 @@
                     <span class="onboarding-num">2</span>
                     <span class="onboarding-text">
                         <strong>没有显卡</strong>
-                        <small>用 NAI 云端接口直接出图</small>
+                        <small>NAI 云端，或 DZMM 免费池兜底</small>
                     </span>
                 </a>
                 <span class="onboarding-arrow" aria-hidden="true">/</span>
@@ -109,7 +109,7 @@
                     <span class="onboarding-num">3</span>
                     <span class="onboarding-text">
                         <strong>要写角色卡</strong>
-                        <small>同域打开，自备 LLM 即可</small>
+                        <small>同域写卡工坊，自备 LLM 即可</small>
                     </span>
                 </a>
             </div>
@@ -129,41 +129,41 @@
 
         <h2 class="section-title">工具能力</h2>
         <div class="capability-grid">
+            <a href="/app/?tab=characters" class="capability-card">
+                <span class="capability-icon">👤</span>
+                <span class="capability-label">角色库</span>
+                <span class="capability-desc">862 作品 / 30,609 角色 Trigger，点选插入</span>
+            </a>
             <a href="/app/?mode=simple" class="capability-card">
                 <span class="capability-icon">🖥️</span>
                 <span class="capability-label">本地生图</span>
-                <span class="capability-desc">ComfyUI · Anima / SDXL，网页操本地算力</span>
+                <span class="capability-desc">ComfyUI · Anima / SDXL 双架构，网页操本地算力</span>
             </a>
             <a href="/app/?mode=nai" class="capability-card">
                 <span class="capability-icon">☁️</span>
                 <span class="capability-label">云端生图</span>
-                <span class="capability-desc">NAI API 兜底，无显卡也能出图</span>
-            </a>
-            <a href="/app/?tab=characters" class="capability-card">
-                <span class="capability-icon">👤</span>
-                <span class="capability-label">角色库</span>
-                <span class="capability-desc">30,000+ Trigger，点选即插入提示词</span>
+                <span class="capability-desc">NAI API + DZMM 池，无显卡也能出图</span>
             </a>
             <a href="/app/?tab=artists" class="capability-card">
                 <span class="capability-icon">🎨</span>
-                <span class="capability-label">画师库</span>
-                <span class="capability-desc">画师标签与自定义画师串</span>
+                <span class="capability-label">画师与标签</span>
+                <span class="capability-desc">画师库、画师串、标签浏览，一键拼提示词</span>
             </a>
             <a href="/app/?tab=settings&amp;focus=profile" class="capability-card">
-                <span class="capability-icon">💾</span>
-                <span class="capability-label">配置与重绘</span>
-                <span class="capability-desc">多套方案、局部重绘、导入参数</span>
+                <span class="capability-icon">🛠️</span>
+                <span class="capability-label">重绘与修图</span>
+                <span class="capability-desc">Anima 局部重绘、抠图合成、参数方案与导入</span>
             </a>
             <a href="/card/" class="capability-card">
                 <span class="capability-icon">🃏</span>
                 <span class="capability-label">角色卡生成</span>
-                <span class="capability-desc">SillyTavern 写卡，自备 LLM 同域可用</span>
+                <span class="capability-desc">SillyTavern V2/V3 写卡、世界书与 AI 助手</span>
             </a>
         </div>
     </main>
 
     <footer class="site-footer">
-        <p>ComfyUI Web · AI 绘画与角色创作</p>
+        <p>ComfyUI Web · 二次元 AI 创作站</p>
         <p style="margin-top:8px">
             <a href="/news/">资讯</a> ·
             <a href="/guides/">教程</a> ·
@@ -173,7 +173,7 @@
         </p>
     </footer>
 
-    <script src="/assets/site.js?v=10"></script>
+    <script src="/assets/site.js?v=11"></script>
     <script src="/assets/pwa-register.js?v=2"></script>
 </body>
 </html>

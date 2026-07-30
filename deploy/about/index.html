@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于 · ComfyUI Web</title>
-    <meta name="description" content="关于 ComfyUI Web AI 绘画资讯与工具站。">
+    <title>关于 · ComfyUI Web · 二次元 AI 创作站</title>
+    <meta name="description" content="862 作品系列、3 万+ 角色 Trigger；本地 ComfyUI 与 NAI/DZMM 云端生图；同域 SillyTavern 角色卡。选角、出图、写卡一站完成。">
     <link rel="canonical" href="https://comfyui-web-89u.pages.dev/about/">
-    <link rel="stylesheet" href="/assets/site.css?v=1">
+    <link rel="stylesheet" href="/assets/site.css?v=16">
 </head>
 <body>
     <header class="site-header">
@@ -16,9 +16,10 @@
                 <a href="/news/">资讯</a>
                 <a href="/guides/">教程</a>
                 <a href="/app/">工具</a>
+                <a href="/card/">角色卡</a>
                 <a href="/about/" class="active">关于</a>
             </nav>
-            <a href="/app/" class="site-cta">进入生图 →</a>
+            <a href="/app/" class="site-cta">开始创作 →</a>
         </div>
     </header>
 
@@ -29,29 +30,19 @@
 
         <section class="guide-section">
             <h2>ComfyUI Web 是什么</h2>
-            <p>ComfyUI Web 是一个面向 AI 绘画爱好者的<strong>资讯 + 工具</strong>站点。你可以在这里阅读模型更新与教程技巧，也可以直接使用内置的 ComfyUI Web 生图工具——连接本地 ComfyUI 或使用在线 NAI API 出图。</p>
+            <p>不是单纯的 ComfyUI 套壳，而是面向二次元创作者的 <strong>选角 → 出图 → 写卡</strong> 工作站。把本地算力、云端兜底、海量角色 Trigger、画师标签，以及 SillyTavern 写卡收进同一个站点——中间少跳五个网站。</p>
         </section>
 
         <section class="guide-section">
-            <h2>主要功能</h2>
+            <h2>你能在这里做什么</h2>
             <ul>
-                <li><strong>资讯站</strong> — 模型动态、教程、工具更新日志</li>
-                <li><strong>本地生图</strong> — SDXL / Anima 双架构，ControlNet、LoRA、IP-Adapter、高清放大等</li>
-                <li><strong>在线生图</strong> — NAI API 云端出图，无需本地 GPU</li>
-                <li><strong>角色库</strong> — 30,000+ 角色 Trigger 与 LoRA 链接</li>
-                <li><strong>画师库</strong> — 画师标签浏览与自定义画师串</li>
-                <li><strong>局部重绘</strong> — Anima LLLite 蒙版重绘，多套场景预设</li>
-                <li><strong>图层合成 / 抠图</strong> — 纯前端图像处理工具</li>
-            </ul>
-        </section>
-
-        <section class="guide-section">
-            <h2>技术栈</h2>
-            <ul>
-                <li>前端：纯 HTML / CSS / JavaScript</li>
-                <li>部署：Cloudflare Pages</li>
-                <li>数据库：Cloudflare D1（角色/画师数据）</li>
-                <li>资讯：Markdown + Git 构建（阶段 A）</li>
+                <li><strong>角色库</strong> — 862 作品系列、30,609 角色 Trigger，点选插入提示词</li>
+                <li><strong>本地生图</strong> — 连接 ComfyUI，Anima / SDXL 双架构，LoRA、ControlNet、高清放大等</li>
+                <li><strong>云端生图</strong> — NAI API；DZMM 多账号池，没显卡也能画</li>
+                <li><strong>画师与标签</strong> — 画师库、自定义画师串、标签浏览与翻译</li>
+                <li><strong>重绘与修图</strong> — Anima 局部重绘、浏览器内抠图 / 图层合成、参数方案与 PNG 导入</li>
+                <li><strong>角色卡生成</strong> — SillyTavern V2/V3、世界书、AI 助手，自备 LLM 同域可用</li>
+                <li><strong>资讯与教程</strong> — 模型动态、CORS / Anima 上手指南，RSS 可订阅</li>
             </ul>
         </section>
 
@@ -62,16 +53,17 @@
         </section>
 
         <div class="article-actions">
-            <a href="/app/" class="btn-primary">进入生图工具 →</a>
+            <a href="/app/" class="btn-primary">开始创作 →</a>
+            <a href="/card/" class="btn-accent">角色卡生成</a>
             <a href="/news/" class="btn-secondary">浏览资讯</a>
         </div>
     </main>
 
     <footer class="site-footer">
-        <p>ComfyUI Web · AI 绘画资讯与工具站</p>
+        <p>ComfyUI Web · 二次元 AI 创作站</p>
         <p style="margin-top:8px"><a href="/">返回首页</a></p>
     </footer>
 
-    <script src="/assets/site.js?v=1"></script>
+    <script src="/assets/site.js?v=11"></script>
 </body>
 </html>
