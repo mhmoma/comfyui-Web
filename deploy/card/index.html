@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.staticfile.net; style-src 'self' 'unsafe-inline' https://fonts.font.im https://cdn.staticfile.net; font-src 'self' https://fonts.font.im https://fonts.gstatic.font.im https://cdn.staticfile.net data:; img-src 'self' data: blob: https:; connect-src 'self' https: http://127.0.0.1:* http://localhost:*; frame-src 'self' data: blob:; worker-src 'self' blob:;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.staticfile.net https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.font.im https://cdn.staticfile.net; font-src 'self' https://fonts.font.im https://fonts.gstatic.font.im https://cdn.staticfile.net data:; img-src 'self' data: blob: https:; connect-src 'self' https: http://127.0.0.1:* http://localhost:*; frame-src 'self' data: blob:; worker-src 'self' blob:;" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="theme-color" content="#0F172A" />
   <meta name="description" content="同域角色卡生成工具：编写、导入导出 SillyTavern 角色卡，连接自有 LLM。" />
@@ -17,7 +17,7 @@
   <link href="https://fonts.font.im/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./vendor/cdn.staticfile.net/font-awesome/6.4.0/css/all.min.css">
   <!-- 同域 API mock 必须最先加载，再旁路登录 -->
-  <script src="./card-api-mock.js?v=3"></script>
+  <script src="./card-api-mock.js?v=4"></script>
   <script src="./local-bypass.js?v=25"></script>
   <script src="./local-localize.js?v=25"></script>
   <script src="./libs/Chart.min.js"></script>

@@ -437,6 +437,68 @@
     return json({ ok: true });
   }
 
+  // EventSource 不走 fetch；群聊 SSE 在同域无后端时会落到 HTML 页面
+  const RawEventSource = window.EventSource;
+  function MockGroupStream(url) {
+    const bus = new EventTarget();
+    const es = {
+      url: String(url),
+      readyState: 1,
+      withCredentials: false,
+      CONNECTING: 0,
+      OPEN: 1,
+      CLOSED: 2,
+      onopen: null,
+      onmessage: null,
+      onerror: null,
+      close() {
+        es.readyState = 2;
+      },
+      addEventListener(type, fn, opts) {
+        bus.addEventListener(type, fn, opts);
+      },
+      removeEventListener(type, fn, opts) {
+        bus.removeEventListener(type, fn, opts);
+      },
+      dispatchEvent(ev) {
+        return bus.dispatchEvent(ev);
+      },
+    };
+    queueMicrotask(() => {
+      if (es.readyState === 2) return;
+      const payload = JSON.stringify({ ok: true, onlineCount: 1 });
+      const ev = new MessageEvent("connected", { data: payload });
+      bus.dispatchEvent(ev);
+      if (typeof es.onopen === "function") {
+        try {
+          es.onopen(new Event("open"));
+        } catch (_) {}
+      }
+    });
+    return es;
+  }
+  window.EventSource = function CardEventSource(url, config) {
+    let parsed;
+    try {
+      parsed = new URL(String(url), location.origin);
+    } catch {
+      return new RawEventSource(url, config);
+    }
+    if (
+      parsed.origin === location.origin &&
+      parsed.pathname.startsWith("/api/group/stream")
+    ) {
+      return MockGroupStream(parsed.href);
+    }
+    return new RawEventSource(url, config);
+  };
+  window.EventSource.CONNECTING = 0;
+  window.EventSource.OPEN = 1;
+  window.EventSource.CLOSED = 2;
+  if (RawEventSource && RawEventSource.prototype) {
+    window.EventSource.prototype = RawEventSource.prototype;
+  }
+
   const rawFetch = window.fetch.bind(window);
   fetch.__cardRaw = rawFetch;
 
