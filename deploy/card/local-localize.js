@@ -332,20 +332,49 @@
     });
   }
 
-  /* —— 返回门户主页（仅 /card 同域部署） —— */
-  function ensureHomeBack() {
-    if (!location.pathname.startsWith("/card")) return;
-    if (document.getElementById("card-home-back")) return;
+  /* —— 返回门户主页：侧栏标题旁图标（仅 /card） —— */
+  function buildHomeBackBtn() {
     const a = document.createElement("a");
     a.id = "card-home-back";
     a.className = "card-home-back";
     a.href = "/";
-    a.title = "返回 ComfyUI Web 主页";
+    a.title = "返回主页";
     a.setAttribute("aria-label", "返回主页");
-    a.innerHTML =
-      '<i class="fa-solid fa-house" aria-hidden="true"></i>' +
-      '<span class="card-home-back-text">返回主页</span>';
-    document.body.appendChild(a);
+    a.innerHTML = '<i class="fa-solid fa-house" aria-hidden="true"></i>';
+    return a;
+  }
+
+  function findSidebarBrandMount() {
+    const hide = document.querySelector(".sidebar-collapse-hide");
+    if (hide && hide.parentElement) return { parent: hide.parentElement, after: hide };
+
+    const img = document.querySelector('img[src*="jsksc-icon"]');
+    if (img) {
+      const row = img.parentElement && img.parentElement.parentElement;
+      if (row) return { parent: row, after: img.parentElement };
+    }
+
+    const titles = document.querySelectorAll(".sidebar .text-sm.font-bold, aside .text-sm.font-bold");
+    for (const el of titles) {
+      if ((el.textContent || "").includes("角色卡") && el.parentElement) {
+        return { parent: el.parentElement.parentElement || el.parentElement, after: el.parentElement };
+      }
+    }
+    return null;
+  }
+
+  function ensureHomeBack() {
+    if (!location.pathname.startsWith("/card")) return;
+    const mount = findSidebarBrandMount();
+    if (!mount) return;
+
+    let btn = document.getElementById("card-home-back");
+    if (!btn) btn = buildHomeBackBtn();
+
+    // 挂到侧栏品牌行：标题块右侧
+    if (btn.parentElement !== mount.parent || btn.previousElementSibling !== mount.after) {
+      mount.after.insertAdjacentElement("afterend", btn);
+    }
   }
 
   function start() {
@@ -354,12 +383,18 @@
     obs.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
     const tagObs = new MutationObserver(() => {
       clearTimeout(tagSpecialButtons._t);
-      tagSpecialButtons._t = setTimeout(() => tagSpecialButtons(), 200);
+      tagSpecialButtons._t = setTimeout(() => {
+        tagSpecialButtons();
+        ensureHomeBack();
+      }, 200);
     });
     tagObs.observe(document.body, { childList: true, subtree: true });
     startThemeFx();
     startThemeMenu();
     ensureHomeBack();
+    // 首屏侧栏可能晚挂载
+    setTimeout(ensureHomeBack, 400);
+    setTimeout(ensureHomeBack, 1200);
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
