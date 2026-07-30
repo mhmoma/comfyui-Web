@@ -307,7 +307,7 @@
       return json({ ok: false, error: "已禁用开放代理" }, 410);
     }
 
-    // ---- 头像上传（本地无后端时转为 data URL，供保存/PNG 导出使用）----
+    // ---- 头像（本地化兜底）：前端已改为 data URL 直存；此接口仅兼容旧包 ----
     if (path === "/api/user/avatar" && method === "POST") {
       try {
         const form = init && init.body;
