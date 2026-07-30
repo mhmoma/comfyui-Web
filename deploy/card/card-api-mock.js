@@ -12,6 +12,10 @@
     window.__CARD_USE_LLM_PROXY = true;
   }
 
+  // 必须在替换 window.fetch 之前保存原生 fetch；
+  // 勿挂到旧 fetch 上再覆盖 —— 否则 fetch.__cardRaw 会丢失
+  const rawFetch = window.fetch.bind(window);
+
   const STORE_KEY = "card_portal_state_v1";
   const LS_CONFIGS = "st_api_configs";
 
@@ -129,7 +133,7 @@
       headers.Authorization = "Bearer " + cfg.apiKey;
     }
 
-    return fetch.__cardRaw(url, {
+    return rawFetch(url, {
       method: "POST",
       headers,
       body: JSON.stringify(body),
@@ -142,7 +146,7 @@
     if (cfg.apiKey && !isMaskKey(cfg.apiKey)) {
       headers.Authorization = "Bearer " + cfg.apiKey;
     }
-    return fetch.__cardRaw(url, { method: "GET", headers });
+    return rawFetch(url, { method: "GET", headers });
   }
 
   function extractModels(payload) {
@@ -176,7 +180,7 @@
   }
 
   async function viaProxy(path, body) {
-    return fetch.__cardRaw(path, {
+    return rawFetch(path, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -499,9 +503,6 @@
     window.EventSource.prototype = RawEventSource.prototype;
   }
 
-  const rawFetch = window.fetch.bind(window);
-  fetch.__cardRaw = rawFetch;
-
   window.fetch = async function (input, init) {
     let url;
     try {
@@ -537,4 +538,6 @@
     }
     return rawFetch(input, init);
   };
+  // 供外部排查 / 兼容旧调用；必须挂在替换后的 window.fetch 上
+  window.fetch.__cardRaw = rawFetch;
 })();
