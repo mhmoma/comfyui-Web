@@ -1,5 +1,5 @@
 /* ComfyUI Web — minimal Service Worker for PWA installability */
-const CACHE_NAME = 'comfyui-web-shell-v1';
+const CACHE_NAME = 'comfyui-web-shell-v2';
 const PRECACHE = [
   '/',
   '/app/',
