@@ -1,0 +1,1280 @@
+/* 轻量样式 + 额外主题 + 主题氛围动效 */
+
+a[href*="stcard.top"] {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] #theme-fx,
+  html[data-theme] body::before,
+  html[data-theme] body::after {
+    animation: none !important;
+  }
+  html[data-theme] #theme-fx * {
+    animation: none !important;
+  }
+}
+
+#theme-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#app {
+  position: relative;
+  z-index: 2;
+}
+
+#theme-fx .fx-item {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* —— 海洋 —— */
+html[data-theme="ocean"] {
+  --bg-base: #0B1C24;
+  --bg-surface: #123040;
+  --bg-card: #153647;
+  --bg-elevated: #1E4A5C;
+  --bg-overlay: #265A6E;
+  --text-primary: #E8F6FA;
+  --text-secondary: #B7D7E2;
+  --text-muted: #7FA8B6;
+  --text-placeholder: #5A8494;
+  --border-subtle: rgba(125, 211, 232, 0.1);
+  --border-default: rgba(125, 211, 232, 0.16);
+  --border-strong: rgba(125, 211, 232, 0.24);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45), 0 2px 4px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.5), 0 4px 10px rgba(0, 0, 0, 0.28);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.55), 0 8px 20px rgba(0, 0, 0, 0.3);
+  --bg-primary: var(--bg-base);
+  --bg-secondary: var(--bg-surface);
+  --bg-input: var(--bg-elevated);
+  --bg-hover: var(--bg-overlay);
+  --border-soft: var(--border-subtle);
+  --border-color: var(--border-default);
+  --accent-blue: #22D3EE;
+  --accent-purple: #A78BFA;
+  --accent-cyan: #2DD4BF;
+  --accent-blue-soft: rgba(34, 211, 238, 0.15);
+  --accent-blue-glow: rgba(34, 211, 238, 0.32);
+  --accent-glow: rgba(34, 211, 238, 0.3);
+  --accent-amber: #FBBF24;
+  --semantic-success: #4ADE80;
+  --semantic-info: #38BDF8;
+  --shadow-glow-blue: 0 0 24px rgba(34, 211, 238, 0.22);
+  --shadow-glow-cyan: 0 0 24px rgba(6, 182, 212, 0.2);
+  --menu-opacity: 0.9;
+}
+
+html[data-theme="ocean"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 110%, rgba(6, 182, 212, 0.28), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 80%, rgba(34, 211, 238, 0.14), transparent 50%),
+    radial-gradient(ellipse 40% 35% at 90% 70%, rgba(14, 165, 233, 0.12), transparent 50%);
+  animation: ocean-glow 10s ease-in-out infinite alternate;
+}
+
+html[data-theme="ocean"] body::after {
+  content: "";
+  position: fixed;
+  inset: -10% 0 0 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 18px,
+      rgba(34, 211, 238, 0.035) 19px,
+      transparent 22px
+    );
+  animation: ocean-wave 8s ease-in-out infinite;
+  mask-image: linear-gradient(to top, black 0%, transparent 70%);
+  -webkit-mask-image: linear-gradient(to top, black 0%, transparent 70%);
+}
+
+@keyframes ocean-glow {
+  from { transform: translateY(0) scale(1); opacity: 0.85; }
+  to { transform: translateY(-18px) scale(1.05); opacity: 1; }
+}
+@keyframes ocean-wave {
+  0%, 100% { transform: translateY(0) skewX(0deg); }
+  50% { transform: translateY(-12px) skewX(1.2deg); }
+}
+
+html[data-theme="ocean"] #theme-fx .fx-bubble {
+  border-radius: 50%;
+  border: 1px solid rgba(125, 211, 232, 0.35);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35), rgba(34, 211, 238, 0.08));
+  animation: ocean-bubble linear infinite;
+}
+@keyframes ocean-bubble {
+  0% { transform: translateY(20vh) scale(0.6); opacity: 0; }
+  15% { opacity: 0.7; }
+  100% { transform: translateY(-110vh) scale(1.1); opacity: 0; }
+}
+
+/* —— 夕阳 —— */
+html[data-theme="sunset"] {
+  --bg-base: #1A100E;
+  --bg-surface: #2A1814;
+  --bg-card: #321C18;
+  --bg-elevated: #43261F;
+  --bg-overlay: #523028;
+  --text-primary: #FFF1E8;
+  --text-secondary: #E8C8B6;
+  --text-muted: #B8917C;
+  --text-placeholder: #8A6554;
+  --border-subtle: rgba(251, 146, 60, 0.1);
+  --border-default: rgba(251, 146, 60, 0.16);
+  --border-strong: rgba(251, 146, 60, 0.24);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45), 0 2px 4px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.5), 0 4px 10px rgba(0, 0, 0, 0.28);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.55), 0 8px 20px rgba(0, 0, 0, 0.3);
+  --bg-primary: var(--bg-base);
+  --bg-secondary: var(--bg-surface);
+  --bg-input: var(--bg-elevated);
+  --bg-hover: var(--bg-overlay);
+  --border-soft: var(--border-subtle);
+  --border-color: var(--border-default);
+  --accent-blue: #F97316;
+  --accent-purple: #FB7185;
+  --accent-cyan: #FBBF24;
+  --accent-blue-soft: rgba(249, 115, 22, 0.15);
+  --accent-blue-glow: rgba(249, 115, 22, 0.32);
+  --accent-glow: rgba(249, 115, 22, 0.3);
+  --accent-amber: #FDE68A;
+  --semantic-success: #4ADE80;
+  --semantic-info: #38BDF8;
+  --shadow-glow-blue: 0 0 24px rgba(249, 115, 22, 0.22);
+  --shadow-glow-amber: 0 0 24px rgba(245, 158, 11, 0.2);
+  --menu-opacity: 0.9;
+}
+
+html[data-theme="sunset"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle 42vmin at 78% 12%, rgba(251, 191, 36, 0.45), transparent 55%),
+    radial-gradient(ellipse 90% 55% at 50% 100%, rgba(249, 115, 22, 0.32), transparent 60%),
+    linear-gradient(180deg, rgba(127, 29, 29, 0.25) 0%, transparent 45%);
+  animation: sunset-breathe 9s ease-in-out infinite alternate;
+}
+
+html[data-theme="sunset"] body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42%;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(249, 115, 22, 0.12) 40%, rgba(180, 60, 20, 0.22));
+  animation: sunset-haze 12s ease-in-out infinite alternate;
+}
+
+@keyframes sunset-breathe {
+  from { filter: saturate(1) brightness(0.95); transform: scale(1); }
+  to { filter: saturate(1.15) brightness(1.08); transform: scale(1.03); }
+}
+@keyframes sunset-haze {
+  from { opacity: 0.7; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+html[data-theme="sunset"] #theme-fx .fx-ember {
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(253, 224, 71, 0.9), rgba(249, 115, 22, 0.2) 60%, transparent 70%);
+  filter: blur(0.5px);
+  animation: sunset-ember linear infinite;
+}
+@keyframes sunset-ember {
+  0% { transform: translateY(10vh) translateX(0) scale(0.4); opacity: 0; }
+  20% { opacity: 0.85; }
+  100% { transform: translateY(-100vh) translateX(40px) scale(1); opacity: 0; }
+}
+
+/* —— 森林 —— */
+html[data-theme="forest"] {
+  --bg-base: #0C1610;
+  --bg-surface: #15241A;
+  --bg-card: #1A2C20;
+  --bg-elevated: #243A2B;
+  --bg-overlay: #2E4A37;
+  --text-primary: #EAF6EC;
+  --text-secondary: #BFD9C4;
+  --text-muted: #86A890;
+  --text-placeholder: #5F7A66;
+  --border-subtle: rgba(74, 222, 128, 0.1);
+  --border-default: rgba(74, 222, 128, 0.16);
+  --border-strong: rgba(74, 222, 128, 0.24);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45), 0 2px 4px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.5), 0 4px 10px rgba(0, 0, 0, 0.28);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.55), 0 8px 20px rgba(0, 0, 0, 0.3);
+  --bg-primary: var(--bg-base);
+  --bg-secondary: var(--bg-surface);
+  --bg-input: var(--bg-elevated);
+  --bg-hover: var(--bg-overlay);
+  --border-soft: var(--border-subtle);
+  --border-color: var(--border-default);
+  --accent-blue: #34D399;
+  --accent-purple: #C4B5FD;
+  --accent-cyan: #38BDF8;
+  --accent-blue-soft: rgba(52, 211, 153, 0.15);
+  --accent-blue-glow: rgba(52, 211, 153, 0.32);
+  --accent-glow: rgba(52, 211, 153, 0.3);
+  --accent-amber: #FBBF24;
+  --semantic-success: #4ADE80;
+  --semantic-info: #38BDF8;
+  --shadow-glow-blue: 0 0 24px rgba(52, 211, 153, 0.22);
+  --menu-opacity: 0.9;
+}
+
+html[data-theme="forest"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 40% 30% at 20% 0%, rgba(74, 222, 128, 0.16), transparent 60%),
+    radial-gradient(ellipse 35% 28% at 80% 10%, rgba(52, 211, 153, 0.12), transparent 55%),
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(16, 185, 129, 0.14), transparent 55%);
+  animation: forest-canopy 11s ease-in-out infinite alternate;
+}
+
+html[data-theme="forest"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  background:
+    linear-gradient(115deg, transparent 40%, rgba(167, 243, 208, 0.06) 48%, transparent 56%),
+    linear-gradient(70deg, transparent 30%, rgba(52, 211, 153, 0.05) 45%, transparent 60%);
+  background-size: 200% 200%;
+  animation: forest-rays 14s ease-in-out infinite;
+}
+
+@keyframes forest-canopy {
+  from { filter: brightness(0.95); transform: scale(1); }
+  to { filter: brightness(1.08); transform: scale(1.04); }
+}
+@keyframes forest-rays {
+  0%, 100% { background-position: 0% 50%; opacity: 0.3; }
+  50% { background-position: 100% 50%; opacity: 0.55; }
+}
+
+html[data-theme="forest"] #theme-fx .fx-leaf {
+  width: 12px;
+  height: 8px;
+  border-radius: 0 70% 0 70%;
+  background: linear-gradient(135deg, #6EE7B7, #059669);
+  opacity: 0.65;
+  animation: forest-leaf linear infinite;
+}
+@keyframes forest-leaf {
+  0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
+  10% { opacity: 0.7; }
+  100% { transform: translateY(110vh) rotate(360deg) translateX(60px); opacity: 0; }
+}
+
+/* —— 樱花（浅色） —— */
+html[data-theme="sakura"] {
+  --bg-base: #FFF5F7;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-elevated: #FFF0F3;
+  --bg-overlay: #FFE4EA;
+  --text-primary: #3F1F2B;
+  --text-secondary: #6B3A4A;
+  --text-muted: #9A6676;
+  --text-placeholder: #C094A0;
+  --border-subtle: rgba(244, 114, 182, 0.14);
+  --border-default: rgba(244, 114, 182, 0.2);
+  --border-strong: rgba(244, 114, 182, 0.28);
+  --shadow-xs: 0 1px 2px rgba(120, 40, 70, 0.05);
+  --shadow-sm: 0 1px 3px rgba(120, 40, 70, 0.07), 0 1px 2px rgba(120, 40, 70, 0.04);
+  --shadow-md: 0 4px 14px rgba(120, 40, 70, 0.09), 0 2px 4px rgba(120, 40, 70, 0.05);
+  --shadow-lg: 0 12px 36px rgba(120, 40, 70, 0.11), 0 4px 10px rgba(120, 40, 70, 0.06);
+  --shadow-xl: 0 20px 60px rgba(120, 40, 70, 0.13), 0 8px 20px rgba(120, 40, 70, 0.07);
+  --bg-primary: var(--bg-base);
+  --bg-secondary: var(--bg-surface);
+  --bg-input: var(--bg-elevated);
+  --bg-hover: var(--bg-overlay);
+  --border-soft: var(--border-subtle);
+  --border-color: var(--border-default);
+  --accent-blue: #EC4899;
+  --accent-purple: #A78BFA;
+  --accent-cyan: #FB7185;
+  --accent-blue-soft: rgba(236, 72, 153, 0.14);
+  --accent-blue-glow: rgba(236, 72, 153, 0.28);
+  --accent-glow: rgba(236, 72, 153, 0.26);
+  --accent-amber: #F59E0B;
+  --semantic-success: #34D399;
+  --semantic-info: #38BDF8;
+  --shadow-glow-blue: 0 0 24px rgba(236, 72, 153, 0.16);
+  --menu-opacity: 0.94;
+}
+
+html[data-theme="sakura"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 40% at 15% -5%, rgba(251, 207, 232, 0.7), transparent 60%),
+    radial-gradient(ellipse 45% 35% at 90% 5%, rgba(252, 231, 243, 0.8), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 50% 110%, rgba(253, 164, 175, 0.25), transparent 55%);
+  animation: sakura-blush 10s ease-in-out infinite alternate;
+}
+
+html[data-theme="sakura"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: radial-gradient(rgba(244, 114, 182, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  animation: sakura-dot 20s linear infinite;
+}
+
+@keyframes sakura-blush {
+  from { opacity: 0.85; }
+  to { opacity: 1; filter: saturate(1.1); }
+}
+@keyframes sakura-dot {
+  from { background-position: 0 0; }
+  to { background-position: 28px 42px; }
+}
+
+html[data-theme="sakura"] #theme-fx .fx-petal {
+  width: 14px;
+  height: 10px;
+  border-radius: 80% 0 80% 0;
+  background: linear-gradient(135deg, #FBCFE8, #F472B6 70%, #FB7185);
+  box-shadow: 0 0 6px rgba(244, 114, 182, 0.35);
+  animation: sakura-fall linear infinite;
+}
+@keyframes sakura-fall {
+  0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
+  8% { opacity: 0.9; }
+  100% { transform: translateY(110vh) rotate(520deg) translateX(80px); opacity: 0.1; }
+}
+
+/* —— 赛博 —— */
+html[data-theme="cyberpunk"] {
+  --bg-base: #07060F;
+  --bg-surface: #12101F;
+  --bg-card: #171528;
+  --bg-elevated: #221F3A;
+  --bg-overlay: #2C2950;
+  --text-primary: #F3F0FF;
+  --text-secondary: #C7C0E8;
+  --text-muted: #8E86B8;
+  --text-placeholder: #625A8A;
+  --border-subtle: rgba(34, 211, 238, 0.12);
+  --border-default: rgba(168, 85, 247, 0.2);
+  --border-strong: rgba(236, 72, 153, 0.28);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.55), 0 4px 10px rgba(0, 0, 0, 0.32);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6), 0 8px 20px rgba(0, 0, 0, 0.35);
+  --bg-primary: var(--bg-base);
+  --bg-secondary: var(--bg-surface);
+  --bg-input: var(--bg-elevated);
+  --bg-hover: var(--bg-overlay);
+  --border-soft: var(--border-subtle);
+  --border-color: var(--border-default);
+  --accent-blue: #22D3EE;
+  --accent-purple: #A855F7;
+  --accent-cyan: #EC4899;
+  --accent-blue-soft: rgba(34, 211, 238, 0.15);
+  --accent-blue-glow: rgba(34, 211, 238, 0.35);
+  --accent-glow: rgba(168, 85, 247, 0.35);
+  --shadow-glow-blue: 0 0 24px rgba(34, 211, 238, 0.28);
+  --shadow-glow-violet: 0 0 24px rgba(168, 85, 247, 0.28);
+  --menu-opacity: 0.9;
+}
+
+html[data-theme="cyberpunk"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.03) 1px, transparent 1px),
+    radial-gradient(ellipse 50% 40% at 0% 50%, rgba(34, 211, 238, 0.18), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 100% 60%, rgba(236, 72, 153, 0.16), transparent 60%);
+  background-size: 48px 48px, 48px 48px, auto, auto;
+  animation: cyber-grid 18s linear infinite, cyber-neon 6s ease-in-out infinite alternate;
+}
+
+html[data-theme="cyberpunk"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 3px
+  );
+  opacity: 0.35;
+  animation: cyber-scan 7s linear infinite;
+  mix-blend-mode: overlay;
+}
+
+@keyframes cyber-grid {
+  from { background-position: 0 0, 0 0, 0 0, 0 0; }
+  to { background-position: 0 48px, 48px 0, 0 0, 0 0; }
+}
+@keyframes cyber-neon {
+  from { filter: hue-rotate(0deg) brightness(0.95); }
+  to { filter: hue-rotate(12deg) brightness(1.1); }
+}
+@keyframes cyber-scan {
+  from { transform: translateY(0); }
+  to { transform: translateY(12px); }
+}
+
+html[data-theme="cyberpunk"] #theme-fx .fx-neon {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #22D3EE, #A855F7, #EC4899, transparent);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.9), 0 0 36px rgba(168, 85, 247, 0.55);
+  animation: cyber-beam linear infinite;
+  opacity: 0.95;
+}
+@keyframes cyber-beam {
+  0% { transform: translateX(-30vw); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateX(120vw); opacity: 0; }
+}
+
+/* ========== 强化氛围 ========== */
+html[data-theme="ocean"] body::before {
+  opacity: 1;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 115%, rgba(6, 182, 212, 0.55), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 8% 75%, rgba(34, 211, 238, 0.28), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 92% 65%, rgba(14, 165, 233, 0.26), transparent 50%),
+    radial-gradient(circle 30vmin at 70% 20%, rgba(56, 189, 248, 0.18), transparent 60%) !important;
+}
+html[data-theme="ocean"] body::after {
+  opacity: 0.85 !important;
+}
+
+html[data-theme="sunset"] body::before {
+  background:
+    radial-gradient(circle 52vmin at 80% 8%, rgba(253, 224, 71, 0.7), rgba(249, 115, 22, 0.25) 40%, transparent 60%),
+    radial-gradient(ellipse 100% 60% at 50% 105%, rgba(249, 115, 22, 0.5), transparent 58%),
+    linear-gradient(180deg, rgba(127, 29, 29, 0.4) 0%, transparent 42%) !important;
+}
+html[data-theme="sunset"] body::after {
+  height: 48%;
+  background: linear-gradient(180deg, transparent, rgba(249, 115, 22, 0.22) 35%, rgba(180, 50, 15, 0.4)) !important;
+}
+
+html[data-theme="forest"] body::before {
+  background:
+    radial-gradient(ellipse 50% 38% at 18% -5%, rgba(74, 222, 128, 0.35), transparent 60%),
+    radial-gradient(ellipse 45% 35% at 85% 5%, rgba(52, 211, 153, 0.28), transparent 55%),
+    radial-gradient(ellipse 80% 45% at 50% 105%, rgba(16, 185, 129, 0.32), transparent 55%) !important;
+}
+html[data-theme="forest"] body::after {
+  opacity: 0.7 !important;
+}
+
+html[data-theme="sakura"] body::before {
+  background:
+    radial-gradient(ellipse 60% 45% at 12% -8%, rgba(251, 207, 232, 0.95), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 92% 0%, rgba(252, 231, 243, 1), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 50% 115%, rgba(253, 164, 175, 0.45), transparent 55%) !important;
+}
+html[data-theme="sakura"] body::after {
+  opacity: 0.55 !important;
+}
+
+html[data-theme="cyberpunk"] body::before {
+  background:
+    linear-gradient(rgba(34, 211, 238, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.07) 1px, transparent 1px),
+    radial-gradient(ellipse 55% 45% at -5% 40%, rgba(34, 211, 238, 0.35), transparent 60%),
+    radial-gradient(ellipse 55% 45% at 105% 65%, rgba(236, 72, 153, 0.32), transparent 60%),
+    radial-gradient(circle 25vmin at 50% 0%, rgba(168, 85, 247, 0.22), transparent 70%) !important;
+  background-size: 40px 40px, 40px 40px, auto, auto, auto !important;
+}
+html[data-theme="cyberpunk"] body::after {
+  opacity: 0.55 !important;
+}
+
+/* ========== 边框 / 面板 / 侧栏美化 ========== */
+
+/* 通用：主题色流动边框底座 */
+html[data-theme="ocean"] .card-panel,
+html[data-theme="sunset"] .card-panel,
+html[data-theme="forest"] .card-panel,
+html[data-theme="sakura"] .card-panel,
+html[data-theme="cyberpunk"] .card-panel {
+  position: relative;
+  border: 1px solid transparent !important;
+  background-clip: padding-box;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent-blue) 45%, transparent),
+    0 10px 36px color-mix(in srgb, var(--accent-blue) 18%, transparent),
+    var(--shadow-md);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+html[data-theme="ocean"] .card-panel:hover,
+html[data-theme="sunset"] .card-panel:hover,
+html[data-theme="forest"] .card-panel:hover,
+html[data-theme="sakura"] .card-panel:hover,
+html[data-theme="cyberpunk"] .card-panel:hover {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent-blue) 70%, transparent),
+    0 0 28px color-mix(in srgb, var(--accent-blue) 35%, transparent),
+    0 14px 40px color-mix(in srgb, var(--accent-blue) 22%, transparent);
+}
+
+/* 海洋：水波边框 */
+html[data-theme="ocean"] .sidebar {
+  border-right: 1px solid rgba(34, 211, 238, 0.35) !important;
+  box-shadow: 8px 0 32px rgba(6, 182, 212, 0.12);
+  background-image: linear-gradient(180deg, rgba(34, 211, 238, 0.08), transparent 30%, rgba(6, 182, 212, 0.06));
+}
+html[data-theme="ocean"] .card-panel {
+  border: 1px solid rgba(34, 211, 238, 0.4) !important;
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.15),
+    inset 0 1px 0 rgba(165, 243, 252, 0.12),
+    0 0 24px rgba(6, 182, 212, 0.15),
+    var(--shadow-md);
+  animation: ocean-border-pulse 4.5s ease-in-out infinite;
+}
+@keyframes ocean-border-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.2), inset 0 1px 0 rgba(165, 243, 252, 0.1), 0 0 18px rgba(6, 182, 212, 0.12), var(--shadow-md); }
+  50% { box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.55), inset 0 1px 0 rgba(165, 243, 252, 0.2), 0 0 32px rgba(6, 182, 212, 0.28), var(--shadow-md); }
+}
+html[data-theme="ocean"] input,
+html[data-theme="ocean"] textarea,
+html[data-theme="ocean"] select {
+  border-color: rgba(34, 211, 238, 0.28) !important;
+}
+html[data-theme="ocean"] input:focus,
+html[data-theme="ocean"] textarea:focus,
+html[data-theme="ocean"] select:focus {
+  border-color: rgba(34, 211, 238, 0.75) !important;
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2), 0 0 16px rgba(6, 182, 212, 0.25) !important;
+}
+html[data-theme="ocean"] .btn-primary {
+  background: linear-gradient(135deg, #06B6D4 0%, #22D3EE 45%, #0891B2 100%) !important;
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.5), 0 8px 28px rgba(6, 182, 212, 0.45);
+}
+
+/* 夕阳：暖光描边 */
+html[data-theme="sunset"] .sidebar {
+  border-right: 1px solid rgba(249, 115, 22, 0.4) !important;
+  box-shadow: 8px 0 36px rgba(249, 115, 22, 0.14);
+  background-image: linear-gradient(180deg, rgba(251, 191, 36, 0.1), transparent 35%, rgba(249, 115, 22, 0.08));
+}
+html[data-theme="sunset"] .card-panel {
+  border: 1px solid rgba(251, 146, 60, 0.45) !important;
+  box-shadow:
+    0 0 0 1px rgba(245, 158, 11, 0.15),
+    inset 0 1px 0 rgba(254, 243, 199, 0.1),
+    0 0 28px rgba(249, 115, 22, 0.18),
+    var(--shadow-md);
+  animation: sunset-border-glow 5s ease-in-out infinite;
+}
+@keyframes sunset-border-glow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.25), inset 0 1px 0 rgba(254, 243, 199, 0.08), 0 0 20px rgba(249, 115, 22, 0.14), var(--shadow-md); }
+  50% { box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.6), inset 0 1px 0 rgba(254, 243, 199, 0.18), 0 0 40px rgba(249, 115, 22, 0.32), var(--shadow-md); }
+}
+html[data-theme="sunset"] input,
+html[data-theme="sunset"] textarea,
+html[data-theme="sunset"] select {
+  border-color: rgba(249, 115, 22, 0.3) !important;
+}
+html[data-theme="sunset"] input:focus,
+html[data-theme="sunset"] textarea:focus,
+html[data-theme="sunset"] select:focus {
+  border-color: rgba(251, 191, 36, 0.8) !important;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.22), 0 0 18px rgba(245, 158, 11, 0.3) !important;
+}
+html[data-theme="sunset"] .btn-primary {
+  background: linear-gradient(135deg, #EA580C 0%, #F59E0B 50%, #F97316 100%) !important;
+  box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.45), 0 8px 28px rgba(249, 115, 22, 0.5);
+}
+
+/* 森林：藤蔓感描边 */
+html[data-theme="forest"] .sidebar {
+  border-right: 1px solid rgba(52, 211, 153, 0.38) !important;
+  box-shadow: 8px 0 32px rgba(16, 185, 129, 0.12);
+  background-image: linear-gradient(180deg, rgba(74, 222, 128, 0.1), transparent 30%, rgba(16, 185, 129, 0.07));
+}
+html[data-theme="forest"] .card-panel {
+  border: 1px solid rgba(52, 211, 153, 0.4) !important;
+  box-shadow:
+    0 0 0 1px rgba(16, 185, 129, 0.12),
+    inset 0 1px 0 rgba(167, 243, 208, 0.1),
+    0 0 22px rgba(16, 185, 129, 0.14),
+    var(--shadow-md);
+  animation: forest-border-breathe 5.5s ease-in-out infinite;
+}
+@keyframes forest-border-breathe {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.2), inset 0 1px 0 rgba(167, 243, 208, 0.08), 0 0 16px rgba(16, 185, 129, 0.1), var(--shadow-md); }
+  50% { box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.55), inset 0 1px 0 rgba(167, 243, 208, 0.18), 0 0 30px rgba(16, 185, 129, 0.28), var(--shadow-md); }
+}
+html[data-theme="forest"] input,
+html[data-theme="forest"] textarea,
+html[data-theme="forest"] select {
+  border-color: rgba(52, 211, 153, 0.28) !important;
+}
+html[data-theme="forest"] input:focus,
+html[data-theme="forest"] textarea:focus,
+html[data-theme="forest"] select:focus {
+  border-color: rgba(74, 222, 128, 0.75) !important;
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.2), 0 0 16px rgba(16, 185, 129, 0.25) !important;
+}
+html[data-theme="forest"] .btn-primary {
+  background: linear-gradient(135deg, #059669 0%, #34D399 50%, #10B981 100%) !important;
+  box-shadow: 0 0 0 1px rgba(110, 231, 183, 0.4), 0 8px 28px rgba(16, 185, 129, 0.45);
+}
+
+/* 樱花：粉金描边 */
+html[data-theme="sakura"] .sidebar {
+  border-right: 1px solid rgba(244, 114, 182, 0.35) !important;
+  box-shadow: 8px 0 28px rgba(236, 72, 153, 0.1);
+  background-image: linear-gradient(180deg, rgba(251, 207, 232, 0.55), transparent 40%);
+}
+html[data-theme="sakura"] .card-panel {
+  border: 1px solid rgba(244, 114, 182, 0.4) !important;
+  box-shadow:
+    0 0 0 1px rgba(251, 113, 133, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 8px 28px rgba(244, 114, 182, 0.15),
+    var(--shadow-md);
+  animation: sakura-border-soft 4.8s ease-in-out infinite;
+}
+@keyframes sakura-border-soft {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(244, 114, 182, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 8px 22px rgba(244, 114, 182, 0.1), var(--shadow-md); }
+  50% { box-shadow: 0 0 0 1px rgba(236, 72, 153, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 10px 34px rgba(244, 114, 182, 0.28), var(--shadow-md); }
+}
+html[data-theme="sakura"] input,
+html[data-theme="sakura"] textarea,
+html[data-theme="sakura"] select {
+  border-color: rgba(244, 114, 182, 0.3) !important;
+}
+html[data-theme="sakura"] input:focus,
+html[data-theme="sakura"] textarea:focus,
+html[data-theme="sakura"] select:focus {
+  border-color: rgba(236, 72, 153, 0.7) !important;
+  box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.2), 0 0 14px rgba(251, 113, 133, 0.25) !important;
+}
+html[data-theme="sakura"] .btn-primary {
+  background: linear-gradient(135deg, #DB2777 0%, #F472B6 50%, #FB7185 100%) !important;
+  box-shadow: 0 0 0 1px rgba(251, 207, 232, 0.7), 0 8px 26px rgba(236, 72, 153, 0.4);
+}
+
+/* 赛博：霓虹双色描边 */
+html[data-theme="cyberpunk"] .sidebar {
+  border-right: 1px solid transparent !important;
+  border-image: linear-gradient(180deg, #22D3EE, #A855F7, #EC4899) 1;
+  box-shadow: 8px 0 40px rgba(34, 211, 238, 0.15), -2px 0 30px rgba(236, 72, 153, 0.1);
+  background-image: linear-gradient(180deg, rgba(34, 211, 238, 0.08), transparent 25%, rgba(168, 85, 247, 0.08));
+}
+html[data-theme="cyberpunk"] .card-panel {
+  border: 1px solid rgba(34, 211, 238, 0.35) !important;
+  box-shadow:
+    0 0 0 1px rgba(168, 85, 247, 0.25),
+    0 0 18px rgba(34, 211, 238, 0.2),
+    0 0 28px rgba(236, 72, 153, 0.12),
+    inset 0 0 20px rgba(34, 211, 238, 0.04),
+    var(--shadow-md);
+  animation: cyber-border-flicker 3.2s ease-in-out infinite;
+}
+@keyframes cyber-border-flicker {
+  0%, 100% {
+    border-color: rgba(34, 211, 238, 0.4) !important;
+    box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.2), 0 0 16px rgba(34, 211, 238, 0.18), 0 0 24px rgba(236, 72, 153, 0.1), var(--shadow-md);
+  }
+  40% {
+    border-color: rgba(168, 85, 247, 0.65) !important;
+    box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.4), 0 0 28px rgba(34, 211, 238, 0.35), 0 0 36px rgba(236, 72, 153, 0.22), var(--shadow-md);
+  }
+  70% {
+    border-color: rgba(236, 72, 153, 0.55) !important;
+    box-shadow: 0 0 0 1px rgba(236, 72, 153, 0.35), 0 0 22px rgba(168, 85, 247, 0.3), 0 0 30px rgba(34, 211, 238, 0.18), var(--shadow-md);
+  }
+}
+html[data-theme="cyberpunk"] input,
+html[data-theme="cyberpunk"] textarea,
+html[data-theme="cyberpunk"] select {
+  border-color: rgba(168, 85, 247, 0.35) !important;
+}
+html[data-theme="cyberpunk"] input:focus,
+html[data-theme="cyberpunk"] textarea:focus,
+html[data-theme="cyberpunk"] select:focus {
+  border-color: #22D3EE !important;
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.35), 0 0 18px rgba(168, 85, 247, 0.35), 0 0 8px rgba(236, 72, 153, 0.25) !important;
+}
+html[data-theme="cyberpunk"] .btn-primary {
+  background: linear-gradient(135deg, #0891B2 0%, #A855F7 50%, #DB2777 100%) !important;
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.45), 0 0 24px rgba(168, 85, 247, 0.35), 0 8px 24px rgba(236, 72, 153, 0.3);
+  animation: cyber-btn-glow 2.4s ease-in-out infinite alternate;
+}
+@keyframes cyber-btn-glow {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.12) saturate(1.15); }
+}
+
+/* 导航选中态、圆角卡片边框加强 */
+html[data-theme="ocean"] .rounded-xl,
+html[data-theme="ocean"] .rounded-2xl,
+html[data-theme="sunset"] .rounded-xl,
+html[data-theme="sunset"] .rounded-2xl,
+html[data-theme="forest"] .rounded-xl,
+html[data-theme="forest"] .rounded-2xl,
+html[data-theme="sakura"] .rounded-xl,
+html[data-theme="sakura"] .rounded-2xl,
+html[data-theme="cyberpunk"] .rounded-xl,
+html[data-theme="cyberpunk"] .rounded-2xl {
+  border-color: color-mix(in srgb, var(--accent-blue) 40%, var(--border-default)) !important;
+}
+
+html[data-theme="ocean"] .btn-secondary,
+html[data-theme="sunset"] .btn-secondary,
+html[data-theme="forest"] .btn-secondary,
+html[data-theme="sakura"] .btn-secondary,
+html[data-theme="cyberpunk"] .btn-secondary {
+  border: 1px solid color-mix(in srgb, var(--accent-blue) 45%, transparent) !important;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent-blue) 12%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] .card-panel,
+  html[data-theme] .btn-primary {
+    animation: none !important;
+  }
+}
+
+
+/* —— 主题下拉菜单 —— */
+.theme-dropdown {
+  position: fixed;
+  z-index: 99999;
+  width: 220px;
+  padding: 8px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-blue) 35%, var(--border-default));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent-blue) 15%, transparent),
+    0 16px 40px rgba(0, 0, 0, 0.35),
+    0 0 24px color-mix(in srgb, var(--accent-blue) 12%, transparent);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  animation: theme-drop-in 0.16s ease-out;
+}
+@keyframes theme-drop-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.theme-dropdown-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 4px 8px 8px;
+}
+.theme-dropdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: min(70vh, 420px);
+  overflow: auto;
+}
+.theme-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.theme-dropdown-item:hover {
+  background: color-mix(in srgb, var(--accent-blue) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent-blue) 28%, transparent);
+}
+.theme-dropdown-item.is-active {
+  background: color-mix(in srgb, var(--accent-blue) 18%, transparent);
+  border-color: color-mix(in srgb, var(--accent-blue) 45%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--accent-blue) 18%, transparent);
+}
+.theme-dropdown-icon {
+  font-size: 18px;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.theme-dropdown-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+.theme-dropdown-text strong {
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+.theme-dropdown-text small {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.theme-dropdown-check {
+  color: var(--accent-blue);
+  font-size: 13px;
+  font-weight: 700;
+}
+.theme-menu-trigger {
+  position: relative;
+}
+
+.theme-menu-emoji{display:inline-flex;align-items:center;justify-content:center;font-size:15px;line-height:1;}
+
+
+/* ========== 主题内按键色差 + 特殊动效 ========== */
+
+html[data-theme="ocean"],
+html[data-theme="sunset"],
+html[data-theme="forest"],
+html[data-theme="sakura"],
+html[data-theme="cyberpunk"] {
+  --tone-a: var(--accent-blue);
+  --tone-b: var(--accent-cyan);
+  --tone-c: var(--accent-purple);
+}
+
+html[data-theme="ocean"] {
+  --tone-a: #22D3EE;
+  --tone-b: #2DD4BF;
+  --tone-c: #60A5FA;
+  --tone-d: #818CF8;
+  --tone-hot: #F472B6;
+}
+html[data-theme="sunset"] {
+  --tone-a: #F97316;
+  --tone-b: #F59E0B;
+  --tone-c: #FB7185;
+  --tone-d: #EAB308;
+  --tone-hot: #EF4444;
+}
+html[data-theme="forest"] {
+  --tone-a: #34D399;
+  --tone-b: #FBBF24;
+  --tone-c: #A78BFA;
+  --tone-d: #38BDF8;
+  --tone-hot: #FB7185;
+}
+html[data-theme="sakura"] {
+  --tone-a: #EC4899;
+  --tone-b: #F472B6;
+  --tone-c: #FB7185;
+  --tone-d: #C084FC;
+  --tone-hot: #E11D48;
+}
+html[data-theme="cyberpunk"] {
+  --tone-a: #22D3EE;
+  --tone-b: #A855F7;
+  --tone-c: #EC4899;
+  --tone-d: #4ADE80;
+  --tone-hot: #F43F5E;
+}
+
+/* 主按钮：主题主色 + 光带扫过 */
+html[data-theme="ocean"] .btn-primary,
+html[data-theme="sunset"] .btn-primary,
+html[data-theme="forest"] .btn-primary,
+html[data-theme="sakura"] .btn-primary,
+html[data-theme="cyberpunk"] .btn-primary {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(135deg, var(--tone-a), var(--tone-b)) !important;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tone-a) 40%, transparent),
+    0 8px 22px color-mix(in srgb, var(--tone-a) 32%, transparent) !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease !important;
+}
+html[data-theme="ocean"] .btn-primary::after,
+html[data-theme="sunset"] .btn-primary::after,
+html[data-theme="forest"] .btn-primary::after,
+html[data-theme="sakura"] .btn-primary::after,
+html[data-theme="cyberpunk"] .btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.38) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: theme-btn-shine 3.2s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+html[data-theme="ocean"] .btn-primary > *,
+html[data-theme="sunset"] .btn-primary > *,
+html[data-theme="forest"] .btn-primary > *,
+html[data-theme="sakura"] .btn-primary > *,
+html[data-theme="cyberpunk"] .btn-primary > * {
+  position: relative;
+  z-index: 1;
+}
+@keyframes theme-btn-shine {
+  0%, 55% { transform: translateX(-120%); }
+  75%, 100% { transform: translateX(120%); }
+}
+html[data-theme="ocean"] .btn-primary:hover,
+html[data-theme="sunset"] .btn-primary:hover,
+html[data-theme="forest"] .btn-primary:hover,
+html[data-theme="sakura"] .btn-primary:hover,
+html[data-theme="cyberpunk"] .btn-primary:hover {
+  transform: translateY(-1px) scale(1.015);
+  filter: brightness(1.08) saturate(1.1);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tone-a) 55%, transparent),
+    0 0 22px color-mix(in srgb, var(--tone-a) 40%, transparent),
+    0 12px 28px color-mix(in srgb, var(--tone-b) 28%, transparent) !important;
+}
+
+/* 次按钮：换另一套色相，不要跟主按钮同色 */
+html[data-theme="ocean"] .btn-secondary,
+html[data-theme="sunset"] .btn-secondary,
+html[data-theme="forest"] .btn-secondary,
+html[data-theme="sakura"] .btn-secondary,
+html[data-theme="cyberpunk"] .btn-secondary {
+  background: color-mix(in srgb, var(--tone-c) 14%, var(--bg-elevated)) !important;
+  border: 1px solid color-mix(in srgb, var(--tone-c) 42%, transparent) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--tone-c) 10%, transparent);
+}
+html[data-theme="ocean"] .btn-secondary:hover,
+html[data-theme="sunset"] .btn-secondary:hover,
+html[data-theme="forest"] .btn-secondary:hover,
+html[data-theme="sakura"] .btn-secondary:hover,
+html[data-theme="cyberpunk"] .btn-secondary:hover {
+  background: color-mix(in srgb, var(--tone-c) 24%, var(--bg-elevated)) !important;
+  border-color: color-mix(in srgb, var(--tone-c) 65%, transparent) !important;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--tone-c) 22%, transparent);
+}
+
+/* 同排次按钮再拉开色差 */
+html[data-theme="ocean"] .btn-secondary:nth-child(2n),
+html[data-theme="sunset"] .btn-secondary:nth-child(2n),
+html[data-theme="forest"] .btn-secondary:nth-child(2n),
+html[data-theme="sakura"] .btn-secondary:nth-child(2n),
+html[data-theme="cyberpunk"] .btn-secondary:nth-child(2n) {
+  background: color-mix(in srgb, var(--tone-d) 12%, var(--bg-elevated)) !important;
+  border-color: color-mix(in srgb, var(--tone-d) 40%, transparent) !important;
+}
+html[data-theme="ocean"] .btn-secondary:nth-child(3n),
+html[data-theme="sunset"] .btn-secondary:nth-child(3n),
+html[data-theme="forest"] .btn-secondary:nth-child(3n),
+html[data-theme="sakura"] .btn-secondary:nth-child(3n),
+html[data-theme="cyberpunk"] .btn-secondary:nth-child(3n) {
+  background: color-mix(in srgb, var(--tone-b) 12%, var(--bg-elevated)) !important;
+  border-color: color-mix(in srgb, var(--tone-b) 40%, transparent) !important;
+}
+
+/* 顶栏芯片 */
+html[data-theme="ocean"] .top-chip,
+html[data-theme="sunset"] .top-chip,
+html[data-theme="forest"] .top-chip,
+html[data-theme="sakura"] .top-chip,
+html[data-theme="cyberpunk"] .top-chip {
+  border: 1px solid color-mix(in srgb, var(--tone-d) 35%, transparent) !important;
+  background: color-mix(in srgb, var(--tone-d) 10%, var(--bg-elevated)) !important;
+}
+html[data-theme="ocean"] .top-chip:hover,
+html[data-theme="sunset"] .top-chip:hover,
+html[data-theme="forest"] .top-chip:hover,
+html[data-theme="sakura"] .top-chip:hover,
+html[data-theme="cyberpunk"] .top-chip:hover {
+  border-color: color-mix(in srgb, var(--tone-a) 55%, transparent) !important;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--tone-a) 25%, transparent);
+}
+
+/* 侧栏选中项：只命中导航按钮自身的 .active，避免误伤 */
+html[data-theme="ocean"] .sidebar button.active,
+html[data-theme="sunset"] .sidebar button.active,
+html[data-theme="forest"] .sidebar button.active,
+html[data-theme="sakura"] .sidebar button.active,
+html[data-theme="cyberpunk"] .sidebar button.active,
+html[data-theme="ocean"] aside button.active,
+html[data-theme="sunset"] aside button.active,
+html[data-theme="forest"] aside button.active,
+html[data-theme="sakura"] aside button.active,
+html[data-theme="cyberpunk"] aside button.active {
+  background: color-mix(in srgb, var(--tone-a) 16%, transparent) !important;
+  box-shadow: inset 3px 0 0 var(--tone-a), 0 0 16px color-mix(in srgb, var(--tone-a) 18%, transparent);
+}
+
+/* —— 特殊按键：AI / 生成 / 危险 —— */
+html[data-theme="ocean"] .theme-special-btn,
+html[data-theme="sunset"] .theme-special-btn,
+html[data-theme="forest"] .theme-special-btn,
+html[data-theme="sakura"] .theme-special-btn,
+html[data-theme="cyberpunk"] .theme-special-btn,
+html[data-theme="ocean"] button:has(.fa-wand-magic-sparkles),
+html[data-theme="sunset"] button:has(.fa-wand-magic-sparkles),
+html[data-theme="forest"] button:has(.fa-wand-magic-sparkles),
+html[data-theme="sakura"] button:has(.fa-wand-magic-sparkles),
+html[data-theme="cyberpunk"] button:has(.fa-wand-magic-sparkles) {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--tone-a), var(--tone-c), var(--tone-b)) !important;
+  background-size: 200% 200% !important;
+  animation: theme-special-flow 4s ease infinite, theme-special-pulse 2.4s ease-in-out infinite;
+  border: 1px solid color-mix(in srgb, var(--tone-a) 55%, transparent) !important;
+  color: #fff !important;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tone-c) 30%, transparent),
+    0 0 20px color-mix(in srgb, var(--tone-a) 35%, transparent),
+    0 8px 24px color-mix(in srgb, var(--tone-c) 25%, transparent) !important;
+}
+@keyframes theme-special-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes theme-special-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--tone-c) 25%, transparent), 0 0 16px color-mix(in srgb, var(--tone-a) 28%, transparent), 0 8px 20px color-mix(in srgb, var(--tone-c) 18%, transparent); }
+  50% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--tone-a) 50%, transparent), 0 0 28px color-mix(in srgb, var(--tone-a) 45%, transparent), 0 0 40px color-mix(in srgb, var(--tone-c) 30%, transparent); }
+}
+
+html[data-theme="ocean"] .theme-danger-btn,
+html[data-theme="sunset"] .theme-danger-btn,
+html[data-theme="forest"] .theme-danger-btn,
+html[data-theme="sakura"] .theme-danger-btn,
+html[data-theme="cyberpunk"] .theme-danger-btn,
+html[data-theme="ocean"] button.bg-rose-500,
+html[data-theme="sunset"] button.bg-rose-500,
+html[data-theme="forest"] button.bg-rose-500,
+html[data-theme="sakura"] button.bg-rose-500,
+html[data-theme="cyberpunk"] button.bg-rose-500,
+html[data-theme="ocean"] button[class*="rose"],
+html[data-theme="sunset"] button[class*="rose"],
+html[data-theme="forest"] button[class*="rose"],
+html[data-theme="sakura"] button[class*="rose"],
+html[data-theme="cyberpunk"] button[class*="rose"] {
+  background: linear-gradient(135deg, var(--tone-hot), color-mix(in srgb, var(--tone-hot) 70%, #000)) !important;
+  border: 1px solid color-mix(in srgb, var(--tone-hot) 60%, transparent) !important;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--tone-hot) 35%, transparent) !important;
+  animation: theme-danger-glow 2.8s ease-in-out infinite;
+}
+@keyframes theme-danger-glow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.12); }
+}
+
+/* 选项卡选中微光 */
+html[data-theme="ocean"] [role="tab"][aria-selected="true"],
+html[data-theme="sunset"] [role="tab"][aria-selected="true"],
+html[data-theme="forest"] [role="tab"][aria-selected="true"],
+html[data-theme="sakura"] [role="tab"][aria-selected="true"],
+html[data-theme="cyberpunk"] [role="tab"][aria-selected="true"] {
+  box-shadow: 0 0 14px color-mix(in srgb, var(--tone-a) 35%, transparent);
+}
+
+/* 主题卡片选项按钮（设置页主题格子之外的通用选项） */
+html[data-theme="ocean"] .card-panel button:not(.btn-primary):not(.btn-secondary):not(.theme-dropdown-item),
+html[data-theme="sunset"] .card-panel button:not(.btn-primary):not(.btn-secondary):not(.theme-dropdown-item),
+html[data-theme="forest"] .card-panel button:not(.btn-primary):not(.btn-secondary):not(.theme-dropdown-item),
+html[data-theme="sakura"] .card-panel button:not(.btn-primary):not(.btn-secondary):not(.theme-dropdown-item),
+html[data-theme="cyberpunk"] .card-panel button:not(.btn-primary):not(.btn-secondary):not(.theme-dropdown-item) {
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, transform 0.15s ease;
+}
+html[data-theme="ocean"] .card-panel button:not(.btn-primary):not(.btn-secondary):hover,
+html[data-theme="sunset"] .card-panel button:not(.btn-primary):not(.btn-secondary):hover,
+html[data-theme="forest"] .card-panel button:not(.btn-primary):not(.btn-secondary):hover,
+html[data-theme="sakura"] .card-panel button:not(.btn-primary):not(.btn-secondary):hover,
+html[data-theme="cyberpunk"] .card-panel button:not(.btn-primary):not(.btn-secondary):hover {
+  border-color: color-mix(in srgb, var(--tone-b) 50%, transparent) !important;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--tone-b) 18%, transparent);
+}
+
+/* 各主题主按钮再拉开一点差异 */
+html[data-theme="ocean"] .btn-primary {
+  background: linear-gradient(135deg, #0891B2, #22D3EE 45%, #2DD4BF) !important;
+}
+html[data-theme="sunset"] .btn-primary {
+  background: linear-gradient(135deg, #EA580C, #F59E0B 55%, #FB923C) !important;
+}
+html[data-theme="forest"] .btn-primary {
+  background: linear-gradient(135deg, #059669, #34D399 50%, #84CC16) !important;
+}
+html[data-theme="sakura"] .btn-primary {
+  background: linear-gradient(135deg, #DB2777, #F472B6 50%, #C084FC) !important;
+}
+html[data-theme="cyberpunk"] .btn-primary {
+  background: linear-gradient(135deg, #06B6D4, #A855F7 50%, #EC4899) !important;
+  animation: cyber-btn-glow 2.4s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] .btn-primary::after,
+  html[data-theme] .theme-special-btn,
+  html[data-theme] button:has(.fa-wand-magic-sparkles),
+  html[data-theme] .theme-danger-btn {
+    animation: none !important;
+  }
+}
+
+
+/* —— 快捷入口多色（每主题 6 色互不相同） —— */
+:root,
+html[data-theme="dark"] {
+  --quick-1: #38BDF8;
+  --quick-2: #A78BFA;
+  --quick-3: #F472B6;
+  --quick-4: #34D399;
+  --quick-5: #FBBF24;
+  --quick-6: #94A3B8;
+}
+html[data-theme="light"] {
+  --quick-1: #0284C7;
+  --quick-2: #7C3AED;
+  --quick-3: #DB2777;
+  --quick-4: #059669;
+  --quick-5: #D97706;
+  --quick-6: #64748B;
+}
+html[data-theme="ocean"] {
+  --quick-1: #22D3EE;
+  --quick-2: #A78BFA;
+  --quick-3: #FBBF24;
+  --quick-4: #2DD4BF;
+  --quick-5: #FB7185;
+  --quick-6: #60A5FA;
+}
+html[data-theme="sunset"] {
+  --quick-1: #FB923C;
+  --quick-2: #F472B6;
+  --quick-3: #FDE68A;
+  --quick-4: #4ADE80;
+  --quick-5: #38BDF8;
+  --quick-6: #F97316;
+}
+html[data-theme="forest"] {
+  --quick-1: #4ADE80;
+  --quick-2: #FBBF24;
+  --quick-3: #A78BFA;
+  --quick-4: #38BDF8;
+  --quick-5: #FB7185;
+  --quick-6: #F59E0B;
+}
+html[data-theme="sakura"] {
+  --quick-1: #EC4899;
+  --quick-2: #A78BFA;
+  --quick-3: #F59E0B;
+  --quick-4: #14B8A6;
+  --quick-5: #FB7185;
+  --quick-6: #8B5CF6;
+}
+html[data-theme="cyberpunk"] {
+  --quick-1: #22D3EE;
+  --quick-2: #A855F7;
+  --quick-3: #EC4899;
+  --quick-4: #4ADE80;
+  --quick-5: #FBBF24;
+  --quick-6: #38BDF8;
+}
+
+html[data-theme="ocean"] .home-quick-item,
+html[data-theme="sunset"] .home-quick-item,
+html[data-theme="forest"] .home-quick-item,
+html[data-theme="sakura"] .home-quick-item,
+html[data-theme="cyberpunk"] .home-quick-item,
+html[data-theme="dark"] .home-quick-item,
+html[data-theme="light"] .home-quick-item {
+  border-color: color-mix(in srgb, currentColor 22%, var(--border-subtle)) !important;
+}
+html[data-theme="ocean"] .home-quick-item:nth-child(1),
+html[data-theme="sunset"] .home-quick-item:nth-child(1),
+html[data-theme="forest"] .home-quick-item:nth-child(1),
+html[data-theme="sakura"] .home-quick-item:nth-child(1),
+html[data-theme="cyberpunk"] .home-quick-item:nth-child(1) { color: var(--quick-1); border-color: color-mix(in srgb, var(--quick-1) 40%, transparent) !important; background: color-mix(in srgb, var(--quick-1) 8%, var(--bg-card)); }
+html[data-theme="ocean"] .home-quick-item:nth-child(2),
+html[data-theme="sunset"] .home-quick-item:nth-child(2),
+html[data-theme="forest"] .home-quick-item:nth-child(2),
+html[data-theme="sakura"] .home-quick-item:nth-child(2),
+html[data-theme="cyberpunk"] .home-quick-item:nth-child(2) { color: var(--quick-2); border-color: color-mix(in srgb, var(--quick-2) 40%, transparent) !important; background: color-mix(in srgb, var(--quick-2) 8%, var(--bg-card)); }
+html[data-theme="ocean"] .home-quick-item:nth-child(3),
+html[data-theme="sunset"] .home-quick-item:nth-child(3),
+html[data-theme="forest"] .home-quick-item:nth-child(3),
+html[data-theme="sakura"] .home-quick-item:nth-child(3),
+html[data-theme="cyberpunk"] .home-quick-item:nth-child(3) { color: var(--quick-3); border-color: color-mix(in srgb, var(--quick-3) 40%, transparent) !important; background: color-mix(in srgb, var(--quick-3) 8%, var(--bg-card)); }
+html[data-theme="ocean"] .home-quick-item:nth-child(4),
+html[data-theme="sunset"] .home-quick-item:nth-child(4),
+html[data-theme="forest"] .home-quick-item:nth-child(4),
+html[data-theme="sakura"] .home-quick-item:nth-child(4),
+html[data-theme="cyberpunk"] .home-quick-item:nth-child(4) { color: var(--quick-4); border-color: color-mix(in srgb, var(--quick-4) 40%, transparent) !important; background: color-mix(in srgb, var(--quick-4) 8%, var(--bg-card)); }
+html[data-theme="ocean"] .home-quick-item:nth-child(5),
+html[data-theme="sunset"] .home-quick-item:nth-child(5),
+html[data-theme="forest"] .home-quick-item:nth-child(5),
+html[data-theme="sakura"] .home-quick-item:nth-child(5),
+html[data-theme="cyberpunk"] .home-quick-item:nth-child(5) { color: var(--quick-5); border-color: color-mix(in srgb, var(--quick-5) 40%, transparent) !important; background: color-mix(in srgb, var(--quick-5) 8%, var(--bg-card)); }
+html[data-theme="ocean"] .home-quick-item:nth-child(6),
+html[data-theme="sunset"] .home-quick-item:nth-child(6),
+html[data-theme="forest"] .home-quick-item:nth-child(6),
+html[data-theme="sakura"] .home-quick-item:nth-child(6),
+html[data-theme="cyberpunk"] .home-quick-item:nth-child(6) { color: var(--quick-6); border-color: color-mix(in srgb, var(--quick-6) 40%, transparent) !important; background: color-mix(in srgb, var(--quick-6) 8%, var(--bg-card)); }
+
+html[data-theme="ocean"] .home-quick-item:hover,
+html[data-theme="sunset"] .home-quick-item:hover,
+html[data-theme="forest"] .home-quick-item:hover,
+html[data-theme="sakura"] .home-quick-item:hover,
+html[data-theme="cyberpunk"] .home-quick-item:hover {
+  background: color-mix(in srgb, currentColor 16%, var(--bg-card)) !important;
+  border-color: color-mix(in srgb, currentColor 55%, transparent) !important;
+  box-shadow: 0 0 18px color-mix(in srgb, currentColor 22%, transparent);
+  transform: translateY(-2px);
+}

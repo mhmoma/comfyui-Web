@@ -1,0 +1,103 @@
+{
+  "user": {
+    "id": "local-user",
+    "username": "creator",
+    "email": "creator@local",
+    "nickname": "创作者",
+    "avatar": "",
+    "created_at": "2026-07-30 00:00:00"
+  },
+  "cards": [],
+  "deleted_cards": [
+    {
+      "id": 1785376131960,
+      "name": "未命名",
+      "data": {
+        "name": "",
+        "description": "",
+        "personality": "",
+        "scenario": "",
+        "first_mes": "",
+        "mes_example": "",
+        "creator_notes": "",
+        "system_prompt": "",
+        "tags": [],
+        "creator": "",
+        "character_version": "1.0",
+        "alternate_greetings": [],
+        "extensions": {
+          "cfMvuVarGroups": [],
+          "regex_scripts": [],
+          "tavern_helper": {
+            "scripts": []
+          },
+          "user_persona": "",
+          "user_persona_enabled": false
+        },
+        "talkativeness": 0.5,
+        "group_only_greetings": [],
+        "depth_prompt": {
+          "enabled": false,
+          "content": "",
+          "position": "before_char",
+          "depth": 1
+        }
+      },
+      "saveTime": "2026/7/30 09:48:51",
+      "_revision": 1,
+      "avatar": null,
+      "wb": null,
+      "worldSetting": ""
+    }
+  ],
+  "data": {
+    "st_user_custom_name": "创作者",
+    "world_setting": "",
+    "usage_stats": {
+      "days": {},
+      "totalCalls": 0,
+      "totalTokens": 0,
+      "inputTokens": 0,
+      "outputTokens": 0
+    },
+    "generation_history": [],
+    "draft_card": {
+      "name": "",
+      "description": "",
+      "personality": "",
+      "scenario": "",
+      "first_mes": "",
+      "mes_example": "",
+      "creator_notes": "",
+      "system_prompt": "",
+      "tags": [],
+      "creator": "",
+      "character_version": "1.0",
+      "alternate_greetings": [],
+      "extensions": {},
+      "talkativeness": 0.5,
+      "group_only_greetings": [],
+      "depth_prompt": {
+        "enabled": false,
+        "content": "",
+        "position": "before_char",
+        "depth": 1
+      }
+    },
+    "user_settings": {
+      "jailbreak_enabled": "false",
+      "display_name": "创作者",
+      "world_setting": "",
+      "theme": "dark",
+      "card_format": "v2"
+    },
+    "card_folders": [
+      {
+        "id": "default",
+        "name": "默认文件夹"
+      }
+    ]
+  },
+  "llm_configs": [],
+  "announcements": []
+}

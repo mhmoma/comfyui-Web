@@ -6,7 +6,7 @@ alwaysApply: true
 
 # ComfyUI-Web 部署与 D1 数据库操作规范
 
-> **部署版本**: 1.157
+> **部署版本**: 1.158
 > **版本记录**: 见底部「版本历史」 
 > **重要**: 每次修改代码后，必须更新本文件的**部署版本号**和**版本历史**。凡前端相关代码变更（`index.html` / `script.js` / `style.css` 及 `deploy/` 对应文件），必须递增前端版本号与静态资源版本参数。
 
@@ -39,7 +39,7 @@ alwaysApply: true
     ```powershell
     npm run build
     ```
-    等价于 `npm run build:news`（生成资讯 JSON/详情页/RSS/sitemap）+ `npm run sync:deploy`（同步 `index.html`、`assets/`、`news/`、`guides/`、`about/`、`app/` 到 deploy）。
+    等价于 `npm run build:news`（生成资讯 JSON/详情页/RSS/sitemap）+ `npm run sync:deploy`（同步 `index.html`、`assets/`、`news/`、`guides/`、`about/`、`app/`、`card/` 到 deploy）。
 
     仅改生图工具时也可手动同步：
     ```powershell
@@ -348,6 +348,7 @@ D1 绑定在 Settings → Functions → D1 database bindings：
 | 1.129 | 2026-07-12 | 手机标签调节面板修复 | 修复点标签时 blur 重绘吞掉点击；改 pointerdown 委托；面板移出 app 壳层（`app v4.47` / `script.js?v=442` / `style.css?v=432`）。 |
 | 1.130 | 2026-07-12 | 手机标签选中跟随 | 前移/后移时先更新选中 idx 再重绘，高亮常亮跟随标签并自动滚入视区（`app v4.48` / `script.js?v=443` / `style.css?v=433`）。 |
 | 1.131 | 2026-07-12 | 手机标签单行高度修复 | 拆分栏剩一行时标签不再被 flex 拉伸变高，保持紧凑 chip 尺寸（`app v4.49` / `style.css?v=434`）。 |
+| 1.158 | 2026-07-30 | 同域角色卡生成 | 集成 `/card/` 角色卡工具；LLM 走 `/api/llm/*` CF 代理；门户 CTA/导航入口（`site.css?v=12`）。 |
 | 1.157 | 2026-07-26 | NAI 隐写元数据解析 | 解析参数支持 NovelAI `stealth_pngcomp` alpha LSB + gzip；修复 Description/Comment 合并（`app v4.75` / `script.js?v=471`）。 |
 | 1.156 | 2026-07-24 | 首页游戏卡片自定义 | 去掉 itch iframe，改用自定义封面图卡片 + 单一「进入游戏」按钮（`site.css?v=10`）。 |
 | 1.155 | 2026-07-24 | 首页 itch 文案精简 | 去掉 Hero 游戏推广「可试玩 / 购买」提示，仅保留游戏名（`site.css?v=9`）。 |

@@ -51,6 +51,7 @@ function main() {
     copyDir(path.join(ROOT, 'about'), path.join(DEPLOY, 'about'));
     copyDir(path.join(ROOT, 'admin'), path.join(DEPLOY, 'admin'));
     copyDir(path.join(ROOT, 'app'), path.join(DEPLOY, 'app'));
+    copyDir(path.join(ROOT, 'card'), path.join(DEPLOY, 'card'));
 
     console.log('\n完成');
 }
