@@ -307,6 +307,35 @@
       return json({ ok: false, error: "已禁用开放代理" }, 410);
     }
 
+    // ---- 头像上传（本地无后端时转为 data URL，供保存/PNG 导出使用）----
+    if (path === "/api/user/avatar" && method === "POST") {
+      try {
+        const form = init && init.body;
+        let file = null;
+        if (typeof FormData !== "undefined" && form instanceof FormData) {
+          file = form.get("image") || form.get("file") || form.get("avatar");
+        }
+        if (!file) {
+          return json({ ok: false, error: "未收到图片字段 image" }, 400);
+        }
+        const blob = file instanceof Blob ? file : new Blob([file]);
+        if (blob.size > 8 * 1024 * 1024) {
+          return json({ ok: false, error: "图片过大（上限 8MB）" }, 400);
+        }
+        const buf = new Uint8Array(await blob.arrayBuffer());
+        let binary = "";
+        const chunk = 0x8000;
+        for (let i = 0; i < buf.length; i += chunk) {
+          binary += String.fromCharCode.apply(null, buf.subarray(i, i + chunk));
+        }
+        const mime = (blob.type && blob.type.startsWith("image/")) ? blob.type : "image/jpeg";
+        const url = "data:" + mime + ";base64," + btoa(binary);
+        return json({ ok: true, url });
+      } catch (e) {
+        return json({ ok: false, error: "头像处理失败: " + (e.message || e) }, 500);
+      }
+    }
+
     // ---- auth / user ----
     if (path === "/api/auth/login" || path === "/api/auth/register") {
       return json({ ok: true, token: "local-dev-token", user: st.user });
