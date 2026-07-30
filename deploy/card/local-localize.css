@@ -790,6 +790,53 @@ html[data-theme="cyberpunk"] .btn-secondary {
 }
 
 
+/* —— 返回门户主页 —— */
+.card-home-back {
+  position: fixed;
+  z-index: 99990;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: max(12px, env(safe-area-inset-left));
+  top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent-blue) 35%, var(--border-default));
+  background: color-mix(in srgb, var(--bg-elevated) 88%, transparent);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.28),
+    0 0 0 1px color-mix(in srgb, var(--accent-blue) 12%, transparent);
+  backdrop-filter: blur(14px) saturate(1.25);
+  -webkit-backdrop-filter: blur(14px) saturate(1.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.card-home-back:hover {
+  transform: translateY(-1px);
+  color: var(--text-primary);
+  border-color: color-mix(in srgb, var(--accent-blue) 55%, var(--border-default));
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.32),
+    0 0 18px color-mix(in srgb, var(--accent-blue) 18%, transparent);
+}
+.card-home-back i {
+  font-size: 12px;
+  color: var(--accent-blue);
+}
+@media (max-width: 640px) {
+  .card-home-back {
+    padding: 9px 11px;
+  }
+  .card-home-back-text {
+    display: none;
+  }
+}
+
 /* —— 主题下拉菜单 —— */
 .theme-dropdown {
   position: fixed;

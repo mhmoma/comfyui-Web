@@ -317,7 +317,7 @@
     nodes.forEach((btn) => {
       if (!(btn instanceof HTMLElement)) return;
       // 侧栏导航不要当成特殊高亮键
-      if (btn.closest(".sidebar, aside, nav, .theme-dropdown")) {
+      if (btn.closest(".sidebar, aside, nav, .theme-dropdown, .card-home-back")) {
         btn.classList.remove("theme-special-btn", "theme-danger-btn");
         return;
       }
@@ -332,6 +332,22 @@
     });
   }
 
+  /* —— 返回门户主页（仅 /card 同域部署） —— */
+  function ensureHomeBack() {
+    if (!location.pathname.startsWith("/card")) return;
+    if (document.getElementById("card-home-back")) return;
+    const a = document.createElement("a");
+    a.id = "card-home-back";
+    a.className = "card-home-back";
+    a.href = "/";
+    a.title = "返回 ComfyUI Web 主页";
+    a.setAttribute("aria-label", "返回主页");
+    a.innerHTML =
+      '<i class="fa-solid fa-house" aria-hidden="true"></i>' +
+      '<span class="card-home-back-text">返回主页</span>';
+    document.body.appendChild(a);
+  }
+
   function start() {
     tick();
     tagSpecialButtons();
@@ -343,6 +359,7 @@
     tagObs.observe(document.body, { childList: true, subtree: true });
     startThemeFx();
     startThemeMenu();
+    ensureHomeBack();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
