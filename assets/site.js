@@ -177,19 +177,60 @@
 
     function setActiveNav() {
         const path = location.pathname.replace(/\/$/, '') || '/';
-        document.querySelectorAll('.site-nav a').forEach(a => {
+        document.querySelectorAll('.site-nav a, .home-nav-links a').forEach(a => {
             const href = a.getAttribute('href').replace(/\/$/, '') || '/';
             a.classList.toggle('active', href === path || (href !== '/' && path.startsWith(href)));
         });
     }
 
+    function homeNewsFeature(article) {
+        const url = articleUrl(article);
+        const pinned = PINNED_SLUGS.includes(article.slug);
+        const cover = article.cover_url
+            ? `style="--home-feature-cover:url('${escapeHtml(article.cover_url)}')"`
+            : '';
+        return `
+            <a class="home-news-feature" href="${url}" ${cover}>
+                <span class="home-news-tag">${pinned ? 'Pinned' : (CATEGORY_LABELS[article.category] || '精选')}</span>
+                <h3>${escapeHtml(article.title)}</h3>
+            </a>`;
+    }
+
+    function homeNewsItem(article) {
+        const url = articleUrl(article);
+        const label = CATEGORY_LABELS[article.category] || '资讯';
+        return `
+            <a class="home-news-item" href="${url}">
+                <span>${escapeHtml(article.title)}</span>
+                <time>${escapeHtml(label)}</time>
+            </a>`;
+    }
+
     async function initHome() {
         const featuredEl = document.getElementById('featured-article');
         const gridEl = document.getElementById('news-grid');
-        if (!featuredEl && !gridEl) return;
+        const homeFeatureEl = document.getElementById('home-news-feature');
+        const homeListEl = document.getElementById('home-news-list');
+        if (!featuredEl && !gridEl && !homeFeatureEl && !homeListEl) return;
 
         try {
             const articles = sortArticles(await loadNews());
+            if (homeFeatureEl) {
+                homeFeatureEl.innerHTML = articles.length
+                    ? homeNewsFeature(articles[0])
+                    : '<p class="home-empty">暂无教程，<a href="/admin/">管理后台</a>可发布</p>';
+            }
+            if (homeListEl) {
+                const rest = articles.slice(1, 5);
+                const items = rest.length
+                    ? rest.map(homeNewsItem).join('')
+                    : '<p class="home-empty">暂无更多教程</p>';
+                homeListEl.innerHTML = items + `
+                    <a class="home-news-item" href="/news/">
+                        <span>查看全部资讯 →</span>
+                        <time></time>
+                    </a>`;
+            }
             if (featuredEl) {
                 featuredEl.innerHTML = articles.length
                     ? featuredArticle(articles[0])
@@ -202,6 +243,7 @@
                     : '<p class="empty-state">暂无更多教程</p>';
             }
         } catch (e) {
+            if (homeListEl) homeListEl.innerHTML = '<p class="home-empty">教程加载失败</p>';
             if (gridEl) gridEl.innerHTML = '<p class="empty-state">教程加载失败</p>';
         }
     }
