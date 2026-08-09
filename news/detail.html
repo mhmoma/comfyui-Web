@@ -4,38 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>资讯详情 · ComfyUI Web</title>
-    <link rel="stylesheet" href="/assets/site.css?v=18">
+    <link rel="stylesheet" href="/assets/site.css?v=19">
 </head>
-<body class="page-site">
-    <div class="home-nav-bar home-nav-bar-static">
-        <header class="home-nav">
-            <a href="/" class="home-nav-logo">ComfyUI <span>Web</span></a>
-            <nav class="home-nav-links" aria-label="主导航">
-                <a href="/news/" class="active">资讯</a>
-                <a href="/guides/">教程</a>
-                <a href="/app/">生图</a>
-                <a href="/card/">角色卡</a>
-                <a href="/about/">关于</a>
-            </nav>
-            <a class="home-nav-cta" href="/app/?arch=anima">开始创作</a>
+<body class="page-site page-article">
+    <div class="site-fixed-chrome">
+        <div class="home-nav-bar home-nav-bar-static">
+            <header class="home-nav">
+                <a href="/" class="home-nav-logo">ComfyUI <span>Web</span></a>
+                <nav class="home-nav-links" aria-label="主导航">
+                    <a href="/news/" class="active">资讯</a>
+                    <a href="/guides/">教程</a>
+                    <a href="/app/">生图</a>
+                    <a href="/card/">角色卡</a>
+                    <a href="/about/">关于</a>
+                </nav>
+                <a class="home-nav-cta" href="/app/?arch=anima">开始创作</a>
+            </header>
+        </div>
+        <header id="article-head" class="article-chrome">
+            <p class="empty-state" style="padding:8px 0;margin:0">加载中…</p>
         </header>
     </div>
 
-    <main class="site-main" id="article-root">
-        <p class="empty-state">加载中…</p>
-    </main>
-
-    <footer class="home-footer">
-        <span>ComfyUI Web</span>
-        <span><a href="/news/">← 返回资讯</a></span>
-    </footer>
+    <div id="article-body" class="article-scroll-pane" aria-label="正文">
+        <div class="article-scroll-inner">
+            <p class="empty-state">加载正文…</p>
+        </div>
+    </div>
 
     <script>
     (function () {
         const params = new URLSearchParams(location.search);
         const id = params.get('id');
         const slug = params.get('slug');
-        const root = document.getElementById('article-root');
+        const headEl = document.getElementById('article-head');
+        const bodyInner = document.querySelector('#article-body .article-scroll-inner');
         const CATEGORY_LABELS = { model: '模型动态', tutorial: '教程技巧', tool: '工具更新', community: '社区精选' };
 
         function esc(s) {
@@ -46,13 +49,17 @@
             document.title = a.title + ' · ComfyUI Web';
             const date = new Date(a.published_at).toLocaleDateString('zh-CN', { year:'numeric', month:'long', day:'numeric' });
             const tags = (a.tags||[]).map(t => `<span class="article-tag"><a href="/app/?tag=${encodeURIComponent(t)}">#${esc(t)}</a></span>`).join('');
-            root.innerHTML = `
-                <article>
-                    <header class="article-header">
-                        <span class="cat-badge cat-${esc(a.category)}">${CATEGORY_LABELS[a.category]||a.category}</span>
-                        <h1>${esc(a.title)}</h1>
-                        <div class="article-meta"><span>${date}</span></div>
-                    </header>
+
+            headEl.innerHTML = `
+                <div class="article-chrome-inner">
+                    <a class="article-back" href="/news/">← 资讯</a>
+                    <span class="cat-badge cat-${esc(a.category)}">${CATEGORY_LABELS[a.category]||a.category}</span>
+                    <h1>${esc(a.title)}</h1>
+                    <div class="article-meta"><span>${date}</span></div>
+                </div>`;
+
+            bodyInner.innerHTML = `
+                <article class="article-doc">
                     ${a.cover_url ? `<img class="article-cover" src="${esc(a.cover_url)}" alt="">` : ''}
                     <div class="article-content">${a.content_html}</div>
                     ${tags ? `<div class="article-tags">${tags}</div>` : ''}
@@ -62,8 +69,13 @@
                 </article>`;
         }
 
+        function showError(html) {
+            headEl.innerHTML = `<div class="article-chrome-inner"><a class="article-back" href="/news/">← 资讯</a><h1>无法打开</h1></div>`;
+            bodyInner.innerHTML = `<p class="empty-state">${html}</p>`;
+        }
+
         if (!id && !slug) {
-            root.innerHTML = '<p class="empty-state">缺少文章参数</p>';
+            showError('缺少文章参数');
             return;
         }
 
@@ -75,13 +87,13 @@
             .then(r => r.json().then(d => ({ ok: r.ok, d })))
             .then(({ ok, d }) => {
                 if (!ok || !d.article) {
-                    root.innerHTML = '<p class="empty-state">文章不存在或已删除<br><a href="/news/">返回资讯列表</a></p>';
+                    showError('文章不存在或已删除<br><a href="/news/">返回资讯列表</a>');
                     return;
                 }
                 renderArticle(d.article);
             })
             .catch(() => {
-                root.innerHTML = '<p class="empty-state">加载失败<br><a href="/news/">返回资讯列表</a></p>';
+                showError('加载失败<br><a href="/news/">返回资讯列表</a>');
             });
     })();
     </script>

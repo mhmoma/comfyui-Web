@@ -1320,12 +1320,26 @@ body.page-site a { color: var(--home-ink); }
 body.page-site a:hover { color: var(--home-coral); }
 
 .home-nav-bar-static {
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 100;
     background: var(--home-bg);
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--home-line);
+    padding: 12px 16px 0;
+    flex-shrink: 0;
+}
+.home-nav-bar-fixed {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 12px 16px 12px;
+    border-bottom: 1.5px solid var(--home-ink);
+}
+body.page-home {
+    padding-top: 78px;
 }
 .home-nav-logo {
     font-weight: 800;
@@ -1422,6 +1436,118 @@ body.page-site .cat-badge.cat-community {
 }
 body.page-site .empty-state a { color: var(--home-coral); font-weight: 600; }
 
+/* ── 资讯列表 / 帖子：顶栏+分区固定，下方整屏滚动 ── */
+body.page-news,
+body.page-article {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: var(--home-soft);
+}
+.site-fixed-chrome {
+    flex-shrink: 0;
+    z-index: 40;
+    background: #fff;
+    border-bottom: 1.5px solid var(--home-ink);
+    box-shadow: var(--home-shadow-sm);
+}
+.news-subhead {
+    padding: 14px 20px 12px;
+    max-width: var(--home-max);
+    margin: 0 auto;
+    width: 100%;
+}
+body.page-news .page-header {
+    margin-bottom: 12px;
+}
+body.page-news .page-header h1 {
+    font-size: 1.45rem;
+    margin-bottom: 4px;
+}
+body.page-news .page-header p {
+    font-size: 0.9rem;
+}
+body.page-news .category-tabs {
+    margin-bottom: 0;
+}
+.news-scroll-pane {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    padding: 20px 16px 32px;
+    background: var(--home-soft);
+}
+.news-scroll-pane .weibo-feed {
+    max-width: 720px;
+    margin: 0 auto;
+}
+.news-inline-footer {
+    max-width: 720px;
+    margin: 28px auto 0;
+    border-top: 1px solid var(--home-line);
+    padding-top: 20px;
+}
+
+.article-chrome {
+    padding: 12px 20px 14px;
+    background: #fff;
+}
+.article-chrome-inner {
+    max-width: var(--home-max);
+    margin: 0 auto;
+}
+.article-back {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--home-muted) !important;
+    text-decoration: none !important;
+}
+.article-back:hover { color: var(--home-ink) !important; }
+.article-chrome h1 {
+    font-size: clamp(1.25rem, 3.2vw, 1.75rem);
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin: 8px 0 6px;
+    color: var(--home-text);
+}
+.article-chrome .article-meta {
+    font-size: 0.85rem;
+    color: var(--home-muted);
+}
+.article-scroll-pane {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    background: #ebebec;
+    /* 整屏内容区：与上方固定标题栏明显分区 */
+    border-top: 3px solid var(--home-ink);
+}
+.article-scroll-inner {
+    width: 100%;
+    min-height: 100%;
+    background: #fff;
+    padding: 28px 20px 64px;
+}
+.article-doc {
+    max-width: 760px;
+    margin: 0 auto;
+}
+body.page-article .article-cover {
+    margin-bottom: 24px;
+}
+body.page-article .home-footer { display: none; }
+
+@media (max-width: 820px) {
+    body.page-home { padding-top: 120px; }
+    .news-subhead { padding: 12px 14px 10px; }
+    .article-chrome { padding: 10px 14px 12px; }
+    .article-scroll-inner { padding: 20px 14px 48px; }
+}
+
 .home-nav-bar {
     position: absolute;
     top: 0;
@@ -1429,6 +1555,9 @@ body.page-site .empty-state a { color: var(--home-coral); font-weight: 600; }
     right: 0;
     z-index: 20;
     padding: 14px 16px 0;
+}
+body.page-home .home-nav-bar.home-nav-bar-fixed {
+    position: fixed;
 }
 .home-nav {
     display: flex;
@@ -1505,7 +1634,7 @@ body.page-site .empty-state a { color: var(--home-coral); font-weight: 600; }
     width: 100%;
     max-width: var(--home-max);
     margin: 0 auto;
-    padding: 108px 24px 40px;
+    padding: 28px 24px 40px;
 }
 .home-brand {
     font-weight: 800;
@@ -1717,7 +1846,7 @@ body.page-site .empty-state a { color: var(--home-coral); font-weight: 600; }
 @media (max-width: 820px) {
     .home-paths { grid-template-columns: 1fr; }
     .home-news-row { grid-template-columns: 1fr; }
-    .home-hero-inner { padding: 100px 20px 32px; }
+    .home-hero-inner { padding: 20px 20px 32px; }
     .home-nav { flex-wrap: wrap; gap: 8px; }
     .home-nav-links { font-size: 0.88rem; }
     .home-nav-links a { padding: 6px 8px; }

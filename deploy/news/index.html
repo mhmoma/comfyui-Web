@@ -7,43 +7,45 @@
     <meta name="description" content="AI 绘画模型动态、教程技巧、工具更新与社区精选。">
     <link rel="canonical" href="https://comfyui-web-89u.pages.dev/news/">
     <link rel="alternate" type="application/rss+xml" title="ComfyUI Web 资讯" href="/feed.xml">
-    <link rel="stylesheet" href="/assets/site.css?v=18">
+    <link rel="stylesheet" href="/assets/site.css?v=19">
 </head>
-<body class="page-site">
-    <div class="home-nav-bar home-nav-bar-static">
-        <header class="home-nav">
-            <a href="/" class="home-nav-logo">ComfyUI <span>Web</span></a>
-            <nav class="home-nav-links" aria-label="主导航">
-                <a href="/news/" class="active">资讯</a>
-                <a href="/guides/">教程</a>
-                <a href="/app/">生图</a>
-                <a href="/card/">角色卡</a>
-                <a href="/about/">关于</a>
-            </nav>
-            <a class="home-nav-cta" href="/app/?arch=anima">开始创作</a>
-        </header>
+<body class="page-site page-news">
+    <div class="site-fixed-chrome">
+        <div class="home-nav-bar home-nav-bar-static">
+            <header class="home-nav">
+                <a href="/" class="home-nav-logo">ComfyUI <span>Web</span></a>
+                <nav class="home-nav-links" aria-label="主导航">
+                    <a href="/news/" class="active">资讯</a>
+                    <a href="/guides/">教程</a>
+                    <a href="/app/">生图</a>
+                    <a href="/card/">角色卡</a>
+                    <a href="/about/">关于</a>
+                </nav>
+                <a class="home-nav-cta" href="/app/?arch=anima">开始创作</a>
+            </header>
+        </div>
+        <div class="news-subhead">
+            <header class="page-header">
+                <h1>资讯</h1>
+                <p>模型动态 · 教程技巧 · 工具更新 · 社区精选</p>
+            </header>
+            <div id="category-tabs" class="category-tabs"></div>
+        </div>
     </div>
 
-    <main class="site-main">
-        <header class="page-header">
-            <h1>资讯</h1>
-            <p>模型动态 · 教程技巧 · 工具更新 · 社区精选</p>
-        </header>
-
-        <div id="category-tabs" class="category-tabs"></div>
+    <main class="news-scroll-pane" aria-label="资讯列表">
         <div id="news-list" class="weibo-feed">
             <p class="empty-state">加载中…</p>
         </div>
+        <footer class="home-footer news-inline-footer">
+            <span>ComfyUI Web</span>
+            <span>
+                <a href="/feed.xml">RSS</a> ·
+                <a href="/admin/">管理发帖</a> ·
+                <a href="/">返回首页</a>
+            </span>
+        </footer>
     </main>
-
-    <footer class="home-footer">
-        <span>ComfyUI Web</span>
-        <span>
-            <a href="/feed.xml">RSS</a> ·
-            <a href="/admin/">管理发帖</a> ·
-            <a href="/">返回首页</a>
-        </span>
-    </footer>
 
     <script src="/assets/site.js?v=13"></script>
 </body>
