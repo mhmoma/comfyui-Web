@@ -11,22 +11,23 @@
     <meta property="og:description" content="启动 ComfyUI 时必须加 --enable-cors-header 参数，否则浏览器会拦截跨域请求。本文提供 Windows bat 修改方法与局域网访问配置。">
     <meta property="og:url" content="https://comfyui-web-89u.pages.dev/news/comfyui-cors-setup/">
     
-    <link rel="stylesheet" href="/assets/site.css?v=1">
+    <link rel="stylesheet" href="/assets/site.css?v=18">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"NewsArticle","headline":"ComfyUI 跨域启动：让网页工具连上本地","description":"启动 ComfyUI 时必须加 --enable-cors-header 参数，否则浏览器会拦截跨域请求。本文提供 Windows bat 修改方法与局域网访问配置。","datePublished":"2026-07-05T00:00:00.000Z","author":{"@type":"Organization","name":"ComfyUI Web"}}</script>
 </head>
-<body>
-    <header class="site-header">
-        <div class="site-header-inner">
-            <a href="/" class="site-logo">ComfyUI Web</a>
-            <nav class="site-nav">
+<body class="page-site">
+        <div class="home-nav-bar home-nav-bar-static">
+        <header class="home-nav">
+            <a href="/" class="home-nav-logo">ComfyUI <span>Web</span></a>
+            <nav class="home-nav-links" aria-label="主导航">
                 <a href="/news/" class="active">资讯</a>
                 <a href="/guides/">教程</a>
-                <a href="/app/">工具</a>
+                <a href="/app/">生图</a>
+                <a href="/card/">角色卡</a>
                 <a href="/about/">关于</a>
             </nav>
-            <a href="/app/" class="site-cta">进入生图 →</a>
-        </div>
-    </header>
+            <a class="home-nav-cta" href="/app/?arch=anima">开始创作</a>
+        </header>
+    </div>
     <main class="site-main">
         <article>
             <header class="article-header">
@@ -67,18 +68,16 @@ python main.py --enable-cors-header --listen 0.0.0.0
                 <span class="article-tag"><a href="/app/?tag=%E5%85%A5%E9%97%A8">#入门</a></span></div>
             <div class="article-actions">
                 <a href="/app/" class="btn-primary">一键试用此功能 →</a>
-                <a href="/news/" class="btn-secondary">← 返回资讯列表</a>
+                <a href="/news/" class="home-btn-dark" style="background:#fff;color:#111 !important;border-color:#111">← 返回资讯列表</a>
             </div>
         </article>
     </main>
-    <footer class="site-footer">
-        <p>ComfyUI Web · AI 绘画资讯与工具站</p>
-        <p style="margin-top:8px">
-            <a href="/news/">资讯</a> ·
-            <a href="/guides/">教程</a> ·
-            <a href="/app/">生图工具</a> ·
-            <a href="/feed.xml">RSS 订阅</a>
-        </p>
+        <footer class="home-footer">
+        <span>ComfyUI Web</span>
+        <span>
+            <a href="/news/">← 返回资讯</a> ·
+            <a href="/">首页</a>
+        </span>
     </footer>
     <script src="/assets/site.js?v=1"></script>
 </body>

@@ -4,28 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>资讯详情 · ComfyUI Web</title>
-    <link rel="stylesheet" href="/assets/site.css?v=5">
+    <link rel="stylesheet" href="/assets/site.css?v=18">
 </head>
-<body>
-    <header class="site-header">
-        <div class="site-header-inner">
-            <a href="/" class="site-logo">ComfyUI Web</a>
-            <nav class="site-nav">
+<body class="page-site">
+    <div class="home-nav-bar home-nav-bar-static">
+        <header class="home-nav">
+            <a href="/" class="home-nav-logo">ComfyUI <span>Web</span></a>
+            <nav class="home-nav-links" aria-label="主导航">
                 <a href="/news/" class="active">资讯</a>
                 <a href="/guides/">教程</a>
-                <a href="/app/">工具</a>
+                <a href="/app/">生图</a>
+                <a href="/card/">角色卡</a>
                 <a href="/about/">关于</a>
             </nav>
-            <a href="/app/" class="site-cta">进入生图 →</a>
-        </div>
-    </header>
+            <a class="home-nav-cta" href="/app/?arch=anima">开始创作</a>
+        </header>
+    </div>
 
     <main class="site-main" id="article-root">
         <p class="empty-state">加载中…</p>
     </main>
 
-    <footer class="site-footer">
-        <p><a href="/news/">← 返回资讯</a></p>
+    <footer class="home-footer">
+        <span>ComfyUI Web</span>
+        <span><a href="/news/">← 返回资讯</a></span>
     </footer>
 
     <script>
@@ -55,7 +57,7 @@
                     <div class="article-content">${a.content_html}</div>
                     ${tags ? `<div class="article-tags">${tags}</div>` : ''}
                     <div class="article-actions">
-                        <a href="/news/" class="btn-secondary">← 返回资讯</a>
+                        <a href="/news/" class="home-btn-dark" style="background:#fff;color:#111 !important;border-color:#111">← 返回资讯</a>
                     </div>
                 </article>`;
         }
@@ -83,6 +85,6 @@
             });
     })();
     </script>
-    <script src="/assets/site.js?v=12"></script>
+    <script src="/assets/site.js?v=13"></script>
 </body>
 </html>
