@@ -6,7 +6,7 @@ alwaysApply: true
 
 # ComfyUI-Web 部署与 D1 数据库操作规范
 
-> **部署版本**: 1.178
+> **部署版本**: 1.179
 > **版本记录**: 见底部「版本历史」 
 > **重要**: 每次修改代码后，必须更新本文件的**部署版本号**和**版本历史**。凡前端相关代码变更（`index.html` / `script.js` / `style.css` 及 `deploy/` 对应文件），必须递增前端版本号与静态资源版本参数。
 
@@ -348,6 +348,7 @@ D1 绑定在 Settings → Functions → D1 database bindings：
 | 1.129 | 2026-07-12 | 手机标签调节面板修复 | 修复点标签时 blur 重绘吞掉点击；改 pointerdown 委托；面板移出 app 壳层（`app v4.47` / `script.js?v=442` / `style.css?v=432`）。 |
 | 1.130 | 2026-07-12 | 手机标签选中跟随 | 前移/后移时先更新选中 idx 再重绘，高亮常亮跟随标签并自动滚入视区（`app v4.48` / `script.js?v=443` / `style.css?v=433`）。 |
 | 1.131 | 2026-07-12 | 手机标签单行高度修复 | 拆分栏剩一行时标签不再被 flex 拉伸变高，保持紧凑 chip 尺寸（`app v4.49` / `style.css?v=434`）。 |
+| 1.179 | 2026-08-09 | 恢复第三方 OAuth 入口 | 重新启用 Google/Discord/Twitter（对齐官网 `/auth/oauth/*`），官网授权修好即可直接用（`app v4.85` / `script.js?v=481` / `style.css?v=465`） |
 | 1.178 | 2026-08-09 | 标注第三方 OAuth 不可用 | 实测官网 `rls.cheggpt.com/auth/v1/authorize` 对 Google/Discord/Twitter 均 404，禁用入口并提示改用密码/TG（`app v4.84` / `script.js?v=480` / `style.css?v=464`） |
 | 1.177 | 2026-08-09 | 修复第三方登录 404 | Google/Discord/Twitter 改官网 app-oauth 桥接；密码登录失败提示改官网+剪贴板；写入失败不再静默（`app v4.83` / `script.js?v=479`） |
 | 1.176 | 2026-08-09 | 修复 Telegram 登录 captcha | 浏览器直连官网生成登录码避开 CF 出口验证码；轮询仍走代理取 Cookie（`app v4.82` / `script.js?v=478`） |

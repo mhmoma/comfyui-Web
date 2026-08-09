@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.84');
+        console.log('[ComfyUI Web] v4.85');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -14192,15 +14192,20 @@
             if (helper) helper.style.display = 'block';
         }
 
-        /**
-         * 第三方入口：
-         * Google/Discord/Twitter 会 307 到 rls.cheggpt.com/auth/v1/authorize，该接口目前固定 404（官网侧故障）。
-         * 仅保留登录码 / 邮箱验证码 / 官网登录页，完成后剪贴板导入 Cookie。
-         */
+        /** 第三方：对齐官网 /auth/oauth/*；登录码/验证码打开官网对应页。完成后剪贴板导入 Cookie。 */
         async function openDzmmOAuth(provider) {
             const id = String(provider || '').trim().toLowerCase();
+            const helper = document.getElementById('dzmm-cookie-helper');
+            if (helper) helper.style.display = 'block';
+
             if (['google', 'discord', 'twitter'].includes(id)) {
-                showToast('官网 Google/Discord/Twitter 授权服务当前 404，请改用邮箱密码或 Telegram');
+                // 与官网网页端一致；授权域名修好后即可直接用
+                window.open(
+                    `https://www.dzmm.ai/auth/oauth/${id}?next=${encodeURIComponent('/')}`,
+                    'dzmm_oauth',
+                    'width=520,height=760,menubar=no,toolbar=no,location=yes,status=no'
+                );
+                showToast('已打开官网授权，完成后用书签复制 Cookie →「从剪贴板导入」');
                 return;
             }
             if (id === 'signin-code' || id === 'login-code') {
