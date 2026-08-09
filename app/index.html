@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v4.87</title>
-    <link rel="stylesheet" href="style.css?v=465">
+    <title>生图工具 · ComfyUI Web v4.88</title>
+    <link rel="stylesheet" href="style.css?v=466">
     <meta name="theme-color" content="#e94560">
+    <script>
+    (function () {
+        try {
+            var skin = localStorage.getItem('comfyui_ui_skin') || 'v2';
+            if (skin === 'v2') document.documentElement.setAttribute('data-ui', 'v2');
+            else document.documentElement.removeAttribute('data-ui');
+        } catch (e) { document.documentElement.setAttribute('data-ui', 'v2'); }
+    })();
+    </script>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +27,7 @@
     <div class="app">
         <header class="header">
 <a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.87</span></h1>
+            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.88</span></h1>
             <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
                 <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
                 <span class="conn-text" id="conn-text">检测中</span>
@@ -998,6 +1007,15 @@
     <div id="modal-settings" class="modal hidden">
         <div class="modal-content">
             <h2>设置</h2>
+            <h3 class="settings-section-title">界面版本</h3>
+            <label>界面风格
+                <select id="sel-ui-skin">
+                    <option value="v2">新版（白底硬朗）</option>
+                    <option value="classic">旧版（可切换配色主题）</option>
+                </select>
+            </label>
+            <small class="profile-hint">默认进入新版。切回旧版后，顶栏 🎨 主题配色重新可用。</small>
+            <hr class="settings-divider">
             <label>ComfyUI 服务器地址
                 <input type="text" id="inp-server" placeholder="http://127.0.0.1:8188">
             </label>
@@ -1676,7 +1694,7 @@
     <script src="vendor/jsQR.js"></script>
     <script src="dzmm-dewmark.js?v=2"></script>
     <script src="lora-library.js?v=5"></script>
-    <script src="script.js?v=483"></script>
+    <script src="script.js?v=484"></script>
     <script src="/assets/pwa-register.js?v=2"></script>
 </body>
 </html>

@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.87');
+        console.log('[ComfyUI Web] v4.88');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -11223,10 +11223,46 @@
         }
     }
 
-    // ==================== 主题系统 ====================
+    // ==================== 界面皮肤（新版 v2 / 旧版 classic）====================
+    const UI_SKIN_KEY = 'comfyui_ui_skin';
+
+    function getUiSkin() {
+        const v = localStorage.getItem(UI_SKIN_KEY);
+        return v === 'classic' ? 'classic' : 'v2';
+    }
+
+    function applyUiSkin(skin) {
+        const next = skin === 'classic' ? 'classic' : 'v2';
+        if (next === 'v2') {
+            document.documentElement.setAttribute('data-ui', 'v2');
+        } else {
+            document.documentElement.removeAttribute('data-ui');
+        }
+        localStorage.setItem(UI_SKIN_KEY, next);
+
+        const sel = document.getElementById('sel-ui-skin');
+        if (sel && sel.value !== next) sel.value = next;
+
+        // 旧版恢复配色主题；新版不套 data-theme，避免冲突
+        if (next === 'classic') {
+            applyTheme(localStorage.getItem('comfyui_theme') || 'default');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
+    }
+
+    function setupUiSkin() {
+        applyUiSkin(getUiSkin());
+        const sel = document.getElementById('sel-ui-skin');
+        if (!sel) return;
+        sel.value = getUiSkin();
+        sel.addEventListener('change', () => applyUiSkin(sel.value));
+    }
+
+    // ==================== 主题系统（仅旧版界面） ====================
     function setupTheme() {
         const saved = localStorage.getItem('comfyui_theme') || 'default';
-        applyTheme(saved);
+        if (getUiSkin() === 'classic') applyTheme(saved);
 
         const btn = document.getElementById('btn-theme');
         const panel = document.getElementById('theme-panel');
@@ -11234,6 +11270,7 @@
 
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
+            if (getUiSkin() === 'v2') return;
             panel.classList.toggle('hidden');
         });
 
@@ -11245,6 +11282,7 @@
 
         panel.querySelectorAll('.theme-dot').forEach(dot => {
             dot.addEventListener('click', () => {
+                if (getUiSkin() === 'v2') return;
                 const theme = dot.dataset.theme;
                 applyTheme(theme);
                 localStorage.setItem('comfyui_theme', theme);
@@ -15642,6 +15680,7 @@
         }
     }
 
+    setupUiSkin();
     setupTheme();
     setupToggles();
     setupControlnetSpeedupGuard();

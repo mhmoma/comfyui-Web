@@ -1,4 +1,4 @@
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -292,7 +292,7 @@ body {
 }
 
 .panel-group-header::before {
-    content: '▶';
+    content: '鈻?;
     font-size: 0.6rem;
     transition: transform 0.2s;
 }
@@ -1471,7 +1471,7 @@ textarea {
     box-shadow: none;
 }
 
-/* PC：模型/尺寸/配额靠右紧凑 */
+/* PC锛氭ā鍨?灏哄/閰嶉闈犲彸绱у噾 */
 .dzmm-controls {
     display: inline-flex;
     align-items: center;
@@ -1527,7 +1527,7 @@ textarea {
     border-color: rgba(102, 180, 234, 0.45);
 }
 
-/* 手机端 DZMM 悬浮坞：默认隐藏，仅窄屏显示 */
+/* 鎵嬫満绔?DZMM 鎮诞鍧烇細榛樿闅愯棌锛屼粎绐勫睆鏄剧ず */
 .dzmm-mobile-dock {
     display: none;
 }
@@ -1861,7 +1861,7 @@ textarea {
     box-shadow: var(--shadow);
 }
 
-/* 设置项增多后需可滚动（PC 原先无 max-height） */
+/* 璁剧疆椤瑰澶氬悗闇€鍙粴鍔紙PC 鍘熷厛鏃?max-height锛?*/
 #modal-settings .modal-content {
     width: min(520px, 92vw);
     max-height: 85vh;
@@ -2950,7 +2950,7 @@ body.inpaint-open {
 }
 
 .compare-handle::before {
-    content: '◀▶';
+    content: '鈼€鈻?;
     font-size: 10px;
     color: #333;
     letter-spacing: -2px;
@@ -2994,7 +2994,7 @@ body.inpaint-open {
     background: var(--text-secondary);
 }
 
-/* ==================== 工作流模式 ==================== */
+/* ==================== 宸ヤ綔娴佹ā寮?==================== */
 .mode-switcher {
     display: flex;
     gap: 0;
@@ -3316,7 +3316,7 @@ body.inpaint-open {
     opacity: 0.85;
 }
 
-/* 首页深链浮层（桌面端） */
+/* 棣栭〉娣遍摼娴眰锛堟闈㈢锛?*/
 .portal-overlay {
     display: none;
     position: fixed;
@@ -3535,7 +3535,7 @@ body.inpaint-open {
     color: var(--text-secondary);
 }
 
-/* 角色作品详情浮层：桌面门户深链 + 手机端共用（须高于 portal-overlay:500） */
+/* 瑙掕壊浣滃搧璇︽儏娴眰锛氭闈㈤棬鎴锋繁閾?+ 鎵嬫満绔叡鐢紙椤婚珮浜?portal-overlay:500锛?*/
 .char-browser-overlay {
     display: none;
     position: fixed;
@@ -3893,7 +3893,7 @@ body.char-browser-open {
         font-size: 1.15rem;
     }
 
-    /* 手机端专用面板 */
+    /* 鎵嬫満绔笓鐢ㄩ潰鏉?*/
     .mobile-panel {
         display: none;
     }
@@ -3991,7 +3991,7 @@ body.char-browser-open {
         display: none !important;
     }
 
-    /* ===== 画师 Tab ===== */
+    /* ===== 鐢诲笀 Tab ===== */
     .main.mobile-tab-artists .sidebar,
     .main.mobile-tab-artists .history-panel,
     .main.mobile-tab-artists .mobile-panel-characters,
@@ -4183,7 +4183,7 @@ body.char-browser-open {
         width: 100%;
     }
 
-    /* 画师 Tab：四列紧凑卡片 */
+    /* 鐢诲笀 Tab锛氬洓鍒楃揣鍑戝崱鐗?*/
     .main.mobile-tab-artists .tag-grid .tag-item.tag-char {
         width: calc((100% - 18px) / 4) !important;
         flex: 0 0 calc((100% - 18px) / 4) !important;
@@ -4263,7 +4263,7 @@ body.char-browser-open {
         background: rgba(233, 69, 96, 0.06);
     }
 
-    /* 创作页：隐藏内嵌标签选择器，显示快捷入口 */
+    /* 鍒涗綔椤碉細闅愯棌鍐呭祵鏍囩閫夋嫨鍣紝鏄剧ず蹇嵎鍏ュ彛 */
     .main.mobile-tab-create .tag-picker-collapse {
         display: none !important;
     }
@@ -4303,7 +4303,7 @@ body.char-browser-open {
         background: var(--bg-input);
     }
 
-    /* 角色 Tab：压缩顶底栏，留给作品网格 */
+    /* 瑙掕壊 Tab锛氬帇缂╅《搴曟爮锛岀暀缁欎綔鍝佺綉鏍?*/
     .main.mobile-tab-characters .char-panel-intro {
         padding: 4px 10px 0;
         font-size: 11px;
@@ -4347,7 +4347,7 @@ body.char-browser-open {
         text-align: center;
     }
 
-    /* 角色 Tab：作品列表 */
+    /* 瑙掕壊 Tab锛氫綔鍝佸垪琛?*/
     .char-panel-intro {
         flex-shrink: 0;
         padding: 10px 12px 0;
@@ -4554,7 +4554,7 @@ body.char-browser-open {
         display: none;
     }
 
-    /* 标签 Tab 顶栏（固定在 content 上方需 JS 配合；此处样式供 panel 内 switch） */
+    /* 鏍囩 Tab 椤舵爮锛堝浐瀹氬湪 content 涓婃柟闇€ JS 閰嶅悎锛涙澶勬牱寮忎緵 panel 鍐?switch锛?*/
     .mobile-tags-switch {
         display: none;
     }
@@ -4563,7 +4563,7 @@ body.char-browser-open {
         content: none;
     }
 
-    /* 生成 FAB — 默认贴底栏上方，可拖动（不再预留旧 DZMM 底条 44px） */
+    /* 鐢熸垚 FAB 鈥?榛樿璐村簳鏍忎笂鏂癸紝鍙嫋鍔紙涓嶅啀棰勭暀鏃?DZMM 搴曟潯 44px锛?*/
     .generate-fab {
         display: flex;
         align-items: center;
@@ -4608,7 +4608,7 @@ body.char-browser-open {
         display: none;
     }
 
-    /* 全屏角色浏览浮层（手机端触控尺寸覆盖） */
+    /* 鍏ㄥ睆瑙掕壊娴忚娴眰锛堟墜鏈虹瑙︽帶灏哄瑕嗙洊锛?*/
     body.char-browser-open .mobile-nav,
     body.char-browser-open .generate-fab,
     body.char-browser-open .dzmm-mobile-dock {
@@ -4732,12 +4732,12 @@ body.char-browser-open {
         overflow-x: hidden;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        /* 底栏 56 + 少量留白；DZMM 悬浮坞不占固定底条 */
+        /* 搴曟爮 56 + 灏戦噺鐣欑櫧锛汥ZMM 鎮诞鍧炰笉鍗犲浐瀹氬簳鏉?*/
         padding-bottom: calc(56px + 12px + env(safe-area-inset-bottom, 0px));
     }
 
     body.prompt-tag-sheet-open .main.mobile-tab-create .content {
-        /* 底栏 + 标签调节面板高度，不再加旧 DZMM 底条 48px */
+        /* 搴曟爮 + 鏍囩璋冭妭闈㈡澘楂樺害锛屼笉鍐嶅姞鏃?DZMM 搴曟潯 48px */
         padding-bottom: calc(56px + 132px + env(safe-area-inset-bottom, 0px));
     }
 
@@ -4856,7 +4856,7 @@ body.char-browser-open {
         flex-direction: column;
     }
 
-    /* 分类行：大类标签与搜索框上下排列，避免横向挤压 */
+    /* 鍒嗙被琛岋細澶х被鏍囩涓庢悳绱㈡涓婁笅鎺掑垪锛岄伩鍏嶆í鍚戞尋鍘?*/
     .tag-group-row {
         flex-direction: column;
         align-items: stretch;
@@ -4881,7 +4881,7 @@ body.char-browser-open {
         font-size: 16px;
     }
 
-    /* 大类/子分类：自动换行展示全部，不再横向滑动 */
+    /* 澶х被/瀛愬垎绫伙細鑷姩鎹㈣灞曠ず鍏ㄩ儴锛屼笉鍐嶆í鍚戞粦鍔?*/
     .tag-subtabs {
         flex-wrap: wrap !important;
         overflow-x: visible;
@@ -4960,7 +4960,7 @@ body.char-browser-open {
         padding: 8px 10px;
     }
 
-    /* 默认角色卡：非作品详情时 2 列 */
+    /* 榛樿瑙掕壊鍗★細闈炰綔鍝佽鎯呮椂 2 鍒?*/
     .tag-item.tag-char {
         flex-grow: 0;
         flex-basis: calc(50% - 4px);
@@ -4982,7 +4982,7 @@ body.char-browser-open {
         padding: 0 4px 4px;
     }
 
-    /* ===== 选中作品后：全屏角色浏览模式 ===== */
+    /* ===== 閫変腑浣滃搧鍚庯細鍏ㄥ睆瑙掕壊娴忚妯″紡 ===== */
     .tag-picker.mobile-char-view {
         max-height: 72vh !important;
         min-height: 300px;
@@ -5091,7 +5091,7 @@ body.char-browser-open {
         width: 100%;
     }
 
-    /* Fixed dzmm bar above bottom nav — 默认收起为悬浮坞，展开才显示设置 */
+    /* Fixed dzmm bar above bottom nav 鈥?榛樿鏀惰捣涓烘偓娴潪锛屽睍寮€鎵嶆樉绀鸿缃?*/
     .main.mobile-tab-create .action-bar {
         position: fixed;
         left: 0;
@@ -5311,7 +5311,7 @@ body.char-browser-open {
         font-size: 14px;
     }
 
-    /* 移动端展开面板内控件紧凑 */
+    /* 绉诲姩绔睍寮€闈㈡澘鍐呮帶浠剁揣鍑?*/
     .dzmm-controls {
         width: 100%;
         margin-left: 0;
@@ -5405,7 +5405,7 @@ body.char-browser-open {
         transition: max-height 0.3s ease;
     }
 
-    /* 创作页：手机端隐藏结果区，出图后去「历史」Tab 查看 */
+    /* 鍒涗綔椤碉細鎵嬫満绔殣钘忕粨鏋滃尯锛屽嚭鍥惧悗鍘汇€屽巻鍙层€峊ab 鏌ョ湅 */
     .main.mobile-tab-create .result-wrapper {
         display: none;
     }
@@ -5414,7 +5414,7 @@ body.char-browser-open {
         min-height: 56px;
     }
 
-    /* 手机端：标签点击打开底部调节面板，隐藏内联操作钮 */
+    /* 鎵嬫満绔細鏍囩鐐瑰嚮鎵撳紑搴曢儴璋冭妭闈㈡澘锛岄殣钘忓唴鑱旀搷浣滈挳 */
     .prompt-tag-actions {
         display: none !important;
     }
@@ -5438,7 +5438,7 @@ body.char-browser-open {
         position: fixed;
         left: 0;
         right: 0;
-        /* DZMM 已改为悬浮坞，不再占底栏上方 44px；紧贴底部 Tab */
+        /* DZMM 宸叉敼涓烘偓娴潪锛屼笉鍐嶅崰搴曟爮涓婃柟 44px锛涚揣璐村簳閮?Tab */
         bottom: calc(56px + env(safe-area-inset-bottom, 0px));
         z-index: 205;
         display: block;
@@ -5560,7 +5560,7 @@ body.char-browser-open {
         padding: 24px 16px;
     }
 
-    /* 手机端小图只显示图，工具键放到大图预览底部 */
+    /* 鎵嬫満绔皬鍥惧彧鏄剧ず鍥撅紝宸ュ叿閿斁鍒板ぇ鍥鹃瑙堝簳閮?*/
     .history-overlay {
         display: none !important;
     }
@@ -5676,7 +5676,7 @@ body.char-browser-open {
     }
 
     .panel-group-header::after {
-        content: '▸';
+        content: '鈻?;
         position: absolute;
         right: 8px;
         top: 50%;
@@ -5833,9 +5833,9 @@ body.char-browser-open {
     }
 }
 
-/* ==================== 主题系统 ==================== */
+/* ==================== 涓婚绯荤粺 ==================== */
 
-/* 主题切换按钮 */
+/* 涓婚鍒囨崲鎸夐挳 */
 .theme-btn {
     position: relative;
 }
@@ -5885,7 +5885,7 @@ body.char-browser-open {
 .theme-dot[data-theme="lavender"] { background: linear-gradient(135deg, #1a1428, #a78bfa); }
 .theme-dot[data-theme="light"] { background: linear-gradient(135deg, #f0f0f5, #3b82f6); }
 
-/* 赛博朋克主题 */
+/* 璧涘崥鏈嬪厠涓婚 */
 [data-theme="cyberpunk"] {
     --bg-primary: #0a0a14;
     --bg-secondary: #0e0e1c;
@@ -5927,7 +5927,7 @@ body.char-browser-open {
     background: linear-gradient(90deg, #00d4ff, #ff00ff, #ffdd00);
 }
 
-/* 森林主题 */
+/* 妫灄涓婚 */
 [data-theme="forest"] {
     --bg-primary: #0f1a14;
     --bg-secondary: #132218;
@@ -5969,7 +5969,7 @@ body.char-browser-open {
     background: linear-gradient(90deg, #10b981, #a3e635, #fbbf24);
 }
 
-/* 日落主题 */
+/* 鏃ヨ惤涓婚 */
 [data-theme="sunset"] {
     --bg-primary: #1a1410;
     --bg-secondary: #221a14;
@@ -6011,7 +6011,7 @@ body.char-browser-open {
     background: linear-gradient(90deg, #f59e0b, #ef4444, #f472b6);
 }
 
-/* 薰衣草主题 */
+/* 钖拌。鑽変富棰?*/
 [data-theme="lavender"] {
     --bg-primary: #1a1428;
     --bg-secondary: #201830;
@@ -6053,7 +6053,7 @@ body.char-browser-open {
     background: linear-gradient(90deg, #818cf8, #a78bfa, #f472b6);
 }
 
-/* 纯白亮色主题 */
+/* 绾櫧浜壊涓婚 */
 [data-theme="light"] {
     --bg-primary: #f5f5fa;
     --bg-secondary: #ffffff;
@@ -6131,7 +6131,7 @@ body.char-browser-open {
     color: #d97706;
 }
 
-/* ==================== 提示词标签可视化编辑器 ==================== */
+/* ==================== 鎻愮ず璇嶆爣绛惧彲瑙嗗寲缂栬緫鍣?==================== */
 .prompt-tags {
     display: flex;
     flex-wrap: wrap;
@@ -6298,7 +6298,7 @@ body.char-browser-open {
     line-height: 1.2;
 }
 
-/* ==================== 元数据解析弹窗 ==================== */
+/* ==================== 鍏冩暟鎹В鏋愬脊绐?==================== */
 .modal-meta-content {
     max-width: 620px;
     max-height: 85vh;
@@ -6461,7 +6461,7 @@ body.char-browser-open {
     color: var(--text-secondary);
 }
 
-/* ========== NAI 在线生图模式 ========== */
+/* ========== NAI 鍦ㄧ嚎鐢熷浘妯″紡 ========== */
 .btn-nai {
     background: linear-gradient(135deg, #0d9488, #14b8a6);
     border: none;
@@ -6677,7 +6677,7 @@ body.char-browser-open {
     border-radius: 6px;
 }
 
-/* ==================== 角色缩略图标签 ==================== */
+/* ==================== 瑙掕壊缂╃暐鍥炬爣绛?==================== */
 .tag-item.tag-char {
     flex-direction: column;
     align-items: center;
@@ -6726,7 +6726,7 @@ body.char-browser-open {
     color: var(--text-secondary);
 }
 
-/* ==================== 角色预览弹窗 ==================== */
+/* ==================== 瑙掕壊棰勮寮圭獥 ==================== */
 .char-preview-overlay {
     position: fixed;
     inset: 0;
@@ -6935,7 +6935,7 @@ body.char-browser-open {
     font-size: 0.68rem;
 }
 
-/* ==================== 收藏 & 使用记忆 ==================== */
+/* ==================== 鏀惰棌 & 浣跨敤璁板繂 ==================== */
 .tag-fav-star {
     position: absolute;
     top: 2px;
@@ -7029,7 +7029,7 @@ body.char-browser-open {
     border-color: #fbbf24 !important;
 }
 
-/* ==================== 收藏分组视图（三列） ==================== */
+/* ==================== 鏀惰棌鍒嗙粍瑙嗗浘锛堜笁鍒楋級 ==================== */
 .fav-columns {
     display: flex;
     gap: 8px;
@@ -7279,7 +7279,7 @@ body.char-browser-open {
     display: none !important;
 }
 
-/* ==================== Character Browser — flex 三列完整卡片（must stay last） ==================== */
+/* ==================== Character Browser 鈥?flex 涓夊垪瀹屾暣鍗＄墖锛坢ust stay last锛?==================== */
 .char-browser-overlay .char-browser-grid {
     display: flex !important;
     flex-wrap: wrap !important;
@@ -7450,7 +7450,7 @@ body.char-browser-open {
     }
 }
 
-/* ==================== 图层合成 ==================== */
+/* ==================== 鍥惧眰鍚堟垚 ==================== */
 body.composite-open {
     overflow: hidden;
 }
@@ -7637,7 +7637,7 @@ body.composite-open {
     }
 }
 
-/* ==================== 抠图 ==================== */
+/* ==================== 鎶犲浘 ==================== */
 .cutout-content {
     max-width: 720px;
     width: min(96vw, 720px);
@@ -7787,7 +7787,7 @@ body.composite-open {
     }
 }
 
-/* LoRA 库浮层 */
+/* LoRA 搴撴诞灞?*/
 .portal-lora-setup-hint {
     margin: 0;
     padding: 10px 16px;
@@ -7978,3 +7978,280 @@ body.composite-open {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* ==================== UI 鐨偆 v2锛氱櫧搴曠‖鏈楋紙鍙垏鍥炴棫鐗堬級 ==================== */
+[data-ui="v2"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f4f4f5;
+    --bg-panel: #ffffff;
+    --bg-input: #ffffff;
+    --accent: #e94560;
+    --accent-hover: #c7364f;
+    --accent-blue: #111111;
+    --accent-green: #16a34a;
+    --accent-purple: #e94560;
+    --accent-amber: #d97706;
+    --accent-teal: #0f766e;
+    --text-primary: #0a0a0a;
+    --text-secondary: #52525b;
+    --border: #111111;
+    --border-subtle: #d4d4d8;
+    --radius: 3px;
+    --shadow: 0 2px 0 rgba(0, 0, 0, 0.1), 0 8px 18px rgba(0, 0, 0, 0.08);
+    --sidebar-bg: #f4f4f5;
+    --content-bg: #ffffff;
+    --history-bg: #f4f4f5;
+    --header-bg: #ffffff;
+}
+
+[data-ui="v2"] body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+[data-ui="v2"] .header {
+    background: #fff;
+    border-bottom: 1.5px solid var(--border);
+    box-shadow: var(--shadow);
+}
+
+[data-ui="v2"] .header h1 {
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    -webkit-text-fill-color: unset;
+    color: var(--text-primary);
+    filter: none;
+    letter-spacing: -0.03em;
+}
+
+[data-ui="v2"] .version-badge {
+    background: #f4f4f5;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    -webkit-text-fill-color: unset;
+    color: var(--text-primary);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    filter: none;
+}
+
+[data-ui="v2"] .site-home-link,
+[data-ui="v2"] .btn-icon,
+[data-ui="v2"] .conn-status,
+[data-ui="v2"] .profile-quick-select {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.08), 0 3px 10px rgba(0,0,0,0.06);
+    color: var(--text-primary);
+}
+
+[data-ui="v2"] .site-home-link:hover,
+[data-ui="v2"] .btn-icon:hover {
+    background: #111;
+    color: #fff;
+    border-color: #000;
+}
+
+[data-ui="v2"] .btn-comfy-native {
+    font-weight: 700;
+}
+
+[data-ui="v2"] .sidebar {
+    background: var(--sidebar-bg);
+    border-right: 1.5px solid var(--border);
+}
+
+[data-ui="v2"] .history-panel {
+    background: var(--history-bg);
+    border-left: 1.5px solid var(--border);
+}
+
+[data-ui="v2"] .mode-switcher {
+    gap: 6px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+}
+
+[data-ui="v2"] .mode-tab {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    color: var(--text-primary);
+    font-weight: 700;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.08), 0 3px 10px rgba(0,0,0,0.06);
+}
+
+[data-ui="v2"] .mode-tab.active {
+    background: #111;
+    color: #fff;
+    border-color: #000;
+}
+
+[data-ui="v2"] .panel-group {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.08), 0 3px 10px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+
+[data-ui="v2"] .panel-group-header {
+    background: #f4f4f5 !important;
+    color: var(--text-primary) !important;
+    border-bottom: 1.5px solid var(--border);
+    border-left: 0 !important;
+    font-weight: 800;
+}
+
+[data-ui="v2"] .panel,
+[data-ui="v2"] .optional-panel {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+}
+
+[data-ui="v2"] select,
+[data-ui="v2"] input[type="number"],
+[data-ui="v2"] input[type="text"],
+[data-ui="v2"] input[type="password"],
+[data-ui="v2"] input[type="email"],
+[data-ui="v2"] textarea {
+    background: #fff;
+    color: var(--text-primary);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+}
+
+[data-ui="v2"] select:focus,
+[data-ui="v2"] input:focus,
+[data-ui="v2"] textarea:focus {
+    outline: 2px solid rgba(233, 69, 96, 0.35);
+    border-color: var(--accent);
+}
+
+[data-ui="v2"] .btn-primary {
+    background: var(--accent);
+    border: 1.5px solid var(--accent-hover);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    font-weight: 800;
+}
+
+[data-ui="v2"] .btn-primary:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 3px 0 rgba(0,0,0,0.14), 0 12px 24px rgba(233,69,96,0.28);
+}
+
+[data-ui="v2"] .btn-secondary,
+[data-ui="v2"] .btn-accent {
+    background: #111;
+    color: #fff;
+    border: 1.5px solid #000;
+    border-radius: var(--radius);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.08), 0 3px 10px rgba(0,0,0,0.06);
+    font-weight: 700;
+}
+
+[data-ui="v2"] .btn-secondary:hover,
+[data-ui="v2"] .btn-accent:hover {
+    background: #000;
+    color: #fff;
+}
+
+[data-ui="v2"] .result-area,
+[data-ui="v2"] .workspace,
+[data-ui="v2"] .main {
+    background: var(--content-bg);
+}
+
+[data-ui="v2"] .prompt-tags,
+[data-ui="v2"] .tag-group-row,
+[data-ui="v2"] .tag-subtabs {
+    background: #f4f4f5;
+    border-color: var(--border-subtle);
+}
+
+[data-ui="v2"] .modal-content,
+[data-ui="v2"] .char-browser,
+[data-ui="v2"] .artist-browser,
+[data-ui="v2"] .lora-library-overlay,
+[data-ui="v2"] .overlay-panel {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    color: var(--text-primary);
+}
+
+[data-ui="v2"] .mobile-bottom-nav {
+    background: #fff;
+    border-top: 1.5px solid var(--border);
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+}
+
+[data-ui="v2"] .mobile-nav-btn.active {
+    color: var(--accent);
+    font-weight: 800;
+}
+
+[data-ui="v2"] .history-panel-header,
+[data-ui="v2"] .history-item,
+[data-ui="v2"] .file-preview {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+}
+
+[data-ui="v2"] .progress-bar,
+[data-ui="v2"] .progress {
+    background: #f4f4f5;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+}
+
+[data-ui="v2"] .progress-bar-fill,
+[data-ui="v2"] .progress > i,
+[data-ui="v2"] .progress-fill {
+    background: var(--accent);
+}
+
+[data-ui="v2"] .toggle-slider {
+    border: 1.5px solid var(--border);
+}
+
+[data-ui="v2"] .settings-section-title {
+    color: var(--text-primary);
+    font-weight: 800;
+}
+
+[data-ui="v2"] .settings-divider {
+    border-color: var(--border-subtle);
+}
+
+[data-ui="v2"] .theme-btn { display: none; }
+
+[data-ui="v2"] .placeholder {
+    border: 1.5px dashed var(--border);
+    background: #fafafa;
+    color: var(--text-secondary);
+}
+
+[data-ui="v2"] .dzmm-dock,
+[data-ui="v2"] .mobile-fab,
+[data-ui="v2"] .generate-fab {
+    box-shadow: var(--shadow);
+    border: 1.5px solid var(--border);
+}
+
+[data-ui="v2"] .chip,
+[data-ui="v2"] .tag-item,
+[data-ui="v2"] .mobile-shortcut-btn {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+
