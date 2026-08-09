@@ -745,14 +745,16 @@ a:hover { color: var(--accent); }
 }
 .article-content {
     font-size: 1rem;
-    line-height: 1.8;
+    line-height: 1.65;
     color: var(--text-primary);
 }
-.article-content h2 { font-size: 1.3rem; margin: 32px 0 12px; }
-.article-content h3 { font-size: 1.1rem; margin: 24px 0 10px; }
-.article-content p { margin-bottom: 16px; }
-.article-content ul, .article-content ol { margin: 0 0 16px 24px; }
-.article-content li { margin-bottom: 6px; }
+.article-content h2 { font-size: 1.25rem; margin: 18px 0 8px; }
+.article-content h3 { font-size: 1.05rem; margin: 14px 0 6px; }
+.article-content p { margin: 0 0 8px; }
+.article-content ul, .article-content ol { margin: 0 0 10px 1.2em; padding: 0; }
+.article-content li { margin: 0 0 4px; }
+.article-content h2:first-child,
+.article-content h3:first-child { margin-top: 0; }
 .article-content code {
     background: var(--bg-card);
     padding: 2px 6px;
