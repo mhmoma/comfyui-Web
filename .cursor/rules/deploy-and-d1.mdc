@@ -6,7 +6,7 @@ alwaysApply: true
 
 # ComfyUI-Web 部署与 D1 数据库操作规范
 
-> **部署版本**: 1.170
+> **部署版本**: 1.171
 > **版本记录**: 见底部「版本历史」 
 > **重要**: 每次修改代码后，必须更新本文件的**部署版本号**和**版本历史**。凡前端相关代码变更（`index.html` / `script.js` / `style.css` 及 `deploy/` 对应文件），必须递增前端版本号与静态资源版本参数。
 
@@ -348,6 +348,7 @@ D1 绑定在 Settings → Functions → D1 database bindings：
 | 1.129 | 2026-07-12 | 手机标签调节面板修复 | 修复点标签时 blur 重绘吞掉点击；改 pointerdown 委托；面板移出 app 壳层（`app v4.47` / `script.js?v=442` / `style.css?v=432`）。 |
 | 1.130 | 2026-07-12 | 手机标签选中跟随 | 前移/后移时先更新选中 idx 再重绘，高亮常亮跟随标签并自动滚入视区（`app v4.48` / `script.js?v=443` / `style.css?v=433`）。 |
 | 1.131 | 2026-07-12 | 手机标签单行高度修复 | 拆分栏剩一行时标签不再被 flex 拉伸变高，保持紧凑 chip 尺寸（`app v4.49` / `style.css?v=434`）。 |
+| 1.171 | 2026-08-09 | DZMM Cookie 登录放宽 | 识别完整 `sb-rls-auth-token`（含分段拼装）即可登录；官网 getMe/配额失败仅警告不拦截；教程增加一键复制完整 Cookie（`app v4.77` / `script.js?v=473` / `style.css?v=460`） |
 | 1.170 | 2026-07-30 | 头像彻底本地化 | 去掉云端上传路径：`Jd` 对 data URL 直存；保存失败保留预览图；PNG 导出可回退 `st_draft_avatar`（`index-BKx…?v=7`）。 |
 | 1.169 | 2026-07-30 | 修复角色卡头像导出 | 同域 mock 补 `POST /api/user/avatar`，保存时不再因上传失败丢头像导致 PNG 变默认图（`card-api-mock.js?v=6`）。 |
 | 1.168 | 2026-07-30 | 修复角色卡拉取模型 | `card-api-mock.js` 在替换 `window.fetch` 后丢失 `__cardRaw`，改用闭包 `rawFetch`（`card-api-mock.js?v=5`）。 |

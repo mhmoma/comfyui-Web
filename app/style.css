@@ -1956,6 +1956,37 @@ textarea {
     color: var(--text-primary);
 }
 
+.dzmm-cookie-guide {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.dzmm-cookie-tag {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: 2px;
+    padding: 8px 12px;
+    border: 1px dashed var(--accent);
+    border-radius: 8px;
+    background: var(--bg-tertiary);
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: grab;
+    user-select: none;
+}
+
+.dzmm-cookie-tag:hover {
+    background: color-mix(in srgb, var(--accent) 12%, var(--bg-tertiary));
+}
+
+.tutorial-body .dzmm-cookie-tag {
+    margin: 8px 0 12px;
+}
+
 .tutorial-dl-hint {
     font-size: 0.82rem !important;
     padding: 8px 10px;

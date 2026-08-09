@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.76');
+        console.log('[ComfyUI Web] v4.77');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -13714,7 +13714,7 @@
                 try {
                     const res = await dzmmFetchWithCookie('/api/dzmm/status', acc.cookie);
                     const data = await res.json();
-                    if (!res.ok || !data.hasCookie || data.error) continue;
+                    if (!res.ok || !(data.cookieComplete || data.acceptedLocally || (data.hasCookie && !data.error))) continue;
                     upsertAccount(acc.cookie, {
                         email: data.user?.email || acc.email,
                         fullName: data.user?.fullName || acc.fullName,
@@ -13886,11 +13886,11 @@
                     el.textContent = '状态：未配置 Cookie';
                     return data;
                 }
-                if (data.error) {
+                if (data.error && !data.cookieComplete && !data.acceptedLocally) {
                     el.textContent = `状态：校验失败 — ${data.error}`;
                     return data;
                 }
-                const name = data.user?.fullName || data.user?.email || '已登录';
+                const name = data.user?.fullName || data.user?.email || '已识别完整 Cookie';
                 const dq = formatQuota(data.quotas?.draw || data.quota);
                 const eq = formatQuota(data.quotas?.edit);
                 const n = loadAccounts().length;
@@ -13898,7 +13898,8 @@
                 const poolLine = n > 1 && pool.draw.count
                     ? ` · 池日 ${formatQuotaShort(pool.draw)} · 池Z ${formatQuotaShort(pool.edit)}`
                     : '';
-                el.textContent = `状态：${name} · 日配额 ${dq.replace(/^配额 /, '')} · Z配额 ${eq.replace(/^配额 /, '')}${poolLine}${n > 1 ? ` · ${n}账号` : ''}`;
+                const warn = data.warning ? ` · ${data.warning}` : '';
+                el.textContent = `状态：${name} · 日配额 ${dq.replace(/^配额 /, '')} · Z配额 ${eq.replace(/^配额 /, '')}${poolLine}${n > 1 ? ` · ${n}账号` : ''}${warn}`;
                 return data;
             } catch (e) {
                 if (el) el.textContent = `状态：代理不可用 — ${e.message}`;
@@ -13975,38 +13976,108 @@
                 }).catch(() => null);
             }
             const data = await refreshDzmmStatus();
-            if (data?.hasCookie && !data.error) showToast('DZMM 登录有效');
-            else showToast(data?.error || '请检查 Cookie');
+            if (data?.cookieComplete || data?.acceptedLocally || (data?.hasCookie && !data.error)) {
+                showToast(data.warning ? `已登录（${data.warning}）` : 'DZMM 登录有效（已识别完整 Cookie）');
+            } else {
+                showToast(data?.error || '请检查 Cookie 是否完整');
+            }
         });
 
+        function isCompleteDzmmCookieClient(raw) {
+            const cookie = normalizeDzmmCookieClient(raw);
+            if (!cookie.startsWith('sb-rls-auth-token=')) return false;
+            const value = cookie.slice('sb-rls-auth-token='.length).trim();
+            if (!value) return false;
+            try {
+                let v = value.startsWith('base64-') ? value.slice(7) : value;
+                const pad = v + '='.repeat((4 - (v.length % 4)) % 4);
+                const json = JSON.parse(atob(pad.replace(/-/g, '+').replace(/_/g, '/')));
+                if (json && (json.access_token || json.refresh_token || json.accessToken || json.refreshToken)) {
+                    return true;
+                }
+            } catch { /* ignore */ }
+            if (value.startsWith('base64-') && value.length >= 40) return true;
+            if (value.startsWith('eyJ') && value.length >= 40) return true;
+            return value.length >= 80;
+        }
+
         function normalizeDzmmCookieClient(raw) {
+            const COOKIE_NAME = 'sb-rls-auth-token';
+            const finalize = (value) => {
+                let v = String(value || '').trim().replace(/^["']|["']$/g, '');
+                if (!v) return '';
+                if (v.toLowerCase().startsWith('cookie=')) v = v.slice(7).trim();
+                const prefix = `${COOKIE_NAME}=`;
+                while (v.startsWith(`${prefix}${prefix}`)) v = v.slice(prefix.length);
+                if (v.startsWith(prefix)) v = v.slice(prefix.length);
+                if (v.startsWith('eyJ') && !v.startsWith('base64-')) v = `base64-${v}`;
+                return `${COOKIE_NAME}=${v}`;
+            };
+
             let text = String(raw || '').trim().replace(/^["']|["']$/g, '');
             if (!text) return '';
-            const lines = text.split(/\r?\n/).map((ln) => ln.trim().replace(/^["']|["']$/g, '')).filter(Boolean);
-            if (lines.length >= 2) {
-                const kv = [];
-                const bare = [];
-                for (const ln of lines) {
-                    if (ln.includes('sb-rls-auth-token.') && ln.includes('=')) {
-                        kv.push(ln.split(';', 1)[0].trim());
-                    } else if (ln.startsWith('base64-') || ln.startsWith('eyJ') || (ln.length > 40 && !ln.includes('='))) {
-                        bare.push(ln);
+            if (text.toLowerCase().startsWith('cookie:')) text = text.slice(7).trim();
+
+            const parts = [];
+            for (const line of text.split(/\r?\n/)) {
+                const ln = line.trim().replace(/^["']|["']$/g, '');
+                if (!ln) continue;
+                if (ln.includes(';') && ln.includes('=')) {
+                    for (const p of ln.split(';')) {
+                        const t = p.trim();
+                        if (t) parts.push(t);
                     }
-                }
-                if (kv.length) return kv.join('; ');
-                if (bare.length) {
-                    return bare.map((v, i) => `sb-rls-auth-token.${i}=${v}`).join('; ');
+                } else {
+                    parts.push(ln);
                 }
             }
-            if (text.includes('sb-rls-auth-token') || text.includes(';')) return text;
-            if (text.startsWith('base64-') || text.startsWith('eyJ')) return `sb-rls-auth-token=${text}`;
-            return text;
+
+            let single = '';
+            const chunks = {};
+            const bare = [];
+            for (const part of parts) {
+                if (!part.includes('=')) {
+                    bare.push(part);
+                    continue;
+                }
+                const eq = part.indexOf('=');
+                const name = part.slice(0, eq).trim();
+                const value = part.slice(eq + 1).trim().replace(/^["']|["']$/g, '');
+                if (name === COOKIE_NAME) {
+                    single = value;
+                    continue;
+                }
+                let m = name.match(/^sb-rls-auth-token\.(\d+)$/);
+                if (m) {
+                    chunks[Number(m[1])] = value;
+                    continue;
+                }
+                if (/^sb-[A-Za-z0-9_-]+-auth-token$/.test(name) && !single) {
+                    single = value;
+                    continue;
+                }
+                m = name.match(/^sb-[A-Za-z0-9_-]+-auth-token\.(\d+)$/);
+                if (m) chunks[Number(m[1])] = value;
+            }
+
+            const indexes = Object.keys(chunks).map(Number).sort((a, b) => a - b);
+            let value = '';
+            if (indexes.length) value = indexes.map((i) => chunks[i]).join('');
+            else if (single) value = single;
+            else if (bare.length) value = bare.join('');
+            else if (text.startsWith('base64-') || text.startsWith('eyJ')) value = text;
+            else return text;
+            return finalize(value);
         }
 
         async function applyDzmmCookie(raw, { silent, addToPool = true } = {}) {
             const cookie = normalizeDzmmCookieClient(raw);
             if (!cookie) {
                 if (!silent) showToast('未识别到有效 Cookie');
+                return false;
+            }
+            if (!isCompleteDzmmCookieClient(cookie)) {
+                if (!silent) showToast('Cookie 字段不完整，请粘贴完整 sb-rls-auth-token 或全部 .0/.1/.2');
                 return false;
             }
             const inp = document.getElementById('inp-dzmm-cookie');
@@ -14019,23 +14090,53 @@
                 method: 'POST',
                 body: JSON.stringify({ cookie }),
             }).catch(() => null);
-            if (!silent) showToast(addToPool ? '已加入账号池' : 'Cookie 已导入本机');
+            if (!silent) showToast(addToPool ? '已识别完整 Cookie，已加入账号池' : '已识别完整 Cookie，已导入本机');
             await refreshDzmmStatus();
             renderAccountList();
             return true;
         }
 
-        // 书签：必须在 dzmm.ai 页面执行；可读非 HttpOnly 的分段 Cookie
-        const DZMM_BOOKMARKLET = "javascript:(function(){function g(n){var m=document.cookie.match(new RegExp('(?:^|; )'+n.replace(/\\./g,'\\\\.')+'=([^;]*)'));return m?decodeURIComponent(m[1]):'';}var c=[],i,v;for(i=0;i<10;i++){v=g('sb-rls-auth-token.'+i);if(!v)break;c.push(v);}var s=g('sb-rls-auth-token'),out='';if(c.length){out=c.map(function(x,i){return 'sb-rls-auth-token.'+i+'='+x;}).join('; ');}else if(s){out='sb-rls-auth-token='+s;}if(!out){alert('读不到 Cookie（可能是 HttpOnly）。请在 F12→Application→Cookies 复制 sb-rls-auth-token.0/.1/.2');return;}try{if(window.opener)window.opener.postMessage({type:'dzmm-cookie-import',cookie:out},'*');}catch(e){}navigator.clipboard.writeText(out).then(function(){alert('已复制 Cookie（'+Math.max(c.length,s?1:0)+' 段）。回到 ComfyUI 点「从剪贴板导入」。');}).catch(function(){prompt('请复制：',out);});})();";
+        // 书签：必须在 dzmm.ai 页面执行；分段 Cookie 会拼成完整一条再复制
+        const DZMM_BOOKMARKLET = 'javascript:' + encodeURIComponent([
+            '(function(){',
+            'var chunks={},single="",max=-1,part,eq,n,v,m,i,val="",out;',
+            'document.cookie.split(";").forEach(function(s){',
+            'part=s.trim();eq=part.indexOf("=");if(eq<0)return;',
+            'n=part.slice(0,eq);v=decodeURIComponent(part.slice(eq+1));',
+            'if(n==="sb-rls-auth-token"){single=v;return;}',
+            'm=n.match(/^sb-rls-auth-token\\.(\\d+)$/);',
+            'if(m){i=Number(m[1]);chunks[i]=v;if(i>max)max=i;}',
+            '});',
+            'if(max>=0){',
+            'for(i=0;i<=max;i++){',
+            'if(chunks[i]==null){alert("Cookie 分段不完整（缺 ."+i+"）。请 F12→Application→Cookies 手动复制全部 .0/.1/…");return;}',
+            'val+=chunks[i];',
+            '}',
+            '}else if(single){val=single;}',
+            'if(!val){alert("读不到 Cookie（可能是 HttpOnly）。请在 F12→Application→Cookies 复制 sb-rls-auth-token 或全部 .0/.1/.2");return;}',
+            'if(val.indexOf("base64-")!==0&&val.indexOf("eyJ")===0)val="base64-"+val;',
+            'out="sb-rls-auth-token="+val;',
+            'try{if(window.opener)window.opener.postMessage({type:"dzmm-cookie-import",cookie:out},"*");}catch(e){}',
+            'function done(){alert("已复制完整 Cookie"+(max>=0?"（已拼接 "+(max+1)+" 段）":"")+"。回到工具点「从剪贴板导入」。");}',
+            'if(navigator.clipboard&&navigator.clipboard.writeText){',
+            'navigator.clipboard.writeText(out).then(done).catch(function(){prompt("请复制：",out);});',
+            '}else{prompt("请复制：",out);}',
+            '})();',
+        ].join(''));
 
-        const bmLink = document.getElementById('dzmm-cookie-bookmarklet');
-        if (bmLink) bmLink.setAttribute('href', DZMM_BOOKMARKLET);
+        document.querySelectorAll('.dzmm-cookie-tag').forEach((el) => {
+            el.setAttribute('href', DZMM_BOOKMARKLET);
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                showToast('请把此标签拖到书签栏，再在已登录的 dzmm.ai 页面点击');
+            });
+        });
 
         document.getElementById('btn-dzmm-pull-cookie')?.addEventListener('click', () => {
             const helper = document.getElementById('dzmm-cookie-helper');
             if (helper) helper.style.display = 'block';
             window.open('https://www.dzmm.ai/', 'dzmm_cookie_pull', 'width=1100,height=800,menubar=no,toolbar=no,location=yes,status=no');
-            showToast('请登录官网后，用书签「复制DZMM Cookie」');
+            showToast('请登录官网后，用书签「复制完整 DZMM Cookie」');
         });
 
         document.getElementById('btn-dzmm-paste-cookie')?.addEventListener('click', async () => {
@@ -14374,7 +14475,9 @@
                     const statusRes = await dzmmFetchWithCookie('/api/dzmm/status', cookie);
                     const status = await statusRes.json().catch(() => ({}));
                     if (!statusRes.ok) throw new Error(status.error || 'DZMM 代理不可用');
-                    if (!status.hasCookie || status.error) {
+                    const cookieOk = status.cookieComplete || status.acceptedLocally
+                        || (status.hasCookie && !status.error);
+                    if (!cookieOk) {
                         if (isAutoRotateEnabled() && loadAccounts().length > tried.size) {
                             const list = loadAccounts().filter((a) => !tried.has(a.id));
                             if (list[0]) {
@@ -14382,7 +14485,7 @@
                                 continue;
                             }
                         }
-                        showToast(status.error || '请先在设置中配置有效的 DZMM Cookie');
+                        showToast(status.error || '请先在设置中配置完整的 DZMM Cookie');
                         document.getElementById('btn-settings')?.click();
                         return;
                     }

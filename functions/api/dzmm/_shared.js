@@ -67,32 +67,125 @@ export function jsonResponse(status, data) {
   });
 }
 
+const DZMM_COOKIE_NAME = 'sb-rls-auth-token';
+
+function finalizeDzmmCookieValue(value) {
+  let v = String(value || '').trim().replace(/^["']|["']$/g, '');
+  if (!v) return '';
+  if (v.toLowerCase().startsWith('cookie=')) v = v.slice(7).trim();
+  const prefix = `${DZMM_COOKIE_NAME}=`;
+  while (v.startsWith(`${prefix}${prefix}`)) v = v.slice(prefix.length);
+  if (v.startsWith(prefix)) v = v.slice(prefix.length);
+  if (v.startsWith('eyJ') && !v.startsWith('base64-')) v = `base64-${v}`;
+  return `${DZMM_COOKIE_NAME}=${v}`;
+}
+
+/** 把单条 / 多行 / Cookie 头 / `.0/.1` 分段拼成完整 `sb-rls-auth-token=base64-...` */
 export function normalizeCookie(raw) {
   let text = String(raw || '').trim().replace(/^["']|["']$/g, '');
   if (!text) return '';
+  if (text.toLowerCase().startsWith('cookie:')) text = text.slice(7).trim();
 
-  const lines = text.split(/\r?\n/).map((ln) => ln.trim().replace(/^["']|["']$/g, '')).filter(Boolean);
-  if (lines.length >= 2) {
-    const kv = [];
-    const bare = [];
-    for (const ln of lines) {
-      if (ln.includes('sb-rls-auth-token.') && ln.includes('=')) {
-        kv.push(ln.split(';', 1)[0].trim());
-      } else if (ln.startsWith('base64-') || ln.startsWith('eyJ') || (ln.length > 40 && !ln.includes('='))) {
-        bare.push(ln);
+  const parts = [];
+  for (const line of text.split(/\r?\n/)) {
+    const ln = line.trim().replace(/^["']|["']$/g, '');
+    if (!ln) continue;
+    if (ln.includes(';') && ln.includes('=')) {
+      for (const p of ln.split(';')) {
+        const t = p.trim();
+        if (t) parts.push(t);
       }
-    }
-    if (kv.length) return kv.join('; ');
-    if (bare.length) {
-      return bare.map((v, i) => `sb-rls-auth-token.${i}=${v}`).join('; ');
+    } else {
+      parts.push(ln);
     }
   }
 
-  if (text.includes('sb-rls-auth-token') || text.includes(';')) return text;
-  if (text.startsWith('base64-') || text.startsWith('eyJ')) {
-    return `sb-rls-auth-token=${text}`;
+  let single = '';
+  const chunks = {};
+  const bare = [];
+  for (const part of parts) {
+    if (!part.includes('=')) {
+      bare.push(part);
+      continue;
+    }
+    const eq = part.indexOf('=');
+    const name = part.slice(0, eq).trim();
+    const value = part.slice(eq + 1).trim().replace(/^["']|["']$/g, '');
+    if (name === DZMM_COOKIE_NAME) {
+      single = value;
+      continue;
+    }
+    let m = name.match(/^sb-rls-auth-token\.(\d+)$/);
+    if (m) {
+      chunks[Number(m[1])] = value;
+      continue;
+    }
+    if (/^sb-[A-Za-z0-9_-]+-auth-token$/.test(name) && !single) {
+      single = value;
+      continue;
+    }
+    m = name.match(/^sb-[A-Za-z0-9_-]+-auth-token\.(\d+)$/);
+    if (m) chunks[Number(m[1])] = value;
   }
-  return text;
+
+  const indexes = Object.keys(chunks)
+    .map(Number)
+    .sort((a, b) => a - b);
+  let value = '';
+  if (indexes.length) {
+    value = indexes.map((i) => chunks[i]).join('');
+  } else if (single) {
+    value = single;
+  } else if (bare.length) {
+    value = bare.join('');
+  } else if (text.startsWith('base64-') || text.startsWith('eyJ')) {
+    value = text;
+  } else {
+    return text;
+  }
+  return finalizeDzmmCookieValue(value);
+}
+
+/** 解析 cookie 中的 session JSON（若可解码） */
+export function parseDzmmSession(cookie) {
+  const c = normalizeCookie(cookie);
+  if (!c.startsWith(`${DZMM_COOKIE_NAME}=`)) return null;
+  let v = c.slice(DZMM_COOKIE_NAME.length + 1).trim();
+  if (!v) return null;
+  if (v.startsWith('base64-')) v = v.slice(7);
+  try {
+    const pad = v + '='.repeat((4 - (v.length % 4)) % 4);
+    const bin = atob(pad.replace(/-/g, '+').replace(/_/g, '/'));
+    const json = JSON.parse(bin);
+    return json && typeof json === 'object' ? json : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * 本地判定 Cookie 字段是否完整：
+ * - 能拼出 sb-rls-auth-token=...
+ * - 且能解出 session（含 access/refresh token），或至少是足够长的 base64-/会话串
+ */
+export function isCompleteDzmmCookie(cookie) {
+  const c = normalizeCookie(cookie);
+  if (!c.startsWith(`${DZMM_COOKIE_NAME}=`)) return false;
+  const value = c.slice(DZMM_COOKIE_NAME.length + 1).trim();
+  if (!value) return false;
+  const session = parseDzmmSession(c);
+  if (
+    session &&
+    (session.access_token ||
+      session.refresh_token ||
+      session.accessToken ||
+      session.refreshToken)
+  ) {
+    return true;
+  }
+  if (value.startsWith('base64-') && value.length >= 40) return true;
+  if (value.startsWith('eyJ') && value.length >= 40) return true;
+  return value.length >= 80;
 }
 
 /** Cookie from request header only — never persisted. Body cookie is for /cookie endpoint. */
@@ -219,18 +312,29 @@ async function fetchQuota(cookie, procedure) {
 }
 
 export async function getStatus(cookie) {
+  const normalized = normalizeCookie(cookie || '');
+  const complete = Boolean(normalized) && isCompleteDzmmCookie(normalized);
   const out = {
     ok: true,
-    hasCookie: Boolean(cookie),
-    cookiePreview: cookie ? `${cookie.slice(0, 24)}…` : '',
+    hasCookie: Boolean(normalized),
+    cookieComplete: complete,
+    acceptedLocally: complete,
+    cookiePreview: normalized ? `${normalized.slice(0, 24)}…` : '',
     models: listModels(),
     storage: 'client-only',
   };
-  if (!cookie) return out;
+  if (!normalized) return out;
+  if (!complete) {
+    out.ok = false;
+    out.error = 'Cookie 字段不完整，请粘贴完整的 sb-rls-auth-token（或全部 .0/.1/.2）';
+    return out;
+  }
+  // 字段完整即视为可登录；官网校验仅作补充，失败不拦
+  out.user = { isLoggedIn: true };
   try {
     const me =
       unwrap(
-        await trpcGet(cookie, 'user.getMe', {
+        await trpcGet(normalized, 'user.getMe', {
           json: null,
           meta: { values: ['undefined'], v: 1 },
         })
@@ -239,24 +343,23 @@ export async function getStatus(cookie) {
       id: me.id,
       fullName: me.fullName,
       email: me.email,
-      isLoggedIn: Boolean(me.isLoggedIn),
+      isLoggedIn: true,
+      remoteLoggedIn: Boolean(me.isLoggedIn),
     };
-    if (!me.isLoggedIn) {
-      out.ok = false;
-      out.error = 'Cookie 无效或已过期，请重新登录 dzmm.ai 后在设置中粘贴';
-      return out;
+    if (me.isLoggedIn === false) {
+      out.warning = '官网未返回已登录态，已按本地完整 Cookie 放行';
     }
-    const drawQ = await fetchQuota(cookie, 'draw.image.quota');
-    const editQ = await fetchQuota(cookie, 'draw.image.editQuota');
+    const drawQ = await fetchQuota(normalized, 'draw.image.quota');
+    const editQ = await fetchQuota(normalized, 'draw.image.editQuota');
     out.quota = drawQ;
     out.quotas = { draw: drawQ, edit: editQ };
     if (!drawQ && !editQ) {
-      out.ok = false;
-      out.error = '配额查询失败';
+      out.warning = out.warning
+        ? `${out.warning}；配额暂不可查`
+        : '配额暂不可查（Cookie 已放行，可直接尝试生图）';
     }
   } catch (e) {
-    out.ok = false;
-    out.error = String(e.message || e);
+    out.warning = `在线校验跳过：${e.message || e}`;
   }
   return out;
 }
@@ -350,26 +453,16 @@ export async function generate(cookie, body) {
   const pollInterval = Math.max(1, Number(body?.poll_interval) || 2) * 1000;
   const pollMax = Math.min(60, Math.max(5, Number(body?.poll_max) || 45));
 
-  try {
-    const me =
-      unwrap(
-        await trpcGet(cookie, 'user.getMe', {
-          json: null,
-          meta: { values: ['undefined'], v: 1 },
-        })
-      ) || {};
-    if (!me.isLoggedIn) {
-      return {
-        ok: false,
-        error: 'Cookie 无效或已过期，请重新登录 dzmm.ai 后在设置中粘贴 Cookie',
-        code: 'UNAUTHORIZED',
-      };
-    }
-  } catch (e) {
-    return { ok: false, error: `登录校验失败: ${e.message || e}`, code: 'AUTH_CHECK_FAILED' };
+  const authCookie = normalizeCookie(cookie || '');
+  if (!isCompleteDzmmCookie(authCookie)) {
+    return {
+      ok: false,
+      error: 'Cookie 字段不完整，请粘贴完整的 sb-rls-auth-token（或全部 .0/.1/.2）',
+      code: 'COOKIE_INCOMPLETE',
+    };
   }
 
-  const gen = await trpcPost(cookie, 'draw.image.generate', {
+  const gen = await trpcPost(authCookie, 'draw.image.generate', {
     json: {
       prompt,
       tagIds,
@@ -396,7 +489,7 @@ export async function generate(cookie, body) {
   let detail = null;
   let status = 'pending';
   for (let i = 0; i < pollMax; i++) {
-    detail = await trpcGet(cookie, 'draw.image.detail', { json: { id: taskId } });
+    detail = await trpcGet(authCookie, 'draw.image.detail', { json: { id: taskId } });
     if (detail?.error) {
       return {
         ok: false,
@@ -416,7 +509,7 @@ export async function generate(cookie, body) {
   result.detail = detail;
   const item = unwrap(detail || {}) || {};
   if (status === 'completed' && item.outputImages?.length) {
-    await finalizeTaskImage(cookie, taskId, item, result, model);
+    await finalizeTaskImage(authCookie, taskId, item, result, model);
   } else if (status === 'failed' || status === 'error') {
     result.ok = false;
     result.error = taskFailureMessage(item, model);

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v4.76</title>
-    <link rel="stylesheet" href="style.css?v=459">
+    <title>生图工具 · ComfyUI Web v4.77</title>
+    <link rel="stylesheet" href="style.css?v=460">
     <meta name="theme-color" content="#e94560">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,7 +18,7 @@
     <div class="app">
         <header class="header">
 <a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.76</span></h1>
+            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.77</span></h1>
             <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
                 <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
                 <span class="conn-text" id="conn-text">检测中</span>
@@ -1025,9 +1025,14 @@
             <hr class="settings-divider">
             <h3 class="settings-section-title">DZMM 生图</h3>
             <label>登录 Cookie / Token
-                <textarea id="inp-dzmm-cookie" rows="3" placeholder="可粘贴完整 Cookie；分段时贴 sb-rls-auth-token.0/.1/.2 整段；或点下方「拉取 Cookie」"></textarea>
+                <textarea id="inp-dzmm-cookie" rows="3" placeholder="粘贴完整 sb-rls-auth-token=base64-...；或 .0/.1/.2 分段（会自动拼成一条）"></textarea>
             </label>
             <small class="profile-hint">个人登录凭证<strong>只保存在本机浏览器</strong>（多账号轮换池 + localStorage），不会上传到服务器。额度用尽可自动无感切下一账号。</small>
+            <div class="dzmm-cookie-guide profile-hint">
+                <div>Cookie 名：<code>sb-rls-auth-token</code>；过长时浏览器会拆成 <code>.0</code>/<code>.1</code>…，导入时会<strong>自动拼成完整一条</strong>。</div>
+                <div>把下面标签<strong>拖到书签栏</strong>，在已登录的 <a href="https://www.dzmm.ai/" target="_blank" rel="noopener">dzmm.ai</a> 页面点一下即可复制完整 Cookie：</div>
+                <a id="dzmm-cookie-bookmarklet" class="dzmm-cookie-tag" href="#" title="拖到书签栏后，在 dzmm.ai 页面点击">📋 复制完整 DZMM Cookie</a>
+            </div>
             <div id="dzmm-account-list" class="dzmm-account-list" aria-label="DZMM 账号列表"></div>
             <div class="profile-actions" style="margin-top:8px;flex-wrap:wrap">
                 <button type="button" id="btn-dzmm-add-account" class="btn-primary">加入账号池</button>
@@ -1043,9 +1048,7 @@
             <div id="dzmm-status" class="profile-hint" style="margin-top:6px">状态：未检测</div>
             <div id="dzmm-cookie-helper" class="profile-hint" style="margin-top:8px;display:none">
                 <div>① 已打开 dzmm 官网，请先登录</div>
-                <div>② 把此链接拖到书签栏，在<strong>官网标签页</strong>点一下：
-                    <a id="dzmm-cookie-bookmarklet" href="#">📋 复制DZMM Cookie</a>
-                </div>
+                <div>② 在<strong>官网标签页</strong>点击书签「📋 复制完整 DZMM Cookie」</div>
                 <div>③ 回到这里点「从剪贴板导入」或「加入账号池」</div>
             </div>
             <label class="chk-label" style="margin-top:10px">
@@ -1419,11 +1422,33 @@
                     <li><b>参考图 (img2img)</b> — 基于参考图重绘</li>
                 </ul>
 
-                <h3>7. 注意事项</h3>
+                <h3>7. DZMM 生图 Cookie</h3>
+                <p>设置 →「DZMM 生图」需要登录凭证。凭证<strong>只保存在你的浏览器</strong>，不会上传到本工具服务器。</p>
+                <p><b>当前格式</b></p>
+                <ul>
+                    <li>完整一条：<code>sb-rls-auth-token=base64-...</code>（后面是会话 JSON 的 base64）</li>
+                    <li>分段：<code>sb-rls-auth-token.0=...</code>、<code>.1=...</code>、<code>.2=...</code>…（session 过长时浏览器自动拆分）</li>
+                    <li>粘贴分段或整段 Cookie 头时，工具会<strong>自动拼接成完整一条</strong>再保存</li>
+                    <li>只要识别到完整 <code>sb-rls-auth-token</code> 字段即可登录；官网在线校验失败也会放行，可直接尝试生图</li>
+                </ul>
+                <p><b>一键获取（推荐）</b></p>
+                <ol>
+                    <li>打开并登录 <a href="https://www.dzmm.ai/" target="_blank" rel="noopener">https://www.dzmm.ai/</a></li>
+                    <li>把下面标签<strong>拖到浏览器书签栏</strong>（不要在本页直接点）：</li>
+                </ol>
+                <p><a id="dzmm-cookie-bookmarklet-tutorial" class="dzmm-cookie-tag" href="#" title="拖到书签栏后，在 dzmm.ai 页面点击">📋 复制完整 DZMM Cookie</a></p>
+                <ol start="3">
+                    <li>在<strong>已登录的官网标签页</strong>点击该书签 → 自动组装并复制完整 Cookie</li>
+                    <li>回到本工具 → 设置 →「从剪贴板导入」或「加入账号池」</li>
+                </ol>
+                <p>若书签读不到（HttpOnly），在官网按 F12 → Application → Cookies，复制 <code>sb-rls-auth-token</code> 或全部 <code>.0/.1/.2</code> 粘贴到设置框即可。</p>
+
+                <h3>8. 注意事项</h3>
                 <ul>
                     <li>HTTPS 页面无法访问 HTTP 的 ComfyUI，建议本地使用</li>
                     <li>Anima 架构暂不支持 ControlNet（官方开发中）</li>
                     <li>种子设为 -1 表示随机</li>
+                    <li>DZMM Cookie 过期后需重新登录官网再复制一次</li>
                 </ul>
             </div>
             <div class="modal-actions">
@@ -1602,7 +1627,7 @@
     <script src="vendor/jsQR.js"></script>
     <script src="dzmm-dewmark.js?v=2"></script>
     <script src="lora-library.js?v=5"></script>
-    <script src="script.js?v=472"></script>
+    <script src="script.js?v=473"></script>
     <script src="/assets/pwa-register.js?v=2"></script>
 </body>
 </html>
