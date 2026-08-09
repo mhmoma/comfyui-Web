@@ -585,8 +585,189 @@ export function listModels() {
   }));
 }
 
-function headersFor(cookie, referer = `${DZMM_BASE}/draw/generate/create`) {
+/** 与 dzmm-local-dev 一致：剩余不足 180s 时续期 */
+export const AUTH_REFRESH_SKEW = 180;
+
+/** 从 cookie session 解析剩余秒数；无法解析则返回 null */
+export function sessionRemainSec(cookie) {
+  const session = parseDzmmSession(cookie);
+  if (!session) return null;
+  const exp = Number(session.expires_at || 0);
+  if (!Number.isFinite(exp) || exp <= 0) return null;
+  return Math.floor(exp - Date.now() / 1000);
+}
+
+function cookieFromSetCookieList(setCookies) {
+  const cookieHeader = (setCookies || [])
+    .map((sc) => String(sc || '').split(';')[0].trim())
+    .filter(Boolean)
+    .join('; ');
+  return normalizeCookie(cookieHeader);
+}
+
+/**
+ * GET /api/auth/token — 用 cookie 内 refresh_token 换新 access（对齐本地工具）
+ */
+export async function refreshSessionCookie(cookie) {
+  const authCookie = normalizeCookie(cookie || '');
+  if (!isCompleteDzmmCookie(authCookie)) {
+    return { ok: false, error: 'Cookie 不完整，无法续期', code: 'COOKIE_INCOMPLETE' };
+  }
+
+  let res;
+  try {
+    res = await fetch(`${DZMM_BASE}/api/auth/token`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Cookie: authCookie,
+        Origin: DZMM_BASE,
+        Referer: `${DZMM_BASE}/`,
+        'User-Agent': 'Mozilla/5.0 ComfyUI-Web-DZMM',
+      },
+      redirect: 'manual',
+    });
+  } catch (e) {
+    return { ok: false, error: `续期请求失败: ${e.message || e}`, code: 'REFRESH_NETWORK' };
+  }
+
+  const fromJar = cookieFromSetCookieList(collectSetCookieHeaders(res));
+  if (isCompleteDzmmCookie(fromJar)) {
+    return {
+      ok: true,
+      cookie: fromJar,
+      remainSec: sessionRemainSec(fromJar),
+      source: 'set-cookie',
+    };
+  }
+
+  const text = await res.text();
+  let data = null;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    /* ignore */
+  }
+
+  if (!res.ok) {
+    const msg =
+      data?.error ||
+      data?.message ||
+      (text ? text.slice(0, 200) : '') ||
+      `续期失败 HTTP ${res.status}`;
+    return { ok: false, error: String(msg), status: res.status, code: 'REFRESH_FAILED' };
+  }
+
+  const tok = parseDzmmSession(authCookie) || {};
+  const patch =
+    data?.session ||
+    data?.data?.session ||
+    (data?.access_token || data?.expires_at ? data : null);
+  if (patch && typeof patch === 'object') {
+    if (patch.access_token || patch.accessToken) {
+      tok.access_token = patch.access_token || patch.accessToken;
+    }
+    if (patch.refresh_token || patch.refreshToken) {
+      tok.refresh_token = patch.refresh_token || patch.refreshToken;
+    }
+    if (patch.expires_at != null) {
+      tok.expires_at = Number(patch.expires_at);
+      tok.expires_in = Math.max(0, Number(patch.expires_at) - Math.floor(Date.now() / 1000));
+    } else if (patch.expires_in != null) {
+      tok.expires_in = Number(patch.expires_in);
+      tok.expires_at = Math.floor(Date.now() / 1000) + Number(patch.expires_in);
+    }
+    if (patch.user) tok.user = patch.user;
+  }
+
+  const sessionVal = sessionObjectToCookieValue(tok);
+  if (!sessionVal) {
+    return { ok: false, error: '续期响应无法组装 Cookie', code: 'REFRESH_PARSE' };
+  }
+  const next = finalizeDzmmCookieValue(sessionVal);
   return {
+    ok: true,
+    cookie: next,
+    remainSec: sessionRemainSec(next),
+    source: 'json',
+  };
+}
+
+/**
+ * 懒续期：剩余 < max(minRemain, 180) 时 GET /api/auth/token；
+ * 失败且提供邮箱密码则 sign-in 重登（对齐 dzmm-local-dev load_auth）
+ */
+export async function ensureFreshCookie(
+  cookie,
+  { email = '', password = '', minRemain = 60 } = {}
+) {
+  const authCookie = normalizeCookie(cookie || '');
+  const mail = String(email || '').trim();
+  const pass = String(password || '');
+  const threshold = Math.max(Number(minRemain) || 0, AUTH_REFRESH_SKEW);
+
+  if (authCookie && isCompleteDzmmCookie(authCookie)) {
+    const remain = sessionRemainSec(authCookie);
+    if (remain == null || remain >= threshold) {
+      return {
+        ok: true,
+        cookie: authCookie,
+        remainSec: remain,
+        refreshed: false,
+        source: 'cache',
+      };
+    }
+    const refreshed = await refreshSessionCookie(authCookie);
+    if (refreshed.ok && isCompleteDzmmCookie(refreshed.cookie)) {
+      return {
+        ok: true,
+        cookie: refreshed.cookie,
+        remainSec: refreshed.remainSec,
+        refreshed: true,
+        source: refreshed.source || 'token',
+      };
+    }
+    // 续期失败则尝试密码重登
+    if (!mail || !pass) {
+      return {
+        ok: false,
+        error: refreshed.error || '登录态即将过期且续期失败，请重新登录或保存密码供自动重登',
+        code: refreshed.code || 'REFRESH_FAILED',
+        remainSec: remain,
+      };
+    }
+  }
+
+  if (mail && pass) {
+    const login = await loginWithPassword(mail, pass);
+    if (login.ok && isCompleteDzmmCookie(login.cookie)) {
+      return {
+        ok: true,
+        cookie: login.cookie,
+        remainSec: sessionRemainSec(login.cookie),
+        refreshed: true,
+        source: 'password',
+      };
+    }
+    return {
+      ok: false,
+      error: login.error || '自动重登失败',
+      code: login.code || 'RELOGIN_FAILED',
+    };
+  }
+
+  if (!authCookie) {
+    return { ok: false, error: '未配置 Cookie', code: 'NO_COOKIE' };
+  }
+  return {
+    ok: false,
+    error: 'Cookie 无效或已过期，请重新登录',
+    code: 'COOKIE_INVALID',
+  };
+}
+
+function headersFor(cookie, referer = `${DZMM_BASE}/draw/generate/create`) {
+  const headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -594,6 +775,10 @@ function headersFor(cookie, referer = `${DZMM_BASE}/draw/generate/create`) {
     Origin: DZMM_BASE,
     Referer: referer,
   };
+  const session = parseDzmmSession(cookie);
+  const at = session?.access_token || session?.accessToken;
+  if (at) headers.Authorization = `Bearer ${at}`;
+  return headers;
 }
 
 function enc(obj) {

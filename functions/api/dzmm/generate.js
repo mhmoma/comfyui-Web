@@ -1,4 +1,10 @@
-import { readCookie, normalizeCookie, generate, jsonResponse } from './_shared.js';
+import {
+  readCookie,
+  normalizeCookie,
+  ensureFreshCookie,
+  generate,
+  jsonResponse,
+} from './_shared.js';
 
 export async function onRequestPost(context) {
   try {
@@ -18,9 +24,33 @@ export async function onRequestPost(context) {
         code: 'NO_COOKIE',
       });
     }
-    const { cookie: _ignored, ...rest } = body || {};
-    const result = await generate(cookie, rest);
-    // 勿用 HTTP 502：自定义域名（如 tomkk.xyz）会被 Cloudflare 盖成纯文本 error code:502，丢掉 JSON
+
+    const {
+      cookie: _ignored,
+      email,
+      password,
+      ...rest
+    } = body || {};
+
+    const auth = await ensureFreshCookie(cookie, {
+      email: email || '',
+      password: password || '',
+      minRemain: 60,
+    });
+    if (!auth.ok) {
+      return jsonResponse(400, auth);
+    }
+
+    const result = await generate(auth.cookie, rest);
+    if (auth.refreshed || auth.cookie !== cookie) {
+      result.cookie = auth.cookie;
+      result.authRefreshed = true;
+      result.remainSec = auth.remainSec;
+      result.authSource = auth.source;
+    } else if (auth.remainSec != null) {
+      result.remainSec = auth.remainSec;
+    }
+    // 勿用 HTTP 502：自定义域名会被 Cloudflare 盖成纯文本 error code:502
     return jsonResponse(result.ok ? 200 : 400, result);
   } catch (e) {
     return jsonResponse(500, { ok: false, error: String(e.message || e) });

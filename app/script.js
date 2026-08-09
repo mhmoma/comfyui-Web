@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.86');
+        console.log('[ComfyUI Web] v4.87');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -13563,10 +13563,21 @@
         function upsertAccount(cookie, meta = {}) {
             const normalized = normalizeDzmmCookieClient(cookie);
             if (!normalized) return null;
-            const id = cookieFingerprint(normalized);
+            const fp = cookieFingerprint(normalized);
             const list = loadAccounts();
-            const idx = list.findIndex((a) => a.id === id);
+            // 续期后 cookie 指纹会变：优先按 accountId / 邮箱 / 当前账号原地更新
+            let idx = -1;
+            if (meta.accountId) idx = list.findIndex((a) => a.id === meta.accountId);
+            if (idx < 0) idx = list.findIndex((a) => a.id === fp);
+            if (idx < 0 && meta.email) {
+                idx = list.findIndex((a) => a.email && a.email === meta.email);
+            }
+            if (idx < 0 && meta.replaceActive) {
+                const activeId = getActiveAccountId();
+                if (activeId) idx = list.findIndex((a) => a.id === activeId);
+            }
             const prev = idx >= 0 ? list[idx] : null;
+            const id = prev?.id || fp;
             const next = {
                 id,
                 cookie: normalized,
@@ -13574,6 +13585,9 @@
                 email: meta.email ?? prev?.email ?? '',
                 fullName: meta.fullName ?? prev?.fullName ?? '',
                 quotas: meta.quotas ?? prev?.quotas ?? null,
+                // 密码仅本机；未传入时保留原值；显式 null/'' 可清除
+                password: meta.password !== undefined ? (meta.password || '') : (prev?.password || ''),
+                remainSec: meta.remainSec ?? prev?.remainSec ?? null,
                 updatedAt: Date.now(),
             };
             if (idx >= 0) list[idx] = next;
@@ -13581,7 +13595,80 @@
             saveAccounts(list);
             localStorage.setItem(DZMM_ACTIVE_ID_KEY, id);
             localStorage.setItem(DZMM_COOKIE_KEY, normalized);
+            const inp = document.getElementById('inp-dzmm-cookie');
+            if (inp) inp.value = normalized;
             return next;
+        }
+
+        function parseDzmmRemainSec(cookie) {
+            try {
+                const c = normalizeDzmmCookieClient(cookie);
+                if (!c.startsWith('sb-rls-auth-token=')) return null;
+                let v = c.slice('sb-rls-auth-token='.length).trim();
+                if (v.startsWith('base64-')) v = v.slice(7);
+                const pad = v + '='.repeat((4 - (v.length % 4)) % 4);
+                const json = JSON.parse(atob(pad.replace(/-/g, '+').replace(/_/g, '/')));
+                const exp = Number(json?.expires_at || 0);
+                if (!exp) return null;
+                return Math.floor(exp - Date.now() / 1000);
+            } catch {
+                return null;
+            }
+        }
+
+        function applyAuthCookieUpdate(data, { accountId, email, password } = {}) {
+            if (!data?.cookie) return null;
+            const acc = getActiveAccount();
+            return upsertAccount(data.cookie, {
+                accountId: accountId || acc?.id,
+                email: email || data.user?.email || acc?.email || '',
+                fullName: data.user?.fullName || acc?.fullName || '',
+                password: password !== undefined ? password : undefined,
+                remainSec: data.remainSec ?? parseDzmmRemainSec(data.cookie),
+                replaceActive: true,
+                quotas: data.quotas,
+            });
+        }
+
+        /** 懒续期：剩余 < 180s 时调 /api/dzmm/refresh；可带本机保存的密码作重登兜底 */
+        async function ensureDzmmAuthFresh({ force = false, silent = true } = {}) {
+            const acc = getActiveAccount();
+            const cookie = acc?.cookie || getLocalDzmmCookie();
+            if (!cookie) return { ok: false, error: '未配置 Cookie' };
+
+            const remain = parseDzmmRemainSec(cookie);
+            if (!force && remain != null && remain >= 180) {
+                return { ok: true, cookie, remainSec: remain, refreshed: false };
+            }
+
+            try {
+                const res = await dzmmFetchWithCookie('/api/dzmm/refresh', cookie, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        cookie,
+                        email: acc?.email || '',
+                        password: acc?.password || '',
+                        force: !!force,
+                        minRemain: 60,
+                    }),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.ok || !data.cookie) {
+                    return { ok: false, error: data.error || `续期失败 (${res.status})`, remainSec: remain };
+                }
+                applyAuthCookieUpdate(data, {
+                    accountId: acc?.id,
+                    email: acc?.email,
+                    password: acc?.password,
+                });
+                if (!silent && data.refreshed) {
+                    const sec = data.remainSec ?? parseDzmmRemainSec(data.cookie);
+                    showToast(`登录态已续期${sec != null ? ` · 剩余约 ${sec}s` : ''}`);
+                }
+                return { ok: true, ...data, cookie: data.cookie };
+            } catch (e) {
+                return { ok: false, error: e.message || String(e), remainSec: remain };
+            }
         }
 
         function removeAccount(id) {
@@ -13658,10 +13745,15 @@
                 const title = a.fullName || a.email || a.label || '账号';
                 const mark = a.id === activeId ? ' ·当前' : '';
                 const active = a.id === activeId ? ' active' : '';
+                const remain = a.remainSec ?? parseDzmmRemainSec(a.cookie);
+                const remainTxt = remain != null
+                    ? (remain > 0 ? ` · ${Math.max(1, Math.round(remain / 60))}分` : ' · 过期')
+                    : '';
+                const pwMark = a.password ? ' ·密' : '';
                 // 单行：超长省略，不撑开容器
-                const line = `${title}${mark} · 日${dq} · Z${eq}`;
+                const line = `${title}${mark} · 日${dq} · Z${eq}${remainTxt}${pwMark}`;
                 return `<div class="dzmm-account-item${active}" data-id="${a.id}" title="${line.replace(/"/g, '&quot;')}">
-                    <div class="meta"><span class="name">${title}${mark}</span> · 日${dq} · Z${eq}</div>
+                    <div class="meta"><span class="name">${title}${mark}</span> · 日${dq} · Z${eq}${remainTxt}</div>
                     <button type="button" class="btn-secondary" data-act="use">用</button>
                     <button type="button" class="btn-danger" data-act="del">删</button>
                 </div>`;
@@ -13870,13 +13962,20 @@
                 if (data.quotas) state.quotas = data.quotas;
                 else if (data.quota) state.quotas = { draw: data.quota, edit: state.quotas.edit };
                 state.user = data.user || null;
-                const cookie = getLocalDzmmCookie();
-                if (cookie && data.hasCookie && !data.error) {
-                    upsertAccount(cookie, {
-                        email: data.user?.email || '',
-                        fullName: data.user?.fullName || '',
-                        quotas: state.quotas,
-                    });
+                if (data.cookie) {
+                    applyAuthCookieUpdate(data);
+                } else {
+                    const cookie = getLocalDzmmCookie();
+                    if (cookie && data.hasCookie && !data.error) {
+                        upsertAccount(cookie, {
+                            accountId: getActiveAccount()?.id,
+                            email: data.user?.email || '',
+                            fullName: data.user?.fullName || '',
+                            quotas: state.quotas,
+                            remainSec: data.remainSec ?? parseDzmmRemainSec(cookie),
+                            replaceActive: true,
+                        });
+                    }
                 }
                 renderAccountList();
                 updateQuotaBadge();
@@ -13898,8 +13997,13 @@
                 const poolLine = n > 1 && pool.draw.count
                     ? ` · 池${formatQuotaShort(pool.draw)}/${formatQuotaShort(pool.edit)}`
                     : '';
-                el.textContent = `${name} · 日${dq} · Z${eq}${poolLine}${n > 1 ? ` · ${n}号` : ''}`;
-                el.title = data.warning || el.textContent;
+                const remain = data.remainSec ?? parseDzmmRemainSec(getLocalDzmmCookie());
+                const remainLine = remain != null
+                    ? (remain > 0 ? ` · 剩余${Math.max(1, Math.round(remain / 60))}分` : ' · 已过期')
+                    : '';
+                const renewMark = data.authRefreshed ? ' · 已续期' : '';
+                el.textContent = `${name} · 日${dq} · Z${eq}${poolLine}${n > 1 ? ` · ${n}号` : ''}${remainLine}${renewMark}`;
+                el.title = data.warning || data.authWarning || el.textContent;
                 return data;
             } catch (e) {
                 if (el) el.textContent = `代理不可用`;
@@ -14109,8 +14213,13 @@
             }
             const inp = document.getElementById('inp-dzmm-cookie');
             if (inp) inp.value = cookie;
-            if (addToPool) upsertAccount(cookie);
-            else {
+            if (addToPool) {
+                upsertAccount(cookie, {
+                    accountId: getActiveAccount()?.id,
+                    remainSec: parseDzmmRemainSec(cookie),
+                    replaceActive: true,
+                });
+            } else {
                 try { localStorage.setItem(DZMM_COOKIE_KEY, cookie); } catch { /* ignore */ }
             }
             await dzmmFetch('/api/dzmm/cookie', {
@@ -14220,6 +14329,7 @@
         async function loginDzmmWithPassword() {
             const email = document.getElementById('inp-dzmm-email')?.value.trim() || '';
             const password = document.getElementById('inp-dzmm-password')?.value || '';
+            const savePw = !!document.getElementById('chk-dzmm-save-password')?.checked;
             if (!email || !password) {
                 showToast('请填写邮箱和密码');
                 return;
@@ -14236,20 +14346,27 @@
                 if (!res.ok || !data.ok || !data.cookie) {
                     const err = data.error || `登录失败 HTTP ${res.status}`;
                     showToast(err);
-                    if (data.fallbackUrl || /密码|Cookie|官网/.test(String(err))) {
-                        // 不强行弹窗，仅提示；用户可点「官网登录页」
-                    }
                     return;
                 }
-                const ok = await applyDzmmCookie(data.cookie, { addToPool: true, silent: true });
-                if (ok) {
-                    showToast('账号密码登录成功，已写入 Cookie / 账号池');
+                const acc = upsertAccount(data.cookie, {
+                    email,
+                    password: savePw ? password : '',
+                    remainSec: parseDzmmRemainSec(data.cookie),
+                    replaceActive: true,
+                });
+                if (acc) {
+                    const remain = parseDzmmRemainSec(data.cookie);
+                    showToast(
+                        savePw
+                            ? `登录成功，已保存密码供自动续期${remain != null ? ` · 剩余约 ${remain}s` : ''}`
+                            : `登录成功，已写入 Cookie / 账号池${remain != null ? ` · 剩余约 ${remain}s` : ''}`
+                    );
                     const pw = document.getElementById('inp-dzmm-password');
-                    if (pw) pw.value = '';
+                    if (pw && !savePw) pw.value = '';
+                    await refreshDzmmStatus();
+                    renderAccountList();
                 } else {
-                    const inp = document.getElementById('inp-dzmm-cookie');
-                    if (inp && data.cookie) inp.value = data.cookie;
-                    showToast('已拿到 Cookie 但写入失败，请点「加入账号池」或「从剪贴板导入」');
+                    showToast('已拿到 Cookie 但写入失败，请点「加入账号池」');
                 }
             } catch (e) {
                 showToast(`登录失败: ${e.message || e}`);
@@ -14719,10 +14836,15 @@
         async function pollDzmmTaskUntilDone(taskId, model, cookie) {
             const maxAttempts = 60;
             const interval = 2000;
+            let authCookie = cookie;
             for (let i = 0; i < maxAttempts; i++) {
                 const qs = new URLSearchParams({ id: taskId, model });
-                const res = await dzmmFetchWithCookie(`/api/dzmm/task?${qs}`, cookie);
+                const res = await dzmmFetchWithCookie(`/api/dzmm/task?${qs}`, authCookie);
                 const data = await res.json().catch(() => ({}));
+                if (data.cookie) {
+                    applyAuthCookieUpdate(data);
+                    authCookie = data.cookie;
+                }
                 const pending = ['pending', 'processing', 'queued'].includes(data.status);
                 if (!res.ok && !pending) {
                     throw new Error(data.error || `查询失败 (${res.status})`);
@@ -14766,6 +14888,8 @@
 
             try {
                 await ensureAccountForQuota(qType, { silent: true });
+                // 生图前懒续期（对齐本地工具 load_auth）
+                await ensureDzmmAuthFresh({ silent: true });
                 const maxTries = Math.max(1, loadAccounts().length || 1);
 
                 for (let attempt = 0; attempt < maxTries; attempt++) {
@@ -14773,11 +14897,15 @@
                     const accKey = acc?.id || getLocalDzmmCookie() || `try_${attempt}`;
                     if (tried.has(accKey)) break;
                     tried.add(accKey);
-                    const cookie = acc?.cookie || getLocalDzmmCookie();
+                    let cookie = acc?.cookie || getLocalDzmmCookie();
 
                     const statusRes = await dzmmFetchWithCookie('/api/dzmm/status', cookie);
                     const status = await statusRes.json().catch(() => ({}));
                     if (!statusRes.ok) throw new Error(status.error || 'DZMM 代理不可用');
+                    if (status.cookie) {
+                        applyAuthCookieUpdate(status, { accountId: acc?.id });
+                        cookie = status.cookie;
+                    }
                     const cookieOk = status.cookieComplete || status.acceptedLocally
                         || (status.hasCookie && !status.error);
                     if (!cookieOk) {
@@ -14794,11 +14922,14 @@
                     }
                     if (status.quotas) {
                         state.quotas = status.quotas;
-                        if (acc) {
-                            upsertAccount(acc.cookie, {
-                                email: status.user?.email || acc.email,
-                                fullName: status.user?.fullName || acc.fullName,
+                        if (acc || cookie) {
+                            upsertAccount(cookie, {
+                                accountId: acc?.id,
+                                email: status.user?.email || acc?.email,
+                                fullName: status.user?.fullName || acc?.fullName,
                                 quotas: status.quotas,
+                                remainSec: status.remainSec,
+                                replaceActive: true,
                             });
                         }
                         updateQuotaBadge();
@@ -14813,9 +14944,14 @@
                         }
                     }
 
+                    const genPayload = {
+                        ...payload,
+                        email: acc?.email || '',
+                        password: acc?.password || '',
+                    };
                     const res = await dzmmFetchWithCookie('/api/dzmm/generate', cookie, {
                         method: 'POST',
-                        body: JSON.stringify(payload),
+                        body: JSON.stringify(genPayload),
                     });
                     const rawText = await res.text().catch(() => '');
                     let data = {};
@@ -14847,6 +14983,10 @@
                         throw new Error(msg);
                     }
                     if (!data.taskId) throw new Error('未返回 taskId');
+                    if (data.cookie) {
+                        applyAuthCookieUpdate(data, { accountId: acc?.id });
+                        cookie = data.cookie;
+                    }
 
                     task.state = 'polling';
                     task.taskId = data.taskId;

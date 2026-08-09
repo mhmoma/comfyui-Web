@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v4.86</title>
+    <title>生图工具 · ComfyUI Web v4.87</title>
     <link rel="stylesheet" href="style.css?v=465">
     <meta name="theme-color" content="#e94560">
     <meta name="mobile-web-app-capable" content="yes">
@@ -18,7 +18,7 @@
     <div class="app">
         <header class="header">
 <a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.86</span></h1>
+            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.87</span></h1>
             <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
                 <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
                 <span class="conn-text" id="conn-text">检测中</span>
@@ -1048,11 +1048,15 @@
                     <label>密码
                         <input type="password" id="inp-dzmm-password" placeholder="登录密码" autocomplete="current-password">
                     </label>
+                    <label class="chk-label dzmm-inline-row" style="margin-top:4px">
+                        <input type="checkbox" id="chk-dzmm-save-password">
+                        <span class="chk-label-text">保存密码到本机（供自动续期失败时重登）</span>
+                    </label>
                     <div class="profile-actions" style="margin-top:6px;flex-wrap:wrap">
                         <button type="button" id="btn-dzmm-login" class="btn-primary">登录并写入 Cookie</button>
                         <button type="button" id="btn-dzmm-open-signin" class="btn-secondary">官网登录页</button>
                     </div>
-                    <small class="profile-hint">代理登录，密码不落盘；成功后自动写入上方 Cookie / 账号池。若提示密码错误或失败，请用官网登录后「从剪贴板导入」。</small>
+                    <small class="profile-hint">对齐本地工具：到期前自动 <code>/api/auth/token</code> 续期；勾选保存密码后，续期失败可静默重登。密码只存本机浏览器。</small>
                 </div>
 
                 <div class="dzmm-login-panel hidden" data-dzmm-login-panel="telegram">
@@ -1481,7 +1485,8 @@
                 <p>设置 →「DZMM 生图」。凭证只保存在浏览器。已对齐官网登录方式：</p>
                 <ul>
                     <li><b>Cookie</b>：粘贴 / 剪贴板 / Network 复制（始终可用）</li>
-                    <li><b>邮箱密码</b>：本站代理登录，成功则自动写入 Cookie；失败可改官网登录 + 剪贴板导入</li>
+                    <li><b>邮箱密码</b>：本站代理登录；可勾选「保存密码」供续期失败时自动重登（仅本机）</li>
+                    <li><b>自动续期</b>：剩余不足约 3 分钟时走官网 <code>/api/auth/token</code>，生图/状态检测时懒续期</li>
                     <li><b>Telegram</b>：本站生成二维码，确认后自动写入 Cookie</li>
                     <li><b>Google / Discord / Twitter / 登录码 / 邮箱验证码</b>：跳转官网完成登录后，「从剪贴板导入」Cookie</li>
                 </ul>
@@ -1671,7 +1676,7 @@
     <script src="vendor/jsQR.js"></script>
     <script src="dzmm-dewmark.js?v=2"></script>
     <script src="lora-library.js?v=5"></script>
-    <script src="script.js?v=482"></script>
+    <script src="script.js?v=483"></script>
     <script src="/assets/pwa-register.js?v=2"></script>
 </body>
 </html>
