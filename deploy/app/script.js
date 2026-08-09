@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.90');
+        console.log('[ComfyUI Web] v4.91');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -14792,8 +14792,18 @@
 
         applySavedDzmmDockPos();
 
+        function isDzmmDockControlTarget(target) {
+            return !!target?.closest?.('#btn-dzmm-panel-toggle, #btn-dzmm-fab-gen, .dzmm-dock-d, .dzmm-dock-play');
+        }
+
         dock?.addEventListener('pointerdown', (e) => {
             if (!isMobileDzmmUi() || e.button !== 0) return;
+            // 点在 D / 播放键上：不启动拖动，避免抢点击
+            if (isDzmmDockControlTarget(e.target)) {
+                dockDragging = false;
+                dockDragMoved = false;
+                return;
+            }
             dockDragMoved = false;
             dockDragging = true;
             dock.classList.add('is-dragging');
@@ -14814,7 +14824,9 @@
             if (!dockDragging) return;
             const dx = e.clientX - dockStartX;
             const dy = e.clientY - dockStartY;
-            if (Math.abs(dx) + Math.abs(dy) > 5) dockDragMoved = true;
+            // 提高阈值，减少手指微抖误判为拖动
+            if (Math.abs(dx) + Math.abs(dy) > 12) dockDragMoved = true;
+            if (!dockDragMoved) return;
             const next = clampDzmmDockPos(dockOrigLeft + dx, dockOrigTop + dy);
             dock.style.left = `${next.x}px`;
             dock.style.top = `${next.y}px`;
@@ -14833,6 +14845,8 @@
                     }));
                 } catch { /* ignore */ }
             }
+            // click 之后再清，避免拖完后残留屏蔽下次点击
+            setTimeout(() => { dockDragMoved = false; }, 50);
         }
 
         dock?.addEventListener('pointerup', endDzmmDockDrag);
@@ -14848,16 +14862,42 @@
             dock.style.top = `${next.y}px`;
         });
 
+        // 用 pointerup 作为主触发（移动端更稳）；click 仅桌面/未处理时兜底，防双触发
+        let dockTapLock = false;
+        function withDockTapLock(fn) {
+            if (dockTapLock || dockDragMoved) return false;
+            dockTapLock = true;
+            try { fn(); } finally {
+                setTimeout(() => { dockTapLock = false; }, 320);
+            }
+            return true;
+        }
+
+        dockToggle?.addEventListener('pointerup', (e) => {
+            if (!isMobileDzmmUi() || e.button !== 0) return;
+            e.preventDefault();
+            e.stopPropagation();
+            withDockTapLock(() => setDzmmPanelOpen(!isDzmmPanelOpen()));
+        });
+        dockPlay?.addEventListener('pointerup', (e) => {
+            if (!isMobileDzmmUi() || e.button !== 0) return;
+            e.preventDefault();
+            e.stopPropagation();
+            withDockTapLock(() => {
+                if (!btn.disabled) btn.click();
+            });
+        });
         dockToggle?.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
+            if (dockTapLock) return;
             if (dockDragMoved) return;
             setDzmmPanelOpen(!isDzmmPanelOpen());
         });
-
         dockPlay?.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
+            if (dockTapLock) return;
             if (dockDragMoved) return;
             if (btn.disabled) return;
             btn.click();

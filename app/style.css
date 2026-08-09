@@ -5241,6 +5241,7 @@ body.char-browser-open {
     .dzmm-dock-d,
     .dzmm-dock-play {
         position: relative;
+        z-index: 2;
         flex: 0 0 42px;
         width: 42px;
         height: 42px;
@@ -5258,6 +5259,8 @@ body.char-browser-open {
         -webkit-tap-highlight-color: transparent;
         overflow: hidden;
         box-sizing: border-box;
+        pointer-events: auto;
+        touch-action: manipulation;
     }
 
     .dzmm-dock-d {
