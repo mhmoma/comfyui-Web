@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.78');
+        console.log('[ComfyUI Web] v4.79');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -14023,6 +14023,13 @@
             let text = String(raw || '').trim().replace(/^["']|["']$/g, '');
             if (!text) return '';
             if (text.toLowerCase().startsWith('cookie:')) text = text.slice(7).trim();
+            const curlCookie =
+                text.match(/-H\s+['"]Cookie:\s*([^'"]+)['"]/i) ||
+                text.match(/--header\s+['"]Cookie:\s*([^'"]+)['"]/i) ||
+                text.match(/(?:^|\n)\s*Cookie:\s*([^\n\r]+)/i);
+            if (curlCookie && /sb-.*auth-token/i.test(curlCookie[1])) {
+                text = curlCookie[1].trim();
+            }
             if (text.startsWith('{')) {
                 try {
                     const obj = JSON.parse(text);
@@ -14174,11 +14181,54 @@
             });
         });
 
+        async function loginDzmmWithPassword() {
+            const email = document.getElementById('inp-dzmm-email')?.value.trim() || '';
+            const password = document.getElementById('inp-dzmm-password')?.value || '';
+            if (!email || !password) {
+                showToast('请填写邮箱和密码');
+                return;
+            }
+            const btn = document.getElementById('btn-dzmm-login');
+            if (btn) btn.disabled = true;
+            try {
+                const res = await fetch('/api/dzmm/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.ok || !data.cookie) {
+                    showToast(data.error || `登录失败 HTTP ${res.status}`);
+                    return;
+                }
+                const ok = await applyDzmmCookie(data.cookie, { addToPool: true, silent: true });
+                if (ok) {
+                    showToast('账号密码登录成功，已写入 Cookie / 账号池');
+                    const pw = document.getElementById('inp-dzmm-password');
+                    if (pw) pw.value = '';
+                }
+            } catch (e) {
+                showToast(`登录失败: ${e.message || e}`);
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        }
+
+        document.getElementById('btn-dzmm-login')?.addEventListener('click', () => {
+            loginDzmmWithPassword();
+        });
+        document.getElementById('inp-dzmm-password')?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                loginDzmmWithPassword();
+            }
+        });
+
         document.getElementById('btn-dzmm-pull-cookie')?.addEventListener('click', () => {
             const helper = document.getElementById('dzmm-cookie-helper');
             if (helper) helper.style.display = 'block';
             window.open('https://www.dzmm.ai/', 'dzmm_cookie_pull', 'width=1100,height=800,menubar=no,toolbar=no,location=yes,status=no');
-            showToast('请登录官网后，用书签「复制完整 DZMM Cookie」');
+            showToast('请登录官网后，用书签「复制完整 DZMM Cookie」；或用账号密码登录');
         });
 
         document.getElementById('btn-dzmm-paste-cookie')?.addEventListener('click', async () => {

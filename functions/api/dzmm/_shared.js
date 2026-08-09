@@ -95,11 +95,20 @@ function sessionObjectToCookieValue(obj) {
   return `base64-${utf8ToBase64(JSON.stringify(obj))}`;
 }
 
-/** 把单条 / 多行 / Cookie 头 / TSV / JSON session / `.0/.1` 分段拼成完整 cookie */
+/** 把单条 / 多行 / Cookie 头 / cURL / TSV / JSON session / `.0/.1` 分段拼成完整 cookie */
 export function normalizeCookie(raw) {
   let text = String(raw || '').trim().replace(/^["']|["']$/g, '');
   if (!text) return '';
   if (text.toLowerCase().startsWith('cookie:')) text = text.slice(7).trim();
+
+  // Copy as cURL / Network Request Headers
+  const curlCookie =
+    text.match(/-H\s+['"]Cookie:\s*([^'"]+)['"]/i) ||
+    text.match(/--header\s+['"]Cookie:\s*([^'"]+)['"]/i) ||
+    text.match(/(?:^|\n)\s*Cookie:\s*([^\n\r]+)/i);
+  if (curlCookie && /sb-.*auth-token/i.test(curlCookie[1])) {
+    text = curlCookie[1].trim();
+  }
 
   // DevTools / 扩展可能直接复制出 session JSON
   if (text.startsWith('{')) {
@@ -224,6 +233,105 @@ export function isCompleteDzmmCookie(cookie) {
   if (value.startsWith('base64-') && value.length >= 40) return true;
   if (value.startsWith('eyJ') && value.length >= 40) return true;
   return value.length >= 80;
+}
+
+function collectSetCookieHeaders(res) {
+  if (typeof res.headers.getSetCookie === 'function') {
+    try {
+      const list = res.headers.getSetCookie();
+      if (Array.isArray(list) && list.length) return list;
+    } catch {
+      /* ignore */
+    }
+  }
+  if (typeof res.headers.getAll === 'function') {
+    try {
+      const list = res.headers.getAll('Set-Cookie');
+      if (Array.isArray(list) && list.length) return list;
+    } catch {
+      /* ignore */
+    }
+  }
+  const single = res.headers.get('set-cookie');
+  return single ? [single] : [];
+}
+
+/**
+ * 账号密码登录 dzmm.ai，从 Set-Cookie / JSON 组装完整 cookie。
+ * 服务端不落盘，仅把 cookie 返回给浏览器本地保存。
+ */
+export async function loginWithPassword(email, password) {
+  const mail = String(email || '').trim();
+  const pass = String(password || '');
+  if (!mail || !pass) {
+    return { ok: false, error: '请填写邮箱和密码' };
+  }
+
+  let res;
+  try {
+    res = await fetch(`${DZMM_BASE}/api/auth/sign-in`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Origin: DZMM_BASE,
+        Referer: `${DZMM_BASE}/sign-in`,
+        'User-Agent': 'Mozilla/5.0 ComfyUI-Web-DZMM',
+      },
+      body: JSON.stringify({ email: mail, password: pass }),
+      redirect: 'manual',
+    });
+  } catch (e) {
+    return { ok: false, error: `登录请求失败: ${e.message || e}` };
+  }
+
+  const setCookies = collectSetCookieHeaders(res);
+  const cookieHeader = setCookies
+    .map((sc) => String(sc || '').split(';')[0].trim())
+    .filter(Boolean)
+    .join('; ');
+  let cookie = normalizeCookie(cookieHeader);
+
+  const text = await res.text();
+  let data = null;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    /* ignore */
+  }
+
+  if (!isCompleteDzmmCookie(cookie) && data && typeof data === 'object') {
+    const session =
+      data.session ||
+      data.data?.session ||
+      data.user?.session ||
+      (data.access_token || data.refresh_token ? data : null);
+    const sessionVal = sessionObjectToCookieValue(session);
+    if (sessionVal) cookie = finalizeDzmmCookieValue(sessionVal);
+  }
+
+  if (!isCompleteDzmmCookie(cookie)) {
+    const msg =
+      data?.error ||
+      data?.message ||
+      data?.msg ||
+      (text ? text.slice(0, 200) : '') ||
+      `登录失败 HTTP ${res.status}`;
+    return {
+      ok: false,
+      error: String(msg),
+      status: res.status,
+      code: 'LOGIN_FAILED',
+    };
+  }
+
+  return {
+    ok: true,
+    cookie,
+    status: res.status,
+    storage: 'client-only',
+    message: '登录成功，Cookie 仅保存在浏览器本地',
+  };
 }
 
 /** Cookie from request header only — never persisted. Body cookie is for /cookie endpoint. */

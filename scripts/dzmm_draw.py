@@ -2,12 +2,14 @@
 """DZMM 生图本地代理（供 server.py 调用）。"""
 from __future__ import annotations
 
+import base64
 import json
 import ssl
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from http.cookiejar import CookieJar
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
 
@@ -202,6 +204,102 @@ def set_cookie(cookie: str) -> Dict[str, Any]:
     cfg["cookie"] = normalize_cookie(cookie)
     save_config(cfg)
     return {"ok": True, "hasCookie": bool(cfg["cookie"])}
+
+
+def _cookie_from_jar(jar: CookieJar) -> str:
+    single = ""
+    chunks: Dict[int, str] = {}
+    for c in jar:
+        if not c.name or not c.value:
+            continue
+        if c.name == "sb-rls-auth-token":
+            single = c.value
+            continue
+        if c.name.startswith("sb-rls-auth-token."):
+            suffix = c.name.split(".", 1)[-1]
+            if suffix.isdigit():
+                chunks[int(suffix)] = c.value
+    if chunks:
+        value = "".join(chunks[i] for i in sorted(chunks))
+        return normalize_cookie(f"sb-rls-auth-token={value}")
+    if single:
+        return normalize_cookie(f"sb-rls-auth-token={single}")
+    return ""
+
+
+def login_with_password(email: str, password: str) -> Dict[str, Any]:
+    """代理 dzmm.ai 账号密码登录，返回完整 cookie（本机可写入配置）。"""
+    mail = (email or "").strip()
+    passwd = password or ""
+    if not mail or not passwd:
+        return {"ok": False, "error": "请填写邮箱和密码"}
+
+    jar = CookieJar()
+    opener = urllib.request.build_opener(
+        urllib.request.HTTPCookieProcessor(jar),
+        urllib.request.HTTPSHandler(context=SSL_CTX),
+    )
+    payload = json.dumps({"email": mail, "password": passwd}).encode("utf-8")
+    req = urllib.request.Request(
+        f"{DZMM_BASE}/api/auth/sign-in",
+        data=payload,
+        headers={
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Origin": DZMM_BASE,
+            "Referer": f"{DZMM_BASE}/sign-in",
+            "User-Agent": "Mozilla/5.0 ComfyUI-Web-DZMM",
+        },
+        method="POST",
+    )
+    try:
+        with opener.open(req, timeout=60) as resp:
+            status = resp.status
+            raw = resp.read()
+    except urllib.error.HTTPError as e:
+        status = e.code
+        raw = e.read()
+    except Exception as e:
+        return {"ok": False, "error": f"登录请求失败: {e}"}
+
+    cookie = _cookie_from_jar(jar)
+    data = None
+    try:
+        data = json.loads(raw.decode("utf-8", errors="replace"))
+    except Exception:
+        data = None
+
+    if (not cookie or "sb-rls-auth-token=" not in cookie) and isinstance(data, dict):
+        session = (
+            data.get("session")
+            or (data.get("data") or {}).get("session")
+            or data
+        )
+        if isinstance(session, dict) and (session.get("access_token") or session.get("refresh_token")):
+            raw_b64 = (
+                base64.b64encode(json.dumps(session, separators=(",", ":")).encode("utf-8"))
+                .decode("ascii")
+                .rstrip("=")
+            )
+            cookie = normalize_cookie(f"sb-rls-auth-token=base64-{raw_b64}")
+
+    cookie = normalize_cookie(cookie)
+    if not cookie or "sb-rls-auth-token=" not in cookie:
+        msg = ""
+        if isinstance(data, dict):
+            msg = data.get("error") or data.get("message") or data.get("msg") or ""
+        if not msg:
+            msg = raw[:200].decode("utf-8", errors="replace") if raw else f"登录失败 HTTP {status}"
+        return {"ok": False, "error": str(msg), "status": status, "code": "LOGIN_FAILED"}
+
+    set_cookie(cookie)
+    return {
+        "ok": True,
+        "cookie": cookie,
+        "status": status,
+        "storage": "local-config",
+        "message": "登录成功，Cookie 已写入本机配置",
+    }
 
 
 def _headers(referer: str = f"{DZMM_BASE}/draw/generate/create") -> Dict[str, str]:
@@ -567,6 +665,10 @@ def _handle_api_inner(method: str, path: str, query: dict, body: dict) -> Tuple[
     if path == "/api/dzmm/cookie" and method == "POST":
         # 本机可落盘；线上 Cloudflare 对应接口不落盘
         return 200, set_cookie(body.get("cookie") or "")
+
+    if path == "/api/dzmm/login" and method == "POST":
+        result = login_with_password(body.get("email") or "", body.get("password") or "")
+        return (200 if result.get("ok") else 400), result
 
     if path == "/api/dzmm/quota" and method == "GET":
         status = get_status()
