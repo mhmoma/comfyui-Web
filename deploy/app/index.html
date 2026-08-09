@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v4.88</title>
-    <link rel="stylesheet" href="style.css?v=466">
+    <title>生图工具 · ComfyUI Web v4.89</title>
+    <link rel="stylesheet" href="style.css?v=467">
     <meta name="theme-color" content="#e94560">
     <script>
     (function () {
@@ -26,34 +26,46 @@
 <body>
     <div class="app">
         <header class="header">
-<a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.88</span></h1>
-            <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
-                <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
-                <span class="conn-text" id="conn-text">检测中</span>
+            <div class="header-brand">
+                <a href="/" class="site-home-link" title="返回首页">🏠</a>
+                <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.89</span></h1>
             </div>
-            <select id="sel-profile-quick" class="profile-quick-select" title="配置方案">
-                <option value="default">默认</option>
-            </select>
-            <a href="https://discord.gg/da9PMeAGGK" target="_blank" rel="noopener noreferrer" class="btn-icon btn-discord" title="加入绘画Discord交流群">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-            </a>
-            <button id="btn-tutorial" class="btn-icon" title="教程">📖</button>
-            <button id="btn-composite" class="btn-icon" title="图层合成">🧩</button>
-            <button id="btn-cutout" class="btn-icon" title="抠图">✂️</button>
-            <div class="theme-btn">
-                <button id="btn-theme" class="btn-icon" title="切换主题">🎨</button>
-                <div id="theme-panel" class="theme-panel hidden">
-                    <div class="theme-dot active" data-theme="default" title="暗夜"></div>
-                    <div class="theme-dot" data-theme="cyberpunk" title="赛博朋克"></div>
-                    <div class="theme-dot" data-theme="forest" title="森林"></div>
-                    <div class="theme-dot" data-theme="sunset" title="日落"></div>
-                    <div class="theme-dot" data-theme="lavender" title="薰衣草"></div>
-                    <div class="theme-dot" data-theme="light" title="纯白"></div>
+            <div class="header-tools">
+                <div class="header-group" title="连接与方案">
+                    <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
+                        <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
+                        <span class="conn-text" id="conn-text">检测中</span>
+                    </div>
+                    <select id="sel-profile-quick" class="profile-quick-select" title="配置方案">
+                        <option value="default">默认</option>
+                    </select>
+                </div>
+                <div class="header-group" title="修图工具">
+                    <button id="btn-composite" class="btn-icon" title="图层合成">🧩</button>
+                    <button id="btn-cutout" class="btn-icon" title="抠图">✂️</button>
+                </div>
+                <div class="header-group" title="帮助与社区">
+                    <button id="btn-tutorial" class="btn-icon" title="教程">📖</button>
+                    <a href="https://discord.gg/da9PMeAGGK" target="_blank" rel="noopener noreferrer" class="btn-icon btn-discord" title="加入绘画Discord交流群">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+                    </a>
+                </div>
+                <div class="header-group" title="系统">
+                    <div class="theme-btn">
+                        <button id="btn-theme" class="btn-icon" title="切换主题">🎨</button>
+                        <div id="theme-panel" class="theme-panel hidden">
+                            <div class="theme-dot active" data-theme="default" title="暗夜"></div>
+                            <div class="theme-dot" data-theme="cyberpunk" title="赛博朋克"></div>
+                            <div class="theme-dot" data-theme="forest" title="森林"></div>
+                            <div class="theme-dot" data-theme="sunset" title="日落"></div>
+                            <div class="theme-dot" data-theme="lavender" title="薰衣草"></div>
+                            <div class="theme-dot" data-theme="light" title="纯白"></div>
+                        </div>
+                    </div>
+                    <button id="btn-comfy-native" class="btn-icon btn-comfy-native" type="button" title="打开 ComfyUI 官方界面">官方</button>
+                    <button id="btn-settings" class="btn-icon" title="设置">⚙️</button>
                 </div>
             </div>
-            <button id="btn-comfy-native" class="btn-icon btn-comfy-native" type="button" title="打开 ComfyUI 官方界面">官方</button>
-            <button id="btn-settings" class="btn-icon" title="设置">⚙️</button>
         </header>
 
         <main class="main mobile-tab-create">
@@ -1694,7 +1706,7 @@
     <script src="vendor/jsQR.js"></script>
     <script src="dzmm-dewmark.js?v=2"></script>
     <script src="lora-library.js?v=5"></script>
-    <script src="script.js?v=484"></script>
+    <script src="script.js?v=485"></script>
     <script src="/assets/pwa-register.js?v=2"></script>
 </body>
 </html>
