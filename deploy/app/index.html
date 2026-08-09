@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v4.92</title>
+    <title>生图工具 · ComfyUI Web v4.93</title>
     <link rel="stylesheet" href="style.css?v=469">
     <meta name="theme-color" content="#e94560">
     <script>
@@ -27,7 +27,7 @@
     <div class="app">
         <header class="header">
             <a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.92</span></h1>
+            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.93</span></h1>
             <nav class="header-tools" aria-label="工具栏">
                 <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
                     <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
@@ -1051,89 +1051,32 @@
                 <textarea id="inp-dzmm-cookie" rows="3" placeholder="粘贴 Cookie 头 / cURL / sb-rls-auth-token=... / .0/.1/.2"></textarea>
             </label>
             <small class="profile-hint">个人登录凭证<strong>只保存在本机浏览器</strong>（多账号轮换池 + localStorage），不会上传到服务器。额度用尽可自动无感切下一账号。</small>
+            <div class="dzmm-cookie-guide profile-hint" style="margin-top:8px">
+                <div><b>如何获取 Cookie（推荐浏览器扩展）</b></div>
+                <ol style="margin:6px 0 0;padding-left:1.2em">
+                    <li>安装 Cookie 导出扩展，例如
+                        <a href="https://chromewebstore.google.com/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm" target="_blank" rel="noopener">Chrome / Edge：Cookie-Editor</a>
+                        ·
+                        <a href="https://addons.mozilla.org/firefox/addon/cookie-editor/" target="_blank" rel="noopener">Firefox：Cookie-Editor</a>
+                    </li>
+                    <li>在 <a href="https://www.dzmm.ai/" target="_blank" rel="noopener">www.dzmm.ai</a> 登录账号</li>
+                    <li>用扩展导出 / 复制 <code>sb-rls-auth-token</code>（若有 <code>.0/.1/.2</code> 请全部复制）</li>
+                    <li>回到这里粘贴，或点「从剪贴板导入」→「加入账号池」</li>
+                </ol>
+                <div style="margin-top:6px">官网 Cookie 为 HttpOnly，书签/页面脚本读不到；请用扩展或开发者工具复制。</div>
+            </div>
             <div class="profile-actions" style="margin-top:6px;flex-wrap:wrap">
                 <button type="button" id="btn-dzmm-add-account" class="btn-primary">加入账号池</button>
                 <button type="button" id="btn-dzmm-paste-cookie" class="btn-secondary">从剪贴板导入</button>
                 <button type="button" id="btn-dzmm-test" class="btn-secondary">检测登录/配额</button>
-            </div>
-            <div class="dzmm-login-box">
-                <div class="settings-section-title" style="margin:0 0 6px;font-size:0.9rem">登录方式（对齐官网）</div>
-                <div class="dzmm-login-tabs" role="tablist" aria-label="DZMM 登录方式">
-                    <button type="button" class="dzmm-login-tab active" data-dzmm-login-tab="password">邮箱密码</button>
-                    <button type="button" class="dzmm-login-tab" data-dzmm-login-tab="telegram">Telegram</button>
-                    <button type="button" class="dzmm-login-tab" data-dzmm-login-tab="oauth">第三方</button>
-                </div>
-
-                <div class="dzmm-login-panel" data-dzmm-login-panel="password">
-                    <label>DZMM 邮箱
-                        <input type="email" id="inp-dzmm-email" placeholder="注册邮箱" autocomplete="username">
-                    </label>
-                    <label>密码
-                        <input type="password" id="inp-dzmm-password" placeholder="登录密码" autocomplete="current-password">
-                    </label>
-                    <label class="chk-label dzmm-inline-row" style="margin-top:4px">
-                        <input type="checkbox" id="chk-dzmm-save-password">
-                        <span class="chk-label-text">保存密码到本机（供自动续期失败时重登）</span>
-                    </label>
-                    <div class="profile-actions" style="margin-top:6px;flex-wrap:wrap">
-                        <button type="button" id="btn-dzmm-login" class="btn-primary">登录并写入 Cookie</button>
-                        <button type="button" id="btn-dzmm-open-signin" class="btn-secondary">官网登录页</button>
-                    </div>
-                    <small class="profile-hint">若提示验证码/400：本站服务器出口常被官网拦截，请改用「官网登录 + 从剪贴板导入」或 Telegram，勿连续点登录（易 429）。对齐本地工具：到期前自动 <code>/api/auth/token</code> 续期；勾选保存密码后，续期失败可静默重登。密码只存本机浏览器。</small>
-                </div>
-
-                <div class="dzmm-login-panel hidden" data-dzmm-login-panel="telegram">
-                    <div class="dzmm-tg-row">
-                        <div id="dzmm-tg-qr" class="dzmm-tg-qr">点击下方生成二维码</div>
-                        <div class="dzmm-tg-meta">
-                            <div id="dzmm-tg-status" class="profile-hint">未开始</div>
-                            <a id="dzmm-tg-open" class="dzmm-tg-link hidden" href="#" target="_blank" rel="noopener">在 Telegram 打开确认</a>
-                        </div>
-                    </div>
-                    <div class="profile-actions" style="margin-top:6px;flex-wrap:wrap">
-                        <button type="button" id="btn-dzmm-tg-start" class="btn-primary">生成 Telegram 登录码</button>
-                        <button type="button" id="btn-dzmm-tg-stop" class="btn-secondary">停止等待</button>
-                    </div>
-                    <small class="profile-hint">手机 Telegram 扫码/点链接确认后自动写入 Cookie。若生成失败会打开官网 Telegram 登录页，完成后粘贴 Cookie 即可。</small>
-                </div>
-
-                <div class="dzmm-login-panel hidden" data-dzmm-login-panel="oauth">
-                    <small class="profile-hint">跳转官网完成第三方登录后，用书签复制 Cookie，再点「从剪贴板导入」。若出现授权页 404，属官网侧问题，修好后无需改本站。</small>
-                    <div class="profile-actions" style="margin-top:8px;flex-wrap:wrap">
-                        <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="google">Google</button>
-                        <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="discord">Discord</button>
-                        <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="twitter">Twitter</button>
-                        <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="signin-code">登录码</button>
-                        <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="otp">邮箱验证码</button>
-                        <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="signin">官网登录页</button>
-                    </div>
-                    <div class="profile-actions" style="margin-top:6px;flex-wrap:wrap">
-                        <button type="button" id="btn-dzmm-paste-after-oauth" class="btn-primary">已登录，从剪贴板导入</button>
-                    </div>
-                </div>
-            </div>
-            <details class="dzmm-cookie-guide profile-hint">
-                <summary>书签 / 手动复制 Cookie（HttpOnly 备用）</summary>
-                <div>把下面标签<strong>拖到书签栏</strong>，在已登录的 <a href="https://www.dzmm.ai/" target="_blank" rel="noopener">www.dzmm.ai</a> 点击（会试 Cookie + localStorage）：</div>
-                <a id="dzmm-cookie-bookmarklet" class="dzmm-cookie-tag" href="#" title="拖到书签栏后，在 dzmm.ai 页面点击">📋 复制完整 DZMM Cookie</a>
-                <div style="margin-top:8px"><b>Network 复制（HttpOnly 也能拿到）</b>：官网 F12 → Network → 刷新 → 点任意接口请求 → Request Headers 里的 <code>Cookie:</code> 整行复制，或右键 → Copy → Copy as cURL，回到这里「从剪贴板导入」。</div>
-                <div>Application → Cookies 里双击 Value 复制也可以（分段则复制全部 <code>.0/.1/.2</code>）。</div>
-            </details>
-            <div id="dzmm-account-list" class="dzmm-account-list" aria-label="DZMM 账号列表"></div>
-            <div class="profile-actions" style="margin-top:8px;flex-wrap:wrap">
-                <button type="button" id="btn-dzmm-pull-cookie" class="btn-secondary">拉取 Cookie</button>
                 <button type="button" id="btn-dzmm-open-site" class="btn-secondary">打开官网生图页</button>
             </div>
+            <div id="dzmm-account-list" class="dzmm-account-list" aria-label="DZMM 账号列表"></div>
             <label class="chk-label dzmm-inline-row" style="margin-top:8px">
                 <input type="checkbox" id="chk-dzmm-auto-rotate" checked>
                 <span class="chk-label-text">额度用尽自动切号</span>
                 <span id="dzmm-status" class="dzmm-inline-status">未检测</span>
             </label>
-            <div id="dzmm-cookie-helper" class="profile-hint" style="margin-top:8px;display:none">
-                <div>① 已打开 dzmm 官网，请先登录</div>
-                <div>② 在<strong>官网标签页</strong>点击书签「📋 复制完整 DZMM Cookie」</div>
-                <div>③ 若书签读不到：F12 → Application → Cookies → 复制 Value，再点「从剪贴板导入」</div>
-            </div>
             <label class="chk-label dzmm-inline-row" style="margin-top:6px">
                 <input type="checkbox" id="chk-dzmm-dewmark" checked>
                 <span class="chk-label-text">本机去水印/二维码</span>
@@ -1504,23 +1447,20 @@
                     <li><b>参考图 (img2img)</b> — 基于参考图重绘</li>
                 </ul>
 
-                <h3>7. DZMM 生图登录</h3>
-                <p>设置 →「DZMM 生图」。凭证只保存在浏览器。已对齐官网登录方式：</p>
+                <h3>7. DZMM 生图（Cookie）</h3>
+                <p>设置 →「DZMM 生图」。仅支持粘贴 Cookie，凭证只保存在本机浏览器。</p>
                 <ul>
-                    <li><b>Cookie</b>：粘贴 / 剪贴板 / Network 复制（始终可用）</li>
-                    <li><b>邮箱密码</b>：本站代理登录；可勾选「保存密码」供续期失败时自动重登（仅本机）</li>
-                    <li><b>自动续期</b>：剩余不足约 3 分钟时走官网 <code>/api/auth/token</code>，生图/状态检测时懒续期</li>
-                    <li><b>Telegram</b>：本站生成二维码，确认后自动写入 Cookie</li>
-                    <li><b>Google / Discord / Twitter / 登录码 / 邮箱验证码</b>：跳转官网完成登录后，「从剪贴板导入」Cookie</li>
+                    <li>推荐安装 <b>Cookie-Editor</b> 等扩展，在已登录的 dzmm.ai 导出 <code>sb-rls-auth-token</code></li>
+                    <li>粘贴到设置框或「从剪贴板导入」→「加入账号池」</li>
+                    <li>Cookie 有效时会自动走官网续期；过期后重新导出一次即可</li>
                 </ul>
-                <p><a id="dzmm-cookie-bookmarklet-tutorial" class="dzmm-cookie-tag" href="#" title="拖到书签栏后，在 dzmm.ai 页面点击">📋 复制完整 DZMM Cookie</a></p>
 
                 <h3>8. 注意事项</h3>
                 <ul>
                     <li>HTTPS 页面无法访问 HTTP 的 ComfyUI，建议本地使用</li>
                     <li>Anima 架构暂不支持 ControlNet（官方开发中）</li>
                     <li>种子设为 -1 表示随机</li>
-                    <li>DZMM Cookie 过期后需重新登录官网再复制一次</li>
+                    <li>DZMM Cookie 过期后需重新登录官网并用扩展再导出一次</li>
                 </ul>
             </div>
             <div class="modal-actions">
@@ -1699,7 +1639,7 @@
     <script src="vendor/jsQR.js"></script>
     <script src="dzmm-dewmark.js?v=2"></script>
     <script src="lora-library.js?v=5"></script>
-    <script src="script.js?v=488"></script>
+    <script src="script.js?v=489"></script>
     <script src="/assets/pwa-register.js?v=2"></script>
 </body>
 </html>
