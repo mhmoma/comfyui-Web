@@ -42,48 +42,51 @@ body {
     height: 100vh;
 }
 
-/* Header */
+/* Header：单行横向靠左，工具紧跟版本号 */
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0;
-    padding: 12px 24px;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px;
+    padding: 10px 20px;
+    min-height: 56px;
+    max-height: 64px;
+    overflow-x: auto;
+    overflow-y: hidden;
     background: var(--header-bg);
     border-bottom: 1px solid var(--border);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.header-brand {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    margin-right: 28px;
-    padding-right: 4px;
-}
-
 .header-tools {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 8px 4px;
-    min-width: 0;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 6px;
+    margin: 0 0 0 20px !important;
+    padding: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+    flex: 0 0 auto !important;
 }
 
-.header-group {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding-right: 12px;
-    margin-right: 4px;
-    border-right: 1px solid var(--border);
+.header-sep {
+    display: inline-block;
+    width: 1px;
+    height: 22px;
+    margin: 0 4px;
+    background: var(--border);
+    flex: 0 0 auto;
 }
 
-.header-group:last-child {
-    border-right: 0;
-    padding-right: 0;
-    margin-right: 0;
+.header > .site-home-link,
+.header > h1,
+.header-tools > * {
+    flex: 0 0 auto;
 }
 
 .header h1 {
@@ -97,6 +100,7 @@ body {
     text-shadow: none;
     filter: drop-shadow(0 0 8px rgba(233, 69, 96, 0.3));
     white-space: nowrap;
+    margin: 0;
 }
 
 .site-home-link {
@@ -3848,19 +3852,14 @@ body.char-browser-open {
         flex-shrink: 0;
     }
 
-    .header-brand {
-        margin-right: 12px;
-    }
-
     .header-tools {
-        flex-wrap: nowrap;
-        gap: 6px;
+        margin-left: 10px !important;
+        gap: 4px;
     }
 
-    .header-group {
-        padding-right: 8px;
-        margin-right: 2px;
-        gap: 2px;
+    .header-sep {
+        height: 18px;
+        margin: 0 2px;
     }
 
     .header .btn-discord,
@@ -5887,6 +5886,9 @@ body.char-browser-open {
 /* 涓婚鍒囨崲鎸夐挳 */
 .theme-btn {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
 }
 
 .theme-panel {
@@ -8062,13 +8064,13 @@ body.composite-open {
     background: #fff;
     border-bottom: 1.5px solid var(--border);
     box-shadow: var(--shadow);
-    justify-content: flex-start;
+    justify-content: flex-start !important;
 }
-[data-ui="v2"] .header-brand {
-    margin-right: 32px;
+[data-ui="v2"] .header-tools {
+    margin-left: 24px !important;
 }
-[data-ui="v2"] .header-group {
-    border-right-color: var(--border);
+[data-ui="v2"] .header-sep {
+    background: var(--border);
 }
 
 [data-ui="v2"] .header h1 {
