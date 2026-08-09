@@ -1491,12 +1491,19 @@ body.page-news .category-tabs {
 }
 
 .article-chrome {
+    position: relative;
+    z-index: 1;
     padding: 12px 20px 14px;
     background: #fff;
+    flex-shrink: 0;
 }
 .article-chrome-inner {
     max-width: var(--home-max);
     margin: 0 auto;
+}
+.article-chrome h1 {
+    display: block;
+    visibility: visible;
 }
 .article-back {
     display: inline-block;
@@ -1556,8 +1563,16 @@ body.page-article .home-footer { display: none; }
     z-index: 20;
     padding: 14px 16px 0;
 }
+/* static 必须盖过 absolute，否则会浮在标题上把帖子标题完全挡住 */
+.home-nav-bar.home-nav-bar-static {
+    position: relative !important;
+    top: auto;
+    left: auto;
+    right: auto;
+    z-index: 2;
+}
 body.page-home .home-nav-bar.home-nav-bar-fixed {
-    position: fixed;
+    position: fixed !important;
 }
 .home-nav {
     display: flex;
