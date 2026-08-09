@@ -20,7 +20,8 @@ export async function onRequestPost(context) {
     }
     const { cookie: _ignored, ...rest } = body || {};
     const result = await generate(cookie, rest);
-    return jsonResponse(result.ok ? 200 : 502, result);
+    // 勿用 HTTP 502：自定义域名（如 tomkk.xyz）会被 Cloudflare 盖成纯文本 error code:502，丢掉 JSON
+    return jsonResponse(result.ok ? 200 : 400, result);
   } catch (e) {
     return jsonResponse(500, { ok: false, error: String(e.message || e) });
   }

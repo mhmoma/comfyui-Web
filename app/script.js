@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.85');
+        console.log('[ComfyUI Web] v4.86');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -14817,9 +14817,15 @@
                         method: 'POST',
                         body: JSON.stringify(payload),
                     });
-                    const data = await res.json().catch(() => ({}));
+                    const rawText = await res.text().catch(() => '');
+                    let data = {};
+                    try { data = rawText ? JSON.parse(rawText) : {}; } catch { data = {}; }
                     if (!res.ok || !data.ok) {
-                        const msg = data.error || data.detail || `生成失败 (${res.status})`;
+                        const msg =
+                            data.error ||
+                            data.detail ||
+                            (rawText && !rawText.startsWith('{') ? rawText.slice(0, 160) : '') ||
+                            `生成失败 (${res.status})`;
                         lastError = msg;
                         if (/Cookie|UNAUTHORIZED|登录/i.test(String(msg))) {
                             const list = loadAccounts().filter((a) => !tried.has(a.id));

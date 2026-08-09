@@ -14,7 +14,8 @@ export async function onRequestGet(context) {
     const query = Object.fromEntries(url.searchParams.entries());
     const result = await pollTask(cookie, query);
     const pending = ['pending', 'processing', 'queued'].includes(result.status);
-    return jsonResponse(result.ok || pending ? 200 : 502, result);
+    // 勿用 HTTP 502：自定义域名会被 CF 替换成纯文本网关错误页
+    return jsonResponse(result.ok || pending ? 200 : 400, result);
   } catch (e) {
     return jsonResponse(500, { ok: false, error: String(e.message || e) });
   }
