@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.80');
+        console.log('[ComfyUI Web] v4.81');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -14194,7 +14194,7 @@
                 const res = await fetch('/api/dzmm/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password }),
+                    body: JSON.stringify({ method: 'password', email, password }),
                 });
                 const data = await res.json().catch(() => ({}));
                 if (!res.ok || !data.ok || !data.cookie) {
@@ -14214,6 +14214,110 @@
             }
         }
 
+        let dzmmTgPollTimer = null;
+        let dzmmTgCode = '';
+
+        function stopDzmmTelegramPoll() {
+            if (dzmmTgPollTimer) {
+                clearInterval(dzmmTgPollTimer);
+                dzmmTgPollTimer = null;
+            }
+        }
+
+        function setDzmmLoginTab(tab) {
+            document.querySelectorAll('.dzmm-login-tab').forEach((btn) => {
+                btn.classList.toggle('active', btn.getAttribute('data-dzmm-login-tab') === tab);
+            });
+            document.querySelectorAll('.dzmm-login-panel').forEach((panel) => {
+                panel.classList.toggle(
+                    'hidden',
+                    panel.getAttribute('data-dzmm-login-panel') !== tab
+                );
+            });
+            if (tab !== 'telegram') stopDzmmTelegramPoll();
+        }
+
+        document.querySelectorAll('.dzmm-login-tab').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                setDzmmLoginTab(btn.getAttribute('data-dzmm-login-tab') || 'password');
+            });
+        });
+
+        async function startDzmmTelegramLogin() {
+            const qrEl = document.getElementById('dzmm-tg-qr');
+            const statusEl = document.getElementById('dzmm-tg-status');
+            const openEl = document.getElementById('dzmm-tg-open');
+            const startBtn = document.getElementById('btn-dzmm-tg-start');
+            stopDzmmTelegramPoll();
+            if (startBtn) startBtn.disabled = true;
+            if (statusEl) statusEl.textContent = '正在生成登录码…';
+            try {
+                const res = await fetch('/api/dzmm/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ method: 'telegram-start' }),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.ok || !data.signInCode) {
+                    showToast(data.error || '生成 Telegram 登录码失败');
+                    if (statusEl) statusEl.textContent = data.error || '生成失败';
+                    return;
+                }
+                dzmmTgCode = data.signInCode;
+                if (qrEl) {
+                    if (data.qrCodeSvg && String(data.qrCodeSvg).startsWith('data:')) {
+                        qrEl.innerHTML = `<img alt="Telegram QR" src="${data.qrCodeSvg}">`;
+                    } else if (data.qrCodeSvg && String(data.qrCodeSvg).includes('<svg')) {
+                        qrEl.innerHTML = data.qrCodeSvg;
+                    } else if (data.qrCodeUrl) {
+                        qrEl.innerHTML = `<img alt="Telegram QR" src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(data.qrCodeUrl)}">`;
+                    } else {
+                        qrEl.textContent = data.signInCode;
+                    }
+                }
+                if (openEl && data.qrCodeUrl) {
+                    openEl.href = data.qrCodeUrl;
+                    openEl.classList.remove('hidden');
+                }
+                if (statusEl) statusEl.textContent = '等待 Telegram 确认…';
+                showToast('请在 Telegram 确认登录');
+
+                dzmmTgPollTimer = setInterval(async () => {
+                    try {
+                        const pr = await fetch('/api/dzmm/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ method: 'telegram-poll', signInCode: dzmmTgCode }),
+                        });
+                        const pd = await pr.json().catch(() => ({}));
+                        if (pd.status === 'waiting_confirmation') {
+                            if (statusEl) statusEl.textContent = pd.message || '等待 Telegram 确认…';
+                            return;
+                        }
+                        if (pd.ok && pd.cookie) {
+                            stopDzmmTelegramPoll();
+                            const ok = await applyDzmmCookie(pd.cookie, { addToPool: true, silent: true });
+                            if (statusEl) statusEl.textContent = ok ? '登录成功' : 'Cookie 写入失败';
+                            if (ok) showToast('Telegram 登录成功，已写入 Cookie / 账号池');
+                            return;
+                        }
+                        if (!pd.ok) {
+                            stopDzmmTelegramPoll();
+                            if (statusEl) statusEl.textContent = pd.error || '登录失败';
+                            showToast(pd.error || 'Telegram 登录失败');
+                        }
+                    } catch (e) {
+                        if (statusEl) statusEl.textContent = `轮询异常: ${e.message || e}`;
+                    }
+                }, 1500);
+            } catch (e) {
+                showToast(`Telegram 登录失败: ${e.message || e}`);
+                if (statusEl) statusEl.textContent = String(e.message || e);
+            } finally {
+                if (startBtn) startBtn.disabled = false;
+            }
+        }
+
         document.getElementById('btn-dzmm-login')?.addEventListener('click', () => {
             loginDzmmWithPassword();
         });
@@ -14222,6 +14326,17 @@
                 e.preventDefault();
                 loginDzmmWithPassword();
             }
+        });
+        document.getElementById('btn-dzmm-tg-start')?.addEventListener('click', () => {
+            startDzmmTelegramLogin();
+        });
+        document.getElementById('btn-dzmm-tg-stop')?.addEventListener('click', () => {
+            stopDzmmTelegramPoll();
+            const statusEl = document.getElementById('dzmm-tg-status');
+            if (statusEl) statusEl.textContent = '已停止等待';
+        });
+        document.getElementById('btn-dzmm-paste-after-oauth')?.addEventListener('click', async () => {
+            document.getElementById('btn-dzmm-paste-cookie')?.click();
         });
 
         document.getElementById('btn-dzmm-pull-cookie')?.addEventListener('click', () => {

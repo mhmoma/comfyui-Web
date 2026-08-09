@@ -1990,6 +1990,81 @@ textarea {
     margin-top: 6px;
 }
 
+.dzmm-login-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.dzmm-login-tab {
+    border: 1px solid var(--border);
+    background: var(--bg-input, var(--bg-secondary));
+    color: var(--text-secondary);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    cursor: pointer;
+}
+
+.dzmm-login-tab.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.dzmm-login-panel.hidden {
+    display: none;
+}
+
+.dzmm-tg-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.dzmm-tg-qr {
+    width: 132px;
+    height: 132px;
+    flex-shrink: 0;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    background: #fff;
+    color: #666;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8px;
+    overflow: hidden;
+}
+
+.dzmm-tg-qr img,
+.dzmm-tg-qr svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.dzmm-tg-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.dzmm-tg-link {
+    font-size: 0.82rem;
+    color: var(--accent);
+}
+
+.dzmm-oauth-btn {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
 .dzmm-cookie-guide {
     margin-top: 8px;
     display: flex;

@@ -299,7 +299,114 @@ def login_with_password(email: str, password: str) -> Dict[str, Any]:
         "status": status,
         "storage": "local-config",
         "message": "登录成功，Cookie 已写入本机配置",
+        "method": "password",
     }
+
+
+def start_telegram_login() -> Dict[str, Any]:
+    req = urllib.request.Request(
+        f"{DZMM_BASE}/api/auth/tg-sign-in-code",
+        headers={
+            "Accept": "application/json",
+            "Origin": DZMM_BASE,
+            "Referer": f"{DZMM_BASE}/sign-in",
+            "User-Agent": "Mozilla/5.0 ComfyUI-Web-DZMM",
+        },
+        method="GET",
+    )
+    try:
+        with urllib.request.urlopen(req, context=SSL_CTX, timeout=60) as resp:
+            data = json.loads(resp.read().decode("utf-8", errors="replace"))
+    except Exception as e:
+        return {"ok": False, "error": f"创建 Telegram 登录码失败: {e}"}
+    if not data.get("signInCode"):
+        return {"ok": False, "error": data.get("error") or data.get("message") or "无法创建登录码"}
+    return {
+        "ok": True,
+        "method": "telegram",
+        "signInCode": data.get("signInCode"),
+        "qrCodeUrl": data.get("qrCodeUrl") or "",
+        "qrCodeSvg": data.get("qrCodeSvg") or "",
+        "botUsername": data.get("botUsername") or "",
+        "createdAt": data.get("createdAt") or "",
+    }
+
+
+def poll_telegram_login(sign_in_code: str) -> Dict[str, Any]:
+    code = (sign_in_code or "").strip()
+    if not code:
+        return {"ok": False, "error": "缺少 Telegram 登录码"}
+    jar = CookieJar()
+    opener = urllib.request.build_opener(
+        urllib.request.HTTPCookieProcessor(jar),
+        urllib.request.HTTPSHandler(context=SSL_CTX),
+    )
+    req = urllib.request.Request(
+        f"{DZMM_BASE}/api/auth/tg-sign-in-code/{urllib.parse.quote(code)}",
+        headers={
+            "Accept": "application/json",
+            "Origin": DZMM_BASE,
+            "Referer": f"{DZMM_BASE}/sign-in",
+            "User-Agent": "Mozilla/5.0 ComfyUI-Web-DZMM",
+        },
+        method="GET",
+    )
+    try:
+        with opener.open(req, timeout=60) as resp:
+            raw = resp.read()
+    except urllib.error.HTTPError as e:
+        raw = e.read()
+    except Exception as e:
+        return {"ok": False, "error": f"轮询失败: {e}"}
+
+    data = {}
+    try:
+        data = json.loads(raw.decode("utf-8", errors="replace"))
+    except Exception:
+        pass
+    status = data.get("status") or "waiting_confirmation"
+    if status in ("pending_deletion", "account_banned"):
+        return {"ok": False, "status": status, "error": data.get("message") or status}
+
+    cookie = _cookie_from_jar(jar)
+    if status == "logged_in" or (cookie and "sb-rls-auth-token=" in cookie):
+        cookie = normalize_cookie(cookie)
+        if not cookie or "sb-rls-auth-token=" not in cookie:
+            return {
+                "ok": False,
+                "status": "logged_in",
+                "error": "Telegram 已确认，但未拿到 Cookie，请改用粘贴 Cookie",
+            }
+        set_cookie(cookie)
+        return {
+            "ok": True,
+            "status": "logged_in",
+            "cookie": cookie,
+            "method": "telegram",
+            "message": "Telegram 登录成功",
+        }
+    return {
+        "ok": True,
+        "status": status,
+        "message": data.get("message") or "等待 Telegram 确认",
+        "signInCode": code,
+        "method": "telegram",
+    }
+
+
+def handle_login_api(body: dict) -> Tuple[int, Any]:
+    method = str((body or {}).get("method") or "password").strip()
+    if method in ("password", "email"):
+        result = login_with_password(body.get("email") or "", body.get("password") or "")
+        return (200 if result.get("ok") else 400), result
+    if method in ("telegram-start", "telegram_start"):
+        result = start_telegram_login()
+        return (200 if result.get("ok") else 400), result
+    if method in ("telegram-poll", "telegram_poll"):
+        result = poll_telegram_login(body.get("signInCode") or body.get("code") or "")
+        code = 200 if result.get("ok") or result.get("status") == "waiting_confirmation" else 400
+        return code, result
+    return 400, {"ok": False, "error": f"不支持的 method: {method}"}
 
 
 def _headers(referer: str = f"{DZMM_BASE}/draw/generate/create") -> Dict[str, str]:
@@ -666,9 +773,23 @@ def _handle_api_inner(method: str, path: str, query: dict, body: dict) -> Tuple[
         # 本机可落盘；线上 Cloudflare 对应接口不落盘
         return 200, set_cookie(body.get("cookie") or "")
 
+    if path == "/api/dzmm/login" and method == "GET":
+        return 200, {
+            "ok": True,
+            "methods": [
+                {"id": "cookie", "label": "Cookie", "mode": "local"},
+                {"id": "password", "label": "邮箱密码", "mode": "proxy"},
+                {"id": "telegram", "label": "Telegram", "mode": "proxy"},
+                {"id": "google", "label": "Google", "mode": "oauth"},
+                {"id": "discord", "label": "Discord", "mode": "oauth"},
+                {"id": "twitter", "label": "Twitter", "mode": "oauth"},
+                {"id": "login-code", "label": "登录码", "mode": "oauth"},
+                {"id": "otp", "label": "邮箱验证码", "mode": "oauth"},
+            ],
+        }
+
     if path == "/api/dzmm/login" and method == "POST":
-        result = login_with_password(body.get("email") or "", body.get("password") or "")
-        return (200 if result.get("ok") else 400), result
+        return handle_login_api(body)
 
     if path == "/api/dzmm/quota" and method == "GET":
         status = get_status()

@@ -334,6 +334,170 @@ export async function loginWithPassword(email, password) {
   };
 }
 
+/** 官网实际支持的登录方式（供前端展示） */
+export function listLoginMethods() {
+  return [
+    { id: 'cookie', label: 'Cookie', mode: 'local', hint: '粘贴 / 剪贴板 / Network' },
+    { id: 'password', label: '邮箱密码', mode: 'proxy' },
+    { id: 'telegram', label: 'Telegram', mode: 'proxy' },
+    {
+      id: 'google',
+      label: 'Google',
+      mode: 'oauth',
+      url: `${DZMM_BASE}/auth/oauth/google?next=/`,
+    },
+    {
+      id: 'discord',
+      label: 'Discord',
+      mode: 'oauth',
+      url: `${DZMM_BASE}/auth/oauth/discord?next=/`,
+    },
+    {
+      id: 'twitter',
+      label: 'Twitter',
+      mode: 'oauth',
+      url: `${DZMM_BASE}/auth/oauth/twitter?next=/`,
+    },
+    {
+      id: 'login-code',
+      label: '登录码',
+      mode: 'oauth',
+      url: `${DZMM_BASE}/sign-in?s=signin-code`,
+      hint: '官网扫码/上传登录码后，再粘贴 Cookie',
+    },
+    {
+      id: 'otp',
+      label: '邮箱验证码',
+      mode: 'oauth',
+      url: `${DZMM_BASE}/sign-in`,
+      hint: '官网完成验证码登录后，再粘贴 Cookie',
+    },
+  ];
+}
+
+function cookieFromSetCookieHeaders(res) {
+  const setCookies = collectSetCookieHeaders(res);
+  const cookieHeader = setCookies
+    .map((sc) => String(sc || '').split(';')[0].trim())
+    .filter(Boolean)
+    .join('; ');
+  return normalizeCookie(cookieHeader);
+}
+
+/** 创建 Telegram 登录码 + 二维码 */
+export async function startTelegramLogin() {
+  let res;
+  try {
+    res = await fetch(`${DZMM_BASE}/api/auth/tg-sign-in-code`, {
+      headers: {
+        Accept: 'application/json',
+        Origin: DZMM_BASE,
+        Referer: `${DZMM_BASE}/sign-in`,
+        'User-Agent': 'Mozilla/5.0 ComfyUI-Web-DZMM',
+      },
+    });
+  } catch (e) {
+    return { ok: false, error: `创建 Telegram 登录码失败: ${e.message || e}` };
+  }
+  let data = null;
+  try {
+    data = await res.json();
+  } catch {
+    return { ok: false, error: `Telegram 登录接口异常 HTTP ${res.status}` };
+  }
+  if (!data?.signInCode) {
+    return {
+      ok: false,
+      error: data?.error || data?.message || '无法创建 Telegram 登录码',
+      status: res.status,
+    };
+  }
+  return {
+    ok: true,
+    signInCode: data.signInCode,
+    qrCodeUrl: data.qrCodeUrl || '',
+    qrCodeSvg: data.qrCodeSvg || '',
+    botUsername: data.botUsername || '',
+    createdAt: data.createdAt || '',
+  };
+}
+
+/** 轮询 Telegram 登录；确认后从 Set-Cookie 组装完整 cookie */
+export async function pollTelegramLogin(signInCode) {
+  const code = String(signInCode || '').trim();
+  if (!code) return { ok: false, error: '缺少 Telegram 登录码' };
+
+  let res;
+  try {
+    res = await fetch(
+      `${DZMM_BASE}/api/auth/tg-sign-in-code/${encodeURIComponent(code)}`,
+      {
+        headers: {
+          Accept: 'application/json',
+          Origin: DZMM_BASE,
+          Referer: `${DZMM_BASE}/sign-in`,
+          'User-Agent': 'Mozilla/5.0 ComfyUI-Web-DZMM',
+        },
+      }
+    );
+  } catch (e) {
+    return { ok: false, error: `轮询失败: ${e.message || e}` };
+  }
+
+  let cookie = cookieFromSetCookieHeaders(res);
+  const text = await res.text();
+  let data = {};
+  try {
+    data = JSON.parse(text);
+  } catch {
+    /* ignore */
+  }
+
+  const status = data.status || (isCompleteDzmmCookie(cookie) ? 'logged_in' : 'waiting_confirmation');
+
+  if (status === 'pending_deletion' || status === 'account_banned') {
+    return {
+      ok: false,
+      status,
+      error: data.message || status,
+      code: status.toUpperCase(),
+    };
+  }
+
+  if (status === 'logged_in' || isCompleteDzmmCookie(cookie)) {
+    if (!isCompleteDzmmCookie(cookie)) {
+      const session =
+        data.session ||
+        data.data?.session ||
+        (data.access_token || data.refresh_token ? data : null);
+      const sessionVal = sessionObjectToCookieValue(session);
+      if (sessionVal) cookie = finalizeDzmmCookieValue(sessionVal);
+    }
+    if (!isCompleteDzmmCookie(cookie)) {
+      return {
+        ok: false,
+        status: 'logged_in',
+        error: 'Telegram 已确认，但未拿到 Cookie，请改用「粘贴 Cookie」',
+        code: 'COOKIE_MISSING',
+      };
+    }
+    return {
+      ok: true,
+      status: 'logged_in',
+      cookie,
+      storage: 'client-only',
+      message: 'Telegram 登录成功',
+    };
+  }
+
+  return {
+    ok: true,
+    status: status || 'waiting_confirmation',
+    message: data.message || '等待 Telegram 确认',
+    signInCode: code,
+  };
+}
+
 /** Cookie from request header only — never persisted. Body cookie is for /cookie endpoint. */
 export function readCookie(request) {
   const header =
