@@ -384,7 +384,7 @@ function cookieFromSetCookieHeaders(res) {
   return normalizeCookie(cookieHeader);
 }
 
-/** 创建 Telegram 登录码 + 二维码 */
+/** 创建 Telegram 登录码 + 二维码（部分机房 IP 会被官网要求 captcha） */
 export async function startTelegramLogin() {
   let res;
   try {
@@ -397,19 +397,41 @@ export async function startTelegramLogin() {
       },
     });
   } catch (e) {
-    return { ok: false, error: `创建 Telegram 登录码失败: ${e.message || e}` };
+    return {
+      ok: false,
+      error: `创建 Telegram 登录码失败: ${e.message || e}`,
+      fallbackUrl: `${DZMM_BASE}/sign-in?s=signin-tg`,
+      code: 'TG_START_FAILED',
+    };
   }
   let data = null;
   try {
     data = await res.json();
   } catch {
-    return { ok: false, error: `Telegram 登录接口异常 HTTP ${res.status}` };
+    return {
+      ok: false,
+      error: `Telegram 登录接口异常 HTTP ${res.status}`,
+      fallbackUrl: `${DZMM_BASE}/sign-in?s=signin-tg`,
+      code: 'TG_START_FAILED',
+    };
+  }
+  if (data?.error === 'captcha_required' || res.status === 418) {
+    return {
+      ok: false,
+      error: '当前服务器出口被官网要求验证码，请改用浏览器直连生成二维码，或打开官网 Telegram 登录',
+      status: 418,
+      code: 'CAPTCHA_REQUIRED',
+      fallbackUrl: `${DZMM_BASE}/sign-in?s=signin-tg`,
+      clientDirect: true,
+    };
   }
   if (!data?.signInCode) {
     return {
       ok: false,
       error: data?.error || data?.message || '无法创建 Telegram 登录码',
       status: res.status,
+      fallbackUrl: `${DZMM_BASE}/sign-in?s=signin-tg`,
+      code: 'TG_START_FAILED',
     };
   }
   return {

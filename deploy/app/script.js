@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.81');
+        console.log('[ComfyUI Web] v4.82');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -14243,42 +14243,85 @@
             });
         });
 
-        async function startDzmmTelegramLogin() {
+        function renderDzmmTelegramQr(data) {
             const qrEl = document.getElementById('dzmm-tg-qr');
-            const statusEl = document.getElementById('dzmm-tg-status');
             const openEl = document.getElementById('dzmm-tg-open');
+            if (qrEl) {
+                if (data.qrCodeSvg && String(data.qrCodeSvg).startsWith('data:')) {
+                    qrEl.innerHTML = `<img alt="Telegram QR" src="${data.qrCodeSvg}">`;
+                } else if (data.qrCodeSvg && String(data.qrCodeSvg).includes('<svg')) {
+                    qrEl.innerHTML = data.qrCodeSvg;
+                } else if (data.qrCodeUrl) {
+                    qrEl.innerHTML = `<img alt="Telegram QR" src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(data.qrCodeUrl)}">`;
+                } else {
+                    qrEl.textContent = data.signInCode || '无二维码';
+                }
+            }
+            if (openEl && data.qrCodeUrl) {
+                openEl.href = data.qrCodeUrl;
+                openEl.classList.remove('hidden');
+            }
+        }
+
+        /** 优先浏览器直连官网生成码（避开 CF 出口 captcha）；轮询仍走本站代理以便拿到 Cookie */
+        async function createDzmmTelegramSession() {
+            // 1) 浏览器 → dzmm.ai（用户本机 IP，通常无 captcha）
+            try {
+                const res = await fetch('https://www.dzmm.ai/api/auth/tg-sign-in-code', {
+                    method: 'GET',
+                    headers: { Accept: 'application/json' },
+                });
+                const data = await res.json().catch(() => ({}));
+                if (res.ok && data.signInCode) {
+                    return { ok: true, ...data, source: 'direct' };
+                }
+                if (data.error === 'captcha_required') {
+                    // fall through to proxy / official page
+                } else if (data.error || data.message) {
+                    console.warn('[DZMM TG] direct create failed', data);
+                }
+            } catch (e) {
+                console.warn('[DZMM TG] direct create error', e);
+            }
+
+            // 2) 本站代理（部分地区/出口会 captcha_required）
+            const res = await fetch('/api/dzmm/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ method: 'telegram-start' }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (res.ok && data.ok && data.signInCode) {
+                return { ...data, source: 'proxy' };
+            }
+            return {
+                ok: false,
+                error: data.error || '生成 Telegram 登录码失败',
+                fallbackUrl: data.fallbackUrl || 'https://www.dzmm.ai/sign-in?s=signin-tg',
+                code: data.code || '',
+            };
+        }
+
+        async function startDzmmTelegramLogin() {
+            const statusEl = document.getElementById('dzmm-tg-status');
             const startBtn = document.getElementById('btn-dzmm-tg-start');
             stopDzmmTelegramPoll();
             if (startBtn) startBtn.disabled = true;
             if (statusEl) statusEl.textContent = '正在生成登录码…';
             try {
-                const res = await fetch('/api/dzmm/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ method: 'telegram-start' }),
-                });
-                const data = await res.json().catch(() => ({}));
-                if (!res.ok || !data.ok || !data.signInCode) {
-                    showToast(data.error || '生成 Telegram 登录码失败');
-                    if (statusEl) statusEl.textContent = data.error || '生成失败';
+                const data = await createDzmmTelegramSession();
+                if (!data.ok || !data.signInCode) {
+                    const msg = data.error || '生成 Telegram 登录码失败';
+                    if (statusEl) statusEl.textContent = msg;
+                    showToast(msg);
+                    if (data.fallbackUrl) {
+                        window.open(data.fallbackUrl, 'dzmm_tg_login', 'width=480,height=720');
+                        showToast('已打开官网 Telegram 登录，完成后请粘贴 Cookie');
+                    }
                     return;
                 }
                 dzmmTgCode = data.signInCode;
-                if (qrEl) {
-                    if (data.qrCodeSvg && String(data.qrCodeSvg).startsWith('data:')) {
-                        qrEl.innerHTML = `<img alt="Telegram QR" src="${data.qrCodeSvg}">`;
-                    } else if (data.qrCodeSvg && String(data.qrCodeSvg).includes('<svg')) {
-                        qrEl.innerHTML = data.qrCodeSvg;
-                    } else if (data.qrCodeUrl) {
-                        qrEl.innerHTML = `<img alt="Telegram QR" src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(data.qrCodeUrl)}">`;
-                    } else {
-                        qrEl.textContent = data.signInCode;
-                    }
-                }
-                if (openEl && data.qrCodeUrl) {
-                    openEl.href = data.qrCodeUrl;
-                    openEl.classList.remove('hidden');
-                }
+                renderDzmmTelegramQr(data);
                 if (statusEl) statusEl.textContent = '等待 Telegram 确认…';
                 showToast('请在 Telegram 确认登录');
 
