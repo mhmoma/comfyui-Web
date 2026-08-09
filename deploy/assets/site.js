@@ -17,6 +17,7 @@
     };
 
     const PINNED_SLUGS = [
+        'artist-prompt-favorites-guide',
         'anima-setup-complete-guide',
         'comfyui-cors-troubleshoot',
     ];
