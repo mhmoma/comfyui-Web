@@ -1606,6 +1606,28 @@ textarea {
 .chk-label input {
     width: auto;
     margin: 0;
+    flex-shrink: 0;
+}
+
+.dzmm-inline-row {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.dzmm-inline-row .chk-label-text {
+    flex-shrink: 0;
+}
+
+.dzmm-inline-status {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-muted, var(--text-secondary));
+    font-size: 0.78rem;
+    opacity: 0.9;
 }
 
 .progress-container {

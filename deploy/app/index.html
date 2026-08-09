@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v4.79</title>
-    <link rel="stylesheet" href="style.css?v=461">
+    <title>生图工具 · ComfyUI Web v4.80</title>
+    <link rel="stylesheet" href="style.css?v=462">
     <meta name="theme-color" content="#e94560">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,7 +18,7 @@
     <div class="app">
         <header class="header">
 <a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.79</span></h1>
+            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.80</span></h1>
             <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
                 <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
                 <span class="conn-text" id="conn-text">检测中</span>
@@ -1058,21 +1058,20 @@
                 <button type="button" id="btn-dzmm-pull-cookie" class="btn-secondary">拉取 Cookie</button>
                 <button type="button" id="btn-dzmm-open-site" class="btn-secondary">打开官网生图页</button>
             </div>
-            <label class="chk-label" style="margin-top:8px">
+            <label class="chk-label dzmm-inline-row" style="margin-top:8px">
                 <input type="checkbox" id="chk-dzmm-auto-rotate" checked>
-                免费额度用尽时自动切换下一账号（无感）
+                <span class="chk-label-text">额度用尽自动切号</span>
+                <span id="dzmm-status" class="dzmm-inline-status">未检测</span>
             </label>
-            <div id="dzmm-status" class="profile-hint" style="margin-top:6px">状态：未检测</div>
             <div id="dzmm-cookie-helper" class="profile-hint" style="margin-top:8px;display:none">
                 <div>① 已打开 dzmm 官网，请先登录</div>
                 <div>② 在<strong>官网标签页</strong>点击书签「📋 复制完整 DZMM Cookie」</div>
                 <div>③ 若书签读不到：F12 → Application → Cookies → 复制 Value，再点「从剪贴板导入」</div>
             </div>
-            <label class="chk-label" style="margin-top:10px">
+            <label class="chk-label dzmm-inline-row" style="margin-top:6px">
                 <input type="checkbox" id="chk-dzmm-dewmark" checked>
-                自动去除宣传水印 / 二维码
+                <span class="chk-label-text">本机去水印/二维码</span>
             </label>
-            <small class="profile-hint">出图后在本机检测角落二维码与品牌贴并修复，默认开启；不上传原图。</small>
             <hr class="settings-divider">
             <h3 class="settings-section-title">配置方案</h3>
             <label>当前方案
@@ -1636,7 +1635,7 @@
     <script src="vendor/jsQR.js"></script>
     <script src="dzmm-dewmark.js?v=2"></script>
     <script src="lora-library.js?v=5"></script>
-    <script src="script.js?v=475"></script>
+    <script src="script.js?v=476"></script>
     <script src="/assets/pwa-register.js?v=2"></script>
 </body>
 </html>

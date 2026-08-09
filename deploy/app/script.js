@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.79');
+        console.log('[ComfyUI Web] v4.80');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -13883,26 +13883,26 @@
 
                 if (!el) return data;
                 if (!data.hasCookie) {
-                    el.textContent = '状态：未配置 Cookie';
+                    el.textContent = '未配置 Cookie';
                     return data;
                 }
                 if (data.error && !data.cookieComplete && !data.acceptedLocally) {
-                    el.textContent = `状态：校验失败 — ${data.error}`;
+                    el.textContent = data.error;
                     return data;
                 }
-                const name = data.user?.fullName || data.user?.email || '已识别完整 Cookie';
-                const dq = formatQuota(data.quotas?.draw || data.quota);
-                const eq = formatQuota(data.quotas?.edit);
+                const name = data.user?.fullName || data.user?.email || '已登录';
+                const dq = formatQuota(data.quotas?.draw || data.quota).replace(/^配额 /, '');
+                const eq = formatQuota(data.quotas?.edit).replace(/^配额 /, '');
                 const n = loadAccounts().length;
                 const pool = aggregatePoolQuotas();
                 const poolLine = n > 1 && pool.draw.count
-                    ? ` · 池日 ${formatQuotaShort(pool.draw)} · 池Z ${formatQuotaShort(pool.edit)}`
+                    ? ` · 池${formatQuotaShort(pool.draw)}/${formatQuotaShort(pool.edit)}`
                     : '';
-                const warn = data.warning ? ` · ${data.warning}` : '';
-                el.textContent = `状态：${name} · 日配额 ${dq.replace(/^配额 /, '')} · Z配额 ${eq.replace(/^配额 /, '')}${poolLine}${n > 1 ? ` · ${n}账号` : ''}${warn}`;
+                el.textContent = `${name} · 日${dq} · Z${eq}${poolLine}${n > 1 ? ` · ${n}号` : ''}`;
+                el.title = data.warning || el.textContent;
                 return data;
             } catch (e) {
-                if (el) el.textContent = `状态：代理不可用 — ${e.message}`;
+                if (el) el.textContent = `代理不可用`;
                 applyModels(FALLBACK_MODELS);
                 renderAccountList();
                 updateQuotaBadge();
