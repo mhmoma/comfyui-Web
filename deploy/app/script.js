@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.77');
+        console.log('[ComfyUI Web] v4.78');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -14003,6 +14003,12 @@
 
         function normalizeDzmmCookieClient(raw) {
             const COOKIE_NAME = 'sb-rls-auth-token';
+            const utf8ToBase64 = (str) => {
+                const bytes = new TextEncoder().encode(String(str));
+                let bin = '';
+                for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+                return btoa(bin);
+            };
             const finalize = (value) => {
                 let v = String(value || '').trim().replace(/^["']|["']$/g, '');
                 if (!v) return '';
@@ -14017,11 +14023,25 @@
             let text = String(raw || '').trim().replace(/^["']|["']$/g, '');
             if (!text) return '';
             if (text.toLowerCase().startsWith('cookie:')) text = text.slice(7).trim();
+            if (text.startsWith('{')) {
+                try {
+                    const obj = JSON.parse(text);
+                    if (obj && (obj.access_token || obj.accessToken || obj.refresh_token || obj.refreshToken)) {
+                        return finalize(`base64-${utf8ToBase64(JSON.stringify(obj))}`);
+                    }
+                } catch { /* fall through */ }
+            }
 
             const parts = [];
             for (const line of text.split(/\r?\n/)) {
-                const ln = line.trim().replace(/^["']|["']$/g, '');
+                let ln = line.trim().replace(/^["']|["']$/g, '');
                 if (!ln) continue;
+                if (ln.includes('\t')) {
+                    const tab = ln.indexOf('\t');
+                    const left = ln.slice(0, tab).trim();
+                    const right = ln.slice(tab + 1).trim();
+                    if (left && !left.includes('=')) ln = `${left}=${right}`;
+                }
                 if (ln.includes(';') && ln.includes('=')) {
                     for (const p of ln.split(';')) {
                         const t = p.trim();
@@ -14096,28 +14116,50 @@
             return true;
         }
 
-        // 书签：必须在 dzmm.ai 页面执行；分段 Cookie 会拼成完整一条再复制
+        // 书签：必须在已登录的 dzmm.ai 执行；优先 cookie，读不到再扫 localStorage/sessionStorage
         const DZMM_BOOKMARKLET = 'javascript:' + encodeURIComponent([
             '(function(){',
-            'var chunks={},single="",max=-1,part,eq,n,v,m,i,val="",out;',
-            'document.cookie.split(";").forEach(function(s){',
+            'function b64(s){return btoa(unescape(encodeURIComponent(s)));}',
+            'function sessionVal(obj){',
+            'if(!obj||typeof obj!=="object")return"";',
+            'if(!(obj.access_token||obj.accessToken||obj.refresh_token||obj.refreshToken))return"";',
+            'return"base64-"+b64(JSON.stringify(obj));',
+            '}',
+            'function fromStore(store){',
+            'if(!store)return"";',
+            'var i,k,raw,j,v,m,chunks={},max=-1;',
+            'for(i=0;i<store.length;i++){',
+            'k=store.key(i)||"";raw=store.getItem(k);if(!raw)continue;',
+            'if(/sb-[\\w-]+-auth-token(?:\\.\\d+)?$/.test(k)||k.indexOf("auth-token")>=0){',
+            'try{j=JSON.parse(raw);}catch(e){j=null;}',
+            'if(j){v=sessionVal(j);if(v)return v;}',
+            'm=k.match(/\\.(\\d+)$/);',
+            'if(m){chunks[Number(m[1])]=raw;if(Number(m[1])>max)max=Number(m[1]);continue;}',
+            'if(raw.indexOf("base64-")===0||raw.indexOf("eyJ")===0||raw.length>80)return raw;',
+            '}',
+            'if(raw.charAt(0)==="{"){try{v=sessionVal(JSON.parse(raw));if(v)return v;}catch(e){}}',
+            '}',
+            'if(max>=0){v="";for(i=0;i<=max;i++){if(chunks[i]==null)return"";v+=chunks[i];}return v;}',
+            'return"";',
+            '}',
+            'var chunks={},single="",max=-1,part,eq,n,v,m,i,val="",out,src="",host=(location.hostname||"");',
+            'if(host.indexOf("dzmm.ai")<0){alert("请在已登录的 www.dzmm.ai 页面点击此书签（当前是 "+host+"）");return;}',
+            'try{document.cookie.split(";").forEach(function(s){',
             'part=s.trim();eq=part.indexOf("=");if(eq<0)return;',
             'n=part.slice(0,eq);v=decodeURIComponent(part.slice(eq+1));',
-            'if(n==="sb-rls-auth-token"){single=v;return;}',
-            'm=n.match(/^sb-rls-auth-token\\.(\\d+)$/);',
+            'if(n==="sb-rls-auth-token"||/^sb-[\\w-]+-auth-token$/.test(n)){single=v;return;}',
+            'm=n.match(/^sb-[\\w-]+-auth-token\\.(\\d+)$/);',
             'if(m){i=Number(m[1]);chunks[i]=v;if(i>max)max=i;}',
-            '});',
-            'if(max>=0){',
-            'for(i=0;i<=max;i++){',
-            'if(chunks[i]==null){alert("Cookie 分段不完整（缺 ."+i+"）。请 F12→Application→Cookies 手动复制全部 .0/.1/…");return;}',
-            'val+=chunks[i];',
-            '}',
-            '}else if(single){val=single;}',
-            'if(!val){alert("读不到 Cookie（可能是 HttpOnly）。请在 F12→Application→Cookies 复制 sb-rls-auth-token 或全部 .0/.1/.2");return;}',
-            'if(val.indexOf("base64-")!==0&&val.indexOf("eyJ")===0)val="base64-"+val;',
-            'out="sb-rls-auth-token="+val;',
+            '});}catch(e){}',
+            'if(max>=0){for(i=0;i<=max;i++){if(chunks[i]==null){alert("Cookie 分段不完整（缺 ."+i+"）");return;}val+=chunks[i];}src="cookie";}',
+            'else if(single){val=single;src="cookie";}',
+            'if(!val){val=fromStore(localStorage);if(val)src="localStorage";}',
+            'if(!val){val=fromStore(sessionStorage);if(val)src="sessionStorage";}',
+            'if(!val){alert("读不到登录凭证（Cookie 可能是 HttpOnly，且本地也无 session）。\\n\\n请手动：\\n1. 确认已登录 www.dzmm.ai\\n2. 按 F12 → Application（应用程序）→ Cookies → https://www.dzmm.ai\\n3. 找到 sb-rls-auth-token 或 .0 / .1 / .2\\n4. 双击 Value 列 → Ctrl+C 复制（分段则每段都复制，可多行粘贴）\\n5. 回到本工具点「从剪贴板导入」");return;}',
+            'if(val.indexOf("sb-rls-auth-token=")===0)out=val;',
+            'else{if(val.indexOf("base64-")!==0&&val.indexOf("eyJ")===0)val="base64-"+val;out="sb-rls-auth-token="+val;}',
             'try{if(window.opener)window.opener.postMessage({type:"dzmm-cookie-import",cookie:out},"*");}catch(e){}',
-            'function done(){alert("已复制完整 Cookie"+(max>=0?"（已拼接 "+(max+1)+" 段）":"")+"。回到工具点「从剪贴板导入」。");}',
+            'function done(){alert("已复制完整 Cookie（来源："+src+(max>=0?"，拼接 "+(max+1)+" 段":"")+"）。回到工具点「从剪贴板导入」。");}',
             'if(navigator.clipboard&&navigator.clipboard.writeText){',
             'navigator.clipboard.writeText(out).then(done).catch(function(){prompt("请复制：",out);});',
             '}else{prompt("请复制：",out);}',

@@ -80,16 +80,54 @@ function finalizeDzmmCookieValue(value) {
   return `${DZMM_COOKIE_NAME}=${v}`;
 }
 
-/** 把单条 / 多行 / Cookie 头 / `.0/.1` 分段拼成完整 `sb-rls-auth-token=base64-...` */
+function utf8ToBase64(str) {
+  const bytes = new TextEncoder().encode(String(str));
+  let bin = '';
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+
+function sessionObjectToCookieValue(obj) {
+  if (!obj || typeof obj !== 'object') return '';
+  const at = obj.access_token || obj.accessToken;
+  const rt = obj.refresh_token || obj.refreshToken;
+  if (!at && !rt) return '';
+  return `base64-${utf8ToBase64(JSON.stringify(obj))}`;
+}
+
+/** 把单条 / 多行 / Cookie 头 / TSV / JSON session / `.0/.1` 分段拼成完整 cookie */
 export function normalizeCookie(raw) {
   let text = String(raw || '').trim().replace(/^["']|["']$/g, '');
   if (!text) return '';
   if (text.toLowerCase().startsWith('cookie:')) text = text.slice(7).trim();
 
+  // DevTools / 扩展可能直接复制出 session JSON
+  if (text.startsWith('{')) {
+    try {
+      const sessionVal = sessionObjectToCookieValue(JSON.parse(text));
+      if (sessionVal) return finalizeDzmmCookieValue(sessionVal);
+    } catch {
+      /* fall through */
+    }
+  }
+
   const parts = [];
   for (const line of text.split(/\r?\n/)) {
-    const ln = line.trim().replace(/^["']|["']$/g, '');
+    let ln = line.trim().replace(/^["']|["']$/g, '');
     if (!ln) continue;
+    // Chrome Application 表格：Name<TAB>Value
+    if (ln.includes('\t') && !ln.includes('=')) {
+      const tab = ln.indexOf('\t');
+      const name = ln.slice(0, tab).trim();
+      const value = ln.slice(tab + 1).trim();
+      if (name) ln = `${name}=${value}`;
+    } else if (ln.includes('\t') && ln.includes('=')) {
+      // Name\tValue 且 Value 内可能含 =
+      const tab = ln.indexOf('\t');
+      const left = ln.slice(0, tab).trim();
+      const right = ln.slice(tab + 1).trim();
+      if (left && !left.includes('=')) ln = `${left}=${right}`;
+    }
     if (ln.includes(';') && ln.includes('=')) {
       for (const p of ln.split(';')) {
         const t = p.trim();
