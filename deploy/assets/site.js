@@ -125,9 +125,9 @@
         return `
             <article class="weibo-item weibo-item-public">
                 <div class="weibo-item-head">
-                    <span class="weibo-avatar site">站</span>
+                    <span class="weibo-avatar site">纵</span>
                     <div class="weibo-item-meta">
-                        <strong>ComfyUI Web</strong>
+                        <strong>纵欲</strong>
                         ${catBadge(article.category)}
                         <time>${formatTimeAgo(article.published_at)}</time>
                     </div>
