@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.83');
+        console.log('[ComfyUI Web] v4.84');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -14192,12 +14192,15 @@
             if (helper) helper.style.display = 'block';
         }
 
-        /** Google/Discord/Twitter：浏览器直连官网 app-oauth（避开 /auth/oauth 授权页 404） */
+        /**
+         * 第三方入口：
+         * Google/Discord/Twitter 会 307 到 rls.cheggpt.com/auth/v1/authorize，该接口目前固定 404（官网侧故障）。
+         * 仅保留登录码 / 邮箱验证码 / 官网登录页，完成后剪贴板导入 Cookie。
+         */
         async function openDzmmOAuth(provider) {
             const id = String(provider || '').trim().toLowerCase();
-            if (id === 'signin' || id === 'otp') {
-                openDzmmSignIn(id === 'otp' ? '' : '');
-                showToast('请在官网完成登录，再用书签复制 Cookie 后点「从剪贴板导入」');
+            if (['google', 'discord', 'twitter'].includes(id)) {
+                showToast('官网 Google/Discord/Twitter 授权服务当前 404，请改用邮箱密码或 Telegram');
                 return;
             }
             if (id === 'signin-code' || id === 'login-code') {
@@ -14205,31 +14208,8 @@
                 showToast('请在官网完成登录码登录，再导入 Cookie');
                 return;
             }
-            if (!['google', 'discord', 'twitter'].includes(id)) {
-                openDzmmSignIn();
-                return;
-            }
-            try {
-                const res = await fetch(`https://www.dzmm.ai/api/auth/app-oauth/${id}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                    body: JSON.stringify({ next: '/' }),
-                });
-                const data = await res.json().catch(() => ({}));
-                const url = typeof data?.url === 'string' ? data.url : '';
-                if (res.ok && url) {
-                    const abs = url.startsWith('http') ? url : `https://www.dzmm.ai${url}`;
-                    window.open(abs, 'dzmm_oauth', 'width=520,height=760,menubar=no,toolbar=no,location=yes,status=no');
-                    const helper = document.getElementById('dzmm-cookie-helper');
-                    if (helper) helper.style.display = 'block';
-                    showToast('已打开官网授权，完成后用书签复制 Cookie →「从剪贴板导入」');
-                    return;
-                }
-            } catch (e) {
-                console.warn('[DZMM OAuth] app-oauth failed', e);
-            }
             openDzmmSignIn();
-            showToast('授权桥接失败，已打开官网登录页，请在页面内点 Google/Discord/Twitter');
+            showToast('请在官网完成登录，再用书签复制 Cookie 后点「从剪贴板导入」');
         }
 
         async function loginDzmmWithPassword() {

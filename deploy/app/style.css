@@ -2065,6 +2065,15 @@ textarea {
     align-items: center;
 }
 
+.dzmm-oauth-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.dzmm-oauth-broken-hint {
+    color: #e8a070;
+}
+
 .dzmm-cookie-guide {
     margin-top: 8px;
     display: flex;

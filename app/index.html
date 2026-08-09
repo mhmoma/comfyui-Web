@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v4.83</title>
-    <link rel="stylesheet" href="style.css?v=463">
+    <title>生图工具 · ComfyUI Web v4.84</title>
+    <link rel="stylesheet" href="style.css?v=464">
     <meta name="theme-color" content="#e94560">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,7 +18,7 @@
     <div class="app">
         <header class="header">
 <a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.83</span></h1>
+            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.84</span></h1>
             <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
                 <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
                 <span class="conn-text" id="conn-text">检测中</span>
@@ -1038,7 +1038,7 @@
                 <div class="dzmm-login-tabs" role="tablist" aria-label="DZMM 登录方式">
                     <button type="button" class="dzmm-login-tab active" data-dzmm-login-tab="password">邮箱密码</button>
                     <button type="button" class="dzmm-login-tab" data-dzmm-login-tab="telegram">Telegram</button>
-                    <button type="button" class="dzmm-login-tab" data-dzmm-login-tab="oauth">第三方</button>
+                    <button type="button" class="dzmm-login-tab" data-dzmm-login-tab="oauth">其他</button>
                 </div>
 
                 <div class="dzmm-login-panel" data-dzmm-login-panel="password">
@@ -1071,11 +1071,11 @@
                 </div>
 
                 <div class="dzmm-login-panel hidden" data-dzmm-login-panel="oauth">
-                    <small class="profile-hint">第三方走官网 <code>app-oauth</code> 桥接（避免直链授权页 404）。登录完成后用书签复制 Cookie，再点下方导入。</small>
+                    <small class="profile-hint dzmm-oauth-broken-hint">Google / Discord / Twitter：官网授权服务 <code>rls.cheggpt.com</code> 当前返回 404，本站无法绕过。请改用上方「邮箱密码」或「Telegram」；或官网用登录码/验证码登录后导入 Cookie。</small>
                     <div class="profile-actions" style="margin-top:8px;flex-wrap:wrap">
-                        <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="google">Google</button>
-                        <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="discord">Discord</button>
-                        <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="twitter">Twitter</button>
+                        <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="google" disabled title="官网授权服务 404，暂不可用">Google（不可用）</button>
+                        <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="discord" disabled title="官网授权服务 404，暂不可用">Discord（不可用）</button>
+                        <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="twitter" disabled title="官网授权服务 404，暂不可用">Twitter（不可用）</button>
                         <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="signin-code">登录码</button>
                         <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="otp">邮箱验证码</button>
                         <button type="button" class="btn-secondary dzmm-oauth-btn" data-dzmm-oauth="signin">官网登录页</button>
@@ -1483,7 +1483,7 @@
                     <li><b>Cookie</b>：粘贴 / 剪贴板 / Network 复制（始终可用）</li>
                     <li><b>邮箱密码</b>：本站代理登录，成功则自动写入 Cookie；失败可改官网登录 + 剪贴板导入</li>
                     <li><b>Telegram</b>：本站生成二维码，确认后自动写入 Cookie</li>
-                    <li><b>Google / Discord / Twitter</b>：走官网 app-oauth 桥接（避免授权页 404），登录后书签复制再「从剪贴板导入」</li>
+                    <li><b>Google / Discord / Twitter</b>：官网授权域名当前 404，暂不可用（与本站无关）</li>
                     <li><b>登录码 / 邮箱验证码</b>：跳转官网完成登录后导入 Cookie</li>
                 </ul>
                 <p><a id="dzmm-cookie-bookmarklet-tutorial" class="dzmm-cookie-tag" href="#" title="拖到书签栏后，在 dzmm.ai 页面点击">📋 复制完整 DZMM Cookie</a></p>
@@ -1672,7 +1672,7 @@
     <script src="vendor/jsQR.js"></script>
     <script src="dzmm-dewmark.js?v=2"></script>
     <script src="lora-library.js?v=5"></script>
-    <script src="script.js?v=479"></script>
+    <script src="script.js?v=480"></script>
     <script src="/assets/pwa-register.js?v=2"></script>
 </body>
 </html>
