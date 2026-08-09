@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.91');
+        console.log('[ComfyUI Web] v4.92');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -14364,6 +14364,20 @@
             showToast('请在官网完成登录，再用书签复制 Cookie 后点「从剪贴板导入」');
         }
 
+        let dzmmLoginCooldownUntil = 0;
+
+        function explainDzmmLoginError(res, data) {
+            const code = data?.code || '';
+            const raw = data?.error || '';
+            if (code === 'CAPTCHA_REQUIRED' || raw === 'captcha_required' || /captcha/i.test(raw)) {
+                return '官网要求验证码，服务器密码登录不可用。请打开官网登录后，用书签复制 Cookie 并「从剪贴板导入」，或改用 Telegram。';
+            }
+            if (res?.status === 429 || code === 'RATE_LIMITED' || /too many|限流|频繁/i.test(raw)) {
+                return '登录过于频繁（429）。请等待约 2 分钟，或改用官网登录 + 导入 Cookie，不要连续点登录。';
+            }
+            return raw || `登录失败 HTTP ${res?.status || ''}`.trim();
+        }
+
         async function loginDzmmWithPassword() {
             const email = document.getElementById('inp-dzmm-email')?.value.trim() || '';
             const password = document.getElementById('inp-dzmm-password')?.value || '';
@@ -14372,8 +14386,16 @@
                 showToast('请填写邮箱和密码');
                 return;
             }
+            const now = Date.now();
+            if (now < dzmmLoginCooldownUntil) {
+                const sec = Math.ceil((dzmmLoginCooldownUntil - now) / 1000);
+                showToast(`请 ${sec}s 后再试（防止触发限流）`);
+                return;
+            }
             const btn = document.getElementById('btn-dzmm-login');
             if (btn) btn.disabled = true;
+            // 防连点：至少冷却 4 秒
+            dzmmLoginCooldownUntil = now + 4000;
             try {
                 const res = await fetch('/api/dzmm/login', {
                     method: 'POST',
@@ -14382,8 +14404,14 @@
                 });
                 const data = await res.json().catch(() => ({}));
                 if (!res.ok || !data.ok || !data.cookie) {
-                    const err = data.error || `登录失败 HTTP ${res.status}`;
+                    const err = explainDzmmLoginError(res, data);
                     showToast(err);
+                    if (res.status === 429 || data.code === 'RATE_LIMITED') {
+                        dzmmLoginCooldownUntil = Date.now() + 120000;
+                    } else if (data.code === 'CAPTCHA_REQUIRED' || data.error === 'captcha_required') {
+                        dzmmLoginCooldownUntil = Date.now() + 15000;
+                        openDzmmSignIn();
+                    }
                     return;
                 }
                 const acc = upsertAccount(data.cookie, {
@@ -14409,7 +14437,10 @@
             } catch (e) {
                 showToast(`登录失败: ${e.message || e}`);
             } finally {
-                if (btn) btn.disabled = false;
+                if (btn) {
+                    const left = Math.max(0, dzmmLoginCooldownUntil - Date.now());
+                    setTimeout(() => { btn.disabled = false; }, Math.min(left, 4000));
+                }
             }
         }
 
@@ -15035,13 +15066,16 @@
                     let data = {};
                     try { data = rawText ? JSON.parse(rawText) : {}; } catch { data = {}; }
                     if (!res.ok || !data.ok) {
-                        const msg =
+                        let msg =
                             data.error ||
                             data.detail ||
                             (rawText && !rawText.startsWith('{') ? rawText.slice(0, 160) : '') ||
                             `生成失败 (${res.status})`;
+                        if (msg === 'captcha_required' || data.code === 'CAPTCHA_REQUIRED' || /captcha/i.test(String(msg))) {
+                            msg = '官网要求验证码，当前 Cookie/出口不可用。请到官网重新登录后导入完整 Cookie，或换 Telegram 登录。';
+                        }
                         lastError = msg;
-                        if (/Cookie|UNAUTHORIZED|登录/i.test(String(msg))) {
+                        if (/Cookie|UNAUTHORIZED|登录|验证码|captcha/i.test(String(msg))) {
                             const list = loadAccounts().filter((a) => !tried.has(a.id));
                             if (isAutoRotateEnabled() && list[0]) {
                                 await setActiveAccount(list[0].id, { syncServer: true });

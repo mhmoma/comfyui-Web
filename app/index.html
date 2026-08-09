@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v4.91</title>
+    <title>生图工具 · ComfyUI Web v4.92</title>
     <link rel="stylesheet" href="style.css?v=469">
     <meta name="theme-color" content="#e94560">
     <script>
@@ -27,7 +27,7 @@
     <div class="app">
         <header class="header">
             <a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.91</span></h1>
+            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.92</span></h1>
             <nav class="header-tools" aria-label="工具栏">
                 <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
                     <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
@@ -1079,7 +1079,7 @@
                         <button type="button" id="btn-dzmm-login" class="btn-primary">登录并写入 Cookie</button>
                         <button type="button" id="btn-dzmm-open-signin" class="btn-secondary">官网登录页</button>
                     </div>
-                    <small class="profile-hint">对齐本地工具：到期前自动 <code>/api/auth/token</code> 续期；勾选保存密码后，续期失败可静默重登。密码只存本机浏览器。</small>
+                    <small class="profile-hint">若提示验证码/400：本站服务器出口常被官网拦截，请改用「官网登录 + 从剪贴板导入」或 Telegram，勿连续点登录（易 429）。对齐本地工具：到期前自动 <code>/api/auth/token</code> 续期；勾选保存密码后，续期失败可静默重登。密码只存本机浏览器。</small>
                 </div>
 
                 <div class="dzmm-login-panel hidden" data-dzmm-login-panel="telegram">
@@ -1699,7 +1699,7 @@
     <script src="vendor/jsQR.js"></script>
     <script src="dzmm-dewmark.js?v=2"></script>
     <script src="lora-library.js?v=5"></script>
-    <script src="script.js?v=487"></script>
+    <script src="script.js?v=488"></script>
     <script src="/assets/pwa-register.js?v=2"></script>
 </body>
 </html>

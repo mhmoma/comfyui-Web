@@ -324,14 +324,27 @@ export async function loginWithPassword(email, password) {
   }
 
   if (!isCompleteDzmmCookie(cookie)) {
+    const rawErr = data?.error || data?.message || data?.msg || '';
     let msg =
-      data?.error ||
-      data?.message ||
-      data?.msg ||
+      rawErr ||
       (text ? text.slice(0, 200) : '') ||
       `登录失败 HTTP ${res.status}`;
-    // 代理机房拿不到 Set-Cookie / session 时，官网本机登录仍可用
-    if (res.ok && !data?.error) {
+    let code = 'LOGIN_FAILED';
+    // Cloudflare Pages 出口 IP 常被官网要求验证码，密码登录走服务器会失败
+    if (
+      rawErr === 'captcha_required' ||
+      res.status === 418 ||
+      /captcha/i.test(String(rawErr)) ||
+      /captcha/i.test(String(text || ''))
+    ) {
+      msg =
+        '官网要求验证码（服务器出口被拦截）。请改用：① 打开官网登录后「从剪贴板导入 Cookie」；② Telegram 登录（浏览器直连）。密码登录无法在服务端完成验证码。';
+      code = 'CAPTCHA_REQUIRED';
+    } else if (res.status === 429 || /too many|rate|限流|频繁/i.test(String(msg))) {
+      msg = '登录过于频繁，已被限流。请等待 1～2 分钟后再试，或改用官网登录 + 导入 Cookie。';
+      code = 'RATE_LIMITED';
+    } else if (res.ok && !data?.error) {
+      // 代理机房拿不到 Set-Cookie / session 时，官网本机登录仍可用
       msg =
         '登录接口已响应，但未能取得 Cookie（常见于代理出口限制）。请打开官网登录后，用书签复制并「从剪贴板导入」。';
     } else if (/邮箱|密码|错/.test(String(msg))) {
@@ -341,7 +354,7 @@ export async function loginWithPassword(email, password) {
       ok: false,
       error: String(msg),
       status: res.status,
-      code: 'LOGIN_FAILED',
+      code,
       fallbackUrl: `${DZMM_BASE}/sign-in`,
     };
   }
