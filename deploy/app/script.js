@@ -9404,7 +9404,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.82');
+        console.log('[ComfyUI Web] v4.83');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -14181,6 +14181,57 @@
             });
         });
 
+        function openDzmmSignIn(extraQuery = '') {
+            const q = extraQuery ? (extraQuery.startsWith('?') ? extraQuery : `?${extraQuery}`) : '';
+            window.open(
+                `https://www.dzmm.ai/sign-in${q}`,
+                'dzmm_signin',
+                'width=480,height=720,menubar=no,toolbar=no,location=yes,status=no'
+            );
+            const helper = document.getElementById('dzmm-cookie-helper');
+            if (helper) helper.style.display = 'block';
+        }
+
+        /** Google/Discord/Twitter：浏览器直连官网 app-oauth（避开 /auth/oauth 授权页 404） */
+        async function openDzmmOAuth(provider) {
+            const id = String(provider || '').trim().toLowerCase();
+            if (id === 'signin' || id === 'otp') {
+                openDzmmSignIn(id === 'otp' ? '' : '');
+                showToast('请在官网完成登录，再用书签复制 Cookie 后点「从剪贴板导入」');
+                return;
+            }
+            if (id === 'signin-code' || id === 'login-code') {
+                openDzmmSignIn('s=signin-code');
+                showToast('请在官网完成登录码登录，再导入 Cookie');
+                return;
+            }
+            if (!['google', 'discord', 'twitter'].includes(id)) {
+                openDzmmSignIn();
+                return;
+            }
+            try {
+                const res = await fetch(`https://www.dzmm.ai/api/auth/app-oauth/${id}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                    body: JSON.stringify({ next: '/' }),
+                });
+                const data = await res.json().catch(() => ({}));
+                const url = typeof data?.url === 'string' ? data.url : '';
+                if (res.ok && url) {
+                    const abs = url.startsWith('http') ? url : `https://www.dzmm.ai${url}`;
+                    window.open(abs, 'dzmm_oauth', 'width=520,height=760,menubar=no,toolbar=no,location=yes,status=no');
+                    const helper = document.getElementById('dzmm-cookie-helper');
+                    if (helper) helper.style.display = 'block';
+                    showToast('已打开官网授权，完成后用书签复制 Cookie →「从剪贴板导入」');
+                    return;
+                }
+            } catch (e) {
+                console.warn('[DZMM OAuth] app-oauth failed', e);
+            }
+            openDzmmSignIn();
+            showToast('授权桥接失败，已打开官网登录页，请在页面内点 Google/Discord/Twitter');
+        }
+
         async function loginDzmmWithPassword() {
             const email = document.getElementById('inp-dzmm-email')?.value.trim() || '';
             const password = document.getElementById('inp-dzmm-password')?.value || '';
@@ -14198,7 +14249,11 @@
                 });
                 const data = await res.json().catch(() => ({}));
                 if (!res.ok || !data.ok || !data.cookie) {
-                    showToast(data.error || `登录失败 HTTP ${res.status}`);
+                    const err = data.error || `登录失败 HTTP ${res.status}`;
+                    showToast(err);
+                    if (data.fallbackUrl || /密码|Cookie|官网/.test(String(err))) {
+                        // 不强行弹窗，仅提示；用户可点「官网登录页」
+                    }
                     return;
                 }
                 const ok = await applyDzmmCookie(data.cookie, { addToPool: true, silent: true });
@@ -14206,6 +14261,10 @@
                     showToast('账号密码登录成功，已写入 Cookie / 账号池');
                     const pw = document.getElementById('inp-dzmm-password');
                     if (pw) pw.value = '';
+                } else {
+                    const inp = document.getElementById('inp-dzmm-cookie');
+                    if (inp && data.cookie) inp.value = data.cookie;
+                    showToast('已拿到 Cookie 但写入失败，请点「加入账号池」或「从剪贴板导入」');
                 }
             } catch (e) {
                 showToast(`登录失败: ${e.message || e}`);
@@ -14364,6 +14423,10 @@
         document.getElementById('btn-dzmm-login')?.addEventListener('click', () => {
             loginDzmmWithPassword();
         });
+        document.getElementById('btn-dzmm-open-signin')?.addEventListener('click', () => {
+            openDzmmSignIn();
+            showToast('请在官网登录后，用书签复制 Cookie，再点「从剪贴板导入」');
+        });
         document.getElementById('inp-dzmm-password')?.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -14377,6 +14440,11 @@
             stopDzmmTelegramPoll();
             const statusEl = document.getElementById('dzmm-tg-status');
             if (statusEl) statusEl.textContent = '已停止等待';
+        });
+        document.querySelectorAll('.dzmm-oauth-btn[data-dzmm-oauth]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                openDzmmOAuth(btn.getAttribute('data-dzmm-oauth') || 'signin');
+            });
         });
         document.getElementById('btn-dzmm-paste-after-oauth')?.addEventListener('click', async () => {
             document.getElementById('btn-dzmm-paste-cookie')?.click();

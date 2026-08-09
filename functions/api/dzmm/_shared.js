@@ -301,27 +301,48 @@ export async function loginWithPassword(email, password) {
   }
 
   if (!isCompleteDzmmCookie(cookie) && data && typeof data === 'object') {
-    const session =
-      data.session ||
-      data.data?.session ||
-      data.user?.session ||
-      (data.access_token || data.refresh_token ? data : null);
-    const sessionVal = sessionObjectToCookieValue(session);
-    if (sessionVal) cookie = finalizeDzmmCookieValue(sessionVal);
+    const candidates = [
+      data.session,
+      data.data?.session,
+      data.user?.session,
+      data.auth?.session,
+      data.result?.session,
+      data.data,
+      data.user,
+      data.auth,
+      data.result,
+      data.access_token || data.refresh_token ? data : null,
+      data.data?.access_token || data.data?.refresh_token ? data.data : null,
+    ];
+    for (const session of candidates) {
+      const sessionVal = sessionObjectToCookieValue(session);
+      if (sessionVal) {
+        cookie = finalizeDzmmCookieValue(sessionVal);
+        break;
+      }
+    }
   }
 
   if (!isCompleteDzmmCookie(cookie)) {
-    const msg =
+    let msg =
       data?.error ||
       data?.message ||
       data?.msg ||
       (text ? text.slice(0, 200) : '') ||
       `登录失败 HTTP ${res.status}`;
+    // 代理机房拿不到 Set-Cookie / session 时，官网本机登录仍可用
+    if (res.ok && !data?.error) {
+      msg =
+        '登录接口已响应，但未能取得 Cookie（常见于代理出口限制）。请打开官网登录后，用书签复制并「从剪贴板导入」。';
+    } else if (/邮箱|密码|错/.test(String(msg))) {
+      msg = `${msg}（若官网能登，请改用官网登录 + 剪贴板导入）`;
+    }
     return {
       ok: false,
       error: String(msg),
       status: res.status,
       code: 'LOGIN_FAILED',
+      fallbackUrl: `${DZMM_BASE}/sign-in`,
     };
   }
 
@@ -344,19 +365,24 @@ export function listLoginMethods() {
       id: 'google',
       label: 'Google',
       mode: 'oauth',
-      url: `${DZMM_BASE}/auth/oauth/google?next=/`,
+      // 直链 /auth/oauth/* 常被 captcha / 授权页 404；官网用 app-oauth 桥接
+      appOauth: 'google',
+      url: `${DZMM_BASE}/sign-in`,
+      hint: '浏览器调 app-oauth 后打开官网桥接页',
     },
     {
       id: 'discord',
       label: 'Discord',
       mode: 'oauth',
-      url: `${DZMM_BASE}/auth/oauth/discord?next=/`,
+      appOauth: 'discord',
+      url: `${DZMM_BASE}/sign-in`,
     },
     {
       id: 'twitter',
       label: 'Twitter',
       mode: 'oauth',
-      url: `${DZMM_BASE}/auth/oauth/twitter?next=/`,
+      appOauth: 'twitter',
+      url: `${DZMM_BASE}/sign-in`,
     },
     {
       id: 'login-code',
