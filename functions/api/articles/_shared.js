@@ -1,3 +1,5 @@
+export const DEFAULT_AUTHOR = '纵欲';
+
 export const ARTICLES_SCHEMA = `
 CREATE TABLE IF NOT EXISTS articles (
   id TEXT PRIMARY KEY,
@@ -8,6 +10,7 @@ CREATE TABLE IF NOT EXISTS articles (
   content TEXT NOT NULL,
   category TEXT DEFAULT 'tool',
   tags TEXT DEFAULT '[]',
+  author TEXT DEFAULT '',
   status TEXT DEFAULT 'published',
   published_at INTEGER NOT NULL,
   created_at INTEGER NOT NULL,
@@ -18,6 +21,20 @@ CREATE INDEX IF NOT EXISTS idx_articles_status ON articles(status);
 CREATE INDEX IF NOT EXISTS idx_articles_published ON articles(published_at DESC);
 CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category);
 `;
+
+/** 旧库无 author 列时自动补齐（可重复调用） */
+export async function ensureAuthorColumn(db) {
+  try {
+    await db.prepare(`ALTER TABLE articles ADD COLUMN author TEXT DEFAULT ''`).run();
+  } catch {
+    /* column already exists */
+  }
+}
+
+export function normalizeAuthor(name) {
+  const s = String(name ?? '').trim().slice(0, 40);
+  return s || DEFAULT_AUTHOR;
+}
 
 export function json(status, data) {
   return new Response(JSON.stringify(data), {
@@ -56,6 +73,7 @@ export function rowToArticle(row, { includeContent = false } = {}) {
     cover_url: row.cover_url || '',
     category: row.category || 'tool',
     tags,
+    author: normalizeAuthor(row.author),
     status: row.status,
     published_at: row.published_at,
     created_at: row.created_at,

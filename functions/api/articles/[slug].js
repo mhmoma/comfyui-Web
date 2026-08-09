@@ -1,4 +1,7 @@
-import { json, corsPreflight, checkAdmin, rowToArticle, makeTitle, makeSummary } from './_shared.js';
+import {
+  json, corsPreflight, checkAdmin, rowToArticle, makeTitle, makeSummary,
+  ensureAuthorColumn, normalizeAuthor,
+} from './_shared.js';
 
 export async function onRequestOptions() {
   return corsPreflight();
@@ -8,6 +11,7 @@ export async function onRequestGet(context) {
   const { request, env, params } = context;
   const db = env.DB;
   if (!db) return json(500, { error: 'Database not configured' });
+  await ensureAuthorColumn(db);
 
   const slug = params.slug;
   const isAdmin = checkAdmin(request, env);
@@ -33,6 +37,7 @@ export async function onRequestPatch(context) {
 
   const db = env.DB;
   if (!db) return json(500, { error: 'Database not configured' });
+  await ensureAuthorColumn(db);
 
   let body;
   try { body = await request.json(); } catch { return json(400, { error: 'Invalid JSON' }); }
@@ -51,6 +56,7 @@ export async function onRequestPatch(context) {
   }
   const category = body.category !== undefined ? body.category : row.category;
   const cover_url = body.cover_url !== undefined ? String(body.cover_url).trim() : row.cover_url;
+  const author = body.author !== undefined ? normalizeAuthor(body.author) : normalizeAuthor(row.author);
   let status = body.status !== undefined ? body.status : row.status;
   const tags = body.tags !== undefined ? JSON.stringify(body.tags) : row.tags;
   let published_at = body.published_at !== undefined ? Number(body.published_at) : row.published_at;
@@ -60,8 +66,8 @@ export async function onRequestPatch(context) {
 
   try {
     await db.prepare(
-      `UPDATE articles SET title=?, summary=?, cover_url=?, content=?, category=?, tags=?, status=?, published_at=?, updated_at=? WHERE slug=?`
-    ).bind(title, summary, cover_url, content, category, tags, status, published_at, now, slug).run();
+      `UPDATE articles SET title=?, summary=?, cover_url=?, content=?, category=?, tags=?, author=?, status=?, published_at=?, updated_at=? WHERE slug=?`
+    ).bind(title, summary, cover_url, content, category, tags, author, status, published_at, now, slug).run();
 
     const updated = await db.prepare('SELECT * FROM articles WHERE slug = ?').bind(slug).first();
     return json(200, { ok: true, article: rowToArticle(updated, { includeContent: true }) });

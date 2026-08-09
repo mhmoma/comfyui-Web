@@ -132,6 +132,7 @@
         editingId = null;
         editingSlug = null;
         $('post-title').value = '';
+        if ($('post-author')) $('post-author').value = '纵欲';
         $('post-content').value = '';
         $('post-summary').value = '';
         $('post-tags').value = '';
@@ -150,6 +151,7 @@
         editingId = article.id;
         editingSlug = article.slug;
         $('post-title').value = article.title || '';
+        if ($('post-author')) $('post-author').value = article.author || '纵欲';
         $('post-content').value = article.content || article.summary || '';
         $('post-summary').value = article.summary || '';
         $('post-tags').value = (article.tags || []).join(', ');
@@ -181,11 +183,12 @@
     function getFormData() {
         const content = $('post-content').value.trim();
         const title = $('post-title').value.trim();
+        const author = ($('post-author')?.value || '').trim() || '纵欲';
         const summary = $('post-summary').value.trim();
         const tags = parseTags($('post-tags').value);
         const cover_url = $('post-cover').value.trim();
         const status = $('post-draft').checked ? 'draft' : 'published';
-        return { content, title, summary, tags, cover_url, status, category: currentCategory };
+        return { content, title, author, summary, tags, cover_url, status, category: currentCategory };
     }
 
     function renderTableRow(a) {
@@ -197,7 +200,7 @@
             <tr data-article-id="${escapeHtml(a.id)}" data-slug="${escapeHtml(a.slug)}">
                 <td class="col-title">
                     <div class="row-title">${escapeHtml(a.title)}</div>
-                    <div class="row-summary">${escapeHtml(a.summary)}</div>
+                    <div class="row-summary">${escapeHtml(a.author || '纵欲')} · ${escapeHtml(a.summary)}</div>
                 </td>
                 <td class="col-cat"><span class="cat-badge cat-${escapeHtml(a.category)}">${escapeHtml(catLabel)}</span></td>
                 <td class="col-status">${statusLabel}</td>
@@ -296,6 +299,7 @@
             const payload = {
                 content: data.content,
                 title: data.title || undefined,
+                author: data.author || '纵欲',
                 summary: data.summary || undefined,
                 tags: data.tags,
                 category: data.category,

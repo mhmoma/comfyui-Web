@@ -50,12 +50,13 @@
             const date = new Date(a.published_at).toLocaleDateString('zh-CN', { year:'numeric', month:'long', day:'numeric' });
             const tags = (a.tags||[]).map(t => `<span class="article-tag"><a href="/app/?tag=${encodeURIComponent(t)}">#${esc(t)}</a></span>`).join('');
 
+            const author = String(a.author || '纵欲').trim() || '纵欲';
             headEl.innerHTML = `
                 <div class="article-chrome-inner">
                     <a class="article-back" href="/news/">← 资讯</a>
                     <span class="cat-badge cat-${esc(a.category)}">${CATEGORY_LABELS[a.category]||a.category}</span>
                     <h1>${esc(a.title)}</h1>
-                    <div class="article-meta"><span>${date}</span></div>
+                    <div class="article-meta"><span>${esc(author)}</span><span>${date}</span></div>
                 </div>`;
 
             bodyInner.innerHTML = `
@@ -97,6 +98,6 @@
             });
     })();
     </script>
-    <script src="/assets/site.js?v=14"></script>
+    <script src="/assets/site.js?v=15"></script>
 </body>
 </html>

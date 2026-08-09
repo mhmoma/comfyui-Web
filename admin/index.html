@@ -59,6 +59,9 @@
                         <label class="admin-field-label">标题 <span class="optional">（可选，留空自动取首行）</span></label>
                         <input type="text" id="post-title" class="admin-input" maxlength="120" placeholder="文章标题">
 
+                        <label class="admin-field-label">作者 <span class="optional">（列表头像旁显示，默认「纵欲」）</span></label>
+                        <input type="text" id="post-author" class="admin-input" maxlength="40" placeholder="纵欲" value="纵欲">
+
                         <label class="admin-field-label">正文 <span id="char-count" class="char-count">0 / 5000</span></label>
                         <textarea id="post-content" class="weibo-textarea" rows="8" maxlength="5000" placeholder="有什么新鲜事？支持 Markdown：## 标题、**粗体**、- 列表、![](图片url)"></textarea>
 
@@ -117,6 +120,6 @@
         </section>
     </main>
 
-    <script src="/assets/admin.js?v=5"></script>
+    <script src="/assets/admin.js?v=6"></script>
 </body>
 </html>
