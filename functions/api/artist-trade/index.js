@@ -27,6 +27,16 @@ const SCHEMA = [
     at INTEGER NOT NULL,
     PRIMARY KEY (listing_id, buyer_id)
   )`,
+  `CREATE TABLE IF NOT EXISTS artist_trade_earnings (
+    id TEXT PRIMARY KEY,
+    seller_id TEXT NOT NULL,
+    buyer_id TEXT NOT NULL,
+    listing_id TEXT NOT NULL,
+    amount INTEGER NOT NULL,
+    claimed INTEGER NOT NULL DEFAULT 0,
+    at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_artist_trade_earn_seller ON artist_trade_earnings(seller_id, claimed, at DESC)`,
 ];
 
 async function ensureTable(db) {
@@ -40,11 +50,36 @@ async function ensureTable(db) {
   try {
     await db.prepare("SELECT 1 FROM artist_trade_purchases LIMIT 1").all();
   } catch (_) {
-    await db.prepare(SCHEMA[SCHEMA.length - 1]).run();
+    await db.prepare(
+      `CREATE TABLE IF NOT EXISTS artist_trade_purchases (
+        listing_id TEXT NOT NULL,
+        buyer_id TEXT NOT NULL,
+        at INTEGER NOT NULL,
+        PRIMARY KEY (listing_id, buyer_id)
+      )`
+    ).run();
   }
   try {
     await db.prepare(`ALTER TABLE artist_trade_listings ADD COLUMN content_hash TEXT NOT NULL DEFAULT ''`).run();
   } catch (_) {}
+  try {
+    await db.prepare("SELECT 1 FROM artist_trade_earnings LIMIT 1").all();
+  } catch (_) {
+    await db.prepare(
+      `CREATE TABLE IF NOT EXISTS artist_trade_earnings (
+        id TEXT PRIMARY KEY,
+        seller_id TEXT NOT NULL,
+        buyer_id TEXT NOT NULL,
+        listing_id TEXT NOT NULL,
+        amount INTEGER NOT NULL,
+        claimed INTEGER NOT NULL DEFAULT 0,
+        at INTEGER NOT NULL
+      )`
+    ).run();
+    await db.prepare(
+      `CREATE INDEX IF NOT EXISTS idx_artist_trade_earn_seller ON artist_trade_earnings(seller_id, claimed, at DESC)`
+    ).run();
+  }
 }
 
 function json(status, data) {
@@ -283,15 +318,42 @@ export async function onRequest(context) {
         });
       }
       const now = Date.now();
+      const amount = Number(row.price) || 0;
       await env.DB.prepare(
         "INSERT INTO artist_trade_purchases (listing_id, buyer_id, at) VALUES (?, ?, ?)"
       ).bind(listingId, userId, now).run();
+      const earnId = `ae-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+      await env.DB.prepare(
+        `INSERT INTO artist_trade_earnings
+         (id, seller_id, buyer_id, listing_id, amount, claimed, at)
+         VALUES (?, ?, ?, ?, ?, 0, ?)`
+      ).bind(earnId, row.seller_id, userId, listingId, amount, now).run();
       return json(200, {
         ok: true,
         already: false,
-        price: Number(row.price) || 0,
+        price: amount,
         item: publicRow(row, { unlocked: true }),
+        sellerPaid: amount,
       });
+    }
+
+    if (action === "claim") {
+      const { results } = await env.DB.prepare(
+        `SELECT id, amount FROM artist_trade_earnings
+         WHERE seller_id = ? AND claimed = 0
+         ORDER BY at ASC`
+      ).bind(userId).all();
+      const rows = results || [];
+      if (!rows.length) {
+        return json(200, { ok: true, amount: 0, count: 0, ids: [] });
+      }
+      const ids = rows.map((r) => r.id);
+      const amount = rows.reduce((sum, r) => sum + (Number(r.amount) || 0), 0);
+      const placeholders = ids.map(() => "?").join(",");
+      await env.DB.prepare(
+        `UPDATE artist_trade_earnings SET claimed = 1 WHERE seller_id = ? AND id IN (${placeholders})`
+      ).bind(userId, ...ids).run();
+      return json(200, { ok: true, amount, count: ids.length, ids });
     }
 
     if (action === "delist") {
