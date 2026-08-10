@@ -76,17 +76,31 @@ function cleanName(value) {
     .slice(0, 24) || '访客';
 }
 
-function cleanBadge(value) {
-  const badge = String(value || '').trim();
-  return badge === 'gold_collector' ? 'gold_collector' : '';
+function cleanBadges(value) {
+  const allowed = new Set(['gold_collector', 'adult']);
+  const raw = Array.isArray(value)
+    ? value
+    : String(value || '').split(/[,|]/);
+  const list = [];
+  for (const item of raw) {
+    const key = String(item || '').trim();
+    if (allowed.has(key) && !list.includes(key)) list.push(key);
+  }
+  return list;
+}
+
+function badgesToStore(value) {
+  return cleanBadges(value).join(',');
 }
 
 function rowToMessage(row, { admin = false } = {}) {
+  const badges = cleanBadges(row.badge);
   const item = {
     id: row.id,
     text: row.text,
     name: row.name || '访客',
-    badge: cleanBadge(row.badge),
+    badge: badges.join(','),
+    badges,
     at: Number(row.at) || 0,
   };
   if (admin) {
@@ -211,7 +225,8 @@ export async function onRequestPost(context) {
 
   const name = cleanName(body?.name);
   const userId = String(body?.userId || '').slice(0, 64);
-  const badge = cleanBadge(body?.badge);
+  const badges = cleanBadges(body?.badges ?? body?.badge);
+  const badge = badgesToStore(badges);
   const ip = clientIp(request);
   const now = Date.now();
 
@@ -249,7 +264,7 @@ export async function onRequestPost(context) {
     }
 
     const payload = await pagePayload(db, 1);
-    payload.item = { id, text, name, badge, at: now };
+    payload.item = { id, text, name, badge, badges, at: now };
     return json(200, payload);
   } catch (e) {
     return json(500, { ok: false, error: 'server', message: String(e?.message || e) });
