@@ -111,18 +111,43 @@ function cleanCosmetics(raw) {
   const out = {};
   const nameBg = String(data.nameBgValue || data.nameBg || '').trim().slice(0, 120);
   const nameText = String(data.nameText || '').trim().slice(0, 32);
-  const crown = String(data.crownValue || data.crown || '').trim().slice(0, 8);
+  const crown = String(data.crownValue || data.crown || '').trim().slice(0, 16);
   const title = String(data.titleValue || data.title || '').trim().slice(0, 16);
   const titleBg = String(data.titleBg || '').trim().slice(0, 160);
   const titleText = String(data.titleText || '').trim().slice(0, 32);
-  const titleBorder = String(data.titleBorder || '').trim().slice(0, 32);
+  const titleBorder = String(data.titleBorder || '').trim().slice(0, 64);
+  const borderEffect = String(data.nameBorderEffect || '').trim().slice(0, 32);
+  const fxEffect = String(data.nameFxEffect || '').trim().slice(0, 32);
+  const borderId = String(data.nameBorder || '').trim().slice(0, 32);
+  const fxId = String(data.nameFx || '').trim().slice(0, 32);
+  const allowedBorder = new Set([
+    'gold-shine', 'rainbow', 'neon-cyan', 'neon-pink', 'silver', 'ink', 'candy', 'double',
+  ]);
+  const allowedFx = new Set(['gold', 'rainbow', 'neon', 'sparkle', 'fire', 'ocean']);
   if (nameBg && !/[<>"']/.test(nameBg)) out.nameBgValue = nameBg;
   if (nameText && /^#[0-9a-fA-F]{3,8}$/.test(nameText)) out.nameText = nameText;
-  if (crown) out.crownValue = crown;
-  if (title) out.titleValue = title;
+  if (crown && !/[<>]/.test(crown)) out.crownValue = crown;
+  if (title && !/[<>]/.test(title)) out.titleValue = title;
   if (titleBg && !/[<>"']/.test(titleBg)) out.titleBg = titleBg;
   if (titleText && /^#[0-9a-fA-F]{3,8}$/.test(titleText)) out.titleText = titleText;
-  if (titleBorder && (/^#[0-9a-fA-F]{3,8}$/.test(titleBorder) || titleBorder.startsWith('rgba('))) out.titleBorder = titleBorder;
+  if (
+    titleBorder
+    && (
+      /^#[0-9a-fA-F]{3,8}$/.test(titleBorder)
+      || titleBorder.startsWith('rgba(')
+      || titleBorder.startsWith('rgb(')
+    )
+  ) {
+    out.titleBorder = titleBorder;
+  }
+  if (allowedBorder.has(borderEffect)) {
+    out.nameBorderEffect = borderEffect;
+    if (borderId) out.nameBorder = borderId;
+  }
+  if (allowedFx.has(fxEffect)) {
+    out.nameFxEffect = fxEffect;
+    if (fxId) out.nameFx = fxId;
+  }
   return out;
 }
 
