@@ -6,7 +6,7 @@ alwaysApply: true
 
 # ComfyUI-Web 部署与 D1 数据库操作规范
 
-> **部署版本**: 1.198
+> **部署版本**: 1.199
 > **版本记录**: 见底部「版本历史」 
 > **重要**: 每次修改代码后，必须更新本文件的**部署版本号**和**版本历史**。凡前端相关代码变更（`index.html` / `script.js` / `style.css` 及 `deploy/` 对应文件），必须递增前端版本号与静态资源版本参数。
 
@@ -159,6 +159,7 @@ https://raw.githubusercontent.com/mhmoma/comfyui-Web/main/characters.json
 
 | 路径 | 方法 | 说明 | 认证 |
 |------|------|------|------|
+| `/api/artist-trade` | GET/POST | 画师串交流市场（上架/购买/下架） | 无 |
 | `/api/prefs?userId=&key=` | GET | 读取玩家偏好（如 seen_version） | 无 |
 | `/api/prefs` | PUT | 写入玩家偏好 | 无 |
 | `/api/characters/series` | GET | 获取所有系列列表 | 无 |
@@ -350,6 +351,7 @@ D1 绑定在 Settings → Functions → D1 database bindings：
 | 1.129 | 2026-07-12 | 手机标签调节面板修复 | 修复点标签时 blur 重绘吞掉点击；改 pointerdown 委托；面板移出 app 壳层（`app v4.47` / `script.js?v=442` / `style.css?v=432`）。 |
 | 1.130 | 2026-07-12 | 手机标签选中跟随 | 前移/后移时先更新选中 idx 再重绘，高亮常亮跟随标签并自动滚入视区（`app v4.48` / `script.js?v=443` / `style.css?v=433`）。 |
 | 1.131 | 2026-07-12 | 手机标签单行高度修复 | 拆分栏剩一行时标签不再被 flex 拉伸变高，保持紧凑 chip 尺寸（`app v4.49` / `style.css?v=434`）。 |
+| 1.198 | 2026-08-10 | prefs mud_codes | `/api/prefs` 支持 `mud_codes`，画泥激活码每账号一次 |
 | 1.197 | 2026-08-10 | 留言板 cosmetics | `cleanCosmetics` 保留姓名边框/字效字段，修复商店装扮被丢弃 |
 | 1.196 | 2026-08-10 | 玩家偏好 API | 新增 `/api/prefs`（D1 `player_prefs`），供绘画大师更新弹窗已读版本跨端同步 |
 | 1.195 | 2026-08-09 | 后台可编辑作者 | articles 增 `author` 字段；管理后台可自定义；列表/详情读取，默认「纵欲」（`site.js?v=15` / `admin.js?v=6`） |
