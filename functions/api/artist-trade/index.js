@@ -2,6 +2,7 @@ const PAGE_SIZE = 12;
 const MAX_TITLE = 40;
 const MAX_TRIGGER = 800;
 const MAX_IMAGE = 220_000;
+const MAX_THUMB = 60_000;
 const MAX_PRICE = 5;
 const RATE_WINDOW_MS = 20_000;
 
@@ -15,10 +16,12 @@ const SCHEMA = [
     content_hash TEXT NOT NULL DEFAULT '',
     price INTEGER NOT NULL,
     image TEXT NOT NULL DEFAULT '',
+    thumb TEXT NOT NULL DEFAULT '',
     status TEXT NOT NULL DEFAULT 'active',
     at INTEGER NOT NULL
   )`,
   `CREATE INDEX IF NOT EXISTS idx_artist_trade_at ON artist_trade_listings(at DESC)`,
+  `CREATE INDEX IF NOT EXISTS idx_artist_trade_active_at ON artist_trade_listings(status, at DESC)`,
   `CREATE INDEX IF NOT EXISTS idx_artist_trade_seller ON artist_trade_listings(seller_id, at DESC)`,
   `CREATE INDEX IF NOT EXISTS idx_artist_trade_hash ON artist_trade_listings(content_hash)`,
   `CREATE TABLE IF NOT EXISTS artist_trade_purchases (
@@ -61,6 +64,14 @@ async function ensureTable(db) {
   }
   try {
     await db.prepare(`ALTER TABLE artist_trade_listings ADD COLUMN content_hash TEXT NOT NULL DEFAULT ''`).run();
+  } catch (_) {}
+  try {
+    await db.prepare(`ALTER TABLE artist_trade_listings ADD COLUMN thumb TEXT NOT NULL DEFAULT ''`).run();
+  } catch (_) {}
+  try {
+    await db.prepare(
+      `CREATE INDEX IF NOT EXISTS idx_artist_trade_active_at ON artist_trade_listings(status, at DESC)`
+    ).run();
   } catch (_) {}
   try {
     await db.prepare("SELECT 1 FROM artist_trade_earnings LIMIT 1").all();
@@ -139,11 +150,11 @@ async function contentHash(value) {
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-function cleanImage(value) {
+function cleanImage(value, maxLen = MAX_IMAGE) {
   const text = String(value || "").trim();
   if (!text) return "";
   if (!/^data:image\/(jpeg|jpg|png|webp);base64,/i.test(text)) return "";
-  if (text.length > MAX_IMAGE) return "";
+  if (text.length > maxLen) return "";
   return text;
 }
 
@@ -153,14 +164,19 @@ function cleanPrice(value) {
   return n;
 }
 
-function publicRow(row, { unlocked = false } = {}) {
+function listThumb(row) {
+  return String(row.thumb || "").trim() || String(row.image || "").trim();
+}
+
+/** list=true: 列表只带缩略图；full=true: 购买/导入带原图 */
+function publicRow(row, { unlocked = false, list = false } = {}) {
   const item = {
     id: row.id,
     title: row.title,
     sellerName: row.seller_name || "访客",
     sellerId: row.seller_id || "",
     price: Number(row.price) || 0,
-    image: row.image || "",
+    image: list ? listThumb(row) : (row.image || listThumb(row) || ""),
     at: Number(row.at) || 0,
     unlocked: !!unlocked,
   };
@@ -170,15 +186,23 @@ function publicRow(row, { unlocked = false } = {}) {
 }
 
 async function buyerOwnsContent(db, buyerId, hash, trigger) {
-  const { results } = await db.prepare(
-    `SELECT l.trigger_text, l.content_hash
+  const byHash = await db.prepare(
+    `SELECT 1 AS ok
      FROM artist_trade_purchases p
      JOIN artist_trade_listings l ON l.id = p.listing_id
-     WHERE p.buyer_id = ?`
+     WHERE p.buyer_id = ? AND l.content_hash = ?
+     LIMIT 1`
+  ).bind(buyerId, hash).first();
+  if (byHash) return true;
+  const { results } = await db.prepare(
+    `SELECT l.trigger_text
+     FROM artist_trade_purchases p
+     JOIN artist_trade_listings l ON l.id = p.listing_id
+     WHERE p.buyer_id = ? AND (l.content_hash IS NULL OR l.content_hash = '')
+     LIMIT 40`
   ).bind(buyerId).all();
   const norm = normalizeTrigger(trigger);
   for (const row of results || []) {
-    if (row.content_hash && row.content_hash === hash) return true;
     if (normalizeTrigger(row.trigger_text) === norm) return true;
   }
   return false;
@@ -202,8 +226,12 @@ export async function onRequest(context) {
     let page = pageRaw < 1 ? 1 : pageRaw;
     if (page > totalPages) page = totalPages;
     const offset = (page - 1) * PAGE_SIZE;
+    // 列表不拉原图 image，只拉 thumb（旧数据无 thumb 时回退读 image）
     const { results } = await env.DB.prepare(
-      `SELECT id, seller_id, seller_name, title, trigger_text, price, image, at
+      `SELECT id, seller_id, seller_name, title, trigger_text, price,
+              thumb,
+              CASE WHEN thumb IS NULL OR thumb = '' THEN image ELSE '' END AS image,
+              at
        FROM artist_trade_listings
        WHERE status = 'active'
        ORDER BY at DESC
@@ -223,7 +251,7 @@ export async function onRequest(context) {
 
     const rows = (results || []).map((row) => {
       const unlocked = !!(userId && (row.seller_id === userId || bought.has(row.id)));
-      return publicRow(row, { unlocked });
+      return publicRow(row, { unlocked, list: true });
     });
 
     return json(200, { ok: true, rows, page, pageSize: PAGE_SIZE, total, totalPages, maxPrice: MAX_PRICE });
@@ -244,7 +272,8 @@ export async function onRequest(context) {
       const title = cleanTitle(body.title);
       const trigger = cleanTrigger(body.trigger);
       const price = cleanPrice(body.price);
-      const image = cleanImage(body.image);
+      const image = cleanImage(body.image, MAX_IMAGE);
+      const thumb = cleanImage(body.thumb, MAX_THUMB) || image;
       const sellerName = cleanName(body.sellerName || body.name);
       if (!title) return json(400, { ok: false, error: "no_title", message: "请填写标题" });
       if (!trigger) return json(400, { ok: false, error: "no_trigger", message: "请填写画师串" });
@@ -271,9 +300,9 @@ export async function onRequest(context) {
       const now = Date.now();
       await env.DB.prepare(
         `INSERT INTO artist_trade_listings
-         (id, seller_id, seller_name, title, trigger_text, content_hash, price, image, status, at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'active', ?)`
-      ).bind(id, userId, sellerName, title, trigger, hash, price, image, now).run();
+         (id, seller_id, seller_name, title, trigger_text, content_hash, price, image, thumb, status, at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'active', ?)`
+      ).bind(id, userId, sellerName, title, trigger, hash, price, image, thumb, now).run();
 
       return json(200, {
         ok: true,
@@ -285,8 +314,9 @@ export async function onRequest(context) {
           trigger_text: trigger,
           price,
           image,
+          thumb,
           at: now,
-        }, { unlocked: true }),
+        }, { unlocked: true, list: true }),
       });
     }
 
@@ -294,7 +324,7 @@ export async function onRequest(context) {
       const listingId = String(body.listingId || "").trim().slice(0, 64);
       if (!listingId) return json(400, { ok: false, error: "no_id", message: "缺少商品" });
       const row = await env.DB.prepare(
-        `SELECT id, seller_id, seller_name, title, trigger_text, price, image, status, at
+        `SELECT id, seller_id, seller_name, title, trigger_text, price, image, thumb, status, at
          FROM artist_trade_listings WHERE id = ? LIMIT 1`
       ).bind(listingId).first();
       if (!row || row.status !== "active") {
@@ -335,6 +365,29 @@ export async function onRequest(context) {
         item: publicRow(row, { unlocked: true }),
         sellerPaid: amount,
       });
+    }
+
+    if (action === "get") {
+      const listingId = String(body.listingId || "").trim().slice(0, 64);
+      if (!listingId) return json(400, { ok: false, error: "no_id", message: "缺少商品" });
+      const row = await env.DB.prepare(
+        `SELECT id, seller_id, seller_name, title, trigger_text, price, image, thumb, status, at
+         FROM artist_trade_listings WHERE id = ? LIMIT 1`
+      ).bind(listingId).first();
+      if (!row || row.status !== "active") {
+        return json(404, { ok: false, error: "gone", message: "商品不存在或已下架" });
+      }
+      let unlocked = row.seller_id === userId;
+      if (!unlocked) {
+        const bought = await env.DB.prepare(
+          "SELECT listing_id FROM artist_trade_purchases WHERE listing_id = ? AND buyer_id = ? LIMIT 1"
+        ).bind(listingId, userId).first();
+        unlocked = !!bought;
+      }
+      if (!unlocked) {
+        return json(403, { ok: false, error: "locked", message: "购买后可查看完整内容" });
+      }
+      return json(200, { ok: true, item: publicRow(row, { unlocked: true }) });
     }
 
     if (action === "claim") {
