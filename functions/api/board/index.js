@@ -155,7 +155,7 @@ async function pagePayload(db, pageRaw, { admin = false } = {}) {
   const offset = (page - 1) * PAGE_SIZE;
   const sql = admin
     ? `SELECT id, text, name, user_id, ip, badge, cosmetics, at FROM board_messages ORDER BY at DESC LIMIT ? OFFSET ?`
-    : `SELECT id, text, name, badge, cosmetics, at FROM board_messages ORDER BY at DESC LIMIT ? OFFSET ?`;
+    : `SELECT id, text, name, user_id, badge, cosmetics, at FROM board_messages ORDER BY at DESC LIMIT ? OFFSET ?`;
   const { results } = await db.prepare(sql).bind(PAGE_SIZE, offset).all();
   return {
     ok: true,
