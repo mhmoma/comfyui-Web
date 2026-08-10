@@ -2,7 +2,7 @@ const PAGE_SIZE = 12;
 const MAX_TITLE = 40;
 const MAX_TRIGGER = 800;
 const MAX_IMAGE = 220_000;
-const MAX_PRICE = 50000;
+const MAX_PRICE = 5;
 const RATE_WINDOW_MS = 20_000;
 
 const SCHEMA = [
@@ -12,6 +12,7 @@ const SCHEMA = [
     seller_name TEXT NOT NULL DEFAULT '访客',
     title TEXT NOT NULL,
     trigger_text TEXT NOT NULL,
+    content_hash TEXT NOT NULL DEFAULT '',
     price INTEGER NOT NULL,
     image TEXT NOT NULL DEFAULT '',
     status TEXT NOT NULL DEFAULT 'active',
@@ -19,6 +20,7 @@ const SCHEMA = [
   )`,
   `CREATE INDEX IF NOT EXISTS idx_artist_trade_at ON artist_trade_listings(at DESC)`,
   `CREATE INDEX IF NOT EXISTS idx_artist_trade_seller ON artist_trade_listings(seller_id, at DESC)`,
+  `CREATE INDEX IF NOT EXISTS idx_artist_trade_hash ON artist_trade_listings(content_hash)`,
   `CREATE TABLE IF NOT EXISTS artist_trade_purchases (
     listing_id TEXT NOT NULL,
     buyer_id TEXT NOT NULL,
@@ -38,10 +40,11 @@ async function ensureTable(db) {
   try {
     await db.prepare("SELECT 1 FROM artist_trade_purchases LIMIT 1").all();
   } catch (_) {
-    for (const stmt of SCHEMA.slice(3)) {
-      await db.prepare(stmt).run();
-    }
+    await db.prepare(SCHEMA[SCHEMA.length - 1]).run();
   }
+  try {
+    await db.prepare(`ALTER TABLE artist_trade_listings ADD COLUMN content_hash TEXT NOT NULL DEFAULT ''`).run();
+  } catch (_) {}
 }
 
 function json(status, data) {
@@ -85,6 +88,22 @@ function cleanTrigger(value) {
   return String(value || "").replace(/\r/g, "").trim().slice(0, MAX_TRIGGER);
 }
 
+function normalizeTrigger(value) {
+  return cleanTrigger(value)
+    .toLowerCase()
+    .replace(/[，]/g, ",")
+    .replace(/\s*,\s*/g, ",")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+async function contentHash(value) {
+  const norm = normalizeTrigger(value);
+  const data = new TextEncoder().encode(norm);
+  const buf = await crypto.subtle.digest("SHA-256", data);
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 function cleanImage(value) {
   const text = String(value || "").trim();
   if (!text) return "";
@@ -113,6 +132,21 @@ function publicRow(row, { unlocked = false } = {}) {
   if (unlocked) item.trigger = row.trigger_text || "";
   else item.trigger = "";
   return item;
+}
+
+async function buyerOwnsContent(db, buyerId, hash, trigger) {
+  const { results } = await db.prepare(
+    `SELECT l.trigger_text, l.content_hash
+     FROM artist_trade_purchases p
+     JOIN artist_trade_listings l ON l.id = p.listing_id
+     WHERE p.buyer_id = ?`
+  ).bind(buyerId).all();
+  const norm = normalizeTrigger(trigger);
+  for (const row of results || []) {
+    if (row.content_hash && row.content_hash === hash) return true;
+    if (normalizeTrigger(row.trigger_text) === norm) return true;
+  }
+  return false;
 }
 
 export async function onRequest(context) {
@@ -157,7 +191,7 @@ export async function onRequest(context) {
       return publicRow(row, { unlocked });
     });
 
-    return json(200, { ok: true, rows, page, pageSize: PAGE_SIZE, total, totalPages });
+    return json(200, { ok: true, rows, page, pageSize: PAGE_SIZE, total, totalPages, maxPrice: MAX_PRICE });
   }
 
   if (request.method === "POST") {
@@ -179,8 +213,17 @@ export async function onRequest(context) {
       const sellerName = cleanName(body.sellerName || body.name);
       if (!title) return json(400, { ok: false, error: "no_title", message: "请填写标题" });
       if (!trigger) return json(400, { ok: false, error: "no_trigger", message: "请填写画师串" });
-      if (!price) return json(400, { ok: false, error: "bad_price", message: "价格需为 1–50000 画泥" });
+      if (!price) return json(400, { ok: false, error: "bad_price", message: `价格需为 1–${MAX_PRICE} 画泥` });
       if (!image) return json(400, { ok: false, error: "no_image", message: "请上传示例图（压缩后仍过大或不支持）" });
+
+      const hash = await contentHash(trigger);
+      if (await buyerOwnsContent(env.DB, userId, hash, trigger)) {
+        return json(403, {
+          ok: false,
+          error: "no_resale",
+          message: "购买获得的画师串不可转售上架",
+        });
+      }
 
       const recent = await env.DB.prepare(
         "SELECT at FROM artist_trade_listings WHERE seller_id = ? ORDER BY at DESC LIMIT 1"
@@ -193,9 +236,9 @@ export async function onRequest(context) {
       const now = Date.now();
       await env.DB.prepare(
         `INSERT INTO artist_trade_listings
-         (id, seller_id, seller_name, title, trigger_text, price, image, status, at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, 'active', ?)`
-      ).bind(id, userId, sellerName, title, trigger, price, image, now).run();
+         (id, seller_id, seller_name, title, trigger_text, content_hash, price, image, status, at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'active', ?)`
+      ).bind(id, userId, sellerName, title, trigger, hash, price, image, now).run();
 
       return json(200, {
         ok: true,
@@ -224,6 +267,9 @@ export async function onRequest(context) {
       }
       if (row.seller_id === userId) {
         return json(400, { ok: false, error: "self", message: "不能购买自己的画师串" });
+      }
+      if ((Number(row.price) || 0) > MAX_PRICE) {
+        return json(400, { ok: false, error: "bad_price", message: `价格超过上限 ${MAX_PRICE} 画泥` });
       }
       const existed = await env.DB.prepare(
         "SELECT listing_id FROM artist_trade_purchases WHERE listing_id = ? AND buyer_id = ? LIMIT 1"
