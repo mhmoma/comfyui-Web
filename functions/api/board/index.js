@@ -41,7 +41,10 @@ function corsPreflight() {
 }
 
 async function ensureTable(db) {
-  await db.exec(SCHEMA);
+  const stmts = SCHEMA.split(';').map((s) => s.trim()).filter(Boolean);
+  for (const stmt of stmts) {
+    await db.prepare(stmt).run();
+  }
 }
 
 function clientIp(request) {
