@@ -46,10 +46,15 @@ function corsPreflight() {
     status: 204,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-admin-key',
     },
   });
+}
+
+function checkAdmin(request, env) {
+  const adminKey = request.headers.get('x-admin-key');
+  return !!(env.ADMIN_KEY && adminKey && adminKey === env.ADMIN_KEY);
 }
 
 function clientIp(request) {
@@ -67,16 +72,21 @@ function cleanName(value) {
     .slice(0, 24) || '访客';
 }
 
-function rowToMessage(row) {
-  return {
+function rowToMessage(row, { admin = false } = {}) {
+  const item = {
     id: row.id,
     text: row.text,
     name: row.name || '访客',
     at: Number(row.at) || 0,
   };
+  if (admin) {
+    item.userId = row.user_id || '';
+    item.ip = row.ip || '';
+  }
+  return item;
 }
 
-async function pagePayload(db, pageRaw) {
+async function pagePayload(db, pageRaw, { admin = false } = {}) {
   const totalRow = await db.prepare('SELECT COUNT(*) AS c FROM board_messages').first();
   const total = Number(totalRow?.c) || 0;
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE) || 1);
@@ -84,12 +94,13 @@ async function pagePayload(db, pageRaw) {
   if (page < 1) page = 1;
   if (page > totalPages) page = totalPages;
   const offset = (page - 1) * PAGE_SIZE;
-  const { results } = await db.prepare(
-    `SELECT id, text, name, at FROM board_messages ORDER BY at DESC LIMIT ? OFFSET ?`
-  ).bind(PAGE_SIZE, offset).all();
+  const sql = admin
+    ? `SELECT id, text, name, user_id, ip, at FROM board_messages ORDER BY at DESC LIMIT ? OFFSET ?`
+    : `SELECT id, text, name, at FROM board_messages ORDER BY at DESC LIMIT ? OFFSET ?`;
+  const { results } = await db.prepare(sql).bind(PAGE_SIZE, offset).all();
   return {
     ok: true,
-    rows: (results || []).map(rowToMessage),
+    rows: (results || []).map((row) => rowToMessage(row, { admin })),
     page,
     pageSize: PAGE_SIZE,
     total,
@@ -109,7 +120,39 @@ export async function onRequestGet(context) {
   try {
     await ensureTable(db);
     const url = new URL(request.url);
-    return json(200, await pagePayload(db, url.searchParams.get('page')));
+    const admin = checkAdmin(request, env);
+    return json(200, await pagePayload(db, url.searchParams.get('page'), { admin }));
+  } catch (e) {
+    return json(500, { ok: false, error: 'server', message: String(e?.message || e) });
+  }
+}
+
+export async function onRequestDelete(context) {
+  const { request, env } = context;
+  if (!checkAdmin(request, env)) {
+    return json(403, { ok: false, error: 'forbidden', message: '需要管理密钥' });
+  }
+  const db = env.DB;
+  if (!db) return json(500, { ok: false, error: 'server', message: 'Database not configured' });
+
+  try {
+    await ensureTable(db);
+    const url = new URL(request.url);
+    const clearAll = url.searchParams.get('all') === '1';
+    const id = String(url.searchParams.get('id') || '').trim();
+
+    if (clearAll) {
+      await db.prepare('DELETE FROM board_messages').run();
+      return json(200, { ok: true, cleared: true, total: 0 });
+    }
+    if (!id) return json(400, { ok: false, error: 'missing_id', message: '缺少留言 id' });
+
+    const result = await db.prepare('DELETE FROM board_messages WHERE id = ?').bind(id).run();
+    const deleted = Number(result?.meta?.changes || 0);
+    if (!deleted) return json(404, { ok: false, error: 'not_found', message: '留言不存在' });
+
+    const page = await pagePayload(db, url.searchParams.get('page') || 1, { admin: true });
+    return json(200, { ...page, deleted: id });
   } catch (e) {
     return json(500, { ok: false, error: 'server', message: String(e?.message || e) });
   }
@@ -125,6 +168,29 @@ export async function onRequestPost(context) {
     body = await request.json();
   } catch {
     return json(400, { ok: false, error: 'invalid_json', message: 'Invalid JSON' });
+  }
+
+  const method = String(body?.method || 'post');
+  if (method === 'delete' || method === 'clear') {
+    if (!checkAdmin(request, env)) {
+      return json(403, { ok: false, error: 'forbidden', message: '需要管理密钥' });
+    }
+    try {
+      await ensureTable(db);
+      if (method === 'clear' || body?.all) {
+        await db.prepare('DELETE FROM board_messages').run();
+        return json(200, { ok: true, cleared: true, total: 0 });
+      }
+      const id = String(body?.id || '').trim();
+      if (!id) return json(400, { ok: false, error: 'missing_id', message: '缺少留言 id' });
+      const result = await db.prepare('DELETE FROM board_messages WHERE id = ?').bind(id).run();
+      const deleted = Number(result?.meta?.changes || 0);
+      if (!deleted) return json(404, { ok: false, error: 'not_found', message: '留言不存在' });
+      const page = await pagePayload(db, body?.page || 1, { admin: true });
+      return json(200, { ...page, deleted: id });
+    } catch (e) {
+      return json(500, { ok: false, error: 'server', message: String(e?.message || e) });
+    }
   }
 
   const text = String(body?.text || '')

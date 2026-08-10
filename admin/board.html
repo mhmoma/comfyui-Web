@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>留言板管理 · ComfyUI Web</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root {
+      --bg: #f4f1ea;
+      --card: #fffdf8;
+      --text: #1c1a17;
+      --muted: #6a635a;
+      --line: rgba(28, 26, 23, 0.12);
+      --danger: #b42318;
+      --accent: #0f6a4d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(180deg, #efe8dc, var(--bg));
+      color: var(--text);
+    }
+    .wrap { width: min(920px, calc(100% - 24px)); margin: 24px auto 48px; }
+    h1 { margin: 0 0 8px; font-size: 24px; }
+    .sub { margin: 0 0 20px; color: var(--muted); }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(28, 26, 23, 0.06);
+    }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    input[type="password"], input[type="text"] {
+      flex: 1 1 220px;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    button {
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+    }
+    button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    button.danger { background: #fff5f4; border-color: #f3c1bc; color: var(--danger); }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .hint { margin-top: 10px; color: var(--muted); font-size: 13px; }
+    .err { margin-top: 10px; color: var(--danger); font-size: 13px; }
+    .toolbar { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 18px 0 12px; }
+    .stats { color: var(--muted); font-size: 13px; }
+    .list { display: grid; gap: 10px; }
+    .item {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+    }
+    .item-head { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+    .name {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(28, 26, 23, 0.08);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .meta { color: var(--muted); font-size: 12px; }
+    .text { margin: 0; font-size: 15px; line-height: 1.5; word-break: break-word; }
+    .pager { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
+    .hidden { display: none !important; }
+    a.nav { color: var(--accent); text-decoration: none; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="row" style="justify-content:space-between;margin-bottom:12px">
+      <a class="nav" href="/admin/">← 资讯管理</a>
+      <a class="nav" href="https://www.dzmm.ai" target="_blank" rel="noopener">打开游戏站</a>
+    </div>
+    <h1>留言板管理</h1>
+    <p class="sub">查看 / 删除绘画大师全服留言。使用 Cloudflare 环境变量 <code>ADMIN_KEY</code> 登录。</p>
+
+    <section id="login" class="card">
+      <div class="row">
+        <input id="key" type="password" placeholder="管理密钥" autocomplete="current-password">
+        <button type="button" id="btn-login" class="primary">登录</button>
+      </div>
+      <p class="hint">密钥只保存在本机浏览器 sessionStorage，不会写入页面代码。</p>
+      <p id="login-error" class="err hidden"></p>
+    </section>
+
+    <section id="panel" class="hidden">
+      <div class="toolbar">
+        <div class="stats" id="stats">共 0 条</div>
+        <div class="row">
+          <button type="button" id="btn-refresh">刷新</button>
+          <button type="button" id="btn-clear" class="danger">清空全部</button>
+          <button type="button" id="btn-logout">退出</button>
+        </div>
+      </div>
+      <div id="list" class="list"></div>
+      <div class="pager">
+        <button type="button" id="btn-prev">上一页</button>
+        <span id="page-label">1 / 1</span>
+        <button type="button" id="btn-next">下一页</button>
+      </div>
+      <p id="panel-error" class="err hidden"></p>
+    </section>
+  </div>
+
+  <script>
+    const API = "/api/board";
+    const KEY_STORE = "tk_board_admin_key";
+    let page = 1;
+    let totalPages = 1;
+
+    const $ = (id) => document.getElementById(id);
+
+    function getKey() {
+      return sessionStorage.getItem(KEY_STORE) || "";
+    }
+
+    function setKey(value) {
+      if (value) sessionStorage.setItem(KEY_STORE, value);
+      else sessionStorage.removeItem(KEY_STORE);
+    }
+
+    function showError(id, message) {
+      const el = $(id);
+      if (!el) return;
+      if (!message) {
+        el.classList.add("hidden");
+        el.textContent = "";
+        return;
+      }
+      el.textContent = message;
+      el.classList.remove("hidden");
+    }
+
+    function escapeHtml(value) {
+      return String(value || "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[c]));
+    }
+
+    function formatTime(at) {
+      const ts = Number(at) || 0;
+      if (!ts) return "";
+      const d = new Date(ts);
+      const pad = (n) => String(n).padStart(2, "0");
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    async function api(path, opts = {}) {
+      const key = getKey();
+      const res = await fetch(path, {
+        ...opts,
+        headers: {
+          ...(opts.headers || {}),
+          "x-admin-key": key,
+          ...(opts.body ? { "Content-Type": "application/json" } : {}),
+        },
+      });
+      let data = null;
+      try { data = await res.json(); } catch (_) {}
+      if (!res.ok) {
+        const err = new Error(data?.message || `HTTP ${res.status}`);
+        err.status = res.status;
+        err.data = data;
+        throw err;
+      }
+      return data;
+    }
+
+    async function load(targetPage = page) {
+      showError("panel-error", "");
+      const data = await api(`${API}?page=${targetPage}`);
+      page = data.page || 1;
+      totalPages = data.totalPages || 1;
+      $("stats").textContent = `共 ${data.total || 0} 条 · 第 ${page}/${totalPages} 页`;
+      $("page-label").textContent = `${page} / ${totalPages}`;
+      $("btn-prev").disabled = page <= 1;
+      $("btn-next").disabled = page >= totalPages;
+
+      const rows = Array.isArray(data.rows) ? data.rows : [];
+      if (!rows.length) {
+        $("list").innerHTML = `<div class="card meta">当前没有留言</div>`;
+        return;
+      }
+      $("list").innerHTML = rows.map((row) => `
+        <article class="item" data-id="${escapeHtml(row.id)}">
+          <div class="item-head">
+            <span class="name">${escapeHtml(row.name || "访客")}</span>
+            <button type="button" class="danger btn-del" data-id="${escapeHtml(row.id)}">删除</button>
+          </div>
+          <p class="text">${escapeHtml(row.text || "")}</p>
+          <div class="meta">
+            ${escapeHtml(formatTime(row.at))}
+            ${row.ip ? ` · IP ${escapeHtml(row.ip)}` : ""}
+            ${row.userId ? ` · UID ${escapeHtml(row.userId)}` : ""}
+            · id ${escapeHtml(row.id)}
+          </div>
+        </article>
+      `).join("");
+    }
+
+    async function login() {
+      const key = $("key").value.trim();
+      if (!key) {
+        showError("login-error", "请输入管理密钥");
+        return;
+      }
+      setKey(key);
+      try {
+        // 用删除不存在的 id 校验密钥：403=密钥错，404=密钥对
+        const res = await fetch(`${API}?id=__admin_auth_check__`, {
+          method: "DELETE",
+          headers: { "x-admin-key": key },
+        });
+        if (res.status === 403) throw Object.assign(new Error("密钥错误"), { status: 403 });
+        if (!res.ok && res.status !== 404) {
+          let data = null;
+          try { data = await res.json(); } catch (_) {}
+          throw new Error(data?.message || `HTTP ${res.status}`);
+        }
+        await load(1);
+        $("login").classList.add("hidden");
+        $("panel").classList.remove("hidden");
+        showError("login-error", "");
+      } catch (err) {
+        setKey("");
+        showError("login-error", err.status === 403 ? "密钥错误" : (err.message || "登录失败"));
+      }
+    }
+
+    async function removeOne(id) {
+      if (!id) return;
+      if (!confirm("确定删除这条留言？")) return;
+      try {
+        await api(`${API}?id=${encodeURIComponent(id)}`, { method: "DELETE" });
+        await load(page);
+      } catch (err) {
+        showError("panel-error", err.message || "删除失败");
+      }
+    }
+
+    async function clearAll() {
+      if (!confirm("确定清空全部留言？此操作不可恢复。")) return;
+      if (!confirm("再确认一次：清空全部留言？")) return;
+      try {
+        await api(`${API}?all=1`, { method: "DELETE" });
+        await load(1);
+      } catch (err) {
+        showError("panel-error", err.message || "清空失败");
+      }
+    }
+
+    function logout() {
+      setKey("");
+      $("panel").classList.add("hidden");
+      $("login").classList.remove("hidden");
+      $("key").value = "";
+    }
+
+    $("btn-login").addEventListener("click", login);
+    $("key").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") login();
+    });
+    $("btn-refresh").addEventListener("click", () => load(page).catch((err) => showError("panel-error", err.message)));
+    $("btn-clear").addEventListener("click", clearAll);
+    $("btn-logout").addEventListener("click", logout);
+    $("btn-prev").addEventListener("click", () => load(page - 1).catch((err) => showError("panel-error", err.message)));
+    $("btn-next").addEventListener("click", () => load(page + 1).catch((err) => showError("panel-error", err.message)));
+    $("list").addEventListener("click", (e) => {
+      const btn = e.target?.closest?.(".btn-del");
+      if (!btn) return;
+      removeOne(btn.getAttribute("data-id"));
+    });
+
+    if (getKey()) {
+      load(1).then(() => {
+        $("login").classList.add("hidden");
+        $("panel").classList.remove("hidden");
+      }).catch(() => {
+        setKey("");
+      });
+    }
+  </script>
+</body>
+</html>
