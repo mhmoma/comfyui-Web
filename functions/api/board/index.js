@@ -12,6 +12,7 @@ const SCHEMA_STMTS = [
     name TEXT NOT NULL DEFAULT 'guest',
     user_id TEXT DEFAULT '',
     ip TEXT DEFAULT '',
+    badge TEXT DEFAULT '',
     at INTEGER NOT NULL
   )`,
   `CREATE INDEX IF NOT EXISTS idx_board_at ON board_messages(at DESC)`,
@@ -21,12 +22,15 @@ const SCHEMA_STMTS = [
 async function ensureTable(db) {
   try {
     await db.prepare('SELECT 1 FROM board_messages LIMIT 1').all();
-    return;
   } catch (_) {
-    /* create below */
+    for (const stmt of SCHEMA_STMTS) {
+      await db.prepare(stmt).run();
+    }
   }
-  for (const stmt of SCHEMA_STMTS) {
-    await db.prepare(stmt).run();
+  try {
+    await db.prepare(`ALTER TABLE board_messages ADD COLUMN badge TEXT DEFAULT ''`).run();
+  } catch (_) {
+    /* column already exists */
   }
 }
 
@@ -72,11 +76,17 @@ function cleanName(value) {
     .slice(0, 24) || '访客';
 }
 
+function cleanBadge(value) {
+  const badge = String(value || '').trim();
+  return badge === 'gold_collector' ? 'gold_collector' : '';
+}
+
 function rowToMessage(row, { admin = false } = {}) {
   const item = {
     id: row.id,
     text: row.text,
     name: row.name || '访客',
+    badge: cleanBadge(row.badge),
     at: Number(row.at) || 0,
   };
   if (admin) {
@@ -95,8 +105,8 @@ async function pagePayload(db, pageRaw, { admin = false } = {}) {
   if (page > totalPages) page = totalPages;
   const offset = (page - 1) * PAGE_SIZE;
   const sql = admin
-    ? `SELECT id, text, name, user_id, ip, at FROM board_messages ORDER BY at DESC LIMIT ? OFFSET ?`
-    : `SELECT id, text, name, at FROM board_messages ORDER BY at DESC LIMIT ? OFFSET ?`;
+    ? `SELECT id, text, name, user_id, ip, badge, at FROM board_messages ORDER BY at DESC LIMIT ? OFFSET ?`
+    : `SELECT id, text, name, badge, at FROM board_messages ORDER BY at DESC LIMIT ? OFFSET ?`;
   const { results } = await db.prepare(sql).bind(PAGE_SIZE, offset).all();
   return {
     ok: true,
@@ -201,6 +211,7 @@ export async function onRequestPost(context) {
 
   const name = cleanName(body?.name);
   const userId = String(body?.userId || '').slice(0, 64);
+  const badge = cleanBadge(body?.badge);
   const ip = clientIp(request);
   const now = Date.now();
 
@@ -224,8 +235,8 @@ export async function onRequestPost(context) {
 
     const id = `${now.toString(36)}-${crypto.randomUUID().slice(0, 8)}`;
     await db.prepare(
-      'INSERT INTO board_messages (id, text, name, user_id, ip, at) VALUES (?, ?, ?, ?, ?, ?)'
-    ).bind(id, text, name, userId, ip, now).run();
+      'INSERT INTO board_messages (id, text, name, user_id, ip, badge, at) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    ).bind(id, text, name, userId, ip, badge, now).run();
 
     const countRow = await db.prepare('SELECT COUNT(*) AS c FROM board_messages').first();
     const overflow = (Number(countRow?.c) || 0) - MAX_STORE;
@@ -238,7 +249,7 @@ export async function onRequestPost(context) {
     }
 
     const payload = await pagePayload(db, 1);
-    payload.item = { id, text, name, at: now };
+    payload.item = { id, text, name, badge, at: now };
     return json(200, payload);
   } catch (e) {
     return json(500, { ok: false, error: 'server', message: String(e?.message || e) });

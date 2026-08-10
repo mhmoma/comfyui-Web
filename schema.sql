@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS board_messages (
   name TEXT NOT NULL DEFAULT '访客',
   user_id TEXT DEFAULT '',
   ip TEXT DEFAULT '',
+  badge TEXT DEFAULT '',
   at INTEGER NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_board_at ON board_messages(at DESC);
