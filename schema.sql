@@ -43,3 +43,15 @@ CREATE INDEX IF NOT EXISTS idx_articles_slug ON articles(slug);
 CREATE INDEX IF NOT EXISTS idx_articles_status ON articles(status);
 CREATE INDEX IF NOT EXISTS idx_articles_published ON articles(published_at DESC);
 CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category);
+
+-- 绘画大师全服留言板
+CREATE TABLE IF NOT EXISTS board_messages (
+  id TEXT PRIMARY KEY,
+  text TEXT NOT NULL,
+  name TEXT NOT NULL DEFAULT '访客',
+  user_id TEXT DEFAULT '',
+  ip TEXT DEFAULT '',
+  at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_board_at ON board_messages(at DESC);
+CREATE INDEX IF NOT EXISTS idx_board_ip_at ON board_messages(ip, at DESC);
