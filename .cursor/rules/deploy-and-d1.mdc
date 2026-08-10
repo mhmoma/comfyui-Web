@@ -6,7 +6,7 @@ alwaysApply: true
 
 # ComfyUI-Web 部署与 D1 数据库操作规范
 
-> **部署版本**: 1.195
+> **部署版本**: 1.196
 > **版本记录**: 见底部「版本历史」 
 > **重要**: 每次修改代码后，必须更新本文件的**部署版本号**和**版本历史**。凡前端相关代码变更（`index.html` / `script.js` / `style.css` 及 `deploy/` 对应文件），必须递增前端版本号与静态资源版本参数。
 
@@ -159,6 +159,8 @@ https://raw.githubusercontent.com/mhmoma/comfyui-Web/main/characters.json
 
 | 路径 | 方法 | 说明 | 认证 |
 |------|------|------|------|
+| `/api/prefs?userId=&key=` | GET | 读取玩家偏好（如 seen_version） | 无 |
+| `/api/prefs` | PUT | 写入玩家偏好 | 无 |
 | `/api/characters/series` | GET | 获取所有系列列表 | 无 |
 | `/api/characters/search?q=XXX&limit=N` | GET | 搜索角色 | 无 |
 | `/api/characters/{seriesId}` | GET | 获取指定系列的所有角色 | 无 |
