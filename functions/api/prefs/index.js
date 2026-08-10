@@ -1,4 +1,4 @@
-const ALLOWED_KEYS = new Set(["seen_version"]);
+const ALLOWED_KEYS = new Set(["seen_version", "mud_codes"]);
 
 const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS player_prefs (
@@ -52,8 +52,9 @@ function cleanKey(value) {
   return ALLOWED_KEYS.has(key) ? key : "";
 }
 
-function cleanValue(value) {
-  return String(value ?? "").trim().slice(0, 64);
+function cleanValue(value, key = "") {
+  const max = key === "mud_codes" ? 512 : 64;
+  return String(value ?? "").trim().slice(0, max);
 }
 
 export async function onRequest(context) {
@@ -90,7 +91,7 @@ export async function onRequest(context) {
     }
     const userId = cleanUserId(body.userId);
     const key = cleanKey(body.key || "seen_version");
-    const value = cleanValue(body.value);
+    const value = cleanValue(body.value, key);
     if (!userId) return json(400, { ok: false, error: "no_user", message: "缺少 userId" });
     if (!key) return json(400, { ok: false, error: "bad_key", message: "不支持的 key" });
     if (!value) return json(400, { ok: false, error: "empty", message: "value 不能为空" });
