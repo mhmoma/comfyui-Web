@@ -76,25 +76,33 @@ function cleanName(value) {
     .slice(0, 24) || '访客';
 }
 
-function cleanBadges(value) {
-  const allowed = new Set(['gold_collector', 'adult']);
+const AUTHOR_USER_IDS = new Set([
+  '03b30ae3-a2da-440b-9333-58dd490507ea',
+]);
+
+function cleanBadges(value, userId = '') {
+  const allowed = new Set(['gold_collector', 'adult', 'author']);
   const raw = Array.isArray(value)
     ? value
     : String(value || '').split(/[,|]/);
   const list = [];
+  const uid = String(userId || '').trim();
   for (const item of raw) {
     const key = String(item || '').trim();
-    if (allowed.has(key) && !list.includes(key)) list.push(key);
+    if (!allowed.has(key) || list.includes(key)) continue;
+    if (key === 'author' && !AUTHOR_USER_IDS.has(uid)) continue;
+    list.push(key);
   }
+  if (AUTHOR_USER_IDS.has(uid) && !list.includes('author')) list.push('author');
   return list;
 }
 
-function badgesToStore(value) {
-  return cleanBadges(value).join(',');
+function badgesToStore(value, userId = '') {
+  return cleanBadges(value, userId).join(',');
 }
 
 function rowToMessage(row, { admin = false } = {}) {
-  const badges = cleanBadges(row.badge);
+  const badges = cleanBadges(row.badge, row.user_id);
   const item = {
     id: row.id,
     text: row.text,
@@ -225,8 +233,8 @@ export async function onRequestPost(context) {
 
   const name = cleanName(body?.name);
   const userId = String(body?.userId || '').slice(0, 64);
-  const badges = cleanBadges(body?.badges ?? body?.badge);
-  const badge = badgesToStore(badges);
+  const badges = cleanBadges(body?.badges ?? body?.badge, userId);
+  const badge = badgesToStore(badges, userId);
   const ip = clientIp(request);
   const now = Date.now();
 
