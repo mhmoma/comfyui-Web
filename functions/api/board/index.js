@@ -5,18 +5,30 @@ const RATE_WINDOW_MS = 15_000;
 const RATE_HOUR_MS = 60 * 60 * 1000;
 const RATE_HOUR_MAX = 20;
 
-const SCHEMA = `
-CREATE TABLE IF NOT EXISTS board_messages (
-  id TEXT PRIMARY KEY,
-  text TEXT NOT NULL,
-  name TEXT NOT NULL DEFAULT '访客',
-  user_id TEXT DEFAULT '',
-  ip TEXT DEFAULT '',
-  at INTEGER NOT NULL
-);
-CREATE INDEX IF NOT EXISTS idx_board_at ON board_messages(at DESC);
-CREATE INDEX IF NOT EXISTS idx_board_ip_at ON board_messages(ip, at DESC);
-`;
+const SCHEMA_STMTS = [
+  `CREATE TABLE IF NOT EXISTS board_messages (
+    id TEXT PRIMARY KEY,
+    text TEXT NOT NULL,
+    name TEXT NOT NULL DEFAULT 'guest',
+    user_id TEXT DEFAULT '',
+    ip TEXT DEFAULT '',
+    at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_board_at ON board_messages(at DESC)`,
+  `CREATE INDEX IF NOT EXISTS idx_board_ip_at ON board_messages(ip, at DESC)`,
+];
+
+async function ensureTable(db) {
+  try {
+    await db.prepare('SELECT 1 FROM board_messages LIMIT 1').all();
+    return;
+  } catch (_) {
+    /* create below */
+  }
+  for (const stmt of SCHEMA_STMTS) {
+    await db.prepare(stmt).run();
+  }
+}
 
 function json(status, data) {
   return new Response(JSON.stringify(data), {
@@ -38,13 +50,6 @@ function corsPreflight() {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-admin-key',
     },
   });
-}
-
-async function ensureTable(db) {
-  const stmts = SCHEMA.split(';').map((s) => s.trim()).filter(Boolean);
-  for (const stmt of stmts) {
-    await db.prepare(stmt).run();
-  }
 }
 
 function clientIp(request) {
