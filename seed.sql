@@ -62,9 +62,9 @@ INSERT INTO series (id, name, count) VALUES ('assault_lily', '突击莉莉', 84)
 INSERT INTO series (id, name, count) VALUES ('elsword', '艾尔之光', 82);
 INSERT INTO series (id, name, count) VALUES ('bishoujo_senshi_sailor_moon', '美少女战士', 82);
 INSERT INTO series (id, name, count) VALUES ('project_moon', '月亮计划', 82);
-INSERT INTO series (id, name, count) VALUES ('honkai:_star_rail', '崩坏星穹铁道', 81);
+INSERT INTO series (id, name, count) VALUES ('honkai:_star_rail', '崩坏：星穹铁道', 81);
 INSERT INTO series (id, name, count) VALUES ('sekaiju_no_meikyuu', '世界树的迷宫', 77);
-INSERT INTO series (id, name, count) VALUES ('bleach', '死神BLEACH', 76);
+INSERT INTO series (id, name, count) VALUES ('bleach', '境·界', 76);
 INSERT INTO series (id, name, count) VALUES ('splatoon_(series)', '喷射战士', 75);
 INSERT INTO series (id, name, count) VALUES ('toaru_majutsu_no_index', '魔法禁书目录', 74);
 INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_madoka_magica', '魔法少女小圆', 74);
@@ -72,7 +72,7 @@ INSERT INTO series (id, name, count) VALUES ('naruto_(series)', '火影忍者', 
 INSERT INTO series (id, name, count) VALUES ('warship_girls_r', '战舰少女R', 72);
 INSERT INTO series (id, name, count) VALUES ('cookie_(touhou)', 'Cookie☆东方同人企划', 72);
 INSERT INTO series (id, name, count) VALUES ('overwatch', '守望先锋', 70);
-INSERT INTO series (id, name, count) VALUES ('macross', '超时空要塞Macross', 68);
+INSERT INTO series (id, name, count) VALUES ('macross', '超时空要塞', 68);
 INSERT INTO series (id, name, count) VALUES ('the_king_of_fighters', '拳皇', 66);
 INSERT INTO series (id, name, count) VALUES ('sonic_(series)', '索尼克', 66);
 INSERT INTO series (id, name, count) VALUES ('queen''s_blade', '女王之刃', 65);
@@ -90,15 +90,15 @@ INSERT INTO series (id, name, count) VALUES ('sword_art_online', '刀剑神域',
 INSERT INTO series (id, name, count) VALUES ('vspo!', 'VSPO! 虚拟电竞企划', 57);
 INSERT INTO series (id, name, count) VALUES ('umineko_no_naku_koro_ni', '海猫鸣泣之时', 57);
 INSERT INTO series (id, name, count) VALUES ('ensemble_stars!', '偶像梦幻祭', 56);
-INSERT INTO series (id, name, count) VALUES ('holostars', 'HoloStars男团', 56);
+INSERT INTO series (id, name, count) VALUES ('holostars', 'HOLOSTARS', 56);
 INSERT INTO series (id, name, count) VALUES ('jujutsu_kaisen', '咒术回战', 56);
 INSERT INTO series (id, name, count) VALUES ('kimetsu_no_yaiba', '鬼灭之刃', 55);
 INSERT INTO series (id, name, count) VALUES ('neptune_(series)', '海王星', 54);
 INSERT INTO series (id, name, count) VALUES ('code_geass', '反叛的鲁路修', 54);
 INSERT INTO series (id, name, count) VALUES ('identity_v', '第五人格', 52);
 INSERT INTO series (id, name, count) VALUES ('senran_kagura', '闪乱神乐', 52);
-INSERT INTO series (id, name, count) VALUES ('nanashi_inc.', 'ななしinc.', 51);
-INSERT INTO series (id, name, count) VALUES ('vshojo', 'VShojo虚拟主播', 51);
+INSERT INTO series (id, name, count) VALUES ('nanashi_inc.', 'ななしInc.', 51);
+INSERT INTO series (id, name, count) VALUES ('vshojo', 'VShojo', 51);
 INSERT INTO series (id, name, count) VALUES ('chainsaw_man', '电锯人', 51);
 INSERT INTO series (id, name, count) VALUES ('super_robot_wars', '超级机器人大战', 50);
 INSERT INTO series (id, name, count) VALUES ('bang_dream!', 'BanG Dream! 少女乐团派对', 50);
@@ -124,7 +124,7 @@ INSERT INTO series (id, name, count) VALUES ('nu_carnival', '新世界狂欢', 4
 INSERT INTO series (id, name, count) VALUES ('fullmetal_alchemist', '钢之炼金术师', 43);
 INSERT INTO series (id, name, count) VALUES ('aikatsu!_(series)', '偶像活动！', 43);
 INSERT INTO series (id, name, count) VALUES ('puyopuyo', '噗よ噗よ', 42);
-INSERT INTO series (id, name, count) VALUES ('omori', 'OMORI游戏', 42);
+INSERT INTO series (id, name, count) VALUES ('omori', '奥日', 42);
 INSERT INTO series (id, name, count) VALUES ('mahjong_soul', '雀魂', 41);
 INSERT INTO series (id, name, count) VALUES ('tekken', '铁拳', 41);
 INSERT INTO series (id, name, count) VALUES ('dungeon_and_fighter', '地下城与勇士', 41);
@@ -149,7 +149,7 @@ INSERT INTO series (id, name, count) VALUES ('muv-luv', 'Muv-Luv', 37);
 INSERT INTO series (id, name, count) VALUES ('mahou_sensei_negima!', '魔法老师', 36);
 INSERT INTO series (id, name, count) VALUES ('wild_arms', '荒野兵器', 35);
 INSERT INTO series (id, name, count) VALUES ('alice_gear_aegis', '机战少女Alice', 34);
-INSERT INTO series (id, name, count) VALUES ('tiger_&_bunny', 'TIGER & BUNNY基友英雄传', 34);
+INSERT INTO series (id, name, count) VALUES ('tiger_&_bunny', '老虎和兔子', 34);
 INSERT INTO series (id, name, count) VALUES ('gensou_suikoden', '幻想水浒传', 34);
 INSERT INTO series (id, name, count) VALUES ('path_to_nowhere', '无期迷途', 33);
 INSERT INTO series (id, name, count) VALUES ('warhammer_40k', '战锤40K', 33);
@@ -230,7 +230,7 @@ INSERT INTO series (id, name, count) VALUES ('clannad', 'CLANNAD团子大家族'
 INSERT INTO series (id, name, count) VALUES ('fairy_tail', '妖精的尾巴', 21);
 INSERT INTO series (id, name, count) VALUES ('luo_xiaohei_zhanji', '罗小黑战记', 20);
 INSERT INTO series (id, name, count) VALUES ('hazbin_hotel', '地狱客栈', 20);
-INSERT INTO series (id, name, count) VALUES ('limbus_company', 'Limbus Company边狱巴士', 20);
+INSERT INTO series (id, name, count) VALUES ('limbus_company', '边狱公司', 20);
 INSERT INTO series (id, name, count) VALUES ('arcana_heart', '圣灵之心', 20);
 INSERT INTO series (id, name, count) VALUES ('shining_(series)', '光明系列', 20);
 INSERT INTO series (id, name, count) VALUES ('idoly_pride', 'IDOLY PRIDE偶像荣耀', 20);
@@ -252,7 +252,7 @@ INSERT INTO series (id, name, count) VALUES ('my-otome', '舞-乙HiME', 19);
 INSERT INTO series (id, name, count) VALUES ('kagerou_project', '阳炎计划', 19);
 INSERT INTO series (id, name, count) VALUES ('hypnosis_mic', '催眠麦克风', 19);
 INSERT INTO series (id, name, count) VALUES ('bocchi_the_rock!', '孤独摇滚', 19);
-INSERT INTO series (id, name, count) VALUES ('dead_or_alive', '死或生', 19);
+INSERT INTO series (id, name, count) VALUES ('dead_or_alive', '生死格斗', 19);
 INSERT INTO series (id, name, count) VALUES ('little_nuns_(diva)', '小修女(diva)', 19);
 INSERT INTO series (id, name, count) VALUES ('ranma_1/2', '乱马1/2', 19);
 INSERT INTO series (id, name, count) VALUES ('cardcaptor_sakura', '魔卡少女樱', 19);
@@ -296,7 +296,7 @@ INSERT INTO series (id, name, count) VALUES ('funamusea', '海底囚人', 17);
 INSERT INTO series (id, name, count) VALUES ('nier_(series)', '尼尔', 16);
 INSERT INTO series (id, name, count) VALUES ('denonbu', '电音部', 16);
 INSERT INTO series (id, name, count) VALUES ('busou_shinki', '武装神姬', 16);
-INSERT INTO series (id, name, count) VALUES ('uchi_no_hime-sama_ga_ichiban_kawaii', 'Uchi No Hime-sama Ga Ichiban Kawaii', 16);
+INSERT INTO series (id, name, count) VALUES ('uchi_no_hime-sama_ga_ichiban_kawaii', '我家的公主最可爱', 16);
 INSERT INTO series (id, name, count) VALUES ('gegege_no_kitarou', '鬼太郎', 16);
 INSERT INTO series (id, name, count) VALUES ('dokidoki!_precure', '心跳！光之美少女', 16);
 INSERT INTO series (id, name, count) VALUES ('mushoku_tensei', '无职转生', 16);
@@ -334,7 +334,7 @@ INSERT INTO series (id, name, count) VALUES ('akuma_no_riddle', '恶魔之谜', 
 INSERT INTO series (id, name, count) VALUES ('adventure_time', '探险活宝', 15);
 INSERT INTO series (id, name, count) VALUES ('samurai_spirits', '侍魂', 15);
 INSERT INTO series (id, name, count) VALUES ('rance_(series)', '兰斯', 15);
-INSERT INTO series (id, name, count) VALUES ('library_of_ruina', '废墟图书馆', 15);
+INSERT INTO series (id, name, count) VALUES ('library_of_ruina', '图书馆的露娜', 15);
 INSERT INTO series (id, name, count) VALUES ('azumanga_daioh', '阿滋漫画大王', 15);
 INSERT INTO series (id, name, count) VALUES ('fear_&_hunger', '恐惧 & 饥饿', 14);
 INSERT INTO series (id, name, count) VALUES ('dog_days', 'DOG DAYS犬勇者物语', 14);
@@ -424,7 +424,7 @@ INSERT INTO series (id, name, count) VALUES ('soukyuu_no_fafner', '苍穹之法�
 INSERT INTO series (id, name, count) VALUES ('zero_no_tsukaima', '零之使魔', 12);
 INSERT INTO series (id, name, count) VALUES ('baccano!', '永生之酒！', 12);
 INSERT INTO series (id, name, count) VALUES ('machikado_mazoku', '街角魔族', 12);
-INSERT INTO series (id, name, count) VALUES ('counter:side', '未来战', 12);
+INSERT INTO series (id, name, count) VALUES ('counter:side', '计数者', 12);
 INSERT INTO series (id, name, count) VALUES ('girl_cafe_gun', '少女咖啡枪', 12);
 INSERT INTO series (id, name, count) VALUES ('healin''_good_precure', 'Healin'' Good♥光之美少女', 12);
 INSERT INTO series (id, name, count) VALUES ('chrono_cross', '穿越时空', 12);
@@ -448,7 +448,7 @@ INSERT INTO series (id, name, count) VALUES ('minami-ke', '南家三姐妹', 11)
 INSERT INTO series (id, name, count) VALUES ('yotsubato!', '四叶妹妹！', 11);
 INSERT INTO series (id, name, count) VALUES ('devil_survivor', '恶魔幸存者', 11);
 INSERT INTO series (id, name, count) VALUES ('mechanical_buddy_universe', 'Mechanical Buddy Universe机械伙伴宇宙', 11);
-INSERT INTO series (id, name, count) VALUES ('shuffle!', 'SHUFFLE!', 11);
+INSERT INTO series (id, name, count) VALUES ('shuffle!', '洗牌！', 11);
 INSERT INTO series (id, name, count) VALUES ('modern_mogal', 'Modern Mogal', 11);
 INSERT INTO series (id, name, count) VALUES ('panty_&_stocking_with_garterbelt', '吊带袜天使', 11);
 INSERT INTO series (id, name, count) VALUES ('danshi_koukousei_no_nichijou', '男子高中生的日常', 11);
@@ -469,7 +469,7 @@ INSERT INTO series (id, name, count) VALUES ('strike_the_blood', '噬血狂袭',
 INSERT INTO series (id, name, count) VALUES ('kuroko_no_basuke', '黑子的篮球', 10);
 INSERT INTO series (id, name, count) VALUES ('tokyo_mew_mew', '东京猫猫', 10);
 INSERT INTO series (id, name, count) VALUES ('ansatsu_kyoushitsu', '暗杀教室', 10);
-INSERT INTO series (id, name, count) VALUES ('etra-chan_wa_mita!', 'Etra-chan Wa Mita!', 10);
+INSERT INTO series (id, name, count) VALUES ('etra-chan_wa_mita!', '艾特拉酱看过了！', 10);
 INSERT INTO series (id, name, count) VALUES ('tantei_opera_milky_holmes', '侦探歌剧 少女福尔摩斯', 10);
 INSERT INTO series (id, name, count) VALUES ('bungou_stray_dogs', '文豪野犬', 10);
 INSERT INTO series (id, name, count) VALUES ('unicorn_overlord', '圣兽之王', 10);
@@ -495,16 +495,16 @@ INSERT INTO series (id, name, count) VALUES ('kimi_ga_shine', '你已藏起', 10
 INSERT INTO series (id, name, count) VALUES ('kamitsubaki_studio', '神椿工作室', 10);
 INSERT INTO series (id, name, count) VALUES ('cosmic_break', '宇宙突击队', 10);
 INSERT INTO series (id, name, count) VALUES ('dota_(series)', 'Dota刀塔', 10);
-INSERT INTO series (id, name, count) VALUES ('guardian_tales', 'Guardian Tales', 10);
+INSERT INTO series (id, name, count) VALUES ('guardian_tales', '守护者传说', 10);
 INSERT INTO series (id, name, count) VALUES ('metroid', '银河战士', 10);
-INSERT INTO series (id, name, count) VALUES ('duel_masters', 'Duel Masters', 10);
+INSERT INTO series (id, name, count) VALUES ('duel_masters', '决斗大师', 10);
 INSERT INTO series (id, name, count) VALUES ('doraemon', '哆啦A梦', 10);
 INSERT INTO series (id, name, count) VALUES ('noripro', 'NoriPro虚拟主播', 10);
 INSERT INTO series (id, name, count) VALUES ('school_rumble', '校园迷糊大王', 10);
 INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_no_majo_saiban', '魔法少女的魔女审判', 10);
 INSERT INTO series (id, name, count) VALUES ('wind_breaker_(nii_satoru)', 'WIND BREAKER防风少年', 10);
 INSERT INTO series (id, name, count) VALUES ('rurouni_kenshin', '浪客剑心', 10);
-INSERT INTO series (id, name, count) VALUES ('gokujou_seitokai', 'Gokujou Seitokai', 10);
+INSERT INTO series (id, name, count) VALUES ('gokujou_seitokai', '极上生徒会', 10);
 INSERT INTO series (id, name, count) VALUES ('zombie_land_saga', '佐贺偶像是传奇', 10);
 INSERT INTO series (id, name, count) VALUES ('tenshi_souzou_re-boot!', '天使创造Re-boot!', 10);
 INSERT INTO series (id, name, count) VALUES ('amagi_brilliant_park', '甘城光辉游乐园', 10);
@@ -513,12 +513,12 @@ INSERT INTO series (id, name, count) VALUES ('kimi_kiss', '君吻', 9);
 INSERT INTO series (id, name, count) VALUES ('kimi_no_koto_ga_dai_dai_dai_dai_daisuki_na_100-nin_no_kanojo', '超超超超喜欢你的100个女孩子', 9);
 INSERT INTO series (id, name, count) VALUES ('toradora!', '龙与虎', 9);
 INSERT INTO series (id, name, count) VALUES ('shinryaku!_ikamusume', '侵略！乌贼娘', 9);
-INSERT INTO series (id, name, count) VALUES ('choukou_(alicesoft)', 'Choukou (alicesoft)', 9);
+INSERT INTO series (id, name, count) VALUES ('choukou_(alicesoft)', '超昂 (AliceSoft)', 9);
 INSERT INTO series (id, name, count) VALUES ('bishoujo_mangekyou', '美少女万华镜', 9);
 INSERT INTO series (id, name, count) VALUES ('pop''n_music', 'Pop''n Music', 9);
 INSERT INTO series (id, name, count) VALUES ('kekkai_sensen', '血界战线', 9);
-INSERT INTO series (id, name, count) VALUES ('starry_sky_(game)', 'Starry Sky (game)', 9);
-INSERT INTO series (id, name, count) VALUES ('re:act', 'Re:act', 9);
+INSERT INTO series (id, name, count) VALUES ('starry_sky_(game)', 'Starry☆Sky', 9);
+INSERT INTO series (id, name, count) VALUES ('re:act', 'Re:AcT', 9);
 INSERT INTO series (id, name, count) VALUES ('voms', 'VOMS虚拟主播', 9);
 INSERT INTO series (id, name, count) VALUES ('dennou_coil', '电脑线圈', 9);
 INSERT INTO series (id, name, count) VALUES ('steven_universe', '宇宙小子', 9);
@@ -537,7 +537,7 @@ INSERT INTO series (id, name, count) VALUES ('the_amazing_digital_circus', '神�
 INSERT INTO series (id, name, count) VALUES ('super_heroine_boy', '超级女主角男孩', 9);
 INSERT INTO series (id, name, count) VALUES ('rewrite', 'Rewrite', 9);
 INSERT INTO series (id, name, count) VALUES ('nexon', 'Nexon', 9);
-INSERT INTO series (id, name, count) VALUES ('odd_taxi', 'Odd Taxi', 9);
+INSERT INTO series (id, name, count) VALUES ('odd_taxi', '奇巧计程车', 9);
 INSERT INTO series (id, name, count) VALUES ('tate_no_yuusha_no_nariagari', '盾之勇者成名录', 9);
 INSERT INTO series (id, name, count) VALUES ('galaxy_angel', '银河天使', 9);
 INSERT INTO series (id, name, count) VALUES ('kaguya-sama_wa_kokurasetai_~tensai-tachi_no_renai_zunousen~', '辉夜大小姐想让我告白', 9);
@@ -546,11 +546,11 @@ INSERT INTO series (id, name, count) VALUES ('tenchi_muyou!', '天地无用！',
 INSERT INTO series (id, name, count) VALUES ('uchuu_senkan_yamato', '宇宙战舰大和号', 9);
 INSERT INTO series (id, name, count) VALUES ('suigetsu', '水月', 9);
 INSERT INTO series (id, name, count) VALUES ('kemurikusa', '烟草', 9);
-INSERT INTO series (id, name, count) VALUES ('evillious_nendaiki', 'Evillious Nendaiki', 8);
+INSERT INTO series (id, name, count) VALUES ('evillious_nendaiki', '恶之系列', 8);
 INSERT INTO series (id, name, count) VALUES ('medaka_box', '最强会长黑神', 8);
 INSERT INTO series (id, name, count) VALUES ('akame_ga_kill!', '斩·赤红之瞳！', 8);
 INSERT INTO series (id, name, count) VALUES ('rosario+vampire', '十字架与吸血鬼', 8);
-INSERT INTO series (id, name, count) VALUES ('oda_nobuna_no_yabou', 'Oda Nobuna No Yabou', 8);
+INSERT INTO series (id, name, count) VALUES ('oda_nobuna_no_yabou', '织田信奈的野望', 8);
 INSERT INTO series (id, name, count) VALUES ('otome_game_no_hametsu_flag_shika_nai_akuyaku_reijou_ni_tensei_shite_shimatta', '转生成为了只有乙女游戏破灭Flag的邪恶大小姐', 8);
 INSERT INTO series (id, name, count) VALUES ('black_souls', 'Black Souls', 8);
 INSERT INTO series (id, name, count) VALUES ('odin_sphere', '奥丁领域', 8);
@@ -560,34 +560,34 @@ INSERT INTO series (id, name, count) VALUES ('valkyrie_profile_(series)', '北�
 INSERT INTO series (id, name, count) VALUES ('ishuzoku_reviewers', '异种族风俗娘评鉴指南', 8);
 INSERT INTO series (id, name, count) VALUES ('assassin''s_creed_(series)', '刺客信条', 8);
 INSERT INTO series (id, name, count) VALUES ('fushigiboshi_no_futago_hime', '双子星公主', 8);
-INSERT INTO series (id, name, count) VALUES ('scp_foundation', 'Scp Foundation', 8);
+INSERT INTO series (id, name, count) VALUES ('scp_foundation', 'SCP基金会', 8);
 INSERT INTO series (id, name, count) VALUES ('dream_c_club', '梦幻俱乐部', 8);
 INSERT INTO series (id, name, count) VALUES ('death_note', '死亡笔记', 8);
 INSERT INTO series (id, name, count) VALUES ('slayers', '秀逗魔导士', 8);
 INSERT INTO series (id, name, count) VALUES ('suisei_no_gargantia', '翠星之加尔刚蒂亚', 8);
 INSERT INTO series (id, name, count) VALUES ('hyakko', '白虎', 8);
 INSERT INTO series (id, name, count) VALUES ('eureka_seven_(series)', '交响诗篇', 8);
-INSERT INTO series (id, name, count) VALUES ('ai_tenshi_densetsu_wedding_peach', 'Ai Tenshi Densetsu Wedding Peach', 8);
+INSERT INTO series (id, name, count) VALUES ('ai_tenshi_densetsu_wedding_peach', '爱天使传说婚礼桃', 8);
 INSERT INTO series (id, name, count) VALUES ('mahouka_koukou_no_rettousei', '魔法科高中的劣等生', 8);
 INSERT INTO series (id, name, count) VALUES ('yuuki_bakuhatsu_bang_bravern', '勇气爆发Bang Bravern', 8);
-INSERT INTO series (id, name, count) VALUES ('mahoraba', 'Mahoraba', 8);
-INSERT INTO series (id, name, count) VALUES ('chaos;head', 'Chaos;head', 8);
-INSERT INTO series (id, name, count) VALUES ('dr._stone', 'Dr. Stone', 8);
+INSERT INTO series (id, name, count) VALUES ('mahoraba', '我的神仙管家', 8);
+INSERT INTO series (id, name, count) VALUES ('chaos;head', '混沌之脑', 8);
+INSERT INTO series (id, name, count) VALUES ('dr._stone', 'Dr.STONE', 8);
 INSERT INTO series (id, name, count) VALUES ('tamako_market', '玉子市场', 8);
-INSERT INTO series (id, name, count) VALUES ('battle_girl_high_school', 'Battle Girl High School', 8);
+INSERT INTO series (id, name, count) VALUES ('battle_girl_high_school', '战斗少女高中', 8);
 INSERT INTO series (id, name, count) VALUES ('sekirei', '鹡鸰女神', 8);
 INSERT INTO series (id, name, count) VALUES ('mononoke_hime', '幽灵公主', 8);
-INSERT INTO series (id, name, count) VALUES ('invincible_(series)', 'Invincible', 8);
-INSERT INTO series (id, name, count) VALUES ('k-project', 'K-project', 8);
+INSERT INTO series (id, name, count) VALUES ('invincible_(series)', '无敌少侠', 8);
+INSERT INTO series (id, name, count) VALUES ('k-project', 'K', 8);
 INSERT INTO series (id, name, count) VALUES ('hori-san_to_miyamura-kun', '堀与宫村', 8);
 INSERT INTO series (id, name, count) VALUES ('seishun_buta_yarou', '青春猪头少年', 8);
-INSERT INTO series (id, name, count) VALUES ('inazuma_eleven', 'Inazuma Eleven', 8);
-INSERT INTO series (id, name, count) VALUES ('no_i''m_not_a_human', 'No I''m Not A Human', 8);
+INSERT INTO series (id, name, count) VALUES ('inazuma_eleven', '闪电十一人', 8);
+INSERT INTO series (id, name, count) VALUES ('no_i''m_not_a_human', '不，我不是人类', 8);
 INSERT INTO series (id, name, count) VALUES ('aa_megami-sama', '我的女神', 8);
-INSERT INTO series (id, name, count) VALUES ('tolkien''s_legendarium', 'Tolkien''s Legendarium', 8);
+INSERT INTO series (id, name, count) VALUES ('tolkien''s_legendarium', '托尔金传奇世界', 8);
 INSERT INTO series (id, name, count) VALUES ('gravity_falls', '怪诞小镇', 8);
-INSERT INTO series (id, name, count) VALUES ('medarot', 'Medarot', 8);
-INSERT INTO series (id, name, count) VALUES ('titanfall_(series)', 'Titanfall', 8);
+INSERT INTO series (id, name, count) VALUES ('medarot', '勋章机器人', 8);
+INSERT INTO series (id, name, count) VALUES ('titanfall_(series)', '泰坦陨落', 8);
 INSERT INTO series (id, name, count) VALUES ('mashle', '物理魔法使马修', 8);
 INSERT INTO series (id, name, count) VALUES ('ryuuou_no_oshigoto!', '龙王的工作！', 8);
 INSERT INTO series (id, name, count) VALUES ('marl_kingdom', '马尔王国', 8);
@@ -596,12 +596,12 @@ INSERT INTO series (id, name, count) VALUES ('maji_de_watashi_ni_koi_shinasai!',
 INSERT INTO series (id, name, count) VALUES ('tensei_shitara_slime_datta_ken', '转生史莱姆', 8);
 INSERT INTO series (id, name, count) VALUES ('dragalia_lost', '失落的龙约', 8);
 INSERT INTO series (id, name, count) VALUES ('arms_(game)', 'ARMS神臂斗士', 8);
-INSERT INTO series (id, name, count) VALUES ('aikatsu!', 'Aikatsu!', 8);
+INSERT INTO series (id, name, count) VALUES ('aikatsu!', '偶像活动!', 8);
 INSERT INTO series (id, name, count) VALUES ('kid_icarus', '光神话 帕尔提娜之镜', 8);
 INSERT INTO series (id, name, count) VALUES ('toaru_kagaku_no_railgun', '某科学的超电磁炮', 8);
 INSERT INTO series (id, name, count) VALUES ('cowboy_bebop', '星际牛仔', 8);
-INSERT INTO series (id, name, count) VALUES ('mahoutsukai_no_yakusoku', 'Mahoutsukai No Yakusoku', 8);
-INSERT INTO series (id, name, count) VALUES ('ginga_eiyuu_densetsu', 'Ginga Eiyuu Densetsu', 8);
+INSERT INTO series (id, name, count) VALUES ('mahoutsukai_no_yakusoku', '魔法使的约束', 8);
+INSERT INTO series (id, name, count) VALUES ('ginga_eiyuu_densetsu', '银河英雄传说', 8);
 INSERT INTO series (id, name, count) VALUES ('ouran_high_school_host_club', '樱兰高校男公关部', 8);
 INSERT INTO series (id, name, count) VALUES ('to_heart', '同班同学', 8);
 INSERT INTO series (id, name, count) VALUES ('coppelion', '核爆默示录', 8);
@@ -619,25 +619,25 @@ INSERT INTO series (id, name, count) VALUES ('grisaia_(series)', '灰色的果�
 INSERT INTO series (id, name, count) VALUES ('xenosaga', '异度传说', 8);
 INSERT INTO series (id, name, count) VALUES ('given', 'Given被赠与的未来', 8);
 INSERT INTO series (id, name, count) VALUES ('maoyuu_maou_yuusha', '魔王勇者', 8);
-INSERT INTO series (id, name, count) VALUES ('the_loud_house', 'The Loud House', 8);
+INSERT INTO series (id, name, count) VALUES ('the_loud_house', '喧闹一家', 8);
 INSERT INTO series (id, name, count) VALUES ('mabinogi', '洛奇', 8);
-INSERT INTO series (id, name, count) VALUES ('ochite_iku_seisenshi_lunatic_angels', 'Ochite Iku Seisenshi Lunatic Angels', 8);
+INSERT INTO series (id, name, count) VALUES ('ochite_iku_seisenshi_lunatic_angels', '落手郁圣战师 Lunatic Angels', 8);
 INSERT INTO series (id, name, count) VALUES ('armored_core', '装甲核心', 7);
-INSERT INTO series (id, name, count) VALUES ('stardew_valley', 'Stardew Valley', 7);
-INSERT INTO series (id, name, count) VALUES ('sentimental_graffiti', 'Sentimental Graffiti', 7);
+INSERT INTO series (id, name, count) VALUES ('stardew_valley', '星露谷物语', 7);
+INSERT INTO series (id, name, count) VALUES ('sentimental_graffiti', '感伤涂鸦', 7);
 INSERT INTO series (id, name, count) VALUES ('nier:automata', '尼尔：自动人形', 7);
 INSERT INTO series (id, name, count) VALUES ('bravely_default_(series)', '勇气默示录', 7);
 INSERT INTO series (id, name, count) VALUES ('princess_tutu', '彩梦芭蕾', 7);
 INSERT INTO series (id, name, count) VALUES ('yuyushiki', '悠悠式', 7);
-INSERT INTO series (id, name, count) VALUES ('hitozuma_sentai_aisaiger', 'Hitozuma Sentai Aisaiger', 7);
-INSERT INTO series (id, name, count) VALUES ('viper', 'Viper', 7);
-INSERT INTO series (id, name, count) VALUES ('seikon_no_qwaser', 'Seikon No Qwaser', 7);
+INSERT INTO series (id, name, count) VALUES ('hitozuma_sentai_aisaiger', '人妻战队艾赛格', 7);
+INSERT INTO series (id, name, count) VALUES ('viper', '毒蛇', 7);
+INSERT INTO series (id, name, count) VALUES ('seikon_no_qwaser', '精工无Qwaser', 7);
 INSERT INTO series (id, name, count) VALUES ('d.gray-man', '驱魔少年', 7);
 INSERT INTO series (id, name, count) VALUES ('la_pucelle', '光之圣女传说', 7);
 INSERT INTO series (id, name, count) VALUES ('kidou_keisatsu_patlabor', '机动警察', 7);
 INSERT INTO series (id, name, count) VALUES ('wakfu', '沃土', 7);
-INSERT INTO series (id, name, count) VALUES ('resort_boin', 'Resort Boin', 7);
-INSERT INTO series (id, name, count) VALUES ('production_kawaii', 'Production Kawaii', 7);
+INSERT INTO series (id, name, count) VALUES ('resort_boin', '博因度假村', 7);
+INSERT INTO series (id, name, count) VALUES ('production_kawaii', '制作卡哇伊', 7);
 INSERT INTO series (id, name, count) VALUES ('ookami_(game)', '大神', 7);
 INSERT INTO series (id, name, count) VALUES ('gj-bu', 'GJ部', 7);
 INSERT INTO series (id, name, count) VALUES ('dragon''s_crown', '龙之皇冠', 7);
@@ -650,51 +650,51 @@ INSERT INTO series (id, name, count) VALUES ('signalis', '信号', 7);
 INSERT INTO series (id, name, count) VALUES ('senren_banka', '千恋＊万花', 7);
 INSERT INTO series (id, name, count) VALUES ('riddle_joker', 'RIDDLE JOKER谜语小丑', 7);
 INSERT INTO series (id, name, count) VALUES ('accel_world', '加速世界', 7);
-INSERT INTO series (id, name, count) VALUES ('rain_world', 'Rain World', 7);
+INSERT INTO series (id, name, count) VALUES ('rain_world', '雨世界', 7);
 INSERT INTO series (id, name, count) VALUES ('full_metal_panic!', '全金属狂潮！', 7);
-INSERT INTO series (id, name, count) VALUES ('kunoichi_tsubaki_no_mune_no_uchi', 'Kunoichi Tsubaki No Mune No Uchi', 7);
+INSERT INTO series (id, name, count) VALUES ('kunoichi_tsubaki_no_mune_no_uchi', '女忍椿之宗之内', 7);
 INSERT INTO series (id, name, count) VALUES ('yoake_mae_yori_ruri_iro_na', '夜明前的琉璃色', 7);
 INSERT INTO series (id, name, count) VALUES ('magic_knight_rayearth', '魔法骑士', 7);
 INSERT INTO series (id, name, count) VALUES ('soukou_akki_muramasa', '装甲恶鬼村正', 7);
 INSERT INTO series (id, name, count) VALUES ('tsugumomo', '怪怪守护神', 7);
-INSERT INTO series (id, name, count) VALUES ('megido72', 'Megido72', 7);
+INSERT INTO series (id, name, count) VALUES ('megido72', '梅吉多72', 7);
 INSERT INTO series (id, name, count) VALUES ('ojamajo_doremi', '小魔女DoReMi', 7);
 INSERT INTO series (id, name, count) VALUES ('dandadan', '胆大党', 7);
 INSERT INTO series (id, name, count) VALUES ('no_game_no_life', 'NO GAME NO LIFE 游戏人生', 7);
 INSERT INTO series (id, name, count) VALUES ('sakura_no_sekai', '樱之世界', 7);
-INSERT INTO series (id, name, count) VALUES ('onegai_my_melody', 'Onegai My Melody', 7);
+INSERT INTO series (id, name, count) VALUES ('onegai_my_melody', '奥涅盖我的旋律', 7);
 INSERT INTO series (id, name, count) VALUES ('doom_(series)', '毁灭战士', 7);
 INSERT INTO series (id, name, count) VALUES ('7th_dragon', '七龙传说', 7);
-INSERT INTO series (id, name, count) VALUES ('left_4_dead', 'Left 4 Dead', 7);
+INSERT INTO series (id, name, count) VALUES ('left_4_dead', '死了4个人', 7);
 INSERT INTO series (id, name, count) VALUES ('subarashiki_kono_sekai', '美妙世界', 7);
 INSERT INTO series (id, name, count) VALUES ('sen_to_chihiro_no_kamikakushi', '千与千寻', 7);
-INSERT INTO series (id, name, count) VALUES ('maerchen_(album)', 'Maerchen (album)', 7);
+INSERT INTO series (id, name, count) VALUES ('maerchen_(album)', '玛尔辰 (专辑)', 7);
 INSERT INTO series (id, name, count) VALUES ('flcl', 'FLCL特别的她', 7);
 INSERT INTO series (id, name, count) VALUES ('call_of_duty', '使命召唤', 7);
 INSERT INTO series (id, name, count) VALUES ('valkyrie_drive', '女武神驱动', 7);
 INSERT INTO series (id, name, count) VALUES ('tonari_no_totoro', '龙猫', 7);
 INSERT INTO series (id, name, count) VALUES ('soulworker', '灵魂武器', 7);
-INSERT INTO series (id, name, count) VALUES ('tsunderia', 'Tsunderia', 7);
+INSERT INTO series (id, name, count) VALUES ('tsunderia', '傲娇', 7);
 INSERT INTO series (id, name, count) VALUES ('hyouka', '冰菓', 7);
-INSERT INTO series (id, name, count) VALUES ('eddsworld', 'Eddsworld', 7);
+INSERT INTO series (id, name, count) VALUES ('eddsworld', '埃兹世界', 7);
 INSERT INTO series (id, name, count) VALUES ('mass_effect_(series)', '质量效应', 7);
-INSERT INTO series (id, name, count) VALUES ('fallout_(series)', 'Fallout', 7);
+INSERT INTO series (id, name, count) VALUES ('fallout_(series)', '掉出来', 7);
 INSERT INTO series (id, name, count) VALUES ('goblin_slayer!', '哥布林杀手！', 7);
 INSERT INTO series (id, name, count) VALUES ('mcdonald''s', '麦当劳', 7);
-INSERT INTO series (id, name, count) VALUES ('world_flipper', 'World Flipper', 7);
+INSERT INTO series (id, name, count) VALUES ('world_flipper', '世界脚蹼', 7);
 INSERT INTO series (id, name, count) VALUES ('himouto!_umaru-chan', '干物妹！小埋', 7);
-INSERT INTO series (id, name, count) VALUES ('wrestle_angels', 'Wrestle Angels', 7);
+INSERT INTO series (id, name, count) VALUES ('wrestle_angels', '摔跤天使', 7);
 INSERT INTO series (id, name, count) VALUES ('nige_jouzu_no_wakagimi', '擅长逃跑的殿下', 7);
 INSERT INTO series (id, name, count) VALUES ('musuko_ga_kawaikute_shikatanai_mazoku_no_hahaoya', '儿子可爱过头的魔族母亲', 7);
 INSERT INTO series (id, name, count) VALUES ('douluo_dalu', '斗罗大陆', 7);
-INSERT INTO series (id, name, count) VALUES ('shenmue', 'Shenmue', 7);
+INSERT INTO series (id, name, count) VALUES ('shenmue', '莎木', 7);
 INSERT INTO series (id, name, count) VALUES ('shinmai_maou_no_testament', '新妹魔王的契约者', 7);
-INSERT INTO series (id, name, count) VALUES ('wake_up_girls!', 'Wake Up Girls!', 7);
-INSERT INTO series (id, name, count) VALUES ('sengoku_otome', 'Sengoku Otome', 7);
-INSERT INTO series (id, name, count) VALUES ('happiness!', 'Happiness!', 7);
+INSERT INTO series (id, name, count) VALUES ('wake_up_girls!', '女孩们醒醒吧！', 7);
+INSERT INTO series (id, name, count) VALUES ('sengoku_otome', '战国乙女', 7);
+INSERT INTO series (id, name, count) VALUES ('happiness!', '幸福！', 7);
 INSERT INTO series (id, name, count) VALUES ('nagi_no_asukara', '来自风平浪静的明天', 7);
 INSERT INTO series (id, name, count) VALUES ('gekkan_shoujo_nozaki-kun', '月刊少女野崎君', 7);
-INSERT INTO series (id, name, count) VALUES ('school_girl_strikers', 'School Girl Strikers', 7);
+INSERT INTO series (id, name, count) VALUES ('school_girl_strikers', '女学生前锋', 7);
 INSERT INTO series (id, name, count) VALUES ('nisekoi', '伪恋', 7);
 INSERT INTO series (id, name, count) VALUES ('sakura_trick', '樱Trick', 7);
 INSERT INTO series (id, name, count) VALUES ('ano_natsu_de_matteru', '在那个夏天等待', 7);
@@ -706,28 +706,28 @@ INSERT INTO series (id, name, count) VALUES ('komi-san_wa_komyushou_desu', '古�
 INSERT INTO series (id, name, count) VALUES ('trigun', '枪神', 7);
 INSERT INTO series (id, name, count) VALUES ('go-toubun_no_hanayome', '五等分的新娘', 7);
 INSERT INTO series (id, name, count) VALUES ('ochame_na_okusan_to_no_nichijou_chabangoto', '与淘气妻子的日常茶饭事', 7);
-INSERT INTO series (id, name, count) VALUES ('snowbreak:_containment_zone', 'Snowbreak: Containment Zone', 6);
+INSERT INTO series (id, name, count) VALUES ('snowbreak:_containment_zone', '雪境边境', 6);
 INSERT INTO series (id, name, count) VALUES ('azure_striker_gunvolt', '苍蓝雷霆', 6);
-INSERT INTO series (id, name, count) VALUES ('overman_king_gainer', 'Overman King Gainer', 6);
+INSERT INTO series (id, name, count) VALUES ('overman_king_gainer', '超人国王增益者', 6);
 INSERT INTO series (id, name, count) VALUES ('kore_wa_zombie_desu_ka?', '这样算是僵尸吗？', 6);
 INSERT INTO series (id, name, count) VALUES ('summertime_render', '夏日重现', 6);
 INSERT INTO series (id, name, count) VALUES ('ookami-san', '大神同学', 6);
 INSERT INTO series (id, name, count) VALUES ('zettai_karen_children', '绝对可怜小孩', 6);
 INSERT INTO series (id, name, count) VALUES ('powerpuff_girls_z', '飞天小女警Z', 6);
 INSERT INTO series (id, name, count) VALUES ('saenai_heroine_no_sodatekata', '路人女主的养成方法', 6);
-INSERT INTO series (id, name, count) VALUES ('nanatsuiro_drops', 'Nanatsuiro Drops', 6);
+INSERT INTO series (id, name, count) VALUES ('nanatsuiro_drops', '七色滴', 6);
 INSERT INTO series (id, name, count) VALUES ('orenchi_no_meidosan', '我家的女仆小姐', 6);
 INSERT INTO series (id, name, count) VALUES ('mirai_nikki', '未来日记', 6);
 INSERT INTO series (id, name, count) VALUES ('en''en_no_shouboutai', '炎炎消防队', 6);
 INSERT INTO series (id, name, count) VALUES ('cafe_stella_to_shinigami_no_chou', '星光咖啡馆与死神之蝶', 6);
 INSERT INTO series (id, name, count) VALUES ('blend_s', '调教咖啡厅', 6);
-INSERT INTO series (id, name, count) VALUES ('idol_corp', 'Idol Corp', 6);
-INSERT INTO series (id, name, count) VALUES ('trusty_bell', 'Trusty Bell', 6);
+INSERT INTO series (id, name, count) VALUES ('idol_corp', '偶像团体', 6);
+INSERT INTO series (id, name, count) VALUES ('trusty_bell', '值得信赖的贝尔', 6);
 INSERT INTO series (id, name, count) VALUES ('kuroshitsuji', '黑执事', 6);
 INSERT INTO series (id, name, count) VALUES ('dohna_dohna_issho_ni_warui_koto_o_shiyou', 'Dohna Dohna Issho Ni Warui Koto O Shiyou', 6);
 INSERT INTO series (id, name, count) VALUES ('mashiroiro_symphony', '纯白交响曲', 6);
 INSERT INTO series (id, name, count) VALUES ('ef', '悠久之翼', 6);
-INSERT INTO series (id, name, count) VALUES ('honey_come_chatka!!', 'Honey Come Chatka!!', 6);
+INSERT INTO series (id, name, count) VALUES ('honey_come_chatka!!', '亲爱的来小屋！！', 6);
 INSERT INTO series (id, name, count) VALUES ('yosuga_no_sora', '缘之空', 6);
 INSERT INTO series (id, name, count) VALUES ('mairimashita!_iruma-kun', '入间同学入魔了！', 6);
 INSERT INTO series (id, name, count) VALUES ('ichigo_mashimaro', '草莓棉花糖', 6);
@@ -743,68 +743,68 @@ INSERT INTO series (id, name, count) VALUES ('ghost_in_the_shell', '攻壳机动
 INSERT INTO series (id, name, count) VALUES ('fate/samurai_remnant', 'Fate/Samurai Remnant武士遗存', 6);
 INSERT INTO series (id, name, count) VALUES ('lupin_iii', '鲁邦三世', 6);
 INSERT INTO series (id, name, count) VALUES ('owari_no_seraph', '终结的炽天使', 6);
-INSERT INTO series (id, name, count) VALUES ('majestic_prince', 'Majestic Prince', 6);
+INSERT INTO series (id, name, count) VALUES ('majestic_prince', '雄伟的王子', 6);
 INSERT INTO series (id, name, count) VALUES ('sekiro:_shadows_die_twice', '只狼：影逝二度', 6);
 INSERT INTO series (id, name, count) VALUES ('hataraku_maou-sama!', '打工吧！魔王大人', 6);
-INSERT INTO series (id, name, count) VALUES ('sketchbook_full_colors', 'Sketchbook Full Colors', 6);
-INSERT INTO series (id, name, count) VALUES ('lotte_no_omocha!', 'Lotte No Omocha!', 6);
+INSERT INTO series (id, name, count) VALUES ('sketchbook_full_colors', '全彩素描本', 6);
+INSERT INTO series (id, name, count) VALUES ('lotte_no_omocha!', '乐天没有 Omocha！', 6);
 INSERT INTO series (id, name, count) VALUES ('sora_no_otoshimono', '天降之物', 6);
 INSERT INTO series (id, name, count) VALUES ('devilman', '恶魔人', 6);
-INSERT INTO series (id, name, count) VALUES ('rakudai_ninja_rantarou', 'Rakudai Ninja Rantarou', 6);
+INSERT INTO series (id, name, count) VALUES ('rakudai_ninja_rantarou', '乐大忍者乱太郎', 6);
 INSERT INTO series (id, name, count) VALUES ('sanoba_witch', '魔女的夜宴', 6);
 INSERT INTO series (id, name, count) VALUES ('majutsushi_orphen', '魔术士奥芬', 6);
-INSERT INTO series (id, name, count) VALUES ('dogs:_bullets_&_carnage', 'Dogs: Bullets & Carnage', 6);
+INSERT INTO series (id, name, count) VALUES ('dogs:_bullets_&_carnage', '狗：子弹与屠杀', 6);
 INSERT INTO series (id, name, count) VALUES ('eoduun_badaui_deungbul-i_doeeo', '成为昏暗大海的灯塔', 6);
 INSERT INTO series (id, name, count) VALUES ('doukutsu_monogatari', '洞窟物语', 6);
 INSERT INTO series (id, name, count) VALUES ('big_hero_6', '超能陆战队', 6);
-INSERT INTO series (id, name, count) VALUES ('crave_saga', 'Crave Saga', 6);
-INSERT INTO series (id, name, count) VALUES ('walkure_romanze', 'Walkure Romanze', 6);
+INSERT INTO series (id, name, count) VALUES ('crave_saga', '渴望传奇', 6);
+INSERT INTO series (id, name, count) VALUES ('walkure_romanze', '女武神浪漫', 6);
 INSERT INTO series (id, name, count) VALUES ('powerpuff_girls', '飞天小女警', 6);
-INSERT INTO series (id, name, count) VALUES ('rainbow_bubblegem', 'Rainbow Bubblegem', 6);
-INSERT INTO series (id, name, count) VALUES ('trickster', 'Trickster', 6);
+INSERT INTO series (id, name, count) VALUES ('rainbow_bubblegem', '彩虹泡泡宝石', 6);
+INSERT INTO series (id, name, count) VALUES ('trickster', '骗子', 6);
 INSERT INTO series (id, name, count) VALUES ('highschool_of_the_dead', '学园默示录', 6);
 INSERT INTO series (id, name, count) VALUES ('howl_no_ugoku_shiro', '哈尔的移动城堡', 6);
-INSERT INTO series (id, name, count) VALUES ('tactics_ogre', 'Tactics Ogre', 6);
-INSERT INTO series (id, name, count) VALUES ('bakuretsu_hunters', 'Bakuretsu Hunters', 6);
+INSERT INTO series (id, name, count) VALUES ('tactics_ogre', '战术食人魔', 6);
+INSERT INTO series (id, name, count) VALUES ('bakuretsu_hunters', '爆列猎人', 6);
 INSERT INTO series (id, name, count) VALUES ('disney', '迪士尼', 6);
 INSERT INTO series (id, name, count) VALUES ('dramatical_murder', 'DRAMAtical Murder戏剧性谋杀', 6);
 INSERT INTO series (id, name, count) VALUES ('spice_and_wolf', '狼与香辛料', 6);
 INSERT INTO series (id, name, count) VALUES ('hirogaru_sky!_precure', '开阔天空！光之美少女', 6);
 INSERT INTO series (id, name, count) VALUES ('fresh_precure!', 'Fresh光之美少女！', 6);
 INSERT INTO series (id, name, count) VALUES ('scooby-doo', '史酷比', 6);
-INSERT INTO series (id, name, count) VALUES ('dead_by_daylight', 'Dead By Daylight', 6);
-INSERT INTO series (id, name, count) VALUES ('haevest', 'Haevest', 6);
+INSERT INTO series (id, name, count) VALUES ('dead_by_daylight', '黎明杀机', 6);
+INSERT INTO series (id, name, count) VALUES ('haevest', '海维斯特', 6);
 INSERT INTO series (id, name, count) VALUES ('di_gi_charat', 'Di Gi Charat滴骰孖妹', 6);
-INSERT INTO series (id, name, count) VALUES ('isekai_maou_to_shoukan_shoujo_no_dorei_majutsu', 'Isekai Maou To Shoukan Shoujo No Dorei Majutsu', 6);
+INSERT INTO series (id, name, count) VALUES ('isekai_maou_to_shoukan_shoujo_no_dorei_majutsu', '异世界魔王与兽官少女的灵动魔法', 6);
 INSERT INTO series (id, name, count) VALUES ('gakkou_gurashi!', '学园孤岛！', 6);
-INSERT INTO series (id, name, count) VALUES ('virtua_fighter', 'Virtua Fighter', 6);
-INSERT INTO series (id, name, count) VALUES ('dracu-riot!', 'DRACU-RIOT!', 6);
-INSERT INTO series (id, name, count) VALUES ('seiken_gakuin_no_maken_tsukai', 'Seiken Gakuin No Maken Tsukai', 6);
-INSERT INTO series (id, name, count) VALUES ('juuni_kokuki', 'Juuni Kokuki', 6);
+INSERT INTO series (id, name, count) VALUES ('virtua_fighter', 'VR战士', 6);
+INSERT INTO series (id, name, count) VALUES ('dracu-riot!', '该死的骚乱！', 6);
+INSERT INTO series (id, name, count) VALUES ('seiken_gakuin_no_maken_tsukai', '圣剑学院魔剑使', 6);
+INSERT INTO series (id, name, count) VALUES ('juuni_kokuki', '小木六月', 6);
 INSERT INTO series (id, name, count) VALUES ('coco_(disney)', '寻梦环游记', 6);
 INSERT INTO series (id, name, count) VALUES ('tianguan_cifu', '天官赐福', 6);
 INSERT INTO series (id, name, count) VALUES ('ijiranaide_nagatoro-san', '不要欺负我，长瀞同学', 6);
-INSERT INTO series (id, name, count) VALUES ('sidonia_no_kishi', 'Sidonia No Kishi', 6);
+INSERT INTO series (id, name, count) VALUES ('sidonia_no_kishi', '岸西多尼娅', 6);
 INSERT INTO series (id, name, count) VALUES ('9-nine-', '9-nine-九次九日九重色', 6);
 INSERT INTO series (id, name, count) VALUES ('dumbbell_nan_kilo_moteru?', '流汗吧！健身少女', 6);
 INSERT INTO series (id, name, count) VALUES ('waktaverse', 'WAKTAVERSE虚拟宇宙', 6);
-INSERT INTO series (id, name, count) VALUES ('luminous_witches', 'Luminous Witches', 6);
+INSERT INTO series (id, name, count) VALUES ('luminous_witches', '发光女巫', 6);
 INSERT INTO series (id, name, count) VALUES ('rou-kyuu-bu!', '萝球社！', 6);
 INSERT INTO series (id, name, count) VALUES ('cu-no', 'Cu-no虚拟主播', 6);
-INSERT INTO series (id, name, count) VALUES ('bural_chingu', 'Bural Chingu', 6);
+INSERT INTO series (id, name, count) VALUES ('bural_chingu', '布拉尔钦古', 6);
 INSERT INTO series (id, name, count) VALUES ('jibaku_shounen_hanako-kun', '地缚少年花子君', 6);
-INSERT INTO series (id, name, count) VALUES ('jissai_no_tokoro', 'Jissai No Tokoro', 6);
+INSERT INTO series (id, name, count) VALUES ('jissai_no_tokoro', '时斋之所', 6);
 INSERT INTO series (id, name, count) VALUES ('kunio-kun_series', '热血系列', 6);
 INSERT INTO series (id, name, count) VALUES ('karakai_jouzu_no_takagi-san', '擅长捉弄的高木同学', 6);
 INSERT INTO series (id, name, count) VALUES ('do_it_yourself!!', 'Do It Yourself!! 手工少女', 6);
 INSERT INTO series (id, name, count) VALUES ('haibane_renmei', '灰羽联盟', 6);
-INSERT INTO series (id, name, count) VALUES ('wactor_production', 'Wactor Production', 6);
+INSERT INTO series (id, name, count) VALUES ('wactor_production', '沃克特生产', 6);
 INSERT INTO series (id, name, count) VALUES ('katanagatari', '刀语', 6);
 INSERT INTO series (id, name, count) VALUES ('sayonara_wo_oshiete', '对你说再见', 6);
-INSERT INTO series (id, name, count) VALUES ('fruits_basket', 'Fruits Basket', 6);
-INSERT INTO series (id, name, count) VALUES ('shuten_order', 'Shuten Order', 6);
-INSERT INTO series (id, name, count) VALUES ('arakawa_under_the_bridge', 'Arakawa Under The Bridge', 6);
-INSERT INTO series (id, name, count) VALUES ('collar_x_malice', 'Collar×Malice', 6);
+INSERT INTO series (id, name, count) VALUES ('fruits_basket', '水果篮', 6);
+INSERT INTO series (id, name, count) VALUES ('shuten_order', '酒吞订单', 6);
+INSERT INTO series (id, name, count) VALUES ('arakawa_under_the_bridge', '荒川桥下', 6);
+INSERT INTO series (id, name, count) VALUES ('collar_x_malice', '项圈×恶意', 6);
 INSERT INTO series (id, name, count) VALUES ('benghuai_xueyuan', 'Benghuai Xueyuan', 6);
 INSERT INTO series (id, name, count) VALUES ('sousai_shoujo_teien', '创彩少女庭园', 6);
 INSERT INTO series (id, name, count) VALUES ('musaigen_no_phantom_world', '无彩限的怪灵世界', 6);
@@ -815,2895 +815,2895 @@ INSERT INTO series (id, name, count) VALUES ('eromanga_sensei', '埃罗芒阿老
 INSERT INTO series (id, name, count) VALUES ('danna_ga_nani_wo_itte_iru_ka_wakaranai_ken', '关于完全听不懂老公在说什么的事', 6);
 INSERT INTO series (id, name, count) VALUES ('ayakashi_triangle', '妖三角', 6);
 INSERT INTO series (id, name, count) VALUES ('kanojo_okarishimasu', '租借女友', 6);
-INSERT INTO series (id, name, count) VALUES ('nyan_koi!', 'Nyan Koi!', 6);
-INSERT INTO series (id, name, count) VALUES ('corpse_party', 'Corpse Party', 6);
+INSERT INTO series (id, name, count) VALUES ('nyan_koi!', '锦鲤年！', 6);
+INSERT INTO series (id, name, count) VALUES ('corpse_party', '尸体派对', 6);
 INSERT INTO series (id, name, count) VALUES ('flip_flappers', '轻拍翻转小魔女', 6);
 INSERT INTO series (id, name, count) VALUES ('kaze_no_tani_no_nausicaa', '风之谷', 6);
 INSERT INTO series (id, name, count) VALUES ('kakumeiki_valvrave', '革命机Valvrave', 6);
-INSERT INTO series (id, name, count) VALUES ('tower_of_fantasy', 'Tower Of Fantasy', 6);
+INSERT INTO series (id, name, count) VALUES ('tower_of_fantasy', '幻塔', 6);
 INSERT INTO series (id, name, count) VALUES ('inu_x_boku_ss', '妖狐×仆SS', 6);
 INSERT INTO series (id, name, count) VALUES ('jewelpet_(series)', '宝石宠物', 6);
 INSERT INTO series (id, name, count) VALUES ('ore_twintail_ni_narimasu', '我，要成为双马尾。', 6);
 INSERT INTO series (id, name, count) VALUES ('kimi_no_na_wa.', '你的名字。', 6);
 INSERT INTO series (id, name, count) VALUES ('little_witch_nobeta', '小魔女诺贝塔', 6);
 INSERT INTO series (id, name, count) VALUES ('charlotte_(anime)', 'Charlotte夏洛特', 6);
-INSERT INTO series (id, name, count) VALUES ('haunted_hotel', 'Haunted Hotel', 5);
+INSERT INTO series (id, name, count) VALUES ('haunted_hotel', '闹鬼酒店', 5);
 INSERT INTO series (id, name, count) VALUES ('pui_pui_molcar', '天竺鼠车车', 5);
-INSERT INTO series (id, name, count) VALUES ('space_dandy', 'Space Dandy', 5);
+INSERT INTO series (id, name, count) VALUES ('space_dandy', '太空花花公子', 5);
 INSERT INTO series (id, name, count) VALUES ('enjo_kouhai', '援交后辈', 5);
-INSERT INTO series (id, name, count) VALUES ('kiznaiver', 'Kiznaiver', 5);
-INSERT INTO series (id, name, count) VALUES ('shukufuku_no_campanella', 'Shukufuku No Campanella', 5);
+INSERT INTO series (id, name, count) VALUES ('kiznaiver', '基兹奈维尔', 5);
+INSERT INTO series (id, name, count) VALUES ('shukufuku_no_campanella', '淑福之风铃', 5);
 INSERT INTO series (id, name, count) VALUES ('null-meta', 'Null-meta虚拟主播', 5);
-INSERT INTO series (id, name, count) VALUES ('shadow_of_the_colossus', 'Shadow Of The Colossus', 5);
-INSERT INTO series (id, name, count) VALUES ('futabu', 'Futabu', 5);
-INSERT INTO series (id, name, count) VALUES ('black_bullet', 'Black Bullet', 5);
-INSERT INTO series (id, name, count) VALUES ('zaregoto_series', 'Zaregoto Series', 5);
-INSERT INTO series (id, name, count) VALUES ('2channel', '2channel', 5);
-INSERT INTO series (id, name, count) VALUES ('night_wizard', 'Night Wizard', 5);
-INSERT INTO series (id, name, count) VALUES ('maken-ki!', 'Maken-ki!', 5);
-INSERT INTO series (id, name, count) VALUES ('tsuritama', 'Tsuritama', 5);
+INSERT INTO series (id, name, count) VALUES ('shadow_of_the_colossus', '巨像之影', 5);
+INSERT INTO series (id, name, count) VALUES ('futabu', '二部', 5);
+INSERT INTO series (id, name, count) VALUES ('black_bullet', '黑色子弹', 5);
+INSERT INTO series (id, name, count) VALUES ('zaregoto_series', '扎雷戈托系列', 5);
+INSERT INTO series (id, name, count) VALUES ('2channel', '2通道', 5);
+INSERT INTO series (id, name, count) VALUES ('night_wizard', '暗夜精灵', 5);
+INSERT INTO series (id, name, count) VALUES ('maken-ki!', '马肯基！', 5);
+INSERT INTO series (id, name, count) VALUES ('tsuritama', '吊玉', 5);
 INSERT INTO series (id, name, count) VALUES ('vyugen', 'Vyugen虚拟主播', 5);
-INSERT INTO series (id, name, count) VALUES ('yondemasu_yo_azazel-san.', 'Yondemasu Yo Azazel-san.', 5);
+INSERT INTO series (id, name, count) VALUES ('yondemasu_yo_azazel-san.', 'Yondemasu 哟阿萨泽尔桑。', 5);
 INSERT INTO series (id, name, count) VALUES ('demonbane', '斩魔大圣', 5);
-INSERT INTO series (id, name, count) VALUES ('wizarding_world', 'Wizarding World', 5);
+INSERT INTO series (id, name, count) VALUES ('wizarding_world', '魔法世界', 5);
 INSERT INTO series (id, name, count) VALUES ('brave_witches', '勇气魔女', 5);
 INSERT INTO series (id, name, count) VALUES ('tokidoki_bosotto_roshia-go_de_dereru_tonari_no_alya-san', '时而孤独的俄语废材邻家艾莉同学', 5);
-INSERT INTO series (id, name, count) VALUES ('wizards_symphony', 'Wizards Symphony', 5);
-INSERT INTO series (id, name, count) VALUES ('last_exile', 'Last Exile', 5);
-INSERT INTO series (id, name, count) VALUES ('gakuen_utopia_manabi_straight!', 'Gakuen Utopia Manabi Straight!', 5);
+INSERT INTO series (id, name, count) VALUES ('wizards_symphony', '奇才交响乐', 5);
+INSERT INTO series (id, name, count) VALUES ('last_exile', '最后的流放', 5);
+INSERT INTO series (id, name, count) VALUES ('gakuen_utopia_manabi_straight!', '学园乌托邦真纳比直！', 5);
 INSERT INTO series (id, name, count) VALUES ('top_wo_nerae!', '飞越巅峰！', 5);
-INSERT INTO series (id, name, count) VALUES ('beyblade', 'Beyblade', 5);
-INSERT INTO series (id, name, count) VALUES ('chikanoko', 'Chikanoko', 5);
-INSERT INTO series (id, name, count) VALUES ('arcane:_league_of_legends', 'Arcane: League Of Legends', 5);
-INSERT INTO series (id, name, count) VALUES ('osu!_tatakae!_ouendan', 'Osu! Tatakae! Ouendan', 5);
-INSERT INTO series (id, name, count) VALUES ('rumble_roses', 'Rumble Roses', 5);
+INSERT INTO series (id, name, count) VALUES ('beyblade', '陀螺', 5);
+INSERT INTO series (id, name, count) VALUES ('chikanoko', '近之子', 5);
+INSERT INTO series (id, name, count) VALUES ('arcane:_league_of_legends', '奥术：英雄联盟', 5);
+INSERT INTO series (id, name, count) VALUES ('osu!_tatakae!_ouendan', '奥苏！多贵！旺端坛', 5);
+INSERT INTO series (id, name, count) VALUES ('rumble_roses', '隆隆玫瑰', 5);
 INSERT INTO series (id, name, count) VALUES ('princess_principal', 'Princess Principal公主准则', 5);
 INSERT INTO series (id, name, count) VALUES ('gunslinger_girl', '神枪少女', 5);
 INSERT INTO series (id, name, count) VALUES ('otome_gee_sekai_wa_mob_ni_kibishii_sekai_desu', 'Otome Gee Sekai Wa Mob Ni Kibishii Sekai Desu', 5);
-INSERT INTO series (id, name, count) VALUES ('wixoss', 'Wixoss', 5);
-INSERT INTO series (id, name, count) VALUES ('joshiraku', 'Joshiraku', 5);
-INSERT INTO series (id, name, count) VALUES ('hanamaru_youchien', 'Hanamaru Youchien', 5);
+INSERT INTO series (id, name, count) VALUES ('wixoss', '威克索斯', 5);
+INSERT INTO series (id, name, count) VALUES ('joshiraku', '城乐', 5);
+INSERT INTO series (id, name, count) VALUES ('hanamaru_youchien', '花丸友知园', 5);
 INSERT INTO series (id, name, count) VALUES ('yama_no_susume', '向山进发', 5);
 INSERT INTO series (id, name, count) VALUES ('kokoro_iroduku_koi_ga_shitai', 'Kokoro Iroduku Koi Ga Shitai', 5);
 INSERT INTO series (id, name, count) VALUES ('boku_to_koi_suru_ponkotsu_akuma.', 'Boku To Koi Suru Ponkotsu Akuma.', 5);
 INSERT INTO series (id, name, count) VALUES ('kodomo_no_jikan', '萌少女的恋爱时光', 5);
-INSERT INTO series (id, name, count) VALUES ('ng_knight_lamune_&_40', 'Ng Knight Lamune & 40', 5);
+INSERT INTO series (id, name, count) VALUES ('ng_knight_lamune_&_40', '作者：Knight Lamune & 40', 5);
 INSERT INTO series (id, name, count) VALUES ('the_little_mermaid', '小美人鱼', 5);
 INSERT INTO series (id, name, count) VALUES ('tears_of_themis', '未定事件簿', 5);
-INSERT INTO series (id, name, count) VALUES ('witch''s_heart', 'Witch''s Heart', 5);
-INSERT INTO series (id, name, count) VALUES ('vinland_saga', 'Vinland Saga', 5);
-INSERT INTO series (id, name, count) VALUES ('jock_studio_(blits_games)', 'Jock Studio (blits Games)', 5);
-INSERT INTO series (id, name, count) VALUES ('chihayafuru', 'Chihayafuru', 5);
+INSERT INTO series (id, name, count) VALUES ('witch''s_heart', '魔女之心', 5);
+INSERT INTO series (id, name, count) VALUES ('vinland_saga', '文兰传奇', 5);
+INSERT INTO series (id, name, count) VALUES ('jock_studio_(blits_games)', 'Jock Studio（闪电游戏）', 5);
+INSERT INTO series (id, name, count) VALUES ('chihayafuru', '千早古', 5);
 INSERT INTO series (id, name, count) VALUES ('hentai_ouji_to_warawanai_neko.', '变态王子与不笑猫。', 5);
 INSERT INTO series (id, name, count) VALUES ('yami_to_boushi_to_hon_no_tabibito', '暗与帽子与书之旅人', 5);
 INSERT INTO series (id, name, count) VALUES ('bamboo_blade', '竹刀少女', 5);
-INSERT INTO series (id, name, count) VALUES ('no_more_heroes', 'No More Heroes', 5);
-INSERT INTO series (id, name, count) VALUES ('sky:_children_of_the_light', 'Sky: Children Of The Light', 5);
+INSERT INTO series (id, name, count) VALUES ('no_more_heroes', '不再有英雄', 5);
+INSERT INTO series (id, name, count) VALUES ('sky:_children_of_the_light', '天空：光之子', 5);
 INSERT INTO series (id, name, count) VALUES ('bayonetta_(series)', '猎天使魔女', 5);
-INSERT INTO series (id, name, count) VALUES ('mighty_no._9', 'Mighty No. 9', 5);
-INSERT INTO series (id, name, count) VALUES ('helluva_boss', 'Helluva Boss', 5);
-INSERT INTO series (id, name, count) VALUES ('lake_of_voices', 'Lake Of Voices', 5);
-INSERT INTO series (id, name, count) VALUES ('deadlock_(game)', 'Deadlock (game)', 5);
+INSERT INTO series (id, name, count) VALUES ('mighty_no._9', '威猛9号', 5);
+INSERT INTO series (id, name, count) VALUES ('helluva_boss', '地狱老大', 5);
+INSERT INTO series (id, name, count) VALUES ('lake_of_voices', '声音湖', 5);
+INSERT INTO series (id, name, count) VALUES ('deadlock_(game)', '僵局（游戏）', 5);
 INSERT INTO series (id, name, count) VALUES ('pac-man_(game)', '吃豆人', 5);
-INSERT INTO series (id, name, count) VALUES ('saber_marionette_j', 'Saber Marionette J', 5);
-INSERT INTO series (id, name, count) VALUES ('danshi_koukousei_ga_mahou_shoujo_ni_naru_hanashi', 'Danshi Koukousei Ga Mahou Shoujo Ni Naru Hanashi', 5);
-INSERT INTO series (id, name, count) VALUES ('family_guy', 'Family Guy', 5);
-INSERT INTO series (id, name, count) VALUES ('the_tale_of_food', 'The Tale Of Food', 5);
+INSERT INTO series (id, name, count) VALUES ('saber_marionette_j', '军刀木偶J', 5);
+INSERT INTO series (id, name, count) VALUES ('danshi_koukousei_ga_mahou_shoujo_ni_naru_hanashi', '男子高等师伽魔法少女二鸣花梨', 5);
+INSERT INTO series (id, name, count) VALUES ('family_guy', '恶搞之家', 5);
+INSERT INTO series (id, name, count) VALUES ('the_tale_of_food', '食物的故事', 5);
 INSERT INTO series (id, name, count) VALUES ('top_wo_nerae_2!', '飞越巅峰2！', 5);
-INSERT INTO series (id, name, count) VALUES ('lies_of_p', 'Lies Of P', 5);
-INSERT INTO series (id, name, count) VALUES ('ghost_trick', 'Ghost Trick', 5);
-INSERT INTO series (id, name, count) VALUES ('saijaku_muhai_no_bahamut', 'Saijaku Muhai No Bahamut', 5);
-INSERT INTO series (id, name, count) VALUES ('moyashimon', 'Moyashimon', 5);
-INSERT INTO series (id, name, count) VALUES ('peanuts', 'Peanuts', 5);
+INSERT INTO series (id, name, count) VALUES ('lies_of_p', 'P的谎言', 5);
+INSERT INTO series (id, name, count) VALUES ('ghost_trick', '鬼戏', 5);
+INSERT INTO series (id, name, count) VALUES ('saijaku_muhai_no_bahamut', '西贾库海的巴哈姆特', 5);
+INSERT INTO series (id, name, count) VALUES ('moyashimon', '莫亚下门', 5);
+INSERT INTO series (id, name, count) VALUES ('peanuts', '花生', 5);
 INSERT INTO series (id, name, count) VALUES ('shiguang_dailiren', 'Shiguang Dailiren', 5);
 INSERT INTO series (id, name, count) VALUES ('sk8_the_infinity', '无限滑板', 5);
-INSERT INTO series (id, name, count) VALUES ('miniskirt_pirates', 'Miniskirt Pirates', 5);
-INSERT INTO series (id, name, count) VALUES ('servant_x_service', 'Servant X Service', 5);
-INSERT INTO series (id, name, count) VALUES ('palworld', 'Palworld', 5);
+INSERT INTO series (id, name, count) VALUES ('miniskirt_pirates', '迷你裙海贼团', 5);
+INSERT INTO series (id, name, count) VALUES ('servant_x_service', '仆人X服务', 5);
+INSERT INTO series (id, name, count) VALUES ('palworld', '友世界', 5);
 INSERT INTO series (id, name, count) VALUES ('the_witcher_(series)', '巫师', 5);
-INSERT INTO series (id, name, count) VALUES ('djmax', 'Djmax', 5);
+INSERT INTO series (id, name, count) VALUES ('djmax', '最大DJ', 5);
 INSERT INTO series (id, name, count) VALUES ('z/x', 'Z/x', 5);
-INSERT INTO series (id, name, count) VALUES ('the_wizard_of_oz', 'The Wizard Of Oz', 5);
-INSERT INTO series (id, name, count) VALUES ('needless', 'Needless', 5);
+INSERT INTO series (id, name, count) VALUES ('the_wizard_of_oz', '绿野仙踪', 5);
+INSERT INTO series (id, name, count) VALUES ('needless', '不必要', 5);
 INSERT INTO series (id, name, count) VALUES ('haiyore!_nyaruko-san', '潛行吧！奈亞子', 5);
-INSERT INTO series (id, name, count) VALUES ('monster_strike', 'Monster Strike', 5);
-INSERT INTO series (id, name, count) VALUES ('newjeans', 'Newjeans', 5);
-INSERT INTO series (id, name, count) VALUES ('lineage', 'Lineage', 5);
-INSERT INTO series (id, name, count) VALUES ('ender_lilies_quietus_of_the_knights', 'Ender Lilies Quietus Of The Knights', 5);
-INSERT INTO series (id, name, count) VALUES ('the_saga_of_darren_shan', 'The Saga Of Darren Shan', 5);
-INSERT INTO series (id, name, count) VALUES ('the_magnus_archives', 'The Magnus Archives', 5);
-INSERT INTO series (id, name, count) VALUES ('makai_tenshi_djibril', 'Makai Tenshi Djibril', 5);
+INSERT INTO series (id, name, count) VALUES ('monster_strike', '怪物弹珠', 5);
+INSERT INTO series (id, name, count) VALUES ('newjeans', '新牛仔裤', 5);
+INSERT INTO series (id, name, count) VALUES ('lineage', '血统', 5);
+INSERT INTO series (id, name, count) VALUES ('ender_lilies_quietus_of_the_knights', '安德百合 骑士团的安静', 5);
+INSERT INTO series (id, name, count) VALUES ('the_saga_of_darren_shan', '达伦·山的传奇', 5);
+INSERT INTO series (id, name, count) VALUES ('the_magnus_archives', '马格努斯档案馆', 5);
+INSERT INTO series (id, name, count) VALUES ('makai_tenshi_djibril', '魔界天使吉布里尔', 5);
 INSERT INTO series (id, name, count) VALUES ('tenkuu_no_shiro_laputa', '天空之城', 5);
 INSERT INTO series (id, name, count) VALUES ('ib', 'Ib恐怖美术馆', 5);
 INSERT INTO series (id, name, count) VALUES ('ganbare_douki-chan', '加油吧同期酱', 5);
 INSERT INTO series (id, name, count) VALUES ('goho_mafia!_kajita-kun', 'Goho Mafia!梶田君', 5);
 INSERT INTO series (id, name, count) VALUES ('seto_no_hanayome', '濑户的花嫁', 5);
-INSERT INTO series (id, name, count) VALUES ('elona', 'Elona', 5);
-INSERT INTO series (id, name, count) VALUES ('endro!', 'Endro!', 5);
-INSERT INTO series (id, name, count) VALUES ('love_lab', 'Love Lab', 5);
-INSERT INTO series (id, name, count) VALUES ('pacific_(kancolle)', 'Pacific (kancolle)', 5);
+INSERT INTO series (id, name, count) VALUES ('elona', '那个', 5);
+INSERT INTO series (id, name, count) VALUES ('endro!', '恩德罗！', 5);
+INSERT INTO series (id, name, count) VALUES ('love_lab', '爱情实验室', 5);
+INSERT INTO series (id, name, count) VALUES ('pacific_(kancolle)', '太平洋 (kancolle)', 5);
 INSERT INTO series (id, name, count) VALUES ('fate/zero', 'Fate/Zero命运零夜', 5);
-INSERT INTO series (id, name, count) VALUES ('golden_sun', 'Golden Sun', 5);
-INSERT INTO series (id, name, count) VALUES ('fii-tan_the_figure', 'Fii-tan The Figure', 5);
-INSERT INTO series (id, name, count) VALUES ('sora_no_woto', 'Sora No Woto', 5);
+INSERT INTO series (id, name, count) VALUES ('golden_sun', '金太阳', 5);
+INSERT INTO series (id, name, count) VALUES ('fii-tan_the_figure', '飞坦图', 5);
+INSERT INTO series (id, name, count) VALUES ('sora_no_woto', '空之沃托', 5);
 INSERT INTO series (id, name, count) VALUES ('metal_slug', '合金弹头', 5);
 INSERT INTO series (id, name, count) VALUES ('zoids', '索斯机械兽', 5);
-INSERT INTO series (id, name, count) VALUES ('upotte!!', 'Upotte!!', 5);
-INSERT INTO series (id, name, count) VALUES ('ryuuko_no_ken', 'Ryuuko No Ken', 5);
-INSERT INTO series (id, name, count) VALUES ('full_moon_wo_sagashite', 'Full Moon Wo Sagashite', 5);
+INSERT INTO series (id, name, count) VALUES ('upotte!!', '指示！！', 5);
+INSERT INTO series (id, name, count) VALUES ('ryuuko_no_ken', '龙子之剑', 5);
+INSERT INTO series (id, name, count) VALUES ('full_moon_wo_sagashite', '满月沃萨加什特', 5);
 INSERT INTO series (id, name, count) VALUES ('bokutachi_wa_benkyou_ga_dekinai', 'Bokutachi Wa Benkyou Ga Dekinai', 5);
-INSERT INTO series (id, name, count) VALUES ('ace_of_diamond', 'Ace Of Diamond', 5);
-INSERT INTO series (id, name, count) VALUES ('professor_layton', 'Professor Layton', 5);
+INSERT INTO series (id, name, count) VALUES ('ace_of_diamond', '钻石王牌', 5);
+INSERT INTO series (id, name, count) VALUES ('professor_layton', '雷顿教授', 5);
 INSERT INTO series (id, name, count) VALUES ('gabriel_dropout', '珈百璃的堕落', 5);
-INSERT INTO series (id, name, count) VALUES ('borderlands_(series)', 'Borderlands', 5);
-INSERT INTO series (id, name, count) VALUES ('yuusha_series', 'Yuusha Series', 5);
-INSERT INTO series (id, name, count) VALUES ('demon''s_souls', 'Demon''s Souls', 5);
-INSERT INTO series (id, name, count) VALUES ('dragonaut', 'Dragonaut', 5);
-INSERT INTO series (id, name, count) VALUES ('konjiki_no_gash!!', 'Konjiki No Gash!!', 5);
-INSERT INTO series (id, name, count) VALUES ('cardfight!!_vanguard', 'Cardfight!! Vanguard', 5);
-INSERT INTO series (id, name, count) VALUES ('mahoujin_guruguru', 'Mahoujin Guruguru', 5);
+INSERT INTO series (id, name, count) VALUES ('borderlands_(series)', '无主之地', 5);
+INSERT INTO series (id, name, count) VALUES ('yuusha_series', '用途系列', 5);
+INSERT INTO series (id, name, count) VALUES ('demon''s_souls', '恶魔之魂', 5);
+INSERT INTO series (id, name, count) VALUES ('dragonaut', '龙人', 5);
+INSERT INTO series (id, name, count) VALUES ('konjiki_no_gash!!', '金色无伤口！！', 5);
+INSERT INTO series (id, name, count) VALUES ('cardfight!!_vanguard', '卡牌大战！！先锋', 5);
+INSERT INTO series (id, name, count) VALUES ('mahoujin_guruguru', '马胡吉·古鲁古鲁', 5);
 INSERT INTO series (id, name, count) VALUES ('hoozuki_no_reitetsu', '鬼灯的冷彻', 5);
-INSERT INTO series (id, name, count) VALUES ('hyakka_ryouran_samurai_girls', 'Hyakka Ryouran Samurai Girls', 5);
+INSERT INTO series (id, name, count) VALUES ('hyakka_ryouran_samurai_girls', '百花龙兰武士女孩', 5);
 INSERT INTO series (id, name, count) VALUES ('sound_voltex', 'SOUND VOLTEX音律炫动', 5);
-INSERT INTO series (id, name, count) VALUES ('power_rangers', 'Power Rangers', 5);
-INSERT INTO series (id, name, count) VALUES ('arthurian_legend', 'Arthurian Legend', 5);
-INSERT INTO series (id, name, count) VALUES ('napoli_no_otokotachi', 'Napoli No Otokotachi', 5);
-INSERT INTO series (id, name, count) VALUES ('maitetsu', 'Maitetsu', 5);
+INSERT INTO series (id, name, count) VALUES ('power_rangers', '电力别动队', 5);
+INSERT INTO series (id, name, count) VALUES ('arthurian_legend', '亚瑟王传奇', 5);
+INSERT INTO series (id, name, count) VALUES ('napoli_no_otokotachi', '那不勒斯的男太子', 5);
+INSERT INTO series (id, name, count) VALUES ('maitetsu', '舞铁', 5);
 INSERT INTO series (id, name, count) VALUES ('hinako_note', '雏子的笔记', 5);
 INSERT INTO series (id, name, count) VALUES ('magic_kaito', '魔术快斗', 5);
 INSERT INTO series (id, name, count) VALUES ('suiheisen_made_nan_mile?', 'Suiheisen Made Nan Mile?', 5);
-INSERT INTO series (id, name, count) VALUES ('fushigi_na_neko_no_machi_meltier', 'Fushigi Na Neko No Machi Meltier', 5);
+INSERT INTO series (id, name, count) VALUES ('fushigi_na_neko_no_machi_meltier', '不思议猫之町梅尔蒂埃', 5);
 INSERT INTO series (id, name, count) VALUES ('kino_no_tabi', '奇诺之旅', 5);
 INSERT INTO series (id, name, count) VALUES ('manatsu_no_yo_no_inmu', '真夏夜之淫梦', 5);
-INSERT INTO series (id, name, count) VALUES ('suguri', 'Suguri', 5);
-INSERT INTO series (id, name, count) VALUES ('dankira!!!', 'Dankira!!!', 5);
+INSERT INTO series (id, name, count) VALUES ('suguri', '须栗', 5);
+INSERT INTO series (id, name, count) VALUES ('dankira!!!', '谢谢你！！！', 5);
 INSERT INTO series (id, name, count) VALUES ('hitoribocchi_no_marumaru_seikatsu', '一个人的○○小日子', 5);
-INSERT INTO series (id, name, count) VALUES ('neo-porte', 'Neo-porte', 5);
-INSERT INTO series (id, name, count) VALUES ('hidan_no_aria', 'Hidan No Aria', 5);
-INSERT INTO series (id, name, count) VALUES ('megami_no_kafeterasu', 'Megami No Kafeterasu', 5);
-INSERT INTO series (id, name, count) VALUES ('mujin_wakusei_survive', 'Mujin Wakusei Survive', 5);
+INSERT INTO series (id, name, count) VALUES ('neo-porte', '新港', 5);
+INSERT INTO series (id, name, count) VALUES ('hidan_no_aria', '飞段的咏叹调', 5);
+INSERT INTO series (id, name, count) VALUES ('megami_no_kafeterasu', '女神的咖啡厅', 5);
+INSERT INTO series (id, name, count) VALUES ('mujin_wakusei_survive', '无神若生 生存', 5);
 INSERT INTO series (id, name, count) VALUES ('non_non_biyori', '悠哉日常大王', 5);
-INSERT INTO series (id, name, count) VALUES ('summer_wars', 'Summer Wars', 5);
-INSERT INTO series (id, name, count) VALUES ('bible_black', 'Bible Black', 5);
-INSERT INTO series (id, name, count) VALUES ('kikou_souseiki_mospeada', 'Kikou Souseiki Mospeada', 5);
-INSERT INTO series (id, name, count) VALUES ('koisuru_asteroid', 'Koisuru Asteroid', 5);
-INSERT INTO series (id, name, count) VALUES ('red_velvet_(group)', 'Red Velvet (group)', 5);
-INSERT INTO series (id, name, count) VALUES ('taishou_yakyuu_musume', 'Taishou Yakyuu Musume', 5);
-INSERT INTO series (id, name, count) VALUES ('otome_wa_boku_ni_koishiteru', 'Otome Wa Boku Ni Koishiteru', 5);
+INSERT INTO series (id, name, count) VALUES ('summer_wars', '夏日大战', 5);
+INSERT INTO series (id, name, count) VALUES ('bible_black', '圣经黑', 5);
+INSERT INTO series (id, name, count) VALUES ('kikou_souseiki_mospeada', '纪行创世记 Mospeada', 5);
+INSERT INTO series (id, name, count) VALUES ('koisuru_asteroid', '恋爱小行星', 5);
+INSERT INTO series (id, name, count) VALUES ('red_velvet_(group)', '红色天鹅绒 (群展)', 5);
+INSERT INTO series (id, name, count) VALUES ('taishou_yakyuu_musume', '大正药久娘', 5);
+INSERT INTO series (id, name, count) VALUES ('otome_wa_boku_ni_koishiteru', '乙女和我的恋人', 5);
 INSERT INTO series (id, name, count) VALUES ('alien_stage', 'Alien Stage异星舞台', 5);
 INSERT INTO series (id, name, count) VALUES ('yoru_no_kurage_wa_oyogenai', '夜晚的水母不会游泳', 5);
-INSERT INTO series (id, name, count) VALUES ('bandai_namco', 'Bandai Namco', 5);
+INSERT INTO series (id, name, count) VALUES ('bandai_namco', '万代南梦宫', 5);
 INSERT INTO series (id, name, count) VALUES ('soredemo_ayumu_wa_yosetekuru', '即使如此依旧步步紧逼', 5);
-INSERT INTO series (id, name, count) VALUES ('nyanko_daisensou', 'Nyanko Daisensou', 5);
+INSERT INTO series (id, name, count) VALUES ('nyanko_daisensou', '猫大仙庄', 5);
 INSERT INTO series (id, name, count) VALUES ('warui_ga_watashi_wa_yuri_janai', 'Warui Ga Watashi Wa Yuri Janai', 5);
-INSERT INTO series (id, name, count) VALUES ('ukagaka', 'Ukagaka', 5);
+INSERT INTO series (id, name, count) VALUES ('ukagaka', '你是个婊子', 5);
 INSERT INTO series (id, name, count) VALUES ('kyoukai_no_kanata', '境界的彼方', 5);
-INSERT INTO series (id, name, count) VALUES ('tsuyokiss', 'Tsuyokiss', 5);
-INSERT INTO series (id, name, count) VALUES ('doukyuusei_another_world', 'Doukyuusei Another World', 5);
-INSERT INTO series (id, name, count) VALUES ('fantasista_doll', 'Fantasista Doll', 5);
+INSERT INTO series (id, name, count) VALUES ('tsuyokiss', '津约基斯', 5);
+INSERT INTO series (id, name, count) VALUES ('doukyuusei_another_world', '同级星异世界', 5);
+INSERT INTO series (id, name, count) VALUES ('fantasista_doll', '幻想娃娃', 5);
 INSERT INTO series (id, name, count) VALUES ('dirty_pair', '搞怪拍档', 5);
 INSERT INTO series (id, name, count) VALUES ('voltron_(series)', '战神金刚', 5);
 INSERT INTO series (id, name, count) VALUES ('kizuna_ai_inc.', '绊爱企划', 5);
-INSERT INTO series (id, name, count) VALUES ('seitokai_nimo_anawa_aru!', 'Seitokai Nimo Anawa Aru!', 5);
-INSERT INTO series (id, name, count) VALUES ('kampfer', 'Kampfer', 5);
-INSERT INTO series (id, name, count) VALUES ('11eyes', '11eyes', 5);
-INSERT INTO series (id, name, count) VALUES ('fortune_arterial', 'Fortune Arterial', 5);
-INSERT INTO series (id, name, count) VALUES ('ochikobore_fruit_tart', 'Ochikobore Fruit Tart', 5);
+INSERT INTO series (id, name, count) VALUES ('seitokai_nimo_anawa_aru!', '圣东会 Nimo Anawa Aru！', 5);
+INSERT INTO series (id, name, count) VALUES ('kampfer', '战斗机', 5);
+INSERT INTO series (id, name, count) VALUES ('11eyes', '11眼', 5);
+INSERT INTO series (id, name, count) VALUES ('fortune_arterial', '财富动脉', 5);
+INSERT INTO series (id, name, count) VALUES ('ochikobore_fruit_tart', 'Ochikobore 水果挞', 5);
 INSERT INTO series (id, name, count) VALUES ('denpa_onna_to_seishun_otoko', '电波女与青春男', 5);
-INSERT INTO series (id, name, count) VALUES ('yowamushi_pedal', 'Yowamushi Pedal', 5);
+INSERT INTO series (id, name, count) VALUES ('yowamushi_pedal', '飙速宅男踏板', 5);
 INSERT INTO series (id, name, count) VALUES ('subarashiki_hibi', '美好的每一天', 5);
 INSERT INTO series (id, name, count) VALUES ('yuusha_to_maou', '勇者与魔王', 5);
-INSERT INTO series (id, name, count) VALUES ('doukyuusei', 'Doukyuusei', 5);
-INSERT INTO series (id, name, count) VALUES ('photokano', 'Photokano', 5);
+INSERT INTO series (id, name, count) VALUES ('doukyuusei', '同级生', 5);
+INSERT INTO series (id, name, count) VALUES ('photokano', '照相卡诺', 5);
 INSERT INTO series (id, name, count) VALUES ('ninin_ga_shinobuden', '忍者乱太郎', 5);
 INSERT INTO series (id, name, count) VALUES ('doki_doki_literature_club', '心跳文学部', 5);
-INSERT INTO series (id, name, count) VALUES ('ga_geijutsuka_art_design_class', 'Ga Geijutsuka Art Design Class', 5);
-INSERT INTO series (id, name, count) VALUES ('houshin_engi', 'Houshin Engi', 5);
+INSERT INTO series (id, name, count) VALUES ('ga_geijutsuka_art_design_class', '艺术艺术设计班', 5);
+INSERT INTO series (id, name, count) VALUES ('houshin_engi', '法神演义', 5);
 INSERT INTO series (id, name, count) VALUES ('love_and_deepspace', '恋与深空', 5);
-INSERT INTO series (id, name, count) VALUES ('shuuen_no_shiori_project', 'Shuuen No Shiori Project', 4);
-INSERT INTO series (id, name, count) VALUES ('atom:_the_beginning', 'Atom: The Beginning', 4);
-INSERT INTO series (id, name, count) VALUES ('kyousougiga', 'Kyousougiga', 4);
-INSERT INTO series (id, name, count) VALUES ('masamune-kun_no_revenge', 'Masamune-kun No Revenge', 4);
-INSERT INTO series (id, name, count) VALUES ('strike_witches_zero', 'Strike Witches Zero', 4);
-INSERT INTO series (id, name, count) VALUES ('she-ra_and_the_princesses_of_power', 'She-ra And The Princesses Of Power', 4);
+INSERT INTO series (id, name, count) VALUES ('shuuen_no_shiori_project', '酒园之诗织Project', 4);
+INSERT INTO series (id, name, count) VALUES ('atom:_the_beginning', '原子：开始', 4);
+INSERT INTO series (id, name, count) VALUES ('kyousougiga', '京双吉', 4);
+INSERT INTO series (id, name, count) VALUES ('masamune-kun_no_revenge', '政宗君不报仇', 4);
+INSERT INTO series (id, name, count) VALUES ('strike_witches_zero', '强袭魔女零', 4);
+INSERT INTO series (id, name, count) VALUES ('she-ra_and_the_princesses_of_power', '希拉与权力公主', 4);
 INSERT INTO series (id, name, count) VALUES ('kidou_senkan_nadesico', '机动战舰抚子号', 4);
-INSERT INTO series (id, name, count) VALUES ('urashimasakatasen', 'Urashimasakatasen', 4);
-INSERT INTO series (id, name, count) VALUES ('popotan', 'Popotan', 4);
+INSERT INTO series (id, name, count) VALUES ('urashimasakatasen', '浦岛坂田线', 4);
+INSERT INTO series (id, name, count) VALUES ('popotan', '波波坦', 4);
 INSERT INTO series (id, name, count) VALUES ('citrus_(saburouta)', 'citrus～柑橘味香气～', 4);
-INSERT INTO series (id, name, count) VALUES ('miru_tights', 'Miru Tights', 4);
+INSERT INTO series (id, name, count) VALUES ('miru_tights', '米鲁紧身衣', 4);
 INSERT INTO series (id, name, count) VALUES ('renkin_san-kyuu_magical_pokaan', '炼金三级魔法少女', 4);
-INSERT INTO series (id, name, count) VALUES ('chrono_crusade', 'Chrono Crusade', 4);
-INSERT INTO series (id, name, count) VALUES ('tomo-chan_wa_onna_no_ko', 'Tomo-chan Wa Onna No Ko', 4);
-INSERT INTO series (id, name, count) VALUES ('pia_carrot_(series)', 'Pia Carrot', 4);
-INSERT INTO series (id, name, count) VALUES ('seitokai_no_ichizon', 'Seitokai No Ichizon', 4);
-INSERT INTO series (id, name, count) VALUES ('chousoku_henkei_gyrozetter', 'Chousoku Henkei Gyrozetter', 4);
-INSERT INTO series (id, name, count) VALUES ('meshimase_idol', 'Meshimase Idol', 4);
-INSERT INTO series (id, name, count) VALUES ('ever_17', 'Ever 17', 4);
-INSERT INTO series (id, name, count) VALUES ('bokujou_monogatari', 'Bokujou Monogatari', 4);
+INSERT INTO series (id, name, count) VALUES ('chrono_crusade', '时空十字军', 4);
+INSERT INTO series (id, name, count) VALUES ('tomo-chan_wa_onna_no_ko', '智酱和女之子', 4);
+INSERT INTO series (id, name, count) VALUES ('pia_carrot_(series)', '皮亚胡萝卜', 4);
+INSERT INTO series (id, name, count) VALUES ('seitokai_no_ichizon', '清东会一尊', 4);
+INSERT INTO series (id, name, count) VALUES ('chousoku_henkei_gyrozetter', '超速循环陀螺仪', 4);
+INSERT INTO series (id, name, count) VALUES ('meshimase_idol', '网濑偶像', 4);
+INSERT INTO series (id, name, count) VALUES ('ever_17', '曾经17岁', 4);
+INSERT INTO series (id, name, count) VALUES ('bokujou_monogatari', '吾城物语', 4);
 INSERT INTO series (id, name, count) VALUES ('hitsugi_no_chaika', '棺姬嘉依卡', 4);
-INSERT INTO series (id, name, count) VALUES ('sakura-sou_no_pet_na_kanojo', 'Sakura-sou No Pet Na Kanojo', 4);
-INSERT INTO series (id, name, count) VALUES ('oshiro_project:re', 'Oshiro Project:re', 4);
+INSERT INTO series (id, name, count) VALUES ('sakura-sou_no_pet_na_kanojo', '樱花庄的宠物 Na Kanojo', 4);
+INSERT INTO series (id, name, count) VALUES ('oshiro_project:re', '大城计划：re', 4);
 INSERT INTO series (id, name, count) VALUES ('ado_(utaite)', 'Ado歌手', 4);
-INSERT INTO series (id, name, count) VALUES ('koi_suru_kanojo_no_bukiyou_na_butai', 'Koi Suru Kanojo No Bukiyou Na Butai', 4);
-INSERT INTO series (id, name, count) VALUES ('uchuu_patrol_luluco', 'Uchuu Patrol Luluco', 4);
-INSERT INTO series (id, name, count) VALUES ('428', '428', 4);
-INSERT INTO series (id, name, count) VALUES ('amairo_islenauts', 'Amairo Islenauts', 4);
+INSERT INTO series (id, name, count) VALUES ('koi_suru_kanojo_no_bukiyou_na_butai', '恋爱Suru Kanojo No Bukiyou Na Butai', 4);
+INSERT INTO series (id, name, count) VALUES ('uchuu_patrol_luluco', '宇宙巡逻队露露可', 4);
+INSERT INTO series (id, name, count) VALUES ('428', '第428章', 4);
+INSERT INTO series (id, name, count) VALUES ('amairo_islenauts', '阿迈罗群岛', 4);
 INSERT INTO series (id, name, count) VALUES ('witchblade', '魔女之刃', 4);
-INSERT INTO series (id, name, count) VALUES ('seitokai_yakuindomo', 'Seitokai Yakuindomo', 4);
-INSERT INTO series (id, name, count) VALUES ('mofu-mofu_after_school', 'Mofu-mofu After School', 4);
-INSERT INTO series (id, name, count) VALUES ('bakuon!!', 'Bakuon!!', 4);
-INSERT INTO series (id, name, count) VALUES ('sounan_desuka?', 'Sounan Desuka?', 4);
-INSERT INTO series (id, name, count) VALUES ('yuragisou_no_yuuna-san', 'Yuragisou No Yuuna-san', 4);
-INSERT INTO series (id, name, count) VALUES ('seikyouiku_series', 'Seikyouiku Series', 4);
+INSERT INTO series (id, name, count) VALUES ('seitokai_yakuindomo', '清东会药监', 4);
+INSERT INTO series (id, name, count) VALUES ('mofu-mofu_after_school', '放学后的莫夫莫夫', 4);
+INSERT INTO series (id, name, count) VALUES ('bakuon!!', '巴库翁！！', 4);
+INSERT INTO series (id, name, count) VALUES ('sounan_desuka?', '苏南德斯卡？', 4);
+INSERT INTO series (id, name, count) VALUES ('yuragisou_no_yuuna-san', '尤拉吉桑的尤奈桑', 4);
+INSERT INTO series (id, name, count) VALUES ('seikyouiku_series', '清宫育系列', 4);
 INSERT INTO series (id, name, count) VALUES ('majo_no_tabitabi', '魔女之旅', 4);
-INSERT INTO series (id, name, count) VALUES ('bakuretsu_tenshi', 'Bakuretsu Tenshi', 4);
-INSERT INTO series (id, name, count) VALUES ('mother_1', 'Mother 1', 4);
-INSERT INTO series (id, name, count) VALUES ('knights_of_guinevere', 'Knights Of Guinevere', 4);
-INSERT INTO series (id, name, count) VALUES ('eyeshield_21', 'Eyeshield 21', 4);
+INSERT INTO series (id, name, count) VALUES ('bakuretsu_tenshi', '爆列天使', 4);
+INSERT INTO series (id, name, count) VALUES ('mother_1', '母亲 1', 4);
+INSERT INTO series (id, name, count) VALUES ('knights_of_guinevere', '桂妮薇儿骑士团', 4);
+INSERT INTO series (id, name, count) VALUES ('eyeshield_21', '眼罩21', 4);
 INSERT INTO series (id, name, count) VALUES ('nerawareta_megami_tenshi_angel_tear', '被狙击的女神天使Angel Tear', 4);
-INSERT INTO series (id, name, count) VALUES ('fate/kaleid_liner_prisma_illya', 'Fate/kaleid Liner Prisma Illya', 4);
-INSERT INTO series (id, name, count) VALUES ('cross_ange', 'Cross Ange', 4);
+INSERT INTO series (id, name, count) VALUES ('fate/kaleid_liner_prisma_illya', 'Fate/kaleid Liner 棱晶伊利亚', 4);
+INSERT INTO series (id, name, count) VALUES ('cross_ange', '十字天使', 4);
 INSERT INTO series (id, name, count) VALUES ('tensei_oujo_to_tensai_reijou_no_mahou_kakumei', '转生王女与天才千金的魔法革命', 4);
-INSERT INTO series (id, name, count) VALUES ('krt_girls', 'Krt Girls', 4);
+INSERT INTO series (id, name, count) VALUES ('krt_girls', '酷儿女孩', 4);
 INSERT INTO series (id, name, count) VALUES ('frozen_(disney)', '冰雪奇缘', 4);
 INSERT INTO series (id, name, count) VALUES ('working_girls_weekly', 'Working Girls Weekly职场女孩周刊', 4);
-INSERT INTO series (id, name, count) VALUES ('shimoneta_to_iu_gainen_ga_sonzai_shinai_taikutsu_na_sekai', 'Shimoneta To Iu Gainen Ga Sonzai Shinai Taikutsu Na Sekai', 4);
+INSERT INTO series (id, name, count) VALUES ('shimoneta_to_iu_gainen_ga_sonzai_shinai_taikutsu_na_sekai', '下田与异年迦孙子志内大苦那世界', 4);
 INSERT INTO series (id, name, count) VALUES ('4chan', '4chan', 4);
-INSERT INTO series (id, name, count) VALUES ('zone_of_the_enders', 'Zone Of The Enders', 4);
-INSERT INTO series (id, name, count) VALUES ('otomedius', 'Otomedius', 4);
-INSERT INTO series (id, name, count) VALUES ('koi_to_senkyo_to_chocolate', 'Koi To Senkyo To Chocolate', 4);
-INSERT INTO series (id, name, count) VALUES ('vee_(vtuber)', 'Vee (vtuber)', 4);
-INSERT INTO series (id, name, count) VALUES ('wonder_egg_priority', 'Wonder Egg Priority', 4);
-INSERT INTO series (id, name, count) VALUES ('digital_devil_saga', 'Digital Devil Saga', 4);
-INSERT INTO series (id, name, count) VALUES ('uchuu_no_stellvia', 'Uchuu No Stellvia', 4);
+INSERT INTO series (id, name, count) VALUES ('zone_of_the_enders', '末影区', 4);
+INSERT INTO series (id, name, count) VALUES ('otomedius', '奥托梅迪乌斯', 4);
+INSERT INTO series (id, name, count) VALUES ('koi_to_senkyo_to_chocolate', '恋与战协与巧克力', 4);
+INSERT INTO series (id, name, count) VALUES ('vee_(vtuber)', '水（vtuber）', 4);
+INSERT INTO series (id, name, count) VALUES ('wonder_egg_priority', '奇迹蛋优先', 4);
+INSERT INTO series (id, name, count) VALUES ('digital_devil_saga', '数字恶魔传奇', 4);
+INSERT INTO series (id, name, count) VALUES ('uchuu_no_stellvia', '宇宙之星', 4);
 INSERT INTO series (id, name, count) VALUES ('ao_no_kanata_no_four_rhythm', '苍之彼方的四重奏', 4);
-INSERT INTO series (id, name, count) VALUES ('bastard!!', 'Bastard!!', 4);
+INSERT INTO series (id, name, count) VALUES ('bastard!!', '混蛋！！', 4);
 INSERT INTO series (id, name, count) VALUES ('eizouken_ni_wa_te_wo_dasu_na!', '别对映像研出手！', 4);
 INSERT INTO series (id, name, count) VALUES ('sasayaku_you_ni_koi_wo_utau', '恰似细语般的恋歌', 4);
-INSERT INTO series (id, name, count) VALUES ('phantom_brave', 'Phantom Brave', 4);
-INSERT INTO series (id, name, count) VALUES ('a-soul', 'A-soul', 4);
-INSERT INTO series (id, name, count) VALUES ('your_diary', 'Your Diary', 4);
-INSERT INTO series (id, name, count) VALUES ('mato_seihei_no_slave', 'Mato Seihei No Slave', 4);
-INSERT INTO series (id, name, count) VALUES ('beelzebub_(manga)', 'Beelzebub (manga)', 4);
-INSERT INTO series (id, name, count) VALUES ('senkou_no_ronde', 'Senkou No Ronde', 4);
-INSERT INTO series (id, name, count) VALUES ('love_and_producer', 'Love And Producer', 4);
-INSERT INTO series (id, name, count) VALUES ('teekyuu', 'Teekyuu', 4);
-INSERT INTO series (id, name, count) VALUES ('the_simpsons', 'The Simpsons', 4);
+INSERT INTO series (id, name, count) VALUES ('phantom_brave', '幻影勇者', 4);
+INSERT INTO series (id, name, count) VALUES ('a-soul', 'A-灵魂', 4);
+INSERT INTO series (id, name, count) VALUES ('your_diary', '你的日记', 4);
+INSERT INTO series (id, name, count) VALUES ('mato_seihei_no_slave', '间诚平的奴隶', 4);
+INSERT INTO series (id, name, count) VALUES ('beelzebub_(manga)', '别西卜（漫画）', 4);
+INSERT INTO series (id, name, count) VALUES ('senkou_no_ronde', '战光之轮舞', 4);
+INSERT INTO series (id, name, count) VALUES ('love_and_producer', '爱与制作人', 4);
+INSERT INTO series (id, name, count) VALUES ('teekyuu', '拿走吧', 4);
+INSERT INTO series (id, name, count) VALUES ('the_simpsons', '辛普森一家', 4);
 INSERT INTO series (id, name, count) VALUES ('shikanoko_nokonoko_koshitantan', '我家的鹿乃子乃子虎视眈眈', 4);
-INSERT INTO series (id, name, count) VALUES ('jet_set_radio', 'Jet Set Radio', 4);
+INSERT INTO series (id, name, count) VALUES ('jet_set_radio', '喷气式飞机收音机', 4);
 INSERT INTO series (id, name, count) VALUES ('ben_10', 'Ben 10少年骇客', 4);
 INSERT INTO series (id, name, count) VALUES ('little_red_riding_hood', '小红帽', 4);
-INSERT INTO series (id, name, count) VALUES ('bioshock_(series)', 'Bioshock', 4);
-INSERT INTO series (id, name, count) VALUES ('seisenshi_dunbine', 'Seisenshi Dunbine', 4);
-INSERT INTO series (id, name, count) VALUES ('gachimuchi', 'Gachimuchi', 4);
-INSERT INTO series (id, name, count) VALUES ('noragami', 'Noragami', 4);
-INSERT INTO series (id, name, count) VALUES ('melonbooks', 'Melonbooks', 4);
-INSERT INTO series (id, name, count) VALUES ('otome_youkai_zakuro', 'Otome Youkai Zakuro', 4);
-INSERT INTO series (id, name, count) VALUES ('alien_nine', 'Alien Nine', 4);
+INSERT INTO series (id, name, count) VALUES ('bioshock_(series)', '生化奇兵', 4);
+INSERT INTO series (id, name, count) VALUES ('seisenshi_dunbine', '清泉士邓宾', 4);
+INSERT INTO series (id, name, count) VALUES ('gachimuchi', '加奇穆奇', 4);
+INSERT INTO series (id, name, count) VALUES ('noragami', '野良神', 4);
+INSERT INTO series (id, name, count) VALUES ('melonbooks', '瓜书', 4);
+INSERT INTO series (id, name, count) VALUES ('otome_youkai_zakuro', '乙女妖怪扎九郎', 4);
+INSERT INTO series (id, name, count) VALUES ('alien_nine', '外星人九号', 4);
 INSERT INTO series (id, name, count) VALUES ('yatterman', '小双侠', 4);
-INSERT INTO series (id, name, count) VALUES ('houkago_play', 'Houkago Play', 4);
-INSERT INTO series (id, name, count) VALUES ('tongari_boushi_no_atelier', 'Tongari Boushi No Atelier', 4);
+INSERT INTO series (id, name, count) VALUES ('houkago_play', '放风子玩', 4);
+INSERT INTO series (id, name, count) VALUES ('tongari_boushi_no_atelier', '汤加里博士的工作室', 4);
 INSERT INTO series (id, name, count) VALUES ('xinyue_tongxing', 'Xinyue Tongxing', 4);
-INSERT INTO series (id, name, count) VALUES ('cafe-chan_to_break_time', 'Cafe-chan To Break Time', 4);
+INSERT INTO series (id, name, count) VALUES ('cafe-chan_to_break_time', '咖啡酱休息时间', 4);
 INSERT INTO series (id, name, count) VALUES ('doupo_cangqiong', 'Doupo Cangqiong', 4);
-INSERT INTO series (id, name, count) VALUES ('catherine_(game)', 'Catherine (game)', 4);
-INSERT INTO series (id, name, count) VALUES ('atomic_heart', 'Atomic Heart', 4);
-INSERT INTO series (id, name, count) VALUES ('princess_lover', 'Princess Lover', 4);
-INSERT INTO series (id, name, count) VALUES ('jormungand_(manga)', 'Jormungand (manga)', 4);
-INSERT INTO series (id, name, count) VALUES ('hourou_musuko', 'Hourou Musuko', 4);
+INSERT INTO series (id, name, count) VALUES ('catherine_(game)', '凯瑟琳（游戏）', 4);
+INSERT INTO series (id, name, count) VALUES ('atomic_heart', '原子心', 4);
+INSERT INTO series (id, name, count) VALUES ('princess_lover', '公主恋人', 4);
+INSERT INTO series (id, name, count) VALUES ('jormungand_(manga)', '耶梦加德（漫画）', 4);
+INSERT INTO series (id, name, count) VALUES ('hourou_musuko', '风楼穆苏子', 4);
 INSERT INTO series (id, name, count) VALUES ('watashi_no_yuri_wa_oshigoto_desu!', 'Watashi No Yuri Wa Oshigoto Desu!', 4);
-INSERT INTO series (id, name, count) VALUES ('masou_gakuen_hxh', 'Masou Gakuen Hxh', 4);
-INSERT INTO series (id, name, count) VALUES ('chimimo', 'Chimimo', 4);
-INSERT INTO series (id, name, count) VALUES ('valis_(sinsekai)', 'Valis (sinsekai)', 4);
-INSERT INTO series (id, name, count) VALUES ('binzume_yousei', 'Binzume Yousei', 4);
-INSERT INTO series (id, name, count) VALUES ('chucolala', 'Chucolala', 4);
+INSERT INTO series (id, name, count) VALUES ('masou_gakuen_hxh', '魔装学园Hxh', 4);
+INSERT INTO series (id, name, count) VALUES ('chimimo', '奇米莫', 4);
+INSERT INTO series (id, name, count) VALUES ('valis_(sinsekai)', '瓦利斯（新世界）', 4);
+INSERT INTO series (id, name, count) VALUES ('binzume_yousei', '宾足妖精', 4);
+INSERT INTO series (id, name, count) VALUES ('chucolala', '她咕噜咕噜地', 4);
 INSERT INTO series (id, name, count) VALUES ('urara_meirochou', '乌らら迷路帖', 4);
-INSERT INTO series (id, name, count) VALUES ('futari_wa_precure_splash_star', 'Futari Wa Precure Splash Star', 4);
-INSERT INTO series (id, name, count) VALUES ('danshi_kinsei_game_sekai_de_ore_ga_yarubeki_yuiitsu_no_koto_yuri_no_ma_ni_hasamaru_otoko_to_shite_tensei_shite_shimaimashita', 'Danshi Kinsei Game Sekai De Ore Ga Yarubeki Yuiitsu No Koto Yuri No Ma Ni Hasamaru Otoko To Shite Tensei Shite Shimaimashita', 4);
+INSERT INTO series (id, name, count) VALUES ('futari_wa_precure_splash_star', 'Futari Wa 光之美少女 Splash Star', 4);
+INSERT INTO series (id, name, count) VALUES ('danshi_kinsei_game_sekai_de_ore_ga_yarubeki_yuiitsu_no_koto_yuri_no_ma_ni_hasamaru_otoko_to_shite_tensei_shite_shimaimashita', '男子金星游戏世界的矿石伽Yarubeki Yuiitsu No Koto Yuri No Ma Ni Hasamaru Otoko To Shite Tensei Shimaimashita', 4);
 INSERT INTO series (id, name, count) VALUES ('blame!', 'BLAME!探索者', 4);
-INSERT INTO series (id, name, count) VALUES ('riviera', 'Riviera', 4);
-INSERT INTO series (id, name, count) VALUES ('ace_combat', 'Ace Combat', 4);
-INSERT INTO series (id, name, count) VALUES ('gakusen_toshi_asterisk', 'Gakusen Toshi Asterisk', 4);
+INSERT INTO series (id, name, count) VALUES ('riviera', '里维埃拉', 4);
+INSERT INTO series (id, name, count) VALUES ('ace_combat', '王牌空战', 4);
+INSERT INTO series (id, name, count) VALUES ('gakusen_toshi_asterisk', '学仙都市星号', 4);
 INSERT INTO series (id, name, count) VALUES ('mother_3', '地球冒险3', 4);
-INSERT INTO series (id, name, count) VALUES ('dissidia_duellum_final_fantasy', 'Dissidia Duellum Final Fantasy', 4);
+INSERT INTO series (id, name, count) VALUES ('dissidia_duellum_final_fantasy', '最终幻想不和谐决斗', 4);
 INSERT INTO series (id, name, count) VALUES ('kono_bijutsubu_niwa_mondai_ga_aru!', 'Kono Bijutsubu Niwa Mondai Ga Aru!', 4);
-INSERT INTO series (id, name, count) VALUES ('strawberry_prince', 'Strawberry Prince', 4);
-INSERT INTO series (id, name, count) VALUES ('monster_farm', 'Monster Farm', 4);
-INSERT INTO series (id, name, count) VALUES ('forever_7th_capital', 'Forever 7th Capital', 4);
-INSERT INTO series (id, name, count) VALUES ('druaga_no_tou', 'Druaga No Tou', 4);
-INSERT INTO series (id, name, count) VALUES ('darkest_dungeon', 'Darkest Dungeon', 4);
-INSERT INTO series (id, name, count) VALUES ('suzume_no_tojimari', 'Suzume No Tojimari', 4);
+INSERT INTO series (id, name, count) VALUES ('strawberry_prince', '草莓王子', 4);
+INSERT INTO series (id, name, count) VALUES ('monster_farm', '怪物农场', 4);
+INSERT INTO series (id, name, count) VALUES ('forever_7th_capital', '永远的第七首都', 4);
+INSERT INTO series (id, name, count) VALUES ('druaga_no_tou', '德鲁阿加诺头', 4);
+INSERT INTO series (id, name, count) VALUES ('darkest_dungeon', '黑暗地牢', 4);
+INSERT INTO series (id, name, count) VALUES ('suzume_no_tojimari', '铃目藤麻里', 4);
 INSERT INTO series (id, name, count) VALUES ('kimi_ga_nozomu_eien', '愿此刻永恒', 4);
-INSERT INTO series (id, name, count) VALUES ('magi_stop', 'Magi Stop', 4);
-INSERT INTO series (id, name, count) VALUES ('sailor_element', 'Sailor Element', 4);
-INSERT INTO series (id, name, count) VALUES ('fault!!', 'Fault!!', 4);
-INSERT INTO series (id, name, count) VALUES ('words_worth', 'Words Worth', 4);
-INSERT INTO series (id, name, count) VALUES ('invader_zim', 'Invader Zim', 4);
+INSERT INTO series (id, name, count) VALUES ('magi_stop', '魔法师停止', 4);
+INSERT INTO series (id, name, count) VALUES ('sailor_element', '水手元素', 4);
+INSERT INTO series (id, name, count) VALUES ('fault!!', '过错！！', 4);
+INSERT INTO series (id, name, count) VALUES ('words_worth', '值得的话', 4);
+INSERT INTO series (id, name, count) VALUES ('invader_zim', '入侵者吉姆', 4);
 INSERT INTO series (id, name, count) VALUES ('donkey_kong_(series)', '大金刚', 4);
-INSERT INTO series (id, name, count) VALUES ('project_tokyo_dolls', 'Project Tokyo Dolls', 4);
-INSERT INTO series (id, name, count) VALUES ('stratos_4', 'Stratos 4', 4);
-INSERT INTO series (id, name, count) VALUES ('eureka_seven', 'Eureka Seven', 4);
-INSERT INTO series (id, name, count) VALUES ('maria_holic', 'Maria Holic', 4);
-INSERT INTO series (id, name, count) VALUES ('ninja_slayer', 'Ninja Slayer', 4);
-INSERT INTO series (id, name, count) VALUES ('everlasting_summer', 'Everlasting Summer', 4);
-INSERT INTO series (id, name, count) VALUES ('ganbare_goemon', 'Ganbare Goemon', 4);
+INSERT INTO series (id, name, count) VALUES ('project_tokyo_dolls', '东京人偶计划', 4);
+INSERT INTO series (id, name, count) VALUES ('stratos_4', '斯特拉托斯 4', 4);
+INSERT INTO series (id, name, count) VALUES ('eureka_seven', '交响诗篇', 4);
+INSERT INTO series (id, name, count) VALUES ('maria_holic', '玛丽亚·霍利克', 4);
+INSERT INTO series (id, name, count) VALUES ('ninja_slayer', '忍者杀手', 4);
+INSERT INTO series (id, name, count) VALUES ('everlasting_summer', '永恒的夏天', 4);
+INSERT INTO series (id, name, count) VALUES ('ganbare_goemon', '刚巴雷五右卫门', 4);
 INSERT INTO series (id, name, count) VALUES ('yagate_kimi_ni_naru', '终将成为你', 4);
-INSERT INTO series (id, name, count) VALUES ('sentou_mecha_xabungle', 'Sentou Mecha Xabungle', 4);
-INSERT INTO series (id, name, count) VALUES ('elf-san_wa_yaserarenai.', 'Elf-san Wa Yaserarenai.', 4);
-INSERT INTO series (id, name, count) VALUES ('sky_girls', 'Sky Girls', 4);
+INSERT INTO series (id, name, count) VALUES ('sentou_mecha_xabungle', '卫星机甲 Xabungle', 4);
+INSERT INTO series (id, name, count) VALUES ('elf-san_wa_yaserarenai.', '精灵桑瓦亚瑟拉雷奈。', 4);
+INSERT INTO series (id, name, count) VALUES ('sky_girls', '天空女孩', 4);
 INSERT INTO series (id, name, count) VALUES ('yakusoku_no_neverland', '约定的梦幻岛', 4);
-INSERT INTO series (id, name, count) VALUES ('liver_city', 'Liver City', 4);
+INSERT INTO series (id, name, count) VALUES ('liver_city', '利物城', 4);
 INSERT INTO series (id, name, count) VALUES ('dagashi_kashi', '粗点心战争', 4);
 INSERT INTO series (id, name, count) VALUES ('addams_family', '亚当斯一家', 4);
-INSERT INTO series (id, name, count) VALUES ('tenkuu_no_escaflowne', 'Tenkuu No Escaflowne', 4);
-INSERT INTO series (id, name, count) VALUES ('tsubasa_chronicle', 'Tsubasa Chronicle', 4);
+INSERT INTO series (id, name, count) VALUES ('tenkuu_no_escaflowne', '天空之翼', 4);
+INSERT INTO series (id, name, count) VALUES ('tsubasa_chronicle', '小翼编年史', 4);
 INSERT INTO series (id, name, count) VALUES ('star_fox', '星际火狐', 4);
 INSERT INTO series (id, name, count) VALUES ('rinne_no_lagrange', '轮回的拉格朗日', 4);
-INSERT INTO series (id, name, count) VALUES ('kaibutsu_oujo', 'Kaibutsu Oujo', 4);
-INSERT INTO series (id, name, count) VALUES ('trigger_(company)', 'Trigger (company)', 4);
-INSERT INTO series (id, name, count) VALUES ('fate/strange_fake', 'Fate/strange Fake', 4);
-INSERT INTO series (id, name, count) VALUES ('nitroplus', 'Nitroplus / Nitro+', 4);
-INSERT INTO series (id, name, count) VALUES ('isekai_ojisan', 'Isekai Ojisan', 4);
+INSERT INTO series (id, name, count) VALUES ('kaibutsu_oujo', '怪物王城', 4);
+INSERT INTO series (id, name, count) VALUES ('trigger_(company)', '触发器（公司）', 4);
+INSERT INTO series (id, name, count) VALUES ('fate/strange_fake', '命运/奇怪的赝品', 4);
+INSERT INTO series (id, name, count) VALUES ('nitroplus', '硝基+', 4);
+INSERT INTO series (id, name, count) VALUES ('isekai_ojisan', '异世界王子山', 4);
 INSERT INTO series (id, name, count) VALUES ('gake_no_ue_no_ponyo', '悬崖上的金鱼姬', 4);
-INSERT INTO series (id, name, count) VALUES ('prison_school', 'Prison School', 4);
-INSERT INTO series (id, name, count) VALUES ('hikaru_no_go', 'Hikaru No Go', 4);
-INSERT INTO series (id, name, count) VALUES ('ushinawareta_mirai_wo_motomete', 'Ushinawareta Mirai Wo Motomete', 4);
-INSERT INTO series (id, name, count) VALUES ('cool_doji_danshi', 'Cool Doji Danshi', 4);
-INSERT INTO series (id, name, count) VALUES ('another_eidos-r', 'Another Eidos-r', 4);
+INSERT INTO series (id, name, count) VALUES ('prison_school', '监狱学校', 4);
+INSERT INTO series (id, name, count) VALUES ('hikaru_no_go', '光之行', 4);
+INSERT INTO series (id, name, count) VALUES ('ushinawareta_mirai_wo_motomete', '牛未来未来', 4);
+INSERT INTO series (id, name, count) VALUES ('cool_doji_danshi', '凉爽十字星保湿', 4);
+INSERT INTO series (id, name, count) VALUES ('another_eidos-r', '另一个Eidos-r', 4);
 INSERT INTO series (id, name, count) VALUES ('oshiete!_galko-chan', '告诉我！辣妹子酱', 4);
 INSERT INTO series (id, name, count) VALUES ('final_fight', '快打旋风', 4);
-INSERT INTO series (id, name, count) VALUES ('rokudenashi_majutsu_koushi_to_akashic_record', 'Rokudenashi Majutsu Koushi To Akashic Record', 4);
+INSERT INTO series (id, name, count) VALUES ('rokudenashi_majutsu_koushi_to_akashic_record', '六传魔法师与阿卡西记录', 4);
 INSERT INTO series (id, name, count) VALUES ('kill_me_baby', '爱杀宝贝', 4);
-INSERT INTO series (id, name, count) VALUES ('breaking_bad', 'Breaking Bad', 4);
-INSERT INTO series (id, name, count) VALUES ('tower_of_god', 'Tower Of God', 4);
+INSERT INTO series (id, name, count) VALUES ('breaking_bad', '绝命毒师', 4);
+INSERT INTO series (id, name, count) VALUES ('tower_of_god', '神之塔', 4);
 INSERT INTO series (id, name, count) VALUES ('hacka_doll', '骇客娃娃', 4);
-INSERT INTO series (id, name, count) VALUES ('nurarihyon_no_mago', 'Nurarihyon No Mago', 4);
-INSERT INTO series (id, name, count) VALUES ('imaizumin-chi_wa_douyara_gal_no_tamariba_ni_natteru_rashii', 'Imaizumin-chi Wa Douyara Gal No Tamariba Ni Natteru Rashii', 4);
-INSERT INTO series (id, name, count) VALUES ('hanayamata', 'Hanayamata', 4);
-INSERT INTO series (id, name, count) VALUES ('tamayura', 'Tamayura', 4);
-INSERT INTO series (id, name, count) VALUES ('beastars', 'Beastars', 4);
-INSERT INTO series (id, name, count) VALUES ('kao_no_nai_tsuki', 'Kao No Nai Tsuki', 4);
-INSERT INTO series (id, name, count) VALUES ('animare', 'Animare', 4);
-INSERT INTO series (id, name, count) VALUES ('hapymaher', 'Hapymaher', 4);
-INSERT INTO series (id, name, count) VALUES ('anyamal_tantei_kirumin_zoo', 'Anyamal Tantei Kirumin Zoo', 4);
-INSERT INTO series (id, name, count) VALUES ('moomin', 'Moomin', 4);
+INSERT INTO series (id, name, count) VALUES ('nurarihyon_no_mago', '努拉里贤之孙', 4);
+INSERT INTO series (id, name, count) VALUES ('imaizumin-chi_wa_douyara_gal_no_tamariba_ni_natteru_rashii', '今泉民地 Wa Douyara Gal No Tamariba Ni Natteru Rashii', 4);
+INSERT INTO series (id, name, count) VALUES ('hanayamata', '花山俣', 4);
+INSERT INTO series (id, name, count) VALUES ('tamayura', '玉浦', 4);
+INSERT INTO series (id, name, count) VALUES ('beastars', '野兽之星', 4);
+INSERT INTO series (id, name, count) VALUES ('kao_no_nai_tsuki', '花王内月', 4);
+INSERT INTO series (id, name, count) VALUES ('animare', '动画', 4);
+INSERT INTO series (id, name, count) VALUES ('hapymaher', '哈皮马赫', 4);
+INSERT INTO series (id, name, count) VALUES ('anyamal_tantei_kirumin_zoo', '动物阿姨 Kirumin 动物园', 4);
+INSERT INTO series (id, name, count) VALUES ('moomin', '姆明', 4);
 INSERT INTO series (id, name, count) VALUES ('sansha_san''you', 'Sansha San''you', 4);
-INSERT INTO series (id, name, count) VALUES ('star_vs_the_forces_of_evil', 'Star Vs The Forces Of Evil', 4);
+INSERT INTO series (id, name, count) VALUES ('star_vs_the_forces_of_evil', '明星与邪恶势力', 4);
 INSERT INTO series (id, name, count) VALUES ('onegai_teacher', '拜托了，老师', 4);
-INSERT INTO series (id, name, count) VALUES ('heroman', 'Heroman', 4);
-INSERT INTO series (id, name, count) VALUES ('kaijuu_no._8', 'Kaijuu No. 8', 4);
-INSERT INTO series (id, name, count) VALUES ('swing!!', 'Swing!!', 4);
-INSERT INTO series (id, name, count) VALUES ('arcaea', 'Arcaea', 4);
-INSERT INTO series (id, name, count) VALUES ('futakoi', 'Futakoi', 4);
+INSERT INTO series (id, name, count) VALUES ('heroman', '英雄', 4);
+INSERT INTO series (id, name, count) VALUES ('kaijuu_no._8', '怪兽8号', 4);
+INSERT INTO series (id, name, count) VALUES ('swing!!', '摇摆！！', 4);
+INSERT INTO series (id, name, count) VALUES ('arcaea', '阿尔凯亚', 4);
+INSERT INTO series (id, name, count) VALUES ('futakoi', '二恋', 4);
 INSERT INTO series (id, name, count) VALUES ('kamichu!', '神是中学生！', 4);
 INSERT INTO series (id, name, count) VALUES ('brand_new_animal', 'BNA动物新世代', 4);
-INSERT INTO series (id, name, count) VALUES ('houkago_teibou_nisshi', 'Houkago Teibou Nisshi', 4);
-INSERT INTO series (id, name, count) VALUES ('hoshiiro_girldrop', 'Hoshiiro Girldrop', 4);
-INSERT INTO series (id, name, count) VALUES ('ongeki', 'Ongeki', 4);
-INSERT INTO series (id, name, count) VALUES ('kanojo_mo_kanojo', 'Kanojo Mo Kanojo', 4);
+INSERT INTO series (id, name, count) VALUES ('houkago_teibou_nisshi', '报贺号定房西', 4);
+INSERT INTO series (id, name, count) VALUES ('hoshiiro_girldrop', '星色少女', 4);
+INSERT INTO series (id, name, count) VALUES ('ongeki', '很少', 4);
+INSERT INTO series (id, name, count) VALUES ('kanojo_mo_kanojo', '卡诺城莫卡诺城', 4);
 INSERT INTO series (id, name, count) VALUES ('a_channel', 'A频道', 4);
-INSERT INTO series (id, name, count) VALUES ('slow_start', 'Slow Start', 4);
+INSERT INTO series (id, name, count) VALUES ('slow_start', '慢启动', 4);
 INSERT INTO series (id, name, count) VALUES ('koutetsujou_no_kabaneri', '甲铁城的卡巴内瑞', 4);
-INSERT INTO series (id, name, count) VALUES ('sengoku_collection', 'Sengoku Collection', 4);
-INSERT INTO series (id, name, count) VALUES ('legend_of_mana', 'Legend Of Mana', 4);
-INSERT INTO series (id, name, count) VALUES ('kokoro_connect', 'Kokoro Connect', 4);
-INSERT INTO series (id, name, count) VALUES ('yume_oukoku_to_nemureru_100-nin_no_ouji-sama', 'Yume Oukoku To Nemureru 100-nin No Ouji-sama', 4);
+INSERT INTO series (id, name, count) VALUES ('sengoku_collection', '战国系列', 4);
+INSERT INTO series (id, name, count) VALUES ('legend_of_mana', '圣剑传说', 4);
+INSERT INTO series (id, name, count) VALUES ('kokoro_connect', '心连接', 4);
+INSERT INTO series (id, name, count) VALUES ('yume_oukoku_to_nemureru_100-nin_no_ouji-sama', '梦王国与梦露 100人王子大人', 4);
 INSERT INTO series (id, name, count) VALUES ('koe_no_katachi', '声之形', 4);
-INSERT INTO series (id, name, count) VALUES ('yozakura_quartet', 'Yozakura Quartet', 4);
-INSERT INTO series (id, name, count) VALUES ('sengoku_bushouki_muramasa', 'Sengoku Bushouki Muramasa', 4);
-INSERT INTO series (id, name, count) VALUES ('kemono_jihen', 'Kemono Jihen', 4);
-INSERT INTO series (id, name, count) VALUES ('hamidashi_creative', 'Hamidashi Creative', 4);
-INSERT INTO series (id, name, count) VALUES ('lovely_x_cation_2', 'Lovely X Cation 2', 4);
+INSERT INTO series (id, name, count) VALUES ('yozakura_quartet', '夜樱四重奏', 4);
+INSERT INTO series (id, name, count) VALUES ('sengoku_bushouki_muramasa', '战国武将记村正', 4);
+INSERT INTO series (id, name, count) VALUES ('kemono_jihen', '兽野事变', 4);
+INSERT INTO series (id, name, count) VALUES ('hamidashi_creative', '哈米达创意', 4);
+INSERT INTO series (id, name, count) VALUES ('lovely_x_cation_2', '可爱X阳离子2', 4);
 INSERT INTO series (id, name, count) VALUES ('mother_2', '地球冒险2', 4);
-INSERT INTO series (id, name, count) VALUES ('blackpink', 'Blackpink', 4);
-INSERT INTO series (id, name, count) VALUES ('shoukan_yuusha_to_f-kei_kareshi', 'Shoukan Yuusha To F-kei Kareshi', 4);
-INSERT INTO series (id, name, count) VALUES ('megami_paradise', 'Megami Paradise', 4);
-INSERT INTO series (id, name, count) VALUES ('otaku_ni_koi_wa_muzukashii', 'Otaku Ni Koi Wa Muzukashii', 4);
-INSERT INTO series (id, name, count) VALUES ('h2o_footprints_in_the_sand', 'H2o Footprints In The Sand', 4);
-INSERT INTO series (id, name, count) VALUES ('kagurabachi', 'Kagurabachi', 4);
-INSERT INTO series (id, name, count) VALUES ('maburaho', 'Maburaho', 4);
+INSERT INTO series (id, name, count) VALUES ('blackpink', '黑粉红', 4);
+INSERT INTO series (id, name, count) VALUES ('shoukan_yuusha_to_f-kei_kareshi', '手观游者与F-kei Kareshi', 4);
+INSERT INTO series (id, name, count) VALUES ('megami_paradise', '女神天堂', 4);
+INSERT INTO series (id, name, count) VALUES ('otaku_ni_koi_wa_muzukashii', '御宅族恋爱和睦祖卡西', 4);
+INSERT INTO series (id, name, count) VALUES ('h2o_footprints_in_the_sand', '沙子里的水足迹', 4);
+INSERT INTO series (id, name, count) VALUES ('kagurabachi', '神乐町', 4);
+INSERT INTO series (id, name, count) VALUES ('maburaho', '马布拉霍', 4);
 INSERT INTO series (id, name, count) VALUES ('bacchikoi!', '黑猴子棒球', 4);
-INSERT INTO series (id, name, count) VALUES ('shin_subarashiki_kono_sekai', 'Shin Subarashiki Kono Sekai', 4);
-INSERT INTO series (id, name, count) VALUES ('kizuato', 'Kizuato', 4);
+INSERT INTO series (id, name, count) VALUES ('shin_subarashiki_kono_sekai', '新须原敷河野世界', 4);
+INSERT INTO series (id, name, count) VALUES ('kizuato', '木津土', 4);
 INSERT INTO series (id, name, count) VALUES ('mondaiji-tachi_ga_isekai_kara_kuru_sou_desu_yo?', 'Mondaiji-tachi Ga Isekai Kara Kuru Sou Desu Yo?', 4);
-INSERT INTO series (id, name, count) VALUES ('tayutama', 'Tayutama', 4);
-INSERT INTO series (id, name, count) VALUES ('sangatsu_no_lion', 'Sangatsu No Lion', 4);
-INSERT INTO series (id, name, count) VALUES ('one_-_kagayaku_kisetsu_e', 'One - Kagayaku Kisetsu E', 4);
-INSERT INTO series (id, name, count) VALUES ('scryed', 'Scryed', 4);
-INSERT INTO series (id, name, count) VALUES ('shiki_(novel)', 'Shiki (novel)', 4);
-INSERT INTO series (id, name, count) VALUES ('ichigo_100_percent', 'Ichigo 100 Percent', 4);
-INSERT INTO series (id, name, count) VALUES ('a.i._voice', 'A.i. Voice', 4);
+INSERT INTO series (id, name, count) VALUES ('tayutama', '多玉玉', 4);
+INSERT INTO series (id, name, count) VALUES ('sangatsu_no_lion', '三月之狮', 4);
+INSERT INTO series (id, name, count) VALUES ('one_-_kagayaku_kisetsu_e', '一-Kagayaku Kisetsu E', 4);
+INSERT INTO series (id, name, count) VALUES ('scryed', '探知', 4);
+INSERT INTO series (id, name, count) VALUES ('shiki_(novel)', '志贵（小说）', 4);
+INSERT INTO series (id, name, count) VALUES ('ichigo_100_percent', '一护 100%', 4);
+INSERT INTO series (id, name, count) VALUES ('a.i._voice', '人工智能。嗓音', 4);
 INSERT INTO series (id, name, count) VALUES ('sora_yori_mo_tooi_basho', '比宇宙更遥远的地方', 4);
-INSERT INTO series (id, name, count) VALUES ('sakura_quest', 'Sakura Quest', 4);
+INSERT INTO series (id, name, count) VALUES ('sakura_quest', '樱花探秘', 4);
 INSERT INTO series (id, name, count) VALUES ('futsuu_no_joshikousei_ga_locodol_yattemita', 'Futsuu No Joshikousei Ga Locodol Yattemita', 4);
-INSERT INTO series (id, name, count) VALUES ('tensui_no_sakuna-hime', 'Tensui No Sakuna-hime', 4);
-INSERT INTO series (id, name, count) VALUES ('kemomimi_refle!', 'Kemomimi Refle!', 4);
-INSERT INTO series (id, name, count) VALUES ('mayo_chiki!', 'Mayo Chiki!', 4);
-INSERT INTO series (id, name, count) VALUES ('robotics;notes', 'Robotics;notes', 4);
-INSERT INTO series (id, name, count) VALUES ('flowers_(innocent_grey)', 'Flowers (innocent Grey)', 4);
+INSERT INTO series (id, name, count) VALUES ('tensui_no_sakuna-hime', '天水之樱姬', 4);
+INSERT INTO series (id, name, count) VALUES ('kemomimi_refle!', '凯莫米米反射！', 4);
+INSERT INTO series (id, name, count) VALUES ('mayo_chiki!', '梅奥奇奇！', 4);
+INSERT INTO series (id, name, count) VALUES ('robotics;notes', '机器人笔记', 4);
+INSERT INTO series (id, name, count) VALUES ('flowers_(innocent_grey)', '鲜花（纯真灰）', 4);
 INSERT INTO series (id, name, count) VALUES ('kimi_ga_aruji_de_shitsuji_ga_ore_de', 'Kimi Ga Aruji De Shitsuji Ga Ore De', 4);
-INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_(raita)', 'Mahou Shoujo (raita)', 4);
-INSERT INTO series (id, name, count) VALUES ('kurano_kun_chi_no_futago_jijou', 'Kurano Kun Chi No Futago Jijou', 4);
-INSERT INTO series (id, name, count) VALUES ('akatsuki_no_goei', 'Akatsuki No Goei', 4);
-INSERT INTO series (id, name, count) VALUES ('battle_spirits', 'Battle Spirits', 4);
-INSERT INTO series (id, name, count) VALUES ('shachiku_succubus_no_hanashi', 'Shachiku Succubus No Hanashi', 4);
-INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_inori', 'Mahou Shoujo Inori', 4);
-INSERT INTO series (id, name, count) VALUES ('bubblegum_crisis', 'Bubblegum Crisis', 4);
-INSERT INTO series (id, name, count) VALUES ('demi-chan_wa_kataritai', 'Demi-chan Wa Kataritai', 4);
-INSERT INTO series (id, name, count) VALUES ('captain_earth', 'Captain Earth', 4);
-INSERT INTO series (id, name, count) VALUES ('c_(control)', 'C (control)', 4);
+INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_(raita)', '魔法少女 (raita)', 4);
+INSERT INTO series (id, name, count) VALUES ('kurano_kun_chi_no_futago_jijou', '藏野坤地之二子地主', 4);
+INSERT INTO series (id, name, count) VALUES ('akatsuki_no_goei', '晓之护卫', 4);
+INSERT INTO series (id, name, count) VALUES ('battle_spirits', '战斗精神', 4);
+INSERT INTO series (id, name, count) VALUES ('shachiku_succubus_no_hanashi', '鯶竹魅魔之花梨', 4);
+INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_inori', '魔法少女祈', 4);
+INSERT INTO series (id, name, count) VALUES ('bubblegum_crisis', '泡泡糖危机', 4);
+INSERT INTO series (id, name, count) VALUES ('demi-chan_wa_kataritai', '黛米酱·瓦卡塔里泰', 4);
+INSERT INTO series (id, name, count) VALUES ('captain_earth', '地球队长', 4);
+INSERT INTO series (id, name, count) VALUES ('c_(control)', 'C（控制）', 4);
 INSERT INTO series (id, name, count) VALUES ('hanasaku_iroha', '花开伊吕波', 4);
-INSERT INTO series (id, name, count) VALUES ('menhera-chan_(ezaki_bisuko)', 'Menhera-chan (ezaki Bisuko)', 4);
-INSERT INTO series (id, name, count) VALUES ('twice_(group)', 'Twice (group)', 4);
-INSERT INTO series (id, name, count) VALUES ('aika_(series)', 'Aika', 4);
+INSERT INTO series (id, name, count) VALUES ('menhera-chan_(ezaki_bisuko)', 'Menhera-chan（Bisuko生物）', 4);
+INSERT INTO series (id, name, count) VALUES ('twice_(group)', '两次 (群展)', 4);
+INSERT INTO series (id, name, count) VALUES ('aika_(series)', '时间', 4);
 INSERT INTO series (id, name, count) VALUES ('mikakunin_de_shinkoukei', '未确认进行式', 4);
-INSERT INTO series (id, name, count) VALUES ('tiny_evil', 'Tiny Evil', 4);
-INSERT INTO series (id, name, count) VALUES ('ninja_gaiden', 'Ninja Gaiden', 4);
+INSERT INTO series (id, name, count) VALUES ('tiny_evil', '小邪恶', 4);
+INSERT INTO series (id, name, count) VALUES ('ninja_gaiden', '忍者龙剑传', 4);
 INSERT INTO series (id, name, count) VALUES ('white_album_(series)', '白色相簿', 4);
 INSERT INTO series (id, name, count) VALUES ('spongebob_squarepants_(series)', '海绵宝宝', 4);
-INSERT INTO series (id, name, count) VALUES ('sakamoto_days', 'Sakamoto Days', 4);
-INSERT INTO series (id, name, count) VALUES ('boku_no_himitsu_taiken', 'Boku No Himitsu Taiken', 4);
-INSERT INTO series (id, name, count) VALUES ('otoko_no_ko_wa_meido_fuku_ga_osuki!?', 'Otoko No Ko Wa Meido Fuku Ga Osuki!?', 4);
-INSERT INTO series (id, name, count) VALUES ('crayon_shin-chan', 'Crayon Shin-chan', 4);
-INSERT INTO series (id, name, count) VALUES ('starcraft', 'Starcraft', 4);
-INSERT INTO series (id, name, count) VALUES ('codename:_kids_next_door', 'Codename: Kids Next Door', 4);
+INSERT INTO series (id, name, count) VALUES ('sakamoto_days', '坂本时代', 4);
+INSERT INTO series (id, name, count) VALUES ('boku_no_himitsu_taiken', '我的秘密大研', 4);
+INSERT INTO series (id, name, count) VALUES ('otoko_no_ko_wa_meido_fuku_ga_osuki!?', '男之子和名堂福我大喜！？', 4);
+INSERT INTO series (id, name, count) VALUES ('crayon_shin-chan', '蜡笔小新', 4);
+INSERT INTO series (id, name, count) VALUES ('starcraft', '星际争霸', 4);
+INSERT INTO series (id, name, count) VALUES ('codename:_kids_next_door', '代号：邻家孩子', 4);
 INSERT INTO series (id, name, count) VALUES ('papa_no_iu_koto_wo_kikinasai!', 'Papa No Iu Koto Wo Kikinasai!', 4);
-INSERT INTO series (id, name, count) VALUES ('kanojo_x_kanojo_x_kanojo', 'Kanojo X Kanojo X Kanojo', 4);
-INSERT INTO series (id, name, count) VALUES ('ring_fit_adventure', 'Ring Fit Adventure', 4);
+INSERT INTO series (id, name, count) VALUES ('kanojo_x_kanojo_x_kanojo', '鹿城 X 鹿城 X 鹿城', 4);
+INSERT INTO series (id, name, count) VALUES ('ring_fit_adventure', '健身环大冒险', 4);
 INSERT INTO series (id, name, count) VALUES ('uzaki-chan_wa_asobitai!', '宇崎学妹想要玩！', 4);
-INSERT INTO series (id, name, count) VALUES ('ookiku_furikabutte', 'Ookiku Furikabutte', 3);
-INSERT INTO series (id, name, count) VALUES ('acmeholic', 'Acmeholic', 3);
-INSERT INTO series (id, name, count) VALUES ('knight''s_&_magic', 'Knight''s & Magic', 3);
-INSERT INTO series (id, name, count) VALUES ('rokka_no_yuusha', 'Rokka No Yuusha', 3);
-INSERT INTO series (id, name, count) VALUES ('noble_witches', 'Noble Witches', 3);
-INSERT INTO series (id, name, count) VALUES ('moetan', 'Moetan', 3);
-INSERT INTO series (id, name, count) VALUES ('kaizoku_sentai_gokaiger', 'Kaizoku Sentai Gokaiger', 3);
-INSERT INTO series (id, name, count) VALUES ('omega_strikers', 'Omega Strikers', 3);
-INSERT INTO series (id, name, count) VALUES ('ai_the_somnium_files', 'Ai The Somnium Files', 3);
-INSERT INTO series (id, name, count) VALUES ('eternal_arcadia', 'Eternal Arcadia', 3);
-INSERT INTO series (id, name, count) VALUES ('quilt_(game)', 'Quilt (game)', 3);
-INSERT INTO series (id, name, count) VALUES ('natsuiro_kiseki', 'Natsuiro Kiseki', 3);
-INSERT INTO series (id, name, count) VALUES ('aoi_shiro', 'Aoi Shiro', 3);
-INSERT INTO series (id, name, count) VALUES ('irodori_koukou_gasshoubu_yori', 'Irodori Koukou Gasshoubu Yori', 3);
+INSERT INTO series (id, name, count) VALUES ('ookiku_furikabutte', '大菊风神山', 3);
+INSERT INTO series (id, name, count) VALUES ('acmeholic', '乙酰胆碱', 3);
+INSERT INTO series (id, name, count) VALUES ('knight''s_&_magic', '骑士与魔法', 3);
+INSERT INTO series (id, name, count) VALUES ('rokka_no_yuusha', '六花之游者', 3);
+INSERT INTO series (id, name, count) VALUES ('noble_witches', '高贵的女巫', 3);
+INSERT INTO series (id, name, count) VALUES ('moetan', '莫埃坦', 3);
+INSERT INTO series (id, name, count) VALUES ('kaizoku_sentai_gokaiger', '海贼战队Gokaiger', 3);
+INSERT INTO series (id, name, count) VALUES ('omega_strikers', '欧米茄前锋', 3);
+INSERT INTO series (id, name, count) VALUES ('ai_the_somnium_files', '艾梦档案', 3);
+INSERT INTO series (id, name, count) VALUES ('eternal_arcadia', '永恒的阿卡迪亚', 3);
+INSERT INTO series (id, name, count) VALUES ('quilt_(game)', '被子（游戏）', 3);
+INSERT INTO series (id, name, count) VALUES ('natsuiro_kiseki', '夏色奇迹', 3);
+INSERT INTO series (id, name, count) VALUES ('aoi_shiro', '葵四郎', 3);
+INSERT INTO series (id, name, count) VALUES ('irodori_koukou_gasshoubu_yori', '彩灯合掌部赖', 3);
 INSERT INTO series (id, name, count) VALUES ('fukumoto_mahjong', '福本麻将', 3);
-INSERT INTO series (id, name, count) VALUES ('mitsuboshi_colors', 'Mitsuboshi Colors', 3);
-INSERT INTO series (id, name, count) VALUES ('yojouhan_shinwa_taikei', 'Yojouhan Shinwa Taikei', 3);
+INSERT INTO series (id, name, count) VALUES ('mitsuboshi_colors', '三之星色彩', 3);
+INSERT INTO series (id, name, count) VALUES ('yojouhan_shinwa_taikei', '养生半神话大庆', 3);
 INSERT INTO series (id, name, count) VALUES ('another', 'Another替身', 3);
-INSERT INTO series (id, name, count) VALUES ('otogi-juushi_akazukin', 'Otogi-juushi Akazukin', 3);
-INSERT INTO series (id, name, count) VALUES ('akebi-chan_no_serafuku', 'Akebi-chan No Serafuku', 3);
-INSERT INTO series (id, name, count) VALUES ('sakura_musubi', 'Sakura Musubi', 3);
-INSERT INTO series (id, name, count) VALUES ('dosanko_gal_wa_namaramenkoi', 'Dosanko Gal Wa Namaramenkoi', 3);
-INSERT INTO series (id, name, count) VALUES ('kujibiki_unbalance', 'Kujibiki Unbalance', 3);
-INSERT INTO series (id, name, count) VALUES ('peace@pieces', 'Peace@pieces', 3);
-INSERT INTO series (id, name, count) VALUES ('aladdin_(disney)', 'Aladdin (disney)', 3);
-INSERT INTO series (id, name, count) VALUES ('sen''yuu.', 'Sen''yuu.', 3);
-INSERT INTO series (id, name, count) VALUES ('arc_the_lad_iii', 'Arc The Lad Iii', 3);
-INSERT INTO series (id, name, count) VALUES ('totally_spies', 'Totally Spies', 3);
-INSERT INTO series (id, name, count) VALUES ('gangsta', 'Gangsta', 3);
-INSERT INTO series (id, name, count) VALUES ('v4mirai', 'V4mirai', 3);
-INSERT INTO series (id, name, count) VALUES ('grimms_notes', 'Grimms Notes', 3);
-INSERT INTO series (id, name, count) VALUES ('shadow_hearts', 'Shadow Hearts', 3);
-INSERT INTO series (id, name, count) VALUES ('heart_no_kuni_no_alice', 'Heart No Kuni No Alice', 3);
-INSERT INTO series (id, name, count) VALUES ('dream_hunter_rem', 'Dream Hunter Rem', 3);
-INSERT INTO series (id, name, count) VALUES ('fairy_fencer_f', 'Fairy Fencer F', 3);
-INSERT INTO series (id, name, count) VALUES ('half-life_(series)', 'Half-life', 3);
-INSERT INTO series (id, name, count) VALUES ('amagami-san_chi_no_enmusubi', 'Amagami-san Chi No Enmusubi', 3);
-INSERT INTO series (id, name, count) VALUES ('tsuki_wa_higashi_ni_hi_wa_nishi_ni', 'Tsuki Wa Higashi Ni Hi Wa Nishi Ni', 3);
-INSERT INTO series (id, name, count) VALUES ('dorifesu!', 'Dorifesu!', 3);
-INSERT INTO series (id, name, count) VALUES ('tonari_no_kyuuketsuki-san', 'Tonari No Kyuuketsuki-san', 3);
-INSERT INTO series (id, name, count) VALUES ('tenki_no_ko', 'Tenki No Ko', 3);
-INSERT INTO series (id, name, count) VALUES ('kyokkou_senki_mistletear', 'Kyokkou Senki Mistletear', 3);
+INSERT INTO series (id, name, count) VALUES ('otogi-juushi_akazukin', '乙木十字赤小金', 3);
+INSERT INTO series (id, name, count) VALUES ('akebi-chan_no_serafuku', '朱之濑福', 3);
+INSERT INTO series (id, name, count) VALUES ('sakura_musubi', '结结樱', 3);
+INSERT INTO series (id, name, count) VALUES ('dosanko_gal_wa_namaramenkoi', '多桑科·加尔·瓦·纳马拉缅科伊', 3);
+INSERT INTO series (id, name, count) VALUES ('kujibiki_unbalance', '串引不平衡', 3);
+INSERT INTO series (id, name, count) VALUES ('peace@pieces', '和平@件', 3);
+INSERT INTO series (id, name, count) VALUES ('aladdin_(disney)', '阿拉丁（迪士尼）', 3);
+INSERT INTO series (id, name, count) VALUES ('sen''yuu.', '森宇。', 3);
+INSERT INTO series (id, name, count) VALUES ('arc_the_lad_iii', '弧少年III', 3);
+INSERT INTO series (id, name, count) VALUES ('totally_spies', '完全是间谍', 3);
+INSERT INTO series (id, name, count) VALUES ('gangsta', '黑帮', 3);
+INSERT INTO series (id, name, count) VALUES ('v4mirai', 'V4停止', 3);
+INSERT INTO series (id, name, count) VALUES ('grimms_notes', '格林笔记', 3);
+INSERT INTO series (id, name, count) VALUES ('shadow_hearts', '暗影之心', 3);
+INSERT INTO series (id, name, count) VALUES ('heart_no_kuni_no_alice', '心之国的爱丽丝', 3);
+INSERT INTO series (id, name, count) VALUES ('dream_hunter_rem', '梦猎手雷姆', 3);
+INSERT INTO series (id, name, count) VALUES ('fairy_fencer_f', '仙女击剑F', 3);
+INSERT INTO series (id, name, count) VALUES ('half-life_(series)', '半衰期', 3);
+INSERT INTO series (id, name, count) VALUES ('amagami-san_chi_no_enmusubi', '天神山地之炎结', 3);
+INSERT INTO series (id, name, count) VALUES ('tsuki_wa_higashi_ni_hi_wa_nishi_ni', '月娃东二嗨娃西二', 3);
+INSERT INTO series (id, name, count) VALUES ('dorifesu!', '多丽丝！', 3);
+INSERT INTO series (id, name, count) VALUES ('tonari_no_kyuuketsuki-san', '土成的九月同学', 3);
+INSERT INTO series (id, name, count) VALUES ('tenki_no_ko', '天机之子', 3);
+INSERT INTO series (id, name, count) VALUES ('kyokkou_senki_mistletear', '极光无人 槲寄生', 3);
 INSERT INTO series (id, name, count) VALUES ('watashi_ga_koibito_ni_nareru_wake_naijan_murimuri', 'Watashi Ga Koibito Ni Nareru Wake Naijan Murimuri', 3);
-INSERT INTO series (id, name, count) VALUES ('ookami_kodomo_no_ame_to_yuki', 'Ookami Kodomo No Ame To Yuki', 3);
+INSERT INTO series (id, name, count) VALUES ('ookami_kodomo_no_ame_to_yuki', '大神儿童之雨与由纪', 3);
 INSERT INTO series (id, name, count) VALUES ('ji_peng_gou_you', 'Ji Peng Gou You', 3);
 INSERT INTO series (id, name, count) VALUES ('shirokami_project', '城姬Quest', 3);
-INSERT INTO series (id, name, count) VALUES ('true_tears', 'True Tears', 3);
-INSERT INTO series (id, name, count) VALUES ('mahoromatic', 'Mahoromatic', 3);
+INSERT INTO series (id, name, count) VALUES ('true_tears', '真实的眼泪', 3);
+INSERT INTO series (id, name, count) VALUES ('mahoromatic', '马霍罗马', 3);
 INSERT INTO series (id, name, count) VALUES ('new_horizon', '新视野', 3);
 INSERT INTO series (id, name, count) VALUES ('the_coffin_of_andy_and_leyley', '安迪和莱莉的棺材', 3);
 INSERT INTO series (id, name, count) VALUES ('love_plus', '爱相随', 3);
-INSERT INTO series (id, name, count) VALUES ('virtual_on', 'Virtual On', 3);
+INSERT INTO series (id, name, count) VALUES ('virtual_on', '虚拟开启', 3);
 INSERT INTO series (id, name, count) VALUES ('mode_aim', 'Mode Aim虚拟主播', 3);
-INSERT INTO series (id, name, count) VALUES ('read_or_die', 'Read Or Die', 3);
-INSERT INTO series (id, name, count) VALUES ('takt_op.', 'Takt Op.', 3);
+INSERT INTO series (id, name, count) VALUES ('read_or_die', '阅读或死亡', 3);
+INSERT INTO series (id, name, count) VALUES ('takt_op.', '殴打。', 3);
 INSERT INTO series (id, name, count) VALUES ('amphibia', '奇幻沼泽', 3);
-INSERT INTO series (id, name, count) VALUES ('destiny_child', 'Destiny Child', 3);
-INSERT INTO series (id, name, count) VALUES ('egyptian_mythology', 'Egyptian Mythology', 3);
-INSERT INTO series (id, name, count) VALUES ('shinkon_gattai_godannar!!', 'Shinkon Gattai Godannar!!', 3);
-INSERT INTO series (id, name, count) VALUES ('real_drive', 'Real Drive', 3);
+INSERT INTO series (id, name, count) VALUES ('destiny_child', '命运之子', 3);
+INSERT INTO series (id, name, count) VALUES ('egyptian_mythology', '埃及神话', 3);
+INSERT INTO series (id, name, count) VALUES ('shinkon_gattai_godannar!!', '真干伽太戈达娜！！', 3);
+INSERT INTO series (id, name, count) VALUES ('real_drive', '真实驾驶', 3);
 INSERT INTO series (id, name, count) VALUES ('yume_2kki', '梦2记', 3);
-INSERT INTO series (id, name, count) VALUES ('bakuman', 'Bakuman', 3);
-INSERT INTO series (id, name, count) VALUES ('coyote_ragtime_show', 'Coyote Ragtime Show', 3);
-INSERT INTO series (id, name, count) VALUES ('soredemo_machi_wa_mawatteiru', 'Soredemo Machi Wa Mawatteiru', 3);
-INSERT INTO series (id, name, count) VALUES ('seiken_no_blacksmith', 'Seiken No Blacksmith', 3);
+INSERT INTO series (id, name, count) VALUES ('bakuman', '爆满', 3);
+INSERT INTO series (id, name, count) VALUES ('coyote_ragtime_show', '土狼拉格泰姆秀', 3);
+INSERT INTO series (id, name, count) VALUES ('soredemo_machi_wa_mawatteiru', '索雷德莫·马奇·瓦·马瓦泰鲁', 3);
+INSERT INTO series (id, name, count) VALUES ('seiken_no_blacksmith', '精剑之铁匠', 3);
 INSERT INTO series (id, name, count) VALUES ('kumo_desu_ga_nani_ka?', 'Kumo Desu Ga Nani Ka?', 3);
-INSERT INTO series (id, name, count) VALUES ('chigau_miyahara_omae_janai!', 'Chigau Miyahara Omae Janai!', 3);
-INSERT INTO series (id, name, count) VALUES ('chaos;child', 'Chaos;child', 3);
-INSERT INTO series (id, name, count) VALUES ('monobeno', 'Monobeno', 3);
-INSERT INTO series (id, name, count) VALUES ('batman_(series)', 'Batman', 3);
-INSERT INTO series (id, name, count) VALUES ('a_song_of_ice_and_fire', 'A Song Of Ice And Fire', 3);
-INSERT INTO series (id, name, count) VALUES ('kimi_to_boku', 'Kimi To Boku', 3);
-INSERT INTO series (id, name, count) VALUES ('project_kv', 'Project Kv', 3);
-INSERT INTO series (id, name, count) VALUES ('the_seven_deadly_sins', 'The Seven Deadly Sins', 3);
-INSERT INTO series (id, name, count) VALUES ('tenshi_no_inai_12-gatsu', 'Tenshi No Inai 12-gatsu', 3);
-INSERT INTO series (id, name, count) VALUES ('mugen_senshi_valis', 'Mugen Senshi Valis', 3);
-INSERT INTO series (id, name, count) VALUES ('how_to_train_your_dragon', 'How To Train Your Dragon', 3);
-INSERT INTO series (id, name, count) VALUES ('otome_domain', 'Otome Domain', 3);
-INSERT INTO series (id, name, count) VALUES ('z.a.t.o._//_i_love_the_world_and_everything_in_it', 'Z.a.t.o. // I Love The World And Everything In It', 3);
-INSERT INTO series (id, name, count) VALUES ('tennis_no_ouji-sama', 'Tennis No Ouji-sama', 3);
-INSERT INTO series (id, name, count) VALUES ('sleeping_beauty', 'Sleeping Beauty', 3);
+INSERT INTO series (id, name, count) VALUES ('chigau_miyahara_omae_janai!', '宫原千贺 御前贾内！', 3);
+INSERT INTO series (id, name, count) VALUES ('chaos;child', '混沌之子', 3);
+INSERT INTO series (id, name, count) VALUES ('monobeno', '莫诺贝诺', 3);
+INSERT INTO series (id, name, count) VALUES ('batman_(series)', '蝙蝠侠', 3);
+INSERT INTO series (id, name, count) VALUES ('a_song_of_ice_and_fire', '冰与火之歌', 3);
+INSERT INTO series (id, name, count) VALUES ('kimi_to_boku', '君与木', 3);
+INSERT INTO series (id, name, count) VALUES ('project_kv', '项目Kv', 3);
+INSERT INTO series (id, name, count) VALUES ('the_seven_deadly_sins', '七大罪', 3);
+INSERT INTO series (id, name, count) VALUES ('tenshi_no_inai_12-gatsu', '天师稻内12合', 3);
+INSERT INTO series (id, name, count) VALUES ('mugen_senshi_valis', '无限战士瓦利斯', 3);
+INSERT INTO series (id, name, count) VALUES ('how_to_train_your_dragon', '如何训练你的龙', 3);
+INSERT INTO series (id, name, count) VALUES ('otome_domain', '乙女领域', 3);
+INSERT INTO series (id, name, count) VALUES ('z.a.t.o._//_i_love_the_world_and_everything_in_it', 'Z.a.to. // 我爱这个世界和其中的一切', 3);
+INSERT INTO series (id, name, count) VALUES ('tennis_no_ouji-sama', '网球王子大人', 3);
+INSERT INTO series (id, name, count) VALUES ('sleeping_beauty', '睡美人', 3);
 INSERT INTO series (id, name, count) VALUES ('maou-jou_de_oyasumi', '在魔王城说晚安', 3);
-INSERT INTO series (id, name, count) VALUES ('searching_for_a_world_that_doesn''t_exist', 'Searching For A World That Doesn''t Exist', 3);
-INSERT INTO series (id, name, count) VALUES ('nagasarete_airantou', 'Nagasarete Airantou', 3);
-INSERT INTO series (id, name, count) VALUES ('3x3_eyes', '3x3 Eyes', 3);
-INSERT INTO series (id, name, count) VALUES ('perfume_(band)', 'Perfume (band)', 3);
-INSERT INTO series (id, name, count) VALUES ('death_stranding', 'Death Stranding', 3);
+INSERT INTO series (id, name, count) VALUES ('searching_for_a_world_that_doesn''t_exist', '寻找一个不存在的世界', 3);
+INSERT INTO series (id, name, count) VALUES ('nagasarete_airantou', '纳加萨雷特·阿兰图', 3);
+INSERT INTO series (id, name, count) VALUES ('3x3_eyes', '3x3 眼睛', 3);
+INSERT INTO series (id, name, count) VALUES ('perfume_(band)', '香水（乐队）', 3);
+INSERT INTO series (id, name, count) VALUES ('death_stranding', '死亡搁浅', 3);
 INSERT INTO series (id, name, count) VALUES ('bobobo-bo_bo-bobo', 'Bobobo-bo Bo-bobo', 3);
 INSERT INTO series (id, name, count) VALUES ('honzuki_no_gekokujou', '小书痴的下克上', 3);
-INSERT INTO series (id, name, count) VALUES ('the_big_o', 'The Big O', 3);
+INSERT INTO series (id, name, count) VALUES ('the_big_o', '大O', 3);
 INSERT INTO series (id, name, count) VALUES ('bilibili', '哔哩哔哩', 3);
-INSERT INTO series (id, name, count) VALUES ('the_grim_adventures_of_billy_&_mandy', 'The Grim Adventures Of Billy & Mandy', 3);
+INSERT INTO series (id, name, count) VALUES ('the_grim_adventures_of_billy_&_mandy', '比利和曼迪的严峻冒险', 3);
 INSERT INTO series (id, name, count) VALUES ('black_jack_(series)', '怪医黑杰克', 3);
-INSERT INTO series (id, name, count) VALUES ('foster''s_home_for_imaginary_friends', 'Foster''s Home For Imaginary Friends', 3);
-INSERT INTO series (id, name, count) VALUES ('tales_weaver', 'Tales Weaver', 3);
-INSERT INTO series (id, name, count) VALUES ('friday_night_funkin''', 'Friday Night Funkin''', 3);
-INSERT INTO series (id, name, count) VALUES ('muse_dash', 'Muse Dash', 3);
-INSERT INTO series (id, name, count) VALUES ('cyberbots', 'Cyberbots', 3);
-INSERT INTO series (id, name, count) VALUES ('vs_knight_lamune_&_40_fire', 'Vs Knight Lamune & 40 Fire', 3);
-INSERT INTO series (id, name, count) VALUES ('cuphead_(game)', 'Cuphead (game)', 3);
-INSERT INTO series (id, name, count) VALUES ('hyrule_warriors', 'Hyrule Warriors', 3);
-INSERT INTO series (id, name, count) VALUES ('clover_theater', 'Clover Theater', 3);
-INSERT INTO series (id, name, count) VALUES ('higyaku_no_noel', 'Higyaku No Noel', 3);
-INSERT INTO series (id, name, count) VALUES ('supernatural_(tv_series)', 'Supernatural (tv Series)', 3);
+INSERT INTO series (id, name, count) VALUES ('foster''s_home_for_imaginary_friends', '福斯特想象中的朋友之家', 3);
+INSERT INTO series (id, name, count) VALUES ('tales_weaver', '故事编织者', 3);
+INSERT INTO series (id, name, count) VALUES ('friday_night_funkin''', '星期五晚上狂欢', 3);
+INSERT INTO series (id, name, count) VALUES ('muse_dash', '缪斯冲刺', 3);
+INSERT INTO series (id, name, count) VALUES ('cyberbots', '网络机器人', 3);
+INSERT INTO series (id, name, count) VALUES ('vs_knight_lamune_&_40_fire', 'VS 骑士拉姆恩 & 40 火', 3);
+INSERT INTO series (id, name, count) VALUES ('cuphead_(game)', '茶杯头（游戏）', 3);
+INSERT INTO series (id, name, count) VALUES ('hyrule_warriors', '海拉尔勇士', 3);
+INSERT INTO series (id, name, count) VALUES ('clover_theater', '三叶草剧场', 3);
+INSERT INTO series (id, name, count) VALUES ('higyaku_no_noel', '冰霜之诺尔', 3);
+INSERT INTO series (id, name, count) VALUES ('supernatural_(tv_series)', '超自然现象（电视剧）', 3);
 INSERT INTO series (id, name, count) VALUES ('violet_evergarden_(series)', '紫罗兰永恒花园', 3);
-INSERT INTO series (id, name, count) VALUES ('shiro_seijo_to_kuro_bokushi', 'Shiro Seijo To Kuro Bokushi', 3);
-INSERT INTO series (id, name, count) VALUES ('cencoroll', 'Cencoroll', 3);
-INSERT INTO series (id, name, count) VALUES ('akazukin_chacha', 'Akazukin Chacha', 3);
-INSERT INTO series (id, name, count) VALUES ('shining_star', 'Shining Star', 3);
-INSERT INTO series (id, name, count) VALUES ('smiling_friends', 'Smiling Friends', 3);
-INSERT INTO series (id, name, count) VALUES ('light_and_night_love', 'Light And Night Love', 3);
+INSERT INTO series (id, name, count) VALUES ('shiro_seijo_to_kuro_bokushi', '清城士郎与黑木子', 3);
+INSERT INTO series (id, name, count) VALUES ('cencoroll', '森科罗尔', 3);
+INSERT INTO series (id, name, count) VALUES ('akazukin_chacha', '赤小金茶茶', 3);
+INSERT INTO series (id, name, count) VALUES ('shining_star', '闪亮之星', 3);
+INSERT INTO series (id, name, count) VALUES ('smiling_friends', '微笑的朋友', 3);
+INSERT INTO series (id, name, count) VALUES ('light_and_night_love', '光与夜的爱', 3);
 INSERT INTO series (id, name, count) VALUES ('qinshi_mingyue', 'Qinshi Mingyue', 3);
 INSERT INTO series (id, name, count) VALUES ('hua_jianghu_zhi_bei_mo_ting', 'Hua Jianghu Zhi Bei Mo Ting', 3);
-INSERT INTO series (id, name, count) VALUES ('shigofumi', 'Shigofumi', 3);
-INSERT INTO series (id, name, count) VALUES ('qualidea_code', 'Qualidea Code', 3);
-INSERT INTO series (id, name, count) VALUES ('chiikawa', 'Chiikawa', 3);
+INSERT INTO series (id, name, count) VALUES ('shigofumi', '志文', 3);
+INSERT INTO series (id, name, count) VALUES ('qualidea_code', '夸里迪亚代码', 3);
+INSERT INTO series (id, name, count) VALUES ('chiikawa', '知井川', 3);
 INSERT INTO series (id, name, count) VALUES ('hisabisa_ni_atta_osananajimi_ga_iroiro_to_seichou_shiteirunoni_nounai_dake_seichou_shiteinakute_douyou_shiteiru', 'Hisabisa Ni Atta Osananajimi Ga Iroiro To Seichou Shiteirunoni Nounai Dake Seichou Shiteinakute Douyou Shiteiru', 3);
-INSERT INTO series (id, name, count) VALUES ('boku_no_risou_no_isekai_seikatsu', 'Boku No Risou No Isekai Seikatsu', 3);
+INSERT INTO series (id, name, count) VALUES ('boku_no_risou_no_isekai_seikatsu', '我的世界生活', 3);
 INSERT INTO series (id, name, count) VALUES ('shoujo_shuumatsu_ryokou', '少女终末旅行', 3);
-INSERT INTO series (id, name, count) VALUES ('tenshinranman', 'Tenshinranman', 3);
-INSERT INTO series (id, name, count) VALUES ('noir_(anime)', 'Noir (anime)', 3);
-INSERT INTO series (id, name, count) VALUES ('tanaka_the_wizard', 'Tanaka The Wizard', 3);
-INSERT INTO series (id, name, count) VALUES ('bird/binary', 'Bird/binary', 3);
-INSERT INTO series (id, name, count) VALUES ('hundred', 'Hundred', 3);
-INSERT INTO series (id, name, count) VALUES ('senyoku_no_sigrdrifa', 'Senyoku No Sigrdrifa', 3);
-INSERT INTO series (id, name, count) VALUES ('crash_bandicoot_(series)', 'Crash Bandicoot', 3);
-INSERT INTO series (id, name, count) VALUES ('3am', '3am', 3);
-INSERT INTO series (id, name, count) VALUES ('halo_(series)', 'Halo', 3);
-INSERT INTO series (id, name, count) VALUES ('shinkyoku_soukai_polyphonica', 'Shinkyoku Soukai Polyphonica', 3);
+INSERT INTO series (id, name, count) VALUES ('tenshinranman', '天神乱漫', 3);
+INSERT INTO series (id, name, count) VALUES ('noir_(anime)', '黑色（动漫）', 3);
+INSERT INTO series (id, name, count) VALUES ('tanaka_the_wizard', '田中魔法师', 3);
+INSERT INTO series (id, name, count) VALUES ('bird/binary', '鸟/二元', 3);
+INSERT INTO series (id, name, count) VALUES ('hundred', '百', 3);
+INSERT INTO series (id, name, count) VALUES ('senyoku_no_sigrdrifa', '仙佑与西格德里法', 3);
+INSERT INTO series (id, name, count) VALUES ('crash_bandicoot_(series)', '古惑狼', 3);
+INSERT INTO series (id, name, count) VALUES ('3am', '凌晨 3 点', 3);
+INSERT INTO series (id, name, count) VALUES ('halo_(series)', '晕', 3);
+INSERT INTO series (id, name, count) VALUES ('shinkyoku_soukai_polyphonica', '神曲创会复调曲', 3);
 INSERT INTO series (id, name, count) VALUES ('gravity_daze', '重力异想世界', 3);
 INSERT INTO series (id, name, count) VALUES ('cthulhu_mythos', '克苏鲁神话', 3);
 INSERT INTO series (id, name, count) VALUES ('poptepipic', 'POP TEAM EPIC pop子和pipi美的日常', 3);
-INSERT INTO series (id, name, count) VALUES ('w_tails_cat', 'W Tails Cat', 3);
-INSERT INTO series (id, name, count) VALUES ('musou_orochi', 'Musou Orochi', 3);
-INSERT INTO series (id, name, count) VALUES ('project_a-ko', 'Project A-ko', 3);
-INSERT INTO series (id, name, count) VALUES ('all_saints_street', 'All Saints Street', 3);
-INSERT INTO series (id, name, count) VALUES ('thunderbolt_fantasy', 'Thunderbolt Fantasy', 3);
-INSERT INTO series (id, name, count) VALUES ('demento', 'Demento', 3);
-INSERT INTO series (id, name, count) VALUES ('crazy_raccoon', 'Crazy Raccoon', 3);
-INSERT INTO series (id, name, count) VALUES ('the_amazing_world_of_gumball', 'The Amazing World Of Gumball', 3);
-INSERT INTO series (id, name, count) VALUES ('ice_cream_kanojo', 'Ice Cream Kanojo', 3);
+INSERT INTO series (id, name, count) VALUES ('w_tails_cat', 'W尾猫', 3);
+INSERT INTO series (id, name, count) VALUES ('musou_orochi', '无双大蛇', 3);
+INSERT INTO series (id, name, count) VALUES ('project_a-ko', 'A-ko计划', 3);
+INSERT INTO series (id, name, count) VALUES ('all_saints_street', '诸圣街', 3);
+INSERT INTO series (id, name, count) VALUES ('thunderbolt_fantasy', '霹雳幻想', 3);
+INSERT INTO series (id, name, count) VALUES ('demento', '疯狂的', 3);
+INSERT INTO series (id, name, count) VALUES ('crazy_raccoon', '疯狂浣熊', 3);
+INSERT INTO series (id, name, count) VALUES ('the_amazing_world_of_gumball', '冈布奥的奇妙世界', 3);
+INSERT INTO series (id, name, count) VALUES ('ice_cream_kanojo', '冰淇淋卡诺城', 3);
 INSERT INTO series (id, name, count) VALUES ('record_of_lodoss_war', '罗德斯岛战记', 3);
-INSERT INTO series (id, name, count) VALUES ('deemo', 'Deemo', 3);
-INSERT INTO series (id, name, count) VALUES ('shinsougumi', 'Shinsougumi', 3);
-INSERT INTO series (id, name, count) VALUES ('inside_out', 'Inside Out', 3);
-INSERT INTO series (id, name, count) VALUES ('blood+', 'Blood+', 3);
-INSERT INTO series (id, name, count) VALUES ('strike_witches:_kurenai_no_majo-tachi', 'Strike Witches: Kurenai No Majo-tachi', 3);
+INSERT INTO series (id, name, count) VALUES ('deemo', '迪莫', 3);
+INSERT INTO series (id, name, count) VALUES ('shinsougumi', '新总组', 3);
+INSERT INTO series (id, name, count) VALUES ('inside_out', '由内而外', 3);
+INSERT INTO series (id, name, count) VALUES ('blood+', '血+', 3);
+INSERT INTO series (id, name, count) VALUES ('strike_witches:_kurenai_no_majo-tachi', '强袭魔女：红魔女太刀', 3);
 INSERT INTO series (id, name, count) VALUES ('dororo_(tezuka)', '多罗罗', 3);
-INSERT INTO series (id, name, count) VALUES ('the_elder_scrolls', 'The Elder Scrolls', 3);
-INSERT INTO series (id, name, count) VALUES ('bra-ban!', 'Bra-ban!', 3);
-INSERT INTO series (id, name, count) VALUES ('junk_gaming_maiden', 'Junk Gaming Maiden', 3);
-INSERT INTO series (id, name, count) VALUES ('vrchat', 'Vrchat', 3);
-INSERT INTO series (id, name, count) VALUES ('the_incredibles', 'The Incredibles', 3);
-INSERT INTO series (id, name, count) VALUES ('outbreak_company', 'Outbreak Company', 3);
-INSERT INTO series (id, name, count) VALUES ('madan_no_ou_to_vanadis', 'Madan No Ou To Vanadis', 3);
-INSERT INTO series (id, name, count) VALUES ('little_goody_two_shoes', 'Little Goody Two Shoes', 3);
-INSERT INTO series (id, name, count) VALUES ('romancing_saga_3', 'Romancing Saga 3', 3);
-INSERT INTO series (id, name, count) VALUES ('isekai_wa_smartphone_to_tomo_ni.', 'Isekai Wa Smartphone To Tomo Ni.', 3);
-INSERT INTO series (id, name, count) VALUES ('shirotsume_souwa', 'Shirotsume Souwa', 3);
-INSERT INTO series (id, name, count) VALUES ('midnight_anime_lemon_angel', 'Midnight Anime Lemon Angel', 3);
-INSERT INTO series (id, name, count) VALUES ('yumekui_merry', 'Yumekui Merry', 3);
-INSERT INTO series (id, name, count) VALUES ('super_cub', 'Super Cub', 3);
-INSERT INTO series (id, name, count) VALUES ('crime_crackers', 'Crime Crackers', 3);
-INSERT INTO series (id, name, count) VALUES ('king''s_raid', 'King''s Raid', 3);
+INSERT INTO series (id, name, count) VALUES ('the_elder_scrolls', '上古卷轴', 3);
+INSERT INTO series (id, name, count) VALUES ('bra-ban!', '好禁令！', 3);
+INSERT INTO series (id, name, count) VALUES ('junk_gaming_maiden', '垃圾游戏少女', 3);
+INSERT INTO series (id, name, count) VALUES ('vrchat', '虚拟聊天室', 3);
+INSERT INTO series (id, name, count) VALUES ('the_incredibles', '超人总动员', 3);
+INSERT INTO series (id, name, count) VALUES ('outbreak_company', '爆发公司', 3);
+INSERT INTO series (id, name, count) VALUES ('madan_no_ou_to_vanadis', '马丹·诺·欧·瓦纳迪斯', 3);
+INSERT INTO series (id, name, count) VALUES ('little_goody_two_shoes', '小乖乖两鞋', 3);
+INSERT INTO series (id, name, count) VALUES ('romancing_saga_3', '浪漫传奇3', 3);
+INSERT INTO series (id, name, count) VALUES ('isekai_wa_smartphone_to_tomo_ni.', 'Isekai Wa 智能手机给 Tomo Ni。', 3);
+INSERT INTO series (id, name, count) VALUES ('shirotsume_souwa', '白爪总和', 3);
+INSERT INTO series (id, name, count) VALUES ('midnight_anime_lemon_angel', '午夜动漫柠檬天使', 3);
+INSERT INTO series (id, name, count) VALUES ('yumekui_merry', '梦葵梅里', 3);
+INSERT INTO series (id, name, count) VALUES ('super_cub', '超级幼崽', 3);
+INSERT INTO series (id, name, count) VALUES ('crime_crackers', '犯罪饼干', 3);
+INSERT INTO series (id, name, count) VALUES ('king''s_raid', '国王的突袭', 3);
 INSERT INTO series (id, name, count) VALUES ('youjo_senki', '幼女战记', 3);
-INSERT INTO series (id, name, count) VALUES ('rabi-ribi', 'Rabi-ribi', 3);
-INSERT INTO series (id, name, count) VALUES ('asobi_ni_iku_yo!', 'Asobi Ni Iku Yo!', 3);
-INSERT INTO series (id, name, count) VALUES ('falkyrie_no_monshou', 'Falkyrie No Monshou', 3);
-INSERT INTO series (id, name, count) VALUES ('the_bible', 'The Bible', 3);
-INSERT INTO series (id, name, count) VALUES ('soukou_seiki_ysphere', 'Soukou Seiki Ysphere', 3);
-INSERT INTO series (id, name, count) VALUES ('warframe', 'Warframe', 3);
-INSERT INTO series (id, name, count) VALUES ('jinrui_wa_suitai_shimashita', 'Jinrui Wa Suitai Shimashita', 3);
-INSERT INTO series (id, name, count) VALUES ('darkstalkers', 'Darkstalkers', 3);
-INSERT INTO series (id, name, count) VALUES ('tatakau_ataisuru', 'Tatakau Ataisuru', 3);
-INSERT INTO series (id, name, count) VALUES ('koukaku_no_regios', 'Koukaku No Regios', 3);
-INSERT INTO series (id, name, count) VALUES ('aggressive_retsuko', 'Aggressive Retsuko', 3);
-INSERT INTO series (id, name, count) VALUES ('fearless_night', 'Fearless Night', 3);
-INSERT INTO series (id, name, count) VALUES ('strike_witches:_katayoku_no_majo-tachi', 'Strike Witches: Katayoku No Majo-tachi', 3);
-INSERT INTO series (id, name, count) VALUES ('dislyte', 'Dislyte', 3);
-INSERT INTO series (id, name, count) VALUES ('futsuu_no_keion-bu', 'Futsuu No Keion-bu', 3);
-INSERT INTO series (id, name, count) VALUES ('canvas_2', 'Canvas 2', 3);
-INSERT INTO series (id, name, count) VALUES ('hajimete_no_gal', 'Hajimete No Gal', 3);
-INSERT INTO series (id, name, count) VALUES ('mikagura_gakuen_kumikyoku', 'Mikagura Gakuen Kumikyoku', 3);
-INSERT INTO series (id, name, count) VALUES ('initial_d', 'Initial D', 3);
-INSERT INTO series (id, name, count) VALUES ('hissatsu_chikannin_2', 'Hissatsu Chikannin 2', 3);
-INSERT INTO series (id, name, count) VALUES ('mononoke', 'Mononoke', 3);
-INSERT INTO series (id, name, count) VALUES ('inari_konkon_koi_iroha.', 'Inari Konkon Koi Iroha.', 3);
-INSERT INTO series (id, name, count) VALUES ('samurai_champloo', 'Samurai Champloo', 3);
-INSERT INTO series (id, name, count) VALUES ('ore_no_kanojo_to_osananajimi_ga_shuraba_sugiru', 'Ore No Kanojo To Osananajimi Ga Shuraba Sugiru', 3);
-INSERT INTO series (id, name, count) VALUES ('m.u.g.e.n', 'M.u.g.e.n', 3);
-INSERT INTO series (id, name, count) VALUES ('metaphor:_refantazio', 'Metaphor: Refantazio', 3);
-INSERT INTO series (id, name, count) VALUES ('inazuma_eleven_go_galaxy', 'Inazuma Eleven Go Galaxy', 3);
-INSERT INTO series (id, name, count) VALUES ('sumaga', 'Sumaga', 3);
-INSERT INTO series (id, name, count) VALUES ('juusenki_l-gaim', 'Juusenki L-gaim', 3);
-INSERT INTO series (id, name, count) VALUES ('soul_cradle', 'Soul Cradle', 3);
-INSERT INTO series (id, name, count) VALUES ('fate/prototype', 'Fate/prototype', 3);
-INSERT INTO series (id, name, count) VALUES ('mushishi', 'Mushishi', 3);
-INSERT INTO series (id, name, count) VALUES ('camp_buddy', 'Camp Buddy', 3);
-INSERT INTO series (id, name, count) VALUES ('happy_saint_sheol', 'Happy Saint Sheol', 3);
+INSERT INTO series (id, name, count) VALUES ('rabi-ribi', '拉比鱼', 3);
+INSERT INTO series (id, name, count) VALUES ('asobi_ni_iku_yo!', '阿索比二育哟！', 3);
+INSERT INTO series (id, name, count) VALUES ('falkyrie_no_monshou', '法尔基里的文字', 3);
+INSERT INTO series (id, name, count) VALUES ('the_bible', '圣经', 3);
+INSERT INTO series (id, name, count) VALUES ('soukou_seiki_ysphere', '总工精机 Ysphere', 3);
+INSERT INTO series (id, name, count) VALUES ('warframe', '战甲神兵', 3);
+INSERT INTO series (id, name, count) VALUES ('jinrui_wa_suitai_shimashita', '岛下金瑞和穗大', 3);
+INSERT INTO series (id, name, count) VALUES ('darkstalkers', '黑暗行者', 3);
+INSERT INTO series (id, name, count) VALUES ('tatakau_ataisuru', '塔塔考·阿泰苏鲁', 3);
+INSERT INTO series (id, name, count) VALUES ('koukaku_no_regios', '光鹤之王', 3);
+INSERT INTO series (id, name, count) VALUES ('aggressive_retsuko', '侵略性烈子', 3);
+INSERT INTO series (id, name, count) VALUES ('fearless_night', '无畏之夜', 3);
+INSERT INTO series (id, name, count) VALUES ('strike_witches:_katayoku_no_majo-tachi', '强袭魔女：片状魔女太刀', 3);
+INSERT INTO series (id, name, count) VALUES ('dislyte', '迪斯利特', 3);
+INSERT INTO series (id, name, count) VALUES ('futsuu_no_keion-bu', '风之庆应部', 3);
+INSERT INTO series (id, name, count) VALUES ('canvas_2', '画布2', 3);
+INSERT INTO series (id, name, count) VALUES ('hajimete_no_gal', '始无伽', 3);
+INSERT INTO series (id, name, count) VALUES ('mikagura_gakuen_kumikyoku', '三神乐学园组曲', 3);
+INSERT INTO series (id, name, count) VALUES ('initial_d', '头文字D', 3);
+INSERT INTO series (id, name, count) VALUES ('hissatsu_chikannin_2', '必杀Chikannin 2', 3);
+INSERT INTO series (id, name, count) VALUES ('mononoke', '幽灵', 3);
+INSERT INTO series (id, name, count) VALUES ('inari_konkon_koi_iroha.', '稻荷工工鲤鱼伊吕波。', 3);
+INSERT INTO series (id, name, count) VALUES ('samurai_champloo', '武士Champloo', 3);
+INSERT INTO series (id, name, count) VALUES ('ore_no_kanojo_to_osananajimi_ga_shuraba_sugiru', '矿石之女与阿萨那纳吉米·舒拉巴·苏吉鲁', 3);
+INSERT INTO series (id, name, count) VALUES ('m.u.g.e.n', '穆根恩', 3);
+INSERT INTO series (id, name, count) VALUES ('metaphor:_refantazio', '隐喻：重新想象', 3);
+INSERT INTO series (id, name, count) VALUES ('inazuma_eleven_go_galaxy', '闪电十一人 Go 银河', 3);
+INSERT INTO series (id, name, count) VALUES ('sumaga', '快点', 3);
+INSERT INTO series (id, name, count) VALUES ('juusenki_l-gaim', '十战记L-gaim', 3);
+INSERT INTO series (id, name, count) VALUES ('soul_cradle', '灵魂摇篮', 3);
+INSERT INTO series (id, name, count) VALUES ('fate/prototype', '命运/原型', 3);
+INSERT INTO series (id, name, count) VALUES ('mushishi', '忙碌的', 3);
+INSERT INTO series (id, name, count) VALUES ('camp_buddy', '营友', 3);
+INSERT INTO series (id, name, count) VALUES ('happy_saint_sheol', '快乐的圣阴间', 3);
 INSERT INTO series (id, name, count) VALUES ('yuuryou_bukken_mou_dame_sou', 'Yuuryou Bukken Mou Dame Sou', 3);
-INSERT INTO series (id, name, count) VALUES ('anne_happy', 'Anne Happy', 3);
-INSERT INTO series (id, name, count) VALUES ('hanayori_jyoshiryou', 'Hanayori Jyoshiryou', 3);
-INSERT INTO series (id, name, count) VALUES ('barakamon', 'Barakamon', 3);
-INSERT INTO series (id, name, count) VALUES ('tactics', 'Tactics', 3);
-INSERT INTO series (id, name, count) VALUES ('harapeko_shoujo_to_tantei_to', 'Harapeko Shoujo To Tantei To', 3);
-INSERT INTO series (id, name, count) VALUES ('comic_party', 'Comic Party', 3);
-INSERT INTO series (id, name, count) VALUES ('vanguard_princess', 'Vanguard Princess', 3);
-INSERT INTO series (id, name, count) VALUES ('osomatsu-kun', 'Osomatsu-kun', 3);
-INSERT INTO series (id, name, count) VALUES ('saint_october', 'Saint October', 3);
-INSERT INTO series (id, name, count) VALUES ('golden_boy', 'Golden Boy', 3);
-INSERT INTO series (id, name, count) VALUES ('mad_rat_dead', 'Mad Rat Dead', 3);
-INSERT INTO series (id, name, count) VALUES ('amnesia_(idea_factory)', 'Amnesia (idea Factory)', 3);
-INSERT INTO series (id, name, count) VALUES ('high_score_girl', 'High Score Girl', 3);
-INSERT INTO series (id, name, count) VALUES ('harukana_receive', 'Harukana Receive', 3);
-INSERT INTO series (id, name, count) VALUES ('higanbana_no_saku_yoru_ni', 'Higanbana No Saku Yoru Ni', 3);
-INSERT INTO series (id, name, count) VALUES ('choujin_x', 'Choujin X', 3);
-INSERT INTO series (id, name, count) VALUES ('han''you_no_yashahime', 'Han''you No Yashahime', 3);
-INSERT INTO series (id, name, count) VALUES ('jinki', 'Jinki', 3);
-INSERT INTO series (id, name, count) VALUES ('hilda_(series)', 'Hilda', 3);
-INSERT INTO series (id, name, count) VALUES ('inou-battle_wa_nichijou-kei_no_naka_de', 'Inou-battle Wa Nichijou-kei No Naka De', 3);
+INSERT INTO series (id, name, count) VALUES ('anne_happy', '安妮·哈普', 3);
+INSERT INTO series (id, name, count) VALUES ('hanayori_jyoshiryou', '花赖城四郎', 3);
+INSERT INTO series (id, name, count) VALUES ('barakamon', '巴拉卡蒙', 3);
+INSERT INTO series (id, name, count) VALUES ('tactics', '策略', 3);
+INSERT INTO series (id, name, count) VALUES ('harapeko_shoujo_to_tantei_to', 'Harapeko 少女 To 探亭 To', 3);
+INSERT INTO series (id, name, count) VALUES ('comic_party', '漫画派对', 3);
+INSERT INTO series (id, name, count) VALUES ('vanguard_princess', '先锋公主', 3);
+INSERT INTO series (id, name, count) VALUES ('osomatsu-kun', '小松君', 3);
+INSERT INTO series (id, name, count) VALUES ('saint_october', '圣十月', 3);
+INSERT INTO series (id, name, count) VALUES ('golden_boy', '金童', 3);
+INSERT INTO series (id, name, count) VALUES ('mad_rat_dead', '疯鼠死了', 3);
+INSERT INTO series (id, name, count) VALUES ('amnesia_(idea_factory)', '失忆症（创意工厂）', 3);
+INSERT INTO series (id, name, count) VALUES ('high_score_girl', '高分女孩', 3);
+INSERT INTO series (id, name, count) VALUES ('harukana_receive', '遥假名接收', 3);
+INSERT INTO series (id, name, count) VALUES ('higanbana_no_saku_yoru_ni', '彼岸花之作夜二', 3);
+INSERT INTO series (id, name, count) VALUES ('choujin_x', '丑进X', 3);
+INSERT INTO series (id, name, count) VALUES ('han''you_no_yashahime', '半夜夜叉姬', 3);
+INSERT INTO series (id, name, count) VALUES ('jinki', '神器', 3);
+INSERT INTO series (id, name, count) VALUES ('hilda_(series)', '希尔达', 3);
+INSERT INTO series (id, name, count) VALUES ('inou-battle_wa_nichijou-kei_no_naka_de', '井能战斗和日常系中的', 3);
 INSERT INTO series (id, name, count) VALUES ('onii-chan_dakedo_ai_sae_areba_kankeinai_yo_ne', 'Onii-chan Dakedo Ai Sae Areba Kankeinai Yo Ne', 3);
-INSERT INTO series (id, name, count) VALUES ('eiyuu_senki', 'Eiyuu Senki', 3);
+INSERT INTO series (id, name, count) VALUES ('eiyuu_senki', '英勇战记', 3);
 INSERT INTO series (id, name, count) VALUES ('rikei_ga_koi_ni_ochita_no_de_shoumeishitemita', 'Rikei Ga Koi Ni Ochita No De Shoumeishitemita', 3);
-INSERT INTO series (id, name, count) VALUES ('ghost_sweeper_mikami', 'Ghost Sweeper Mikami', 3);
-INSERT INTO series (id, name, count) VALUES ('sabrina_to_muryoku_na_tamashii', 'Sabrina To Muryoku Na Tamashii', 3);
-INSERT INTO series (id, name, count) VALUES ('jaku-chara_tomozaki-kun', 'Jaku-chara Tomozaki-kun', 3);
-INSERT INTO series (id, name, count) VALUES ('gin_to_kin', 'Gin To Kin', 3);
-INSERT INTO series (id, name, count) VALUES ('torikissa!', 'Torikissa!', 3);
-INSERT INTO series (id, name, count) VALUES ('chibi_maruko-chan', 'Chibi Maruko-chan', 3);
-INSERT INTO series (id, name, count) VALUES ('asobi_asobase', 'Asobi Asobase', 3);
-INSERT INTO series (id, name, count) VALUES ('amakano', 'Amakano', 3);
-INSERT INTO series (id, name, count) VALUES ('gen''ei_wo_kakeru_taiyou', 'Gen''ei Wo Kakeru Taiyou', 3);
-INSERT INTO series (id, name, count) VALUES ('jigoku_sensei_nube', 'Jigoku Sensei Nube', 3);
-INSERT INTO series (id, name, count) VALUES ('howl''s_moving_castle_(novel)', 'Howl''s Moving Castle (novel)', 3);
-INSERT INTO series (id, name, count) VALUES ('kaze_no_klonoa', 'Kaze No Klonoa', 3);
-INSERT INTO series (id, name, count) VALUES ('xxxholic', 'Xxxholic', 3);
-INSERT INTO series (id, name, count) VALUES ('bakumatsu_rouman', 'Bakumatsu Rouman', 3);
-INSERT INTO series (id, name, count) VALUES ('gugure!_kokkuri-san', 'Gugure! Kokkuri-san', 3);
-INSERT INTO series (id, name, count) VALUES ('gatchaman_crowds', 'Gatchaman Crowds', 3);
-INSERT INTO series (id, name, count) VALUES ('amakano_~second_season~', 'Amakano ~second Season~', 3);
-INSERT INTO series (id, name, count) VALUES ('rail_wars!', 'Rail Wars!', 3);
-INSERT INTO series (id, name, count) VALUES ('kakyuusei', 'Kakyuusei', 3);
+INSERT INTO series (id, name, count) VALUES ('ghost_sweeper_mikami', '幽灵清扫者三上', 3);
+INSERT INTO series (id, name, count) VALUES ('sabrina_to_muryoku_na_tamashii', '萨布丽娜 与 武力 娜玉石', 3);
+INSERT INTO series (id, name, count) VALUES ('jaku-chara_tomozaki-kun', '寂寞友崎君', 3);
+INSERT INTO series (id, name, count) VALUES ('gin_to_kin', '金土金', 3);
+INSERT INTO series (id, name, count) VALUES ('torikissa!', '市场猫！', 3);
+INSERT INTO series (id, name, count) VALUES ('chibi_maruko-chan', '樱桃小丸子', 3);
+INSERT INTO series (id, name, count) VALUES ('asobi_asobase', '阿索比·阿索巴斯', 3);
+INSERT INTO series (id, name, count) VALUES ('amakano', '拒绝', 3);
+INSERT INTO series (id, name, count) VALUES ('gen''ei_wo_kakeru_taiyou', '幻影太阳', 3);
+INSERT INTO series (id, name, count) VALUES ('jigoku_sensei_nube', '地狱老师云部', 3);
+INSERT INTO series (id, name, count) VALUES ('howl''s_moving_castle_(novel)', '哈尔的移动城堡（小说）', 3);
+INSERT INTO series (id, name, count) VALUES ('kaze_no_klonoa', '风之克洛诺亚', 3);
+INSERT INTO series (id, name, count) VALUES ('xxxholic', 'xxx狂', 3);
+INSERT INTO series (id, name, count) VALUES ('bakumatsu_rouman', '幕末郎曼', 3);
+INSERT INTO series (id, name, count) VALUES ('gugure!_kokkuri-san', '古古雷！小栗山', 3);
+INSERT INTO series (id, name, count) VALUES ('gatchaman_crowds', '盖查曼人群', 3);
+INSERT INTO series (id, name, count) VALUES ('amakano_~second_season~', '天野～第二季～', 3);
+INSERT INTO series (id, name, count) VALUES ('rail_wars!', '铁路战争！', 3);
+INSERT INTO series (id, name, count) VALUES ('kakyuusei', '花久生', 3);
 INSERT INTO series (id, name, count) VALUES ('neeko_wa_tsurai_yo', 'Neeko Wa Tsurai Yo', 3);
-INSERT INTO series (id, name, count) VALUES ('flyable_heart', 'Flyable Heart', 3);
-INSERT INTO series (id, name, count) VALUES ('un-go', 'Un-go', 3);
-INSERT INTO series (id, name, count) VALUES ('code_vein', 'Code Vein', 3);
-INSERT INTO series (id, name, count) VALUES ('pronant_symphony', 'Pronant Symphony', 3);
-INSERT INTO series (id, name, count) VALUES ('phineas_and_ferb', 'Phineas And Ferb', 3);
+INSERT INTO series (id, name, count) VALUES ('flyable_heart', '飞翔的心', 3);
+INSERT INTO series (id, name, count) VALUES ('un-go', '取消', 3);
+INSERT INTO series (id, name, count) VALUES ('code_vein', '代码静脉', 3);
+INSERT INTO series (id, name, count) VALUES ('pronant_symphony', '前倾交响曲', 3);
+INSERT INTO series (id, name, count) VALUES ('phineas_and_ferb', '飞哥与小佛', 3);
 INSERT INTO series (id, name, count) VALUES ('ga-rei', '喰灵', 3);
-INSERT INTO series (id, name, count) VALUES ('skip_to_loafer', 'Skip To Loafer', 3);
-INSERT INTO series (id, name, count) VALUES ('kamisama_ni_natta_hi', 'Kamisama Ni Natta Hi', 3);
-INSERT INTO series (id, name, count) VALUES ('ghostblade', 'Ghostblade', 3);
-INSERT INTO series (id, name, count) VALUES ('monsters_inc.', 'Monsters Inc.', 3);
-INSERT INTO series (id, name, count) VALUES ('suicide_boy', 'Suicide Boy', 3);
+INSERT INTO series (id, name, count) VALUES ('skip_to_loafer', '跳到乐福鞋', 3);
+INSERT INTO series (id, name, count) VALUES ('kamisama_ni_natta_hi', 'Kamisama Ni Natta 嗨', 3);
+INSERT INTO series (id, name, count) VALUES ('ghostblade', '鬼刃', 3);
+INSERT INTO series (id, name, count) VALUES ('monsters_inc.', '怪物公司', 3);
+INSERT INTO series (id, name, count) VALUES ('suicide_boy', '自杀男孩', 3);
 INSERT INTO series (id, name, count) VALUES ('modao_zushi', 'Modao Zushi', 3);
 INSERT INTO series (id, name, count) VALUES ('majo_no_takkyuubin', '魔女宅急便', 3);
-INSERT INTO series (id, name, count) VALUES ('avatar:_the_last_airbender', 'Avatar: The Last Airbender', 3);
+INSERT INTO series (id, name, count) VALUES ('avatar:_the_last_airbender', '《降世神通：最后的气宗》', 3);
 INSERT INTO series (id, name, count) VALUES ('omamori_himari', '守护猫娘绯鞠', 3);
-INSERT INTO series (id, name, count) VALUES ('sarazanmai', 'Sarazanmai', 3);
-INSERT INTO series (id, name, count) VALUES ('toward_the_terra', 'Toward The Terra', 3);
-INSERT INTO series (id, name, count) VALUES ('the_evil_within', 'The Evil Within', 3);
-INSERT INTO series (id, name, count) VALUES ('denpa_teki_na_kanojo', 'Denpa Teki Na Kanojo', 3);
-INSERT INTO series (id, name, count) VALUES ('paripi_koumei', 'Paripi Koumei', 3);
-INSERT INTO series (id, name, count) VALUES ('decadence_(anime)', 'Decadence (anime)', 3);
-INSERT INTO series (id, name, count) VALUES ('akkun_to_kanojo', 'Akkun To Kanojo', 3);
-INSERT INTO series (id, name, count) VALUES ('witch_craft_works', 'Witch Craft Works', 3);
+INSERT INTO series (id, name, count) VALUES ('sarazanmai', '士兵', 3);
+INSERT INTO series (id, name, count) VALUES ('toward_the_terra', '走向泰拉', 3);
+INSERT INTO series (id, name, count) VALUES ('the_evil_within', '内心的邪恶', 3);
+INSERT INTO series (id, name, count) VALUES ('denpa_teki_na_kanojo', '电波铁那鹿城', 3);
+INSERT INTO series (id, name, count) VALUES ('paripi_koumei', '帕里比光明', 3);
+INSERT INTO series (id, name, count) VALUES ('decadence_(anime)', '颓废（动画）', 3);
+INSERT INTO series (id, name, count) VALUES ('akkun_to_kanojo', '阿坤与卡诺城', 3);
+INSERT INTO series (id, name, count) VALUES ('witch_craft_works', '女巫工艺品', 3);
 INSERT INTO series (id, name, count) VALUES ('.flow', '.flow梦日记派生', 3);
-INSERT INTO series (id, name, count) VALUES ('kashimashi', 'Kashimashi', 3);
-INSERT INTO series (id, name, count) VALUES ('urasekai_picnic', 'Urasekai Picnic', 3);
-INSERT INTO series (id, name, count) VALUES ('sisters_~natsu_no_saigo_no_hi~', 'Sisters ~natsu No Saigo No Hi~', 3);
-INSERT INTO series (id, name, count) VALUES ('zegapain', 'Zegapain', 3);
-INSERT INTO series (id, name, count) VALUES ('gakkou_de_seishun!', 'Gakkou De Seishun!', 3);
-INSERT INTO series (id, name, count) VALUES ('bunny_garden', 'Bunny Garden', 3);
-INSERT INTO series (id, name, count) VALUES ('kemeko_deluxe', 'Kemeko Deluxe', 3);
-INSERT INTO series (id, name, count) VALUES ('mushihime-sama', 'Mushihime-sama', 3);
-INSERT INTO series (id, name, count) VALUES ('no-rin', 'No-rin', 3);
-INSERT INTO series (id, name, count) VALUES ('takopii_no_genzai', 'Takopii No Genzai', 3);
-INSERT INTO series (id, name, count) VALUES ('mayoi_neko_overrun!', 'Mayoi Neko Overrun!', 3);
-INSERT INTO series (id, name, count) VALUES ('kin-iro_loveriche', 'Kin-iro Loveriche', 3);
-INSERT INTO series (id, name, count) VALUES ('engage_kiss', 'Engage Kiss', 3);
-INSERT INTO series (id, name, count) VALUES ('ubunchu!', 'Ubunchu!', 3);
-INSERT INTO series (id, name, count) VALUES ('after_(game)', 'After (game)', 3);
-INSERT INTO series (id, name, count) VALUES ('kamiina_botan_yoeru_sugata_wa_yuri_no_hana', 'Kamiina Botan Yoeru Sugata Wa Yuri No Hana', 3);
-INSERT INTO series (id, name, count) VALUES ('ueno-san_wa_bukiyou', 'Ueno-san Wa Bukiyou', 3);
-INSERT INTO series (id, name, count) VALUES ('daitoshokan_no_hitsujikai', 'Daitoshokan No Hitsujikai', 3);
-INSERT INTO series (id, name, count) VALUES ('girls_bravo', 'Girls Bravo', 3);
-INSERT INTO series (id, name, count) VALUES ('nurse_witch_komugi-chan', 'Nurse Witch Komugi-chan', 3);
-INSERT INTO series (id, name, count) VALUES ('cream_lemon', 'Cream Lemon', 3);
+INSERT INTO series (id, name, count) VALUES ('kashimashi', '鹿岛市', 3);
+INSERT INTO series (id, name, count) VALUES ('urasekai_picnic', '浦濑海野餐', 3);
+INSERT INTO series (id, name, count) VALUES ('sisters_~natsu_no_saigo_no_hi~', '姐妹们～夏之西乡之嗨～', 3);
+INSERT INTO series (id, name, count) VALUES ('zegapain', '泽加潘', 3);
+INSERT INTO series (id, name, count) VALUES ('gakkou_de_seishun!', '学工青春春！', 3);
+INSERT INTO series (id, name, count) VALUES ('bunny_garden', '兔子花园', 3);
+INSERT INTO series (id, name, count) VALUES ('kemeko_deluxe', '豪华箱', 3);
+INSERT INTO series (id, name, count) VALUES ('mushihime-sama', '虫姬大人', 3);
+INSERT INTO series (id, name, count) VALUES ('no-rin', '能轮', 3);
+INSERT INTO series (id, name, count) VALUES ('takopii_no_genzai', 'Takopii 的玄哉', 3);
+INSERT INTO series (id, name, count) VALUES ('mayoi_neko_overrun!', 'Mayoi Neko 超越！', 3);
+INSERT INTO series (id, name, count) VALUES ('kin-iro_loveriche', '金色洛夫里什', 3);
+INSERT INTO series (id, name, count) VALUES ('engage_kiss', '订婚之吻', 3);
+INSERT INTO series (id, name, count) VALUES ('ubunchu!', '乌本楚！', 3);
+INSERT INTO series (id, name, count) VALUES ('after_(game)', '之后（比赛）', 3);
+INSERT INTO series (id, name, count) VALUES ('kamiina_botan_yoeru_sugata_wa_yuri_no_hana', '神奈牡丹夜色菅田和百合花', 3);
+INSERT INTO series (id, name, count) VALUES ('ueno-san_wa_bukiyou', '上野山和武贵阳', 3);
+INSERT INTO series (id, name, count) VALUES ('daitoshokan_no_hitsujikai', '大东书馆之羊会', 3);
+INSERT INTO series (id, name, count) VALUES ('girls_bravo', '女孩们好极了', 3);
+INSERT INTO series (id, name, count) VALUES ('nurse_witch_komugi-chan', '护士魔女小麦', 3);
+INSERT INTO series (id, name, count) VALUES ('cream_lemon', '奶油柠檬', 3);
 INSERT INTO series (id, name, count) VALUES ('kyou_kara_ore_wa_loli_no_himo!', 'Kyou Kara Ore Wa Loli No Himo!', 3);
-INSERT INTO series (id, name, count) VALUES ('marumaru_no_shuyaku_wa_wareware_da!', 'Marumaru No Shuyaku Wa Wareware Da!', 3);
-INSERT INTO series (id, name, count) VALUES ('toki_wo_kakeru_shoujo', 'Toki Wo Kakeru Shoujo', 3);
-INSERT INTO series (id, name, count) VALUES ('gdgd_fairies', 'Gdgd Fairies', 3);
-INSERT INTO series (id, name, count) VALUES ('amaryllis_gumi', 'Amaryllis Gumi', 3);
-INSERT INTO series (id, name, count) VALUES ('otome_function', 'Otome Function', 3);
-INSERT INTO series (id, name, count) VALUES ('morenatsu', 'Morenatsu', 3);
+INSERT INTO series (id, name, count) VALUES ('marumaru_no_shuyaku_wa_wareware_da!', '丸丸之酒役和餐具 Da!', 3);
+INSERT INTO series (id, name, count) VALUES ('toki_wo_kakeru_shoujo', '时我轻浮少女', 3);
+INSERT INTO series (id, name, count) VALUES ('gdgd_fairies', 'Gdgd 妖精', 3);
+INSERT INTO series (id, name, count) VALUES ('amaryllis_gumi', '孤挺花龟尾', 3);
+INSERT INTO series (id, name, count) VALUES ('otome_function', '乙女功能', 3);
+INSERT INTO series (id, name, count) VALUES ('morenatsu', '莫夏', 3);
 INSERT INTO series (id, name, count) VALUES ('futari_wa_precure', '光之美少女', 3);
-INSERT INTO series (id, name, count) VALUES ('dokusen_yoku_ga_tsuyo_sugiru_yandere_kai_neko-chan', 'Dokusen Yoku Ga Tsuyo Sugiru Yandere Kai Neko-chan', 3);
-INSERT INTO series (id, name, count) VALUES ('kumatanchi', 'Kumatanchi', 3);
-INSERT INTO series (id, name, count) VALUES ('heartsync', 'Heartsync', 3);
-INSERT INTO series (id, name, count) VALUES ('kore_ga_watashi_no_goshujin-sama', 'Kore Ga Watashi No Goshujin-sama', 3);
-INSERT INTO series (id, name, count) VALUES ('aogiri_koukou', 'Aogiri Koukou', 3);
-INSERT INTO series (id, name, count) VALUES ('buddy_daddies', 'Buddy Daddies', 3);
-INSERT INTO series (id, name, count) VALUES ('fate/stay_night', 'Fate/stay Night', 3);
-INSERT INTO series (id, name, count) VALUES ('sumomomo_momomo', 'Sumomomo Momomo', 3);
-INSERT INTO series (id, name, count) VALUES ('sweethex', 'Sweethex', 3);
-INSERT INTO series (id, name, count) VALUES ('ordo_mediare_sisters_(ironlily)', 'Ordo Mediare Sisters (ironlily)', 3);
-INSERT INTO series (id, name, count) VALUES ('grandmaster_of_demonic_cultivation', 'Grandmaster Of Demonic Cultivation', 3);
-INSERT INTO series (id, name, count) VALUES ('kaleido_star', 'Kaleido Star', 3);
-INSERT INTO series (id, name, count) VALUES ('warzard', 'Warzard', 3);
-INSERT INTO series (id, name, count) VALUES ('namiuchigiwa_no_muromi-san', 'Namiuchigiwa No Muromi-san', 3);
-INSERT INTO series (id, name, count) VALUES ('elfen_lied', 'Elfen Lied', 3);
-INSERT INTO series (id, name, count) VALUES ('fortnite', 'Fortnite', 3);
-INSERT INTO series (id, name, count) VALUES ('koufuku_graffiti', 'Koufuku Graffiti', 3);
-INSERT INTO series (id, name, count) VALUES ('natsume_yuujinchou', 'Natsume Yuujinchou', 3);
-INSERT INTO series (id, name, count) VALUES ('akiba_maid_sensou', 'Akiba Maid Sensou', 3);
-INSERT INTO series (id, name, count) VALUES ('umi_monogatari', 'Umi Monogatari', 3);
-INSERT INTO series (id, name, count) VALUES ('dewprism', 'Dewprism', 3);
-INSERT INTO series (id, name, count) VALUES ('food_girls', 'Food Girls', 3);
-INSERT INTO series (id, name, count) VALUES ('hai_to_gensou_no_grimgar', 'Hai To Gensou No Grimgar', 3);
-INSERT INTO series (id, name, count) VALUES ('hinabita', 'Hinabita', 3);
-INSERT INTO series (id, name, count) VALUES ('prism_magical', 'Prism Magical', 3);
-INSERT INTO series (id, name, count) VALUES ('slow_loop', 'Slow Loop', 3);
-INSERT INTO series (id, name, count) VALUES ('ai_yori_aoshi', 'Ai Yori Aoshi', 3);
-INSERT INTO series (id, name, count) VALUES ('chou_shittou_caduceus', 'Chou Shittou Caduceus', 3);
-INSERT INTO series (id, name, count) VALUES ('pita_ten', 'Pita Ten', 3);
-INSERT INTO series (id, name, count) VALUES ('tari_tari', 'Tari Tari', 3);
-INSERT INTO series (id, name, count) VALUES ('kamisama_hajimemashita', 'Kamisama Hajimemashita', 3);
-INSERT INTO series (id, name, count) VALUES ('cafe_sourire', 'Cafe Sourire', 3);
-INSERT INTO series (id, name, count) VALUES ('tonari_no_kaibutsu-kun', 'Tonari No Kaibutsu-kun', 3);
-INSERT INTO series (id, name, count) VALUES ('natsuzuka-san_no_himitsu', 'Natsuzuka-san No Himitsu', 3);
-INSERT INTO series (id, name, count) VALUES ('caligula_(game)', 'Caligula (game)', 3);
-INSERT INTO series (id, name, count) VALUES ('murder_drones', 'Murder Drones', 3);
-INSERT INTO series (id, name, count) VALUES ('inukami!', 'Inukami!', 3);
+INSERT INTO series (id, name, count) VALUES ('dokusen_yoku_ga_tsuyo_sugiru_yandere_kai_neko-chan', '独仙妖气 苏世 杉 燕德雷 凯猫酱', 3);
+INSERT INTO series (id, name, count) VALUES ('kumatanchi', '你在哪里？', 3);
+INSERT INTO series (id, name, count) VALUES ('heartsync', '心同步', 3);
+INSERT INTO series (id, name, count) VALUES ('kore_ga_watashi_no_goshujin-sama', '是我渡的御主神大人', 3);
+INSERT INTO series (id, name, count) VALUES ('aogiri_koukou', '青桐幸工', 3);
+INSERT INTO series (id, name, count) VALUES ('buddy_daddies', '好友爸爸', 3);
+INSERT INTO series (id, name, count) VALUES ('fate/stay_night', '命运/停留之夜', 3);
+INSERT INTO series (id, name, count) VALUES ('sumomomo_momomo', '相扑桃桃', 3);
+INSERT INTO series (id, name, count) VALUES ('sweethex', '斯威泰克斯', 3);
+INSERT INTO series (id, name, count) VALUES ('ordo_mediare_sisters_(ironlily)', '梅迪亚雷姐妹会 (ironlily)', 3);
+INSERT INTO series (id, name, count) VALUES ('grandmaster_of_demonic_cultivation', '魔修宗师', 3);
+INSERT INTO series (id, name, count) VALUES ('kaleido_star', '万花星', 3);
+INSERT INTO series (id, name, count) VALUES ('warzard', '沃扎德', 3);
+INSERT INTO series (id, name, count) VALUES ('namiuchigiwa_no_muromi-san', '波内木室美小姐', 3);
+INSERT INTO series (id, name, count) VALUES ('elfen_lied', '精灵之歌', 3);
+INSERT INTO series (id, name, count) VALUES ('fortnite', '堡垒之夜', 3);
+INSERT INTO series (id, name, count) VALUES ('koufuku_graffiti', '幸福涂鸦', 3);
+INSERT INTO series (id, name, count) VALUES ('natsume_yuujinchou', '夏目友人帐', 3);
+INSERT INTO series (id, name, count) VALUES ('akiba_maid_sensou', '秋叶女仆浅草', 3);
+INSERT INTO series (id, name, count) VALUES ('umi_monogatari', '海物语', 3);
+INSERT INTO series (id, name, count) VALUES ('dewprism', '露棱镜', 3);
+INSERT INTO series (id, name, count) VALUES ('food_girls', '美食女孩', 3);
+INSERT INTO series (id, name, count) VALUES ('hai_to_gensou_no_grimgar', '海岛幻想的格林姆迦尔', 3);
+INSERT INTO series (id, name, count) VALUES ('hinabita', '受邀', 3);
+INSERT INTO series (id, name, count) VALUES ('prism_magical', '魔法棱镜', 3);
+INSERT INTO series (id, name, count) VALUES ('slow_loop', '慢循环', 3);
+INSERT INTO series (id, name, count) VALUES ('ai_yori_aoshi', '青依依爱', 3);
+INSERT INTO series (id, name, count) VALUES ('chou_shittou_caduceus', '臭屎杖', 3);
+INSERT INTO series (id, name, count) VALUES ('pita_ten', '皮塔饼十', 3);
+INSERT INTO series (id, name, count) VALUES ('tari_tari', '国家 国家', 3);
+INSERT INTO series (id, name, count) VALUES ('kamisama_hajimemashita', '神正元下', 3);
+INSERT INTO series (id, name, count) VALUES ('cafe_sourire', '微笑咖啡馆', 3);
+INSERT INTO series (id, name, count) VALUES ('tonari_no_kaibutsu-kun', '土成怪物君', 3);
+INSERT INTO series (id, name, count) VALUES ('natsuzuka-san_no_himitsu', '夏冢先生的秘密', 3);
+INSERT INTO series (id, name, count) VALUES ('caligula_(game)', '卡利古拉（游戏）', 3);
+INSERT INTO series (id, name, count) VALUES ('murder_drones', '谋杀无人机', 3);
+INSERT INTO series (id, name, count) VALUES ('inukami!', '犬上！', 3);
 INSERT INTO series (id, name, count) VALUES ('sewayaki_kitsune_no_senko-san', '贤惠幼妻仙狐小姐', 3);
 INSERT INTO series (id, name, count) VALUES ('yofukashi_no_uta', '彻夜之歌', 3);
-INSERT INTO series (id, name, count) VALUES ('no.6', 'No.6', 3);
-INSERT INTO series (id, name, count) VALUES ('mieruko-chan', 'Mieruko-chan', 3);
-INSERT INTO series (id, name, count) VALUES ('magus_tale', 'Magus Tale', 3);
-INSERT INTO series (id, name, count) VALUES ('iron_saga', 'Iron Saga', 3);
-INSERT INTO series (id, name, count) VALUES ('joshi_kousei', 'Joshi Kousei', 3);
-INSERT INTO series (id, name, count) VALUES ('full_service_(mazjojo)', 'Full Service (mazjojo)', 3);
-INSERT INTO series (id, name, count) VALUES ('hakuouki_shinsengumi_kitan', 'Hakuouki Shinsengumi Kitan', 3);
-INSERT INTO series (id, name, count) VALUES ('omega_sisters', 'Omega Sisters', 3);
-INSERT INTO series (id, name, count) VALUES ('oretachi_ni_tsubasa_wa_nai', 'Oretachi Ni Tsubasa Wa Nai', 3);
-INSERT INTO series (id, name, count) VALUES ('peter_pan', 'Peter Pan', 3);
-INSERT INTO series (id, name, count) VALUES ('snow_white_and_the_seven_dwarfs', 'Snow White And The Seven Dwarfs', 3);
-INSERT INTO series (id, name, count) VALUES ('sangokushi_taisen', 'Sangokushi Taisen', 3);
-INSERT INTO series (id, name, count) VALUES ('saiki_kusuo_no_psi_nan', 'Saiki Kusuo No Psi Nan', 3);
-INSERT INTO series (id, name, count) VALUES ('kakyuusei_2', 'Kakyuusei 2', 3);
-INSERT INTO series (id, name, count) VALUES ('choukou_sennin_haruka', 'Choukou Sennin Haruka', 3);
-INSERT INTO series (id, name, count) VALUES ('sunoharasou_no_kanrinin-san', 'Sunoharasou No Kanrinin-san', 3);
-INSERT INTO series (id, name, count) VALUES ('blue_reflection', 'Blue Reflection', 3);
-INSERT INTO series (id, name, count) VALUES ('neo_ranga', 'Neo Ranga', 3);
-INSERT INTO series (id, name, count) VALUES ('yuri_kuma_arashi', 'Yuri Kuma Arashi', 3);
-INSERT INTO series (id, name, count) VALUES ('wii_fit', 'Wii Fit', 3);
-INSERT INTO series (id, name, count) VALUES ('disneyland', 'Disneyland', 2);
-INSERT INTO series (id, name, count) VALUES ('ash_arms', 'Ash Arms', 2);
-INSERT INTO series (id, name, count) VALUES ('shiei_no_sona-nyl', 'Shiei No Sona-nyl', 2);
-INSERT INTO series (id, name, count) VALUES ('cyphers', 'Cyphers', 2);
-INSERT INTO series (id, name, count) VALUES ('kuso_miso_technique', 'Kuso Miso Technique', 2);
-INSERT INTO series (id, name, count) VALUES ('project_a.d.a.', 'Project A.d.a.', 2);
-INSERT INTO series (id, name, count) VALUES ('adachi_to_shimamura', 'Adachi To Shimamura', 2);
-INSERT INTO series (id, name, count) VALUES ('the_raven_cycle', 'The Raven Cycle', 2);
-INSERT INTO series (id, name, count) VALUES ('rental_magica', 'Rental Magica', 2);
-INSERT INTO series (id, name, count) VALUES ('choujigen_game_neptune', 'Choujigen Game Neptune', 2);
-INSERT INTO series (id, name, count) VALUES ('mission_impossible_(bkub)', 'Mission Impossible (bkub)', 2);
-INSERT INTO series (id, name, count) VALUES ('the_addams_family', 'The Addams Family', 2);
-INSERT INTO series (id, name, count) VALUES ('coca-cola', 'Coca-cola', 2);
-INSERT INTO series (id, name, count) VALUES ('re:lief_~shin''ai_naru_anata_e~', 'Re:lief ~shin''ai Naru Anata E~', 2);
-INSERT INTO series (id, name, count) VALUES ('mahou_tsukai_tai!', 'Mahou Tsukai Tai!', 2);
-INSERT INTO series (id, name, count) VALUES ('juuni_taisen', 'Juuni Taisen', 2);
-INSERT INTO series (id, name, count) VALUES ('alice_or_alice', 'Alice Or Alice', 2);
-INSERT INTO series (id, name, count) VALUES ('outlaw_star', 'Outlaw Star', 2);
-INSERT INTO series (id, name, count) VALUES ('slime_taoshite_300_nen_shiranai_uchi_ni_level_max_ni_nattemashita', 'Slime Taoshite 300 Nen Shiranai Uchi Ni Level Max Ni Nattemashita', 2);
-INSERT INTO series (id, name, count) VALUES ('internet_explorer', 'Internet Explorer', 2);
-INSERT INTO series (id, name, count) VALUES ('b-project', 'B-project', 2);
-INSERT INTO series (id, name, count) VALUES ('indivisible', 'Indivisible', 2);
-INSERT INTO series (id, name, count) VALUES ('akemiho_tabi_nikki', 'Akemiho Tabi Nikki', 2);
-INSERT INTO series (id, name, count) VALUES ('uni_create', 'Uni Create', 2);
-INSERT INTO series (id, name, count) VALUES ('hoshikuzu_telepath', 'Hoshikuzu Telepath', 2);
+INSERT INTO series (id, name, count) VALUES ('no.6', '6号', 3);
+INSERT INTO series (id, name, count) VALUES ('mieruko-chan', 'Mieruko酱', 3);
+INSERT INTO series (id, name, count) VALUES ('magus_tale', '甜蜜的故事', 3);
+INSERT INTO series (id, name, count) VALUES ('iron_saga', '钢铁传奇', 3);
+INSERT INTO series (id, name, count) VALUES ('joshi_kousei', '乔志公生', 3);
+INSERT INTO series (id, name, count) VALUES ('full_service_(mazjojo)', '全方位服务（mazjojo）', 3);
+INSERT INTO series (id, name, count) VALUES ('hakuouki_shinsengumi_kitan', '薄樱鬼新选组奇谭', 3);
+INSERT INTO series (id, name, count) VALUES ('omega_sisters', '欧米茄姐妹', 3);
+INSERT INTO series (id, name, count) VALUES ('oretachi_ni_tsubasa_wa_nai', '吾之翼和乃', 3);
+INSERT INTO series (id, name, count) VALUES ('peter_pan', '彼得·潘', 3);
+INSERT INTO series (id, name, count) VALUES ('snow_white_and_the_seven_dwarfs', '白雪公主和七个小矮人', 3);
+INSERT INTO series (id, name, count) VALUES ('sangokushi_taisen', '三国紫大战', 3);
+INSERT INTO series (id, name, count) VALUES ('saiki_kusuo_no_psi_nan', '齐木楠男', 3);
+INSERT INTO series (id, name, count) VALUES ('kakyuusei_2', '花九星2', 3);
+INSERT INTO series (id, name, count) VALUES ('choukou_sennin_haruka', '超强仙人遥', 3);
+INSERT INTO series (id, name, count) VALUES ('sunoharasou_no_kanrinin-san', '须之原庄的观林人桑', 3);
+INSERT INTO series (id, name, count) VALUES ('blue_reflection', '蓝色反射', 3);
+INSERT INTO series (id, name, count) VALUES ('neo_ranga', '尼奥兰加', 3);
+INSERT INTO series (id, name, count) VALUES ('yuri_kuma_arashi', '熊由里·岚', 3);
+INSERT INTO series (id, name, count) VALUES ('wii_fit', 'Wii 健身', 3);
+INSERT INTO series (id, name, count) VALUES ('disneyland', '迪士尼乐园', 2);
+INSERT INTO series (id, name, count) VALUES ('ash_arms', '阿什阿姆斯', 2);
+INSERT INTO series (id, name, count) VALUES ('shiei_no_sona-nyl', '诗荣之索奈尔', 2);
+INSERT INTO series (id, name, count) VALUES ('cyphers', '密码', 2);
+INSERT INTO series (id, name, count) VALUES ('kuso_miso_technique', '面膜技术', 2);
+INSERT INTO series (id, name, count) VALUES ('project_a.d.a.', 'A.d.a 项目', 2);
+INSERT INTO series (id, name, count) VALUES ('adachi_to_shimamura', '足达至岛村', 2);
+INSERT INTO series (id, name, count) VALUES ('the_raven_cycle', '乌鸦周期', 2);
+INSERT INTO series (id, name, count) VALUES ('rental_magica', '出租魔法师', 2);
+INSERT INTO series (id, name, count) VALUES ('choujigen_game_neptune', '超次元游戏海王星', 2);
+INSERT INTO series (id, name, count) VALUES ('mission_impossible_(bkub)', '不可能的任务 (bkub)', 2);
+INSERT INTO series (id, name, count) VALUES ('the_addams_family', '亚当斯一家', 2);
+INSERT INTO series (id, name, count) VALUES ('coca-cola', '可口可乐', 2);
+INSERT INTO series (id, name, count) VALUES ('re:lief_~shin''ai_naru_anata_e~', 'Re:lief ～心爱鸣 Anata E～', 2);
+INSERT INTO series (id, name, count) VALUES ('mahou_tsukai_tai!', '魔法使太！', 2);
+INSERT INTO series (id, name, count) VALUES ('juuni_taisen', '十二大战', 2);
+INSERT INTO series (id, name, count) VALUES ('alice_or_alice', '爱丽丝还是爱丽丝', 2);
+INSERT INTO series (id, name, count) VALUES ('outlaw_star', '亡命之徒之星', 2);
+INSERT INTO series (id, name, count) VALUES ('slime_taoshite_300_nen_shiranai_uchi_ni_level_max_ni_nattemashita', '史莱姆陶石 300 Nen Shiranai Uchi Ni Level Max Ni Nattemashita', 2);
+INSERT INTO series (id, name, count) VALUES ('internet_explorer', '互联网浏览器', 2);
+INSERT INTO series (id, name, count) VALUES ('b-project', 'B项目', 2);
+INSERT INTO series (id, name, count) VALUES ('indivisible', '不可分割', 2);
+INSERT INTO series (id, name, count) VALUES ('akemiho_tabi_nikki', '明美保旅日记', 2);
+INSERT INTO series (id, name, count) VALUES ('uni_create', '优创', 2);
+INSERT INTO series (id, name, count) VALUES ('hoshikuzu_telepath', '星葛心灵感应者', 2);
 INSERT INTO series (id, name, count) VALUES ('cool_na_megamisama_to_issho_ni_sundara_amayakashisugite_ponkotsu_ni_shiteshimatta_ken_ni_tsuite', 'Cool Na Megamisama To Issho Ni Sundara Amayakashisugite Ponkotsu Ni Shiteshimatta Ken Ni Tsuite', 2);
-INSERT INTO series (id, name, count) VALUES ('kochikame', 'Kochikame', 2);
-INSERT INTO series (id, name, count) VALUES ('togainu_no_chi', 'Togainu No Chi', 2);
-INSERT INTO series (id, name, count) VALUES ('shin_sekai_yori', 'Shin Sekai Yori', 2);
-INSERT INTO series (id, name, count) VALUES ('samurai_jack', 'Samurai Jack', 2);
-INSERT INTO series (id, name, count) VALUES ('veil_(manga)', 'Veil (manga)', 2);
-INSERT INTO series (id, name, count) VALUES ('crusher_joe', 'Crusher Joe', 2);
-INSERT INTO series (id, name, count) VALUES ('garo:honoo_no_kokuin', 'Garo:honoo No Kokuin', 2);
-INSERT INTO series (id, name, count) VALUES ('criminal_girls', 'Criminal Girls', 2);
+INSERT INTO series (id, name, count) VALUES ('kochikame', '小近龟', 2);
+INSERT INTO series (id, name, count) VALUES ('togainu_no_chi', '东海犬之志', 2);
+INSERT INTO series (id, name, count) VALUES ('shin_sekai_yori', '新世界赖', 2);
+INSERT INTO series (id, name, count) VALUES ('samurai_jack', '武士杰克', 2);
+INSERT INTO series (id, name, count) VALUES ('veil_(manga)', '头纱（袖）', 2);
+INSERT INTO series (id, name, count) VALUES ('crusher_joe', '破碎机乔', 2);
+INSERT INTO series (id, name, count) VALUES ('garo:honoo_no_kokuin', '伽罗:本王之国院', 2);
+INSERT INTO series (id, name, count) VALUES ('criminal_girls', '犯罪女孩', 2);
 INSERT INTO series (id, name, count) VALUES ('ikoku_meiro_no_croisee', 'Ikoku Meiro No Croisee', 2);
-INSERT INTO series (id, name, count) VALUES ('pumpkin_scissors', 'Pumpkin Scissors', 2);
-INSERT INTO series (id, name, count) VALUES ('shinigami_bocchan_to_kuro_maid', 'Shinigami Bocchan To Kuro Maid', 2);
-INSERT INTO series (id, name, count) VALUES ('magical_halloween', 'Magical Halloween', 2);
-INSERT INTO series (id, name, count) VALUES ('little_tail_bronx', 'Little Tail Bronx', 2);
-INSERT INTO series (id, name, count) VALUES ('dungeon_travelers_2', 'Dungeon Travelers 2', 2);
+INSERT INTO series (id, name, count) VALUES ('pumpkin_scissors', '南瓜剪刀', 2);
+INSERT INTO series (id, name, count) VALUES ('shinigami_bocchan_to_kuro_maid', '死神少爷与黑女仆', 2);
+INSERT INTO series (id, name, count) VALUES ('magical_halloween', '魔法万圣节', 2);
+INSERT INTO series (id, name, count) VALUES ('little_tail_bronx', '小尾巴布朗克斯', 2);
+INSERT INTO series (id, name, count) VALUES ('dungeon_travelers_2', '地下城旅人2', 2);
 INSERT INTO series (id, name, count) VALUES ('dekoboko_majo_no_oyako_jijou', 'Dekoboko Majo No Oyako Jijou', 2);
-INSERT INTO series (id, name, count) VALUES ('coefont', 'Coefont', 2);
+INSERT INTO series (id, name, count) VALUES ('coefont', '科丰特', 2);
 INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_site', 'Mahou Shoujo Site', 2);
-INSERT INTO series (id, name, count) VALUES ('2.5_jigen_no_ririsa', '2.5 Jigen No Ririsa', 2);
+INSERT INTO series (id, name, count) VALUES ('2.5_jigen_no_ririsa', '2.5 次元之莉莉莎', 2);
 INSERT INTO series (id, name, count) VALUES ('tonari_no_seki_no_inkya_joshi_ga_oshi_utaite_datta_~ore_no_kyoku_wo_utatte_kure!~', 'Tonari No Seki No Inkya Joshi Ga Oshi Utaite Datta ~ore No Kyoku Wo Utatte Kure!~', 2);
-INSERT INTO series (id, name, count) VALUES ('asadoke_no_majo', 'Asadoke No Majo', 2);
-INSERT INTO series (id, name, count) VALUES ('kumamiko', 'Kumamiko', 2);
-INSERT INTO series (id, name, count) VALUES ('amiami_(company)', 'Amiami (company)', 2);
-INSERT INTO series (id, name, count) VALUES ('otoyomegatari', 'Otoyomegatari', 2);
-INSERT INTO series (id, name, count) VALUES ('doubutsu_sentai_zyuohger', 'Doubutsu Sentai Zyuohger', 2);
-INSERT INTO series (id, name, count) VALUES ('shadow_hearts_ii', 'Shadow Hearts Ii', 2);
-INSERT INTO series (id, name, count) VALUES ('versailles_no_bara', 'Versailles No Bara', 2);
-INSERT INTO series (id, name, count) VALUES ('the_ghost_and_molly_mcgee', 'The Ghost And Molly Mcgee', 2);
-INSERT INTO series (id, name, count) VALUES ('undead_unluck', 'Undead Unluck', 2);
-INSERT INTO series (id, name, count) VALUES ('rakuen_tsuihou', 'Rakuen Tsuihou', 2);
-INSERT INTO series (id, name, count) VALUES ('katahane', 'Katahane', 2);
-INSERT INTO series (id, name, count) VALUES ('shuuen_no_virche', 'Shuuen No Virche', 2);
-INSERT INTO series (id, name, count) VALUES ('gekkou_no_carnevale', 'Gekkou No Carnevale', 2);
-INSERT INTO series (id, name, count) VALUES ('omoide_no_marnie', 'Omoide No Marnie', 2);
-INSERT INTO series (id, name, count) VALUES ('spy_kyoushitsu', 'Spy Kyoushitsu', 2);
-INSERT INTO series (id, name, count) VALUES ('okujou_no_yurirei-san', 'Okujou No Yurirei-san', 2);
+INSERT INTO series (id, name, count) VALUES ('asadoke_no_majo', '麻辣魔女', 2);
+INSERT INTO series (id, name, count) VALUES ('kumamiko', '久美子', 2);
+INSERT INTO series (id, name, count) VALUES ('amiami_(company)', '迈阿密（公司）', 2);
+INSERT INTO series (id, name, count) VALUES ('otoyomegatari', '乙丰', 2);
+INSERT INTO series (id, name, count) VALUES ('doubutsu_sentai_zyuohger', '动物战队Zyuohger', 2);
+INSERT INTO series (id, name, count) VALUES ('shadow_hearts_ii', '暗影之心II', 2);
+INSERT INTO series (id, name, count) VALUES ('versailles_no_bara', '凡尔赛宫无巴拉', 2);
+INSERT INTO series (id, name, count) VALUES ('the_ghost_and_molly_mcgee', '幽灵与莫莉·麦吉', 2);
+INSERT INTO series (id, name, count) VALUES ('undead_unluck', '不死族倒霉', 2);
+INSERT INTO series (id, name, count) VALUES ('rakuen_tsuihou', '乐园翠凤', 2);
+INSERT INTO series (id, name, count) VALUES ('katahane', '片羽', 2);
+INSERT INTO series (id, name, count) VALUES ('shuuen_no_virche', '修园之女', 2);
+INSERT INTO series (id, name, count) VALUES ('gekkou_no_carnevale', '月光狂欢节', 2);
+INSERT INTO series (id, name, count) VALUES ('omoide_no_marnie', '思出玛妮', 2);
+INSERT INTO series (id, name, count) VALUES ('spy_kyoushitsu', '间谍共事', 2);
+INSERT INTO series (id, name, count) VALUES ('okujou_no_yurirei-san', '奥城的百合礼桑', 2);
 INSERT INTO series (id, name, count) VALUES ('anpanman', 'Anpanman', 2);
-INSERT INTO series (id, name, count) VALUES ('xxl_woofia', 'Xxl Woofia', 2);
-INSERT INTO series (id, name, count) VALUES ('aoba_project', 'Aoba Project', 2);
-INSERT INTO series (id, name, count) VALUES ('senpai_wa_otokonoko', 'Senpai Wa Otokonoko', 2);
-INSERT INTO series (id, name, count) VALUES ('ushio_to_tora', 'Ushio To Tora', 2);
-INSERT INTO series (id, name, count) VALUES ('penguin_highway', 'Penguin Highway', 2);
-INSERT INTO series (id, name, count) VALUES ('himitsu_no_aipri', 'Himitsu No Aipri', 2);
-INSERT INTO series (id, name, count) VALUES ('semelparous', 'Semelparous', 2);
-INSERT INTO series (id, name, count) VALUES ('hyrule_warriors:_age_of_imprisonment', 'Hyrule Warriors: Age Of Imprisonment', 2);
-INSERT INTO series (id, name, count) VALUES ('vampeerz', 'Vampeerz', 2);
-INSERT INTO series (id, name, count) VALUES ('shoujo_mahou_gaku_littlewitch_romanesque', 'Shoujo Mahou Gaku Littlewitch Romanesque', 2);
+INSERT INTO series (id, name, count) VALUES ('xxl_woofia', 'XXL 伍菲亚', 2);
+INSERT INTO series (id, name, count) VALUES ('aoba_project', '青叶项目', 2);
+INSERT INTO series (id, name, count) VALUES ('senpai_wa_otokonoko', '和男前辈', 2);
+INSERT INTO series (id, name, count) VALUES ('ushio_to_tora', '潮与虎', 2);
+INSERT INTO series (id, name, count) VALUES ('penguin_highway', '企鹅公路', 2);
+INSERT INTO series (id, name, count) VALUES ('himitsu_no_aipri', '秘密相爱', 2);
+INSERT INTO series (id, name, count) VALUES ('semelparous', '生育期', 2);
+INSERT INTO series (id, name, count) VALUES ('hyrule_warriors:_age_of_imprisonment', '海拉尔勇士：囚禁时代', 2);
+INSERT INTO series (id, name, count) VALUES ('vampeerz', '吸血鬼', 2);
+INSERT INTO series (id, name, count) VALUES ('shoujo_mahou_gaku_littlewitch_romanesque', '少女魔法学 小魔女 罗马式', 2);
 INSERT INTO series (id, name, count) VALUES ('kono_yuusha_ga_ore_tueee_kuse_ni_shinchou_sugiru', 'Kono Yuusha Ga Ore Tueee Kuse Ni Shinchou Sugiru', 2);
-INSERT INTO series (id, name, count) VALUES ('virtual_ant_channel', 'Virtual Ant Channel', 2);
-INSERT INTO series (id, name, count) VALUES ('sazanami_no_shoujo-tachi', 'Sazanami No Shoujo-tachi', 2);
-INSERT INTO series (id, name, count) VALUES ('shigatsu_wa_kimi_no_uso', 'Shigatsu Wa Kimi No Uso', 2);
-INSERT INTO series (id, name, count) VALUES ('kareshi_kanojo_no_jijou', 'Kareshi Kanojo No Jijou', 2);
-INSERT INTO series (id, name, count) VALUES ('tona-gura!', 'Tona-gura!', 2);
-INSERT INTO series (id, name, count) VALUES ('dragon''s_dogma', 'Dragon''s Dogma', 2);
-INSERT INTO series (id, name, count) VALUES ('namco_x_capcom', 'Namco X Capcom', 2);
-INSERT INTO series (id, name, count) VALUES ('pixel_maritan', 'Pixel Maritan', 2);
-INSERT INTO series (id, name, count) VALUES ('yoru_no_nai_kuni', 'Yoru No Nai Kuni', 2);
-INSERT INTO series (id, name, count) VALUES ('terminator_(series)', 'Terminator', 2);
-INSERT INTO series (id, name, count) VALUES ('karigurashi_no_arrietty', 'Karigurashi No Arrietty', 2);
-INSERT INTO series (id, name, count) VALUES ('junketsu_no_maria', 'Junketsu No Maria', 2);
-INSERT INTO series (id, name, count) VALUES ('pathologic', 'Pathologic', 2);
-INSERT INTO series (id, name, count) VALUES ('sinsekai_studio', 'Sinsekai Studio', 2);
-INSERT INTO series (id, name, count) VALUES ('brigadoon', 'Brigadoon', 2);
-INSERT INTO series (id, name, count) VALUES ('from_argonavis', 'From Argonavis', 2);
-INSERT INTO series (id, name, count) VALUES ('t-rex_na_kanojo', 'T-rex Na Kanojo', 2);
+INSERT INTO series (id, name, count) VALUES ('virtual_ant_channel', '虚拟蚂蚁频道', 2);
+INSERT INTO series (id, name, count) VALUES ('sazanami_no_shoujo-tachi', '狭波少女太刀', 2);
+INSERT INTO series (id, name, count) VALUES ('shigatsu_wa_kimi_no_uso', '志贺和你的乌苏', 2);
+INSERT INTO series (id, name, count) VALUES ('kareshi_kanojo_no_jijou', 'Kareshi Kanojo 的地方', 2);
+INSERT INTO series (id, name, count) VALUES ('tona-gura!', '托纳古拉！', 2);
+INSERT INTO series (id, name, count) VALUES ('dragon''s_dogma', '龙之教条', 2);
+INSERT INTO series (id, name, count) VALUES ('namco_x_capcom', '南梦宫 X 卡普空', 2);
+INSERT INTO series (id, name, count) VALUES ('pixel_maritan', '像素玛丽坦', 2);
+INSERT INTO series (id, name, count) VALUES ('yoru_no_nai_kuni', '夜之内国', 2);
+INSERT INTO series (id, name, count) VALUES ('terminator_(series)', '终结者', 2);
+INSERT INTO series (id, name, count) VALUES ('karigurashi_no_arrietty', '鸟群的阿莉埃蒂', 2);
+INSERT INTO series (id, name, count) VALUES ('junketsu_no_maria', '纯结之玛丽亚', 2);
+INSERT INTO series (id, name, count) VALUES ('pathologic', '病理学', 2);
+INSERT INTO series (id, name, count) VALUES ('sinsekai_studio', '新世界工作室', 2);
+INSERT INTO series (id, name, count) VALUES ('brigadoon', '旅', 2);
+INSERT INTO series (id, name, count) VALUES ('from_argonavis', '来自阿尔戈纳维斯', 2);
+INSERT INTO series (id, name, count) VALUES ('t-rex_na_kanojo', '霸王龙 Na Kanojo', 2);
 INSERT INTO series (id, name, count) VALUES ('kyou_wa_kanojo_ga_inai_kara', 'Kyou Wa Kanojo Ga Inai Kara', 2);
-INSERT INTO series (id, name, count) VALUES ('kimi_to_tsuzuru_utakata', 'Kimi To Tsuzuru Utakata', 2);
-INSERT INTO series (id, name, count) VALUES ('ishida_to_asakura', 'Ishida To Asakura', 2);
-INSERT INTO series (id, name, count) VALUES ('hajimete_no_oisha-san', 'Hajimete No Oisha-san', 2);
-INSERT INTO series (id, name, count) VALUES ('lyrical_lyric', 'Lyrical Lyric', 2);
-INSERT INTO series (id, name, count) VALUES ('trinity_seven', 'Trinity Seven', 2);
-INSERT INTO series (id, name, count) VALUES ('gimai_seikatsu', 'Gimai Seikatsu', 2);
-INSERT INTO series (id, name, count) VALUES ('kiddy_girl-and', 'Kiddy Girl-and', 2);
-INSERT INTO series (id, name, count) VALUES ('banana_fish', 'Banana Fish', 2);
-INSERT INTO series (id, name, count) VALUES ('monster_world', 'Monster World', 2);
-INSERT INTO series (id, name, count) VALUES ('harukanaru_toki_no_naka_de', 'Harukanaru Toki No Naka De', 2);
-INSERT INTO series (id, name, count) VALUES ('choujikuu_kidan_southern_cross', 'Choujikuu Kidan Southern Cross', 2);
+INSERT INTO series (id, name, count) VALUES ('kimi_to_tsuzuru_utakata', '歌田君都', 2);
+INSERT INTO series (id, name, count) VALUES ('ishida_to_asakura', '石田到朝仓', 2);
+INSERT INTO series (id, name, count) VALUES ('hajimete_no_oisha-san', '始之奥伊莎桑', 2);
+INSERT INTO series (id, name, count) VALUES ('lyrical_lyric', '抒情抒情', 2);
+INSERT INTO series (id, name, count) VALUES ('trinity_seven', '三一七', 2);
+INSERT INTO series (id, name, count) VALUES ('gimai_seikatsu', '仪舞生活', 2);
+INSERT INTO series (id, name, count) VALUES ('kiddy_girl-and', '基迪女孩和', 2);
+INSERT INTO series (id, name, count) VALUES ('banana_fish', '香蕉鱼', 2);
+INSERT INTO series (id, name, count) VALUES ('monster_world', '怪物世界', 2);
+INSERT INTO series (id, name, count) VALUES ('harukanaru_toki_no_naka_de', '遥之时之中的', 2);
+INSERT INTO series (id, name, count) VALUES ('choujikuu_kidan_southern_cross', '町久木团南十字星', 2);
 INSERT INTO series (id, name, count) VALUES ('gachimuchi_de_dosukebe_na_kateikyoushi_no_oniisan_to_sugosu_natsu', 'Gachimuchi De Dosukebe Na Kateikyoushi No Oniisan To Sugosu Natsu', 2);
-INSERT INTO series (id, name, count) VALUES ('isekai_maou_gokko', 'Isekai Maou Gokko', 2);
-INSERT INTO series (id, name, count) VALUES ('oneechanbara', 'Oneechanbara', 2);
-INSERT INTO series (id, name, count) VALUES ('greaseberries', 'Greaseberries', 2);
-INSERT INTO series (id, name, count) VALUES ('kimagure_orange_road', 'Kimagure Orange Road', 2);
-INSERT INTO series (id, name, count) VALUES ('basquash!', 'Basquash!', 2);
-INSERT INTO series (id, name, count) VALUES ('good_omens', 'Good Omens', 2);
-INSERT INTO series (id, name, count) VALUES ('kuso_zako_choroin_nishiga_hachi', 'Kuso Zako Choroin Nishiga Hachi', 2);
-INSERT INTO series (id, name, count) VALUES ('yakitate!!_japan', 'Yakitate!! Japan', 2);
-INSERT INTO series (id, name, count) VALUES ('incubus_series_(sekiya_asami)', 'Incubus Series (sekiya Asami)', 2);
-INSERT INTO series (id, name, count) VALUES ('angry_birds', 'Angry Birds', 2);
-INSERT INTO series (id, name, count) VALUES ('celeste_(video_game)', 'Celeste (video Game)', 2);
-INSERT INTO series (id, name, count) VALUES ('i_became_a_god_in_a_horror_game', 'I Became A God In A Horror Game', 2);
+INSERT INTO series (id, name, count) VALUES ('isekai_maou_gokko', '异世界魔王五甲', 2);
+INSERT INTO series (id, name, count) VALUES ('oneechanbara', '御姐原', 2);
+INSERT INTO series (id, name, count) VALUES ('greaseberries', '油莓', 2);
+INSERT INTO series (id, name, count) VALUES ('kimagure_orange_road', '金马格雷橙色路', 2);
+INSERT INTO series (id, name, count) VALUES ('basquash!', '巴斯奎什！', 2);
+INSERT INTO series (id, name, count) VALUES ('good_omens', '好兆头', 2);
+INSERT INTO series (id, name, count) VALUES ('kuso_zako_choroin_nishiga_hachi', '草草扎子合唱团西贺八', 2);
+INSERT INTO series (id, name, count) VALUES ('yakitate!!_japan', '烤馆！！日本', 2);
+INSERT INTO series (id, name, count) VALUES ('incubus_series_(sekiya_asami)', '梦魇系列（关谷麻美）', 2);
+INSERT INTO series (id, name, count) VALUES ('angry_birds', '愤怒的小鸟', 2);
+INSERT INTO series (id, name, count) VALUES ('celeste_(video_game)', '塞莱斯特（电子游戏）', 2);
+INSERT INTO series (id, name, count) VALUES ('i_became_a_god_in_a_horror_game', '我在恐怖游戏中成为了上帝', 2);
 INSERT INTO series (id, name, count) VALUES ('zhu_xian', 'Zhu Xian', 2);
-INSERT INTO series (id, name, count) VALUES ('banjo-kazooie', 'Banjo-kazooie', 2);
-INSERT INTO series (id, name, count) VALUES ('barbie_(franchise)', 'Barbie (franchise)', 2);
-INSERT INTO series (id, name, count) VALUES ('asgard', 'Asgard', 2);
-INSERT INTO series (id, name, count) VALUES ('beauty_and_the_beast', 'Beauty And The Beast', 2);
-INSERT INTO series (id, name, count) VALUES ('zom_100:_zombie_ni_naru_made_ni_shitai_100_no_koto', 'Zom 100: Zombie Ni Naru Made Ni Shitai 100 No Koto', 2);
-INSERT INTO series (id, name, count) VALUES ('kill_bill', 'Kill Bill', 2);
-INSERT INTO series (id, name, count) VALUES ('honkai:_nexus_anima', 'Honkai: Nexus Anima', 2);
-INSERT INTO series (id, name, count) VALUES ('bee_and_puppycat', 'Bee And Puppycat', 2);
-INSERT INTO series (id, name, count) VALUES ('luvdia', 'Luvdia', 2);
-INSERT INTO series (id, name, count) VALUES ('kfc', 'Kfc', 2);
-INSERT INTO series (id, name, count) VALUES ('usotsuki_hime_to_moumoku_ouji', 'Usotsuki Hime To Moumoku Ouji', 2);
-INSERT INTO series (id, name, count) VALUES ('cryamore', 'Cryamore', 2);
-INSERT INTO series (id, name, count) VALUES ('splatoon_(manga)', 'Splatoon (manga)', 2);
-INSERT INTO series (id, name, count) VALUES ('twitter', 'Twitter', 2);
-INSERT INTO series (id, name, count) VALUES ('blue_dragon', 'Blue Dragon', 2);
-INSERT INTO series (id, name, count) VALUES ('a_hat_in_time', 'A Hat In Time', 2);
-INSERT INTO series (id, name, count) VALUES ('yoru_mac', 'Yoru Mac', 2);
-INSERT INTO series (id, name, count) VALUES ('appleseed', 'Appleseed', 2);
-INSERT INTO series (id, name, count) VALUES ('saint_onii-san', 'Saint Onii-san', 2);
-INSERT INTO series (id, name, count) VALUES ('looney_tunes', 'Looney Tunes', 2);
-INSERT INTO series (id, name, count) VALUES ('toy_story', 'Toy Story', 2);
-INSERT INTO series (id, name, count) VALUES ('c2_kikan', 'C2 Kikan', 2);
-INSERT INTO series (id, name, count) VALUES ('project_upd8', 'Project Upd8', 2);
-INSERT INTO series (id, name, count) VALUES ('phantom_of_inferno', 'Phantom Of Inferno', 2);
-INSERT INTO series (id, name, count) VALUES ('ca_(maeda_koutarou)', 'Ca (maeda Koutarou)', 2);
-INSERT INTO series (id, name, count) VALUES ('wario_land', 'Wario Land', 2);
-INSERT INTO series (id, name, count) VALUES ('carole_&_tuesday', 'Carole & Tuesday', 2);
-INSERT INTO series (id, name, count) VALUES ('deathsmiles', 'Deathsmiles', 2);
-INSERT INTO series (id, name, count) VALUES ('harry_potter:_magic_awakened', 'Harry Potter: Magic Awakened', 2);
-INSERT INTO series (id, name, count) VALUES ('casshern_(series)', 'Casshern', 2);
-INSERT INTO series (id, name, count) VALUES ('yume_miru_kusuri', 'Yume Miru Kusuri', 2);
-INSERT INTO series (id, name, count) VALUES ('kuroinu_~kedakaki_seijo_wa_hakudaku_ni_somaru~', 'Kuroinu ~kedakaki Seijo Wa Hakudaku Ni Somaru~', 2);
-INSERT INTO series (id, name, count) VALUES ('little_princess', 'Little Princess', 2);
+INSERT INTO series (id, name, count) VALUES ('banjo-kazooie', '班卓琴大笛', 2);
+INSERT INTO series (id, name, count) VALUES ('barbie_(franchise)', '芭比（特许经营）', 2);
+INSERT INTO series (id, name, count) VALUES ('asgard', '阿斯加德', 2);
+INSERT INTO series (id, name, count) VALUES ('beauty_and_the_beast', '美女和野兽', 2);
+INSERT INTO series (id, name, count) VALUES ('zom_100:_zombie_ni_naru_made_ni_shitai_100_no_koto', 'Zom 100：僵尸 Ni Naru Made Ni Shitai 100 No Koto', 2);
+INSERT INTO series (id, name, count) VALUES ('kill_bill', '杀死比尔', 2);
+INSERT INTO series (id, name, count) VALUES ('honkai:_nexus_anima', '崩坏：Nexus Anima', 2);
+INSERT INTO series (id, name, count) VALUES ('bee_and_puppycat', '蜜蜂和小狗', 2);
+INSERT INTO series (id, name, count) VALUES ('luvdia', '卢夫迪亚', 2);
+INSERT INTO series (id, name, count) VALUES ('kfc', '肯德基', 2);
+INSERT INTO series (id, name, count) VALUES ('usotsuki_hime_to_moumoku_ouji', '臼月姬与桃木王子', 2);
+INSERT INTO series (id, name, count) VALUES ('cryamore', '克莱莫尔', 2);
+INSERT INTO series (id, name, count) VALUES ('splatoon_(manga)', '喷射战士', 2);
+INSERT INTO series (id, name, count) VALUES ('twitter', '叽叽喳喳', 2);
+INSERT INTO series (id, name, count) VALUES ('blue_dragon', '蓝龙', 2);
+INSERT INTO series (id, name, count) VALUES ('a_hat_in_time', '及时的帽子', 2);
+INSERT INTO series (id, name, count) VALUES ('yoru_mac', '夜麦克', 2);
+INSERT INTO series (id, name, count) VALUES ('appleseed', '苹果籽', 2);
+INSERT INTO series (id, name, count) VALUES ('saint_onii-san', '圣奥尼桑', 2);
+INSERT INTO series (id, name, count) VALUES ('looney_tunes', '乐一通', 2);
+INSERT INTO series (id, name, count) VALUES ('toy_story', '玩具总动员', 2);
+INSERT INTO series (id, name, count) VALUES ('c2_kikan', 'C2热度', 2);
+INSERT INTO series (id, name, count) VALUES ('project_upd8', '项目更新8', 2);
+INSERT INTO series (id, name, count) VALUES ('phantom_of_inferno', '地狱幻影', 2);
+INSERT INTO series (id, name, count) VALUES ('ca_(maeda_koutarou)', 'Ca（前田幸太郎）', 2);
+INSERT INTO series (id, name, count) VALUES ('wario_land', '瓦里奥乐园', 2);
+INSERT INTO series (id, name, count) VALUES ('carole_&_tuesday', '卡罗尔和星期二', 2);
+INSERT INTO series (id, name, count) VALUES ('deathsmiles', '死亡微笑', 2);
+INSERT INTO series (id, name, count) VALUES ('harry_potter:_magic_awakened', '哈利·波特：魔法觉醒', 2);
+INSERT INTO series (id, name, count) VALUES ('casshern_(series)', '卡申', 2);
+INSERT INTO series (id, name, count) VALUES ('yume_miru_kusuri', '久里梦弥露', 2);
+INSERT INTO series (id, name, count) VALUES ('kuroinu_~kedakaki_seijo_wa_hakudaku_ni_somaru~', '黑犬～kedakaki Seijo Wa Hakudaku Ni Somaru～', 2);
+INSERT INTO series (id, name, count) VALUES ('little_princess', '小公主', 2);
 INSERT INTO series (id, name, count) VALUES ('huayangshan_jishi', 'Huayangshan Jishi', 2);
-INSERT INTO series (id, name, count) VALUES ('majisuka_gakuen', 'Majisuka Gakuen', 2);
-INSERT INTO series (id, name, count) VALUES ('solo_leveling', 'Solo Leveling', 2);
-INSERT INTO series (id, name, count) VALUES ('a_first_of_summers', 'A First Of Summers', 2);
-INSERT INTO series (id, name, count) VALUES ('hello_charlotte', 'Hello Charlotte', 2);
-INSERT INTO series (id, name, count) VALUES ('saru_getchu', 'Saru Getchu', 2);
-INSERT INTO series (id, name, count) VALUES ('nodame_cantabile', 'Nodame Cantabile', 2);
-INSERT INTO series (id, name, count) VALUES ('puchimasu!', 'Puchimasu!', 2);
-INSERT INTO series (id, name, count) VALUES ('chobits', 'Chobits', 2);
-INSERT INTO series (id, name, count) VALUES ('shuumatsu_train_doko_e_iku?', 'Shuumatsu Train Doko E Iku?', 2);
-INSERT INTO series (id, name, count) VALUES ('soukou_kihei_votoms', 'Soukou Kihei Votoms', 2);
-INSERT INTO series (id, name, count) VALUES ('voisona', 'Voisona', 2);
-INSERT INTO series (id, name, count) VALUES ('chloe_no_requiem', 'Chloe No Requiem', 2);
-INSERT INTO series (id, name, count) VALUES ('life_is_strange', 'Life Is Strange', 2);
-INSERT INTO series (id, name, count) VALUES ('sugar_sugar_rune', 'Sugar Sugar Rune', 2);
-INSERT INTO series (id, name, count) VALUES ('attouteki_yuugi_mugen_souls', 'Attouteki Yuugi Mugen Souls', 2);
-INSERT INTO series (id, name, count) VALUES ('strike_witches', 'Strike Witches', 2);
-INSERT INTO series (id, name, count) VALUES ('erha_he_tadebai_mao_shizun', 'Erha He Tadebai Mao Shizun', 2);
-INSERT INTO series (id, name, count) VALUES ('return_of_the_mount_hua_sect', 'Return Of The Mount Hua Sect', 2);
-INSERT INTO series (id, name, count) VALUES ('cinderella', 'Cinderella', 2);
-INSERT INTO series (id, name, count) VALUES ('elemental_gelade', 'Elemental Gelade', 2);
-INSERT INTO series (id, name, count) VALUES ('treasure_hunter_claire', 'Treasure Hunter Claire', 2);
-INSERT INTO series (id, name, count) VALUES ('watashi_no_oshi_wa_akuyaku_reijou', 'Watashi No Oshi Wa Akuyaku Reijou', 2);
-INSERT INTO series (id, name, count) VALUES ('seirei_tsukai_no_blade_dance', 'Seirei Tsukai No Blade Dance', 2);
-INSERT INTO series (id, name, count) VALUES ('koukaku_no_pandora', 'Koukaku No Pandora', 2);
-INSERT INTO series (id, name, count) VALUES ('the_hunchback_of_notre_dame', 'The Hunchback Of Notre Dame', 2);
-INSERT INTO series (id, name, count) VALUES ('choudenji_robo_combattler_v', 'Choudenji Robo Combattler V', 2);
-INSERT INTO series (id, name, count) VALUES ('hoshikuzu_witch_meruru', 'Hoshikuzu Witch Meruru', 2);
-INSERT INTO series (id, name, count) VALUES ('16personalities', '16personalities', 2);
-INSERT INTO series (id, name, count) VALUES ('detroit:_become_human', 'Detroit: Become Human', 2);
-INSERT INTO series (id, name, count) VALUES ('sesame_street', 'Sesame Street', 2);
-INSERT INTO series (id, name, count) VALUES ('gankutsuou', 'Gankutsuou', 2);
-INSERT INTO series (id, name, count) VALUES ('isekai_shinige_ojousama', 'Isekai Shinige Ojousama', 2);
-INSERT INTO series (id, name, count) VALUES ('mahou_no_tenshi_creamy_mami', 'Mahou No Tenshi Creamy Mami', 2);
-INSERT INTO series (id, name, count) VALUES ('lunacid', 'Lunacid', 2);
-INSERT INTO series (id, name, count) VALUES ('trigger_heart_exelica', 'Trigger Heart Exelica', 2);
-INSERT INTO series (id, name, count) VALUES ('cutie_honey', 'Cutie Honey', 2);
-INSERT INTO series (id, name, count) VALUES ('akudama_drive', 'Akudama Drive', 2);
-INSERT INTO series (id, name, count) VALUES ('rabbit_and_steel', 'Rabbit And Steel', 2);
-INSERT INTO series (id, name, count) VALUES ('inhabituels', 'Inhabituels', 2);
-INSERT INTO series (id, name, count) VALUES ('shinigami_dot_com', 'Shinigami Dot Com', 2);
-INSERT INTO series (id, name, count) VALUES ('death_parade', 'Death Parade', 2);
-INSERT INTO series (id, name, count) VALUES ('predator:_badlands', 'Predator: Badlands', 2);
-INSERT INTO series (id, name, count) VALUES ('ma_no_mono-tachi', 'Ma No Mono-tachi', 2);
-INSERT INTO series (id, name, count) VALUES ('makai_gacha_wa_kyou_mo_shibui', 'Makai Gacha Wa Kyou Mo Shibui', 2);
+INSERT INTO series (id, name, count) VALUES ('majisuka_gakuen', '马路须贺学园', 2);
+INSERT INTO series (id, name, count) VALUES ('solo_leveling', '单人练级', 2);
+INSERT INTO series (id, name, count) VALUES ('a_first_of_summers', '第一个夏天', 2);
+INSERT INTO series (id, name, count) VALUES ('hello_charlotte', '你好夏洛特', 2);
+INSERT INTO series (id, name, count) VALUES ('saru_getchu', '猿月中', 2);
+INSERT INTO series (id, name, count) VALUES ('nodame_cantabile', '交情人梦', 2);
+INSERT INTO series (id, name, count) VALUES ('puchimasu!', '普奇马苏！', 2);
+INSERT INTO series (id, name, count) VALUES ('chobits', '乔比特', 2);
+INSERT INTO series (id, name, count) VALUES ('shuumatsu_train_doko_e_iku?', '秋松列车Doko E Iku？', 2);
+INSERT INTO series (id, name, count) VALUES ('soukou_kihei_votoms', '搜库·基平·沃托姆斯', 2);
+INSERT INTO series (id, name, count) VALUES ('voisona', '毒', 2);
+INSERT INTO series (id, name, count) VALUES ('chloe_no_requiem', '克洛伊无安魂曲', 2);
+INSERT INTO series (id, name, count) VALUES ('life_is_strange', '生活很奇怪', 2);
+INSERT INTO series (id, name, count) VALUES ('sugar_sugar_rune', '糖糖符文', 2);
+INSERT INTO series (id, name, count) VALUES ('attouteki_yuugi_mugen_souls', 'Attouteki Yuugi Mugen 灵魂', 2);
+INSERT INTO series (id, name, count) VALUES ('strike_witches', '强袭女巫', 2);
+INSERT INTO series (id, name, count) VALUES ('erha_he_tadebai_mao_shizun', '二哈和塔德白毛师尊', 2);
+INSERT INTO series (id, name, count) VALUES ('return_of_the_mount_hua_sect', '华山派归来', 2);
+INSERT INTO series (id, name, count) VALUES ('cinderella', '灰姑娘', 2);
+INSERT INTO series (id, name, count) VALUES ('elemental_gelade', '元素冰激凌', 2);
+INSERT INTO series (id, name, count) VALUES ('treasure_hunter_claire', '宝藏猎人克莱尔', 2);
+INSERT INTO series (id, name, count) VALUES ('watashi_no_oshi_wa_akuyaku_reijou', '渡之忍和恶役令城', 2);
+INSERT INTO series (id, name, count) VALUES ('seirei_tsukai_no_blade_dance', '精灵使之刃舞', 2);
+INSERT INTO series (id, name, count) VALUES ('koukaku_no_pandora', '光明之潘多拉', 2);
+INSERT INTO series (id, name, count) VALUES ('the_hunchback_of_notre_dame', '巴黎圣母院的驼背', 2);
+INSERT INTO series (id, name, count) VALUES ('choudenji_robo_combattler_v', '长传寺机器人战士 V', 2);
+INSERT INTO series (id, name, count) VALUES ('hoshikuzu_witch_meruru', '星葛魔女梅露露', 2);
+INSERT INTO series (id, name, count) VALUES ('16personalities', '16个人物', 2);
+INSERT INTO series (id, name, count) VALUES ('detroit:_become_human', '底特律：成为人类', 2);
+INSERT INTO series (id, name, count) VALUES ('sesame_street', '芝麻街', 2);
+INSERT INTO series (id, name, count) VALUES ('gankutsuou', '岩窟王', 2);
+INSERT INTO series (id, name, count) VALUES ('isekai_shinige_ojousama', '异世界新下大将', 2);
+INSERT INTO series (id, name, count) VALUES ('mahou_no_tenshi_creamy_mami', '魔法天使奶油麻美', 2);
+INSERT INTO series (id, name, count) VALUES ('lunacid', '月酸', 2);
+INSERT INTO series (id, name, count) VALUES ('trigger_heart_exelica', '触发之心 Exelica', 2);
+INSERT INTO series (id, name, count) VALUES ('cutie_honey', '可爱的蜂蜜', 2);
+INSERT INTO series (id, name, count) VALUES ('akudama_drive', '恶玉大道', 2);
+INSERT INTO series (id, name, count) VALUES ('rabbit_and_steel', '兔子与钢铁', 2);
+INSERT INTO series (id, name, count) VALUES ('inhabituels', '异常', 2);
+INSERT INTO series (id, name, count) VALUES ('shinigami_dot_com', '死神网络公司', 2);
+INSERT INTO series (id, name, count) VALUES ('death_parade', '死亡游行', 2);
+INSERT INTO series (id, name, count) VALUES ('predator:_badlands', '掠夺者：荒芜之地', 2);
+INSERT INTO series (id, name, count) VALUES ('ma_no_mono-tachi', '真乃太刀', 2);
+INSERT INTO series (id, name, count) VALUES ('makai_gacha_wa_kyou_mo_shibui', '魔界扭蛋和鬼魔涩井', 2);
 INSERT INTO series (id, name, count) VALUES ('dlsite.com', 'Dlsite.com', 2);
-INSERT INTO series (id, name, count) VALUES ('vandread', 'Vandread', 2);
-INSERT INTO series (id, name, count) VALUES ('duck_hunt', 'Duck Hunt', 2);
-INSERT INTO series (id, name, count) VALUES ('bloodstained:_ritual_of_the_night', 'Bloodstained: Ritual Of The Night', 2);
-INSERT INTO series (id, name, count) VALUES ('the_devil_and_s-13', 'The Devil And S-13', 2);
-INSERT INTO series (id, name, count) VALUES ('nhk_(broadcaster)', 'Nhk (broadcaster)', 2);
-INSERT INTO series (id, name, count) VALUES ('zoku_satsuriku_no_django', 'Zoku Satsuriku No Django', 2);
-INSERT INTO series (id, name, count) VALUES ('riot_music', 'Riot Music', 2);
-INSERT INTO series (id, name, count) VALUES ('kyuuketsuki_sugu_shinu', 'Kyuuketsuki Sugu Shinu', 2);
-INSERT INTO series (id, name, count) VALUES ('scarz', 'Scarz', 2);
-INSERT INTO series (id, name, count) VALUES ('duolingo', 'Duolingo', 2);
-INSERT INTO series (id, name, count) VALUES ('kiddy_grade', 'Kiddy Grade', 2);
-INSERT INTO series (id, name, count) VALUES ('uchi_no_musume_ni_te_wo_dasuna!', 'Uchi No Musume Ni Te Wo Dasuna!', 2);
-INSERT INTO series (id, name, count) VALUES ('elysion', 'Elysion', 2);
-INSERT INTO series (id, name, count) VALUES ('koikishi_purely_kiss', 'Koikishi Purely Kiss', 2);
-INSERT INTO series (id, name, count) VALUES ('edomae_elf', 'Edomae Elf', 2);
-INSERT INTO series (id, name, count) VALUES ('maou-sama_to_kekkonshitai', 'Maou-sama To Kekkonshitai', 2);
-INSERT INTO series (id, name, count) VALUES ('ii_orc_no_hi', 'Ii Orc No Hi', 2);
-INSERT INTO series (id, name, count) VALUES ('mahou_tsukai_no_yome', 'Mahou Tsukai No Yome', 2);
-INSERT INTO series (id, name, count) VALUES ('first_stage_production', 'First Stage Production', 2);
-INSERT INTO series (id, name, count) VALUES ('the_caves_of_steel', 'The Caves Of Steel', 2);
-INSERT INTO series (id, name, count) VALUES ('assassins_pride', 'Assassins Pride', 2);
-INSERT INTO series (id, name, count) VALUES ('majo_no_ie', 'Majo No Ie', 2);
-INSERT INTO series (id, name, count) VALUES ('the_last_of_us_(series)', 'The Last Of Us', 2);
-INSERT INTO series (id, name, count) VALUES ('el_cazador_de_la_bruja', 'El Cazador De La Bruja', 2);
+INSERT INTO series (id, name, count) VALUES ('vandread', '范德雷德', 2);
+INSERT INTO series (id, name, count) VALUES ('duck_hunt', '狩猎鸭子', 2);
+INSERT INTO series (id, name, count) VALUES ('bloodstained:_ritual_of_the_night', '血污：夜之仪式', 2);
+INSERT INTO series (id, name, count) VALUES ('the_devil_and_s-13', '恶魔与S-13', 2);
+INSERT INTO series (id, name, count) VALUES ('nhk_(broadcaster)', 'NHK（广播公司）', 2);
+INSERT INTO series (id, name, count) VALUES ('zoku_satsuriku_no_django', '杀戮之姜戈', 2);
+INSERT INTO series (id, name, count) VALUES ('riot_music', '防暴音乐', 2);
+INSERT INTO series (id, name, count) VALUES ('kyuuketsuki_sugu_shinu', '九月须古信', 2);
+INSERT INTO series (id, name, count) VALUES ('scarz', '斯卡兹', 2);
+INSERT INTO series (id, name, count) VALUES ('duolingo', '多邻国', 2);
+INSERT INTO series (id, name, count) VALUES ('kiddy_grade', '儿童级', 2);
+INSERT INTO series (id, name, count) VALUES ('uchi_no_musume_ni_te_wo_dasuna!', '内之少女 尼特沃达苏纳！', 2);
+INSERT INTO series (id, name, count) VALUES ('elysion', '艾丽西昂', 2);
+INSERT INTO series (id, name, count) VALUES ('koikishi_purely_kiss', '恋木纯吻', 2);
+INSERT INTO series (id, name, count) VALUES ('edomae_elf', '江户前精灵', 2);
+INSERT INTO series (id, name, count) VALUES ('maou-sama_to_kekkonshitai', '魔王大人与吉空师太', 2);
+INSERT INTO series (id, name, count) VALUES ('ii_orc_no_hi', '兽人不嗨', 2);
+INSERT INTO series (id, name, count) VALUES ('mahou_tsukai_no_yome', '魔法使之梦', 2);
+INSERT INTO series (id, name, count) VALUES ('first_stage_production', '第一阶段生产', 2);
+INSERT INTO series (id, name, count) VALUES ('the_caves_of_steel', '钢铁洞穴', 2);
+INSERT INTO series (id, name, count) VALUES ('assassins_pride', '刺客的骄傲', 2);
+INSERT INTO series (id, name, count) VALUES ('majo_no_ie', '真城之家', 2);
+INSERT INTO series (id, name, count) VALUES ('the_last_of_us_(series)', '最后生还者', 2);
+INSERT INTO series (id, name, count) VALUES ('el_cazador_de_la_bruja', '女巫猎人', 2);
 INSERT INTO series (id, name, count) VALUES ('toushinden', 'Toushinden', 2);
-INSERT INTO series (id, name, count) VALUES ('911_(tv_series)', '911 (tv Series)', 2);
-INSERT INTO series (id, name, count) VALUES ('harlock_saga', 'Harlock Saga', 2);
-INSERT INTO series (id, name, count) VALUES ('back_to_the_future', 'Back To The Future', 2);
-INSERT INTO series (id, name, count) VALUES ('dragon:_marked_for_death', 'Dragon: Marked For Death', 2);
-INSERT INTO series (id, name, count) VALUES ('ikkakujuu_wa_tsuranukanai', 'Ikkakujuu Wa Tsuranukanai', 2);
-INSERT INTO series (id, name, count) VALUES ('haiena_chan_ni_nerawarete', 'Haiena Chan Ni Nerawarete', 2);
-INSERT INTO series (id, name, count) VALUES ('josou_jinja', 'Josou Jinja', 2);
-INSERT INTO series (id, name, count) VALUES ('jigoku_shoujo', 'Jigoku Shoujo', 2);
-INSERT INTO series (id, name, count) VALUES ('el_shaddai', 'El Shaddai', 2);
-INSERT INTO series (id, name, count) VALUES ('futoku_no_guild', 'Futoku No Guild', 2);
-INSERT INTO series (id, name, count) VALUES ('danjo_no_yuujou_wa_seiritsu_suru?', 'Danjo No Yuujou Wa Seiritsu Suru?', 2);
-INSERT INTO series (id, name, count) VALUES ('beat_angel_escalayer', 'Beat Angel Escalayer', 2);
-INSERT INTO series (id, name, count) VALUES ('plave', 'Plave', 2);
-INSERT INTO series (id, name, count) VALUES ('cloud_meadow', 'Cloud Meadow', 2);
-INSERT INTO series (id, name, count) VALUES ('uq_holder!', 'Uq Holder!', 2);
-INSERT INTO series (id, name, count) VALUES ('black_cat_(series)', 'Black Cat', 2);
-INSERT INTO series (id, name, count) VALUES ('wall-e', 'Wall-e', 2);
-INSERT INTO series (id, name, count) VALUES ('excel_saga', 'Excel Saga', 2);
-INSERT INTO series (id, name, count) VALUES ('kanokon', 'Kanokon', 2);
-INSERT INTO series (id, name, count) VALUES ('twitter-san', 'Twitter-san', 2);
-INSERT INTO series (id, name, count) VALUES ('alien_(series)', 'Alien', 2);
+INSERT INTO series (id, name, count) VALUES ('911_(tv_series)', '911（电视剧）', 2);
+INSERT INTO series (id, name, count) VALUES ('harlock_saga', '哈洛克传奇', 2);
+INSERT INTO series (id, name, count) VALUES ('back_to_the_future', '回到未来', 2);
+INSERT INTO series (id, name, count) VALUES ('dragon:_marked_for_death', '龙：死亡标记', 2);
+INSERT INTO series (id, name, count) VALUES ('ikkakujuu_wa_tsuranukanai', '一角重和鹤内', 2);
+INSERT INTO series (id, name, count) VALUES ('haiena_chan_ni_nerawarete', '海耶娜·陈·尼·内拉瓦莱特', 2);
+INSERT INTO series (id, name, count) VALUES ('josou_jinja', '上总神社', 2);
+INSERT INTO series (id, name, count) VALUES ('jigoku_shoujo', '地狱少女', 2);
+INSERT INTO series (id, name, count) VALUES ('el_shaddai', '沙代', 2);
+INSERT INTO series (id, name, count) VALUES ('futoku_no_guild', '富德公会', 2);
+INSERT INTO series (id, name, count) VALUES ('danjo_no_yuujou_wa_seiritsu_suru?', '坛城的游城和精立苏鲁？', 2);
+INSERT INTO series (id, name, count) VALUES ('beat_angel_escalayer', '击败天使攀爬者', 2);
+INSERT INTO series (id, name, count) VALUES ('plave', '蓝色的', 2);
+INSERT INTO series (id, name, count) VALUES ('cloud_meadow', '云草甸', 2);
+INSERT INTO series (id, name, count) VALUES ('uq_holder!', '昆士兰大学持有人！', 2);
+INSERT INTO series (id, name, count) VALUES ('black_cat_(series)', '黑猫', 2);
+INSERT INTO series (id, name, count) VALUES ('wall-e', '瓦力', 2);
+INSERT INTO series (id, name, count) VALUES ('excel_saga', 'Excel传奇', 2);
+INSERT INTO series (id, name, count) VALUES ('kanokon', '卡诺孔', 2);
+INSERT INTO series (id, name, count) VALUES ('twitter-san', '推特桑', 2);
+INSERT INTO series (id, name, count) VALUES ('alien_(series)', '外星人', 2);
 INSERT INTO series (id, name, count) VALUES ('hikyou_tanken_fam_&_ihrie', 'Hikyou Tanken Fam & Ihrie', 2);
-INSERT INTO series (id, name, count) VALUES ('last_exile:_gin''yoku_no_fam', 'Last Exile: Gin''yoku No Fam', 2);
-INSERT INTO series (id, name, count) VALUES ('my_time_at_portia', 'My Time At Portia', 2);
-INSERT INTO series (id, name, count) VALUES ('luminous_arc', 'Luminous Arc', 2);
-INSERT INTO series (id, name, count) VALUES ('over_zenith', 'Over Zenith', 2);
-INSERT INTO series (id, name, count) VALUES ('densetsu_no_yuusha_no_densetsu', 'Densetsu No Yuusha No Densetsu', 2);
-INSERT INTO series (id, name, count) VALUES ('katana_zero', 'Katana Zero', 2);
-INSERT INTO series (id, name, count) VALUES ('kurenai_no_buta', 'Kurenai No Buta', 2);
-INSERT INTO series (id, name, count) VALUES ('fate/apocrypha', 'Fate/apocrypha', 2);
-INSERT INTO series (id, name, count) VALUES ('happy_tree_friends', 'Happy Tree Friends', 2);
-INSERT INTO series (id, name, count) VALUES ('tangled', 'Tangled', 2);
-INSERT INTO series (id, name, count) VALUES ('r-type', 'R-type', 2);
-INSERT INTO series (id, name, count) VALUES ('tensei_shitara_ken_deshita', 'Tensei Shitara Ken Deshita', 2);
-INSERT INTO series (id, name, count) VALUES ('cyborg_009', 'Cyborg 009', 2);
-INSERT INTO series (id, name, count) VALUES ('rosenkreuzstilette', 'Rosenkreuzstilette', 2);
-INSERT INTO series (id, name, count) VALUES ('hentai_elf_to_majime_orc', 'Hentai Elf To Majime Orc', 2);
-INSERT INTO series (id, name, count) VALUES ('heavy_object', 'Heavy Object', 2);
-INSERT INTO series (id, name, count) VALUES ('yubisaki_kara_no_honki_no_netsujou', 'Yubisaki Kara No Honki No Netsujou', 2);
-INSERT INTO series (id, name, count) VALUES ('osananajimi_ni_najimitai', 'Osananajimi Ni Najimitai', 2);
+INSERT INTO series (id, name, count) VALUES ('last_exile:_gin''yoku_no_fam', '最后的流放：银玉之家', 2);
+INSERT INTO series (id, name, count) VALUES ('my_time_at_portia', '我在波西亚的时光', 2);
+INSERT INTO series (id, name, count) VALUES ('luminous_arc', '发光弧', 2);
+INSERT INTO series (id, name, count) VALUES ('over_zenith', '越过天顶', 2);
+INSERT INTO series (id, name, count) VALUES ('densetsu_no_yuusha_no_densetsu', '传说的游侠传说', 2);
+INSERT INTO series (id, name, count) VALUES ('katana_zero', '武士刀零', 2);
+INSERT INTO series (id, name, count) VALUES ('kurenai_no_buta', '红之舞', 2);
+INSERT INTO series (id, name, count) VALUES ('fate/apocrypha', '命运/伪经', 2);
+INSERT INTO series (id, name, count) VALUES ('happy_tree_friends', '快乐树朋友', 2);
+INSERT INTO series (id, name, count) VALUES ('tangled', '纠结', 2);
+INSERT INTO series (id, name, count) VALUES ('r-type', 'R型', 2);
+INSERT INTO series (id, name, count) VALUES ('tensei_shitara_ken_deshita', '转生设乐 Ken Deshita', 2);
+INSERT INTO series (id, name, count) VALUES ('cyborg_009', '机器人009', 2);
+INSERT INTO series (id, name, count) VALUES ('rosenkreuzstilette', '玫瑰十字细高跟鞋', 2);
+INSERT INTO series (id, name, count) VALUES ('hentai_elf_to_majime_orc', '无尽的精灵到 Majime 兽人', 2);
+INSERT INTO series (id, name, count) VALUES ('heavy_object', '重物', 2);
+INSERT INTO series (id, name, count) VALUES ('yubisaki_kara_no_honki_no_netsujou', '由比崎空之本纪之热情', 2);
+INSERT INTO series (id, name, count) VALUES ('osananajimi_ni_najimitai', '奥萨纳纳吉米·尼·纳吉米泰', 2);
 INSERT INTO series (id, name, count) VALUES ('otonari_no_tenshi-sama_ni_itsu_no_mani_ka_dame_ningen_ni_sarete_ita_ken', 'Otonari No Tenshi-sama Ni Itsu No Mani Ka Dame Ningen Ni Sarete Ita Ken', 2);
-INSERT INTO series (id, name, count) VALUES ('isshuukan_friends', 'Isshuukan Friends', 2);
+INSERT INTO series (id, name, count) VALUES ('isshuukan_friends', '一修馆朋友', 2);
 INSERT INTO series (id, name, count) VALUES ('boku_dake_ga_inai_machi', 'Boku Dake Ga Inai Machi', 2);
-INSERT INTO series (id, name, count) VALUES ('sket_dance', 'Sket Dance', 2);
-INSERT INTO series (id, name, count) VALUES ('yaiteru_futari', 'Yaiteru Futari', 2);
-INSERT INTO series (id, name, count) VALUES ('3ldkm', '3ldkm', 2);
-INSERT INTO series (id, name, count) VALUES ('sweet_home', 'Sweet Home', 2);
-INSERT INTO series (id, name, count) VALUES ('oshi_no_love_yori_koi_no_love', 'Oshi No Love Yori Koi No Love', 2);
-INSERT INTO series (id, name, count) VALUES ('raging_loop', 'Raging Loop', 2);
+INSERT INTO series (id, name, count) VALUES ('sket_dance', '发生的舞蹈', 2);
+INSERT INTO series (id, name, count) VALUES ('yaiteru_futari', '弥照二里', 2);
+INSERT INTO series (id, name, count) VALUES ('3ldkm', '3公里', 2);
+INSERT INTO series (id, name, count) VALUES ('sweet_home', '甜蜜之家', 2);
+INSERT INTO series (id, name, count) VALUES ('oshi_no_love_yori_koi_no_love', '忍之爱 恋恋之爱', 2);
+INSERT INTO series (id, name, count) VALUES ('raging_loop', '狂暴循环', 2);
 INSERT INTO series (id, name, count) VALUES ('shachiku-san_wa_youjo_yuurei_ni_iyasaretai.', 'Shachiku-san Wa Youjo Yuurei Ni Iyasaretai.', 2);
-INSERT INTO series (id, name, count) VALUES ('futaba-san_chi_no_kyoudai', 'Futaba-san Chi No Kyoudai', 2);
-INSERT INTO series (id, name, count) VALUES ('getbackers', 'Getbackers', 2);
-INSERT INTO series (id, name, count) VALUES ('shijou_saikyou_no_deshi_ken''ichi', 'Shijou Saikyou No Deshi Ken''ichi', 2);
-INSERT INTO series (id, name, count) VALUES ('oshioki_sweetie', 'Oshioki Sweetie', 2);
-INSERT INTO series (id, name, count) VALUES ('onna_doushi_toka_arienai_desho_to_iiharu_onnanoko_wo_hyakunichikan_de_tetteiteki_ni_otosu_yuri_no_ohanashi', 'Onna Doushi Toka Arienai Desho To Iiharu Onnanoko Wo Hyakunichikan De Tetteiteki Ni Otosu Yuri No Ohanashi', 2);
+INSERT INTO series (id, name, count) VALUES ('futaba-san_chi_no_kyoudai', '双叶山地之青年', 2);
+INSERT INTO series (id, name, count) VALUES ('getbackers', '回馈者', 2);
+INSERT INTO series (id, name, count) VALUES ('shijou_saikyou_no_deshi_ken''ichi', '四条西京之弟子健一', 2);
+INSERT INTO series (id, name, count) VALUES ('oshioki_sweetie', '押置甜心', 2);
+INSERT INTO series (id, name, count) VALUES ('onna_doushi_toka_arienai_desho_to_iiharu_onnanoko_wo_hyakunichikan_de_tetteiteki_ni_otosu_yuri_no_ohanashi', '恩纳同志十日有爱奈内德所与饭春恩纳之子我百日馆的铁特泰基尼大须尤里的花梨', 2);
 INSERT INTO series (id, name, count) VALUES ('hakanai_kimi_wa_moukou_wo_hajimeru', 'Hakanai Kimi Wa Moukou Wo Hajimeru', 2);
 INSERT INTO series (id, name, count) VALUES ('koori_zokusei_danshi_to_cool_na_douryou_joshi', 'Koori Zokusei Danshi To Cool Na Douryou Joshi', 2);
-INSERT INTO series (id, name, count) VALUES ('hirake!_ponkikki', 'Hirake! Ponkikki', 2);
-INSERT INTO series (id, name, count) VALUES ('kyatapi_land', 'Kyatapi Land', 2);
-INSERT INTO series (id, name, count) VALUES ('garfield', 'Garfield', 2);
-INSERT INTO series (id, name, count) VALUES ('megazone_23', 'Megazone 23', 2);
-INSERT INTO series (id, name, count) VALUES ('dragon_age', 'Dragon Age', 2);
-INSERT INTO series (id, name, count) VALUES ('ookami_ningen_to_ningen_ookami', 'Ookami Ningen To Ningen Ookami', 2);
-INSERT INTO series (id, name, count) VALUES ('giant_robo', 'Giant Robo', 2);
-INSERT INTO series (id, name, count) VALUES ('maison_ikkoku', 'Maison Ikkoku', 2);
-INSERT INTO series (id, name, count) VALUES ('ai_shite!_homun', 'Ai Shite! Homun', 2);
-INSERT INTO series (id, name, count) VALUES ('magician''s_aerial_dream', 'Magician''s Aerial Dream', 2);
-INSERT INTO series (id, name, count) VALUES ('gotcha!', 'Gotcha!', 2);
-INSERT INTO series (id, name, count) VALUES ('kakushigoto', 'Kakushigoto', 2);
-INSERT INTO series (id, name, count) VALUES ('innocent_red', 'Innocent Red', 2);
-INSERT INTO series (id, name, count) VALUES ('tenshi_no_3p!', 'Tenshi No 3p!', 2);
-INSERT INTO series (id, name, count) VALUES ('ore_monogatari!!', 'Ore Monogatari!!', 2);
-INSERT INTO series (id, name, count) VALUES ('devil_summoner', 'Devil Summoner', 2);
-INSERT INTO series (id, name, count) VALUES ('hansel_and_gretel', 'Hansel And Gretel', 2);
-INSERT INTO series (id, name, count) VALUES ('code:_kite', 'Code: Kite', 2);
-INSERT INTO series (id, name, count) VALUES ('potemayo', 'Potemayo', 2);
-INSERT INTO series (id, name, count) VALUES ('daft_punk', 'Daft Punk', 2);
-INSERT INTO series (id, name, count) VALUES ('hogwarts_legacy', 'Hogwarts Legacy', 2);
-INSERT INTO series (id, name, count) VALUES ('char''s_counterattack', 'Char''s Counterattack', 2);
-INSERT INTO series (id, name, count) VALUES ('boukun_habanero', 'Boukun Habanero', 2);
-INSERT INTO series (id, name, count) VALUES ('akatsuki_no_yona', 'Akatsuki No Yona', 2);
-INSERT INTO series (id, name, count) VALUES ('boku_wa_ohime-sama_ni_narenai', 'Boku Wa Ohime-sama Ni Narenai', 2);
-INSERT INTO series (id, name, count) VALUES ('soreyuke!_uchuu_senkan_yamamoto_youko', 'Soreyuke! Uchuu Senkan Yamamoto Youko', 2);
-INSERT INTO series (id, name, count) VALUES ('hakumei_to_mikochi', 'Hakumei To Mikochi', 2);
-INSERT INTO series (id, name, count) VALUES ('koutsugou_semi-friend', 'Koutsugou Semi-friend', 2);
-INSERT INTO series (id, name, count) VALUES ('buried_stars', 'Buried Stars', 2);
-INSERT INTO series (id, name, count) VALUES ('my_doll_house', 'My Doll House', 2);
-INSERT INTO series (id, name, count) VALUES ('honey_and_clover', 'Honey And Clover', 2);
-INSERT INTO series (id, name, count) VALUES ('kitanai_kimi_ga_ichiban_kawaii', 'Kitanai Kimi Ga Ichiban Kawaii', 2);
-INSERT INTO series (id, name, count) VALUES ('one_room', 'One Room', 2);
-INSERT INTO series (id, name, count) VALUES ('kobato.', 'Kobato.', 2);
-INSERT INTO series (id, name, count) VALUES ('kaitou_saint_tail', 'Kaitou Saint Tail', 2);
-INSERT INTO series (id, name, count) VALUES ('hanebado!', 'Hanebado!', 2);
-INSERT INTO series (id, name, count) VALUES ('grappler_baki', 'Grappler Baki', 2);
-INSERT INTO series (id, name, count) VALUES ('hannibal_(tv_series)', 'Hannibal (tv Series)', 2);
-INSERT INTO series (id, name, count) VALUES ('himitsu_no_jugyou', 'Himitsu No Jugyou', 2);
-INSERT INTO series (id, name, count) VALUES ('crash_fever', 'Crash Fever', 2);
-INSERT INTO series (id, name, count) VALUES ('person_of_interest', 'Person Of Interest', 2);
-INSERT INTO series (id, name, count) VALUES ('disco_elysium', 'Disco Elysium', 2);
-INSERT INTO series (id, name, count) VALUES ('hugtto!_precure', 'Hugtto! Precure', 2);
-INSERT INTO series (id, name, count) VALUES ('shin_yomawari', 'Shin Yomawari', 2);
-INSERT INTO series (id, name, count) VALUES ('escalation_heroines', 'Escalation Heroines', 2);
-INSERT INTO series (id, name, count) VALUES ('sekai_de_ichiban_oppai_ga_suki!', 'Sekai De Ichiban Oppai Ga Suki!', 2);
-INSERT INTO series (id, name, count) VALUES ('chaser_game_w', 'Chaser Game W', 2);
-INSERT INTO series (id, name, count) VALUES ('magician''s_academy', 'Magician''s Academy', 2);
-INSERT INTO series (id, name, count) VALUES ('akai_ito', 'Akai Ito', 2);
-INSERT INTO series (id, name, count) VALUES ('shinkansen_henkei_robo_shinkalion', 'Shinkansen Henkei Robo Shinkalion', 2);
-INSERT INTO series (id, name, count) VALUES ('yokohama_kaidashi_kikou', 'Yokohama Kaidashi Kikou', 2);
+INSERT INTO series (id, name, count) VALUES ('hirake!_ponkikki', '平木！庞基基', 2);
+INSERT INTO series (id, name, count) VALUES ('kyatapi_land', '基亚塔皮土地', 2);
+INSERT INTO series (id, name, count) VALUES ('garfield', '加菲猫', 2);
+INSERT INTO series (id, name, count) VALUES ('megazone_23', '超级地带 23', 2);
+INSERT INTO series (id, name, count) VALUES ('dragon_age', '龙腾世纪', 2);
+INSERT INTO series (id, name, count) VALUES ('ookami_ningen_to_ningen_ookami', '大神人间 至人间大神', 2);
+INSERT INTO series (id, name, count) VALUES ('giant_robo', '巨型机器人', 2);
+INSERT INTO series (id, name, count) VALUES ('maison_ikkoku', '一国之家', 2);
+INSERT INTO series (id, name, count) VALUES ('ai_shite!_homun', '艾什特！霍门', 2);
+INSERT INTO series (id, name, count) VALUES ('magician''s_aerial_dream', '魔术师的空中梦', 2);
+INSERT INTO series (id, name, count) VALUES ('gotcha!', '明白了！', 2);
+INSERT INTO series (id, name, count) VALUES ('kakushigoto', '角志后', 2);
+INSERT INTO series (id, name, count) VALUES ('innocent_red', '天真红', 2);
+INSERT INTO series (id, name, count) VALUES ('tenshi_no_3p!', '天使No 3p！', 2);
+INSERT INTO series (id, name, count) VALUES ('ore_monogatari!!', '物语时间！！', 2);
+INSERT INTO series (id, name, count) VALUES ('devil_summoner', '恶魔召唤师', 2);
+INSERT INTO series (id, name, count) VALUES ('hansel_and_gretel', '汉赛尔与格蕾特', 2);
+INSERT INTO series (id, name, count) VALUES ('code:_kite', '代码： 风筝', 2);
+INSERT INTO series (id, name, count) VALUES ('potemayo', '波特马约', 2);
+INSERT INTO series (id, name, count) VALUES ('daft_punk', '傻朋克', 2);
+INSERT INTO series (id, name, count) VALUES ('hogwarts_legacy', '霍格沃茨的遗产', 2);
+INSERT INTO series (id, name, count) VALUES ('char''s_counterattack', '夏亚的逆袭', 2);
+INSERT INTO series (id, name, count) VALUES ('boukun_habanero', '布昆·哈瓦那', 2);
+INSERT INTO series (id, name, count) VALUES ('akatsuki_no_yona', '晓之与那', 2);
+INSERT INTO series (id, name, count) VALUES ('boku_wa_ohime-sama_ni_narenai', '我的大姫大人二那雷奈', 2);
+INSERT INTO series (id, name, count) VALUES ('soreyuke!_uchuu_senkan_yamamoto_youko', '苍雷佑！宇宙战舰 山本阳子', 2);
+INSERT INTO series (id, name, count) VALUES ('hakumei_to_mikochi', '博明与御高地', 2);
+INSERT INTO series (id, name, count) VALUES ('koutsugou_semi-friend', 'Koutsugou 半朋友', 2);
+INSERT INTO series (id, name, count) VALUES ('buried_stars', '埋藏的星星', 2);
+INSERT INTO series (id, name, count) VALUES ('my_doll_house', '我的娃娃屋', 2);
+INSERT INTO series (id, name, count) VALUES ('honey_and_clover', '蜂蜜与四叶草', 2);
+INSERT INTO series (id, name, count) VALUES ('kitanai_kimi_ga_ichiban_kawaii', '北内君我一番卡哇伊', 2);
+INSERT INTO series (id, name, count) VALUES ('one_room', '一间房', 2);
+INSERT INTO series (id, name, count) VALUES ('kobato.', '小羽。', 2);
+INSERT INTO series (id, name, count) VALUES ('kaitou_saint_tail', '怪盗圣尾', 2);
+INSERT INTO series (id, name, count) VALUES ('hanebado!', '羽叶！', 2);
+INSERT INTO series (id, name, count) VALUES ('grappler_baki', '格斗手巴基', 2);
+INSERT INTO series (id, name, count) VALUES ('hannibal_(tv_series)', '汉尼拔（电视剧）', 2);
+INSERT INTO series (id, name, count) VALUES ('himitsu_no_jugyou', '秘密十行', 2);
+INSERT INTO series (id, name, count) VALUES ('crash_fever', '崩溃热潮', 2);
+INSERT INTO series (id, name, count) VALUES ('person_of_interest', '感兴趣的人', 2);
+INSERT INTO series (id, name, count) VALUES ('disco_elysium', '极乐迪斯科', 2);
+INSERT INTO series (id, name, count) VALUES ('hugtto!_precure', '拥抱！光之美少女', 2);
+INSERT INTO series (id, name, count) VALUES ('shin_yomawari', '是夜原吗？', 2);
+INSERT INTO series (id, name, count) VALUES ('escalation_heroines', '升级女主角', 2);
+INSERT INTO series (id, name, count) VALUES ('sekai_de_ichiban_oppai_ga_suki!', '世界的一番Oppai Ga Suki！', 2);
+INSERT INTO series (id, name, count) VALUES ('chaser_game_w', '追逐者游戏W', 2);
+INSERT INTO series (id, name, count) VALUES ('magician''s_academy', '魔法师学院', 2);
+INSERT INTO series (id, name, count) VALUES ('akai_ito', '赤井伊特', 2);
+INSERT INTO series (id, name, count) VALUES ('shinkansen_henkei_robo_shinkalion', '新干线 Henkei Robo Shinkalion', 2);
+INSERT INTO series (id, name, count) VALUES ('yokohama_kaidashi_kikou', '横滨Kaidashi Kikou', 2);
 INSERT INTO series (id, name, count) VALUES ('sei_ni_utokatta_watashi_wa_kurasu_no_danshi_to_ooo_shite_shimaimashita', 'Sei Ni Utokatta Watashi Wa Kurasu No Danshi To Ooo Shite Shimaimashita', 2);
-INSERT INTO series (id, name, count) VALUES ('yatagarasu_(game)', 'Yatagarasu (game)', 2);
-INSERT INTO series (id, name, count) VALUES ('ichiban_ushiro_no_daimaou', 'Ichiban Ushiro No Daimaou', 2);
-INSERT INTO series (id, name, count) VALUES ('mizuiro', 'Mizuiro', 2);
+INSERT INTO series (id, name, count) VALUES ('yatagarasu_(game)', '八咫乌（游戏）', 2);
+INSERT INTO series (id, name, count) VALUES ('ichiban_ushiro_no_daimaou', '一番乌城大魔王', 2);
+INSERT INTO series (id, name, count) VALUES ('mizuiro', '水色', 2);
 INSERT INTO series (id, name, count) VALUES ('kaitou_tenshi_twin_angel', 'Kaitou Tenshi Twin Angel', 2);
-INSERT INTO series (id, name, count) VALUES ('19_tian', '19 Tian', 2);
-INSERT INTO series (id, name, count) VALUES ('strike_witches:_suomus_misfits_squadron', 'Strike Witches: Suomus Misfits Squadron', 2);
-INSERT INTO series (id, name, count) VALUES ('hercules_(1997_film)', 'Hercules (1997 Film)', 2);
-INSERT INTO series (id, name, count) VALUES ('merc_storia', 'Merc Storia', 2);
-INSERT INTO series (id, name, count) VALUES ('mahou_shounen_miracle_hachirou', 'Mahou Shounen Miracle Hachirou', 2);
-INSERT INTO series (id, name, count) VALUES ('tokyo_xanadu', 'Tokyo Xanadu', 2);
-INSERT INTO series (id, name, count) VALUES ('munou_na_nana', 'Munou Na Nana', 2);
-INSERT INTO series (id, name, count) VALUES ('id_:invaded', 'Id :invaded', 2);
-INSERT INTO series (id, name, count) VALUES ('angelic_layer', 'Angelic Layer', 2);
-INSERT INTO series (id, name, count) VALUES ('himawari-san', 'Himawari-san', 2);
-INSERT INTO series (id, name, count) VALUES ('shunkashuutou_daikousha', 'Shunkashuutou Daikousha', 2);
-INSERT INTO series (id, name, count) VALUES ('kannazuki_no_miko', 'Kannazuki No Miko', 2);
-INSERT INTO series (id, name, count) VALUES ('garden_(game)', 'Garden (game)', 2);
-INSERT INTO series (id, name, count) VALUES ('kaii_shoukougun', 'Kaii Shoukougun', 2);
-INSERT INTO series (id, name, count) VALUES ('tropical_kiss', 'Tropical Kiss', 2);
-INSERT INTO series (id, name, count) VALUES ('pure_pure', 'Pure Pure', 2);
-INSERT INTO series (id, name, count) VALUES ('iwamotochou_geinousha', 'Iwamotochou Geinousha', 2);
-INSERT INTO series (id, name, count) VALUES ('mewkledreamy', 'Mewkledreamy', 2);
-INSERT INTO series (id, name, count) VALUES ('akagi:_yami_ni_oritatta_tensai', 'Akagi: Yami Ni Oritatta Tensai', 2);
-INSERT INTO series (id, name, count) VALUES ('green_(game)', 'Green (game)', 2);
-INSERT INTO series (id, name, count) VALUES ('ao_oni', 'Ao Oni', 2);
-INSERT INTO series (id, name, count) VALUES ('ringetsu', 'Ringetsu', 2);
-INSERT INTO series (id, name, count) VALUES ('code_vein_ii', 'Code Vein Ii', 2);
-INSERT INTO series (id, name, count) VALUES ('eden''s_zero', 'Eden''s Zero', 2);
-INSERT INTO series (id, name, count) VALUES ('lonely_girl_ni_sakaraenai', 'Lonely Girl Ni Sakaraenai', 2);
-INSERT INTO series (id, name, count) VALUES ('hero-san_to_moto_onna_kanbu-san', 'Hero-san To Moto Onna Kanbu-san', 2);
-INSERT INTO series (id, name, count) VALUES ('le_sserafim', 'Le Sserafim', 2);
-INSERT INTO series (id, name, count) VALUES ('kaze_tachinu', 'Kaze Tachinu', 2);
-INSERT INTO series (id, name, count) VALUES ('ginga_tetsudou_999', 'Ginga Tetsudou 999', 2);
-INSERT INTO series (id, name, count) VALUES ('gamers!', 'Gamers!', 2);
-INSERT INTO series (id, name, count) VALUES ('kaede_to_suzu', 'Kaede To Suzu', 2);
-INSERT INTO series (id, name, count) VALUES ('htol#niq:_hotaru_no_nikki', 'Htol#niq: Hotaru No Nikki', 2);
-INSERT INTO series (id, name, count) VALUES ('goshuushou-sama_ninomiya-kun', 'Goshuushou-sama Ninomiya-kun', 2);
-INSERT INTO series (id, name, count) VALUES ('voltron:_legendary_defender', 'Voltron: Legendary Defender', 2);
-INSERT INTO series (id, name, count) VALUES ('after_school_lessons_for_unripe_apples', 'After School Lessons For Unripe Apples', 2);
-INSERT INTO series (id, name, count) VALUES ('majo_to_hyakkihei', 'Majo To Hyakkihei', 2);
+INSERT INTO series (id, name, count) VALUES ('19_tian', '19 田', 2);
+INSERT INTO series (id, name, count) VALUES ('strike_witches:_suomus_misfits_squadron', '强袭魔女：索莫斯不合时宜中队', 2);
+INSERT INTO series (id, name, count) VALUES ('hercules_(1997_film)', '大力神 (1997 年电影)', 2);
+INSERT INTO series (id, name, count) VALUES ('merc_storia', '默克历史', 2);
+INSERT INTO series (id, name, count) VALUES ('mahou_shounen_miracle_hachirou', '魔法少年奇迹八郎', 2);
+INSERT INTO series (id, name, count) VALUES ('tokyo_xanadu', '东京', 2);
+INSERT INTO series (id, name, count) VALUES ('munou_na_nana', '口与八', 2);
+INSERT INTO series (id, name, count) VALUES ('id_:invaded', 'ID：入侵', 2);
+INSERT INTO series (id, name, count) VALUES ('angelic_layer', '天使层', 2);
+INSERT INTO series (id, name, count) VALUES ('himawari-san', '向日葵桑', 2);
+INSERT INTO series (id, name, count) VALUES ('shunkashuutou_daikousha', '春花集汤大兴社', 2);
+INSERT INTO series (id, name, count) VALUES ('kannazuki_no_miko', '神无月巫女', 2);
+INSERT INTO series (id, name, count) VALUES ('garden_(game)', '花园（游戏）', 2);
+INSERT INTO series (id, name, count) VALUES ('kaii_shoukougun', '魁夷翔工君', 2);
+INSERT INTO series (id, name, count) VALUES ('tropical_kiss', '热带之吻', 2);
+INSERT INTO series (id, name, count) VALUES ('pure_pure', '纯粹纯粹', 2);
+INSERT INTO series (id, name, count) VALUES ('iwamotochou_geinousha', '岩本町艺能社', 2);
+INSERT INTO series (id, name, count) VALUES ('mewkledreamy', '梦幻般的梦幻', 2);
+INSERT INTO series (id, name, count) VALUES ('akagi:_yami_ni_oritatta_tensai', '赤城：暗二 Oritatta Tensai', 2);
+INSERT INTO series (id, name, count) VALUES ('green_(game)', '绿色（游戏）', 2);
+INSERT INTO series (id, name, count) VALUES ('ao_oni', '青鬼', 2);
+INSERT INTO series (id, name, count) VALUES ('ringetsu', '铃月', 2);
+INSERT INTO series (id, name, count) VALUES ('code_vein_ii', '代码静脉II', 2);
+INSERT INTO series (id, name, count) VALUES ('eden''s_zero', '伊甸园零', 2);
+INSERT INTO series (id, name, count) VALUES ('lonely_girl_ni_sakaraenai', '孤独的女孩 Ni Sakaraenai', 2);
+INSERT INTO series (id, name, count) VALUES ('hero-san_to_moto_onna_kanbu-san', '英雄桑与本恩纳坎布桑', 2);
+INSERT INTO series (id, name, count) VALUES ('le_sserafim', '六翼天使', 2);
+INSERT INTO series (id, name, count) VALUES ('kaze_tachinu', '立风风', 2);
+INSERT INTO series (id, name, count) VALUES ('ginga_tetsudou_999', '银河铁道999', 2);
+INSERT INTO series (id, name, count) VALUES ('gamers!', '游戏玩家们！', 2);
+INSERT INTO series (id, name, count) VALUES ('kaede_to_suzu', '枫与珠洲', 2);
+INSERT INTO series (id, name, count) VALUES ('htol#niq:_hotaru_no_nikki', 'Htol#niq：萤之日记', 2);
+INSERT INTO series (id, name, count) VALUES ('goshuushou-sama_ninomiya-kun', '御州将大人二宫君', 2);
+INSERT INTO series (id, name, count) VALUES ('voltron:_legendary_defender', '战神金刚：传奇后卫', 2);
+INSERT INTO series (id, name, count) VALUES ('after_school_lessons_for_unripe_apples', '未熟苹果的课后课程', 2);
+INSERT INTO series (id, name, count) VALUES ('majo_to_hyakkihei', '魔女百鬼兵', 2);
 INSERT INTO series (id, name, count) VALUES ('osananajimi_no_h_na_onee-san_wa_suki_desu_ka?', 'Osananajimi No H Na Onee-san Wa Suki Desu Ka?', 2);
-INSERT INTO series (id, name, count) VALUES ('ico', 'Ico', 2);
-INSERT INTO series (id, name, count) VALUES ('el_hazard', 'El Hazard', 2);
-INSERT INTO series (id, name, count) VALUES ('amaama_to_inazuma', 'Amaama To Inazuma', 2);
-INSERT INTO series (id, name, count) VALUES ('ryuugajou_nanana_no_maizoukin', 'Ryuugajou Nanana No Maizoukin', 2);
-INSERT INTO series (id, name, count) VALUES ('passion_(manhwa)', 'Passion (manhwa)', 2);
-INSERT INTO series (id, name, count) VALUES ('hikaru_ga_shinda_natsu', 'Hikaru Ga Shinda Natsu', 2);
-INSERT INTO series (id, name, count) VALUES ('kura_sushi', 'Kura Sushi', 2);
+INSERT INTO series (id, name, count) VALUES ('ico', '伊科', 2);
+INSERT INTO series (id, name, count) VALUES ('el_hazard', '埃尔哈扎德', 2);
+INSERT INTO series (id, name, count) VALUES ('amaama_to_inazuma', '闪电的妈妈', 2);
+INSERT INTO series (id, name, count) VALUES ('ryuugajou_nanana_no_maizoukin', '龙之城七七的舞魔金', 2);
+INSERT INTO series (id, name, count) VALUES ('passion_(manhwa)', '热情', 2);
+INSERT INTO series (id, name, count) VALUES ('hikaru_ga_shinda_natsu', '光神田夏', 2);
+INSERT INTO series (id, name, count) VALUES ('kura_sushi', '藏寿司', 2);
 INSERT INTO series (id, name, count) VALUES ('tsukiatte_agetemo_ii_kana', 'Tsukiatte Agetemo Ii Kana', 2);
-INSERT INTO series (id, name, count) VALUES ('satsuriku_no_tenshi', 'Satsuriku No Tenshi', 2);
-INSERT INTO series (id, name, count) VALUES ('formula_one', 'Formula One', 2);
-INSERT INTO series (id, name, count) VALUES ('akihabara_beer_fair', 'Akihabara Beer Fair', 2);
-INSERT INTO series (id, name, count) VALUES ('tomica_hyper_rescue_drive_head:_kidou_kyuukyuu_keisatsu', 'Tomica Hyper Rescue Drive Head: Kidou Kyuukyuu Keisatsu', 2);
-INSERT INTO series (id, name, count) VALUES ('mm!', 'Mm!', 2);
-INSERT INTO series (id, name, count) VALUES ('shuumatsu_no_izetta', 'Shuumatsu No Izetta', 2);
-INSERT INTO series (id, name, count) VALUES ('chargeman_ken!', 'Chargeman Ken!', 2);
-INSERT INTO series (id, name, count) VALUES ('kiseijuu', 'Kiseijuu', 2);
-INSERT INTO series (id, name, count) VALUES ('gouma_reifuden_izuna', 'Gouma Reifuden Izuna', 2);
+INSERT INTO series (id, name, count) VALUES ('satsuriku_no_tenshi', '灿烂的天使', 2);
+INSERT INTO series (id, name, count) VALUES ('formula_one', '一级方程式赛车', 2);
+INSERT INTO series (id, name, count) VALUES ('akihabara_beer_fair', '秋叶原啤酒博览会', 2);
+INSERT INTO series (id, name, count) VALUES ('tomica_hyper_rescue_drive_head:_kidou_kyuukyuu_keisatsu', 'Tomica Hyper Rescue 驱动头：Kidou Kyuukyuu Keisatsu', 2);
+INSERT INTO series (id, name, count) VALUES ('mm!', '毫米！', 2);
+INSERT INTO series (id, name, count) VALUES ('shuumatsu_no_izetta', '秋末之伊泽塔', 2);
+INSERT INTO series (id, name, count) VALUES ('chargeman_ken!', '冲锋肯！', 2);
+INSERT INTO series (id, name, count) VALUES ('kiseijuu', '鬼成十', 2);
+INSERT INTO series (id, name, count) VALUES ('gouma_reifuden_izuna', '刚马灵风传伊纲', 2);
 INSERT INTO series (id, name, count) VALUES ('bakusou_kyoudai_let''s_&_go!!', 'Bakusou Kyoudai Let''s & Go!!', 2);
-INSERT INTO series (id, name, count) VALUES ('the_nightmare_before_christmas', 'The Nightmare Before Christmas', 2);
-INSERT INTO series (id, name, count) VALUES ('wrath_of_man', 'Wrath Of Man', 2);
+INSERT INTO series (id, name, count) VALUES ('the_nightmare_before_christmas', '圣诞节前的噩梦', 2);
+INSERT INTO series (id, name, count) VALUES ('wrath_of_man', '人类之怒', 2);
 INSERT INTO series (id, name, count) VALUES ('jahy-sama_wa_kujikenai!', 'Jahy-sama Wa Kujikenai!', 2);
-INSERT INTO series (id, name, count) VALUES ('conspiracy_research_club', 'Conspiracy Research Club', 2);
-INSERT INTO series (id, name, count) VALUES ('just_do_sex_(unspoken)', 'Just Do Sex (unspoken)', 2);
-INSERT INTO series (id, name, count) VALUES ('friday_the_13th', 'Friday The 13th', 2);
-INSERT INTO series (id, name, count) VALUES ('class_of_09', 'Class Of 09', 2);
-INSERT INTO series (id, name, count) VALUES ('creepypasta', 'Creepypasta', 2);
-INSERT INTO series (id, name, count) VALUES ('tom_and_jerry', 'Tom And Jerry', 2);
-INSERT INTO series (id, name, count) VALUES ('buta_no_liver_wa_kanetsu_shiro', 'Buta No Liver Wa Kanetsu Shiro', 2);
-INSERT INTO series (id, name, count) VALUES ('lunar:_the_silver_star', 'Lunar: The Silver Star', 2);
-INSERT INTO series (id, name, count) VALUES ('battle_athletes', 'Battle Athletes', 2);
+INSERT INTO series (id, name, count) VALUES ('conspiracy_research_club', '阴谋研究俱乐部', 2);
+INSERT INTO series (id, name, count) VALUES ('just_do_sex_(unspoken)', '只是做爱（无声）', 2);
+INSERT INTO series (id, name, count) VALUES ('friday_the_13th', '13号星期五', 2);
+INSERT INTO series (id, name, count) VALUES ('class_of_09', '09级', 2);
+INSERT INTO series (id, name, count) VALUES ('creepypasta', '令人毛骨悚然的面食', 2);
+INSERT INTO series (id, name, count) VALUES ('tom_and_jerry', '汤姆和杰瑞', 2);
+INSERT INTO series (id, name, count) VALUES ('buta_no_liver_wa_kanetsu_shiro', '猪的肝脏和兼越四郎', 2);
+INSERT INTO series (id, name, count) VALUES ('lunar:_the_silver_star', '月亮：银星', 2);
+INSERT INTO series (id, name, count) VALUES ('battle_athletes', '战斗运动员', 2);
 INSERT INTO series (id, name, count) VALUES ('the_legend_of_luo_xiaohei', 'The Legend Of Luo Xiaohei', 2);
-INSERT INTO series (id, name, count) VALUES ('cars_(movie)', 'Cars (movie)', 2);
-INSERT INTO series (id, name, count) VALUES ('kusuriya_no_hitorigoto', 'Kusuriya No Hitorigoto', 2);
-INSERT INTO series (id, name, count) VALUES ('monster_(manga)', 'Monster (manga)', 2);
-INSERT INTO series (id, name, count) VALUES ('the_adventures_of_sherlock_holmes', 'The Adventures Of Sherlock Holmes', 2);
-INSERT INTO series (id, name, count) VALUES ('john_wick', 'John Wick', 2);
-INSERT INTO series (id, name, count) VALUES ('wonder_project_j2', 'Wonder Project J2', 2);
-INSERT INTO series (id, name, count) VALUES ('interstellar_rhapsody', 'Interstellar Rhapsody', 2);
-INSERT INTO series (id, name, count) VALUES ('ctrl+alt+resign', 'Ctrl+alt+resign', 2);
-INSERT INTO series (id, name, count) VALUES ('zootopia', 'Zootopia', 2);
-INSERT INTO series (id, name, count) VALUES ('romeo_and_juliet', 'Romeo And Juliet', 2);
-INSERT INTO series (id, name, count) VALUES ('kishuku_gakkou_no_juliet', 'Kishuku Gakkou No Juliet', 2);
-INSERT INTO series (id, name, count) VALUES ('lollipop_chainsaw', 'Lollipop Chainsaw', 2);
-INSERT INTO series (id, name, count) VALUES ('gatchaman', 'Gatchaman', 2);
-INSERT INTO series (id, name, count) VALUES ('ragnarock_city', 'Ragnarock City', 2);
-INSERT INTO series (id, name, count) VALUES ('oshite_dame_nara_oshitemiro!', 'Oshite Dame Nara Oshitemiro!', 2);
-INSERT INTO series (id, name, count) VALUES ('memories_off', 'Memories Off', 2);
-INSERT INTO series (id, name, count) VALUES ('maerchen_maedchen', 'Maerchen Maedchen', 2);
-INSERT INTO series (id, name, count) VALUES ('prism_ark', 'Prism Ark', 2);
-INSERT INTO series (id, name, count) VALUES ('the_moon_studio', 'The Moon Studio', 2);
-INSERT INTO series (id, name, count) VALUES ('kamikaze_kaitou_jeanne', 'Kamikaze Kaitou Jeanne', 2);
-INSERT INTO series (id, name, count) VALUES ('touka_gettan', 'Touka Gettan', 2);
-INSERT INTO series (id, name, count) VALUES ('muteki_choujin_zambot_3', 'Muteki Choujin Zambot 3', 2);
-INSERT INTO series (id, name, count) VALUES ('keijo!!!!!!!!', 'Keijo!!!!!!!!', 2);
-INSERT INTO series (id, name, count) VALUES ('medalist_(manga)', 'Medalist (manga)', 2);
-INSERT INTO series (id, name, count) VALUES ('shakunetsu_no_takkyuu_musume', 'Shakunetsu No Takkyuu Musume', 2);
-INSERT INTO series (id, name, count) VALUES ('uchi_no_maid_ga_uzasugiru!', 'Uchi No Maid Ga Uzasugiru!', 2);
-INSERT INTO series (id, name, count) VALUES ('genjitsu_no_yohane', 'Genjitsu No Yohane', 2);
-INSERT INTO series (id, name, count) VALUES ('bernard-jou_iwaku.', 'Bernard-jou Iwaku.', 2);
-INSERT INTO series (id, name, count) VALUES ('joreibu_no_mikado-san', 'Joreibu No Mikado-san', 2);
-INSERT INTO series (id, name, count) VALUES ('akira_(manga)', 'Akira (manga)', 2);
-INSERT INTO series (id, name, count) VALUES ('noble_works', 'Noble Works', 2);
-INSERT INTO series (id, name, count) VALUES ('imouto_sae_ireba_ii', 'Imouto Sae Ireba Ii', 2);
-INSERT INTO series (id, name, count) VALUES ('densou_tenshi_valforce', 'Densou Tenshi Valforce', 2);
+INSERT INTO series (id, name, count) VALUES ('cars_(movie)', '汽车（电影）', 2);
+INSERT INTO series (id, name, count) VALUES ('kusuriya_no_hitorigoto', '楠屋一人', 2);
+INSERT INTO series (id, name, count) VALUES ('monster_(manga)', '怪物（漫画）', 2);
+INSERT INTO series (id, name, count) VALUES ('the_adventures_of_sherlock_holmes', '福尔摩斯历险记', 2);
+INSERT INTO series (id, name, count) VALUES ('john_wick', '约翰威克', 2);
+INSERT INTO series (id, name, count) VALUES ('wonder_project_j2', '奇迹计划J2', 2);
+INSERT INTO series (id, name, count) VALUES ('interstellar_rhapsody', '星际狂想曲', 2);
+INSERT INTO series (id, name, count) VALUES ('ctrl+alt+resign', 'Ctrl+Alt+辞职', 2);
+INSERT INTO series (id, name, count) VALUES ('zootopia', '疯狂动物城', 2);
+INSERT INTO series (id, name, count) VALUES ('romeo_and_juliet', '罗密欧与朱丽叶', 2);
+INSERT INTO series (id, name, count) VALUES ('kishuku_gakkou_no_juliet', '纪宿学校的朱丽叶', 2);
+INSERT INTO series (id, name, count) VALUES ('lollipop_chainsaw', '棒棒糖电锯', 2);
+INSERT INTO series (id, name, count) VALUES ('gatchaman', '盖奇曼', 2);
+INSERT INTO series (id, name, count) VALUES ('ragnarock_city', '拉格纳洛克城', 2);
+INSERT INTO series (id, name, count) VALUES ('oshite_dame_nara_oshitemiro!', '奈良押手郎夫人！', 2);
+INSERT INTO series (id, name, count) VALUES ('memories_off', '回忆关闭', 2);
+INSERT INTO series (id, name, count) VALUES ('maerchen_maedchen', '童话里的女孩', 2);
+INSERT INTO series (id, name, count) VALUES ('prism_ark', '棱镜方舟', 2);
+INSERT INTO series (id, name, count) VALUES ('the_moon_studio', '月亮工作室', 2);
+INSERT INTO series (id, name, count) VALUES ('kamikaze_kaitou_jeanne', '神风怪盗珍妮', 2);
+INSERT INTO series (id, name, count) VALUES ('touka_gettan', '灯花月谈', 2);
+INSERT INTO series (id, name, count) VALUES ('muteki_choujin_zambot_3', '无敌超人 Zambot 3', 2);
+INSERT INTO series (id, name, count) VALUES ('keijo!!!!!!!!', '仙女！！！！！！！！', 2);
+INSERT INTO series (id, name, count) VALUES ('medalist_(manga)', '奖牌获得者（漫画）', 2);
+INSERT INTO series (id, name, count) VALUES ('shakunetsu_no_takkyuu_musume', '灼热之宅急娘', 2);
+INSERT INTO series (id, name, count) VALUES ('uchi_no_maid_ga_uzasugiru!', '内之女仆 あるかる！', 2);
+INSERT INTO series (id, name, count) VALUES ('genjitsu_no_yohane', '真实的夜羽', 2);
+INSERT INTO series (id, name, count) VALUES ('bernard-jou_iwaku.', '伯纳德·岩久。', 2);
+INSERT INTO series (id, name, count) VALUES ('joreibu_no_mikado-san', '净礼部天皇', 2);
+INSERT INTO series (id, name, count) VALUES ('akira_(manga)', '阿基拉（漫画）', 2);
+INSERT INTO series (id, name, count) VALUES ('noble_works', '高贵的作品', 2);
+INSERT INTO series (id, name, count) VALUES ('imouto_sae_ireba_ii', '伊莫托·萨埃·伊雷巴二世', 2);
+INSERT INTO series (id, name, count) VALUES ('densou_tenshi_valforce', '电装天使 Valforce', 2);
 INSERT INTO series (id, name, count) VALUES ('kono_naka_ni_hitori_imouto_ga_iru!', 'Kono Naka Ni Hitori Imouto Ga Iru!', 2);
-INSERT INTO series (id, name, count) VALUES ('kirisame_ga_furu_mori', 'Kirisame Ga Furu Mori', 2);
-INSERT INTO series (id, name, count) VALUES ('girlish_number', 'Girlish Number', 2);
-INSERT INTO series (id, name, count) VALUES ('aespa', 'Aespa', 2);
-INSERT INTO series (id, name, count) VALUES ('buta_koushaku', 'Buta Koushaku', 2);
-INSERT INTO series (id, name, count) VALUES ('asagao_to_kase-san', 'Asagao To Kase-san', 2);
-INSERT INTO series (id, name, count) VALUES ('corrector_yui', 'Corrector Yui', 2);
-INSERT INTO series (id, name, count) VALUES ('issho_ni_gohan_tabetai', 'Issho Ni Gohan Tabetai', 2);
-INSERT INTO series (id, name, count) VALUES ('akane-iro_ni_somaru_saka', 'Akane-iro Ni Somaru Saka', 2);
-INSERT INTO series (id, name, count) VALUES ('idol_land_pripara', 'Idol Land Pripara', 2);
-INSERT INTO series (id, name, count) VALUES ('kouyoku_senki_exs-tia', 'Kouyoku Senki Exs-tia', 2);
-INSERT INTO series (id, name, count) VALUES ('majin_tantei_nougami_neuro', 'Majin Tantei Nougami Neuro', 2);
-INSERT INTO series (id, name, count) VALUES ('sakamichi_no_apollon', 'Sakamichi No Apollon', 2);
-INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_pretty_sammy', 'Mahou Shoujo Pretty Sammy', 2);
-INSERT INTO series (id, name, count) VALUES ('puniru_wa_kawaii_slime', 'Puniru Wa Kawaii Slime', 2);
-INSERT INTO series (id, name, count) VALUES ('danball_senki', 'Danball Senki', 2);
-INSERT INTO series (id, name, count) VALUES ('futaribeya', 'Futaribeya', 2);
-INSERT INTO series (id, name, count) VALUES ('tokimeki_memorial_girl''s_side_4th_heart', 'Tokimeki Memorial Girl''s Side 4th Heart', 2);
-INSERT INTO series (id, name, count) VALUES ('kimi_ni_todoke', 'Kimi Ni Todoke', 2);
-INSERT INTO series (id, name, count) VALUES ('mahou_no_star_magical_emi', 'Mahou No Star Magical Emi', 2);
-INSERT INTO series (id, name, count) VALUES ('gokukoku_no_brynhildr', 'Gokukoku No Brynhildr', 2);
-INSERT INTO series (id, name, count) VALUES ('triage_x', 'Triage X', 2);
-INSERT INTO series (id, name, count) VALUES ('babymetal', 'Babymetal', 2);
-INSERT INTO series (id, name, count) VALUES ('beware_the_ides_of_march', 'Beware The Ides Of March', 2);
-INSERT INTO series (id, name, count) VALUES ('kim_possible_(series)', 'Kim Possible', 2);
-INSERT INTO series (id, name, count) VALUES ('king_kong_(series)', 'King Kong', 2);
-INSERT INTO series (id, name, count) VALUES ('ao_no_roku-gou', 'Ao No Roku-gou', 2);
-INSERT INTO series (id, name, count) VALUES ('yamada-kun_to_lv999_no_koi_wo_suru', 'Yamada-kun To Lv999 No Koi Wo Suru', 2);
-INSERT INTO series (id, name, count) VALUES ('usavich', 'Usavich', 2);
-INSERT INTO series (id, name, count) VALUES ('sakura_sakura', 'Sakura Sakura', 2);
-INSERT INTO series (id, name, count) VALUES ('tengoku_daimakyou', 'Tengoku Daimakyou', 2);
-INSERT INTO series (id, name, count) VALUES ('snow_(game)', 'Snow (game)', 2);
-INSERT INTO series (id, name, count) VALUES ('kurogane_no_linebarrel', 'Kurogane No Linebarrel', 2);
-INSERT INTO series (id, name, count) VALUES ('taiho_shichauzo', 'Taiho Shichauzo', 2);
-INSERT INTO series (id, name, count) VALUES ('chunithm', 'Chunithm', 2);
+INSERT INTO series (id, name, count) VALUES ('kirisame_ga_furu_mori', '森雾雨', 2);
+INSERT INTO series (id, name, count) VALUES ('girlish_number', '少女号', 2);
+INSERT INTO series (id, name, count) VALUES ('aespa', '埃斯帕', 2);
+INSERT INTO series (id, name, count) VALUES ('buta_koushaku', '布塔红释', 2);
+INSERT INTO series (id, name, count) VALUES ('asagao_to_kase-san', '朝颜藤加濑桑', 2);
+INSERT INTO series (id, name, count) VALUES ('corrector_yui', '修正者由依', 2);
+INSERT INTO series (id, name, count) VALUES ('issho_ni_gohan_tabetai', '一书二悟饭 Tabetai', 2);
+INSERT INTO series (id, name, count) VALUES ('akane-iro_ni_somaru_saka', '坂茜色二相丸', 2);
+INSERT INTO series (id, name, count) VALUES ('idol_land_pripara', '偶像乐园Pripara', 2);
+INSERT INTO series (id, name, count) VALUES ('kouyoku_senki_exs-tia', '红极无人Exstia', 2);
+INSERT INTO series (id, name, count) VALUES ('majin_tantei_nougami_neuro', '魔人侦探野神神经', 2);
+INSERT INTO series (id, name, count) VALUES ('sakamichi_no_apollon', '坂道之阿波罗', 2);
+INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_pretty_sammy', '魔法少女漂亮Sammy', 2);
+INSERT INTO series (id, name, count) VALUES ('puniru_wa_kawaii_slime', 'Puniru Wa 卡哇伊史莱姆', 2);
+INSERT INTO series (id, name, count) VALUES ('danball_senki', '丹鲍尔无人', 2);
+INSERT INTO series (id, name, count) VALUES ('futaribeya', '二部屋', 2);
+INSERT INTO series (id, name, count) VALUES ('tokimeki_memorial_girl''s_side_4th_heart', '心跳回忆 Girl''s Side 4th Heart', 2);
+INSERT INTO series (id, name, count) VALUES ('kimi_ni_todoke', '东多克基米', 2);
+INSERT INTO series (id, name, count) VALUES ('mahou_no_star_magical_emi', '魔法之星 魔法惠美', 2);
+INSERT INTO series (id, name, count) VALUES ('gokukoku_no_brynhildr', '极国的布伦希尔德', 2);
+INSERT INTO series (id, name, count) VALUES ('triage_x', '分诊X', 2);
+INSERT INTO series (id, name, count) VALUES ('babymetal', '婴儿金属', 2);
+INSERT INTO series (id, name, count) VALUES ('beware_the_ides_of_march', '谨防三月十五日', 2);
+INSERT INTO series (id, name, count) VALUES ('kim_possible_(series)', '金·可能', 2);
+INSERT INTO series (id, name, count) VALUES ('king_kong_(series)', '金刚', 2);
+INSERT INTO series (id, name, count) VALUES ('ao_no_roku-gou', '青之六号', 2);
+INSERT INTO series (id, name, count) VALUES ('yamada-kun_to_lv999_no_koi_wo_suru', '山田君 Lv999 恋我苏鲁', 2);
+INSERT INTO series (id, name, count) VALUES ('usavich', '乌苏阿维奇', 2);
+INSERT INTO series (id, name, count) VALUES ('sakura_sakura', '佐仓佐仓', 2);
+INSERT INTO series (id, name, count) VALUES ('tengoku_daimakyou', '天国大魔镜', 2);
+INSERT INTO series (id, name, count) VALUES ('snow_(game)', '雪（游戏）', 2);
+INSERT INTO series (id, name, count) VALUES ('kurogane_no_linebarrel', '黑金无线桶', 2);
+INSERT INTO series (id, name, count) VALUES ('taiho_shichauzo', '大宝七重三', 2);
+INSERT INTO series (id, name, count) VALUES ('chunithm', '楚尼瑟姆', 2);
 INSERT INTO series (id, name, count) VALUES ('kininatteru_hito_ga_otoko_ja_nakatta', 'Kininatteru Hito Ga Otoko Ja Nakatta', 2);
-INSERT INTO series (id, name, count) VALUES ('narutaru', 'Narutaru', 2);
+INSERT INTO series (id, name, count) VALUES ('narutaru', '鸣人', 2);
 INSERT INTO series (id, name, count) VALUES ('kawaikereba_hentai_demo_suki_ni_natte_kuremasu_ka?', 'Kawaikereba Hentai Demo Suki Ni Natte Kuremasu Ka?', 2);
-INSERT INTO series (id, name, count) VALUES ('koharu_and_minato', 'Koharu And Minato', 2);
-INSERT INTO series (id, name, count) VALUES ('amanchu!', 'Amanchu!', 2);
-INSERT INTO series (id, name, count) VALUES ('gakkou_no_kaidan_(anime)', 'Gakkou No Kaidan (anime)', 2);
-INSERT INTO series (id, name, count) VALUES ('comic_girls', 'Comic Girls', 2);
-INSERT INTO series (id, name, count) VALUES ('tsuki_ni_yorisou_otome_no_sahou', 'Tsuki Ni Yorisou Otome No Sahou', 2);
-INSERT INTO series (id, name, count) VALUES ('neko_musume_michikusa_nikki', 'Neko Musume Michikusa Nikki', 2);
-INSERT INTO series (id, name, count) VALUES ('nana_(series)', 'Nana', 2);
-INSERT INTO series (id, name, count) VALUES ('just_because!', 'Just Because!', 2);
-INSERT INTO series (id, name, count) VALUES ('sora_no_method', 'Sora No Method', 2);
-INSERT INTO series (id, name, count) VALUES ('tokyo_ravens', 'Tokyo Ravens', 2);
-INSERT INTO series (id, name, count) VALUES ('empty_x_embryo', 'Empty X Embryo', 2);
+INSERT INTO series (id, name, count) VALUES ('koharu_and_minato', '小春和港', 2);
+INSERT INTO series (id, name, count) VALUES ('amanchu!', '阿满楚！', 2);
+INSERT INTO series (id, name, count) VALUES ('gakkou_no_kaidan_(anime)', '学校的怪谈（动画）', 2);
+INSERT INTO series (id, name, count) VALUES ('comic_girls', '漫画女孩', 2);
+INSERT INTO series (id, name, count) VALUES ('tsuki_ni_yorisou_otome_no_sahou', '月二赖庄 乙女佐凤', 2);
+INSERT INTO series (id, name, count) VALUES ('neko_musume_michikusa_nikki', '猫娘道草日记', 2);
+INSERT INTO series (id, name, count) VALUES ('nana_(series)', '娜娜', 2);
+INSERT INTO series (id, name, count) VALUES ('just_because!', '只是因为！', 2);
+INSERT INTO series (id, name, count) VALUES ('sora_no_method', '空无方法', 2);
+INSERT INTO series (id, name, count) VALUES ('tokyo_ravens', '东京乌鸦队', 2);
+INSERT INTO series (id, name, count) VALUES ('empty_x_embryo', '空X胚胎', 2);
 INSERT INTO series (id, name, count) VALUES ('afk_(series)', 'Afk', 2);
-INSERT INTO series (id, name, count) VALUES ('san-x', 'San-x', 2);
-INSERT INTO series (id, name, count) VALUES ('hi-fi_rush', 'Hi-fi Rush', 2);
-INSERT INTO series (id, name, count) VALUES ('toranoana', 'Toranoana', 2);
-INSERT INTO series (id, name, count) VALUES ('kotoura-san', 'Kotoura-san', 2);
-INSERT INTO series (id, name, count) VALUES ('wagaya_no_oinari-sama', 'Wagaya No Oinari-sama', 2);
-INSERT INTO series (id, name, count) VALUES ('happy_sugar_life', 'Happy Sugar Life', 2);
-INSERT INTO series (id, name, count) VALUES ('hoshizora_e_kakaru_hashi', 'Hoshizora E Kakaru Hashi', 2);
-INSERT INTO series (id, name, count) VALUES ('flying_witch', 'Flying Witch', 2);
-INSERT INTO series (id, name, count) VALUES ('snow_fox', 'Snow Fox', 2);
-INSERT INTO series (id, name, count) VALUES ('valkyrie_no_densetsu', 'Valkyrie No Densetsu', 2);
-INSERT INTO series (id, name, count) VALUES ('kubo-san_wa_mob_wo_yurusanai', 'Kubo-san Wa Mob Wo Yurusanai', 2);
-INSERT INTO series (id, name, count) VALUES ('variable_geo', 'Variable Geo', 2);
-INSERT INTO series (id, name, count) VALUES ('tamagotchi', 'Tamagotchi', 2);
-INSERT INTO series (id, name, count) VALUES ('kamisama_dolls', 'Kamisama Dolls', 2);
-INSERT INTO series (id, name, count) VALUES ('kanamemo', 'Kanamemo', 2);
-INSERT INTO series (id, name, count) VALUES ('gosick', 'Gosick', 2);
-INSERT INTO series (id, name, count) VALUES ('girl_friends_(manga)', 'Girl Friends (manga)', 2);
-INSERT INTO series (id, name, count) VALUES ('inkya_gyaru_demo_ikigaritai!', 'Inkya Gyaru Demo Ikigaritai!', 2);
-INSERT INTO series (id, name, count) VALUES ('kyu-kurarin_(cevio)', 'Kyu-kurarin (cevio)', 2);
-INSERT INTO series (id, name, count) VALUES ('guild_cq', 'Guild Cq', 2);
-INSERT INTO series (id, name, count) VALUES ('amakano_2', 'Amakano 2', 2);
-INSERT INTO series (id, name, count) VALUES ('utakata', 'Utakata', 2);
-INSERT INTO series (id, name, count) VALUES ('ensemble_girls!', 'Ensemble Girls!', 2);
-INSERT INTO series (id, name, count) VALUES ('koutetsu_tenshi_kurumi', 'Koutetsu Tenshi Kurumi', 2);
-INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_sae', 'Mahou Shoujo Sae', 2);
-INSERT INTO series (id, name, count) VALUES ('boroboro_no_elf-san_o_shiawaseni_suru_kusuri_uri-san', 'Boroboro No Elf-san O Shiawaseni Suru Kusuri Uri-san', 2);
-INSERT INTO series (id, name, count) VALUES ('sabagebu!', 'Sabagebu!', 2);
-INSERT INTO series (id, name, count) VALUES ('live_a_live', 'Live A Live', 2);
-INSERT INTO series (id, name, count) VALUES ('akroglam', 'Akroglam', 2);
-INSERT INTO series (id, name, count) VALUES ('paradiso_guardian', 'Paradiso Guardian', 2);
-INSERT INTO series (id, name, count) VALUES ('leon_the_professional', 'Leon The Professional', 2);
-INSERT INTO series (id, name, count) VALUES ('yoru_no_yatterman', 'Yoru No Yatterman', 2);
-INSERT INTO series (id, name, count) VALUES ('aohada_bocchi', 'Aohada Bocchi', 2);
-INSERT INTO series (id, name, count) VALUES ('kangoku_senkan', 'Kangoku Senkan', 2);
-INSERT INTO series (id, name, count) VALUES ('yoshinaga-san''chi_no_gargoyle', 'Yoshinaga-san''chi No Gargoyle', 2);
-INSERT INTO series (id, name, count) VALUES ('saikin_yatotta_maid_ga_ayashii', 'Saikin Yatotta Maid Ga Ayashii', 2);
-INSERT INTO series (id, name, count) VALUES ('wanko_to_lily', 'Wanko To Lily', 2);
-INSERT INTO series (id, name, count) VALUES ('beast_wars', 'Beast Wars', 2);
-INSERT INTO series (id, name, count) VALUES ('panel_de_pon', 'Panel De Pon', 2);
-INSERT INTO series (id, name, count) VALUES ('tensei_shitara_dai_nana_oji_datta_no_de:_kimama_ni_majutsu_o_kiwamemasu', 'Tensei Shitara Dai Nana Oji Datta No De: Kimama Ni Majutsu O Kiwamemasu', 2);
-INSERT INTO series (id, name, count) VALUES ('sakura_strasse', 'Sakura Strasse', 2);
-INSERT INTO series (id, name, count) VALUES ('30_minutes_sisters', '30 Minutes Sisters', 2);
+INSERT INTO series (id, name, count) VALUES ('san-x', '桑克斯', 2);
+INSERT INTO series (id, name, count) VALUES ('hi-fi_rush', '高保真音响冲刺', 2);
+INSERT INTO series (id, name, count) VALUES ('toranoana', '虎之穴', 2);
+INSERT INTO series (id, name, count) VALUES ('kotoura-san', '琴浦桑', 2);
+INSERT INTO series (id, name, count) VALUES ('wagaya_no_oinari-sama', '和谷大稻成大人', 2);
+INSERT INTO series (id, name, count) VALUES ('happy_sugar_life', '快乐糖生活', 2);
+INSERT INTO series (id, name, count) VALUES ('hoshizora_e_kakaru_hashi', '星空 E 桥角', 2);
+INSERT INTO series (id, name, count) VALUES ('flying_witch', '飞行魔女', 2);
+INSERT INTO series (id, name, count) VALUES ('snow_fox', '雪狐', 2);
+INSERT INTO series (id, name, count) VALUES ('valkyrie_no_densetsu', '瓦尔基里之传说', 2);
+INSERT INTO series (id, name, count) VALUES ('kubo-san_wa_mob_wo_yurusanai', '久保桑瓦莫布沃尤鲁萨内', 2);
+INSERT INTO series (id, name, count) VALUES ('variable_geo', '可变地理', 2);
+INSERT INTO series (id, name, count) VALUES ('tamagotchi', '电子宠物', 2);
+INSERT INTO series (id, name, count) VALUES ('kamisama_dolls', '神间人偶', 2);
+INSERT INTO series (id, name, count) VALUES ('kanamemo', '金茂', 2);
+INSERT INTO series (id, name, count) VALUES ('gosick', '戈西克', 2);
+INSERT INTO series (id, name, count) VALUES ('girl_friends_(manga)', '女朋友（漫画）', 2);
+INSERT INTO series (id, name, count) VALUES ('inkya_gyaru_demo_ikigaritai!', 'Inkya Gyaru 演示吉他！', 2);
+INSERT INTO series (id, name, count) VALUES ('kyu-kurarin_(cevio)', '错误（cevio）', 2);
+INSERT INTO series (id, name, count) VALUES ('guild_cq', '公会Cq', 2);
+INSERT INTO series (id, name, count) VALUES ('amakano_2', '天野2号', 2);
+INSERT INTO series (id, name, count) VALUES ('utakata', '你会剪', 2);
+INSERT INTO series (id, name, count) VALUES ('ensemble_girls!', '少女合唱团！', 2);
+INSERT INTO series (id, name, count) VALUES ('koutetsu_tenshi_kurumi', '公铁天使狂三', 2);
+INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_sae', '魔法少女佐江', 2);
+INSERT INTO series (id, name, count) VALUES ('boroboro_no_elf-san_o_shiawaseni_suru_kusuri_uri-san', '波罗波罗的精灵桑 O Shiawaseni Suru Kusuri Uri-san', 2);
+INSERT INTO series (id, name, count) VALUES ('sabagebu!', '尘土飞扬！', 2);
+INSERT INTO series (id, name, count) VALUES ('live_a_live', '活着', 2);
+INSERT INTO series (id, name, count) VALUES ('akroglam', '阿克格拉姆', 2);
+INSERT INTO series (id, name, count) VALUES ('paradiso_guardian', '天堂守护者', 2);
+INSERT INTO series (id, name, count) VALUES ('leon_the_professional', '莱昂专业人士', 2);
+INSERT INTO series (id, name, count) VALUES ('yoru_no_yatterman', '夜之亚特曼', 2);
+INSERT INTO series (id, name, count) VALUES ('aohada_bocchi', '奥哈达·博奇', 2);
+INSERT INTO series (id, name, count) VALUES ('kangoku_senkan', '神国战舰', 2);
+INSERT INTO series (id, name, count) VALUES ('yoshinaga-san''chi_no_gargoyle', '吉永先生的石像鬼', 2);
+INSERT INTO series (id, name, count) VALUES ('saikin_yatotta_maid_ga_ayashii', 'Saikin Yatotta 女仆伽绫', 2);
+INSERT INTO series (id, name, count) VALUES ('wanko_to_lily', '万科杜莉莉', 2);
+INSERT INTO series (id, name, count) VALUES ('beast_wars', '野兽大战', 2);
+INSERT INTO series (id, name, count) VALUES ('panel_de_pon', '潘面板', 2);
+INSERT INTO series (id, name, count) VALUES ('tensei_shitara_dai_nana_oji_datta_no_de:_kimama_ni_majutsu_o_kiwamemasu', '转生设乐大七王子达塔诺德：Kimama Ni Majutsu O Kiwamemasu', 2);
+INSERT INTO series (id, name, count) VALUES ('sakura_strasse', '樱花街', 2);
+INSERT INTO series (id, name, count) VALUES ('30_minutes_sisters', '30分钟姐妹', 2);
 INSERT INTO series (id, name, count) VALUES ('renzha_fanpai_zijiu_xitong', 'Renzha Fanpai Zijiu Xitong', 2);
-INSERT INTO series (id, name, count) VALUES ('blade_&_soul', 'Blade & Soul', 2);
-INSERT INTO series (id, name, count) VALUES ('kemono_teatime', 'Kemono Teatime', 2);
-INSERT INTO series (id, name, count) VALUES ('franken_fran', 'Franken Fran', 2);
-INSERT INTO series (id, name, count) VALUES ('zeno_(game)', 'Zeno (game)', 2);
-INSERT INTO series (id, name, count) VALUES ('r.o.d_the_tv', 'R.o.d The Tv', 2);
-INSERT INTO series (id, name, count) VALUES ('doukyuusei_2', 'Doukyuusei 2', 2);
-INSERT INTO series (id, name, count) VALUES ('petopetosan', 'Petopetosan', 2);
-INSERT INTO series (id, name, count) VALUES ('city_hunter', 'City Hunter', 2);
-INSERT INTO series (id, name, count) VALUES ('starless', 'Starless', 2);
-INSERT INTO series (id, name, count) VALUES ('kyoukai_no_rinne', 'Kyoukai No Rinne', 2);
-INSERT INTO series (id, name, count) VALUES ('our_battle_has_just_begun!', 'Our Battle Has Just Begun!', 2);
-INSERT INTO series (id, name, count) VALUES ('hitomi_sensei_no_hokenshitsu', 'Hitomi Sensei No Hokenshitsu', 2);
-INSERT INTO series (id, name, count) VALUES ('her_shim_cheong', 'Her Shim Cheong', 2);
-INSERT INTO series (id, name, count) VALUES ('aoi_hana', 'Aoi Hana', 2);
+INSERT INTO series (id, name, count) VALUES ('blade_&_soul', '刀锋与灵魂', 2);
+INSERT INTO series (id, name, count) VALUES ('kemono_teatime', '兽茶时间', 2);
+INSERT INTO series (id, name, count) VALUES ('franken_fran', '弗兰肯·弗兰', 2);
+INSERT INTO series (id, name, count) VALUES ('zeno_(game)', '芝诺（游戏）', 2);
+INSERT INTO series (id, name, count) VALUES ('r.o.d_the_tv', '罗德电视', 2);
+INSERT INTO series (id, name, count) VALUES ('doukyuusei_2', '同级生2', 2);
+INSERT INTO series (id, name, count) VALUES ('petopetosan', '佩托普托桑', 2);
+INSERT INTO series (id, name, count) VALUES ('city_hunter', '城市猎人', 2);
+INSERT INTO series (id, name, count) VALUES ('starless', '无星', 2);
+INSERT INTO series (id, name, count) VALUES ('kyoukai_no_rinne', '境界轮回', 2);
+INSERT INTO series (id, name, count) VALUES ('our_battle_has_just_begun!', '我们的战斗才刚刚开始！', 2);
+INSERT INTO series (id, name, count) VALUES ('hitomi_sensei_no_hokenshitsu', '瞳老师的法剑室', 2);
+INSERT INTO series (id, name, count) VALUES ('her_shim_cheong', '她的沉昌', 2);
+INSERT INTO series (id, name, count) VALUES ('aoi_hana', '葵花', 2);
 INSERT INTO series (id, name, count) VALUES ('itai_no_wa_iya_nano_de_bougyoryoku_ni_kyokufuri_shitai_to_omoimasu', 'Itai No Wa Iya Nano De Bougyoryoku Ni Kyokufuri Shitai To Omoimasu', 2);
-INSERT INTO series (id, name, count) VALUES ('space_maria', 'Space Maria', 2);
-INSERT INTO series (id, name, count) VALUES ('coral_island', 'Coral Island', 2);
-INSERT INTO series (id, name, count) VALUES ('soul_hackers', 'Soul Hackers', 2);
-INSERT INTO series (id, name, count) VALUES ('nora_cat_channel', 'Nora Cat Channel', 2);
-INSERT INTO series (id, name, count) VALUES ('ochikazuki_ni_naritai_miyazen-san', 'Ochikazuki Ni Naritai Miyazen-san', 2);
-INSERT INTO series (id, name, count) VALUES ('vivy:_fluorite_eye''s_song', 'Vivy: Fluorite Eye''s Song', 2);
-INSERT INTO series (id, name, count) VALUES ('kmnz', 'Kmnz', 2);
-INSERT INTO series (id, name, count) VALUES ('#compass', '#compass', 2);
-INSERT INTO series (id, name, count) VALUES ('gynoid_talk', 'Gynoid Talk', 2);
-INSERT INTO series (id, name, count) VALUES ('shokei_shoujo_no_virgin_road', 'Shokei Shoujo No Virgin Road', 2);
-INSERT INTO series (id, name, count) VALUES ('zero_kara_hajimeru_mahou_no_sho', 'Zero Kara Hajimeru Mahou No Sho', 2);
-INSERT INTO series (id, name, count) VALUES ('dream_c_club_(series)', 'Dream C Club', 2);
-INSERT INTO series (id, name, count) VALUES ('bcy', 'Bcy', 2);
-INSERT INTO series (id, name, count) VALUES ('koisuru_(otome)_no_tsukurikata', 'Koisuru (otome) No Tsukurikata', 2);
-INSERT INTO series (id, name, count) VALUES ('shinozaki-san_ki_wo_otashikani', 'Shinozaki-san Ki Wo Otashikani', 2);
-INSERT INTO series (id, name, count) VALUES ('koshotengai_no_hashihime', 'Koshotengai No Hashihime', 2);
-INSERT INTO series (id, name, count) VALUES ('avatar_2.0_project', 'Avatar 2.0 Project', 2);
-INSERT INTO series (id, name, count) VALUES ('jingai_kyoshitsu_no_ningen_girai_kyoshi', 'Jingai Kyoshitsu No Ningen Girai Kyoshi', 2);
-INSERT INTO series (id, name, count) VALUES ('acchi_kocchi', 'Acchi Kocchi', 2);
-INSERT INTO series (id, name, count) VALUES ('gunsmith_cats', 'Gunsmith Cats', 2);
-INSERT INTO series (id, name, count) VALUES ('tsuki_ga_michibiku_isekai_douchuu', 'Tsuki Ga Michibiku Isekai Douchuu', 2);
-INSERT INTO series (id, name, count) VALUES ('mirumo_de_pon!', 'Mirumo De Pon!', 2);
-INSERT INTO series (id, name, count) VALUES ('shiroi_suna_no_aquatope', 'Shiroi Suna No Aquatope', 2);
-INSERT INTO series (id, name, count) VALUES ('the_rolling_girls', 'The Rolling Girls', 2);
-INSERT INTO series (id, name, count) VALUES ('eiken', 'Eiken', 2);
-INSERT INTO series (id, name, count) VALUES ('unnatural_(series)', 'Unnatural', 2);
-INSERT INTO series (id, name, count) VALUES ('onegai_twins', 'Onegai Twins', 2);
-INSERT INTO series (id, name, count) VALUES ('shuuniichido_classmate_wo_kau_hanashi', 'Shuuniichido Classmate Wo Kau Hanashi', 2);
-INSERT INTO series (id, name, count) VALUES ('sasaki_to_miyano', 'Sasaki To Miyano', 2);
-INSERT INTO series (id, name, count) VALUES ('comic_aun', 'Comic Aun', 2);
-INSERT INTO series (id, name, count) VALUES ('bunnystein_fantasy', 'Bunnystein Fantasy', 2);
-INSERT INTO series (id, name, count) VALUES ('meridian_project', 'Meridian Project', 2);
-INSERT INTO series (id, name, count) VALUES ('hajimete_no_orusuban', 'Hajimete No Orusuban', 2);
-INSERT INTO series (id, name, count) VALUES ('sora_no_iro_mizu_no_iro', 'Sora No Iro Mizu No Iro', 2);
-INSERT INTO series (id, name, count) VALUES ('binbougami_ga!', 'Binbougami Ga!', 2);
-INSERT INTO series (id, name, count) VALUES ('shining_nikki', 'Shining Nikki', 2);
-INSERT INTO series (id, name, count) VALUES ('act-age', 'Act-age', 2);
-INSERT INTO series (id, name, count) VALUES ('yumeria', 'Yumeria', 2);
-INSERT INTO series (id, name, count) VALUES ('fata_morgana_no_yakata', 'Fata Morgana No Yakata', 2);
-INSERT INTO series (id, name, count) VALUES ('higashi_no_eden', 'Higashi No Eden', 2);
-INSERT INTO series (id, name, count) VALUES ('sola', 'Sola', 2);
-INSERT INTO series (id, name, count) VALUES ('soul_link', 'Soul Link', 2);
-INSERT INTO series (id, name, count) VALUES ('rick_and_morty', 'Rick And Morty', 2);
-INSERT INTO series (id, name, count) VALUES ('dekkano!!', 'Dekkano!!', 2);
-INSERT INTO series (id, name, count) VALUES ('kimi_to_kanojo_to_kanojo_no_koi.', 'Kimi To Kanojo To Kanojo No Koi.', 2);
-INSERT INTO series (id, name, count) VALUES ('kyokugen_dasshutsu', 'Kyokugen Dasshutsu', 2);
+INSERT INTO series (id, name, count) VALUES ('space_maria', '太空玛丽亚', 2);
+INSERT INTO series (id, name, count) VALUES ('coral_island', '珊瑚岛', 2);
+INSERT INTO series (id, name, count) VALUES ('soul_hackers', '灵魂黑客', 2);
+INSERT INTO series (id, name, count) VALUES ('nora_cat_channel', '诺拉猫频道', 2);
+INSERT INTO series (id, name, count) VALUES ('ochikazuki_ni_naritai_miyazen-san', '落一月 二成队 宫善桑', 2);
+INSERT INTO series (id, name, count) VALUES ('vivy:_fluorite_eye''s_song', 'Vivy：萤石眼之歌', 2);
+INSERT INTO series (id, name, count) VALUES ('kmnz', '克明兹', 2);
+INSERT INTO series (id, name, count) VALUES ('#compass', '＃罗盘', 2);
+INSERT INTO series (id, name, count) VALUES ('gynoid_talk', '女性机器人谈话', 2);
+INSERT INTO series (id, name, count) VALUES ('shokei_shoujo_no_virgin_road', '正经少女的处女之路', 2);
+INSERT INTO series (id, name, count) VALUES ('zero_kara_hajimeru_mahou_no_sho', '零卡拉始魔法之章', 2);
+INSERT INTO series (id, name, count) VALUES ('dream_c_club_(series)', '梦幻俱乐部', 2);
+INSERT INTO series (id, name, count) VALUES ('bcy', '半胱氨酸', 2);
+INSERT INTO series (id, name, count) VALUES ('koisuru_(otome)_no_tsukurikata', '恋爱的月方', 2);
+INSERT INTO series (id, name, count) VALUES ('shinozaki-san_ki_wo_otashikani', '筱崎先生大田希沃', 2);
+INSERT INTO series (id, name, count) VALUES ('koshotengai_no_hashihime', '古书店街桥姬', 2);
+INSERT INTO series (id, name, count) VALUES ('avatar_2.0_project', '阿凡达2.0项目', 2);
+INSERT INTO series (id, name, count) VALUES ('jingai_kyoshitsu_no_ningen_girai_kyoshi', '神爱共同行动的人间吉莱狂志', 2);
+INSERT INTO series (id, name, count) VALUES ('acchi_kocchi', '阿奇·科奇', 2);
+INSERT INTO series (id, name, count) VALUES ('gunsmith_cats', '枪匠猫', 2);
+INSERT INTO series (id, name, count) VALUES ('tsuki_ga_michibiku_isekai_douchuu', '月牙道异世界同中', 2);
+INSERT INTO series (id, name, count) VALUES ('mirumo_de_pon!', '米鲁莫·德庞！', 2);
+INSERT INTO series (id, name, count) VALUES ('shiroi_suna_no_aquatope', '白色砂的水生植物', 2);
+INSERT INTO series (id, name, count) VALUES ('the_rolling_girls', '滚滚女孩', 2);
+INSERT INTO series (id, name, count) VALUES ('eiken', '橡木', 2);
+INSERT INTO series (id, name, count) VALUES ('unnatural_(series)', '不自然', 2);
+INSERT INTO series (id, name, count) VALUES ('onegai_twins', '奥涅盖双胞胎', 2);
+INSERT INTO series (id, name, count) VALUES ('shuuniichido_classmate_wo_kau_hanashi', '周一堂同学 花梨我蛟', 2);
+INSERT INTO series (id, name, count) VALUES ('sasaki_to_miyano', '佐佐木到宫野', 2);
+INSERT INTO series (id, name, count) VALUES ('comic_aun', '漫画阿姨', 2);
+INSERT INTO series (id, name, count) VALUES ('bunnystein_fantasy', '邦尼斯坦幻想', 2);
+INSERT INTO series (id, name, count) VALUES ('meridian_project', '经络计划', 2);
+INSERT INTO series (id, name, count) VALUES ('hajimete_no_orusuban', '始之奥鲁苏班', 2);
+INSERT INTO series (id, name, count) VALUES ('sora_no_iro_mizu_no_iro', '空之色 水之色', 2);
+INSERT INTO series (id, name, count) VALUES ('binbougami_ga!', '宾布神嘎！', 2);
+INSERT INTO series (id, name, count) VALUES ('shining_nikki', '闪耀妮基', 2);
+INSERT INTO series (id, name, count) VALUES ('act-age', '行动年龄', 2);
+INSERT INTO series (id, name, count) VALUES ('yumeria', '尤梅里亚', 2);
+INSERT INTO series (id, name, count) VALUES ('fata_morgana_no_yakata', '莫甘娜的屋形', 2);
+INSERT INTO series (id, name, count) VALUES ('higashi_no_eden', '东之伊甸园', 2);
+INSERT INTO series (id, name, count) VALUES ('sola', '索拉', 2);
+INSERT INTO series (id, name, count) VALUES ('soul_link', '灵魂链接', 2);
+INSERT INTO series (id, name, count) VALUES ('rick_and_morty', '瑞克和莫蒂', 2);
+INSERT INTO series (id, name, count) VALUES ('dekkano!!', '德卡诺！！', 2);
+INSERT INTO series (id, name, count) VALUES ('kimi_to_kanojo_to_kanojo_no_koi.', '君与鹿城与鹿城之恋。', 2);
+INSERT INTO series (id, name, count) VALUES ('kyokugen_dasshutsu', '极元大术', 2);
 INSERT INTO series (id, name, count) VALUES ('akb48', 'Akb48', 2);
 INSERT INTO series (id, name, count) VALUES ('seihou', 'Seihou', 2);
-INSERT INTO series (id, name, count) VALUES ('busou_renkin', 'Busou Renkin', 2);
-INSERT INTO series (id, name, count) VALUES ('nitro+_chiral', 'Nitro+ Chiral', 2);
+INSERT INTO series (id, name, count) VALUES ('busou_renkin', '武总炼金', 2);
+INSERT INTO series (id, name, count) VALUES ('nitro+_chiral', '硝基+手性', 2);
 INSERT INTO series (id, name, count) VALUES ('nhk_ni_youkoso!', 'Nhk Ni Youkoso!', 2);
-INSERT INTO series (id, name, count) VALUES ('genmukan', 'Genmukan', 2);
-INSERT INTO series (id, name, count) VALUES ('raisei_no_ryu_tsukai', 'Raisei No Ryu Tsukai', 2);
-INSERT INTO series (id, name, count) VALUES ('ice_climber', 'Ice Climber', 2);
-INSERT INTO series (id, name, count) VALUES ('varium', 'Varium', 2);
-INSERT INTO series (id, name, count) VALUES ('uchuu_kyoudai', 'Uchuu Kyoudai', 2);
-INSERT INTO series (id, name, count) VALUES ('lilo_&_stitch', 'Lilo & Stitch', 2);
-INSERT INTO series (id, name, count) VALUES ('popolocrois', 'Popolocrois', 2);
-INSERT INTO series (id, name, count) VALUES ('sana_channel', 'Sana Channel', 2);
-INSERT INTO series (id, name, count) VALUES ('tenjou_tenge', 'Tenjou Tenge', 2);
-INSERT INTO series (id, name, count) VALUES ('dance_with_devils', 'Dance With Devils', 2);
-INSERT INTO series (id, name, count) VALUES ('burn_the_witch', 'Burn The Witch', 2);
-INSERT INTO series (id, name, count) VALUES ('rokujouma_no_shinryakusha!?', 'Rokujouma No Shinryakusha!?', 2);
-INSERT INTO series (id, name, count) VALUES ('taimadou_gakuen_35_shiken_shoutai', 'Taimadou Gakuen 35 Shiken Shoutai', 2);
-INSERT INTO series (id, name, count) VALUES ('kenkou_zenrakei_suieibu_umishou', 'Kenkou Zenrakei Suieibu Umishou', 2);
-INSERT INTO series (id, name, count) VALUES ('lord_of_heroes', 'Lord Of Heroes', 2);
+INSERT INTO series (id, name, count) VALUES ('genmukan', '玄武馆', 2);
+INSERT INTO series (id, name, count) VALUES ('raisei_no_ryu_tsukai', '雷星之龙使者', 2);
+INSERT INTO series (id, name, count) VALUES ('ice_climber', '攀冰者', 2);
+INSERT INTO series (id, name, count) VALUES ('varium', '各种各样的', 2);
+INSERT INTO series (id, name, count) VALUES ('uchuu_kyoudai', '宇中共大', 2);
+INSERT INTO series (id, name, count) VALUES ('lilo_&_stitch', '星际宝贝', 2);
+INSERT INTO series (id, name, count) VALUES ('popolocrois', '波波洛克罗伊斯', 2);
+INSERT INTO series (id, name, count) VALUES ('sana_channel', '萨那频道', 2);
+INSERT INTO series (id, name, count) VALUES ('tenjou_tenge', '天上天下', 2);
+INSERT INTO series (id, name, count) VALUES ('dance_with_devils', '与魔鬼共舞', 2);
+INSERT INTO series (id, name, count) VALUES ('burn_the_witch', '烧死女巫', 2);
+INSERT INTO series (id, name, count) VALUES ('rokujouma_no_shinryakusha!?', '六城马的神力车！？', 2);
+INSERT INTO series (id, name, count) VALUES ('taimadou_gakuen_35_shiken_shoutai', '大麻堂学园35志坚将队', 2);
+INSERT INTO series (id, name, count) VALUES ('kenkou_zenrakei_suieibu_umishou', 'Kenkou Zenrakei 水卫部海翔', 2);
+INSERT INTO series (id, name, count) VALUES ('lord_of_heroes', '英雄之主', 2);
 INSERT INTO series (id, name, count) VALUES ('watashi_no_tame_ni_nuginasai!', 'Watashi No Tame Ni Nuginasai!', 2);
-INSERT INTO series (id, name, count) VALUES ('nanami_to_konomi_no_oshiete_abc', 'Nanami To Konomi No Oshiete Abc', 2);
-INSERT INTO series (id, name, count) VALUES ('jk_bitch_sannin_musume!', 'Jk Bitch Sannin Musume!', 2);
-INSERT INTO series (id, name, count) VALUES ('nogizaka_haruka_no_himitsu', 'Nogizaka Haruka No Himitsu', 2);
-INSERT INTO series (id, name, count) VALUES ('mahou_no_shimai_lulutto_lilly', 'Mahou No Shimai Lulutto Lilly', 2);
-INSERT INTO series (id, name, count) VALUES ('gorillaz', 'Gorillaz', 2);
-INSERT INTO series (id, name, count) VALUES ('dr._slump', 'Dr. Slump', 2);
-INSERT INTO series (id, name, count) VALUES ('air_gear', 'Air Gear', 2);
-INSERT INTO series (id, name, count) VALUES ('fushigi_yuugi', 'Fushigi Yuugi', 2);
-INSERT INTO series (id, name, count) VALUES ('etotama', 'Etotama', 2);
-INSERT INTO series (id, name, count) VALUES ('aki_no_urara_no_akane-iro_shoutengai', 'Aki No Urara No Akane-iro Shoutengai', 2);
-INSERT INTO series (id, name, count) VALUES ('ogami_tsumiki_to_ki_nichijou', 'Ogami Tsumiki To Ki Nichijou', 2);
-INSERT INTO series (id, name, count) VALUES ('killing_stalking', 'Killing Stalking', 2);
-INSERT INTO series (id, name, count) VALUES ('choudenji_machine_voltes_v', 'Choudenji Machine Voltes V', 2);
-INSERT INTO series (id, name, count) VALUES ('oyasumi_punpun', 'Oyasumi Punpun', 2);
-INSERT INTO series (id, name, count) VALUES ('pixiv_azriel', 'Pixiv Azriel', 2);
+INSERT INTO series (id, name, count) VALUES ('nanami_to_konomi_no_oshiete_abc', '七海与Koomi No Oshiete ABC', 2);
+INSERT INTO series (id, name, count) VALUES ('jk_bitch_sannin_musume!', 'JK Bitch 三忍娘！', 2);
+INSERT INTO series (id, name, count) VALUES ('nogizaka_haruka_no_himitsu', '乃木坂遥的秘密', 2);
+INSERT INTO series (id, name, count) VALUES ('mahou_no_shimai_lulutto_lilly', '魔法之舞 Lulutto Lilly', 2);
+INSERT INTO series (id, name, count) VALUES ('gorillaz', '猩猩', 2);
+INSERT INTO series (id, name, count) VALUES ('dr._slump', '暴跌博士', 2);
+INSERT INTO series (id, name, count) VALUES ('air_gear', '空气齿轮', 2);
+INSERT INTO series (id, name, count) VALUES ('fushigi_yuugi', '不二木游戏', 2);
+INSERT INTO series (id, name, count) VALUES ('etotama', '埃托马塔', 2);
+INSERT INTO series (id, name, count) VALUES ('aki_no_urara_no_akane-iro_shoutengai', '秋之浦良茜色商店街', 2);
+INSERT INTO series (id, name, count) VALUES ('ogami_tsumiki_to_ki_nichijou', '大上月木 土木日常', 2);
+INSERT INTO series (id, name, count) VALUES ('killing_stalking', '杀戮跟踪', 2);
+INSERT INTO series (id, name, count) VALUES ('choudenji_machine_voltes_v', '长传寺机器 Voltes V', 2);
+INSERT INTO series (id, name, count) VALUES ('oyasumi_punpun', '奥亚苏米·蓬蓬', 2);
+INSERT INTO series (id, name, count) VALUES ('pixiv_azriel', 'Pixiv阿兹瑞尔', 2);
 INSERT INTO series (id, name, count) VALUES ('tsuujou_kougeki_ga_zentai_kougeki_de_ni-kai_kougeki_no_okaasan_wa_suki_desu_ka?', 'Tsuujou Kougeki Ga Zentai Kougeki De Ni-kai Kougeki No Okaasan Wa Suki Desu Ka?', 2);
-INSERT INTO series (id, name, count) VALUES ('iyagatteru_kimi_ga_suki', 'Iyagatteru Kimi Ga Suki', 2);
-INSERT INTO series (id, name, count) VALUES ('getsumento_heiki_miina', 'Getsumento Heiki Miina', 2);
-INSERT INTO series (id, name, count) VALUES ('danball_senki_w', 'Danball Senki W', 2);
-INSERT INTO series (id, name, count) VALUES ('motorslice', 'Motorslice', 2);
-INSERT INTO series (id, name, count) VALUES ('night_demon', 'Night Demon', 2);
-INSERT INTO series (id, name, count) VALUES ('kuromukuro', 'Kuromukuro', 2);
-INSERT INTO series (id, name, count) VALUES ('sdorica', 'Sdorica', 2);
-INSERT INTO series (id, name, count) VALUES ('zookeepers_(diva)', 'Zookeepers (diva)', 2);
-INSERT INTO series (id, name, count) VALUES ('phantom_kingdom', 'Phantom Kingdom', 2);
-INSERT INTO series (id, name, count) VALUES ('slay_the_princess', 'Slay The Princess', 2);
-INSERT INTO series (id, name, count) VALUES ('gunxsword', 'Gunxsword', 2);
-INSERT INTO series (id, name, count) VALUES ('lost_property_control_organization_(samidare)', 'Lost Property Control Organization (samidare)', 2);
-INSERT INTO series (id, name, count) VALUES ('susanghan_messenger', 'Susanghan Messenger', 2);
-INSERT INTO series (id, name, count) VALUES ('sq_(series)', 'Sq', 2);
-INSERT INTO series (id, name, count) VALUES ('snow_white', 'Snow White', 2);
-INSERT INTO series (id, name, count) VALUES ('recettear', 'Recettear', 2);
-INSERT INTO series (id, name, count) VALUES ('makaimura', 'Makaimura', 2);
-INSERT INTO series (id, name, count) VALUES ('cult_of_the_lamb', 'Cult Of The Lamb', 2);
-INSERT INTO series (id, name, count) VALUES ('million_arthur_(series)', 'Million Arthur', 2);
-INSERT INTO series (id, name, count) VALUES ('daiteikoku', 'Daiteikoku', 2);
-INSERT INTO series (id, name, count) VALUES ('mahoutsukai_rose_no_sado_life', 'Mahoutsukai Rose No Sado Life', 2);
-INSERT INTO series (id, name, count) VALUES ('rose_to_tasogare_no_kojou', 'Rose To Tasogare No Kojou', 2);
-INSERT INTO series (id, name, count) VALUES ('the_royal_family_(tv_series)', 'The Royal Family (tv Series)', 2);
-INSERT INTO series (id, name, count) VALUES ('marvel_vs._capcom', 'Marvel Vs. Capcom', 2);
-INSERT INTO series (id, name, count) VALUES ('ai_the_somnium_files:_nirvana_initiative', 'Ai The Somnium Files: Nirvana Initiative', 2);
-INSERT INTO series (id, name, count) VALUES ('ip_police_tsuduki_chan', 'Ip Police Tsuduki Chan', 2);
-INSERT INTO series (id, name, count) VALUES ('ladies_versus_butlers!', 'Ladies Versus Butlers!', 2);
-INSERT INTO series (id, name, count) VALUES ('saya_no_uta', 'Saya No Uta', 2);
-INSERT INTO series (id, name, count) VALUES ('joukamachi_no_dandelion', 'Joukamachi No Dandelion', 2);
-INSERT INTO series (id, name, count) VALUES ('perfect_hole', 'Perfect Hole', 2);
-INSERT INTO series (id, name, count) VALUES ('game_club_project', 'Game Club Project', 2);
-INSERT INTO series (id, name, count) VALUES ('candy_boy', 'Candy Boy', 2);
-INSERT INTO series (id, name, count) VALUES ('succubus_stayed_life', 'Succubus Stayed Life', 2);
-INSERT INTO series (id, name, count) VALUES ('suketto_sanjou!', 'Suketto Sanjou!', 2);
-INSERT INTO series (id, name, count) VALUES ('shino_to_ren', 'Shino To Ren', 2);
-INSERT INTO series (id, name, count) VALUES ('super_no_ura_de_yani_suu_futari', 'Super No Ura De Yani Suu Futari', 2);
-INSERT INTO series (id, name, count) VALUES ('gaki_kyonyuu', 'Gaki Kyonyuu', 2);
-INSERT INTO series (id, name, count) VALUES ('gal_gamer_ni_homeraretai', 'Gal Gamer Ni Homeraretai', 2);
-INSERT INTO series (id, name, count) VALUES ('rukiroki', 'Rukiroki', 2);
-INSERT INTO series (id, name, count) VALUES ('akarui_kioku_soushitsu', 'Akarui Kioku Soushitsu', 2);
-INSERT INTO series (id, name, count) VALUES ('konohana_kitan', 'Konohana Kitan', 2);
-INSERT INTO series (id, name, count) VALUES ('fantasy_earth_zero', 'Fantasy Earth Zero', 2);
-INSERT INTO series (id, name, count) VALUES ('sega_hard_girls', 'Sega Hard Girls', 2);
-INSERT INTO series (id, name, count) VALUES ('miraroma', 'Miraroma', 2);
-INSERT INTO series (id, name, count) VALUES ('tonari_no_seki-kun', 'Tonari No Seki-kun', 2);
+INSERT INTO series (id, name, count) VALUES ('iyagatteru_kimi_ga_suki', '基米·嘎苏希', 2);
+INSERT INTO series (id, name, count) VALUES ('getsumento_heiki_miina', '三伊奈月月', 2);
+INSERT INTO series (id, name, count) VALUES ('danball_senki_w', '丹鲍尔无人 W', 2);
+INSERT INTO series (id, name, count) VALUES ('motorslice', '汽车片', 2);
+INSERT INTO series (id, name, count) VALUES ('night_demon', '夜魔', 2);
+INSERT INTO series (id, name, count) VALUES ('kuromukuro', '救恩', 2);
+INSERT INTO series (id, name, count) VALUES ('sdorica', '斯多里卡', 2);
+INSERT INTO series (id, name, count) VALUES ('zookeepers_(diva)', '动物园管理员（女主角）', 2);
+INSERT INTO series (id, name, count) VALUES ('phantom_kingdom', '幻影王国', 2);
+INSERT INTO series (id, name, count) VALUES ('slay_the_princess', '杀死公主', 2);
+INSERT INTO series (id, name, count) VALUES ('gunxsword', '枪克斯剑', 2);
+INSERT INTO series (id, name, count) VALUES ('lost_property_control_organization_(samidare)', '失物招领组织（Samidare）', 2);
+INSERT INTO series (id, name, count) VALUES ('susanghan_messenger', '苏桑罕信使', 2);
+INSERT INTO series (id, name, count) VALUES ('sq_(series)', '平方', 2);
+INSERT INTO series (id, name, count) VALUES ('snow_white', '白雪公主', 2);
+INSERT INTO series (id, name, count) VALUES ('recettear', '食谱', 2);
+INSERT INTO series (id, name, count) VALUES ('makaimura', '对不起', 2);
+INSERT INTO series (id, name, count) VALUES ('cult_of_the_lamb', '羔羊崇拜', 2);
+INSERT INTO series (id, name, count) VALUES ('million_arthur_(series)', '百万亚瑟王', 2);
+INSERT INTO series (id, name, count) VALUES ('daiteikoku', '大帝国', 2);
+INSERT INTO series (id, name, count) VALUES ('mahoutsukai_rose_no_sado_life', '魔法使 玫瑰之佐渡生活', 2);
+INSERT INTO series (id, name, count) VALUES ('rose_to_tasogare_no_kojou', '玫瑰花与桃花之古城', 2);
+INSERT INTO series (id, name, count) VALUES ('the_royal_family_(tv_series)', '皇室家族（电视剧）', 2);
+INSERT INTO series (id, name, count) VALUES ('marvel_vs._capcom', '漫威VS。卡普空', 2);
+INSERT INTO series (id, name, count) VALUES ('ai_the_somnium_files:_nirvana_initiative', '艾梦档案：涅槃倡议', 2);
+INSERT INTO series (id, name, count) VALUES ('ip_police_tsuduki_chan', '《IP警察》陈津月', 2);
+INSERT INTO series (id, name, count) VALUES ('ladies_versus_butlers!', '淑女VS管家！', 2);
+INSERT INTO series (id, name, count) VALUES ('saya_no_uta', '我不是歌', 2);
+INSERT INTO series (id, name, count) VALUES ('joukamachi_no_dandelion', '城下町的蒲公英', 2);
+INSERT INTO series (id, name, count) VALUES ('perfect_hole', '完美洞', 2);
+INSERT INTO series (id, name, count) VALUES ('game_club_project', '游戏俱乐部项目', 2);
+INSERT INTO series (id, name, count) VALUES ('candy_boy', '糖果男孩', 2);
+INSERT INTO series (id, name, count) VALUES ('succubus_stayed_life', '魅魔留下的生活', 2);
+INSERT INTO series (id, name, count) VALUES ('suketto_sanjou!', '助克托三条！', 2);
+INSERT INTO series (id, name, count) VALUES ('shino_to_ren', '志乃藤莲', 2);
+INSERT INTO series (id, name, count) VALUES ('super_no_ura_de_yani_suu_futari', '超级No Ura De Yani Suu Futari', 2);
+INSERT INTO series (id, name, count) VALUES ('gaki_kyonyuu', '伽木恭佑', 2);
+INSERT INTO series (id, name, count) VALUES ('gal_gamer_ni_homeraretai', 'Homeraretai 的 Gal Gamer', 2);
+INSERT INTO series (id, name, count) VALUES ('rukiroki', '贮存', 2);
+INSERT INTO series (id, name, count) VALUES ('akarui_kioku_soushitsu', '赤井纪奥总师', 2);
+INSERT INTO series (id, name, count) VALUES ('konohana_kitan', '木花奇谭', 2);
+INSERT INTO series (id, name, count) VALUES ('fantasy_earth_zero', '幻想地球零', 2);
+INSERT INTO series (id, name, count) VALUES ('sega_hard_girls', '世嘉硬女孩', 2);
+INSERT INTO series (id, name, count) VALUES ('miraroma', '米拉罗马', 2);
+INSERT INTO series (id, name, count) VALUES ('tonari_no_seki-kun', '土成之关君', 2);
 INSERT INTO series (id, name, count) VALUES ('yuusha_party_wo_oidasareta_kiyoubinbou', 'Yuusha Party Wo Oidasareta Kiyoubinbou', 2);
-INSERT INTO series (id, name, count) VALUES ('scissor_seven', 'Scissor Seven', 2);
-INSERT INTO series (id, name, count) VALUES ('ben-tou', 'Ben-tou', 2);
+INSERT INTO series (id, name, count) VALUES ('scissor_seven', '剪刀七', 2);
+INSERT INTO series (id, name, count) VALUES ('ben-tou', '便当', 2);
 INSERT INTO series (id, name, count) VALUES ('arifureta_shokugyou_de_sekai_saikyou', 'Arifureta Shokugyou De Sekai Saikyou', 2);
-INSERT INTO series (id, name, count) VALUES ('d-frag!', 'D-frag!', 2);
-INSERT INTO series (id, name, count) VALUES ('uchouten_kazoku', 'Uchouten Kazoku', 2);
-INSERT INTO series (id, name, count) VALUES ('fuufu_ijou_koibito_miman.', 'Fuufu Ijou Koibito Miman.', 2);
-INSERT INTO series (id, name, count) VALUES ('akagami_no_shirayukihime', 'Akagami No Shirayukihime', 2);
-INSERT INTO series (id, name, count) VALUES ('shut_hell', 'Shut Hell', 2);
-INSERT INTO series (id, name, count) VALUES ('starbucks', 'Starbucks', 2);
-INSERT INTO series (id, name, count) VALUES ('kiss_x_sis', 'Kiss X Sis', 2);
-INSERT INTO series (id, name, count) VALUES ('wakabayashi-kun_ga_nekasete_kurenai', 'Wakabayashi-kun Ga Nekasete Kurenai', 2);
-INSERT INTO series (id, name, count) VALUES ('himehina_channel', 'Himehina Channel', 2);
-INSERT INTO series (id, name, count) VALUES ('domestic_na_kanojo', 'Domestic Na Kanojo', 2);
-INSERT INTO series (id, name, count) VALUES ('hikikomari_kyuuketsuki_no_monmon', 'Hikikomari Kyuuketsuki No Monmon', 2);
-INSERT INTO series (id, name, count) VALUES ('neko_no_ongaeshi', 'Neko No Ongaeshi', 2);
-INSERT INTO series (id, name, count) VALUES ('the_last_guardian', 'The Last Guardian', 2);
-INSERT INTO series (id, name, count) VALUES ('tsuma_shibori', 'Tsuma Shibori', 2);
-INSERT INTO series (id, name, count) VALUES ('shimeji_simulation', 'Shimeji Simulation', 2);
-INSERT INTO series (id, name, count) VALUES ('sasami-san@ganbaranai', 'Sasami-san@ganbaranai', 2);
-INSERT INTO series (id, name, count) VALUES ('brown_dust_(series)', 'Brown Dust', 2);
-INSERT INTO series (id, name, count) VALUES ('kuu_ka_kuwareru_ka?', 'Kuu Ka Kuwareru Ka?', 2);
-INSERT INTO series (id, name, count) VALUES ('wreck-it_ralph', 'Wreck-it Ralph', 2);
-INSERT INTO series (id, name, count) VALUES ('ex_astris', 'Ex Astris', 2);
-INSERT INTO series (id, name, count) VALUES ('taiko_no_tatsujin', 'Taiko No Tatsujin', 2);
-INSERT INTO series (id, name, count) VALUES ('you_can_eat_the_girl', 'You Can Eat The Girl', 2);
+INSERT INTO series (id, name, count) VALUES ('d-frag!', 'D-碎片！', 2);
+INSERT INTO series (id, name, count) VALUES ('uchouten_kazoku', '无常天家族', 2);
+INSERT INTO series (id, name, count) VALUES ('fuufu_ijou_koibito_miman.', 'Fuufu Ijou 恋人未满。', 2);
+INSERT INTO series (id, name, count) VALUES ('akagami_no_shirayukihime', '赤神白雪姬', 2);
+INSERT INTO series (id, name, count) VALUES ('shut_hell', '关闭地狱', 2);
+INSERT INTO series (id, name, count) VALUES ('starbucks', '星巴克', 2);
+INSERT INTO series (id, name, count) VALUES ('kiss_x_sis', '亲吻X姐姐', 2);
+INSERT INTO series (id, name, count) VALUES ('wakabayashi-kun_ga_nekasete_kurenai', '若林君嘎尼卡塞特红', 2);
+INSERT INTO series (id, name, count) VALUES ('himehina_channel', '姬名频道', 2);
+INSERT INTO series (id, name, count) VALUES ('domestic_na_kanojo', '国内至独木舟', 2);
+INSERT INTO series (id, name, count) VALUES ('hikikomari_kyuuketsuki_no_monmon', '引小玛丽九月之门', 2);
+INSERT INTO series (id, name, count) VALUES ('neko_no_ongaeshi', '猫之恩爱史', 2);
+INSERT INTO series (id, name, count) VALUES ('the_last_guardian', '最后的守护者', 2);
+INSERT INTO series (id, name, count) VALUES ('tsuma_shibori', '妻扎堀', 2);
+INSERT INTO series (id, name, count) VALUES ('shimeji_simulation', '志路模拟', 2);
+INSERT INTO series (id, name, count) VALUES ('sasami-san@ganbaranai', '佐佐美桑@ganbaranai', 2);
+INSERT INTO series (id, name, count) VALUES ('brown_dust_(series)', '棕色灰尘', 2);
+INSERT INTO series (id, name, count) VALUES ('kuu_ka_kuwareru_ka?', '库卡库瓦雷鲁卡？', 2);
+INSERT INTO series (id, name, count) VALUES ('wreck-it_ralph', '无敌破坏王', 2);
+INSERT INTO series (id, name, count) VALUES ('ex_astris', '来自星星', 2);
+INSERT INTO series (id, name, count) VALUES ('taiko_no_tatsujin', '太鼓达人', 2);
+INSERT INTO series (id, name, count) VALUES ('you_can_eat_the_girl', '你可以吃掉这个女孩', 2);
 INSERT INTO series (id, name, count) VALUES ('xianjian_qixia_zhuan', 'Xianjian Qixia Zhuan', 2);
-INSERT INTO series (id, name, count) VALUES ('kameari_shinkin_bank', 'Kameari Shinkin Bank', 2);
-INSERT INTO series (id, name, count) VALUES ('zombie-ya_reiko', 'Zombie-ya Reiko', 2);
-INSERT INTO series (id, name, count) VALUES ('trinity_blood', 'Trinity Blood', 1);
-INSERT INTO series (id, name, count) VALUES ('acfun', 'Acfun', 1);
-INSERT INTO series (id, name, count) VALUES ('shoujo_ramune', 'Shoujo Ramune', 1);
-INSERT INTO series (id, name, count) VALUES ('afghanis-tan', 'Afghanis-tan', 1);
-INSERT INTO series (id, name, count) VALUES ('butterfly_affection', 'Butterfly Affection', 1);
-INSERT INTO series (id, name, count) VALUES ('hitman_(game)', 'Hitman (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('fire_punch', 'Fire Punch', 1);
-INSERT INTO series (id, name, count) VALUES ('ultra_kaijuu_gijinka_keikaku', 'Ultra Kaijuu Gijinka Keikaku', 1);
-INSERT INTO series (id, name, count) VALUES ('aharen-san_wa_hakarenai', 'Aharen-san Wa Hakarenai', 1);
-INSERT INTO series (id, name, count) VALUES ('sony', 'Sony', 1);
-INSERT INTO series (id, name, count) VALUES ('sacred_seven', 'Sacred Seven', 1);
-INSERT INTO series (id, name, count) VALUES ('prunus_girl', 'Prunus Girl', 1);
-INSERT INTO series (id, name, count) VALUES ('kokoro_navi', 'Kokoro Navi', 1);
-INSERT INTO series (id, name, count) VALUES ('archaic_sealed_heat', 'Archaic Sealed Heat', 1);
-INSERT INTO series (id, name, count) VALUES ('la_priere', 'La Priere', 1);
-INSERT INTO series (id, name, count) VALUES ('microsoft', 'Microsoft', 1);
-INSERT INTO series (id, name, count) VALUES ('kyou_ami!', 'Kyou Ami!', 1);
-INSERT INTO series (id, name, count) VALUES ('doki_doki_majo_shinpan', 'Doki Doki Majo Shinpan', 1);
-INSERT INTO series (id, name, count) VALUES ('akatsuki_blitzkampf', 'Akatsuki Blitzkampf', 1);
-INSERT INTO series (id, name, count) VALUES ('kyouhaku_2', 'Kyouhaku 2', 1);
-INSERT INTO series (id, name, count) VALUES ('nogi_wakaba_wa_yuusha_de_aru', 'Nogi Wakaba Wa Yuusha De Aru', 1);
-INSERT INTO series (id, name, count) VALUES ('hanbun_no_tsuki_ga_noboru_sora', 'Hanbun No Tsuki Ga Noboru Sora', 1);
-INSERT INTO series (id, name, count) VALUES ('astral_chain', 'Astral Chain', 1);
-INSERT INTO series (id, name, count) VALUES ('16bit_sensation', '16bit Sensation', 1);
-INSERT INTO series (id, name, count) VALUES ('akitaland_gothic', 'Akitaland Gothic', 1);
-INSERT INTO series (id, name, count) VALUES ('bouryoku_banzai', 'Bouryoku Banzai', 1);
-INSERT INTO series (id, name, count) VALUES ('gravity_beyond', 'Gravity Beyond', 1);
-INSERT INTO series (id, name, count) VALUES ('another_eden', 'Another Eden', 1);
-INSERT INTO series (id, name, count) VALUES ('isekai_shokudou', 'Isekai Shokudou', 1);
-INSERT INTO series (id, name, count) VALUES ('prototype_(game)', 'Prototype (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('grimlight', 'Grimlight', 1);
-INSERT INTO series (id, name, count) VALUES ('akashic_chronicle', 'Akashic Chronicle', 1);
-INSERT INTO series (id, name, count) VALUES ('american_mcgee''s_alice', 'American Mcgee''s Alice', 1);
+INSERT INTO series (id, name, count) VALUES ('kameari_shinkin_bank', '龟有信用金库', 2);
+INSERT INTO series (id, name, count) VALUES ('zombie-ya_reiko', '玲子的僵尸', 2);
+INSERT INTO series (id, name, count) VALUES ('trinity_blood', '圣魔之血', 1);
+INSERT INTO series (id, name, count) VALUES ('acfun', '阿卡芬', 1);
+INSERT INTO series (id, name, count) VALUES ('shoujo_ramune', '少女弹珠弹珠水', 1);
+INSERT INTO series (id, name, count) VALUES ('afghanis-tan', '阿富汗', 1);
+INSERT INTO series (id, name, count) VALUES ('butterfly_affection', '蝴蝶情', 1);
+INSERT INTO series (id, name, count) VALUES ('hitman_(game)', '杀手（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('fire_punch', '火拳', 1);
+INSERT INTO series (id, name, count) VALUES ('ultra_kaijuu_gijinka_keikaku', '究极怪兽乐器计画', 1);
+INSERT INTO series (id, name, count) VALUES ('aharen-san_wa_hakarenai', '阿哈伦桑瓦哈卡雷内', 1);
+INSERT INTO series (id, name, count) VALUES ('sony', '索尼', 1);
+INSERT INTO series (id, name, count) VALUES ('sacred_seven', '圣七', 1);
+INSERT INTO series (id, name, count) VALUES ('prunus_girl', '梅花女孩', 1);
+INSERT INTO series (id, name, count) VALUES ('kokoro_navi', '心导航', 1);
+INSERT INTO series (id, name, count) VALUES ('archaic_sealed_heat', '古老的密封热', 1);
+INSERT INTO series (id, name, count) VALUES ('la_priere', '祷告', 1);
+INSERT INTO series (id, name, count) VALUES ('microsoft', '微软', 1);
+INSERT INTO series (id, name, count) VALUES ('kyou_ami!', '京阿美！', 1);
+INSERT INTO series (id, name, count) VALUES ('doki_doki_majo_shinpan', '心跳魔女新番', 1);
+INSERT INTO series (id, name, count) VALUES ('akatsuki_blitzkampf', '晓闪电战', 1);
+INSERT INTO series (id, name, count) VALUES ('kyouhaku_2', '响白2', 1);
+INSERT INTO series (id, name, count) VALUES ('nogi_wakaba_wa_yuusha_de_aru', '乃木若叶瓦尤莎德阿鲁', 1);
+INSERT INTO series (id, name, count) VALUES ('hanbun_no_tsuki_ga_noboru_sora', '半分之月我登空', 1);
+INSERT INTO series (id, name, count) VALUES ('astral_chain', '星界链', 1);
+INSERT INTO series (id, name, count) VALUES ('16bit_sensation', '16位感觉', 1);
+INSERT INTO series (id, name, count) VALUES ('akitaland_gothic', '秋田哥特式', 1);
+INSERT INTO series (id, name, count) VALUES ('bouryoku_banzai', '芳力万岁', 1);
+INSERT INTO series (id, name, count) VALUES ('gravity_beyond', '超越重力', 1);
+INSERT INTO series (id, name, count) VALUES ('another_eden', '另一个伊甸园', 1);
+INSERT INTO series (id, name, count) VALUES ('isekai_shokudou', '异世界食堂', 1);
+INSERT INTO series (id, name, count) VALUES ('prototype_(game)', '原型（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('grimlight', '恐怖之光', 1);
+INSERT INTO series (id, name, count) VALUES ('akashic_chronicle', '阿卡什编年史', 1);
+INSERT INTO series (id, name, count) VALUES ('american_mcgee''s_alice', '美国麦基的爱丽丝', 1);
 INSERT INTO series (id, name, count) VALUES ('koyoi_mo_meshimase_alicetale', 'Koyoi Mo Meshimase Alicetale', 1);
-INSERT INTO series (id, name, count) VALUES ('battle_angel_alita', 'Battle Angel Alita', 1);
-INSERT INTO series (id, name, count) VALUES ('g_gundam', 'G Gundam', 1);
-INSERT INTO series (id, name, count) VALUES ('horizon_zero_dawn', 'Horizon Zero Dawn', 1);
-INSERT INTO series (id, name, count) VALUES ('kiite_kuremasu_yo_ne_senpai', 'Kiite Kuremasu Yo Ne Senpai', 1);
-INSERT INTO series (id, name, count) VALUES ('blassreiter', 'Blassreiter', 1);
-INSERT INTO series (id, name, count) VALUES ('den''ei_shoujo', 'Den''ei Shoujo', 1);
-INSERT INTO series (id, name, count) VALUES ('amano_megumi_wa_suki_darake!', 'Amano Megumi Wa Suki Darake!', 1);
-INSERT INTO series (id, name, count) VALUES ('battle_programmer_shirase', 'Battle Programmer Shirase', 1);
-INSERT INTO series (id, name, count) VALUES ('bungaku_shoujo', 'Bungaku Shoujo', 1);
-INSERT INTO series (id, name, count) VALUES ('cracklecradle', 'Cracklecradle', 1);
-INSERT INTO series (id, name, count) VALUES ('japanese_mythology', 'Japanese Mythology', 1);
-INSERT INTO series (id, name, count) VALUES ('garnet_cradle', 'Garnet Cradle', 1);
-INSERT INTO series (id, name, count) VALUES ('i_love_amy', 'I Love Amy', 1);
-INSERT INTO series (id, name, count) VALUES ('akuma_shitsuji_to_kuroi_neko', 'Akuma Shitsuji To Kuroi Neko', 1);
-INSERT INTO series (id, name, count) VALUES ('kyouka_jinrui_amunero', 'Kyouka Jinrui Amunero', 1);
-INSERT INTO series (id, name, count) VALUES ('andou_inari_official', 'Andou Inari Official', 1);
-INSERT INTO series (id, name, count) VALUES ('kitakubu_katsudou_kiroku', 'Kitakubu Katsudou Kiroku', 1);
-INSERT INTO series (id, name, count) VALUES ('nayutan_sei_kara_no_buttai', 'Nayutan Sei Kara No Buttai', 1);
+INSERT INTO series (id, name, count) VALUES ('battle_angel_alita', '战斗天使阿丽塔', 1);
+INSERT INTO series (id, name, count) VALUES ('g_gundam', 'G高达', 1);
+INSERT INTO series (id, name, count) VALUES ('horizon_zero_dawn', '地平线零之曙光', 1);
+INSERT INTO series (id, name, count) VALUES ('kiite_kuremasu_yo_ne_senpai', '与我前辈的Kiite Kuremasu', 1);
+INSERT INTO series (id, name, count) VALUES ('blassreiter', '布拉斯赖特', 1);
+INSERT INTO series (id, name, count) VALUES ('den''ei_shoujo', '电永少女', 1);
+INSERT INTO series (id, name, count) VALUES ('amano_megumi_wa_suki_darake!', '天野惠和苏希达雷克！', 1);
+INSERT INTO series (id, name, count) VALUES ('battle_programmer_shirase', '战斗程序员白濑', 1);
+INSERT INTO series (id, name, count) VALUES ('bungaku_shoujo', '文学少女', 1);
+INSERT INTO series (id, name, count) VALUES ('cracklecradle', '裂纹摇篮', 1);
+INSERT INTO series (id, name, count) VALUES ('japanese_mythology', '日本神话', 1);
+INSERT INTO series (id, name, count) VALUES ('garnet_cradle', '石榴石摇篮', 1);
+INSERT INTO series (id, name, count) VALUES ('i_love_amy', '我爱艾米', 1);
+INSERT INTO series (id, name, count) VALUES ('akuma_shitsuji_to_kuroi_neko', '恶隈执事与黑井猫', 1);
+INSERT INTO series (id, name, count) VALUES ('kyouka_jinrui_amunero', '阿穆内罗京香金锐', 1);
+INSERT INTO series (id, name, count) VALUES ('andou_inari_official', '安藤稻荷官方', 1);
+INSERT INTO series (id, name, count) VALUES ('kitakubu_katsudou_kiroku', '北久分胜堂喜六', 1);
+INSERT INTO series (id, name, count) VALUES ('nayutan_sei_kara_no_buttai', '那由潭清空的佛台', 1);
 INSERT INTO series (id, name, count) VALUES ('chouon_senshi_borgman', 'Chouon Senshi Borgman', 1);
 INSERT INTO series (id, name, count) VALUES ('yancha_gal_no_anjou-san', 'Yancha Gal No Anjou-san', 1);
-INSERT INTO series (id, name, count) VALUES ('dairoku_ryouhei', 'Dairoku Ryouhei', 1);
-INSERT INTO series (id, name, count) VALUES ('anne_of_green_gables', 'Anne Of Green Gables', 1);
-INSERT INTO series (id, name, count) VALUES ('kimagure_temptation', 'Kimagure Temptation', 1);
-INSERT INTO series (id, name, count) VALUES ('karisome_no_shitsuji_to_koushaku_no_himegoto', 'Karisome No Shitsuji To Koushaku No Himegoto', 1);
-INSERT INTO series (id, name, count) VALUES ('koutetsu_no_majo_annerose', 'Koutetsu No Majo Annerose', 1);
-INSERT INTO series (id, name, count) VALUES ('annie_mei_project', 'Annie Mei Project', 1);
-INSERT INTO series (id, name, count) VALUES ('salvika', 'Salvika', 1);
-INSERT INTO series (id, name, count) VALUES ('sapphism_no_gensou', 'Sapphism No Gensou', 1);
-INSERT INTO series (id, name, count) VALUES ('maid_dolce', 'Maid Dolce', 1);
-INSERT INTO series (id, name, count) VALUES ('shounen_no_abyss', 'Shounen No Abyss', 1);
-INSERT INTO series (id, name, count) VALUES ('selector_wixoss', 'Selector Wixoss', 1);
-INSERT INTO series (id, name, count) VALUES ('dna^2', 'Dna^2', 1);
-INSERT INTO series (id, name, count) VALUES ('akibakei_kanojo', 'Akibakei Kanojo', 1);
-INSERT INTO series (id, name, count) VALUES ('gleipnir_(series)', 'Gleipnir', 1);
-INSERT INTO series (id, name, count) VALUES ('ruri_dragon', 'Ruri Dragon', 1);
-INSERT INTO series (id, name, count) VALUES ('call_of_cthulhu', 'Call Of Cthulhu', 1);
-INSERT INTO series (id, name, count) VALUES ('shuumatsu_no_valkyrie', 'Shuumatsu No Valkyrie', 1);
-INSERT INTO series (id, name, count) VALUES ('natsu_no_arashi!', 'Natsu No Arashi!', 1);
-INSERT INTO series (id, name, count) VALUES ('dragon_nest', 'Dragon Nest', 1);
-INSERT INTO series (id, name, count) VALUES ('the_crawling_city', 'The Crawling City', 1);
-INSERT INTO series (id, name, count) VALUES ('gaikotsu_kishi-sama_tadaima_isekai_e_o_dekake-chuu', 'Gaikotsu Kishi-sama Tadaima Isekai E O Dekake-chuu', 1);
-INSERT INTO series (id, name, count) VALUES ('ariel_(novel)', 'Ariel (novel)', 1);
-INSERT INTO series (id, name, count) VALUES ('oukoku_no_shugo_tenshi', 'Oukoku No Shugo Tenshi', 1);
-INSERT INTO series (id, name, count) VALUES ('ac_japan', 'Ac Japan', 1);
-INSERT INTO series (id, name, count) VALUES ('himegoto', 'Himegoto', 1);
-INSERT INTO series (id, name, count) VALUES ('w.l.o_sekai_ren''ai_kikou', 'W.l.o Sekai Ren''ai Kikou', 1);
+INSERT INTO series (id, name, count) VALUES ('dairoku_ryouhei', '大六良平', 1);
+INSERT INTO series (id, name, count) VALUES ('anne_of_green_gables', '绿山墙的安妮', 1);
+INSERT INTO series (id, name, count) VALUES ('kimagure_temptation', '木马格雷的诱惑', 1);
+INSERT INTO series (id, name, count) VALUES ('karisome_no_shitsuji_to_koushaku_no_himegoto', '栗染的执事与红尺的姬后', 1);
+INSERT INTO series (id, name, count) VALUES ('koutetsu_no_majo_annerose', '钢铁魔女安妮罗斯', 1);
+INSERT INTO series (id, name, count) VALUES ('annie_mei_project', '梅安妮项目', 1);
+INSERT INTO series (id, name, count) VALUES ('salvika', '萨尔维卡', 1);
+INSERT INTO series (id, name, count) VALUES ('sapphism_no_gensou', '萨菲斯派的幻想', 1);
+INSERT INTO series (id, name, count) VALUES ('maid_dolce', '女仆多尔切', 1);
+INSERT INTO series (id, name, count) VALUES ('shounen_no_abyss', '少年无深渊', 1);
+INSERT INTO series (id, name, count) VALUES ('selector_wixoss', '选择器威克索斯', 1);
+INSERT INTO series (id, name, count) VALUES ('dna^2', '脱氧核糖核酸^2', 1);
+INSERT INTO series (id, name, count) VALUES ('akibakei_kanojo', '秋绫鹿城', 1);
+INSERT INTO series (id, name, count) VALUES ('gleipnir_(series)', '格莱普尼尔', 1);
+INSERT INTO series (id, name, count) VALUES ('ruri_dragon', '琉璃龙', 1);
+INSERT INTO series (id, name, count) VALUES ('call_of_cthulhu', '克苏鲁的呼唤', 1);
+INSERT INTO series (id, name, count) VALUES ('shuumatsu_no_valkyrie', '舒玛的女武神', 1);
+INSERT INTO series (id, name, count) VALUES ('natsu_no_arashi!', '夏之岚！', 1);
+INSERT INTO series (id, name, count) VALUES ('dragon_nest', '龙之谷', 1);
+INSERT INTO series (id, name, count) VALUES ('the_crawling_city', '爬行城市', 1);
+INSERT INTO series (id, name, count) VALUES ('gaikotsu_kishi-sama_tadaima_isekai_e_o_dekake-chuu', '外公岸大人异世界忠真 E O 出挂中', 1);
+INSERT INTO series (id, name, count) VALUES ('ariel_(novel)', '爱丽儿（小说）', 1);
+INSERT INTO series (id, name, count) VALUES ('oukoku_no_shugo_tenshi', '王国守护天使', 1);
+INSERT INTO series (id, name, count) VALUES ('ac_japan', '日本交流', 1);
+INSERT INTO series (id, name, count) VALUES ('himegoto', '姬后', 1);
+INSERT INTO series (id, name, count) VALUES ('w.l.o_sekai_ren''ai_kikou', 'W.L.O 世界仁爱纪行', 1);
 INSERT INTO series (id, name, count) VALUES ('ore_ga_ojou-sama_gakkou_ni_"shomin_sample"_toshite_rachirareta_ken', 'Ore Ga Ojou-sama Gakkou Ni "shomin Sample" Toshite Rachirareta Ken', 1);
-INSERT INTO series (id, name, count) VALUES ('kud_wafter', 'Kud Wafter', 1);
-INSERT INTO series (id, name, count) VALUES ('arslan_senki', 'Arslan Senki', 1);
-INSERT INTO series (id, name, count) VALUES ('red_dead_redemption_2', 'Red Dead Redemption 2', 1);
-INSERT INTO series (id, name, count) VALUES ('tokumei_radio', 'Tokumei Radio', 1);
-INSERT INTO series (id, name, count) VALUES ('ombok_diving_and_delivery_services', 'Ombok Diving And Delivery Services', 1);
-INSERT INTO series (id, name, count) VALUES ('comiket_102', 'Comiket 102', 1);
-INSERT INTO series (id, name, count) VALUES ('genmu_senki_leda', 'Genmu Senki Leda', 1);
-INSERT INTO series (id, name, count) VALUES ('abenobashi_mahou_shoutengai', 'Abenobashi Mahou Shoutengai', 1);
-INSERT INTO series (id, name, count) VALUES ('hoshi_no_samidare', 'Hoshi No Samidare', 1);
-INSERT INTO series (id, name, count) VALUES ('suzuka', 'Suzuka', 1);
-INSERT INTO series (id, name, count) VALUES ('la_corda_d''oro_starlight_orchestra', 'La Corda D''oro Starlight Orchestra', 1);
-INSERT INTO series (id, name, count) VALUES ('hitohira', 'Hitohira', 1);
-INSERT INTO series (id, name, count) VALUES ('yumeochi_-_yume_de_bokura_wa_koi_ni_ochiru', 'Yumeochi - Yume De Bokura Wa Koi Ni Ochiru', 1);
-INSERT INTO series (id, name, count) VALUES ('asano_sisters_project', 'Asano Sisters Project', 1);
-INSERT INTO series (id, name, count) VALUES ('tsumamigui_3', 'Tsumamigui 3', 1);
-INSERT INTO series (id, name, count) VALUES ('under_the_moon', 'Under The Moon', 1);
-INSERT INTO series (id, name, count) VALUES ('another_code', 'Another Code', 1);
-INSERT INTO series (id, name, count) VALUES ('stayblack', 'Stayblack', 1);
-INSERT INTO series (id, name, count) VALUES ('mnemosyne', 'Mnemosyne', 1);
-INSERT INTO series (id, name, count) VALUES ('asura''s_wrath', 'Asura''s Wrath', 1);
-INSERT INTO series (id, name, count) VALUES ('eoneu_nal_gongjuga_doeeobeoryeotda', 'Eoneu Nal Gongjuga Doeeobeoryeotda', 1);
-INSERT INTO series (id, name, count) VALUES ('greek_mythology', 'Greek Mythology', 1);
-INSERT INTO series (id, name, count) VALUES ('titanfall', 'Titanfall', 1);
-INSERT INTO series (id, name, count) VALUES ('tetsuwan_atom', 'Tetsuwan Atom', 1);
-INSERT INTO series (id, name, count) VALUES ('aiyoku_shimai_lolita', 'Aiyoku Shimai Lolita', 1);
-INSERT INTO series (id, name, count) VALUES ('atri-my_dear_moments-', 'Atri-my Dear Moments-', 1);
-INSERT INTO series (id, name, count) VALUES ('orc_massage', 'Orc Massage', 1);
-INSERT INTO series (id, name, count) VALUES ('parasite_eve', 'Parasite Eve', 1);
-INSERT INTO series (id, name, count) VALUES ('mad_father', 'Mad Father', 1);
-INSERT INTO series (id, name, count) VALUES ('isekai_tensei_shite_v_ni_narimashita', 'Isekai Tensei Shite V Ni Narimashita', 1);
-INSERT INTO series (id, name, count) VALUES ('tenchuu', 'Tenchuu', 1);
-INSERT INTO series (id, name, count) VALUES ('chuuko_demo_koi_ga_shitai!', 'Chuuko Demo Koi Ga Shitai!', 1);
-INSERT INTO series (id, name, count) VALUES ('yandere_simulator', 'Yandere Simulator', 1);
-INSERT INTO series (id, name, count) VALUES ('maro_no_kanja_wa_gatenkei_2', 'Maro No Kanja Wa Gatenkei 2', 1);
-INSERT INTO series (id, name, count) VALUES ('meiji_tokyo_renka', 'Meiji Tokyo Renka', 1);
-INSERT INTO series (id, name, count) VALUES ('x-blades', 'X-blades', 1);
-INSERT INTO series (id, name, count) VALUES ('kaichou_wa_maid-sama!', 'Kaichou Wa Maid-sama!', 1);
-INSERT INTO series (id, name, count) VALUES ('backrooms_(creepypasta)', 'Backrooms (creepypasta)', 1);
-INSERT INTO series (id, name, count) VALUES ('cyber_v', 'Cyber V', 1);
+INSERT INTO series (id, name, count) VALUES ('kud_wafter', '库德沃夫特', 1);
+INSERT INTO series (id, name, count) VALUES ('arslan_senki', '阿尔斯兰·诺普特', 1);
+INSERT INTO series (id, name, count) VALUES ('red_dead_redemption_2', '荒野大镖客：救赎 2', 1);
+INSERT INTO series (id, name, count) VALUES ('tokumei_radio', '特命广播电台', 1);
+INSERT INTO series (id, name, count) VALUES ('ombok_diving_and_delivery_services', '翁博克潜水和送货服务', 1);
+INSERT INTO series (id, name, count) VALUES ('comiket_102', '漫画102', 1);
+INSERT INTO series (id, name, count) VALUES ('genmu_senki_leda', '根木冰影', 1);
+INSERT INTO series (id, name, count) VALUES ('abenobashi_mahou_shoutengai', '阿倍野桥魔法商店街', 1);
+INSERT INTO series (id, name, count) VALUES ('hoshi_no_samidare', '星之三月', 1);
+INSERT INTO series (id, name, count) VALUES ('suzuka', '铃鹿', 1);
+INSERT INTO series (id, name, count) VALUES ('la_corda_d''oro_starlight_orchestra', 'Corda D''Oro 星光乐团', 1);
+INSERT INTO series (id, name, count) VALUES ('hitohira', '人平', 1);
+INSERT INTO series (id, name, count) VALUES ('yumeochi_-_yume_de_bokura_wa_koi_ni_ochiru', '梦落 - Yume De Bokura Wa Koi Ni Ochiru', 1);
+INSERT INTO series (id, name, count) VALUES ('asano_sisters_project', '浅野姐妹计划', 1);
+INSERT INTO series (id, name, count) VALUES ('tsumamigui_3', '妻见吉 3', 1);
+INSERT INTO series (id, name, count) VALUES ('under_the_moon', '月光之下', 1);
+INSERT INTO series (id, name, count) VALUES ('another_code', '另一个代码', 1);
+INSERT INTO series (id, name, count) VALUES ('stayblack', '保持黑色', 1);
+INSERT INTO series (id, name, count) VALUES ('mnemosyne', '摩涅莫绪涅', 1);
+INSERT INTO series (id, name, count) VALUES ('asura''s_wrath', '阿修罗之怒', 1);
+INSERT INTO series (id, name, count) VALUES ('eoneu_nal_gongjuga_doeeobeoryeotda', '埃奥内·纳尔·贡朱加·多伊奥贝奥约特达', 1);
+INSERT INTO series (id, name, count) VALUES ('greek_mythology', '希腊神话', 1);
+INSERT INTO series (id, name, count) VALUES ('titanfall', '泰坦天降', 1);
+INSERT INTO series (id, name, count) VALUES ('tetsuwan_atom', '铁丸原子', 1);
+INSERT INTO series (id, name, count) VALUES ('aiyoku_shimai_lolita', '爱欲岛舞洛丽塔', 1);
+INSERT INTO series (id, name, count) VALUES ('atri-my_dear_moments-', 'Atri-我亲爱的时刻-', 1);
+INSERT INTO series (id, name, count) VALUES ('orc_massage', '兽人按摩', 1);
+INSERT INTO series (id, name, count) VALUES ('parasite_eve', '寄生前夜', 1);
+INSERT INTO series (id, name, count) VALUES ('mad_father', '疯狂的父亲', 1);
+INSERT INTO series (id, name, count) VALUES ('isekai_tensei_shite_v_ni_narimashita', '异世界转生师 V 二成下', 1);
+INSERT INTO series (id, name, count) VALUES ('tenchuu', '天中', 1);
+INSERT INTO series (id, name, count) VALUES ('chuuko_demo_koi_ga_shitai!', 'Chuuko 演示恋歌师太！', 1);
+INSERT INTO series (id, name, count) VALUES ('yandere_simulator', '病态模拟器', 1);
+INSERT INTO series (id, name, count) VALUES ('maro_no_kanja_wa_gatenkei_2', '麻吕的 Kanja Wa 剧场庆 2', 1);
+INSERT INTO series (id, name, count) VALUES ('meiji_tokyo_renka', '明治东京莲华', 1);
+INSERT INTO series (id, name, count) VALUES ('x-blades', 'X型刀片', 1);
+INSERT INTO series (id, name, count) VALUES ('kaichou_wa_maid-sama!', '海长和女仆大人！', 1);
+INSERT INTO series (id, name, count) VALUES ('backrooms_(creepypasta)', '密室（令人毛骨悚然的意大利面）', 1);
+INSERT INTO series (id, name, count) VALUES ('cyber_v', '赛博V', 1);
 INSERT INTO series (id, name, count) VALUES ('fengling_yuxiu', 'Fengling Yuxiu', 1);
-INSERT INTO series (id, name, count) VALUES ('ayakashi:_japanese_classic_horror', 'Ayakashi: Japanese Classic Horror', 1);
-INSERT INTO series (id, name, count) VALUES ('seirei_no_moribito', 'Seirei No Moribito', 1);
-INSERT INTO series (id, name, count) VALUES ('riding_bean', 'Riding Bean', 1);
-INSERT INTO series (id, name, count) VALUES ('beelzebub-jou_no_okinimesu_mama.', 'Beelzebub-jou No Okinimesu Mama.', 1);
-INSERT INTO series (id, name, count) VALUES ('sand_land', 'Sand Land', 1);
-INSERT INTO series (id, name, count) VALUES ('unlight', 'Unlight', 1);
-INSERT INTO series (id, name, count) VALUES ('carrefour', 'Carrefour', 1);
-INSERT INTO series (id, name, count) VALUES ('ryuu_to_sobakasu_no_hime', 'Ryuu To Sobakasu No Hime', 1);
-INSERT INTO series (id, name, count) VALUES ('bendy_and_the_ink_machine', 'Bendy And The Ink Machine', 1);
-INSERT INTO series (id, name, count) VALUES ('glitchtale', 'Glitchtale', 1);
-INSERT INTO series (id, name, count) VALUES ('rayman_origins', 'Rayman Origins', 1);
-INSERT INTO series (id, name, count) VALUES ('betty_boop_(series)', 'Betty Boop', 1);
+INSERT INTO series (id, name, count) VALUES ('ayakashi:_japanese_classic_horror', 'Ayakashi：日本经典恐怖', 1);
+INSERT INTO series (id, name, count) VALUES ('seirei_no_moribito', '精灵之守人', 1);
+INSERT INTO series (id, name, count) VALUES ('riding_bean', '骑豆', 1);
+INSERT INTO series (id, name, count) VALUES ('beelzebub-jou_no_okinimesu_mama.', 'Beelzebub-jou ​​No Okinimesu 妈妈。', 1);
+INSERT INTO series (id, name, count) VALUES ('sand_land', '沙地', 1);
+INSERT INTO series (id, name, count) VALUES ('unlight', '熄灭', 1);
+INSERT INTO series (id, name, count) VALUES ('carrefour', '家乐福', 1);
+INSERT INTO series (id, name, count) VALUES ('ryuu_to_sobakasu_no_hime', '龙与小叶之姬', 1);
+INSERT INTO series (id, name, count) VALUES ('bendy_and_the_ink_machine', '班迪与墨水机器', 1);
+INSERT INTO series (id, name, count) VALUES ('glitchtale', '故障故事', 1);
+INSERT INTO series (id, name, count) VALUES ('rayman_origins', '雷曼起源', 1);
+INSERT INTO series (id, name, count) VALUES ('betty_boop_(series)', '贝蒂娃娃', 1);
 INSERT INTO series (id, name, count) VALUES ('xia_lan', 'Xia Lan', 1);
-INSERT INTO series (id, name, count) VALUES ('boston_dynamics', 'Boston Dynamics', 1);
-INSERT INTO series (id, name, count) VALUES ('binchou-tan', 'Binchou-tan', 1);
-INSERT INTO series (id, name, count) VALUES ('tetsuwan_birdy', 'Tetsuwan Birdy', 1);
-INSERT INTO series (id, name, count) VALUES ('streets_of_rage', 'Streets Of Rage', 1);
-INSERT INTO series (id, name, count) VALUES ('portrait_of_exotic_girls', 'Portrait Of Exotic Girls', 1);
-INSERT INTO series (id, name, count) VALUES ('winx_club', 'Winx Club', 1);
-INSERT INTO series (id, name, count) VALUES ('how_to_draw_manga', 'How To Draw Manga', 1);
-INSERT INTO series (id, name, count) VALUES ('the_joy_of_painting', 'The Joy Of Painting', 1);
-INSERT INTO series (id, name, count) VALUES ('bonobono', 'Bonobono', 1);
-INSERT INTO series (id, name, count) VALUES ('boogiepop', 'Boogiepop', 1);
-INSERT INTO series (id, name, count) VALUES ('boomina_the_maidroid', 'Boomina The Maidroid', 1);
-INSERT INTO series (id, name, count) VALUES ('song_of_the_south', 'Song Of The South', 1);
-INSERT INTO series (id, name, count) VALUES ('nippon_professional_baseball', 'Nippon Professional Baseball', 1);
-INSERT INTO series (id, name, count) VALUES ('vchiban', 'Vchiban', 1);
-INSERT INTO series (id, name, count) VALUES ('c.c._lemon', 'C.c. Lemon', 1);
-INSERT INTO series (id, name, count) VALUES ('shirogane_no_cal_to_soukuu_no_joou', 'Shirogane No Cal To Soukuu No Joou', 1);
-INSERT INTO series (id, name, count) VALUES ('viper_rsr', 'Viper Rsr', 1);
-INSERT INTO series (id, name, count) VALUES ('time_bokan_24', 'Time Bokan 24', 1);
-INSERT INTO series (id, name, count) VALUES ('existence', 'Existence', 1);
-INSERT INTO series (id, name, count) VALUES ('randal''s_friends', 'Randal''s Friends', 1);
-INSERT INTO series (id, name, count) VALUES ('canaan_(series)', 'Canaan', 1);
-INSERT INTO series (id, name, count) VALUES ('lost_universe', 'Lost Universe', 1);
-INSERT INTO series (id, name, count) VALUES ('captain_commando', 'Captain Commando', 1);
-INSERT INTO series (id, name, count) VALUES ('f-zero', 'F-zero', 1);
-INSERT INTO series (id, name, count) VALUES ('code:realize', 'Code:realize', 1);
-INSERT INTO series (id, name, count) VALUES ('die_of_death', 'Die Of Death', 1);
-INSERT INTO series (id, name, count) VALUES ('sf_choujigen_densetsu_rall', 'Sf Choujigen Densetsu Rall', 1);
-INSERT INTO series (id, name, count) VALUES ('carrie_(song)', 'Carrie (song)', 1);
-INSERT INTO series (id, name, count) VALUES ('masterwork_apocalypse', 'Masterwork Apocalypse', 1);
+INSERT INTO series (id, name, count) VALUES ('boston_dynamics', '波士顿动力公司', 1);
+INSERT INTO series (id, name, count) VALUES ('binchou-tan', '备长炭', 1);
+INSERT INTO series (id, name, count) VALUES ('tetsuwan_birdy', '铁丸鸟', 1);
+INSERT INTO series (id, name, count) VALUES ('streets_of_rage', '愤怒的街道', 1);
+INSERT INTO series (id, name, count) VALUES ('portrait_of_exotic_girls', '异国情调女孩的肖像', 1);
+INSERT INTO series (id, name, count) VALUES ('winx_club', '仙灵俱乐部', 1);
+INSERT INTO series (id, name, count) VALUES ('how_to_draw_manga', '如何画漫画', 1);
+INSERT INTO series (id, name, count) VALUES ('the_joy_of_painting', '绘画的乐趣', 1);
+INSERT INTO series (id, name, count) VALUES ('bonobono', '糖果', 1);
+INSERT INTO series (id, name, count) VALUES ('boogiepop', '布吉流行乐', 1);
+INSERT INTO series (id, name, count) VALUES ('boomina_the_maidroid', '女仆布米娜', 1);
+INSERT INTO series (id, name, count) VALUES ('song_of_the_south', '南歌', 1);
+INSERT INTO series (id, name, count) VALUES ('nippon_professional_baseball', '日本职业棒球', 1);
+INSERT INTO series (id, name, count) VALUES ('vchiban', '维奇班', 1);
+INSERT INTO series (id, name, count) VALUES ('c.c._lemon', '抄送柠檬', 1);
+INSERT INTO series (id, name, count) VALUES ('shirogane_no_cal_to_soukuu_no_joou', '白金之卡尔与天空之城', 1);
+INSERT INTO series (id, name, count) VALUES ('viper_rsr', '蝰蛇Rsr', 1);
+INSERT INTO series (id, name, count) VALUES ('time_bokan_24', '时间博坎24', 1);
+INSERT INTO series (id, name, count) VALUES ('existence', '存在', 1);
+INSERT INTO series (id, name, count) VALUES ('randal''s_friends', '兰德尔的朋友', 1);
+INSERT INTO series (id, name, count) VALUES ('canaan_(series)', '迦南', 1);
+INSERT INTO series (id, name, count) VALUES ('lost_universe', '失落的宇宙', 1);
+INSERT INTO series (id, name, count) VALUES ('captain_commando', '突击队长', 1);
+INSERT INTO series (id, name, count) VALUES ('f-zero', 'F-零', 1);
+INSERT INTO series (id, name, count) VALUES ('code:realize', '代码：实现', 1);
+INSERT INTO series (id, name, count) VALUES ('die_of_death', '死于死亡', 1);
+INSERT INTO series (id, name, count) VALUES ('sf_choujigen_densetsu_rall', 'SF 超次元传说拉力', 1);
+INSERT INTO series (id, name, count) VALUES ('carrie_(song)', '嘉莉（歌曲）', 1);
+INSERT INTO series (id, name, count) VALUES ('masterwork_apocalypse', '杰作启示录', 1);
 INSERT INTO series (id, name, count) VALUES ('famiresu_wo_kyouju_seyo', 'Famiresu Wo Kyouju Seyo', 1);
-INSERT INTO series (id, name, count) VALUES ('leadale_no_daichi_nite', 'Leadale No Daichi Nite', 1);
-INSERT INTO series (id, name, count) VALUES ('trash_taste', 'Trash Taste', 1);
-INSERT INTO series (id, name, count) VALUES ('legends_of_talia:_arcadia', 'Legends Of Talia: Arcadia', 1);
-INSERT INTO series (id, name, count) VALUES ('seirei_gensouki', 'Seirei Gensouki', 1);
-INSERT INTO series (id, name, count) VALUES ('alice''s_adventures_in_wonderland', 'Alice''s Adventures In Wonderland', 1);
-INSERT INTO series (id, name, count) VALUES ('magic:_the_gathering', 'Magic: The Gathering', 1);
-INSERT INTO series (id, name, count) VALUES ('facing_demons', 'Facing Demons', 1);
-INSERT INTO series (id, name, count) VALUES ('wiz_anniversary', 'Wiz Anniversary', 1);
-INSERT INTO series (id, name, count) VALUES ('quartett!', 'Quartett!', 1);
-INSERT INTO series (id, name, count) VALUES ('aigan_tenshi_cheery_pink', 'Aigan Tenshi Cheery Pink', 1);
-INSERT INTO series (id, name, count) VALUES ('the_road_to_el_dorado', 'The Road To El Dorado', 1);
-INSERT INTO series (id, name, count) VALUES ('japan_commercial_broadcasters_association', 'Japan Commercial Broadcasters Association', 1);
-INSERT INTO series (id, name, count) VALUES ('harvest_moon_(vtuber)', 'Harvest Moon (vtuber)', 1);
-INSERT INTO series (id, name, count) VALUES ('lcddem', 'Lcddem', 1);
-INSERT INTO series (id, name, count) VALUES ('nana_to_kaoru', 'Nana To Kaoru', 1);
-INSERT INTO series (id, name, count) VALUES ('susaki', 'Susaki', 1);
-INSERT INTO series (id, name, count) VALUES ('saishuu_heiki_kanojo', 'Saishuu Heiki Kanojo', 1);
-INSERT INTO series (id, name, count) VALUES ('ane_naru_mono', 'Ane Naru Mono', 1);
-INSERT INTO series (id, name, count) VALUES ('amesarasa', 'Amesarasa', 1);
-INSERT INTO series (id, name, count) VALUES ('ore_no_nounai_sentakushi_ga_gakuen_love-comedy_wo_zenryoku_de_jama_shiteiru', 'Ore No Nounai Sentakushi Ga Gakuen Love-comedy Wo Zenryoku De Jama Shiteiru', 1);
-INSERT INTO series (id, name, count) VALUES ('chokotto_sister', 'Chokotto Sister', 1);
-INSERT INTO series (id, name, count) VALUES ('last_period', 'Last Period', 1);
+INSERT INTO series (id, name, count) VALUES ('leadale_no_daichi_nite', 'Leadale 的大地之夜', 1);
+INSERT INTO series (id, name, count) VALUES ('trash_taste', '垃圾味', 1);
+INSERT INTO series (id, name, count) VALUES ('legends_of_talia:_arcadia', '塔莉亚传奇：阿卡迪亚', 1);
+INSERT INTO series (id, name, count) VALUES ('seirei_gensouki', '精礼幻想纪', 1);
+INSERT INTO series (id, name, count) VALUES ('alice''s_adventures_in_wonderland', '爱丽丝梦游仙境', 1);
+INSERT INTO series (id, name, count) VALUES ('magic:_the_gathering', '万智牌：聚会', 1);
+INSERT INTO series (id, name, count) VALUES ('facing_demons', '面对恶魔', 1);
+INSERT INTO series (id, name, count) VALUES ('wiz_anniversary', '维兹周年纪念日', 1);
+INSERT INTO series (id, name, count) VALUES ('quartett!', '四重奏！', 1);
+INSERT INTO series (id, name, count) VALUES ('aigan_tenshi_cheery_pink', '爱眼天使 欢快粉色', 1);
+INSERT INTO series (id, name, count) VALUES ('the_road_to_el_dorado', '通往埃尔多拉多之路', 1);
+INSERT INTO series (id, name, count) VALUES ('japan_commercial_broadcasters_association', '日本商业广播协会', 1);
+INSERT INTO series (id, name, count) VALUES ('harvest_moon_(vtuber)', '收获月亮（vtuber）', 1);
+INSERT INTO series (id, name, count) VALUES ('lcddem', '液晶显示器', 1);
+INSERT INTO series (id, name, count) VALUES ('nana_to_kaoru', '菜奈薰', 1);
+INSERT INTO series (id, name, count) VALUES ('susaki', '须崎', 1);
+INSERT INTO series (id, name, count) VALUES ('saishuu_heiki_kanojo', '西周平树鹿城', 1);
+INSERT INTO series (id, name, count) VALUES ('ane_naru_mono', '阿内·纳鲁·莫诺', 1);
+INSERT INTO series (id, name, count) VALUES ('amesarasa', '阿梅萨拉萨', 1);
+INSERT INTO series (id, name, count) VALUES ('ore_no_nounai_sentakushi_ga_gakuen_love-comedy_wo_zenryoku_de_jama_shiteiru', 'Ore No Nounai Sentakushi Ga Gakuen 爱情喜剧 Wo Zenryoku De Jama Shiteiru', 1);
+INSERT INTO series (id, name, count) VALUES ('chokotto_sister', '乔科托姐妹', 1);
+INSERT INTO series (id, name, count) VALUES ('last_period', '上一期', 1);
 INSERT INTO series (id, name, count) VALUES ('nandome_ka_no_hajimemashite', 'Nandome Ka No Hajimemashite', 1);
-INSERT INTO series (id, name, count) VALUES ('kaiba', 'Kaiba', 1);
+INSERT INTO series (id, name, count) VALUES ('kaiba', '海马', 1);
 INSERT INTO series (id, name, count) VALUES ('shuumatsu_nani_shitemasu_ka?', 'Shuumatsu Nani Shitemasu Ka?', 1);
-INSERT INTO series (id, name, count) VALUES ('chu_x_chu_idol', 'Chu X Chu Idol', 1);
-INSERT INTO series (id, name, count) VALUES ('child''s_play', 'Child''s Play', 1);
-INSERT INTO series (id, name, count) VALUES ('the_summoning', 'The Summoning', 1);
-INSERT INTO series (id, name, count) VALUES ('microsoft_windows', 'Microsoft Windows', 1);
-INSERT INTO series (id, name, count) VALUES ('the_walking_dead_(game)', 'The Walking Dead (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('space_adventure_cobra', 'Space Adventure Cobra', 1);
-INSERT INTO series (id, name, count) VALUES ('cosmic_baton_girl_comet-san', 'Cosmic Baton Girl Comet-san', 1);
-INSERT INTO series (id, name, count) VALUES ('les_miserables', 'Les Miserables', 1);
-INSERT INTO series (id, name, count) VALUES ('courage_the_cowardly_dog', 'Courage The Cowardly Dog', 1);
-INSERT INTO series (id, name, count) VALUES ('vampire_knight', 'Vampire Knight', 1);
-INSERT INTO series (id, name, count) VALUES ('101_dalmatians', '101 Dalmatians', 1);
-INSERT INTO series (id, name, count) VALUES ('chaos_code', 'Chaos Code', 1);
-INSERT INTO series (id, name, count) VALUES ('celtic_mythology', 'Celtic Mythology', 1);
-INSERT INTO series (id, name, count) VALUES ('cuadradito_y_circulito', 'Cuadradito Y Circulito', 1);
-INSERT INTO series (id, name, count) VALUES ('dancing_star_precure', 'Dancing Star Precure', 1);
-INSERT INTO series (id, name, count) VALUES ('hand_maid_may', 'Hand Maid May', 1);
-INSERT INTO series (id, name, count) VALUES ('kikou_senki_dragonar', 'Kikou Senki Dragonar', 1);
-INSERT INTO series (id, name, count) VALUES ('daicon_iv', 'Daicon Iv', 1);
-INSERT INTO series (id, name, count) VALUES ('devil_summoner:_raidou_kuzunoha_vs_the_soulless_army', 'Devil Summoner: Raidou Kuzunoha Vs The Soulless Army', 1);
-INSERT INTO series (id, name, count) VALUES ('muteki_koujin_daitarn_3', 'Muteki Koujin Daitarn 3', 1);
-INSERT INTO series (id, name, count) VALUES ('kyouryuu_sentai_zyuranger', 'Kyouryuu Sentai Zyuranger', 1);
-INSERT INTO series (id, name, count) VALUES ('dantalian_no_shoka', 'Dantalian No Shoka', 1);
-INSERT INTO series (id, name, count) VALUES ('dust_514', 'Dust 514', 1);
-INSERT INTO series (id, name, count) VALUES ('choujuu_kishin_dancouga', 'Choujuu Kishin Dancouga', 1);
+INSERT INTO series (id, name, count) VALUES ('chu_x_chu_idol', '楚X楚偶像', 1);
+INSERT INTO series (id, name, count) VALUES ('child''s_play', '儿童游戏', 1);
+INSERT INTO series (id, name, count) VALUES ('the_summoning', '召唤', 1);
+INSERT INTO series (id, name, count) VALUES ('microsoft_windows', '微软视窗', 1);
+INSERT INTO series (id, name, count) VALUES ('the_walking_dead_(game)', '行尸走肉（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('space_adventure_cobra', '太空冒险眼镜蛇', 1);
+INSERT INTO series (id, name, count) VALUES ('cosmic_baton_girl_comet-san', '宇宙接力棒少女彗星桑', 1);
+INSERT INTO series (id, name, count) VALUES ('les_miserables', '悲惨世界', 1);
+INSERT INTO series (id, name, count) VALUES ('courage_the_cowardly_dog', '胆怯的狗的勇气', 1);
+INSERT INTO series (id, name, count) VALUES ('vampire_knight', '吸血鬼骑士', 1);
+INSERT INTO series (id, name, count) VALUES ('101_dalmatians', '101 斑点狗', 1);
+INSERT INTO series (id, name, count) VALUES ('chaos_code', '混沌代码', 1);
+INSERT INTO series (id, name, count) VALUES ('celtic_mythology', '凯尔特神话', 1);
+INSERT INTO series (id, name, count) VALUES ('cuadradito_y_circulito', '小方块和小圆圈', 1);
+INSERT INTO series (id, name, count) VALUES ('dancing_star_precure', '舞之星光之美少女', 1);
+INSERT INTO series (id, name, count) VALUES ('hand_maid_may', '女仆梅', 1);
+INSERT INTO series (id, name, count) VALUES ('kikou_senki_dragonar', 'Kikou 无人龙纳尔', 1);
+INSERT INTO series (id, name, count) VALUES ('daicon_iv', '戴康四号', 1);
+INSERT INTO series (id, name, count) VALUES ('devil_summoner:_raidou_kuzunoha_vs_the_soulless_army', '恶魔召唤师：雷道葛叶VS无魂军', 1);
+INSERT INTO series (id, name, count) VALUES ('muteki_koujin_daitarn_3', '无敌工神戴坦 3', 1);
+INSERT INTO series (id, name, count) VALUES ('kyouryuu_sentai_zyuranger', '响龙战队 Zyuranger', 1);
+INSERT INTO series (id, name, count) VALUES ('dantalian_no_shoka', '丹塔利安·诺·索卡', 1);
+INSERT INTO series (id, name, count) VALUES ('dust_514', '尘埃514', 1);
+INSERT INTO series (id, name, count) VALUES ('choujuu_kishin_dancouga', '长十鬼心丹古嘎', 1);
 INSERT INTO series (id, name, count) VALUES ('sokushi_cheat_ga_saikyou_sugite_isekai_no_yatsura_ga_marude_aite_ni_naranai_n_desu_ga', 'Sokushi Cheat Ga Saikyou Sugite Isekai No Yatsura Ga Marude Aite Ni Naranai N Desu Ga', 1);
-INSERT INTO series (id, name, count) VALUES ('bungou_to_alchemist', 'Bungou To Alchemist', 1);
-INSERT INTO series (id, name, count) VALUES ('puss_in_boots:_the_last_wish', 'Puss In Boots: The Last Wish', 1);
-INSERT INTO series (id, name, count) VALUES ('demons_roots', 'Demons Roots', 1);
-INSERT INTO series (id, name, count) VALUES ('burden_street_station', 'Burden Street Station', 1);
-INSERT INTO series (id, name, count) VALUES ('this_communication', 'This Communication', 1);
-INSERT INTO series (id, name, count) VALUES ('dexter''s_laboratory', 'Dexter''s Laboratory', 1);
-INSERT INTO series (id, name, count) VALUES ('the_bad_guys_(film)', 'The Bad Guys (film)', 1);
-INSERT INTO series (id, name, count) VALUES ('vfleet', 'Vfleet', 1);
-INSERT INTO series (id, name, count) VALUES ('chunichi_dragons', 'Chunichi Dragons', 1);
-INSERT INTO series (id, name, count) VALUES ('deadpool_&_wolverine', 'Deadpool & Wolverine', 1);
-INSERT INTO series (id, name, count) VALUES ('dora_the_explorer', 'Dora The Explorer', 1);
-INSERT INTO series (id, name, count) VALUES ('marchen_awakens_romance', 'Marchen Awakens Romance', 1);
-INSERT INTO series (id, name, count) VALUES ('monster_prom', 'Monster Prom', 1);
-INSERT INTO series (id, name, count) VALUES ('taiyou_no_kiba_dougram', 'Taiyou No Kiba Dougram', 1);
-INSERT INTO series (id, name, count) VALUES ('monster_high', 'Monster High', 1);
-INSERT INTO series (id, name, count) VALUES ('fireball_(series)', 'Fireball', 1);
-INSERT INTO series (id, name, count) VALUES ('terraria', 'Terraria', 1);
-INSERT INTO series (id, name, count) VALUES ('devotion', 'Devotion', 1);
-INSERT INTO series (id, name, count) VALUES ('world_dai_star', 'World Dai Star', 1);
-INSERT INTO series (id, name, count) VALUES ('duke_nukem_(series)', 'Duke Nukem', 1);
-INSERT INTO series (id, name, count) VALUES ('golgo_13', 'Golgo 13', 1);
-INSERT INTO series (id, name, count) VALUES ('kimi_no_iru_machi', 'Kimi No Iru Machi', 1);
-INSERT INTO series (id, name, count) VALUES ('hatsukoi_zombie', 'Hatsukoi Zombie', 1);
-INSERT INTO series (id, name, count) VALUES ('ekokuice', 'Ekokuice', 1);
-INSERT INTO series (id, name, count) VALUES ('inazuma_eleven_go_chrono_stone', 'Inazuma Eleven Go Chrono Stone', 1);
-INSERT INTO series (id, name, count) VALUES ('strike_witches:_aurora_no_majo', 'Strike Witches: Aurora No Majo', 1);
-INSERT INTO series (id, name, count) VALUES ('witch_springs', 'Witch Springs', 1);
-INSERT INTO series (id, name, count) VALUES ('arc_the_lad_ii', 'Arc The Lad Ii', 1);
-INSERT INTO series (id, name, count) VALUES ('rave', 'Rave', 1);
-INSERT INTO series (id, name, count) VALUES ('aoi_sora_no_neosphere', 'Aoi Sora No Neosphere', 1);
-INSERT INTO series (id, name, count) VALUES ('koakuma_teeri_to_kyuuseishu!?', 'Koakuma Teeri To Kyuuseishu!?', 1);
-INSERT INTO series (id, name, count) VALUES ('folkssoul', 'Folkssoul', 1);
-INSERT INTO series (id, name, count) VALUES ('agarest_senki', 'Agarest Senki', 1);
-INSERT INTO series (id, name, count) VALUES ('orguss', 'Orguss', 1);
-INSERT INTO series (id, name, count) VALUES ('emina&aki', 'Emina&aki', 1);
-INSERT INTO series (id, name, count) VALUES ('victorian_romance_emma', 'Victorian Romance Emma', 1);
-INSERT INTO series (id, name, count) VALUES ('ena_(series)', 'Ena', 1);
-INSERT INTO series (id, name, count) VALUES ('naraku', 'Naraku', 1);
-INSERT INTO series (id, name, count) VALUES ('campione!', 'Campione!', 1);
-INSERT INTO series (id, name, count) VALUES ('kemono_no_souja_erin', 'Kemono No Souja Erin', 1);
-INSERT INTO series (id, name, count) VALUES ('echocalypse', 'Echocalypse', 1);
-INSERT INTO series (id, name, count) VALUES ('kenran_butou_sai', 'Kenran Butou Sai', 1);
-INSERT INTO series (id, name, count) VALUES ('kyonyuu_fantasy', 'Kyonyuu Fantasy', 1);
-INSERT INTO series (id, name, count) VALUES ('gfriend', 'Gfriend', 1);
-INSERT INTO series (id, name, count) VALUES ('algorhythm_project', 'Algorhythm Project', 1);
-INSERT INTO series (id, name, count) VALUES ('parkour_civilization', 'Parkour Civilization', 1);
-INSERT INTO series (id, name, count) VALUES ('blaster_master_zero', 'Blaster Master Zero', 1);
-INSERT INTO series (id, name, count) VALUES ('stellar_blade', 'Stellar Blade', 1);
-INSERT INTO series (id, name, count) VALUES ('wjsn', 'Wjsn', 1);
-INSERT INTO series (id, name, count) VALUES ('mulan', 'Mulan', 1);
-INSERT INTO series (id, name, count) VALUES ('mirror''s_edge', 'Mirror''s Edge', 1);
-INSERT INTO series (id, name, count) VALUES ('fall_guys', 'Fall Guys', 1);
-INSERT INTO series (id, name, count) VALUES ('legend_of_queen_opala', 'Legend Of Queen Opala', 1);
-INSERT INTO series (id, name, count) VALUES ('front_innocent', 'Front Innocent', 1);
-INSERT INTO series (id, name, count) VALUES ('cube_x_cursed_x_curious', 'Cube X Cursed X Curious', 1);
-INSERT INTO series (id, name, count) VALUES ('arcana_famiglia', 'Arcana Famiglia', 1);
+INSERT INTO series (id, name, count) VALUES ('bungou_to_alchemist', '文豪与炼金术士', 1);
+INSERT INTO series (id, name, count) VALUES ('puss_in_boots:_the_last_wish', '穿靴子的猫：最后的愿望', 1);
+INSERT INTO series (id, name, count) VALUES ('demons_roots', '恶魔根源', 1);
+INSERT INTO series (id, name, count) VALUES ('burden_street_station', '伯登街站', 1);
+INSERT INTO series (id, name, count) VALUES ('this_communication', '本次通讯', 1);
+INSERT INTO series (id, name, count) VALUES ('dexter''s_laboratory', '德克斯特的实验室', 1);
+INSERT INTO series (id, name, count) VALUES ('the_bad_guys_(film)', '坏人 (电影)', 1);
+INSERT INTO series (id, name, count) VALUES ('vfleet', '舰队', 1);
+INSERT INTO series (id, name, count) VALUES ('chunichi_dragons', '中日龙', 1);
+INSERT INTO series (id, name, count) VALUES ('deadpool_&_wolverine', '死侍和金刚狼', 1);
+INSERT INTO series (id, name, count) VALUES ('dora_the_explorer', '爱探险的朵拉', 1);
+INSERT INTO series (id, name, count) VALUES ('marchen_awakens_romance', 'Marchen 唤醒浪漫', 1);
+INSERT INTO series (id, name, count) VALUES ('monster_prom', '怪物舞会', 1);
+INSERT INTO series (id, name, count) VALUES ('taiyou_no_kiba_dougram', '太阳之木场道格拉姆', 1);
+INSERT INTO series (id, name, count) VALUES ('monster_high', '怪物高中', 1);
+INSERT INTO series (id, name, count) VALUES ('fireball_(series)', '火球术', 1);
+INSERT INTO series (id, name, count) VALUES ('terraria', '泰拉瑞亚', 1);
+INSERT INTO series (id, name, count) VALUES ('devotion', '奉献精神', 1);
+INSERT INTO series (id, name, count) VALUES ('world_dai_star', '世界戴星之星', 1);
+INSERT INTO series (id, name, count) VALUES ('duke_nukem_(series)', '毁灭公爵', 1);
+INSERT INTO series (id, name, count) VALUES ('golgo_13', '戈尔戈 13', 1);
+INSERT INTO series (id, name, count) VALUES ('kimi_no_iru_machi', '君之入町', 1);
+INSERT INTO series (id, name, count) VALUES ('hatsukoi_zombie', '初恋僵尸', 1);
+INSERT INTO series (id, name, count) VALUES ('ekokuice', '这是给你的', 1);
+INSERT INTO series (id, name, count) VALUES ('inazuma_eleven_go_chrono_stone', '闪电十一人GO 时空石', 1);
+INSERT INTO series (id, name, count) VALUES ('strike_witches:_aurora_no_majo', '强袭魔女：极光魔女', 1);
+INSERT INTO series (id, name, count) VALUES ('witch_springs', '女巫泉', 1);
+INSERT INTO series (id, name, count) VALUES ('arc_the_lad_ii', '弧少年II', 1);
+INSERT INTO series (id, name, count) VALUES ('rave', '狂欢', 1);
+INSERT INTO series (id, name, count) VALUES ('aoi_sora_no_neosphere', '葵空的新球体', 1);
+INSERT INTO series (id, name, count) VALUES ('koakuma_teeri_to_kyuuseishu!?', '小熊Teeri到九星集！？', 1);
+INSERT INTO series (id, name, count) VALUES ('folkssoul', '民谣', 1);
+INSERT INTO series (id, name, count) VALUES ('agarest_senki', '琼脂无人', 1);
+INSERT INTO series (id, name, count) VALUES ('orguss', '谷蠕虫', 1);
+INSERT INTO series (id, name, count) VALUES ('emina&aki', '艾米娜&阿基', 1);
+INSERT INTO series (id, name, count) VALUES ('victorian_romance_emma', '维多利亚时代的浪漫艾玛', 1);
+INSERT INTO series (id, name, count) VALUES ('ena_(series)', '这个', 1);
+INSERT INTO series (id, name, count) VALUES ('naraku', '奈落', 1);
+INSERT INTO series (id, name, count) VALUES ('campione!', '样本！', 1);
+INSERT INTO series (id, name, count) VALUES ('kemono_no_souja_erin', '兽之总社艾琳', 1);
+INSERT INTO series (id, name, count) VALUES ('echocalypse', '回声灾变', 1);
+INSERT INTO series (id, name, count) VALUES ('kenran_butou_sai', '剑兰武藤斋', 1);
+INSERT INTO series (id, name, count) VALUES ('kyonyuu_fantasy', '虚幻幻想', 1);
+INSERT INTO series (id, name, count) VALUES ('gfriend', '朋友', 1);
+INSERT INTO series (id, name, count) VALUES ('algorhythm_project', '算法项目', 1);
+INSERT INTO series (id, name, count) VALUES ('parkour_civilization', '跑酷文明', 1);
+INSERT INTO series (id, name, count) VALUES ('blaster_master_zero', '爆破大师零', 1);
+INSERT INTO series (id, name, count) VALUES ('stellar_blade', '星辰之刃', 1);
+INSERT INTO series (id, name, count) VALUES ('wjsn', '维森', 1);
+INSERT INTO series (id, name, count) VALUES ('mulan', '木兰', 1);
+INSERT INTO series (id, name, count) VALUES ('mirror''s_edge', '镜之边缘', 1);
+INSERT INTO series (id, name, count) VALUES ('fall_guys', '秋天的家伙', 1);
+INSERT INTO series (id, name, count) VALUES ('legend_of_queen_opala', '奥帕拉女王传奇', 1);
+INSERT INTO series (id, name, count) VALUES ('front_innocent', '无辜者面前', 1);
+INSERT INTO series (id, name, count) VALUES ('cube_x_cursed_x_curious', '立方体 X 诅咒 X 好奇', 1);
+INSERT INTO series (id, name, count) VALUES ('arcana_famiglia', '阿卡纳家族', 1);
 INSERT INTO series (id, name, count) VALUES ('lv2_kara_cheat_datta_moto_yuusha_kouho_no_mattari_isekai_life', 'Lv2 Kara Cheat Datta Moto Yuusha Kouho No Mattari Isekai Life', 1);
-INSERT INTO series (id, name, count) VALUES ('dust:_an_elysian_tail', 'Dust: An Elysian Tail', 1);
-INSERT INTO series (id, name, count) VALUES ('juniper''s_knot', 'Juniper''s Knot', 1);
-INSERT INTO series (id, name, count) VALUES ('cannonball_~neko_neko_machine_mou-race!~', 'Cannonball ~neko Neko Machine Mou-race!~', 1);
+INSERT INTO series (id, name, count) VALUES ('dust:_an_elysian_tail', '尘埃：极乐世界的尾巴', 1);
+INSERT INTO series (id, name, count) VALUES ('juniper''s_knot', '杜松结', 1);
+INSERT INTO series (id, name, count) VALUES ('cannonball_~neko_neko_machine_mou-race!~', '炮弹～neko Neko Machine Mou-race！～', 1);
 INSERT INTO series (id, name, count) VALUES ('yuusha_ni_narenakatta_ore_wa_shibushibu_shuushoku_wo_ketsui_shimashita.', 'Yuusha Ni Narenakatta Ore Wa Shibushibu Shuushoku Wo Ketsui Shimashita.', 1);
-INSERT INTO series (id, name, count) VALUES ('border_break', 'Border Break', 1);
-INSERT INTO series (id, name, count) VALUES ('firefox', 'Firefox', 1);
-INSERT INTO series (id, name, count) VALUES ('shiboritoranaide_onna_shounin-san', 'Shiboritoranaide Onna Shounin-san', 1);
-INSERT INTO series (id, name, count) VALUES ('fl_studio', 'Fl Studio', 1);
-INSERT INTO series (id, name, count) VALUES ('kaifuku_jutsushi_no_yarinaoshi_~sokushi_mahou_to_skill_copy_no_chouetsu_heal~', 'Kaifuku Jutsushi No Yarinaoshi ~sokushi Mahou To Skill Copy No Chouetsu Heal~', 1);
-INSERT INTO series (id, name, count) VALUES ('girls''_frontline_neural_cloud', 'Girls'' Frontline Neural Cloud', 1);
+INSERT INTO series (id, name, count) VALUES ('border_break', '边界突破', 1);
+INSERT INTO series (id, name, count) VALUES ('firefox', '火狐浏览器', 1);
+INSERT INTO series (id, name, count) VALUES ('shiboritoranaide_onna_shounin-san', '堀虎奈德恩纳松人先生', 1);
+INSERT INTO series (id, name, count) VALUES ('fl_studio', '佛罗里达工作室', 1);
+INSERT INTO series (id, name, count) VALUES ('kaifuku_jutsushi_no_yarinaoshi_~sokushi_mahou_to_skill_copy_no_chouetsu_heal~', '海福柔术之矢直～sokushi mahou to Skill Copy No Chouetsu Heal～', 1);
+INSERT INTO series (id, name, count) VALUES ('girls''_frontline_neural_cloud', '少女前线神经云', 1);
 INSERT INTO series (id, name, count) VALUES ('kowarekake_no_orgel', 'Kowarekake No Orgel', 1);
-INSERT INTO series (id, name, count) VALUES ('winged_fusiliers', 'Winged Fusiliers', 1);
-INSERT INTO series (id, name, count) VALUES ('that''s_not_my_neighbor', 'That''s Not My Neighbor', 1);
-INSERT INTO series (id, name, count) VALUES ('dead_rising', 'Dead Rising', 1);
-INSERT INTO series (id, name, count) VALUES ('queen_(band)', 'Queen (band)', 1);
-INSERT INTO series (id, name, count) VALUES ('a_nightmare_on_elm_street', 'A Nightmare On Elm Street', 1);
-INSERT INTO series (id, name, count) VALUES ('triangle_strategy', 'Triangle Strategy', 1);
-INSERT INTO series (id, name, count) VALUES ('fisheye_placebo', 'Fisheye Placebo', 1);
-INSERT INTO series (id, name, count) VALUES ('the_lord_of_the_rings', 'The Lord Of The Rings', 1);
-INSERT INTO series (id, name, count) VALUES ('fudatsuki_no_kyouko-chan', 'Fudatsuki No Kyouko-chan', 1);
-INSERT INTO series (id, name, count) VALUES ('aoi_ch.', 'Aoi Ch.', 1);
-INSERT INTO series (id, name, count) VALUES ('boku_no_kanojo_sensei', 'Boku No Kanojo Sensei', 1);
-INSERT INTO series (id, name, count) VALUES ('blue_seed', 'Blue Seed', 1);
-INSERT INTO series (id, name, count) VALUES ('hatsu_inu', 'Hatsu Inu', 1);
-INSERT INTO series (id, name, count) VALUES ('kikuru_(vtuber)', 'Kikuru (vtuber)', 1);
-INSERT INTO series (id, name, count) VALUES ('kamen_no_maid_guy', 'Kamen No Maid Guy', 1);
-INSERT INTO series (id, name, count) VALUES ('gift_(game)', 'Gift (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('kuroguro-san_wa_kyou_mo_kuroi', 'Kuroguro-san Wa Kyou Mo Kuroi', 1);
-INSERT INTO series (id, name, count) VALUES ('gendai_ninjakko_zukan', 'Gendai Ninjakko Zukan', 1);
-INSERT INTO series (id, name, count) VALUES ('fumetsu_no_anata_e', 'Fumetsu No Anata E', 1);
+INSERT INTO series (id, name, count) VALUES ('winged_fusiliers', '有翼燧发枪手', 1);
+INSERT INTO series (id, name, count) VALUES ('that''s_not_my_neighbor', '那不是我的邻居', 1);
+INSERT INTO series (id, name, count) VALUES ('dead_rising', '丧尸围城', 1);
+INSERT INTO series (id, name, count) VALUES ('queen_(band)', '皇后乐队（乐队）', 1);
+INSERT INTO series (id, name, count) VALUES ('a_nightmare_on_elm_street', '榆树街的噩梦', 1);
+INSERT INTO series (id, name, count) VALUES ('triangle_strategy', '三角策略', 1);
+INSERT INTO series (id, name, count) VALUES ('fisheye_placebo', '鱼眼安慰剂', 1);
+INSERT INTO series (id, name, count) VALUES ('the_lord_of_the_rings', '指环王', 1);
+INSERT INTO series (id, name, count) VALUES ('fudatsuki_no_kyouko-chan', '笔月杏子酱', 1);
+INSERT INTO series (id, name, count) VALUES ('aoi_ch.', '葵 Ch.', 1);
+INSERT INTO series (id, name, count) VALUES ('boku_no_kanojo_sensei', '我的鹿城老师', 1);
+INSERT INTO series (id, name, count) VALUES ('blue_seed', '蓝色种子', 1);
+INSERT INTO series (id, name, count) VALUES ('hatsu_inu', '初犬', 1);
+INSERT INTO series (id, name, count) VALUES ('kikuru_(vtuber)', '短（vtuber）', 1);
+INSERT INTO series (id, name, count) VALUES ('kamen_no_maid_guy', '假面无女仆男', 1);
+INSERT INTO series (id, name, count) VALUES ('gift_(game)', '礼物（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('kuroguro-san_wa_kyou_mo_kuroi', '黑黑山和京毛黑井', 1);
+INSERT INTO series (id, name, count) VALUES ('gendai_ninjakko_zukan', '现代忍者图鉴', 1);
+INSERT INTO series (id, name, count) VALUES ('fumetsu_no_anata_e', '风月之阿纳塔 E', 1);
 INSERT INTO series (id, name, count) VALUES ('chikan_saresou_ni_natteiru_s-kyuu_bishoujo_wo_tasuketara_tonari_no_seki_no_osananajimi_datta', 'Chikan Saresou Ni Natteiru S-kyuu Bishoujo Wo Tasuketara Tonari No Seki No Osananajimi Datta', 1);
-INSERT INTO series (id, name, count) VALUES ('tentacle_and_witches', 'Tentacle And Witches', 1);
-INSERT INTO series (id, name, count) VALUES ('tenkaichi_nihon_saikyou_bugeisha_ketteisen', 'Tenkaichi Nihon Saikyou Bugeisha Ketteisen', 1);
-INSERT INTO series (id, name, count) VALUES ('agarest_senki_(series)', 'Agarest Senki', 1);
-INSERT INTO series (id, name, count) VALUES ('kikou-kai_galient', 'Kikou-kai Galient', 1);
-INSERT INTO series (id, name, count) VALUES ('gamera_(series)', 'Gamera', 1);
-INSERT INTO series (id, name, count) VALUES ('orient_arcadia', 'Orient Arcadia', 1);
-INSERT INTO series (id, name, count) VALUES ('the_rumble_fish', 'The Rumble Fish', 1);
-INSERT INTO series (id, name, count) VALUES ('garo_(series)', 'Garo', 1);
-INSERT INTO series (id, name, count) VALUES ('aflame_inferno', 'Aflame Inferno', 1);
-INSERT INTO series (id, name, count) VALUES ('shigoto_neko', 'Shigoto Neko', 1);
-INSERT INTO series (id, name, count) VALUES ('scream_(movie)', 'Scream (movie)', 1);
-INSERT INTO series (id, name, count) VALUES ('romancing_saga_minstrel_song', 'Romancing Saga Minstrel Song', 1);
-INSERT INTO series (id, name, count) VALUES ('tokyo_necro', 'Tokyo Necro', 1);
-INSERT INTO series (id, name, count) VALUES ('heroes_of_order', 'Heroes Of Order', 1);
-INSERT INTO series (id, name, count) VALUES ('gira_gira', 'Gira Gira', 1);
-INSERT INTO series (id, name, count) VALUES ('kin_no_kutsu_gin_no_kutsu', 'Kin No Kutsu Gin No Kutsu', 1);
-INSERT INTO series (id, name, count) VALUES ('itazuraguma_no_gloomy', 'Itazuraguma No Gloomy', 1);
-INSERT INTO series (id, name, count) VALUES ('rokumon_tengai_mon_colle_knight', 'Rokumon Tengai Mon Colle Knight', 1);
-INSERT INTO series (id, name, count) VALUES ('pocket_mirror', 'Pocket Mirror', 1);
-INSERT INTO series (id, name, count) VALUES ('hyakujuu-ou_golion', 'Hyakujuu-ou Golion', 1);
-INSERT INTO series (id, name, count) VALUES ('untitled_goose_game', 'Untitled Goose Game', 1);
-INSERT INTO series (id, name, count) VALUES ('hell''s_kitchen', 'Hell''s Kitchen', 1);
-INSERT INTO series (id, name, count) VALUES ('princess_crown', 'Princess Crown', 1);
-INSERT INTO series (id, name, count) VALUES ('the_shining', 'The Shining', 1);
-INSERT INTO series (id, name, count) VALUES ('miku_symphony_(vocaloid)', 'Miku Symphony (vocaloid)', 1);
-INSERT INTO series (id, name, count) VALUES ('cookie_clicker', 'Cookie Clicker', 1);
-INSERT INTO series (id, name, count) VALUES ('quiz_magic_academy_the_world_evolve', 'Quiz Magic Academy The World Evolve', 1);
-INSERT INTO series (id, name, count) VALUES ('red_hood_(kawaguchi)', 'Red Hood (kawaguchi)', 1);
-INSERT INTO series (id, name, count) VALUES ('girly_air_force', 'Girly Air Force', 1);
-INSERT INTO series (id, name, count) VALUES ('critical_role', 'Critical Role', 1);
-INSERT INTO series (id, name, count) VALUES ('advance_of_zeta', 'Advance Of Zeta', 1);
-INSERT INTO series (id, name, count) VALUES ('jungle_wa_itsumo_hare_nochi_guu', 'Jungle Wa Itsumo Hare Nochi Guu', 1);
-INSERT INTO series (id, name, count) VALUES ('total_drama', 'Total Drama', 1);
-INSERT INTO series (id, name, count) VALUES ('kingyo_chuuihou!', 'Kingyo Chuuihou!', 1);
-INSERT INTO series (id, name, count) VALUES ('kono_oozora_ni_tsubasa_wo_hirogete', 'Kono Oozora Ni Tsubasa Wo Hirogete', 1);
-INSERT INTO series (id, name, count) VALUES ('live_union', 'Live Union', 1);
-INSERT INTO series (id, name, count) VALUES ('unbalance_unbalance', 'Unbalance Unbalance', 1);
-INSERT INTO series (id, name, count) VALUES ('synthesizer_v', 'Synthesizer V', 1);
-INSERT INTO series (id, name, count) VALUES ('hakata_no_shio', 'Hakata No Shio', 1);
-INSERT INTO series (id, name, count) VALUES ('binan_koukou_chikyuu_bouei-bu_love!', 'Binan Koukou Chikyuu Bouei-bu Love!', 1);
-INSERT INTO series (id, name, count) VALUES ('hamtaro_(series)', 'Hamtaro', 1);
-INSERT INTO series (id, name, count) VALUES ('tatakau_shisho', 'Tatakau Shisho', 1);
+INSERT INTO series (id, name, count) VALUES ('tentacle_and_witches', '触手和女巫', 1);
+INSERT INTO series (id, name, count) VALUES ('tenkaichi_nihon_saikyou_bugeisha_ketteisen', '天海一日本西京武艺社决战', 1);
+INSERT INTO series (id, name, count) VALUES ('agarest_senki_(series)', '琼脂无人', 1);
+INSERT INTO series (id, name, count) VALUES ('kikou-kai_galient', '纪兴会加利恩特', 1);
+INSERT INTO series (id, name, count) VALUES ('gamera_(series)', '相机', 1);
+INSERT INTO series (id, name, count) VALUES ('orient_arcadia', '东方阿卡迪亚', 1);
+INSERT INTO series (id, name, count) VALUES ('the_rumble_fish', '隆隆鱼', 1);
+INSERT INTO series (id, name, count) VALUES ('garo_(series)', '加罗', 1);
+INSERT INTO series (id, name, count) VALUES ('aflame_inferno', '烈焰地狱', 1);
+INSERT INTO series (id, name, count) VALUES ('shigoto_neko', '志后猫', 1);
+INSERT INTO series (id, name, count) VALUES ('scream_(movie)', '尖叫（电影）', 1);
+INSERT INTO series (id, name, count) VALUES ('romancing_saga_minstrel_song', '浪漫传奇吟游诗人之歌', 1);
+INSERT INTO series (id, name, count) VALUES ('tokyo_necro', '东京死灵', 1);
+INSERT INTO series (id, name, count) VALUES ('heroes_of_order', '秩序英雄', 1);
+INSERT INTO series (id, name, count) VALUES ('gira_gira', '吉拉吉拉', 1);
+INSERT INTO series (id, name, count) VALUES ('kin_no_kutsu_gin_no_kutsu', '金之久 银之久', 1);
+INSERT INTO series (id, name, count) VALUES ('itazuraguma_no_gloomy', '板沼不忧郁', 1);
+INSERT INTO series (id, name, count) VALUES ('rokumon_tengai_mon_colle_knight', '六门天外我的骑士', 1);
+INSERT INTO series (id, name, count) VALUES ('pocket_mirror', '袖珍镜子', 1);
+INSERT INTO series (id, name, count) VALUES ('hyakujuu-ou_golion', '百十王古力恩', 1);
+INSERT INTO series (id, name, count) VALUES ('untitled_goose_game', '无题鹅游戏', 1);
+INSERT INTO series (id, name, count) VALUES ('hell''s_kitchen', '地狱厨房', 1);
+INSERT INTO series (id, name, count) VALUES ('princess_crown', '公主皇冠', 1);
+INSERT INTO series (id, name, count) VALUES ('the_shining', '闪灵', 1);
+INSERT INTO series (id, name, count) VALUES ('miku_symphony_(vocaloid)', 'Miku 交响曲（VOCALOID）', 1);
+INSERT INTO series (id, name, count) VALUES ('cookie_clicker', '饼干点击器', 1);
+INSERT INTO series (id, name, count) VALUES ('quiz_magic_academy_the_world_evolve', '测验 魔法学院 世界进化', 1);
+INSERT INTO series (id, name, count) VALUES ('red_hood_(kawaguchi)', '小红帽（川口）', 1);
+INSERT INTO series (id, name, count) VALUES ('girly_air_force', '少女空军', 1);
+INSERT INTO series (id, name, count) VALUES ('critical_role', '关键角色', 1);
+INSERT INTO series (id, name, count) VALUES ('advance_of_zeta', '泽塔的前进', 1);
+INSERT INTO series (id, name, count) VALUES ('jungle_wa_itsumo_hare_nochi_guu', '丛林 瓦伊苏莫 野兔 Nochi Guu', 1);
+INSERT INTO series (id, name, count) VALUES ('total_drama', '全部戏剧', 1);
+INSERT INTO series (id, name, count) VALUES ('kingyo_chuuihou!', '金鱼中风！', 1);
+INSERT INTO series (id, name, count) VALUES ('kono_oozora_ni_tsubasa_wo_hirogete', '河野大空二翼广下', 1);
+INSERT INTO series (id, name, count) VALUES ('live_union', '活联盟', 1);
+INSERT INTO series (id, name, count) VALUES ('unbalance_unbalance', '不平衡 不平衡', 1);
+INSERT INTO series (id, name, count) VALUES ('synthesizer_v', '合成器V', 1);
+INSERT INTO series (id, name, count) VALUES ('hakata_no_shio', '博多之盐', 1);
+INSERT INTO series (id, name, count) VALUES ('binan_koukou_chikyuu_bouei-bu_love!', '比南港港地球防卫部爱情！', 1);
+INSERT INTO series (id, name, count) VALUES ('hamtaro_(series)', '哈姆太郎', 1);
+INSERT INTO series (id, name, count) VALUES ('tatakau_shisho', '塔塔卡紫将', 1);
 INSERT INTO series (id, name, count) VALUES ('naega_kiun_s_geubdeul', 'Naega Kiun S Geubdeul', 1);
-INSERT INTO series (id, name, count) VALUES ('i-chu', 'I-chu', 1);
-INSERT INTO series (id, name, count) VALUES ('toire_no_hanako-san', 'Toire No Hanako-san', 1);
-INSERT INTO series (id, name, count) VALUES ('akihabara_dennou_gumi', 'Akihabara Dennou Gumi', 1);
-INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_nante_mou_ii_desukara.', 'Mahou Shoujo Nante Mou Ii Desukara.', 1);
-INSERT INTO series (id, name, count) VALUES ('super_elegant', 'Super Elegant', 1);
-INSERT INTO series (id, name, count) VALUES ('gouketsuji_ichizoku', 'Gouketsuji Ichizoku', 1);
-INSERT INTO series (id, name, count) VALUES ('samurai_sentai_shinkenger', 'Samurai Sentai Shinkenger', 1);
-INSERT INTO series (id, name, count) VALUES ('ikenai_baito_no_urajijou', 'Ikenai Baito No Urajijou', 1);
-INSERT INTO series (id, name, count) VALUES ('natsu_e_no_tunnel_sayonara_no_deguchi', 'Natsu E No Tunnel Sayonara No Deguchi', 1);
+INSERT INTO series (id, name, count) VALUES ('i-chu', '伊初', 1);
+INSERT INTO series (id, name, count) VALUES ('toire_no_hanako-san', '托丽花子桑', 1);
+INSERT INTO series (id, name, count) VALUES ('akihabara_dennou_gumi', '秋叶原电王组', 1);
+INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_nante_mou_ii_desukara.', '魔法少女 Nante Mou Ii Desukara。', 1);
+INSERT INTO series (id, name, count) VALUES ('super_elegant', '超级优雅', 1);
+INSERT INTO series (id, name, count) VALUES ('gouketsuji_ichizoku', '豪杰寺一族', 1);
+INSERT INTO series (id, name, count) VALUES ('samurai_sentai_shinkenger', '武士战队新剑者', 1);
+INSERT INTO series (id, name, count) VALUES ('ikenai_baito_no_urajijou', '池内梅藤的里吉城', 1);
+INSERT INTO series (id, name, count) VALUES ('natsu_e_no_tunnel_sayonara_no_deguchi', '夏 E 的隧道 再见的出口', 1);
 INSERT INTO series (id, name, count) VALUES ('100-kai_furareta_zetsubou-teki_ni_motenai_ore_o_awarenda_kareshi_ari_onna_tomodachi_ga_nandemo_eroi_koto_yarasete_kureta!!', '100-kai Furareta Zetsubou-teki Ni Motenai Ore O Awarenda Kareshi Ari Onna Tomodachi Ga Nandemo Eroi Koto Yarasete Kureta!!', 1);
-INSERT INTO series (id, name, count) VALUES ('tokyo_exe_girls', 'Tokyo Exe Girls', 1);
-INSERT INTO series (id, name, count) VALUES ('japan_world_cup', 'Japan World Cup', 1);
-INSERT INTO series (id, name, count) VALUES ('gems_company', 'Gems Company', 1);
-INSERT INTO series (id, name, count) VALUES ('kaitori_oukoku', 'Kaitori Oukoku', 1);
-INSERT INTO series (id, name, count) VALUES ('benesse', 'Benesse', 1);
-INSERT INTO series (id, name, count) VALUES ('tsugu_(vtuber)', 'Tsugu (vtuber)', 1);
-INSERT INTO series (id, name, count) VALUES ('anima_yell!', 'Anima Yell!', 1);
-INSERT INTO series (id, name, count) VALUES ('kengan_(series)', 'Kengan', 1);
-INSERT INTO series (id, name, count) VALUES ('aibeya', 'Aibeya', 1);
-INSERT INTO series (id, name, count) VALUES ('submarine_707r', 'Submarine 707r', 1);
-INSERT INTO series (id, name, count) VALUES ('mashin_sentai_kiramager', 'Mashin Sentai Kiramager', 1);
-INSERT INTO series (id, name, count) VALUES ('sexfriend', 'Sexfriend', 1);
-INSERT INTO series (id, name, count) VALUES ('haydee_(game)', 'Haydee (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('tsukuyomi_moonphase', 'Tsukuyomi Moonphase', 1);
-INSERT INTO series (id, name, count) VALUES ('masters_of_the_universe', 'Masters Of The Universe', 1);
-INSERT INTO series (id, name, count) VALUES ('alps_no_shoujo_heidi', 'Alps No Shoujo Heidi', 1);
-INSERT INTO series (id, name, count) VALUES ('hellboy_(comic)', 'Hellboy (comic)', 1);
-INSERT INTO series (id, name, count) VALUES ('helldivers_(series)', 'Helldivers', 1);
-INSERT INTO series (id, name, count) VALUES ('luigi''s_mansion', 'Luigi''s Mansion', 1);
-INSERT INTO series (id, name, count) VALUES ('sucking_up_to_death', 'Sucking Up To Death', 1);
-INSERT INTO series (id, name, count) VALUES ('dra+koi', 'Dra+koi', 1);
-INSERT INTO series (id, name, count) VALUES ('fandeltales', 'Fandeltales', 1);
-INSERT INTO series (id, name, count) VALUES ('heybot!', 'Heybot!', 1);
-INSERT INTO series (id, name, count) VALUES ('donpachi_(series)', 'Donpachi', 1);
-INSERT INTO series (id, name, count) VALUES ('kunoichi_(game)', 'Kunoichi (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('nijigen_project', 'Nijigen Project', 1);
+INSERT INTO series (id, name, count) VALUES ('tokyo_exe_girls', '东京Exe女孩', 1);
+INSERT INTO series (id, name, count) VALUES ('japan_world_cup', '日本世界杯', 1);
+INSERT INTO series (id, name, count) VALUES ('gems_company', '宝石公司', 1);
+INSERT INTO series (id, name, count) VALUES ('kaitori_oukoku', '海鸟王国', 1);
+INSERT INTO series (id, name, count) VALUES ('benesse', '贝尼斯', 1);
+INSERT INTO series (id, name, count) VALUES ('tsugu_(vtuber)', '继 (vtuber)', 1);
+INSERT INTO series (id, name, count) VALUES ('anima_yell!', '阿尼玛大喊！', 1);
+INSERT INTO series (id, name, count) VALUES ('kengan_(series)', '肯根', 1);
+INSERT INTO series (id, name, count) VALUES ('aibeya', '艾贝亚', 1);
+INSERT INTO series (id, name, count) VALUES ('submarine_707r', '潜艇707r', 1);
+INSERT INTO series (id, name, count) VALUES ('mashin_sentai_kiramager', '魔神战队 Kiramager', 1);
+INSERT INTO series (id, name, count) VALUES ('sexfriend', '性朋友', 1);
+INSERT INTO series (id, name, count) VALUES ('haydee_(game)', '海蒂（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('tsukuyomi_moonphase', '月读月相', 1);
+INSERT INTO series (id, name, count) VALUES ('masters_of_the_universe', '宇宙大师', 1);
+INSERT INTO series (id, name, count) VALUES ('alps_no_shoujo_heidi', '阿尔卑斯少女海蒂', 1);
+INSERT INTO series (id, name, count) VALUES ('hellboy_(comic)', '地狱男爵（漫画）', 1);
+INSERT INTO series (id, name, count) VALUES ('helldivers_(series)', '地狱潜水员', 1);
+INSERT INTO series (id, name, count) VALUES ('luigi''s_mansion', '路易吉洋馆', 1);
+INSERT INTO series (id, name, count) VALUES ('sucking_up_to_death', '拍马屁至死', 1);
+INSERT INTO series (id, name, count) VALUES ('dra+koi', '龙+锦鲤', 1);
+INSERT INTO series (id, name, count) VALUES ('fandeltales', '扇三角洲', 1);
+INSERT INTO series (id, name, count) VALUES ('heybot!', '嘿机器人！', 1);
+INSERT INTO series (id, name, count) VALUES ('donpachi_(series)', '栋八', 1);
+INSERT INTO series (id, name, count) VALUES ('kunoichi_(game)', '女忍者（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('nijigen_project', '二次元计划', 1);
 INSERT INTO series (id, name, count) VALUES ('ponkotsu_keisatsukan_wa_watashi_ni_muchuu', 'Ponkotsu Keisatsukan Wa Watashi Ni Muchuu', 1);
-INSERT INTO series (id, name, count) VALUES ('dancouga_(series)', 'Dancouga', 1);
-INSERT INTO series (id, name, count) VALUES ('ane_yome_concerto', 'Ane Yome Concerto', 1);
-INSERT INTO series (id, name, count) VALUES ('cooking_idol_ai!_mai!_main!', 'Cooking Idol Ai! Mai! Main!', 1);
-INSERT INTO series (id, name, count) VALUES ('najica_dengeki_sakusen', 'Najica Dengeki Sakusen', 1);
-INSERT INTO series (id, name, count) VALUES ('chiguhagu_trick', 'Chiguhagu Trick', 1);
-INSERT INTO series (id, name, count) VALUES ('parodius', 'Parodius', 1);
-INSERT INTO series (id, name, count) VALUES ('stella_glow', 'Stella Glow', 1);
-INSERT INTO series (id, name, count) VALUES ('crunchyroll', 'Crunchyroll', 1);
-INSERT INTO series (id, name, count) VALUES ('hime-sama_"goumon"_no_jikan_desu', 'Hime-sama "goumon" No Jikan Desu', 1);
+INSERT INTO series (id, name, count) VALUES ('dancouga_(series)', '丹库加', 1);
+INSERT INTO series (id, name, count) VALUES ('ane_yome_concerto', '夜女阿音演唱会', 1);
+INSERT INTO series (id, name, count) VALUES ('cooking_idol_ai!_mai!_main!', '料理偶像艾！麦！主要的！', 1);
+INSERT INTO series (id, name, count) VALUES ('najica_dengeki_sakusen', 'Najica电击作线', 1);
+INSERT INTO series (id, name, count) VALUES ('chiguhagu_trick', '齐古哈古戏法', 1);
+INSERT INTO series (id, name, count) VALUES ('parodius', '显示后', 1);
+INSERT INTO series (id, name, count) VALUES ('stella_glow', '斯特拉·辉光', 1);
+INSERT INTO series (id, name, count) VALUES ('crunchyroll', '松脆卷', 1);
+INSERT INTO series (id, name, count) VALUES ('hime-sama_"goumon"_no_jikan_desu', '姬大人“古门”No Jikan Desu', 1);
 INSERT INTO series (id, name, count) VALUES ('jitsuha_imouto_deshita.', 'Jitsuha Imouto Deshita.', 1);
-INSERT INTO series (id, name, count) VALUES ('love_r', 'Love R', 1);
-INSERT INTO series (id, name, count) VALUES ('btooom!', 'Btooom!', 1);
-INSERT INTO series (id, name, count) VALUES ('hinamatsuri_(manga)', 'Hinamatsuri (manga)', 1);
-INSERT INTO series (id, name, count) VALUES ('memories_off#5', 'Memories Off#5', 1);
-INSERT INTO series (id, name, count) VALUES ('issho_ni_training', 'Issho Ni Training', 1);
-INSERT INTO series (id, name, count) VALUES ('pygmalion._(group)', 'Pygmalion. (group)', 1);
-INSERT INTO series (id, name, count) VALUES ('himawari!', 'Himawari!', 1);
-INSERT INTO series (id, name, count) VALUES ('airy_production', 'Airy Production', 1);
-INSERT INTO series (id, name, count) VALUES ('la_corda_d''oro', 'La Corda D''oro', 1);
-INSERT INTO series (id, name, count) VALUES ('moonlight_~omoide_no_hajimari~', 'Moonlight ~omoide No Hajimari~', 1);
-INSERT INTO series (id, name, count) VALUES ('atlach-nacha', 'Atlach-nacha', 1);
-INSERT INTO series (id, name, count) VALUES ('spectral_(series)', 'Spectral', 1);
-INSERT INTO series (id, name, count) VALUES ('choujin_gakuen_gowcaizer', 'Choujin Gakuen Gowcaizer', 1);
-INSERT INTO series (id, name, count) VALUES ('kick-ass', 'Kick-ass', 1);
-INSERT INTO series (id, name, count) VALUES ('ryoushin_no_shakkin', 'Ryoushin No Shakkin', 1);
-INSERT INTO series (id, name, count) VALUES ('snack_nili', 'Snack Nili', 1);
-INSERT INTO series (id, name, count) VALUES ('ichigeki_sacchuu!!_hoihoi-san', 'Ichigeki Sacchuu!! Hoihoi-san', 1);
-INSERT INTO series (id, name, count) VALUES ('the_boys', 'The Boys', 1);
-INSERT INTO series (id, name, count) VALUES ('asuka_120_percent', 'Asuka 120 Percent', 1);
-INSERT INTO series (id, name, count) VALUES ('stella_no_mahou', 'Stella No Mahou', 1);
-INSERT INTO series (id, name, count) VALUES ('the_third', 'The Third', 1);
-INSERT INTO series (id, name, count) VALUES ('danball_senki_wars', 'Danball Senki Wars', 1);
-INSERT INTO series (id, name, count) VALUES ('shikabane_hime', 'Shikabane Hime', 1);
-INSERT INTO series (id, name, count) VALUES ('dokyuu_hentai_hxeros', 'Dokyuu Hentai Hxeros', 1);
-INSERT INTO series (id, name, count) VALUES ('kidou_senkan_nadesico_-_prince_of_darkness', 'Kidou Senkan Nadesico - Prince Of Darkness', 1);
-INSERT INTO series (id, name, count) VALUES ('planetarian', 'Planetarian', 1);
-INSERT INTO series (id, name, count) VALUES ('blue_reflection_tie', 'Blue Reflection Tie', 1);
+INSERT INTO series (id, name, count) VALUES ('love_r', '爱R', 1);
+INSERT INTO series (id, name, count) VALUES ('btooom!', '呸！', 1);
+INSERT INTO series (id, name, count) VALUES ('hinamatsuri_(manga)', '喜玛祭（漫画）', 1);
+INSERT INTO series (id, name, count) VALUES ('memories_off#5', '回忆关闭#5', 1);
+INSERT INTO series (id, name, count) VALUES ('issho_ni_training', '一翔二培训', 1);
+INSERT INTO series (id, name, count) VALUES ('pygmalion._(group)', '皮格马利翁。 （团体）', 1);
+INSERT INTO series (id, name, count) VALUES ('himawari!', '向日葵！', 1);
+INSERT INTO series (id, name, count) VALUES ('airy_production', '通风生产', 1);
+INSERT INTO series (id, name, count) VALUES ('la_corda_d''oro', '金弦', 1);
+INSERT INTO series (id, name, count) VALUES ('moonlight_~omoide_no_hajimari~', '月光～思出之始～', 1);
+INSERT INTO series (id, name, count) VALUES ('atlach-nacha', '阿特拉赫纳查', 1);
+INSERT INTO series (id, name, count) VALUES ('spectral_(series)', '光谱', 1);
+INSERT INTO series (id, name, count) VALUES ('choujin_gakuen_gowcaizer', '超人学园 Gowcaizer', 1);
+INSERT INTO series (id, name, count) VALUES ('kick-ass', '踢屁股', 1);
+INSERT INTO series (id, name, count) VALUES ('ryoushin_no_shakkin', '良心之释金', 1);
+INSERT INTO series (id, name, count) VALUES ('snack_nili', '尼利小吃', 1);
+INSERT INTO series (id, name, count) VALUES ('ichigeki_sacchuu!!_hoihoi-san', '一击咲中！！海海山', 1);
+INSERT INTO series (id, name, count) VALUES ('the_boys', '男孩们', 1);
+INSERT INTO series (id, name, count) VALUES ('asuka_120_percent', '明日香 120%', 1);
+INSERT INTO series (id, name, count) VALUES ('stella_no_mahou', '斯特拉的魔法', 1);
+INSERT INTO series (id, name, count) VALUES ('the_third', '第三个', 1);
+INSERT INTO series (id, name, count) VALUES ('danball_senki_wars', '丹鲍尔无人之战', 1);
+INSERT INTO series (id, name, count) VALUES ('shikabane_hime', '鹿羽姬', 1);
+INSERT INTO series (id, name, count) VALUES ('dokyuu_hentai_hxeros', 'Dokyuu 无尽 Hxeros', 1);
+INSERT INTO series (id, name, count) VALUES ('kidou_senkan_nadesico_-_prince_of_darkness', '鬼童战舰 Nadesico - 黑暗王子', 1);
+INSERT INTO series (id, name, count) VALUES ('planetarian', '行星学家', 1);
+INSERT INTO series (id, name, count) VALUES ('blue_reflection_tie', '蓝色反光领带', 1);
 INSERT INTO series (id, name, count) VALUES ('shangri-la', 'Shangri-la', 1);
-INSERT INTO series (id, name, count) VALUES ('galilei_donna', 'Galilei Donna', 1);
-INSERT INTO series (id, name, count) VALUES ('ken_to_mahou_to_gakuen_mono', 'Ken To Mahou To Gakuen Mono', 1);
+INSERT INTO series (id, name, count) VALUES ('galilei_donna', '伽利略女人', 1);
+INSERT INTO series (id, name, count) VALUES ('ken_to_mahou_to_gakuen_mono', '剑藤魔法与学园物语', 1);
 INSERT INTO series (id, name, count) VALUES ('wanmei_shijie', 'Wanmei Shijie', 1);
-INSERT INTO series (id, name, count) VALUES ('galgrease', 'Galgrease', 1);
-INSERT INTO series (id, name, count) VALUES ('parquet_(yuzusoft)', 'Parquet (yuzusoft)', 1);
-INSERT INTO series (id, name, count) VALUES ('honoo_no_toukyuujo:_dodge_danko', 'Honoo No Toukyuujo: Dodge Danko', 1);
-INSERT INTO series (id, name, count) VALUES ('oshi_ga_budoukan_itte_kuretara_shinu', 'Oshi Ga Budoukan Itte Kuretara Shinu', 1);
-INSERT INTO series (id, name, count) VALUES ('jinsei_gyakuten:_uwaki_sare_enzai_wo_kiserareta_ore_ga_gakuen_ichi_no_bishoujo_ni_natsukareru', 'Jinsei Gyakuten: Uwaki Sare Enzai Wo Kiserareta Ore Ga Gakuen Ichi No Bishoujo Ni Natsukareru', 1);
-INSERT INTO series (id, name, count) VALUES ('white_breath', 'White Breath', 1);
-INSERT INTO series (id, name, count) VALUES ('iczer_(series)', 'Iczer', 1);
-INSERT INTO series (id, name, count) VALUES ('densetsu_kyojin_ideon', 'Densetsu Kyojin Ideon', 1);
-INSERT INTO series (id, name, count) VALUES ('basilisk_(manga)', 'Basilisk (manga)', 1);
+INSERT INTO series (id, name, count) VALUES ('galgrease', '加尔油脂', 1);
+INSERT INTO series (id, name, count) VALUES ('parquet_(yuzusoft)', '实木复合地板（柚子软件）', 1);
+INSERT INTO series (id, name, count) VALUES ('honoo_no_toukyuujo:_dodge_danko', 'Honoo No Tokyuuujo：道奇 Danko', 1);
+INSERT INTO series (id, name, count) VALUES ('oshi_ga_budoukan_itte_kuretara_shinu', '押我武道馆一事Kuretara Shinu', 1);
+INSERT INTO series (id, name, count) VALUES ('jinsei_gyakuten:_uwaki_sare_enzai_wo_kiserareta_ore_ga_gakuen_ichi_no_bishoujo_ni_natsukareru', '人生逆转：宇胁萨雷恩西沃基瑟拉雷塔矿石学园一之美少女 Ni Natsukareru', 1);
+INSERT INTO series (id, name, count) VALUES ('white_breath', '白色呼吸', 1);
+INSERT INTO series (id, name, count) VALUES ('iczer_(series)', '伊泽尔', 1);
+INSERT INTO series (id, name, count) VALUES ('densetsu_kyojin_ideon', '传说狂人意殿', 1);
+INSERT INTO series (id, name, count) VALUES ('basilisk_(manga)', '蛇怪（漫画）', 1);
 INSERT INTO series (id, name, count) VALUES ('jingai_makyou', 'Jingai Makyou', 1);
-INSERT INTO series (id, name, count) VALUES ('ookami_game_(studio_wasabi)', 'Ookami Game (studio Wasabi)', 1);
-INSERT INTO series (id, name, count) VALUES ('mofumofu_channel', 'Mofumofu Channel', 1);
-INSERT INTO series (id, name, count) VALUES ('kobe_shinbun', 'Kobe Shinbun', 1);
+INSERT INTO series (id, name, count) VALUES ('ookami_game_(studio_wasabi)', 'Ookami Game（芥末工作室）', 1);
+INSERT INTO series (id, name, count) VALUES ('mofumofu_channel', '莫夫莫夫频道', 1);
+INSERT INTO series (id, name, count) VALUES ('kobe_shinbun', '神户新闻', 1);
 INSERT INTO series (id, name, count) VALUES ('koi_ni_kanmi_o_soete', 'Koi Ni Kanmi O Soete', 1);
-INSERT INTO series (id, name, count) VALUES ('witches_of_africa', 'Witches Of Africa', 1);
-INSERT INTO series (id, name, count) VALUES ('indiana_jones_(series)', 'Indiana Jones', 1);
-INSERT INTO series (id, name, count) VALUES ('capcom_fighting_jam', 'Capcom Fighting Jam', 1);
-INSERT INTO series (id, name, count) VALUES ('kodoku_no_gourmet', 'Kodoku No Gourmet', 1);
-INSERT INTO series (id, name, count) VALUES ('backstage!', 'Backstage!', 1);
-INSERT INTO series (id, name, count) VALUES ('doko_demo_issho', 'Doko Demo Issho', 1);
-INSERT INTO series (id, name, count) VALUES ('lovely_x_cation', 'Lovely X Cation', 1);
+INSERT INTO series (id, name, count) VALUES ('witches_of_africa', '非洲女巫', 1);
+INSERT INTO series (id, name, count) VALUES ('indiana_jones_(series)', '印第安纳·琼斯', 1);
+INSERT INTO series (id, name, count) VALUES ('capcom_fighting_jam', '卡普空格斗果酱', 1);
+INSERT INTO series (id, name, count) VALUES ('kodoku_no_gourmet', '极品无美食', 1);
+INSERT INTO series (id, name, count) VALUES ('backstage!', '后台！', 1);
+INSERT INTO series (id, name, count) VALUES ('doko_demo_issho', 'Doko 演示一所', 1);
+INSERT INTO series (id, name, count) VALUES ('lovely_x_cation', '可爱的X阳离子', 1);
 INSERT INTO series (id, name, count) VALUES ('inu_ni_nattara_suki_na_hito_ni_hirowareta', 'Inu Ni Nattara Suki Na Hito Ni Hirowareta', 1);
-INSERT INTO series (id, name, count) VALUES ('asatte_no_houkou', 'Asatte No Houkou', 1);
-INSERT INTO series (id, name, count) VALUES ('surge_concerto', 'Surge Concerto', 1);
-INSERT INTO series (id, name, count) VALUES ('kawaii_joushi_o_komarasetai', 'Kawaii Joushi O Komarasetai', 1);
-INSERT INTO series (id, name, count) VALUES ('kuuchuu_buranko', 'Kuuchuu Buranko', 1);
-INSERT INTO series (id, name, count) VALUES ('iria_zeiram_the_animation', 'Iria Zeiram The Animation', 1);
-INSERT INTO series (id, name, count) VALUES ('tsuki_to_laika_to_nosferatu', 'Tsuki To Laika To Nosferatu', 1);
-INSERT INTO series (id, name, count) VALUES ('material_sniper', 'Material Sniper', 1);
-INSERT INTO series (id, name, count) VALUES ('juuoumujin_no_fafnir', 'Juuoumujin No Fafnir', 1);
-INSERT INTO series (id, name, count) VALUES ('irisu_shoukougun!', 'Irisu Shoukougun!', 1);
-INSERT INTO series (id, name, count) VALUES ('iriya_no_sora_ufo_no_natsu', 'Iriya No Sora Ufo No Natsu', 1);
-INSERT INTO series (id, name, count) VALUES ('dead_space', 'Dead Space', 1);
-INSERT INTO series (id, name, count) VALUES ('plastic_memories', 'Plastic Memories', 1);
+INSERT INTO series (id, name, count) VALUES ('asatte_no_houkou', '朝天之法空', 1);
+INSERT INTO series (id, name, count) VALUES ('surge_concerto', '浪涌协奏曲', 1);
+INSERT INTO series (id, name, count) VALUES ('kawaii_joushi_o_komarasetai', '卡哇伊 Joushi O Komarasetai', 1);
+INSERT INTO series (id, name, count) VALUES ('kuuchuu_buranko', '库丘·布拉科', 1);
+INSERT INTO series (id, name, count) VALUES ('iria_zeiram_the_animation', '伊利亚·泽拉姆动画', 1);
+INSERT INTO series (id, name, count) VALUES ('tsuki_to_laika_to_nosferatu', '月月与莱卡与诺斯费拉图', 1);
+INSERT INTO series (id, name, count) VALUES ('material_sniper', '材质狙击手', 1);
+INSERT INTO series (id, name, count) VALUES ('juuoumujin_no_fafnir', '尤奥姆金·诺·法夫纳', 1);
+INSERT INTO series (id, name, count) VALUES ('irisu_shoukougun!', '入水翔光军！', 1);
+INSERT INTO series (id, name, count) VALUES ('iriya_no_sora_ufo_no_natsu', '入谷空 不明飞行物之夏', 1);
+INSERT INTO series (id, name, count) VALUES ('dead_space', '死角', 1);
+INSERT INTO series (id, name, count) VALUES ('plastic_memories', '可塑性记忆', 1);
 INSERT INTO series (id, name, count) VALUES ('iya_na_kao_sare_nagara_opantsu_misete_moraitai', 'Iya Na Kao Sare Nagara Opantsu Misete Moraitai', 1);
-INSERT INTO series (id, name, count) VALUES ('koiiro_soramoyou', 'Koiiro Soramoyou', 1);
-INSERT INTO series (id, name, count) VALUES ('with_you', 'With You', 1);
+INSERT INTO series (id, name, count) VALUES ('koiiro_soramoyou', '小伊郎·索拉莫尤', 1);
+INSERT INTO series (id, name, count) VALUES ('with_you', '与你', 1);
 INSERT INTO series (id, name, count) VALUES ('saijaku_tamer_wa_gomi_hiroi_no_tabi_wo_hajimemashita', 'Saijaku Tamer Wa Gomi Hiroi No Tabi Wo Hajimemashita', 1);
-INSERT INTO series (id, name, count) VALUES ('serial_experiments_lain', 'Serial Experiments Lain', 1);
-INSERT INTO series (id, name, count) VALUES ('kyokou_suiri', 'Kyokou Suiri', 1);
-INSERT INTO series (id, name, count) VALUES ('nintendo', 'Nintendo', 1);
-INSERT INTO series (id, name, count) VALUES ('danganronpa/zero', 'Danganronpa/zero', 1);
-INSERT INTO series (id, name, count) VALUES ('shironagasu-tou_e_no_kikan', 'Shironagasu-tou E No Kikan', 1);
-INSERT INTO series (id, name, count) VALUES ('rise_of_the_guardians', 'Rise Of The Guardians', 1);
-INSERT INTO series (id, name, count) VALUES ('pirates_of_the_caribbean', 'Pirates Of The Caribbean', 1);
-INSERT INTO series (id, name, count) VALUES ('hotline_miami', 'Hotline Miami', 1);
-INSERT INTO series (id, name, count) VALUES ('world_heroes', 'World Heroes', 1);
-INSERT INTO series (id, name, count) VALUES ('deltora_quest', 'Deltora Quest', 1);
-INSERT INTO series (id, name, count) VALUES ('codename:_bakery_girl', 'Codename: Bakery Girl', 1);
-INSERT INTO series (id, name, count) VALUES ('my_life_as_a_teenage_robot', 'My Life As A Teenage Robot', 1);
-INSERT INTO series (id, name, count) VALUES ('jerma985', 'Jerma985', 1);
-INSERT INTO series (id, name, count) VALUES ('who_framed_roger_rabbit', 'Who Framed Roger Rabbit', 1);
-INSERT INTO series (id, name, count) VALUES ('saw_(movie)', 'Saw (movie)', 1);
-INSERT INTO series (id, name, count) VALUES ('chilling_devotion', 'Chilling Devotion', 1);
-INSERT INTO series (id, name, count) VALUES ('feiren_zai', 'Feiren Zai', 1);
-INSERT INTO series (id, name, count) VALUES ('ex_rank_supporting_role''s_replay_in_a_prestigious_school', 'Ex Rank Supporting Role''s Replay In A Prestigious School', 1);
-INSERT INTO series (id, name, count) VALUES ('hataraku_ufo', 'Hataraku Ufo', 1);
-INSERT INTO series (id, name, count) VALUES ('megalo_box', 'Megalo Box', 1);
-INSERT INTO series (id, name, count) VALUES ('detroit_metal_city', 'Detroit Metal City', 1);
-INSERT INTO series (id, name, count) VALUES ('johnny_bravo_(series)', 'Johnny Bravo', 1);
-INSERT INTO series (id, name, count) VALUES ('jucika_(comic)', 'Jucika (comic)', 1);
-INSERT INTO series (id, name, count) VALUES ('wild_wet_west', 'Wild Wet West', 1);
-INSERT INTO series (id, name, count) VALUES ('pringles', 'Pringles', 1);
-INSERT INTO series (id, name, count) VALUES ('jump_king', 'Jump King', 1);
-INSERT INTO series (id, name, count) VALUES ('star_gladiator', 'Star Gladiator', 1);
-INSERT INTO series (id, name, count) VALUES ('predator_(1987)', 'Predator (1987)', 1);
-INSERT INTO series (id, name, count) VALUES ('juusha-chan_to_yaya_zannen_na_yuusha_no_hanashi', 'Juusha-chan To Yaya Zannen Na Yuusha No Hanashi', 1);
-INSERT INTO series (id, name, count) VALUES ('arisou_de_nasa_sou', 'Arisou De Nasa Sou', 1);
-INSERT INTO series (id, name, count) VALUES ('golden_time', 'Golden Time', 1);
-INSERT INTO series (id, name, count) VALUES ('usagi_drop', 'Usagi Drop', 1);
-INSERT INTO series (id, name, count) VALUES ('mushiking', 'Mushiking', 1);
-INSERT INTO series (id, name, count) VALUES ('roshin_yuukai_(vocaloid)', 'Roshin Yuukai (vocaloid)', 1);
+INSERT INTO series (id, name, count) VALUES ('serial_experiments_lain', '系列实验 Lain', 1);
+INSERT INTO series (id, name, count) VALUES ('kyokou_suiri', '恭光翠里', 1);
+INSERT INTO series (id, name, count) VALUES ('nintendo', '任天堂', 1);
+INSERT INTO series (id, name, count) VALUES ('danganronpa/zero', '弹丸论破/零', 1);
+INSERT INTO series (id, name, count) VALUES ('shironagasu-tou_e_no_kikan', '白永岛 E 之奇观', 1);
+INSERT INTO series (id, name, count) VALUES ('rise_of_the_guardians', '守护者的崛起', 1);
+INSERT INTO series (id, name, count) VALUES ('pirates_of_the_caribbean', '加勒比海盗', 1);
+INSERT INTO series (id, name, count) VALUES ('hotline_miami', '迈阿密热线', 1);
+INSERT INTO series (id, name, count) VALUES ('world_heroes', '世界英雄', 1);
+INSERT INTO series (id, name, count) VALUES ('deltora_quest', '德尔托拉探索', 1);
+INSERT INTO series (id, name, count) VALUES ('codename:_bakery_girl', '代号：面包店女孩', 1);
+INSERT INTO series (id, name, count) VALUES ('my_life_as_a_teenage_robot', '我作为青少年机器人的生活', 1);
+INSERT INTO series (id, name, count) VALUES ('jerma985', '杰玛985', 1);
+INSERT INTO series (id, name, count) VALUES ('who_framed_roger_rabbit', '谁陷害了兔子罗杰', 1);
+INSERT INTO series (id, name, count) VALUES ('saw_(movie)', '电锯惊魂（电影）', 1);
+INSERT INTO series (id, name, count) VALUES ('chilling_devotion', '令人心寒的奉献', 1);
+INSERT INTO series (id, name, count) VALUES ('feiren_zai', '庆祝扎伊', 1);
+INSERT INTO series (id, name, count) VALUES ('ex_rank_supporting_role''s_replay_in_a_prestigious_school', '名校前任配角重演', 1);
+INSERT INTO series (id, name, count) VALUES ('hataraku_ufo', '羽乐不明飞行物', 1);
+INSERT INTO series (id, name, count) VALUES ('megalo_box', '梅加洛盒子', 1);
+INSERT INTO series (id, name, count) VALUES ('detroit_metal_city', '底特律金属城', 1);
+INSERT INTO series (id, name, count) VALUES ('johnny_bravo_(series)', '约翰尼·布拉沃', 1);
+INSERT INTO series (id, name, count) VALUES ('jucika_(comic)', '朱西卡（漫画）', 1);
+INSERT INTO series (id, name, count) VALUES ('wild_wet_west', '狂野湿西部', 1);
+INSERT INTO series (id, name, count) VALUES ('pringles', '品客薯片', 1);
+INSERT INTO series (id, name, count) VALUES ('jump_king', '跳跃王', 1);
+INSERT INTO series (id, name, count) VALUES ('star_gladiator', '星际角斗士', 1);
+INSERT INTO series (id, name, count) VALUES ('predator_(1987)', '铁血战士 (1987)', 1);
+INSERT INTO series (id, name, count) VALUES ('juusha-chan_to_yaya_zannen_na_yuusha_no_hanashi', '十社酱与夜夜残年那游社的花梨', 1);
+INSERT INTO series (id, name, count) VALUES ('arisou_de_nasa_sou', '阿里苏·德·纳萨·苏', 1);
+INSERT INTO series (id, name, count) VALUES ('golden_time', '黄金时间', 1);
+INSERT INTO series (id, name, count) VALUES ('usagi_drop', '阿兔掉落', 1);
+INSERT INTO series (id, name, count) VALUES ('mushiking', '虫王', 1);
+INSERT INTO series (id, name, count) VALUES ('roshin_yuukai_(vocaloid)', '悠海若信 (VOCALOID)', 1);
 INSERT INTO series (id, name, count) VALUES ('gimmexgimme_(vocaloid)', 'Gimmexgimme (vocaloid)', 1);
-INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_ai', 'Mahou Shoujo Ai', 1);
-INSERT INTO series (id, name, count) VALUES ('kagura_gumi', 'Kagura Gumi', 1);
-INSERT INTO series (id, name, count) VALUES ('ginga_ojou-sama_densetsu_yuna', 'Ginga Ojou-sama Densetsu Yuna', 1);
-INSERT INTO series (id, name, count) VALUES ('kagaminomachi_no_kaguya', 'Kagaminomachi No Kaguya', 1);
-INSERT INTO series (id, name, count) VALUES ('taketori_monogatari', 'Taketori Monogatari', 1);
-INSERT INTO series (id, name, count) VALUES ('kamen_america_(comic)', 'Kamen America (comic)', 1);
-INSERT INTO series (id, name, count) VALUES ('shin_kamen_rider', 'Shin Kamen Rider', 1);
-INSERT INTO series (id, name, count) VALUES ('virgin_punk', 'Virgin Punk', 1);
-INSERT INTO series (id, name, count) VALUES ('noein', 'Noein', 1);
-INSERT INTO series (id, name, count) VALUES ('kamisama_kazoku', 'Kamisama Kazoku', 1);
-INSERT INTO series (id, name, count) VALUES ('gal_gun_(series)', 'Gal Gun', 1);
-INSERT INTO series (id, name, count) VALUES ('maid_gari', 'Maid Gari', 1);
-INSERT INTO series (id, name, count) VALUES ('kanan-sama_wa_akumade_choroi', 'Kanan-sama Wa Akumade Choroi', 1);
-INSERT INTO series (id, name, count) VALUES ('wonder_momo', 'Wonder Momo', 1);
-INSERT INTO series (id, name, count) VALUES ('ceo_and_bodyguard', 'Ceo And Bodyguard', 1);
+INSERT INTO series (id, name, count) VALUES ('mahou_shoujo_ai', '魔法少女爱', 1);
+INSERT INTO series (id, name, count) VALUES ('kagura_gumi', '神乐组', 1);
+INSERT INTO series (id, name, count) VALUES ('ginga_ojou-sama_densetsu_yuna', '银河大小姐传说尤奈', 1);
+INSERT INTO series (id, name, count) VALUES ('kagaminomachi_no_kaguya', '镜之町的辉夜', 1);
+INSERT INTO series (id, name, count) VALUES ('taketori_monogatari', '竹取物语', 1);
+INSERT INTO series (id, name, count) VALUES ('kamen_america_(comic)', '假面美国（漫画）', 1);
+INSERT INTO series (id, name, count) VALUES ('shin_kamen_rider', '新假面骑士', 1);
+INSERT INTO series (id, name, count) VALUES ('virgin_punk', '处女朋克', 1);
+INSERT INTO series (id, name, count) VALUES ('noein', '诺安', 1);
+INSERT INTO series (id, name, count) VALUES ('kamisama_kazoku', '神间和', 1);
+INSERT INTO series (id, name, count) VALUES ('gal_gun_(series)', '伽尔枪', 1);
+INSERT INTO series (id, name, count) VALUES ('maid_gari', '女仆加里', 1);
+INSERT INTO series (id, name, count) VALUES ('kanan-sama_wa_akumade_choroi', '迦南大人和阿库玛德·乔罗伊', 1);
+INSERT INTO series (id, name, count) VALUES ('wonder_momo', '神奇莫莫', 1);
+INSERT INTO series (id, name, count) VALUES ('ceo_and_bodyguard', '总裁兼保镖', 1);
 INSERT INTO series (id, name, count) VALUES ('bukiyou_na_senpai', 'Bukiyou Na Senpai', 1);
-INSERT INTO series (id, name, count) VALUES ('king_of_prism', 'King Of Prism', 1);
-INSERT INTO series (id, name, count) VALUES ('twin_angel', 'Twin Angel', 1);
-INSERT INTO series (id, name, count) VALUES ('exitus', 'Exitus', 1);
-INSERT INTO series (id, name, count) VALUES ('ao_no_hako_(wsj)', 'Ao No Hako (wsj)', 1);
-INSERT INTO series (id, name, count) VALUES ('tasogare_otome_x_amnesia', 'Tasogare Otome X Amnesia', 1);
-INSERT INTO series (id, name, count) VALUES ('true_blue', 'True Blue', 1);
-INSERT INTO series (id, name, count) VALUES ('majokko_megu-chan', 'Majokko Megu-chan', 1);
+INSERT INTO series (id, name, count) VALUES ('king_of_prism', '棱镜之王', 1);
+INSERT INTO series (id, name, count) VALUES ('twin_angel', '双天使', 1);
+INSERT INTO series (id, name, count) VALUES ('exitus', '出口', 1);
+INSERT INTO series (id, name, count) VALUES ('ao_no_hako_(wsj)', '青之箱 (WSJ)', 1);
+INSERT INTO series (id, name, count) VALUES ('tasogare_otome_x_amnesia', '多索加雷乙女 X 失忆症', 1);
+INSERT INTO series (id, name, count) VALUES ('true_blue', '真蓝', 1);
+INSERT INTO series (id, name, count) VALUES ('majokko_megu-chan', '麻雀梅古酱', 1);
 INSERT INTO series (id, name, count) VALUES ('hg_ni_koisuru_futari', 'Hg Ni Koisuru Futari', 1);
-INSERT INTO series (id, name, count) VALUES ('lawson', 'Lawson', 1);
-INSERT INTO series (id, name, count) VALUES ('yogoreta_athlete', 'Yogoreta Athlete', 1);
-INSERT INTO series (id, name, count) VALUES ('kono_healer_mendokusai', 'Kono Healer Mendokusai', 1);
-INSERT INTO series (id, name, count) VALUES ('karon_official', 'Karon Official', 1);
-INSERT INTO series (id, name, count) VALUES ('uchi_no_kaisha_no_chiisai_senpai_no_hanashi', 'Uchi No Kaisha No Chiisai Senpai No Hanashi', 1);
-INSERT INTO series (id, name, count) VALUES ('war_thunder', 'War Thunder', 1);
-INSERT INTO series (id, name, count) VALUES ('parfait_chocolat_second_brew', 'Parfait Chocolat Second Brew', 1);
-INSERT INTO series (id, name, count) VALUES ('orc_wa_nozomanai', 'Orc Wa Nozomanai', 1);
-INSERT INTO series (id, name, count) VALUES ('high_school!_kimengumi', 'High School! Kimengumi', 1);
-INSERT INTO series (id, name, count) VALUES ('lovers_(game)', 'Lovers (game)', 1);
+INSERT INTO series (id, name, count) VALUES ('lawson', '劳森', 1);
+INSERT INTO series (id, name, count) VALUES ('yogoreta_athlete', '约戈雷塔运动员', 1);
+INSERT INTO series (id, name, count) VALUES ('kono_healer_mendokusai', '河野治疗师门德斋', 1);
+INSERT INTO series (id, name, count) VALUES ('karon_official', '现已正式发布', 1);
+INSERT INTO series (id, name, count) VALUES ('uchi_no_kaisha_no_chiisai_senpai_no_hanashi', '内之会社之智斋学长之花梨', 1);
+INSERT INTO series (id, name, count) VALUES ('war_thunder', '战争雷霆', 1);
+INSERT INTO series (id, name, count) VALUES ('parfait_chocolat_second_brew', '完美的巧克力二次冲泡', 1);
+INSERT INTO series (id, name, count) VALUES ('orc_wa_nozomanai', '兽人瓦诺佐马内', 1);
+INSERT INTO series (id, name, count) VALUES ('high_school!_kimengumi', '中学！金文组', 1);
+INSERT INTO series (id, name, count) VALUES ('lovers_(game)', '恋人（游戏）', 1);
 INSERT INTO series (id, name, count) VALUES ('bokura_wa_minna_kawaisou', 'Bokura Wa Minna Kawaisou', 1);
-INSERT INTO series (id, name, count) VALUES ('tomie', 'Tomie', 1);
-INSERT INTO series (id, name, count) VALUES ('negative_frames', 'Negative Frames', 1);
-INSERT INTO series (id, name, count) VALUES ('rpg_fudousan', 'Rpg Fudousan', 1);
-INSERT INTO series (id, name, count) VALUES ('active_raid', 'Active Raid', 1);
-INSERT INTO series (id, name, count) VALUES ('muppets', 'Muppets', 1);
-INSERT INTO series (id, name, count) VALUES ('wolf''s_rain', 'Wolf''s Rain', 1);
-INSERT INTO series (id, name, count) VALUES ('atlantis:_the_lost_empire', 'Atlantis: The Lost Empire', 1);
-INSERT INTO series (id, name, count) VALUES ('toriko_no_shimai_~midara_ni_moteasobareru_unmei_no_mayoigo~', 'Toriko No Shimai ~midara Ni Moteasobareru Unmei No Mayoigo~', 1);
-INSERT INTO series (id, name, count) VALUES ('centaur_no_nayami', 'Centaur No Nayami', 1);
+INSERT INTO series (id, name, count) VALUES ('tomie', '汤姆', 1);
+INSERT INTO series (id, name, count) VALUES ('negative_frames', '负面框架', 1);
+INSERT INTO series (id, name, count) VALUES ('rpg_fudousan', '未来角色扮演游戏', 1);
+INSERT INTO series (id, name, count) VALUES ('active_raid', '主动突袭', 1);
+INSERT INTO series (id, name, count) VALUES ('muppets', '布偶', 1);
+INSERT INTO series (id, name, count) VALUES ('wolf''s_rain', '狼雨', 1);
+INSERT INTO series (id, name, count) VALUES ('atlantis:_the_lost_empire', '亚特兰蒂斯：失落的帝国', 1);
+INSERT INTO series (id, name, count) VALUES ('toriko_no_shimai_~midara_ni_moteasobareru_unmei_no_mayoigo~', '鸟子的岛井～midara Ni Moteasobareru Unmei No Mayoigo～', 1);
+INSERT INTO series (id, name, count) VALUES ('centaur_no_nayami', '半人马之奈亚美', 1);
 INSERT INTO series (id, name, count) VALUES ('otto_no_inu_aida_ni..._~watashi_odosarete_anata_ni_ienai_koto_shimashita~', 'Otto No Inu Aida Ni... ~watashi Odosarete Anata Ni Ienai Koto Shimashita~', 1);
-INSERT INTO series (id, name, count) VALUES ('burn-up', 'Burn-up', 1);
-INSERT INTO series (id, name, count) VALUES ('wish_(disney)', 'Wish (disney)', 1);
-INSERT INTO series (id, name, count) VALUES ('danganronpa_another', 'Danganronpa Another', 1);
-INSERT INTO series (id, name, count) VALUES ('kinnikuman', 'Kinnikuman', 1);
-INSERT INTO series (id, name, count) VALUES ('chousuinou_kei', 'Chousuinou Kei', 1);
-INSERT INTO series (id, name, count) VALUES ('diamond_wa_kudakenai', 'Diamond Wa Kudakenai', 1);
-INSERT INTO series (id, name, count) VALUES ('kouya_no_kotobuki_hikoutai', 'Kouya No Kotobuki Hikoutai', 1);
-INSERT INTO series (id, name, count) VALUES ('perfect_blue', 'Perfect Blue', 1);
-INSERT INTO series (id, name, count) VALUES ('temptation', 'Temptation', 1);
-INSERT INTO series (id, name, count) VALUES ('kyouren_no_utage', 'Kyouren No Utage', 1);
-INSERT INTO series (id, name, count) VALUES ('sentouin_hakenshimasu!', 'Sentouin Hakenshimasu!', 1);
-INSERT INTO series (id, name, count) VALUES ('onee-chan_no_yuuwaku', 'Onee-chan No Yuuwaku', 1);
-INSERT INTO series (id, name, count) VALUES ('kyuukyoku_shinka_shita_full_dive_rpg_ga_genjitsu_yori_mo_kusoge_dattara', 'Kyuukyoku Shinka Shita Full Dive Rpg Ga Genjitsu Yori Mo Kusoge Dattara', 1);
-INSERT INTO series (id, name, count) VALUES ('blood-c', 'Blood-c', 1);
-INSERT INTO series (id, name, count) VALUES ('koisuru_otome_to_shugo_no_tate', 'Koisuru Otome To Shugo No Tate', 1);
-INSERT INTO series (id, name, count) VALUES ('onna_shunin_kishi_mieko', 'Onna Shunin Kishi Mieko', 1);
-INSERT INTO series (id, name, count) VALUES ('cat''s_eye', 'Cat''s Eye', 1);
-INSERT INTO series (id, name, count) VALUES ('ranpo_kitan', 'Ranpo Kitan', 1);
-INSERT INTO series (id, name, count) VALUES ('national_basketball_association', 'National Basketball Association', 1);
-INSERT INTO series (id, name, count) VALUES ('stellula_eques', 'Stellula Eques', 1);
-INSERT INTO series (id, name, count) VALUES ('la_peche_party', 'La Peche Party', 1);
-INSERT INTO series (id, name, count) VALUES ('love-bullet', 'Love-bullet', 1);
-INSERT INTO series (id, name, count) VALUES ('dokidoki_sister_aoi-chan', 'Dokidoki Sister Aoi-chan', 1);
-INSERT INTO series (id, name, count) VALUES ('propro_production', 'Propro Production', 1);
-INSERT INTO series (id, name, count) VALUES ('kyou_no_go_no_ni', 'Kyou No Go No Ni', 1);
-INSERT INTO series (id, name, count) VALUES ('nande_koko_ni_sensei_ga!?', 'Nande Koko Ni Sensei Ga!?', 1);
-INSERT INTO series (id, name, count) VALUES ('boku_no_kanojo_wa_ningyohime!?', 'Boku No Kanojo Wa Ningyohime!?', 1);
-INSERT INTO series (id, name, count) VALUES ('kokurikozaka_kara', 'Kokurikozaka Kara', 1);
-INSERT INTO series (id, name, count) VALUES ('komori-san_wa_kotowarenai!', 'Komori-san Wa Kotowarenai!', 1);
-INSERT INTO series (id, name, count) VALUES ('diabolik_lovers', 'Diabolik Lovers', 1);
-INSERT INTO series (id, name, count) VALUES ('bakuten_shoot_beyblade', 'Bakuten Shoot Beyblade', 1);
-INSERT INTO series (id, name, count) VALUES ('mishiranu_joshikousei_ni_kankin_sareta_mangaka_no_hanashi', 'Mishiranu Joshikousei Ni Kankin Sareta Mangaka No Hanashi', 1);
-INSERT INTO series (id, name, count) VALUES ('kage_kara_mamoru!', 'Kage Kara Mamoru!', 1);
-INSERT INTO series (id, name, count) VALUES ('lamento', 'Lamento', 1);
-INSERT INTO series (id, name, count) VALUES ('lamune', 'Lamune', 1);
-INSERT INTO series (id, name, count) VALUES ('onsen_musume', 'Onsen Musume', 1);
-INSERT INTO series (id, name, count) VALUES ('otomari_koibito_lolita', 'Otomari Koibito Lolita', 1);
-INSERT INTO series (id, name, count) VALUES ('grand_blue', 'Grand Blue', 1);
-INSERT INTO series (id, name, count) VALUES ('natsuzora_kanata', 'Natsuzora Kanata', 1);
-INSERT INTO series (id, name, count) VALUES ('koutetsu_jeeg', 'Koutetsu Jeeg', 1);
-INSERT INTO series (id, name, count) VALUES ('cartagra', 'Cartagra', 1);
-INSERT INTO series (id, name, count) VALUES ('god_of_war', 'God Of War', 1);
-INSERT INTO series (id, name, count) VALUES ('kara_no_shoujo', 'Kara No Shoujo', 1);
-INSERT INTO series (id, name, count) VALUES ('buraiden_gai', 'Buraiden Gai', 1);
-INSERT INTO series (id, name, count) VALUES ('prism_recollection!', 'Prism Recollection!', 1);
-INSERT INTO series (id, name, count) VALUES ('kure-nai', 'Kure-nai', 1);
-INSERT INTO series (id, name, count) VALUES ('kamipani!', 'Kamipani!', 1);
-INSERT INTO series (id, name, count) VALUES ('sakurako-san_no_ashimoto_ni_wa_shitai_ga_umatteiru', 'Sakurako-san No Ashimoto Ni Wa Shitai Ga Umatteiru', 1);
-INSERT INTO series (id, name, count) VALUES ('genji_tsuushin_agedama', 'Genji Tsuushin Agedama', 1);
-INSERT INTO series (id, name, count) VALUES ('seikimatsu_occult_gakuin', 'Seikimatsu Occult Gakuin', 1);
-INSERT INTO series (id, name, count) VALUES ('bakemono_no_ko', 'Bakemono No Ko', 1);
-INSERT INTO series (id, name, count) VALUES ('kabigon_no_yume_gourmet', 'Kabigon No Yume Gourmet', 1);
-INSERT INTO series (id, name, count) VALUES ('kakuchou_shoujo-kei_trinary', 'Kakuchou Shoujo-kei Trinary', 1);
-INSERT INTO series (id, name, count) VALUES ('nue_no_onmyouji', 'Nue No Onmyouji', 1);
-INSERT INTO series (id, name, count) VALUES ('kusari_hime:_euthanasia', 'Kusari Hime: Euthanasia', 1);
-INSERT INTO series (id, name, count) VALUES ('kuragehime', 'Kuragehime', 1);
-INSERT INTO series (id, name, count) VALUES ('kodomo_no_omocha', 'Kodomo No Omocha', 1);
-INSERT INTO series (id, name, count) VALUES ('divergence_eve', 'Divergence Eve', 1);
-INSERT INTO series (id, name, count) VALUES ('red_ninja', 'Red Ninja', 1);
-INSERT INTO series (id, name, count) VALUES ('11_piki_no_neko', '11 Piki No Neko', 1);
-INSERT INTO series (id, name, count) VALUES ('hitsugi_katsugi_no_kuro', 'Hitsugi Katsugi No Kuro', 1);
-INSERT INTO series (id, name, count) VALUES ('kurokami', 'Kurokami', 1);
-INSERT INTO series (id, name, count) VALUES ('kimi_omou_koi', 'Kimi Omou Koi', 1);
-INSERT INTO series (id, name, count) VALUES ('enkou_shoujo_2_~jk_idol_masuzu_no_baai~', 'Enkou Shoujo 2 ~jk Idol Masuzu No Baai~', 1);
-INSERT INTO series (id, name, count) VALUES ('kurone_no_kimochi', 'Kurone No Kimochi', 1);
-INSERT INTO series (id, name, count) VALUES ('kurono-san_wa_occult_ga_suki!', 'Kurono-san Wa Occult Ga Suki!', 1);
-INSERT INTO series (id, name, count) VALUES ('rolling_girl_(vocaloid)', 'Rolling Girl (vocaloid)', 1);
-INSERT INTO series (id, name, count) VALUES ('magikano', 'Magikano', 1);
-INSERT INTO series (id, name, count) VALUES ('kuromajo-san_ga_tooru!!', 'Kuromajo-san Ga Tooru!!', 1);
-INSERT INTO series (id, name, count) VALUES ('jitsuwa_kankin_mankitsu?_kurumi-chan!', 'Jitsuwa Kankin Mankitsu? Kurumi-chan!', 1);
-INSERT INTO series (id, name, count) VALUES ('bakappuru_supplement', 'Bakappuru Supplement', 1);
+INSERT INTO series (id, name, count) VALUES ('burn-up', '燃尽', 1);
+INSERT INTO series (id, name, count) VALUES ('wish_(disney)', '愿望（迪士尼）', 1);
+INSERT INTO series (id, name, count) VALUES ('danganronpa_another', '然后再看另一个', 1);
+INSERT INTO series (id, name, count) VALUES ('kinnikuman', '金肉人', 1);
+INSERT INTO series (id, name, count) VALUES ('chousuinou_kei', '长水能圭', 1);
+INSERT INTO series (id, name, count) VALUES ('diamond_wa_kudakenai', '钻石瓦库达克内', 1);
+INSERT INTO series (id, name, count) VALUES ('kouya_no_kotobuki_hikoutai', '红夜之寿 Hikoutai', 1);
+INSERT INTO series (id, name, count) VALUES ('perfect_blue', '完美的蓝色', 1);
+INSERT INTO series (id, name, count) VALUES ('temptation', '诱惑', 1);
+INSERT INTO series (id, name, count) VALUES ('kyouren_no_utage', '狂恋无用', 1);
+INSERT INTO series (id, name, count) VALUES ('sentouin_hakenshimasu!', '仙堂院哈肯岛苏！', 1);
+INSERT INTO series (id, name, count) VALUES ('onee-chan_no_yuuwaku', '姐姐的汤涌', 1);
+INSERT INTO series (id, name, count) VALUES ('kyuukyoku_shinka_shita_full_dive_rpg_ga_genjitsu_yori_mo_kusoge_dattara', '九极新花下 Full Dive Rpg Ga Genjitsu Yori Mo Kusoge Dattara', 1);
+INSERT INTO series (id, name, count) VALUES ('blood-c', '血c', 1);
+INSERT INTO series (id, name, count) VALUES ('koisuru_otome_to_shugo_no_tate', '恋爱乙女与守护之立', 1);
+INSERT INTO series (id, name, count) VALUES ('onna_shunin_kishi_mieko', '恩纳周人岸美惠子', 1);
+INSERT INTO series (id, name, count) VALUES ('cat''s_eye', '猫眼', 1);
+INSERT INTO series (id, name, count) VALUES ('ranpo_kitan', '乱步奇谭', 1);
+INSERT INTO series (id, name, count) VALUES ('national_basketball_association', '国家篮球协会', 1);
+INSERT INTO series (id, name, count) VALUES ('stellula_eques', '星骑士', 1);
+INSERT INTO series (id, name, count) VALUES ('la_peche_party', '拉佩什派对', 1);
+INSERT INTO series (id, name, count) VALUES ('love-bullet', '爱情子弹', 1);
+INSERT INTO series (id, name, count) VALUES ('dokidoki_sister_aoi-chan', '心跳小葵姐姐', 1);
+INSERT INTO series (id, name, count) VALUES ('propro_production', '普罗普生产', 1);
+INSERT INTO series (id, name, count) VALUES ('kyou_no_go_no_ni', '恭不去不二', 1);
+INSERT INTO series (id, name, count) VALUES ('nande_koko_ni_sensei_ga!?', 'Nande Koko Ni老师嘎！？', 1);
+INSERT INTO series (id, name, count) VALUES ('boku_no_kanojo_wa_ningyohime!?', '我的鹿女和人形姬！？', 1);
+INSERT INTO series (id, name, count) VALUES ('kokurikozaka_kara', '小栗坂卡拉', 1);
+INSERT INTO series (id, name, count) VALUES ('komori-san_wa_kotowarenai!', '小森桑和琴画奈！', 1);
+INSERT INTO series (id, name, count) VALUES ('diabolik_lovers', '恶魔恋人', 1);
+INSERT INTO series (id, name, count) VALUES ('bakuten_shoot_beyblade', '爆天射击陀螺', 1);
+INSERT INTO series (id, name, count) VALUES ('mishiranu_joshikousei_ni_kankin_sareta_mangaka_no_hanashi', '三白书生 二次元漫画 漫画之花梨', 1);
+INSERT INTO series (id, name, count) VALUES ('kage_kara_mamoru!', '影卡拉卫！', 1);
+INSERT INTO series (id, name, count) VALUES ('lamento', '对不起', 1);
+INSERT INTO series (id, name, count) VALUES ('lamune', '拉穆内', 1);
+INSERT INTO series (id, name, count) VALUES ('onsen_musume', '温泉娘', 1);
+INSERT INTO series (id, name, count) VALUES ('otomari_koibito_lolita', '恋人洛丽塔大泊', 1);
+INSERT INTO series (id, name, count) VALUES ('grand_blue', '碧海蓝天', 1);
+INSERT INTO series (id, name, count) VALUES ('natsuzora_kanata', '夏空彼方', 1);
+INSERT INTO series (id, name, count) VALUES ('koutetsu_jeeg', '幸铁杰格', 1);
+INSERT INTO series (id, name, count) VALUES ('cartagra', '卡塔格拉', 1);
+INSERT INTO series (id, name, count) VALUES ('god_of_war', '战神', 1);
+INSERT INTO series (id, name, count) VALUES ('kara_no_shoujo', '空之少女', 1);
+INSERT INTO series (id, name, count) VALUES ('buraiden_gai', '布赖登街', 1);
+INSERT INTO series (id, name, count) VALUES ('prism_recollection!', '棱镜回忆！', 1);
+INSERT INTO series (id, name, count) VALUES ('kure-nai', '吴内', 1);
+INSERT INTO series (id, name, count) VALUES ('kamipani!', '公司！', 1);
+INSERT INTO series (id, name, count) VALUES ('sakurako-san_no_ashimoto_ni_wa_shitai_ga_umatteiru', '樱子小姐的芦本二娃Shitai Ga Umatteiru', 1);
+INSERT INTO series (id, name, count) VALUES ('genji_tsuushin_agedama', '源氏通讯 上玉', 1);
+INSERT INTO series (id, name, count) VALUES ('seikimatsu_occult_gakuin', '清松神秘学院', 1);
+INSERT INTO series (id, name, count) VALUES ('bakemono_no_ko', '化物之子', 1);
+INSERT INTO series (id, name, count) VALUES ('kabigon_no_yume_gourmet', '卡比贡之梦美食', 1);
+INSERT INTO series (id, name, count) VALUES ('kakuchou_shoujo-kei_trinary', '角厅少女系三元组', 1);
+INSERT INTO series (id, name, count) VALUES ('nue_no_onmyouji', '女阴阳师', 1);
+INSERT INTO series (id, name, count) VALUES ('kusari_hime:_euthanasia', '库萨里姬：安乐死', 1);
+INSERT INTO series (id, name, count) VALUES ('kuragehime', '仓姬', 1);
+INSERT INTO series (id, name, count) VALUES ('kodomo_no_omocha', '儿童之家', 1);
+INSERT INTO series (id, name, count) VALUES ('divergence_eve', '分歧前夕', 1);
+INSERT INTO series (id, name, count) VALUES ('red_ninja', '红色忍者', 1);
+INSERT INTO series (id, name, count) VALUES ('11_piki_no_neko', '11 攀登No Neko', 1);
+INSERT INTO series (id, name, count) VALUES ('hitsugi_katsugi_no_kuro', '柇胜木之黑', 1);
+INSERT INTO series (id, name, count) VALUES ('kurokami', '黑上', 1);
+INSERT INTO series (id, name, count) VALUES ('kimi_omou_koi', '鲤鱼君', 1);
+INSERT INTO series (id, name, count) VALUES ('enkou_shoujo_2_~jk_idol_masuzu_no_baai~', '圆红少女 2 ～jk 偶像真铃之夜～', 1);
+INSERT INTO series (id, name, count) VALUES ('kurone_no_kimochi', '黑根的泡菜', 1);
+INSERT INTO series (id, name, count) VALUES ('kurono-san_wa_occult_ga_suki!', '黑乃小姐和神秘嘎苏希！', 1);
+INSERT INTO series (id, name, count) VALUES ('rolling_girl_(vocaloid)', '滚滚女孩（VOCALOID）', 1);
+INSERT INTO series (id, name, count) VALUES ('magikano', '魔鹿野', 1);
+INSERT INTO series (id, name, count) VALUES ('kuromajo-san_ga_tooru!!', '黑魔城桑嘎彻!!', 1);
+INSERT INTO series (id, name, count) VALUES ('jitsuwa_kankin_mankitsu?_kurumi-chan!', 'Jitsuwa Kankin Mankitsu？狂三！', 1);
+INSERT INTO series (id, name, count) VALUES ('bakappuru_supplement', '巴卡普鲁补充品', 1);
 INSERT INTO series (id, name, count) VALUES ('asumi-chan_wa_rezu_fuuzoku_ni_kyoumi_ga_arimasu!', 'Asumi-chan Wa Rezu Fuuzoku Ni Kyoumi Ga Arimasu!', 1);
-INSERT INTO series (id, name, count) VALUES ('the_personification_of_atmosphere', 'The Personification Of Atmosphere', 1);
-INSERT INTO series (id, name, count) VALUES ('ponponpon', 'Ponponpon', 1);
-INSERT INTO series (id, name, count) VALUES ('kingdom_(series)', 'Kingdom', 1);
-INSERT INTO series (id, name, count) VALUES ('hunie_(series)', 'Hunie', 1);
-INSERT INTO series (id, name, count) VALUES ('loafi_lofi', 'Loafi Lofi', 1);
-INSERT INTO series (id, name, count) VALUES ('lady_death', 'Lady Death', 1);
-INSERT INTO series (id, name, count) VALUES ('seikai_no_senki', 'Seikai No Senki', 1);
-INSERT INTO series (id, name, count) VALUES ('vinesauce', 'Vinesauce', 1);
+INSERT INTO series (id, name, count) VALUES ('the_personification_of_atmosphere', '气氛的拟人化', 1);
+INSERT INTO series (id, name, count) VALUES ('ponponpon', '绒球', 1);
+INSERT INTO series (id, name, count) VALUES ('kingdom_(series)', '王国', 1);
+INSERT INTO series (id, name, count) VALUES ('hunie_(series)', '顺', 1);
+INSERT INTO series (id, name, count) VALUES ('loafi_lofi', '洛菲洛菲', 1);
+INSERT INTO series (id, name, count) VALUES ('lady_death', '死亡女士', 1);
+INSERT INTO series (id, name, count) VALUES ('seikai_no_senki', '星海战记', 1);
+INSERT INTO series (id, name, count) VALUES ('vinesauce', '葡萄酱', 1);
 INSERT INTO series (id, name, count) VALUES ('mamonomusume_to_no_seikatsu_~ramia_no_baai~', 'Mamonomusume To No Seikatsu ~ramia No Baai~', 1);
-INSERT INTO series (id, name, count) VALUES ('um_jammer_lammy', 'Um Jammer Lammy', 1);
-INSERT INTO series (id, name, count) VALUES ('kamisama_no_you_na_kimi_e', 'Kamisama No You Na Kimi E', 1);
-INSERT INTO series (id, name, count) VALUES ('tomb_raider', 'Tomb Raider', 1);
-INSERT INTO series (id, name, count) VALUES ('tom_clancy''s_the_division', 'Tom Clancy''s The Division', 1);
-INSERT INTO series (id, name, count) VALUES ('angelic_serenade', 'Angelic Serenade', 1);
-INSERT INTO series (id, name, count) VALUES ('nanoka_no_kuigami', 'Nanoka No Kuigami', 1);
-INSERT INTO series (id, name, count) VALUES ('uchi_no_musume_no_tame_naraba_ore_wa_moshikashitara_maou_mo_taoseru_kamo_shirenai.', 'Uchi No Musume No Tame Naraba Ore Wa Moshikashitara Maou Mo Taoseru Kamo Shirenai.', 1);
-INSERT INTO series (id, name, count) VALUES ('lapis_re:lights', 'Lapis Re:lights', 1);
-INSERT INTO series (id, name, count) VALUES ('aoki_ryuusei_spt_layzner', 'Aoki Ryuusei Spt Layzner', 1);
-INSERT INTO series (id, name, count) VALUES ('the_texas_chainsaw_massacre', 'The Texas Chainsaw Massacre', 1);
-INSERT INTO series (id, name, count) VALUES ('v-lup', 'V-lup', 1);
-INSERT INTO series (id, name, count) VALUES ('beatless', 'Beatless', 1);
-INSERT INTO series (id, name, count) VALUES ('hitozuma_fuumashi_leilan', 'Hitozuma Fuumashi Leilan', 1);
-INSERT INTO series (id, name, count) VALUES ('jungle_taitei', 'Jungle Taitei', 1);
+INSERT INTO series (id, name, count) VALUES ('um_jammer_lammy', '嗯干扰器拉米', 1);
+INSERT INTO series (id, name, count) VALUES ('kamisama_no_you_na_kimi_e', '不是对你和我的承诺', 1);
+INSERT INTO series (id, name, count) VALUES ('tomb_raider', '古墓丽影', 1);
+INSERT INTO series (id, name, count) VALUES ('tom_clancy''s_the_division', '汤姆克兰西：全境封锁', 1);
+INSERT INTO series (id, name, count) VALUES ('angelic_serenade', '天使小夜曲', 1);
+INSERT INTO series (id, name, count) VALUES ('nanoka_no_kuigami', '奈乃卡的鬼神', 1);
+INSERT INTO series (id, name, count) VALUES ('uchi_no_musume_no_tame_naraba_ore_wa_moshikashitara_maou_mo_taoseru_kamo_shirenai.', '内之娘的驯服 奈良波矿石 魔王莫陶瑟鲁 卡莫知雷内。', 1);
+INSERT INTO series (id, name, count) VALUES ('lapis_re:lights', '青金石回复：灯', 1);
+INSERT INTO series (id, name, count) VALUES ('aoki_ryuusei_spt_layzner', '青木龙星 Spt Layzner', 1);
+INSERT INTO series (id, name, count) VALUES ('the_texas_chainsaw_massacre', '德州电锯杀人狂', 1);
+INSERT INTO series (id, name, count) VALUES ('v-lup', 'V 形按扣', 1);
+INSERT INTO series (id, name, count) VALUES ('beatless', '无节奏', 1);
+INSERT INTO series (id, name, count) VALUES ('hitozuma_fuumashi_leilan', '人妻风马志雷兰', 1);
+INSERT INTO series (id, name, count) VALUES ('jungle_taitei', '丛林大亭', 1);
 INSERT INTO series (id, name, count) VALUES ('300', '300', 1);
-INSERT INTO series (id, name, count) VALUES ('makai_shin_trillion', 'Makai Shin Trillion', 1);
-INSERT INTO series (id, name, count) VALUES ('zettai_bouei_leviathan', 'Zettai Bouei Leviathan', 1);
+INSERT INTO series (id, name, count) VALUES ('makai_shin_trillion', '魔界新万亿', 1);
+INSERT INTO series (id, name, count) VALUES ('zettai_bouei_leviathan', '绝对布埃利维坦', 1);
 INSERT INTO series (id, name, count) VALUES ('dao_gui_yi_xian', 'Dao Gui Yi Xian', 1);
-INSERT INTO series (id, name, count) VALUES ('angel_links', 'Angel Links', 1);
+INSERT INTO series (id, name, count) VALUES ('angel_links', '天使链接', 1);
 INSERT INTO series (id, name, count) VALUES ('lanxi_zhen', 'Lanxi Zhen', 1);
-INSERT INTO series (id, name, count) VALUES ('twinkle_star_knights', 'Twinkle Star Knights', 1);
-INSERT INTO series (id, name, count) VALUES ('wagaya_no_liliana-san', 'Wagaya No Liliana-san', 1);
-INSERT INTO series (id, name, count) VALUES ('diablo_(series)', 'Diablo', 1);
-INSERT INTO series (id, name, count) VALUES ('the_binding_of_isaac', 'The Binding Of Isaac', 1);
-INSERT INTO series (id, name, count) VALUES ('grimgrimoire', 'Grimgrimoire', 1);
+INSERT INTO series (id, name, count) VALUES ('twinkle_star_knights', '闪烁星辰骑士团', 1);
+INSERT INTO series (id, name, count) VALUES ('wagaya_no_liliana-san', '和谷的莉莉安娜桑', 1);
+INSERT INTO series (id, name, count) VALUES ('diablo_(series)', '暗黑破坏神', 1);
+INSERT INTO series (id, name, count) VALUES ('the_binding_of_isaac', '以撒的结合', 1);
+INSERT INTO series (id, name, count) VALUES ('grimgrimoire', '格里莫尔', 1);
 INSERT INTO series (id, name, count) VALUES ('choujin_koukousei-tachi_wa_isekai_demo_yoyuu_de_ikinuku_you_desu!', 'Choujin Koukousei-tachi Wa Isekai Demo Yoyuu De Ikinuku You Desu!', 1);
-INSERT INTO series (id, name, count) VALUES ('cloud_horizon', 'Cloud Horizon', 1);
-INSERT INTO series (id, name, count) VALUES ('nekojishi', 'Nekojishi', 1);
-INSERT INTO series (id, name, count) VALUES ('line_(naver)', 'Line (naver)', 1);
+INSERT INTO series (id, name, count) VALUES ('cloud_horizon', '云地平线', 1);
+INSERT INTO series (id, name, count) VALUES ('nekojishi', '猫路士', 1);
+INSERT INTO series (id, name, count) VALUES ('line_(naver)', '线路（naver）', 1);
 INSERT INTO series (id, name, count) VALUES ('wu_dong_qian_kun', 'Wu Dong Qian Kun', 1);
-INSERT INTO series (id, name, count) VALUES ('baraag', 'Baraag', 1);
-INSERT INTO series (id, name, count) VALUES ('world_cup', 'World Cup', 1);
-INSERT INTO series (id, name, count) VALUES ('tsumi_no_hahen_(debris)', 'Tsumi No Hahen (debris)', 1);
-INSERT INTO series (id, name, count) VALUES ('escape_from_tarkov', 'Escape From Tarkov', 1);
-INSERT INTO series (id, name, count) VALUES ('dakara_boku_wa_h_ga_dekinai', 'Dakara Boku Wa H Ga Dekinai', 1);
-INSERT INTO series (id, name, count) VALUES ('punch-out!!', 'Punch-out!!', 1);
-INSERT INTO series (id, name, count) VALUES ('mentholatum', 'Mentholatum', 1);
-INSERT INTO series (id, name, count) VALUES ('lofi_girl_(youtube)', 'Lofi Girl (youtube)', 1);
-INSERT INTO series (id, name, count) VALUES ('battle_tendency', 'Battle Tendency', 1);
-INSERT INTO series (id, name, count) VALUES ('matantei_loki_ragnarok', 'Matantei Loki Ragnarok', 1);
-INSERT INTO series (id, name, count) VALUES ('demon_days_(marvel)', 'Demon Days (marvel)', 1);
-INSERT INTO series (id, name, count) VALUES ('space_jam', 'Space Jam', 1);
-INSERT INTO series (id, name, count) VALUES ('red:_pride_of_eden', 'Red: Pride Of Eden', 1);
-INSERT INTO series (id, name, count) VALUES ('lunar', 'Lunar', 1);
-INSERT INTO series (id, name, count) VALUES ('pizza-la', 'Pizza-la', 1);
-INSERT INTO series (id, name, count) VALUES ('lucu_lucu', 'Lucu Lucu', 1);
-INSERT INTO series (id, name, count) VALUES ('chrono_ark', 'Chrono Ark', 1);
-INSERT INTO series (id, name, count) VALUES ('evertale', 'Evertale', 1);
-INSERT INTO series (id, name, count) VALUES ('yasei_no_last_boss_ga_arawareta', 'Yasei No Last Boss Ga Arawareta', 1);
-INSERT INTO series (id, name, count) VALUES ('circle_of_inevitability', 'Circle Of Inevitability', 1);
+INSERT INTO series (id, name, count) VALUES ('baraag', '巴拉格', 1);
+INSERT INTO series (id, name, count) VALUES ('world_cup', '世界杯', 1);
+INSERT INTO series (id, name, count) VALUES ('tsumi_no_hahen_(debris)', 'Tsumi No Hahen（碎片）', 1);
+INSERT INTO series (id, name, count) VALUES ('escape_from_tarkov', '逃离塔科夫', 1);
+INSERT INTO series (id, name, count) VALUES ('dakara_boku_wa_h_ga_dekinai', '达卡拉 Boku Wa H Ga Dekinai', 1);
+INSERT INTO series (id, name, count) VALUES ('punch-out!!', '一拳出击！！', 1);
+INSERT INTO series (id, name, count) VALUES ('mentholatum', '曼秀雷敦', 1);
+INSERT INTO series (id, name, count) VALUES ('lofi_girl_(youtube)', '洛菲女孩（YouTube）', 1);
+INSERT INTO series (id, name, count) VALUES ('battle_tendency', '战斗倾向', 1);
+INSERT INTO series (id, name, count) VALUES ('matantei_loki_ragnarok', '观看 Ragnarok 的更衣室', 1);
+INSERT INTO series (id, name, count) VALUES ('demon_days_(marvel)', '恶魔日（漫威）', 1);
+INSERT INTO series (id, name, count) VALUES ('space_jam', '太空大灌篮', 1);
+INSERT INTO series (id, name, count) VALUES ('red:_pride_of_eden', '红色：伊甸园的骄傲', 1);
+INSERT INTO series (id, name, count) VALUES ('lunar', '农历', 1);
+INSERT INTO series (id, name, count) VALUES ('pizza-la', '披萨拉', 1);
+INSERT INTO series (id, name, count) VALUES ('lucu_lucu', '搞笑搞笑', 1);
+INSERT INTO series (id, name, count) VALUES ('chrono_ark', '时空方舟', 1);
+INSERT INTO series (id, name, count) VALUES ('evertale', '永恒传说', 1);
+INSERT INTO series (id, name, count) VALUES ('yasei_no_last_boss_ga_arawareta', '八生No Last Boss 伽阿拉瓦雷塔', 1);
+INSERT INTO series (id, name, count) VALUES ('circle_of_inevitability', '必然性循环', 1);
 INSERT INTO series (id, name, count) VALUES ('m3gan', 'M3gan', 1);
-INSERT INTO series (id, name, count) VALUES ('karin_(manga)', 'Karin (manga)', 1);
-INSERT INTO series (id, name, count) VALUES ('agatha_christie_no_meitantei_poirot_to_marple', 'Agatha Christie No Meitantei Poirot To Marple', 1);
-INSERT INTO series (id, name, count) VALUES ('bokurano', 'Bokurano', 1);
-INSERT INTO series (id, name, count) VALUES ('dragon_poker', 'Dragon Poker', 1);
-INSERT INTO series (id, name, count) VALUES ('chained_together', 'Chained Together', 1);
-INSERT INTO series (id, name, count) VALUES ('macne_series', 'Macne Series', 1);
-INSERT INTO series (id, name, count) VALUES ('bluffman_(niru_kajitsu)', 'Bluffman (niru Kajitsu)', 1);
-INSERT INTO series (id, name, count) VALUES ('the_silmarillion', 'The Silmarillion', 1);
-INSERT INTO series (id, name, count) VALUES ('koi_wa_sekai_seifuku_no_ato_de', 'Koi Wa Sekai Seifuku No Ato De', 1);
-INSERT INTO series (id, name, count) VALUES ('bikini_warriors', 'Bikini Warriors', 1);
-INSERT INTO series (id, name, count) VALUES ('magrona_channel', 'Magrona Channel', 1);
-INSERT INTO series (id, name, count) VALUES ('marble_creators', 'Marble Creators', 1);
-INSERT INTO series (id, name, count) VALUES ('popful_mail', 'Popful Mail', 1);
-INSERT INTO series (id, name, count) VALUES ('waku_waku_7', 'Waku Waku 7', 1);
-INSERT INTO series (id, name, count) VALUES ('koi_de_wa_naku', 'Koi De Wa Naku', 1);
+INSERT INTO series (id, name, count) VALUES ('karin_(manga)', '卡琳（漫画）', 1);
+INSERT INTO series (id, name, count) VALUES ('agatha_christie_no_meitantei_poirot_to_marple', '阿加莎克里斯蒂的名侦探波洛到马普尔', 1);
+INSERT INTO series (id, name, count) VALUES ('bokurano', '博库拉诺', 1);
+INSERT INTO series (id, name, count) VALUES ('dragon_poker', '龙扑克', 1);
+INSERT INTO series (id, name, count) VALUES ('chained_together', '链在一起', 1);
+INSERT INTO series (id, name, count) VALUES ('macne_series', '意义系列', 1);
+INSERT INTO series (id, name, count) VALUES ('bluffman_(niru_kajitsu)', '布拉夫曼 (niru Kajitsu)', 1);
+INSERT INTO series (id, name, count) VALUES ('the_silmarillion', '精灵宝钻', 1);
+INSERT INTO series (id, name, count) VALUES ('koi_wa_sekai_seifuku_no_ato_de', '恋和世界生活的资料', 1);
+INSERT INTO series (id, name, count) VALUES ('bikini_warriors', '比基尼勇士', 1);
+INSERT INTO series (id, name, count) VALUES ('magrona_channel', '马格罗纳海峡', 1);
+INSERT INTO series (id, name, count) VALUES ('marble_creators', '大理石创作者', 1);
+INSERT INTO series (id, name, count) VALUES ('popful_mail', '充满邮件', 1);
+INSERT INTO series (id, name, count) VALUES ('waku_waku_7', '哇库哇库 7', 1);
+INSERT INTO series (id, name, count) VALUES ('koi_de_wa_naku', '恋之恋', 1);
 INSERT INTO series (id, name, count) VALUES ('doushitara_osananajimi_no_kanojo_ni_naremasu_ka!?', 'Doushitara Osananajimi No Kanojo Ni Naremasu Ka!?', 1);
-INSERT INTO series (id, name, count) VALUES ('hajime_no_ippo', 'Hajime No Ippo', 1);
-INSERT INTO series (id, name, count) VALUES ('cooking_mama', 'Cooking Mama', 1);
-INSERT INTO series (id, name, count) VALUES ('euphoria_(clockup)', 'Euphoria (clockup)', 1);
-INSERT INTO series (id, name, count) VALUES ('hidden_survivor', 'Hidden Survivor', 1);
-INSERT INTO series (id, name, count) VALUES ('mamono_hunter_youko', 'Mamono Hunter Youko', 1);
-INSERT INTO series (id, name, count) VALUES ('guardians_of_the_galaxy', 'Guardians Of The Galaxy', 1);
-INSERT INTO series (id, name, count) VALUES ('manyuu_hikenchou', 'Manyuu Hikenchou', 1);
-INSERT INTO series (id, name, count) VALUES ('neko_atsume', 'Neko Atsume', 1);
-INSERT INTO series (id, name, count) VALUES ('desperado_(yotaro)', 'Desperado (yotaro)', 1);
-INSERT INTO series (id, name, count) VALUES ('yuusha_to_maou_no_rabu_kome', 'Yuusha To Maou No Rabu Kome', 1);
-INSERT INTO series (id, name, count) VALUES ('sayonara_no_asa_ni_yakusoku_no_hana_wo_kazarou', 'Sayonara No Asa Ni Yakusoku No Hana Wo Kazarou', 1);
-INSERT INTO series (id, name, count) VALUES ('flying_red_barrel', 'Flying Red Barrel', 1);
-INSERT INTO series (id, name, count) VALUES ('hoshizora_no_memoria', 'Hoshizora No Memoria', 1);
-INSERT INTO series (id, name, count) VALUES ('marfusha', 'Marfusha', 1);
-INSERT INTO series (id, name, count) VALUES ('delightfully_fuckable_and_unrefined!!', 'Delightfully Fuckable And Unrefined!!', 1);
-INSERT INTO series (id, name, count) VALUES ('dodonpachi', 'Dodonpachi', 1);
-INSERT INTO series (id, name, count) VALUES ('hospital_rokunin_no_ishi', 'Hospital Rokunin No Ishi', 1);
-INSERT INTO series (id, name, count) VALUES ('reco_love', 'Reco Love', 1);
-INSERT INTO series (id, name, count) VALUES ('ixion_saga', 'Ixion Saga', 1);
-INSERT INTO series (id, name, count) VALUES ('unholy_sanctuary', 'Unholy Sanctuary', 1);
-INSERT INTO series (id, name, count) VALUES ('shinza_bansho_series', 'Shinza Bansho Series', 1);
-INSERT INTO series (id, name, count) VALUES ('kakuriyo_no_yadomeshi', 'Kakuriyo No Yadomeshi', 1);
-INSERT INTO series (id, name, count) VALUES ('marie_&_gali', 'Marie & Gali', 1);
-INSERT INTO series (id, name, count) VALUES ('the_seven-year_itch', 'The Seven-year Itch', 1);
-INSERT INTO series (id, name, count) VALUES ('yuke_yuke!!_trouble_makers', 'Yuke Yuke!! Trouble Makers', 1);
-INSERT INTO series (id, name, count) VALUES ('tensei_colosseum:_saijaku_skill_de_saikyou_no_onna-tachi_wo_kouryaku_shite_dorei_harem_tsukurimasu', 'Tensei Colosseum: Saijaku Skill De Saikyou No Onna-tachi Wo Kouryaku Shite Dorei Harem Tsukurimasu', 1);
+INSERT INTO series (id, name, count) VALUES ('hajime_no_ippo', '一炮一炮', 1);
+INSERT INTO series (id, name, count) VALUES ('cooking_mama', '做饭妈妈', 1);
+INSERT INTO series (id, name, count) VALUES ('euphoria_(clockup)', '欣快感（计时）', 1);
+INSERT INTO series (id, name, count) VALUES ('hidden_survivor', '隐藏的幸存者', 1);
+INSERT INTO series (id, name, count) VALUES ('mamono_hunter_youko', '真物猎人阳子', 1);
+INSERT INTO series (id, name, count) VALUES ('guardians_of_the_galaxy', '银河护卫队', 1);
+INSERT INTO series (id, name, count) VALUES ('manyuu_hikenchou', '曼游斐肯町', 1);
+INSERT INTO series (id, name, count) VALUES ('neko_atsume', '猫笃目', 1);
+INSERT INTO series (id, name, count) VALUES ('desperado_(yotaro)', '绝望（与太郎）', 1);
+INSERT INTO series (id, name, count) VALUES ('yuusha_to_maou_no_rabu_kome', '游侠与魔王之罗布米', 1);
+INSERT INTO series (id, name, count) VALUES ('sayonara_no_asa_ni_yakusoku_no_hana_wo_kazarou', '再见之阿萨 涅槃之花 我可扎鲁', 1);
+INSERT INTO series (id, name, count) VALUES ('flying_red_barrel', '飞红桶', 1);
+INSERT INTO series (id, name, count) VALUES ('hoshizora_no_memoria', '星空的记忆', 1);
+INSERT INTO series (id, name, count) VALUES ('marfusha', '马弗沙', 1);
+INSERT INTO series (id, name, count) VALUES ('delightfully_fuckable_and_unrefined!!', '令人愉快的性交和不精致！', 1);
+INSERT INTO series (id, name, count) VALUES ('dodonpachi', '道冬八', 1);
+INSERT INTO series (id, name, count) VALUES ('hospital_rokunin_no_ishi', '六人之石医院', 1);
+INSERT INTO series (id, name, count) VALUES ('reco_love', '雷科·爱', 1);
+INSERT INTO series (id, name, count) VALUES ('ixion_saga', '伊克西翁传奇', 1);
+INSERT INTO series (id, name, count) VALUES ('unholy_sanctuary', '邪恶庇护所', 1);
+INSERT INTO series (id, name, count) VALUES ('shinza_bansho_series', '真座番将系列', 1);
+INSERT INTO series (id, name, count) VALUES ('kakuriyo_no_yadomeshi', '觉知之宿饭', 1);
+INSERT INTO series (id, name, count) VALUES ('marie_&_gali', '玛丽和加利', 1);
+INSERT INTO series (id, name, count) VALUES ('the_seven-year_itch', '七年之痒', 1);
+INSERT INTO series (id, name, count) VALUES ('yuke_yuke!!_trouble_makers', '悠悠悠悠！！麻烦制造者', 1);
+INSERT INTO series (id, name, count) VALUES ('tensei_colosseum:_saijaku_skill_de_saikyou_no_onna-tachi_wo_kouryaku_shite_dorei_harem_tsukurimasu', '转生斗兽场：西爵技能的女太刀我的强者多丽后宫作', 1);
 INSERT INTO series (id, name, count) VALUES ('mousou_dairinin', 'Mousou Dairinin', 1);
-INSERT INTO series (id, name, count) VALUES ('interlude', 'Interlude', 1);
-INSERT INTO series (id, name, count) VALUES ('shikkoku_no_sharnoth', 'Shikkoku No Sharnoth', 1);
-INSERT INTO series (id, name, count) VALUES ('tokidoki_bosotto_roshia-go_de_dereru_tonari_no_arya-san', 'Tokidoki Bosotto Roshia-go De Dereru Tonari No Arya-san', 1);
-INSERT INTO series (id, name, count) VALUES ('konayuki_fururi', 'Konayuki Fururi', 1);
-INSERT INTO series (id, name, count) VALUES ('animal_yokochou', 'Animal Yokochou', 1);
-INSERT INTO series (id, name, count) VALUES ('ego_trigger', 'Ego Trigger', 1);
-INSERT INTO series (id, name, count) VALUES ('hotel_transylvania', 'Hotel Transylvania', 1);
-INSERT INTO series (id, name, count) VALUES ('kaikan_change', 'Kaikan Change', 1);
-INSERT INTO series (id, name, count) VALUES ('sakigake!!_cromartie_koukou', 'Sakigake!! Cromartie Koukou', 1);
-INSERT INTO series (id, name, count) VALUES ('your_throne', 'Your Throne', 1);
-INSERT INTO series (id, name, count) VALUES ('astral_party', 'Astral Party', 1);
-INSERT INTO series (id, name, count) VALUES ('the_transformers_(idw)', 'The Transformers (idw)', 1);
+INSERT INTO series (id, name, count) VALUES ('interlude', '插曲', 1);
+INSERT INTO series (id, name, count) VALUES ('shikkoku_no_sharnoth', '四国之沙诺斯', 1);
+INSERT INTO series (id, name, count) VALUES ('tokidoki_bosotto_roshia-go_de_dereru_tonari_no_arya-san', '时时刻刻Bosotto Roshia go Dereru Tonari No Arya-san', 1);
+INSERT INTO series (id, name, count) VALUES ('konayuki_fururi', '古留里小雪', 1);
+INSERT INTO series (id, name, count) VALUES ('animal_yokochou', '动物横町', 1);
+INSERT INTO series (id, name, count) VALUES ('ego_trigger', '自我触发', 1);
+INSERT INTO series (id, name, count) VALUES ('hotel_transylvania', '特兰西瓦尼亚酒店', 1);
+INSERT INTO series (id, name, count) VALUES ('kaikan_change', '会馆变更', 1);
+INSERT INTO series (id, name, count) VALUES ('sakigake!!_cromartie_koukou', '崎岳！！克罗马蒂·库库', 1);
+INSERT INTO series (id, name, count) VALUES ('your_throne', '你的王座', 1);
+INSERT INTO series (id, name, count) VALUES ('astral_party', '星界派对', 1);
+INSERT INTO series (id, name, count) VALUES ('the_transformers_(idw)', '变形金刚 (idw)', 1);
 INSERT INTO series (id, name, count) VALUES ('toeto_(vocaloid)', 'Toeto (vocaloid)', 1);
-INSERT INTO series (id, name, count) VALUES ('mugen_gacha', 'Mugen Gacha', 1);
-INSERT INTO series (id, name, count) VALUES ('waga_mama_capriccio', 'Waga Mama Capriccio', 1);
-INSERT INTO series (id, name, count) VALUES ('me!me!me!', 'Me!me!me!', 1);
-INSERT INTO series (id, name, count) VALUES ('weather_planet', 'Weather Planet', 1);
-INSERT INTO series (id, name, count) VALUES ('eversoul', 'Eversoul', 1);
-INSERT INTO series (id, name, count) VALUES ('brave_(pixar)', 'Brave (pixar)', 1);
-INSERT INTO series (id, name, count) VALUES ('readymade_(ado)', 'Readymade (ado)', 1);
-INSERT INTO series (id, name, count) VALUES ('killing_me/killing_you', 'Killing Me/killing You', 1);
-INSERT INTO series (id, name, count) VALUES ('azur_promilia', 'Azur Promilia', 1);
-INSERT INTO series (id, name, count) VALUES ('dangaiou', 'Dangaiou', 1);
-INSERT INTO series (id, name, count) VALUES ('tearmoon_teikoku_monogatari', 'Tearmoon Teikoku Monogatari', 1);
-INSERT INTO series (id, name, count) VALUES ('halloween_(movie)', 'Halloween (movie)', 1);
-INSERT INTO series (id, name, count) VALUES ('michelin', 'Michelin', 1);
-INSERT INTO series (id, name, count) VALUES ('terra_formars', 'Terra Formars', 1);
-INSERT INTO series (id, name, count) VALUES ('michiko_to_hacchin', 'Michiko To Hacchin', 1);
-INSERT INTO series (id, name, count) VALUES ('kyouran_kazoku_nikki', 'Kyouran Kazoku Nikki', 1);
-INSERT INTO series (id, name, count) VALUES ('myslot', 'Myslot', 1);
-INSERT INTO series (id, name, count) VALUES ('shoujo_tsubaki', 'Shoujo Tsubaki', 1);
-INSERT INTO series (id, name, count) VALUES ('midori_no_makibaoo', 'Midori No Makibaoo', 1);
-INSERT INTO series (id, name, count) VALUES ('injuu_gakuen_la_blue_girl', 'Injuu Gakuen La Blue Girl', 1);
+INSERT INTO series (id, name, count) VALUES ('mugen_gacha', '无限扭蛋', 1);
+INSERT INTO series (id, name, count) VALUES ('waga_mama_capriccio', '和歌妈妈随想曲', 1);
+INSERT INTO series (id, name, count) VALUES ('me!me!me!', '我！我！我！', 1);
+INSERT INTO series (id, name, count) VALUES ('weather_planet', '天气星球', 1);
+INSERT INTO series (id, name, count) VALUES ('eversoul', '永恒之魂', 1);
+INSERT INTO series (id, name, count) VALUES ('brave_(pixar)', '勇敢传说（皮克斯）', 1);
+INSERT INTO series (id, name, count) VALUES ('readymade_(ado)', '现成的（废话）', 1);
+INSERT INTO series (id, name, count) VALUES ('killing_me/killing_you', '杀了我/杀了你', 1);
+INSERT INTO series (id, name, count) VALUES ('azur_promilia', '蔚蓝普罗米利亚', 1);
+INSERT INTO series (id, name, count) VALUES ('dangaiou', '丹加欧', 1);
+INSERT INTO series (id, name, count) VALUES ('tearmoon_teikoku_monogatari', '泪月帝国物语', 1);
+INSERT INTO series (id, name, count) VALUES ('halloween_(movie)', '万圣节（电影）', 1);
+INSERT INTO series (id, name, count) VALUES ('michelin', '米其林', 1);
+INSERT INTO series (id, name, count) VALUES ('terra_formars', '泰拉福玛斯', 1);
+INSERT INTO series (id, name, count) VALUES ('michiko_to_hacchin', '八珍美智子', 1);
+INSERT INTO series (id, name, count) VALUES ('kyouran_kazoku_nikki', '九兰家族日记', 1);
+INSERT INTO series (id, name, count) VALUES ('myslot', '我的插槽', 1);
+INSERT INTO series (id, name, count) VALUES ('shoujo_tsubaki', '少女椿', 1);
+INSERT INTO series (id, name, count) VALUES ('midori_no_makibaoo', '绿的卷包王', 1);
+INSERT INTO series (id, name, count) VALUES ('injuu_gakuen_la_blue_girl', '因茹学园蓝少女', 1);
 INSERT INTO series (id, name, count) VALUES ('sukinako_ga_megane_wo_wasureta', 'Sukinako Ga Megane Wo Wasureta', 1);
-INSERT INTO series (id, name, count) VALUES ('miffy', 'Miffy', 1);
+INSERT INTO series (id, name, count) VALUES ('miffy', '米菲', 1);
 INSERT INTO series (id, name, count) VALUES ('jungle_de_ikou', 'Jungle De Ikou', 1);
-INSERT INTO series (id, name, count) VALUES ('vitamin_quest', 'Vitamin Quest', 1);
-INSERT INTO series (id, name, count) VALUES ('wanko_to_kurasou', 'Wanko To Kurasou', 1);
-INSERT INTO series (id, name, count) VALUES ('albatrosicks', 'Albatrosicks', 1);
-INSERT INTO series (id, name, count) VALUES ('glitch_techs', 'Glitch Techs', 1);
-INSERT INTO series (id, name, count) VALUES ('kemomimi_oukoku_kokuei_housou', 'Kemomimi Oukoku Kokuei Housou', 1);
+INSERT INTO series (id, name, count) VALUES ('vitamin_quest', '维生素探索', 1);
+INSERT INTO series (id, name, count) VALUES ('wanko_to_kurasou', '碗子与仓庄', 1);
+INSERT INTO series (id, name, count) VALUES ('albatrosicks', '信天翁', 1);
+INSERT INTO series (id, name, count) VALUES ('glitch_techs', '故障技术', 1);
+INSERT INTO series (id, name, count) VALUES ('kemomimi_oukoku_kokuei_housou', '克莫米米王国国荣丰庄', 1);
 INSERT INTO series (id, name, count) VALUES ('watashi_nouryoku_wa_heikinchi_de_tte_itta_yo_ne!', 'Watashi Nouryoku Wa Heikinchi De Tte Itta Yo Ne!', 1);
-INSERT INTO series (id, name, count) VALUES ('milk_inside_a_bag_of_milk_inside_a_bag_of_milk', 'Milk Inside A Bag Of Milk Inside A Bag Of Milk', 1);
-INSERT INTO series (id, name, count) VALUES ('maimai_(game)', 'Maimai (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('paper_man', 'Paper Man', 1);
-INSERT INTO series (id, name, count) VALUES ('sankyuu_pitch', 'Sankyuu Pitch', 1);
-INSERT INTO series (id, name, count) VALUES ('key_the_metal_idol', 'Key The Metal Idol', 1);
+INSERT INTO series (id, name, count) VALUES ('milk_inside_a_bag_of_milk_inside_a_bag_of_milk', '一袋牛奶里面的牛奶 一袋牛奶里面的牛奶', 1);
+INSERT INTO series (id, name, count) VALUES ('maimai_(game)', '重复（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('paper_man', '纸人', 1);
+INSERT INTO series (id, name, count) VALUES ('sankyuu_pitch', '山九球场', 1);
+INSERT INTO series (id, name, count) VALUES ('key_the_metal_idol', '金属偶像钥匙', 1);
 INSERT INTO series (id, name, count) VALUES ('picarto.tv', 'Picarto.tv', 1);
-INSERT INTO series (id, name, count) VALUES ('hajatenshi_mina', 'Hajatenshi Mina', 1);
-INSERT INTO series (id, name, count) VALUES ('dance_in_the_vampire_bund', 'Dance In The Vampire Bund', 1);
-INSERT INTO series (id, name, count) VALUES ('juukishi_cutie_bullet', 'Juukishi Cutie Bullet', 1);
-INSERT INTO series (id, name, count) VALUES ('konneko', 'Konneko', 1);
-INSERT INTO series (id, name, count) VALUES ('release_the_spyce', 'Release The Spyce', 1);
-INSERT INTO series (id, name, count) VALUES ('koibito_ijou_no_koto_wo_kanojo_janai_kimi_to', 'Koibito Ijou No Koto Wo Kanojo Janai Kimi To', 1);
-INSERT INTO series (id, name, count) VALUES ('sachiiro_hanamizuki', 'Sachiiro Hanamizuki', 1);
-INSERT INTO series (id, name, count) VALUES ('amatsutsumi', 'Amatsutsumi', 1);
-INSERT INTO series (id, name, count) VALUES ('hanikami_kanojo', 'Hanikami Kanojo', 1);
-INSERT INTO series (id, name, count) VALUES ('despicable_me', 'Despicable Me', 1);
-INSERT INTO series (id, name, count) VALUES ('dragon_half', 'Dragon Half', 1);
-INSERT INTO series (id, name, count) VALUES ('mahou_no_princess_minky_momo', 'Mahou No Princess Minky Momo', 1);
-INSERT INTO series (id, name, count) VALUES ('uchi_no_pet_jijou', 'Uchi No Pet Jijou', 1);
-INSERT INTO series (id, name, count) VALUES ('alice_parade', 'Alice Parade', 1);
+INSERT INTO series (id, name, count) VALUES ('hajatenshi_mina', '我的需求', 1);
+INSERT INTO series (id, name, count) VALUES ('dance_in_the_vampire_bund', '吸血鬼海岸之舞', 1);
+INSERT INTO series (id, name, count) VALUES ('juukishi_cutie_bullet', '重鬼可爱子弹', 1);
+INSERT INTO series (id, name, count) VALUES ('konneko', '科内科', 1);
+INSERT INTO series (id, name, count) VALUES ('release_the_spyce', '释放间谍', 1);
+INSERT INTO series (id, name, count) VALUES ('koibito_ijou_no_koto_wo_kanojo_janai_kimi_to', '恋人的琴弦我的琴师贾奈基米托', 1);
+INSERT INTO series (id, name, count) VALUES ('sachiiro_hanamizuki', '花水幸郎', 1);
+INSERT INTO series (id, name, count) VALUES ('amatsutsumi', '天津', 1);
+INSERT INTO series (id, name, count) VALUES ('hanikami_kanojo', '羽上鹿城', 1);
+INSERT INTO series (id, name, count) VALUES ('despicable_me', '卑鄙的我', 1);
+INSERT INTO series (id, name, count) VALUES ('dragon_half', '龙半', 1);
+INSERT INTO series (id, name, count) VALUES ('mahou_no_princess_minky_momo', '魔法公主明琪莫莫', 1);
+INSERT INTO series (id, name, count) VALUES ('uchi_no_pet_jijou', '内之宠物地主', 1);
+INSERT INTO series (id, name, count) VALUES ('alice_parade', '爱丽丝·帕拉德', 1);
 INSERT INTO series (id, name, count) VALUES ('kenja_no_deshi_wo_nanoru_kenja', 'Kenja No Deshi Wo Nanoru Kenja', 1);
-INSERT INTO series (id, name, count) VALUES ('encanto', 'Encanto', 1);
-INSERT INTO series (id, name, count) VALUES ('mirai_akari_project', 'Mirai Akari Project', 1);
-INSERT INTO series (id, name, count) VALUES ('iriam', 'Iriam', 1);
-INSERT INTO series (id, name, count) VALUES ('blood_alone', 'Blood Alone', 1);
-INSERT INTO series (id, name, count) VALUES ('bakugan_battle_brawlers', 'Bakugan Battle Brawlers', 1);
-INSERT INTO series (id, name, count) VALUES ('sakura_no_uta', 'Sakura No Uta', 1);
-INSERT INTO series (id, name, count) VALUES ('rahxephon', 'Rahxephon', 1);
-INSERT INTO series (id, name, count) VALUES ('miss_monochrome', 'Miss Monochrome', 1);
-INSERT INTO series (id, name, count) VALUES ('ciconia_no_naku_koro_ni', 'Ciconia No Naku Koro Ni', 1);
-INSERT INTO series (id, name, count) VALUES ('bokusatsu_tenshi_dokuro-chan', 'Bokusatsu Tenshi Dokuro-chan', 1);
-INSERT INTO series (id, name, count) VALUES ('real_bout_high_school', 'Real Bout High School', 1);
-INSERT INTO series (id, name, count) VALUES ('kouya_no_naga_samurai', 'Kouya No Naga Samurai', 1);
-INSERT INTO series (id, name, count) VALUES ('vagabond', 'Vagabond', 1);
-INSERT INTO series (id, name, count) VALUES ('mai_ball!', 'Mai Ball!', 1);
-INSERT INTO series (id, name, count) VALUES ('ryman''s_club', 'Ryman''s Club', 1);
-INSERT INTO series (id, name, count) VALUES ('joker_game', 'Joker Game', 1);
-INSERT INTO series (id, name, count) VALUES ('mihoyo', 'Mihoyo', 1);
-INSERT INTO series (id, name, count) VALUES ('vampire_princess_miyu', 'Vampire Princess Miyu', 1);
-INSERT INTO series (id, name, count) VALUES ('castlevania:_nocturne', 'Castlevania: Nocturne', 1);
-INSERT INTO series (id, name, count) VALUES ('toraware_no_kami-sama_to_tabi_no_shoujo', 'Toraware No Kami-sama To Tabi No Shoujo', 1);
+INSERT INTO series (id, name, count) VALUES ('encanto', '魅力', 1);
+INSERT INTO series (id, name, count) VALUES ('mirai_akari_project', '未来明里计划', 1);
+INSERT INTO series (id, name, count) VALUES ('iriam', '会', 1);
+INSERT INTO series (id, name, count) VALUES ('blood_alone', '唯有血', 1);
+INSERT INTO series (id, name, count) VALUES ('bakugan_battle_brawlers', '爆丸战斗乱斗者', 1);
+INSERT INTO series (id, name, count) VALUES ('sakura_no_uta', '樱花之歌', 1);
+INSERT INTO series (id, name, count) VALUES ('rahxephon', '拉赫克斯丰', 1);
+INSERT INTO series (id, name, count) VALUES ('miss_monochrome', '单色小姐', 1);
+INSERT INTO series (id, name, count) VALUES ('ciconia_no_naku_koro_ni', '白鹳', 1);
+INSERT INTO series (id, name, count) VALUES ('bokusatsu_tenshi_dokuro-chan', '牧摄天使独郎酱', 1);
+INSERT INTO series (id, name, count) VALUES ('real_bout_high_school', '真实布特高中', 1);
+INSERT INTO series (id, name, count) VALUES ('kouya_no_naga_samurai', '红夜武士', 1);
+INSERT INTO series (id, name, count) VALUES ('vagabond', '流浪者', 1);
+INSERT INTO series (id, name, count) VALUES ('mai_ball!', '永远不要球！', 1);
+INSERT INTO series (id, name, count) VALUES ('ryman''s_club', '莱曼俱乐部', 1);
+INSERT INTO series (id, name, count) VALUES ('joker_game', '小丑游戏', 1);
+INSERT INTO series (id, name, count) VALUES ('mihoyo', '米霍约', 1);
+INSERT INTO series (id, name, count) VALUES ('vampire_princess_miyu', '吸血鬼公主美游', 1);
+INSERT INTO series (id, name, count) VALUES ('castlevania:_nocturne', '恶魔城：夜曲', 1);
+INSERT INTO series (id, name, count) VALUES ('toraware_no_kami-sama_to_tabi_no_shoujo', '虎神大人与足袋少女', 1);
 INSERT INTO series (id, name, count) VALUES ('inshitsu_otaku_ni_ikareru_imouto_(kanojo)', 'Inshitsu Otaku Ni Ikareru Imouto (kanojo)', 1);
-INSERT INTO series (id, name, count) VALUES ('reminiscence', 'Reminiscence', 1);
-INSERT INTO series (id, name, count) VALUES ('someone_hertz', 'Someone Hertz', 1);
-INSERT INTO series (id, name, count) VALUES ('moana_(movie)', 'Moana (movie)', 1);
-INSERT INTO series (id, name, count) VALUES ('starship_troopers', 'Starship Troopers', 1);
-INSERT INTO series (id, name, count) VALUES ('mochipro', 'Mochipro', 1);
-INSERT INTO series (id, name, count) VALUES ('shinigami_no_ballad', 'Shinigami No Ballad', 1);
-INSERT INTO series (id, name, count) VALUES ('momo_kyun_sword', 'Momo Kyun Sword', 1);
-INSERT INTO series (id, name, count) VALUES ('momotarou', 'Momotarou', 1);
-INSERT INTO series (id, name, count) VALUES ('little_nightmares_ii', 'Little Nightmares Ii', 1);
-INSERT INTO series (id, name, count) VALUES ('mamamoo', 'Mamamoo', 1);
-INSERT INTO series (id, name, count) VALUES ('dungeons_&_dragons:_shadow_over_mystara', 'Dungeons & Dragons: Shadow Over Mystara', 1);
-INSERT INTO series (id, name, count) VALUES ('netojuu_no_susume', 'Netojuu No Susume', 1);
-INSERT INTO series (id, name, count) VALUES ('charisma_house', 'Charisma House', 1);
+INSERT INTO series (id, name, count) VALUES ('reminiscence', '怀旧', 1);
+INSERT INTO series (id, name, count) VALUES ('someone_hertz', '有人赫兹', 1);
+INSERT INTO series (id, name, count) VALUES ('moana_(movie)', '莫阿娜（电影）', 1);
+INSERT INTO series (id, name, count) VALUES ('starship_troopers', '星河战队', 1);
+INSERT INTO series (id, name, count) VALUES ('mochipro', '莫奇普罗', 1);
+INSERT INTO series (id, name, count) VALUES ('shinigami_no_ballad', '死神之歌', 1);
+INSERT INTO series (id, name, count) VALUES ('momo_kyun_sword', '莫莫筠剑', 1);
+INSERT INTO series (id, name, count) VALUES ('momotarou', '桃太郎', 1);
+INSERT INTO series (id, name, count) VALUES ('little_nightmares_ii', '小小噩梦II', 1);
+INSERT INTO series (id, name, count) VALUES ('mamamoo', '妈妈毛', 1);
+INSERT INTO series (id, name, count) VALUES ('dungeons_&_dragons:_shadow_over_mystara', '龙与地下城：迈斯塔拉的阴影', 1);
+INSERT INTO series (id, name, count) VALUES ('netojuu_no_susume', '少女之梦', 1);
+INSERT INTO series (id, name, count) VALUES ('charisma_house', '魅力之家', 1);
 INSERT INTO series (id, name, count) VALUES ('iede_gal_na_senpai_wa_kantan_ni_yarasete_kureru', 'Iede Gal Na Senpai Wa Kantan Ni Yarasete Kureru', 1);
-INSERT INTO series (id, name, count) VALUES ('no_more_eiga_dorobou', 'No More Eiga Dorobou', 1);
-INSERT INTO series (id, name, count) VALUES ('v-dere', 'V-dere', 1);
-INSERT INTO series (id, name, count) VALUES ('phantom_blade_(game)', 'Phantom Blade (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('angel_sanctuary', 'Angel Sanctuary', 1);
-INSERT INTO series (id, name, count) VALUES ('dragon_gal', 'Dragon Gal', 1);
-INSERT INTO series (id, name, count) VALUES ('misskey.io', 'Misskey.io', 1);
-INSERT INTO series (id, name, count) VALUES ('yuusha_no_kuse_ni_namaiki_da', 'Yuusha No Kuse Ni Namaiki Da', 1);
-INSERT INTO series (id, name, count) VALUES ('expo2025', 'Expo2025', 1);
-INSERT INTO series (id, name, count) VALUES ('ashita_no_nadja', 'Ashita No Nadja', 1);
-INSERT INTO series (id, name, count) VALUES ('ryuujin_naga', 'Ryuujin Naga', 1);
+INSERT INTO series (id, name, count) VALUES ('no_more_eiga_dorobou', '不再有 Eiga Dorobou', 1);
+INSERT INTO series (id, name, count) VALUES ('v-dere', 'W-你们', 1);
+INSERT INTO series (id, name, count) VALUES ('phantom_blade_(game)', '幻影之刃（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('angel_sanctuary', '天使庇护所', 1);
+INSERT INTO series (id, name, count) VALUES ('dragon_gal', '龙伽', 1);
+INSERT INTO series (id, name, count) VALUES ('misskey.io', '密西西比', 1);
+INSERT INTO series (id, name, count) VALUES ('yuusha_no_kuse_ni_namaiki_da', '游者之久世二生木大', 1);
+INSERT INTO series (id, name, count) VALUES ('expo2025', '2025年世博会', 1);
+INSERT INTO series (id, name, count) VALUES ('ashita_no_nadja', '明日娜娜', 1);
+INSERT INTO series (id, name, count) VALUES ('ryuujin_naga', '龙神娜迦', 1);
 INSERT INTO series (id, name, count) VALUES ('ore_ga_suki_nano_wa_imouto_dakedo_imouto_janai', 'Ore Ga Suki Nano Wa Imouto Dakedo Imouto Janai', 1);
-INSERT INTO series (id, name, count) VALUES ('kuroshio_current', 'Kuroshio Current', 1);
-INSERT INTO series (id, name, count) VALUES ('maid_in_heaven', 'Maid In Heaven', 1);
-INSERT INTO series (id, name, count) VALUES ('city_(arawi_keiichi)', 'City (arawi Keiichi)', 1);
-INSERT INTO series (id, name, count) VALUES ('usseewa', 'Usseewa', 1);
-INSERT INTO series (id, name, count) VALUES ('raisei_no_ryuu_tsukai', 'Raisei No Ryuu Tsukai', 1);
-INSERT INTO series (id, name, count) VALUES ('mythic_live', 'Mythic Live', 1);
-INSERT INTO series (id, name, count) VALUES ('osawari_tantei', 'Osawari Tantei', 1);
-INSERT INTO series (id, name, count) VALUES ('keiou_yuugekitai', 'Keiou Yuugekitai', 1);
-INSERT INTO series (id, name, count) VALUES ('nanase-chan_ntr!', 'Nanase-chan Ntr!', 1);
-INSERT INTO series (id, name, count) VALUES ('yakin_byoutou', 'Yakin Byoutou', 1);
-INSERT INTO series (id, name, count) VALUES ('amaenaideyo!!', 'Amaenaideyo!!', 1);
-INSERT INTO series (id, name, count) VALUES ('acrania_(band)', 'Acrania (band)', 1);
-INSERT INTO series (id, name, count) VALUES ('penguin_musume', 'Penguin Musume', 1);
-INSERT INTO series (id, name, count) VALUES ('aoi_umi_no_tristia', 'Aoi Umi No Tristia', 1);
+INSERT INTO series (id, name, count) VALUES ('kuroshio_current', '黑潮', 1);
+INSERT INTO series (id, name, count) VALUES ('maid_in_heaven', '天上的女仆', 1);
+INSERT INTO series (id, name, count) VALUES ('city_(arawi_keiichi)', '市（荒惠一）', 1);
+INSERT INTO series (id, name, count) VALUES ('usseewa', '乌塞瓦', 1);
+INSERT INTO series (id, name, count) VALUES ('raisei_no_ryuu_tsukai', '雷星之龙使', 1);
+INSERT INTO series (id, name, count) VALUES ('mythic_live', '神话现场', 1);
+INSERT INTO series (id, name, count) VALUES ('osawari_tantei', '大泽探亭', 1);
+INSERT INTO series (id, name, count) VALUES ('keiou_yuugekitai', '庆王游歌队', 1);
+INSERT INTO series (id, name, count) VALUES ('nanase-chan_ntr!', '七濑酱 Ntr！', 1);
+INSERT INTO series (id, name, count) VALUES ('yakin_byoutou', '药金病藤', 1);
+INSERT INTO series (id, name, count) VALUES ('amaenaideyo!!', '阿玛奈德哟！！', 1);
+INSERT INTO series (id, name, count) VALUES ('acrania_(band)', '阿克拉尼亚 (乐队)', 1);
+INSERT INTO series (id, name, count) VALUES ('penguin_musume', '企鹅娘', 1);
+INSERT INTO series (id, name, count) VALUES ('aoi_umi_no_tristia', '葵海的特里斯蒂亚', 1);
 INSERT INTO series (id, name, count) VALUES ('jubei-chan', 'Jubei-chan', 1);
-INSERT INTO series (id, name, count) VALUES ('napoleon_crossing_the_alps', 'Napoleon Crossing The Alps', 1);
-INSERT INTO series (id, name, count) VALUES ('chinchin_kemokemo', 'Chinchin Kemokemo', 1);
-INSERT INTO series (id, name, count) VALUES ('punch_line', 'Punch Line', 1);
-INSERT INTO series (id, name, count) VALUES ('misao', 'Misao', 1);
-INSERT INTO series (id, name, count) VALUES ('wind_a_breath_of_heart', 'Wind A Breath Of Heart', 1);
-INSERT INTO series (id, name, count) VALUES ('occultic;nine', 'Occultic;nine', 1);
+INSERT INTO series (id, name, count) VALUES ('napoleon_crossing_the_alps', '拿破仑翻越阿尔卑斯山', 1);
+INSERT INTO series (id, name, count) VALUES ('chinchin_kemokemo', '钦钦科莫克莫', 1);
+INSERT INTO series (id, name, count) VALUES ('punch_line', '打孔线', 1);
+INSERT INTO series (id, name, count) VALUES ('misao', '想法', 1);
+INSERT INTO series (id, name, count) VALUES ('wind_a_breath_of_heart', '风吹过心的呼吸', 1);
+INSERT INTO series (id, name, count) VALUES ('occultic;nine', '超常科学九人组', 1);
 INSERT INTO series (id, name, count) VALUES ('kokoro_ga_sakebitagatterunda.', 'Kokoro Ga Sakebitagatterunda.', 1);
-INSERT INTO series (id, name, count) VALUES ('imouto_no_seiiki', 'Imouto No Seiiki', 1);
-INSERT INTO series (id, name, count) VALUES ('type-moon', 'Type-moon', 1);
-INSERT INTO series (id, name, count) VALUES ('epic_battle_fantasy', 'Epic Battle Fantasy', 1);
-INSERT INTO series (id, name, count) VALUES ('uncharted', 'Uncharted', 1);
-INSERT INTO series (id, name, count) VALUES ('natsuyasumi.', 'Natsuyasumi.', 1);
-INSERT INTO series (id, name, count) VALUES ('sakura_no_toki', 'Sakura No Toki', 1);
-INSERT INTO series (id, name, count) VALUES ('bannou_bunka_nekomusume', 'Bannou Bunka Nekomusume', 1);
-INSERT INTO series (id, name, count) VALUES ('himawari_no_kyoukai_to_nagai_natsuyasumi', 'Himawari No Kyoukai To Nagai Natsuyasumi', 1);
-INSERT INTO series (id, name, count) VALUES ('nagai_gojitsudan_no_nechronica', 'Nagai Gojitsudan No Nechronica', 1);
-INSERT INTO series (id, name, count) VALUES ('zero_in', 'Zero In', 1);
-INSERT INTO series (id, name, count) VALUES ('youkai_hyakki-tan!', 'Youkai Hyakki-tan!', 1);
-INSERT INTO series (id, name, count) VALUES ('hinata_channel', 'Hinata Channel', 1);
-INSERT INTO series (id, name, count) VALUES ('yotsunoha', 'Yotsunoha', 1);
+INSERT INTO series (id, name, count) VALUES ('imouto_no_seiiki', '妹妹之清辉', 1);
+INSERT INTO series (id, name, count) VALUES ('type-moon', '月亮型', 1);
+INSERT INTO series (id, name, count) VALUES ('epic_battle_fantasy', '史诗般的战斗幻想', 1);
+INSERT INTO series (id, name, count) VALUES ('uncharted', '神秘海域', 1);
+INSERT INTO series (id, name, count) VALUES ('natsuyasumi.', '夏靖。', 1);
+INSERT INTO series (id, name, count) VALUES ('sakura_no_toki', '樱之时', 1);
+INSERT INTO series (id, name, count) VALUES ('bannou_bunka_nekomusume', '番欧文化猫娘', 1);
+INSERT INTO series (id, name, count) VALUES ('himawari_no_kyoukai_to_nagai_natsuyasumi', '向日葵的境界与永井夏康', 1);
+INSERT INTO series (id, name, count) VALUES ('nagai_gojitsudan_no_nechronica', '永井五实弹的Nechronica', 1);
+INSERT INTO series (id, name, count) VALUES ('zero_in', '归零', 1);
+INSERT INTO series (id, name, count) VALUES ('youkai_hyakki-tan!', '妖怪百鬼谈！', 1);
+INSERT INTO series (id, name, count) VALUES ('hinata_channel', '日向频道', 1);
+INSERT INTO series (id, name, count) VALUES ('yotsunoha', '四野叶', 1);
 INSERT INTO series (id, name, count) VALUES ('maou_no_ore_ga_dorei_elf_wo_yome_ni_shitanda_ga_dou_medereba_ii?', 'Maou No Ore Ga Dorei Elf Wo Yome Ni Shitanda Ga Dou Medereba Ii?', 1);
-INSERT INTO series (id, name, count) VALUES ('fractale', 'Fractale', 1);
-INSERT INTO series (id, name, count) VALUES ('sangai_senki', 'Sangai Senki', 1);
-INSERT INTO series (id, name, count) VALUES ('nier', 'Nier', 1);
-INSERT INTO series (id, name, count) VALUES ('nights_into_dreams', 'Nights Into Dreams', 1);
-INSERT INTO series (id, name, count) VALUES ('nijie', 'Nijie', 1);
-INSERT INTO series (id, name, count) VALUES ('flesh_blood_&_concrete', 'Flesh Blood & Concrete', 1);
-INSERT INTO series (id, name, count) VALUES ('irotoridori_no_sekai', 'Irotoridori No Sekai', 1);
-INSERT INTO series (id, name, count) VALUES ('swapnote', 'Swapnote', 1);
-INSERT INTO series (id, name, count) VALUES ('oneshot_(game)', 'Oneshot (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('elfheim', 'Elfheim', 1);
-INSERT INTO series (id, name, count) VALUES ('super_mecha_champions', 'Super Mecha Champions', 1);
-INSERT INTO series (id, name, count) VALUES ('kof:_maximum_impact', 'Kof: Maximum Impact', 1);
-INSERT INTO series (id, name, count) VALUES ('tensai_ouji_no_akaji_kokka_saiseijutsu', 'Tensai Ouji No Akaji Kokka Saiseijutsu', 1);
-INSERT INTO series (id, name, count) VALUES ('ultimate_nipper', 'Ultimate Nipper', 1);
+INSERT INTO series (id, name, count) VALUES ('fractale', '分形', 1);
+INSERT INTO series (id, name, count) VALUES ('sangai_senki', '三井无人', 1);
+INSERT INTO series (id, name, count) VALUES ('nier', '尼尔', 1);
+INSERT INTO series (id, name, count) VALUES ('nights_into_dreams', '入梦之夜', 1);
+INSERT INTO series (id, name, count) VALUES ('nijie', '我来了', 1);
+INSERT INTO series (id, name, count) VALUES ('flesh_blood_&_concrete', '血肉与混凝土', 1);
+INSERT INTO series (id, name, count) VALUES ('irotoridori_no_sekai', '色鸟世界', 1);
+INSERT INTO series (id, name, count) VALUES ('swapnote', '交换笔记', 1);
+INSERT INTO series (id, name, count) VALUES ('oneshot_(game)', '一击（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('elfheim', '埃尔夫海姆', 1);
+INSERT INTO series (id, name, count) VALUES ('super_mecha_champions', '超级机甲冠军', 1);
+INSERT INTO series (id, name, count) VALUES ('kof:_maximum_impact', '拳皇：最大冲击力', 1);
+INSERT INTO series (id, name, count) VALUES ('tensai_ouji_no_akaji_kokka_saiseijutsu', '天齐王子的赤路国花 最诚术', 1);
+INSERT INTO series (id, name, count) VALUES ('ultimate_nipper', '终极钳子', 1);
 INSERT INTO series (id, name, count) VALUES ('zutto_mayonaka_de_ii_no_ni', 'Zutto Mayonaka De Ii No Ni', 1);
 INSERT INTO series (id, name, count) VALUES ('kanojo_ga_aitsu_ni_sareta_koto', 'Kanojo Ga Aitsu Ni Sareta Koto', 1);
 INSERT INTO series (id, name, count) VALUES ('jijou_wo_shiranai_tenkousei_ga_guigui_kuru.', 'Jijou Wo Shiranai Tenkousei Ga Guigui Kuru.', 1);
-INSERT INTO series (id, name, count) VALUES ('little_noah', 'Little Noah', 1);
-INSERT INTO series (id, name, count) VALUES ('noworld', 'Noworld', 1);
-INSERT INTO series (id, name, count) VALUES ('greed_packet_unlimited', 'Greed Packet Unlimited', 1);
-INSERT INTO series (id, name, count) VALUES ('yesterday_wo_utatte', 'Yesterday Wo Utatte', 1);
-INSERT INTO series (id, name, count) VALUES ('hime-chan_no_ribbon', 'Hime-chan No Ribbon', 1);
+INSERT INTO series (id, name, count) VALUES ('little_noah', '小诺亚', 1);
+INSERT INTO series (id, name, count) VALUES ('noworld', '无人世界', 1);
+INSERT INTO series (id, name, count) VALUES ('greed_packet_unlimited', '贪婪包无限', 1);
+INSERT INTO series (id, name, count) VALUES ('yesterday_wo_utatte', '昨天的沃塔特', 1);
+INSERT INTO series (id, name, count) VALUES ('hime-chan_no_ribbon', '姬酱没有丝带', 1);
 INSERT INTO series (id, name, count) VALUES ('yandere_no_onna_no_ko_ni_shinu_hodo_aisarete_nemurenai_cd', 'Yandere No Onna No Ko Ni Shinu Hodo Aisarete Nemurenai Cd', 1);
-INSERT INTO series (id, name, count) VALUES ('moshimo_ashita_ga_hare_naraba', 'Moshimo Ashita Ga Hare Naraba', 1);
-INSERT INTO series (id, name, count) VALUES ('ange_vierge', 'Ange Vierge', 1);
-INSERT INTO series (id, name, count) VALUES ('sucker_for_love', 'Sucker For Love', 1);
-INSERT INTO series (id, name, count) VALUES ('crawling_dreams', 'Crawling Dreams', 1);
-INSERT INTO series (id, name, count) VALUES ('kinjo_no_hito_no_nakimushi', 'Kinjo No Hito No Nakimushi', 1);
-INSERT INTO series (id, name, count) VALUES ('tears_to_tiara', 'Tears To Tiara', 1);
-INSERT INTO series (id, name, count) VALUES ('insomniac_workers', 'Insomniac Workers', 1);
-INSERT INTO series (id, name, count) VALUES ('kaii_to_otome_to_kamikakushi', 'Kaii To Otome To Kamikakushi', 1);
-INSERT INTO series (id, name, count) VALUES ('hige_wo_soru._soshite_joshikousei_wo_hirou.', 'Hige Wo Soru. Soshite Joshikousei Wo Hirou.', 1);
-INSERT INTO series (id, name, count) VALUES ('island_(game)', 'Island (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('los_angeles_dodgers', 'Los Angeles Dodgers', 1);
-INSERT INTO series (id, name, count) VALUES ('toujima_tanzaburou_wa_kamen_rider_ni_naritai', 'Toujima Tanzaburou Wa Kamen Rider Ni Naritai', 1);
-INSERT INTO series (id, name, count) VALUES ('murenase!_shiiton_gakuen', 'Murenase! Shiiton Gakuen', 1);
-INSERT INTO series (id, name, count) VALUES ('okusan', 'Okusan', 1);
-INSERT INTO series (id, name, count) VALUES ('formation_girls', 'Formation Girls', 1);
-INSERT INTO series (id, name, count) VALUES ('japan_air_self-defense_force_omaezaki_sub-base', 'Japan Air Self-defense Force Omaezaki Sub-base', 1);
-INSERT INTO series (id, name, count) VALUES ('rec', 'Rec', 1);
-INSERT INTO series (id, name, count) VALUES ('busou_shoujo_machiavellism', 'Busou Shoujo Machiavellism', 1);
-INSERT INTO series (id, name, count) VALUES ('muteki_kanban_musume', 'Muteki Kanban Musume', 1);
-INSERT INTO series (id, name, count) VALUES ('re_leaf', 'Re Leaf', 1);
-INSERT INTO series (id, name, count) VALUES ('futari_ecchi', 'Futari Ecchi', 1);
-INSERT INTO series (id, name, count) VALUES ('oku-sama_wa_joshi_kousei', 'Oku-sama Wa Joshi Kousei', 1);
-INSERT INTO series (id, name, count) VALUES ('chanto_suenai_kyuuketsuki-chan', 'Chanto Suenai Kyuuketsuki-chan', 1);
-INSERT INTO series (id, name, count) VALUES ('kaidan_restaurant', 'Kaidan Restaurant', 1);
-INSERT INTO series (id, name, count) VALUES ('stop!!_hibari-kun!', 'Stop!! Hibari-kun!', 1);
-INSERT INTO series (id, name, count) VALUES ('shinkai_no_valkyrie', 'Shinkai No Valkyrie', 1);
-INSERT INTO series (id, name, count) VALUES ('detonator_orgun', 'Detonator Orgun', 1);
-INSERT INTO series (id, name, count) VALUES ('choujikuu_seiki_orguss', 'Choujikuu Seiki Orguss', 1);
-INSERT INTO series (id, name, count) VALUES ('anatatachi_soredemo_sensei_desu_ka!', 'Anatatachi Soredemo Sensei Desu Ka!', 1);
-INSERT INTO series (id, name, count) VALUES ('inabakumori', 'Inabakumori', 1);
-INSERT INTO series (id, name, count) VALUES ('kagome_no_inyoku', 'Kagome No Inyoku', 1);
-INSERT INTO series (id, name, count) VALUES ('akane-banashi', 'Akane-banashi', 1);
-INSERT INTO series (id, name, count) VALUES ('shoushimin_series', 'Shoushimin Series', 1);
-INSERT INTO series (id, name, count) VALUES ('talkex', 'Talkex', 1);
-INSERT INTO series (id, name, count) VALUES ('tsui_no_sora_(remake)', 'Tsui No Sora (remake)', 1);
-INSERT INTO series (id, name, count) VALUES ('shinmai_fukei_kiruko-san', 'Shinmai Fukei Kiruko-san', 1);
-INSERT INTO series (id, name, count) VALUES ('helios_rising_heroes', 'Helios Rising Heroes', 1);
-INSERT INTO series (id, name, count) VALUES ('koeru_otoge-san', 'Koeru Otoge-san', 1);
-INSERT INTO series (id, name, count) VALUES ('cyberlive', 'Cyberlive', 1);
-INSERT INTO series (id, name, count) VALUES ('scrapped_princess', 'Scrapped Princess', 1);
-INSERT INTO series (id, name, count) VALUES ('square_live', 'Square Live', 1);
-INSERT INTO series (id, name, count) VALUES ('haou_taikei_ryuu_knight', 'Haou Taikei Ryuu Knight', 1);
-INSERT INTO series (id, name, count) VALUES ('meet_the_neighbors', 'Meet The Neighbors', 1);
-INSERT INTO series (id, name, count) VALUES ('the_three_caballeros', 'The Three Caballeros', 1);
-INSERT INTO series (id, name, count) VALUES ('paprika', 'Paprika', 1);
-INSERT INTO series (id, name, count) VALUES ('parappa_the_rapper', 'Parappa The Rapper', 1);
-INSERT INTO series (id, name, count) VALUES ('today''s_han_yoil_is_a_woman', 'Today''s Han Yoil Is A Woman', 1);
-INSERT INTO series (id, name, count) VALUES ('twinbee', 'Twinbee', 1);
-INSERT INTO series (id, name, count) VALUES ('mighty_(series)', 'Mighty', 1);
-INSERT INTO series (id, name, count) VALUES ('american_psycho', 'American Psycho', 1);
-INSERT INTO series (id, name, count) VALUES ('fujiya', 'Fujiya', 1);
-INSERT INTO series (id, name, count) VALUES ('inspector_gadget', 'Inspector Gadget', 1);
-INSERT INTO series (id, name, count) VALUES ('it_(stephen_king)', 'It (stephen King)', 1);
-INSERT INTO series (id, name, count) VALUES ('boy''s_club', 'Boy''s Club', 1);
-INSERT INTO series (id, name, count) VALUES ('peppa_pig_(series)', 'Peppa Pig', 1);
-INSERT INTO series (id, name, count) VALUES ('pizza_tower', 'Pizza Tower', 1);
-INSERT INTO series (id, name, count) VALUES ('pepsiman_(game)', 'Pepsiman (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('mahou_no_yousei_persia', 'Mahou No Yousei Persia', 1);
-INSERT INTO series (id, name, count) VALUES ('top_gun', 'Top Gun', 1);
-INSERT INTO series (id, name, count) VALUES ('crossbone_gundam_ghost', 'Crossbone Gundam Ghost', 1);
-INSERT INTO series (id, name, count) VALUES ('les_chevaucheurs', 'Les Chevaucheurs', 1);
-INSERT INTO series (id, name, count) VALUES ('miracle_snack_shop', 'Miracle Snack Shop', 1);
-INSERT INTO series (id, name, count) VALUES ('boku_no_pico', 'Boku No Pico', 1);
-INSERT INTO series (id, name, count) VALUES ('pingu_(series)', 'Pingu', 1);
-INSERT INTO series (id, name, count) VALUES ('potion_maker', 'Potion Maker', 1);
-INSERT INTO series (id, name, count) VALUES ('osu!', 'Osu!', 1);
-INSERT INTO series (id, name, count) VALUES ('pixiv', 'Pixiv', 1);
-INSERT INTO series (id, name, count) VALUES ('purism_egoist', 'Purism Egoist', 1);
-INSERT INTO series (id, name, count) VALUES ('degrees_of_lewdity', 'Degrees Of Lewdity', 1);
-INSERT INTO series (id, name, count) VALUES ('roblox', 'Roblox', 1);
-INSERT INTO series (id, name, count) VALUES ('fight_ippatsu!_juuden-chan!!', 'Fight Ippatsu! Juuden-chan!!', 1);
-INSERT INTO series (id, name, count) VALUES ('pocahontas', 'Pocahontas', 1);
-INSERT INTO series (id, name, count) VALUES ('die_hard', 'Die Hard', 1);
-INSERT INTO series (id, name, count) VALUES ('mister_donut', 'Mister Donut', 1);
-INSERT INTO series (id, name, count) VALUES ('winnie_the_pooh', 'Winnie The Pooh', 1);
-INSERT INTO series (id, name, count) VALUES ('popee_the_performer', 'Popee The Performer', 1);
-INSERT INTO series (id, name, count) VALUES ('popeye_the_sailor', 'Popeye The Sailor', 1);
-INSERT INTO series (id, name, count) VALUES ('fushigi_mahou_fun_fun_pharmacy', 'Fushigi Mahou Fun Fun Pharmacy', 1);
-INSERT INTO series (id, name, count) VALUES ('predator_(series)', 'Predator', 1);
+INSERT INTO series (id, name, count) VALUES ('moshimo_ashita_ga_hare_naraba', 'Moshimo Ashita Ga Hare 奈拉巴', 1);
+INSERT INTO series (id, name, count) VALUES ('ange_vierge', '处女座天使', 1);
+INSERT INTO series (id, name, count) VALUES ('sucker_for_love', '爱的傻瓜', 1);
+INSERT INTO series (id, name, count) VALUES ('crawling_dreams', '爬行的梦想', 1);
+INSERT INTO series (id, name, count) VALUES ('kinjo_no_hito_no_nakimushi', '金城人的卷虫', 1);
+INSERT INTO series (id, name, count) VALUES ('tears_to_tiara', '皇冠之泪', 1);
+INSERT INTO series (id, name, count) VALUES ('insomniac_workers', '失眠工作者', 1);
+INSERT INTO series (id, name, count) VALUES ('kaii_to_otome_to_kamikakushi', '魁夷与乙女与上隐士', 1);
+INSERT INTO series (id, name, count) VALUES ('hige_wo_soru._soshite_joshikousei_wo_hirou.', '海格沃索鲁。 Soshite Joshikousei Wo Hirou。', 1);
+INSERT INTO series (id, name, count) VALUES ('island_(game)', '岛屿（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('los_angeles_dodgers', '洛杉矶道奇队', 1);
+INSERT INTO series (id, name, count) VALUES ('toujima_tanzaburou_wa_kamen_rider_ni_naritai', '东岛丹三郎和假面骑士二成队', 1);
+INSERT INTO series (id, name, count) VALUES ('murenase!_shiiton_gakuen', '穆雷纳斯！椎童学园', 1);
+INSERT INTO series (id, name, count) VALUES ('okusan', '奥三', 1);
+INSERT INTO series (id, name, count) VALUES ('formation_girls', '编队女孩', 1);
+INSERT INTO series (id, name, count) VALUES ('japan_air_self-defense_force_omaezaki_sub-base', '日本航空自卫队御前崎基地', 1);
+INSERT INTO series (id, name, count) VALUES ('rec', '记录', 1);
+INSERT INTO series (id, name, count) VALUES ('busou_shoujo_machiavellism', '武装少女马基雅维利主义', 1);
+INSERT INTO series (id, name, count) VALUES ('muteki_kanban_musume', '无敌看板娘', 1);
+INSERT INTO series (id, name, count) VALUES ('re_leaf', '重新叶', 1);
+INSERT INTO series (id, name, count) VALUES ('futari_ecchi', '二里埃奇', 1);
+INSERT INTO series (id, name, count) VALUES ('oku-sama_wa_joshi_kousei', '奥大人和城工生', 1);
+INSERT INTO series (id, name, count) VALUES ('chanto_suenai_kyuuketsuki-chan', '末藤末内九月酱', 1);
+INSERT INTO series (id, name, count) VALUES ('kaidan_restaurant', '凯丹餐厅', 1);
+INSERT INTO series (id, name, count) VALUES ('stop!!_hibari-kun!', '停止！！云雀君！', 1);
+INSERT INTO series (id, name, count) VALUES ('shinkai_no_valkyrie', '新海战女武神', 1);
+INSERT INTO series (id, name, count) VALUES ('detonator_orgun', '雷管风琴', 1);
+INSERT INTO series (id, name, count) VALUES ('choujikuu_seiki_orguss', '超精密精机奥格斯', 1);
+INSERT INTO series (id, name, count) VALUES ('anatatachi_soredemo_sensei_desu_ka!', 'Anatatachi Soredemo 老师 Desu Ka!', 1);
+INSERT INTO series (id, name, count) VALUES ('inabakumori', '稻叶森', 1);
+INSERT INTO series (id, name, count) VALUES ('kagome_no_inyoku', '戈薇的印记', 1);
+INSERT INTO series (id, name, count) VALUES ('akane-banashi', '茜花梨', 1);
+INSERT INTO series (id, name, count) VALUES ('shoushimin_series', '寿食民系列', 1);
+INSERT INTO series (id, name, count) VALUES ('talkex', '通乐克斯', 1);
+INSERT INTO series (id, name, count) VALUES ('tsui_no_sora_(remake)', '翠之空（翻拍）', 1);
+INSERT INTO series (id, name, count) VALUES ('shinmai_fukei_kiruko-san', '新米富惠桐子桑', 1);
+INSERT INTO series (id, name, count) VALUES ('helios_rising_heroes', '赫利俄斯崛起英雄', 1);
+INSERT INTO series (id, name, count) VALUES ('koeru_otoge-san', '乙毛小惠桑', 1);
+INSERT INTO series (id, name, count) VALUES ('cyberlive', '网络直播', 1);
+INSERT INTO series (id, name, count) VALUES ('scrapped_princess', '报废的公主', 1);
+INSERT INTO series (id, name, count) VALUES ('square_live', '广场直播', 1);
+INSERT INTO series (id, name, count) VALUES ('haou_taikei_ryuu_knight', '霸王大纪 龙骑士', 1);
+INSERT INTO series (id, name, count) VALUES ('meet_the_neighbors', '认识邻居', 1);
+INSERT INTO series (id, name, count) VALUES ('the_three_caballeros', '三骑士', 1);
+INSERT INTO series (id, name, count) VALUES ('paprika', '辣椒', 1);
+INSERT INTO series (id, name, count) VALUES ('parappa_the_rapper', '说唱歌手帕拉帕', 1);
+INSERT INTO series (id, name, count) VALUES ('today''s_han_yoil_is_a_woman', '今天的韩约一是个女人', 1);
+INSERT INTO series (id, name, count) VALUES ('twinbee', '双蜂', 1);
+INSERT INTO series (id, name, count) VALUES ('mighty_(series)', '强大的', 1);
+INSERT INTO series (id, name, count) VALUES ('american_psycho', '美国精神病人', 1);
+INSERT INTO series (id, name, count) VALUES ('fujiya', '藤屋', 1);
+INSERT INTO series (id, name, count) VALUES ('inspector_gadget', '检查员小工具', 1);
+INSERT INTO series (id, name, count) VALUES ('it_(stephen_king)', '它（斯蒂芬·金）', 1);
+INSERT INTO series (id, name, count) VALUES ('boy''s_club', '男孩俱乐部', 1);
+INSERT INTO series (id, name, count) VALUES ('peppa_pig_(series)', '小猪佩奇', 1);
+INSERT INTO series (id, name, count) VALUES ('pizza_tower', '披萨塔', 1);
+INSERT INTO series (id, name, count) VALUES ('pepsiman_(game)', '百事可乐（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('mahou_no_yousei_persia', '魔法的妖精 波斯', 1);
+INSERT INTO series (id, name, count) VALUES ('top_gun', '壮志凌云', 1);
+INSERT INTO series (id, name, count) VALUES ('crossbone_gundam_ghost', '海盗高达幽灵', 1);
+INSERT INTO series (id, name, count) VALUES ('les_chevaucheurs', '骑士队', 1);
+INSERT INTO series (id, name, count) VALUES ('miracle_snack_shop', '奇迹小食店', 1);
+INSERT INTO series (id, name, count) VALUES ('boku_no_pico', '我的皮克', 1);
+INSERT INTO series (id, name, count) VALUES ('pingu_(series)', '手铐', 1);
+INSERT INTO series (id, name, count) VALUES ('potion_maker', '药剂师', 1);
+INSERT INTO series (id, name, count) VALUES ('osu!', '奥苏！', 1);
+INSERT INTO series (id, name, count) VALUES ('pixiv', '皮克斯', 1);
+INSERT INTO series (id, name, count) VALUES ('purism_egoist', '纯粹主义利己主义者', 1);
+INSERT INTO series (id, name, count) VALUES ('degrees_of_lewdity', '淫荡程度', 1);
+INSERT INTO series (id, name, count) VALUES ('roblox', '罗布乐思', 1);
+INSERT INTO series (id, name, count) VALUES ('fight_ippatsu!_juuden-chan!!', '与一发战斗！朱登酱！！', 1);
+INSERT INTO series (id, name, count) VALUES ('pocahontas', '风中奇缘', 1);
+INSERT INTO series (id, name, count) VALUES ('die_hard', '虎胆龙威', 1);
+INSERT INTO series (id, name, count) VALUES ('mister_donut', '甜甜圈先生', 1);
+INSERT INTO series (id, name, count) VALUES ('winnie_the_pooh', '小熊维尼', 1);
+INSERT INTO series (id, name, count) VALUES ('popee_the_performer', '表演者教皇', 1);
+INSERT INTO series (id, name, count) VALUES ('popeye_the_sailor', '大力水手水手', 1);
+INSERT INTO series (id, name, count) VALUES ('fushigi_mahou_fun_fun_pharmacy', '不二魔法 Fun Fun 药店', 1);
+INSERT INTO series (id, name, count) VALUES ('predator_(series)', '掠夺者', 1);
 INSERT INTO series (id, name, count) VALUES ('higeki_no_genkyou_tonaru_saikyou_gedou_last_boss_joou_wa_tami_no_tame_ni_tsukushimasu', 'Higeki No Genkyou Tonaru Saikyou Gedou Last Boss Joou Wa Tami No Tame Ni Tsukushimasu', 1);
-INSERT INTO series (id, name, count) VALUES ('athena_(series)', 'Athena', 1);
-INSERT INTO series (id, name, count) VALUES ('queen_bonjourno', 'Queen Bonjourno', 1);
-INSERT INTO series (id, name, count) VALUES ('ribbon_no_kishi', 'Ribbon No Kishi', 1);
-INSERT INTO series (id, name, count) VALUES ('yume_no_crayon_oukoku', 'Yume No Crayon Oukoku', 1);
-INSERT INTO series (id, name, count) VALUES ('programming_live_broadcast', 'Programming Live Broadcast', 1);
-INSERT INTO series (id, name, count) VALUES ('romancing_saga_2', 'Romancing Saga 2', 1);
-INSERT INTO series (id, name, count) VALUES ('tokimeki_memorial_girl''s_side_2nd_kiss', 'Tokimeki Memorial Girl''s Side 2nd Kiss', 1);
-INSERT INTO series (id, name, count) VALUES ('yomawari_(series)', 'Yomawari', 1);
-INSERT INTO series (id, name, count) VALUES ('ero_condo', 'Ero Condo', 1);
-INSERT INTO series (id, name, count) VALUES ('choujigen_game_neptune_the_animation', 'Choujigen Game Neptune The Animation', 1);
-INSERT INTO series (id, name, count) VALUES ('choujigen_game_neptune_mk2', 'Choujigen Game Neptune Mk2', 1);
-INSERT INTO series (id, name, count) VALUES ('kyatto_ninden_teyandee', 'Kyatto Ninden Teyandee', 1);
-INSERT INTO series (id, name, count) VALUES ('puss_in_boots', 'Puss In Boots', 1);
-INSERT INTO series (id, name, count) VALUES ('dokonjou_gaeru', 'Dokonjou Gaeru', 1);
-INSERT INTO series (id, name, count) VALUES ('obake_no_q-tarou', 'Obake No Q-tarou', 1);
-INSERT INTO series (id, name, count) VALUES ('boxboy!', 'Boxboy!', 1);
-INSERT INTO series (id, name, count) VALUES ('raving_rabbids', 'Raving Rabbids', 1);
-INSERT INTO series (id, name, count) VALUES ('seisou_fude_no_tabibito', 'Seisou Fude No Tabibito', 1);
-INSERT INTO series (id, name, count) VALUES ('raideen_(series)', 'Raideen', 1);
-INSERT INTO series (id, name, count) VALUES ('ikazuchi_no_senshi_raidy', 'Ikazuchi No Senshi Raidy', 1);
-INSERT INTO series (id, name, count) VALUES ('owozu', 'Owozu', 1);
-INSERT INTO series (id, name, count) VALUES ('mitama_~shinobi~', 'Mitama ~shinobi~', 1);
-INSERT INTO series (id, name, count) VALUES ('rapunzel', 'Rapunzel', 1);
-INSERT INTO series (id, name, count) VALUES ('aotu_world', 'Aotu World', 1);
-INSERT INTO series (id, name, count) VALUES ('rayman_(series)', 'Rayman', 1);
-INSERT INTO series (id, name, count) VALUES ('bloodrayne_(series)', 'Bloodrayne', 1);
-INSERT INTO series (id, name, count) VALUES ('ergo_proxy', 'Ergo Proxy', 1);
-INSERT INTO series (id, name, count) VALUES ('end_of_eternity', 'End Of Eternity', 1);
-INSERT INTO series (id, name, count) VALUES ('transistor_(game)', 'Transistor (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('red_sonja_(comics)', 'Red Sonja (comics)', 1);
-INSERT INTO series (id, name, count) VALUES ('redman', 'Redman', 1);
-INSERT INTO series (id, name, count) VALUES ('dino_crisis', 'Dino Crisis', 1);
-INSERT INTO series (id, name, count) VALUES ('time_gal', 'Time Gal', 1);
-INSERT INTO series (id, name, count) VALUES ('phantom_rose', 'Phantom Rose', 1);
-INSERT INTO series (id, name, count) VALUES ('sky_diver_xipuria', 'Sky Diver Xipuria', 1);
-INSERT INTO series (id, name, count) VALUES ('magna_carta', 'Magna Carta', 1);
-INSERT INTO series (id, name, count) VALUES ('dears', 'Dears', 1);
-INSERT INTO series (id, name, count) VALUES ('fragile:_sayonara_tsuki_no_haikyo', 'Fragile: Sayonara Tsuki No Haikyo', 1);
-INSERT INTO series (id, name, count) VALUES ('witch''s_weapon', 'Witch''s Weapon', 1);
-INSERT INTO series (id, name, count) VALUES ('duet_night_abyss', 'Duet Night Abyss', 1);
-INSERT INTO series (id, name, count) VALUES ('hosekisho_richard-shi_no_nazo_kantei', 'Hosekisho Richard-shi No Nazo Kantei', 1);
-INSERT INTO series (id, name, count) VALUES ('robotech', 'Robotech', 1);
-INSERT INTO series (id, name, count) VALUES ('doko_demo_issyo', 'Doko Demo Issyo', 1);
-INSERT INTO series (id, name, count) VALUES ('radiata_stories', 'Radiata Stories', 1);
-INSERT INTO series (id, name, count) VALUES ('shelter_(song)', 'Shelter (song)', 1);
-INSERT INTO series (id, name, count) VALUES ('soul_hackers_2', 'Soul Hackers 2', 1);
-INSERT INTO series (id, name, count) VALUES ('isshiki-san_wa_koi_wo_shiritai.', 'Isshiki-san Wa Koi Wo Shiritai.', 1);
-INSERT INTO series (id, name, count) VALUES ('rinrinne', 'Rinrinne', 1);
-INSERT INTO series (id, name, count) VALUES ('super_blackjack', 'Super Blackjack', 1);
-INSERT INTO series (id, name, count) VALUES ('ohsama_sentai_king-ohger', 'Ohsama Sentai King-ohger', 1);
-INSERT INTO series (id, name, count) VALUES ('all_you_need_is_kill', 'All You Need Is Kill', 1);
-INSERT INTO series (id, name, count) VALUES ('robin_hood_(disney)', 'Robin Hood (disney)', 1);
-INSERT INTO series (id, name, count) VALUES ('witch_hunter_robin', 'Witch Hunter Robin', 1);
-INSERT INTO series (id, name, count) VALUES ('robocop', 'Robocop', 1);
-INSERT INTO series (id, name, count) VALUES ('chromashift', 'Chromashift', 1);
-INSERT INTO series (id, name, count) VALUES ('star_system', 'Star System', 1);
-INSERT INTO series (id, name, count) VALUES ('diary_of_a_wimpy_kid', 'Diary Of A Wimpy Kid', 1);
-INSERT INTO series (id, name, count) VALUES ('galaxy_fight', 'Galaxy Fight', 1);
-INSERT INTO series (id, name, count) VALUES ('watchmen', 'Watchmen', 1);
-INSERT INTO series (id, name, count) VALUES ('dragon_crisis!', 'Dragon Crisis!', 1);
-INSERT INTO series (id, name, count) VALUES ('the_legend_of_dragoon', 'The Legend Of Dragoon', 1);
-INSERT INTO series (id, name, count) VALUES ('zaiyuki', 'Zaiyuki', 1);
-INSERT INTO series (id, name, count) VALUES ('volcano_princess', 'Volcano Princess', 1);
-INSERT INTO series (id, name, count) VALUES ('power_stone', 'Power Stone', 1);
-INSERT INTO series (id, name, count) VALUES ('isekai_meikyuu_de_harem_wo', 'Isekai Meikyuu De Harem Wo', 1);
-INSERT INTO series (id, name, count) VALUES ('bunnimals', 'Bunnimals', 1);
-INSERT INTO series (id, name, count) VALUES ('rta_in_japan', 'Rta In Japan', 1);
-INSERT INTO series (id, name, count) VALUES ('incise_soul', 'Incise Soul', 1);
-INSERT INTO series (id, name, count) VALUES ('garten_of_banban', 'Garten Of Banban', 1);
-INSERT INTO series (id, name, count) VALUES ('maji_moji_rurumo', 'Maji Moji Rurumo', 1);
-INSERT INTO series (id, name, count) VALUES ('dies_irae', 'Dies Irae', 1);
-INSERT INTO series (id, name, count) VALUES ('end_roll', 'End Roll', 1);
-INSERT INTO series (id, name, count) VALUES ('bloodline', 'Bloodline', 1);
-INSERT INTO series (id, name, count) VALUES ('the_iron_of_yin_and_yang', 'The Iron Of Yin And Yang', 1);
-INSERT INTO series (id, name, count) VALUES ('project_[i]', 'Project [i]', 1);
-INSERT INTO series (id, name, count) VALUES ('future_card_buddyfight', 'Future Card Buddyfight', 1);
-INSERT INTO series (id, name, count) VALUES ('haks', 'Haks', 1);
-INSERT INTO series (id, name, count) VALUES ('meikou_gijuku', 'Meikou Gijuku', 1);
-INSERT INTO series (id, name, count) VALUES ('izayoi_no_hanayome', 'Izayoi No Hanayome', 1);
-INSERT INTO series (id, name, count) VALUES ('the_grudge', 'The Grudge', 1);
+INSERT INTO series (id, name, count) VALUES ('athena_(series)', '雅典娜', 1);
+INSERT INTO series (id, name, count) VALUES ('queen_bonjourno', '邦茹诺王后', 1);
+INSERT INTO series (id, name, count) VALUES ('ribbon_no_kishi', '丝带之岸', 1);
+INSERT INTO series (id, name, count) VALUES ('yume_no_crayon_oukoku', '梦之蜡笔王国', 1);
+INSERT INTO series (id, name, count) VALUES ('programming_live_broadcast', '节目直播', 1);
+INSERT INTO series (id, name, count) VALUES ('romancing_saga_2', '浪漫传奇2', 1);
+INSERT INTO series (id, name, count) VALUES ('tokimeki_memorial_girl''s_side_2nd_kiss', '心跳回忆 少女侧第二吻', 1);
+INSERT INTO series (id, name, count) VALUES ('yomawari_(series)', '夜割', 1);
+INSERT INTO series (id, name, count) VALUES ('ero_condo', '我是公寓', 1);
+INSERT INTO series (id, name, count) VALUES ('choujigen_game_neptune_the_animation', 'Choujigen 游戏 Neptune 动画', 1);
+INSERT INTO series (id, name, count) VALUES ('choujigen_game_neptune_mk2', '超次元游戏海王星 Mk2', 1);
+INSERT INTO series (id, name, count) VALUES ('kyatto_ninden_teyandee', '凯托·宁登·泰安迪', 1);
+INSERT INTO series (id, name, count) VALUES ('puss_in_boots', '穿靴子的猫', 1);
+INSERT INTO series (id, name, count) VALUES ('dokonjou_gaeru', '道近城盖鲁', 1);
+INSERT INTO series (id, name, count) VALUES ('obake_no_q-tarou', '大烧Q太郎', 1);
+INSERT INTO series (id, name, count) VALUES ('boxboy!', '盒子男孩！', 1);
+INSERT INTO series (id, name, count) VALUES ('raving_rabbids', '疯狂兔子', 1);
+INSERT INTO series (id, name, count) VALUES ('seisou_fude_no_tabibito', '清扫福德之旅人', 1);
+INSERT INTO series (id, name, count) VALUES ('raideen_(series)', '雷丁', 1);
+INSERT INTO series (id, name, count) VALUES ('ikazuchi_no_senshi_raidy', '五十铃战士雷迪', 1);
+INSERT INTO series (id, name, count) VALUES ('owozu', '奥沃祖', 1);
+INSERT INTO series (id, name, count) VALUES ('mitama_~shinobi~', '三玉~忍者~', 1);
+INSERT INTO series (id, name, count) VALUES ('rapunzel', '长发公主', 1);
+INSERT INTO series (id, name, count) VALUES ('aotu_world', '傲途世界', 1);
+INSERT INTO series (id, name, count) VALUES ('rayman_(series)', '雷曼', 1);
+INSERT INTO series (id, name, count) VALUES ('bloodrayne_(series)', '吸血莱恩', 1);
+INSERT INTO series (id, name, count) VALUES ('ergo_proxy', '因此代理', 1);
+INSERT INTO series (id, name, count) VALUES ('end_of_eternity', '永恒的终结', 1);
+INSERT INTO series (id, name, count) VALUES ('transistor_(game)', '晶体管（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('red_sonja_(comics)', '红索尼娅（漫画）', 1);
+INSERT INTO series (id, name, count) VALUES ('redman', '雷德曼', 1);
+INSERT INTO series (id, name, count) VALUES ('dino_crisis', '恐龙危机', 1);
+INSERT INTO series (id, name, count) VALUES ('time_gal', '加尔队', 1);
+INSERT INTO series (id, name, count) VALUES ('phantom_rose', '幻影玫瑰', 1);
+INSERT INTO series (id, name, count) VALUES ('sky_diver_xipuria', '跳伞员西普里亚', 1);
+INSERT INTO series (id, name, count) VALUES ('magna_carta', '大宪章', 1);
+INSERT INTO series (id, name, count) VALUES ('dears', '亲爱的', 1);
+INSERT INTO series (id, name, count) VALUES ('fragile:_sayonara_tsuki_no_haikyo', '脆弱：再见月之海京', 1);
+INSERT INTO series (id, name, count) VALUES ('witch''s_weapon', '女巫的武器', 1);
+INSERT INTO series (id, name, count) VALUES ('duet_night_abyss', '双人重唱之夜深渊', 1);
+INSERT INTO series (id, name, count) VALUES ('hosekisho_richard-shi_no_nazo_kantei', '报喜所理查师之名藏官邸', 1);
+INSERT INTO series (id, name, count) VALUES ('robotech', '机器人技术公司', 1);
+INSERT INTO series (id, name, count) VALUES ('doko_demo_issyo', 'Doko 演示 Issyo', 1);
+INSERT INTO series (id, name, count) VALUES ('radiata_stories', '辐射故事', 1);
+INSERT INTO series (id, name, count) VALUES ('shelter_(song)', '庇护所（歌曲）', 1);
+INSERT INTO series (id, name, count) VALUES ('soul_hackers_2', '灵魂黑客2', 1);
+INSERT INTO series (id, name, count) VALUES ('isshiki-san_wa_koi_wo_shiritai.', '一色桑和鲤鱼志里泰。', 1);
+INSERT INTO series (id, name, count) VALUES ('rinrinne', '走', 1);
+INSERT INTO series (id, name, count) VALUES ('super_blackjack', '超级二十一点', 1);
+INSERT INTO series (id, name, count) VALUES ('ohsama_sentai_king-ohger', '大间战队金奥格', 1);
+INSERT INTO series (id, name, count) VALUES ('all_you_need_is_kill', '你所需要的只是杀戮', 1);
+INSERT INTO series (id, name, count) VALUES ('robin_hood_(disney)', '罗宾汉（迪士尼）', 1);
+INSERT INTO series (id, name, count) VALUES ('witch_hunter_robin', '女巫猎人罗宾', 1);
+INSERT INTO series (id, name, count) VALUES ('robocop', '机械战警', 1);
+INSERT INTO series (id, name, count) VALUES ('chromashift', '色度偏移', 1);
+INSERT INTO series (id, name, count) VALUES ('star_system', '星系统', 1);
+INSERT INTO series (id, name, count) VALUES ('diary_of_a_wimpy_kid', '小屁孩日记', 1);
+INSERT INTO series (id, name, count) VALUES ('galaxy_fight', '银河之战', 1);
+INSERT INTO series (id, name, count) VALUES ('watchmen', '守望者', 1);
+INSERT INTO series (id, name, count) VALUES ('dragon_crisis!', '龙危机！', 1);
+INSERT INTO series (id, name, count) VALUES ('the_legend_of_dragoon', '龙骑传说', 1);
+INSERT INTO series (id, name, count) VALUES ('zaiyuki', '宰幸', 1);
+INSERT INTO series (id, name, count) VALUES ('volcano_princess', '火山公主', 1);
+INSERT INTO series (id, name, count) VALUES ('power_stone', '能量石', 1);
+INSERT INTO series (id, name, count) VALUES ('isekai_meikyuu_de_harem_wo', '异世界名宿的后宫窝', 1);
+INSERT INTO series (id, name, count) VALUES ('bunnimals', '兔类', 1);
+INSERT INTO series (id, name, count) VALUES ('rta_in_japan', '日本 RTA', 1);
+INSERT INTO series (id, name, count) VALUES ('incise_soul', '切魂', 1);
+INSERT INTO series (id, name, count) VALUES ('garten_of_banban', '班班花园', 1);
+INSERT INTO series (id, name, count) VALUES ('maji_moji_rurumo', '水门司流毛', 1);
+INSERT INTO series (id, name, count) VALUES ('dies_irae', '愤怒之日', 1);
+INSERT INTO series (id, name, count) VALUES ('end_roll', '端卷', 1);
+INSERT INTO series (id, name, count) VALUES ('bloodline', '血统', 1);
+INSERT INTO series (id, name, count) VALUES ('the_iron_of_yin_and_yang', '阴阳之铁', 1);
+INSERT INTO series (id, name, count) VALUES ('project_[i]', '项目[i]', 1);
+INSERT INTO series (id, name, count) VALUES ('future_card_buddyfight', '未来卡好友大战', 1);
+INSERT INTO series (id, name, count) VALUES ('haks', '老鹰队', 1);
+INSERT INTO series (id, name, count) VALUES ('meikou_gijuku', '名光艺塾', 1);
+INSERT INTO series (id, name, count) VALUES ('izayoi_no_hanayome', '十六夜的花嫁', 1);
+INSERT INTO series (id, name, count) VALUES ('the_grudge', '怨恨', 1);
 INSERT INTO series (id, name, count) VALUES ('airyou_no_nie', 'Airyou No Nie', 1);
-INSERT INTO series (id, name, count) VALUES ('sagara-san''chi_no_etsuraku_life', 'Sagara-san''chi No Etsuraku Life', 1);
-INSERT INTO series (id, name, count) VALUES ('zenbu_kimi_no_sei', 'Zenbu Kimi No Sei', 1);
-INSERT INTO series (id, name, count) VALUES ('betterman', 'Betterman', 1);
-INSERT INTO series (id, name, count) VALUES ('watashi_no_shiawase_na_kekkon', 'Watashi No Shiawase Na Kekkon', 1);
-INSERT INTO series (id, name, count) VALUES ('jiisan_baasan_wakagaeru', 'Jiisan Baasan Wakagaeru', 1);
-INSERT INTO series (id, name, count) VALUES ('ghost_of_tsushima', 'Ghost Of Tsushima', 1);
-INSERT INTO series (id, name, count) VALUES ('aishiteruze_baby', 'Aishiteruze Baby', 1);
-INSERT INTO series (id, name, count) VALUES ('sakimiya_senpai_no_kyujitsu', 'Sakimiya Senpai No Kyujitsu', 1);
-INSERT INTO series (id, name, count) VALUES ('meshi_mase!_nekomimi_nyan_dafuru', 'Meshi Mase! Nekomimi Nyan Dafuru', 1);
-INSERT INTO series (id, name, count) VALUES ('esper_mami', 'Esper Mami', 1);
-INSERT INTO series (id, name, count) VALUES ('gakuen_alice', 'Gakuen Alice', 1);
+INSERT INTO series (id, name, count) VALUES ('sagara-san''chi_no_etsuraku_life', '相良三地的悦乐生活', 1);
+INSERT INTO series (id, name, count) VALUES ('zenbu_kimi_no_sei', '善武君之圣', 1);
+INSERT INTO series (id, name, count) VALUES ('betterman', '贝特曼', 1);
+INSERT INTO series (id, name, count) VALUES ('watashi_no_shiawase_na_kekkon', '渡之幸福那吉空', 1);
+INSERT INTO series (id, name, count) VALUES ('jiisan_baasan_wakagaeru', '吉山巴山若盖鲁', 1);
+INSERT INTO series (id, name, count) VALUES ('ghost_of_tsushima', '对马岛之魂', 1);
+INSERT INTO series (id, name, count) VALUES ('aishiteruze_baby', '艾施特鲁兹宝贝', 1);
+INSERT INTO series (id, name, count) VALUES ('sakimiya_senpai_no_kyujitsu', '咲宫学长的急实', 1);
+INSERT INTO series (id, name, count) VALUES ('meshi_mase!_nekomimi_nyan_dafuru', '梅什玛斯！内科米米·尼安·达福鲁', 1);
+INSERT INTO series (id, name, count) VALUES ('esper_mami', '等等妈妈', 1);
+INSERT INTO series (id, name, count) VALUES ('gakuen_alice', '学园爱丽丝', 1);
 INSERT INTO series (id, name, count) VALUES ('aishiteru_game_wo_owarasetai', 'Aishiteru Game Wo Owarasetai', 1);
-INSERT INTO series (id, name, count) VALUES ('parerdemia_gakuen', 'Parerdemia Gakuen', 1);
-INSERT INTO series (id, name, count) VALUES ('waka-chan_wa_kyou_mo_azatoi', 'Waka-chan Wa Kyou Mo Azatoi', 1);
-INSERT INTO series (id, name, count) VALUES ('arcade_gamer_fubuki', 'Arcade Gamer Fubuki', 1);
-INSERT INTO series (id, name, count) VALUES ('erogos', 'Erogos', 1);
-INSERT INTO series (id, name, count) VALUES ('plawres_sanshirou', 'Plawres Sanshirou', 1);
-INSERT INTO series (id, name, count) VALUES ('vdonburi', 'Vdonburi', 1);
-INSERT INTO series (id, name, count) VALUES ('alia''s_carnival!', 'Alia''s Carnival!', 1);
-INSERT INTO series (id, name, count) VALUES ('canvas_(cocktail_soft)', 'Canvas (cocktail Soft)', 1);
-INSERT INTO series (id, name, count) VALUES ('magnum_opus_(mewniverse)', 'Magnum Opus (mewniverse)', 1);
-INSERT INTO series (id, name, count) VALUES ('advance_wars', 'Advance Wars', 1);
-INSERT INTO series (id, name, count) VALUES ('samsung', 'Samsung', 1);
-INSERT INTO series (id, name, count) VALUES ('lime-iro_senkitan', 'Lime-iro Senkitan', 1);
-INSERT INTO series (id, name, count) VALUES ('yoroiden_samurai_troopers', 'Yoroiden Samurai Troopers', 1);
-INSERT INTO series (id, name, count) VALUES ('dune:_part_two', 'Dune: Part Two', 1);
-INSERT INTO series (id, name, count) VALUES ('sankarea', 'Sankarea', 1);
+INSERT INTO series (id, name, count) VALUES ('parerdemia_gakuen', '帕雷德米亚学园', 1);
+INSERT INTO series (id, name, count) VALUES ('waka-chan_wa_kyou_mo_azatoi', '若酱和教莫阿扎托伊', 1);
+INSERT INTO series (id, name, count) VALUES ('arcade_gamer_fubuki', '街机玩家吹雪', 1);
+INSERT INTO series (id, name, count) VALUES ('erogos', '爱罗戈斯', 1);
+INSERT INTO series (id, name, count) VALUES ('plawres_sanshirou', '普劳雷斯三四郎', 1);
+INSERT INTO series (id, name, count) VALUES ('vdonburi', '维登武里', 1);
+INSERT INTO series (id, name, count) VALUES ('alia''s_carnival!', '艾莉亚的狂欢节！', 1);
+INSERT INTO series (id, name, count) VALUES ('canvas_(cocktail_soft)', '帆布（鸡尾酒软）', 1);
+INSERT INTO series (id, name, count) VALUES ('magnum_opus_(mewniverse)', '伟大的工作（mewniverse）', 1);
+INSERT INTO series (id, name, count) VALUES ('advance_wars', '推进战争', 1);
+INSERT INTO series (id, name, count) VALUES ('samsung', '三星', 1);
+INSERT INTO series (id, name, count) VALUES ('lime-iro_senkitan', '柠檬色仙气丹', 1);
+INSERT INTO series (id, name, count) VALUES ('yoroiden_samurai_troopers', '养老院武士队', 1);
+INSERT INTO series (id, name, count) VALUES ('dune:_part_two', '沙丘：第二部分', 1);
+INSERT INTO series (id, name, count) VALUES ('sankarea', '桑卡雷亚', 1);
 INSERT INTO series (id, name, count) VALUES ('ore_wo_suki_nano_wa_omae_dake_ka_yo', 'Ore Wo Suki Nano Wa Omae Dake Ka Yo', 1);
-INSERT INTO series (id, name, count) VALUES ('anitore!_ex', 'Anitore! Ex', 1);
-INSERT INTO series (id, name, count) VALUES ('monster_musume_no_oisha-san', 'Monster Musume No Oisha-san', 1);
-INSERT INTO series (id, name, count) VALUES ('uchuu_kaizoku_sara', 'Uchuu Kaizoku Sara', 1);
-INSERT INTO series (id, name, count) VALUES ('bellville_(kennycomix)', 'Bellville (kennycomix)', 1);
-INSERT INTO series (id, name, count) VALUES ('hyper_police', 'Hyper Police', 1);
-INSERT INTO series (id, name, count) VALUES ('kurai_ano_ko_to_shitai_koto', 'Kurai Ano Ko To Shitai Koto', 1);
-INSERT INTO series (id, name, count) VALUES ('demonherd', 'Demonherd', 1);
-INSERT INTO series (id, name, count) VALUES ('freezing_(series)', 'Freezing', 1);
-INSERT INTO series (id, name, count) VALUES ('ooya-san_wa_shishunki', 'Ooya-san Wa Shishunki', 1);
-INSERT INTO series (id, name, count) VALUES ('fairytale_police_hoe_department', 'Fairytale Police Hoe Department', 1);
-INSERT INTO series (id, name, count) VALUES ('teihen_no_daigaku_janaru', 'Teihen No Daigaku Janaru', 1);
-INSERT INTO series (id, name, count) VALUES ('a_kite', 'A Kite', 1);
+INSERT INTO series (id, name, count) VALUES ('anitore!_ex', '动画师！前任', 1);
+INSERT INTO series (id, name, count) VALUES ('monster_musume_no_oisha-san', '怪物娘们的大煞桑', 1);
+INSERT INTO series (id, name, count) VALUES ('uchuu_kaizoku_sara', '宇宙海族纱罗', 1);
+INSERT INTO series (id, name, count) VALUES ('bellville_(kennycomix)', '贝尔维尔 (kennycomix)', 1);
+INSERT INTO series (id, name, count) VALUES ('hyper_police', '超级警察', 1);
+INSERT INTO series (id, name, count) VALUES ('kurai_ano_ko_to_shitai_koto', '藏井阿乃子与师太子', 1);
+INSERT INTO series (id, name, count) VALUES ('demonherd', '恶魔群', 1);
+INSERT INTO series (id, name, count) VALUES ('freezing_(series)', '冷冻', 1);
+INSERT INTO series (id, name, count) VALUES ('ooya-san_wa_shishunki', '大谷山和志俊基', 1);
+INSERT INTO series (id, name, count) VALUES ('fairytale_police_hoe_department', '童话警察锄头部', 1);
+INSERT INTO series (id, name, count) VALUES ('teihen_no_daigaku_janaru', '帝变大学简纳鲁', 1);
+INSERT INTO series (id, name, count) VALUES ('a_kite', '风筝', 1);
 INSERT INTO series (id, name, count) VALUES ('mesu_nie_onna_kyoushi', 'Mesu Nie Onna Kyoushi', 1);
-INSERT INTO series (id, name, count) VALUES ('kiki_kaikai', 'Kiki Kaikai', 1);
-INSERT INTO series (id, name, count) VALUES ('pressure_(roblox)', 'Pressure (roblox)', 1);
-INSERT INTO series (id, name, count) VALUES ('natsu_no_ame', 'Natsu No Ame', 1);
-INSERT INTO series (id, name, count) VALUES ('wakaokami_wa_shougakusei', 'Wakaokami Wa Shougakusei', 1);
-INSERT INTO series (id, name, count) VALUES ('comic_kairakuten', 'Comic Kairakuten', 1);
+INSERT INTO series (id, name, count) VALUES ('kiki_kaikai', '琪琪凯凯', 1);
+INSERT INTO series (id, name, count) VALUES ('pressure_(roblox)', '压力（罗布洛克斯）', 1);
+INSERT INTO series (id, name, count) VALUES ('natsu_no_ame', '夏之雨', 1);
+INSERT INTO series (id, name, count) VALUES ('wakaokami_wa_shougakusei', '若神和小学生', 1);
+INSERT INTO series (id, name, count) VALUES ('comic_kairakuten', '漫画偕乐天', 1);
 INSERT INTO series (id, name, count) VALUES ('3ldk', '3ldk', 1);
-INSERT INTO series (id, name, count) VALUES ('kuro_senpai_to_kuro_yashiki_no_yami_ni_mayowanai', 'Kuro Senpai To Kuro Yashiki No Yami Ni Mayowanai', 1);
-INSERT INTO series (id, name, count) VALUES ('denki-gai_no_hon''ya-san', 'Denki-gai No Hon''ya-san', 1);
-INSERT INTO series (id, name, count) VALUES ('bucchigiri?!', 'Bucchigiri?!', 1);
-INSERT INTO series (id, name, count) VALUES ('special_civil_servant', 'Special Civil Servant', 1);
-INSERT INTO series (id, name, count) VALUES ('kimihagu', 'Kimihagu', 1);
-INSERT INTO series (id, name, count) VALUES ('kyoushirou_to_towa_no_sora', 'Kyoushirou To Towa No Sora', 1);
-INSERT INTO series (id, name, count) VALUES ('full_metal_jacket', 'Full Metal Jacket', 1);
-INSERT INTO series (id, name, count) VALUES ('shinsou_seiki_elementia', 'Shinsou Seiki Elementia', 1);
-INSERT INTO series (id, name, count) VALUES ('kaiten_muten-maru', 'Kaiten Muten-maru', 1);
-INSERT INTO series (id, name, count) VALUES ('numan_athletics', 'Numan Athletics', 1);
-INSERT INTO series (id, name, count) VALUES ('seisen_no_iberia', 'Seisen No Iberia', 1);
-INSERT INTO series (id, name, count) VALUES ('langrisser', 'Langrisser', 1);
-INSERT INTO series (id, name, count) VALUES ('nanako_kaitai_shinsho', 'Nanako Kaitai Shinsho', 1);
+INSERT INTO series (id, name, count) VALUES ('kuro_senpai_to_kuro_yashiki_no_yami_ni_mayowanai', '黑前辈与黑屋敷之暗二马约瓦内', 1);
+INSERT INTO series (id, name, count) VALUES ('denki-gai_no_hon''ya-san', '电气街的本野先生', 1);
+INSERT INTO series (id, name, count) VALUES ('bucchigiri?!', '布基吉里？！', 1);
+INSERT INTO series (id, name, count) VALUES ('special_civil_servant', '特殊公务员', 1);
+INSERT INTO series (id, name, count) VALUES ('kimihagu', '君贺久', 1);
+INSERT INTO series (id, name, count) VALUES ('kyoushirou_to_towa_no_sora', '恭四郎与十和之空', 1);
+INSERT INTO series (id, name, count) VALUES ('full_metal_jacket', '全金属外壳', 1);
+INSERT INTO series (id, name, count) VALUES ('shinsou_seiki_elementia', '信庄精机Elementia', 1);
+INSERT INTO series (id, name, count) VALUES ('kaiten_muten-maru', '回天无天丸', 1);
+INSERT INTO series (id, name, count) VALUES ('numan_athletics', '努曼竞技', 1);
+INSERT INTO series (id, name, count) VALUES ('seisen_no_iberia', '精战之伊比利亚', 1);
+INSERT INTO series (id, name, count) VALUES ('langrisser', '兰格里瑟', 1);
+INSERT INTO series (id, name, count) VALUES ('nanako_kaitai_shinsho', '开泰新商菜菜子', 1);
 INSERT INTO series (id, name, count) VALUES ('osananajimi_ga_zettai_ni_makenai_lovecome', 'Osananajimi Ga Zettai Ni Makenai Lovecome', 1);
 INSERT INTO series (id, name, count) VALUES ('kamoku_dakedo_mechakucha_nori_no_ii_kuroneko-chan', 'Kamoku Dakedo Mechakucha Nori No Ii Kuroneko-chan', 1);
 INSERT INTO series (id, name, count) VALUES ('kouhai_wa_inkya_agari_no_infuruensaa', 'Kouhai Wa Inkya Agari No Infuruensaa', 1);
-INSERT INTO series (id, name, count) VALUES ('big_mukimuki_&_small_muchimuchi', 'Big Mukimuki & Small Muchimuchi', 1);
-INSERT INTO series (id, name, count) VALUES ('chizuru-chan_kaihatsu_nikki', 'Chizuru-chan Kaihatsu Nikki', 1);
-INSERT INTO series (id, name, count) VALUES ('figure_17', 'Figure 17', 1);
-INSERT INTO series (id, name, count) VALUES ('plivyou', 'Plivyou', 1);
-INSERT INTO series (id, name, count) VALUES ('hikaru_ga_chikyuu_ni_itakoro', 'Hikaru Ga Chikyuu Ni Itakoro', 1);
-INSERT INTO series (id, name, count) VALUES ('kawaii_dake_ja_nai_shikimori-san', 'Kawaii Dake Ja Nai Shikimori-san', 1);
-INSERT INTO series (id, name, count) VALUES ('nursery_rhyme', 'Nursery Rhyme', 1);
-INSERT INTO series (id, name, count) VALUES ('major', 'Major', 1);
+INSERT INTO series (id, name, count) VALUES ('big_mukimuki_&_small_muchimuchi', '大 Mukimuki 和小 Muchimuchi', 1);
+INSERT INTO series (id, name, count) VALUES ('chizuru-chan_kaihatsu_nikki', '千鹤酱开创日记', 1);
+INSERT INTO series (id, name, count) VALUES ('figure_17', '图17', 1);
+INSERT INTO series (id, name, count) VALUES ('plivyou', '普利维尤', 1);
+INSERT INTO series (id, name, count) VALUES ('hikaru_ga_chikyuu_ni_itakoro', '地球光 二板来', 1);
+INSERT INTO series (id, name, count) VALUES ('kawaii_dake_ja_nai_shikimori-san', '卡哇伊大克子乃四季森桑', 1);
+INSERT INTO series (id, name, count) VALUES ('nursery_rhyme', '童谣', 1);
+INSERT INTO series (id, name, count) VALUES ('major', '主要的', 1);
 INSERT INTO series (id, name, count) VALUES ('tonari_no_seki_no_yankee_shimizu-san_ga_kami_wo_kuroku_somete_kita', 'Tonari No Seki No Yankee Shimizu-san Ga Kami Wo Kuroku Somete Kita', 1);
-INSERT INTO series (id, name, count) VALUES ('gantz', 'Gantz', 1);
-INSERT INTO series (id, name, count) VALUES ('ajin_(sakurai_gamon)', 'Ajin (sakurai Gamon)', 1);
-INSERT INTO series (id, name, count) VALUES ('shimotsuma', 'Shimotsuma', 1);
-INSERT INTO series (id, name, count) VALUES ('boy_meets_girl', 'Boy Meets Girl', 1);
-INSERT INTO series (id, name, count) VALUES ('owari_no_chronicle', 'Owari No Chronicle', 1);
-INSERT INTO series (id, name, count) VALUES ('shinka_musume_channel', 'Shinka Musume Channel', 1);
+INSERT INTO series (id, name, count) VALUES ('gantz', '甘茨', 1);
+INSERT INTO series (id, name, count) VALUES ('ajin_(sakurai_gamon)', '亚人（樱井加门 饰）', 1);
+INSERT INTO series (id, name, count) VALUES ('shimotsuma', '下妻', 1);
+INSERT INTO series (id, name, count) VALUES ('boy_meets_girl', '男孩遇见女孩', 1);
+INSERT INTO series (id, name, count) VALUES ('owari_no_chronicle', '尾张纪事', 1);
+INSERT INTO series (id, name, count) VALUES ('shinka_musume_channel', '新华娘频道', 1);
 INSERT INTO series (id, name, count) VALUES ('bokutachi_no_remake', 'Bokutachi No Remake', 1);
 INSERT INTO series (id, name, count) VALUES ('manbiki_jk_wa_mizukara_ori_ni_hairu', 'Manbiki Jk Wa Mizukara Ori Ni Hairu', 1);
-INSERT INTO series (id, name, count) VALUES ('gad_guard', 'Gad Guard', 1);
-INSERT INTO series (id, name, count) VALUES ('monark', 'Monark', 1);
-INSERT INTO series (id, name, count) VALUES ('kami-sama_no_memo-chou', 'Kami-sama No Memo-chou', 1);
-INSERT INTO series (id, name, count) VALUES ('jitsu_wa_watashi_wa', 'Jitsu Wa Watashi Wa', 1);
-INSERT INTO series (id, name, count) VALUES ('yamada-kun_to_7-nin_no_majo', 'Yamada-kun To 7-nin No Majo', 1);
-INSERT INTO series (id, name, count) VALUES ('nurse_ni_omakase', 'Nurse Ni Omakase', 1);
-INSERT INTO series (id, name, count) VALUES ('hanasaki_work_spring', 'Hanasaki Work Spring', 1);
-INSERT INTO series (id, name, count) VALUES ('floralia', 'Floralia', 1);
-INSERT INTO series (id, name, count) VALUES ('oshiete_miko_sensei_(series)', 'Oshiete Miko Sensei', 1);
-INSERT INTO series (id, name, count) VALUES ('shinohayu_the_dawn_of_age', 'Shinohayu The Dawn Of Age', 1);
-INSERT INTO series (id, name, count) VALUES ('bishoujo_mangekyou_(series)', 'Bishoujo Mangekyou', 1);
-INSERT INTO series (id, name, count) VALUES ('kanpani_girls', 'Kanpani Girls', 1);
-INSERT INTO series (id, name, count) VALUES ('fuurai_no_shiren', 'Fuurai No Shiren', 1);
-INSERT INTO series (id, name, count) VALUES ('shirley_(manga)', 'Shirley (manga)', 1);
-INSERT INTO series (id, name, count) VALUES ('deadman_wonderland', 'Deadman Wonderland', 1);
+INSERT INTO series (id, name, count) VALUES ('gad_guard', '加德守卫', 1);
+INSERT INTO series (id, name, count) VALUES ('monark', '君主', 1);
+INSERT INTO series (id, name, count) VALUES ('kami-sama_no_memo-chou', '神大人的备忘录町', 1);
+INSERT INTO series (id, name, count) VALUES ('jitsu_wa_watashi_wa', '实和和和', 1);
+INSERT INTO series (id, name, count) VALUES ('yamada-kun_to_7-nin_no_majo', '山田君与七人魔女', 1);
+INSERT INTO series (id, name, count) VALUES ('nurse_ni_omakase', '护士在 Omakase', 1);
+INSERT INTO series (id, name, count) VALUES ('hanasaki_work_spring', '花崎工作春季', 1);
+INSERT INTO series (id, name, count) VALUES ('floralia', '花朵', 1);
+INSERT INTO series (id, name, count) VALUES ('oshiete_miko_sensei_(series)', '押手巫子老师', 1);
+INSERT INTO series (id, name, count) VALUES ('shinohayu_the_dawn_of_age', '筱早 时代的黎明', 1);
+INSERT INTO series (id, name, count) VALUES ('bishoujo_mangekyou_(series)', '美少女万华镜', 1);
+INSERT INTO series (id, name, count) VALUES ('kanpani_girls', '坎帕尼女孩', 1);
+INSERT INTO series (id, name, count) VALUES ('fuurai_no_shiren', '风井石人', 1);
+INSERT INTO series (id, name, count) VALUES ('shirley_(manga)', '雪莉（漫画）', 1);
+INSERT INTO series (id, name, count) VALUES ('deadman_wonderland', '亡灵仙境', 1);
 INSERT INTO series (id, name, count) VALUES ('shiawasena_neet_no_sodatekata', 'Shiawasena Neet No Sodatekata', 1);
 INSERT INTO series (id, name, count) VALUES ('neet_de_otaku_na_kunoichi_to_naze_ka_dousei_hajimemashita', 'Neet De Otaku Na Kunoichi To Naze Ka Dousei Hajimemashita', 1);
-INSERT INTO series (id, name, count) VALUES ('cygames', 'Cygames', 1);
-INSERT INTO series (id, name, count) VALUES ('thedoujin', 'Thedoujin', 1);
-INSERT INTO series (id, name, count) VALUES ('france_shoujo', 'France Shoujo', 1);
-INSERT INTO series (id, name, count) VALUES ('gag_manga_biyori', 'Gag Manga Biyori', 1);
-INSERT INTO series (id, name, count) VALUES ('shovel_knight', 'Shovel Knight', 1);
-INSERT INTO series (id, name, count) VALUES ('shrek_(series)', 'Shrek', 1);
+INSERT INTO series (id, name, count) VALUES ('cygames', '赛格梅斯', 1);
+INSERT INTO series (id, name, count) VALUES ('thedoujin', '特杜金', 1);
+INSERT INTO series (id, name, count) VALUES ('france_shoujo', '法国少女', 1);
+INSERT INTO series (id, name, count) VALUES ('gag_manga_biyori', '搞笑漫画日和', 1);
+INSERT INTO series (id, name, count) VALUES ('shovel_knight', '铲子骑士', 1);
+INSERT INTO series (id, name, count) VALUES ('shrek_(series)', '怪物史莱克', 1);
 INSERT INTO series (id, name, count) VALUES ('mamotte_shugogetten!', 'Mamotte Shugogetten!', 1);
-INSERT INTO series (id, name, count) VALUES ('emil_chronicle_online', 'Emil Chronicle Online', 1);
-INSERT INTO series (id, name, count) VALUES ('tantei_wa_mou_shindeiru', 'Tantei Wa Mou Shindeiru', 1);
-INSERT INTO series (id, name, count) VALUES ('break_blade', 'Break Blade', 1);
-INSERT INTO series (id, name, count) VALUES ('jibaro_(love_death_+_robots)', 'Jibaro (love Death + Robots)', 1);
-INSERT INTO series (id, name, count) VALUES ('apple_inc.', 'Apple Inc.', 1);
-INSERT INTO series (id, name, count) VALUES ('dennou_shoujo_youtuber_siro', 'Dennou Shoujo Youtuber Siro', 1);
-INSERT INTO series (id, name, count) VALUES ('bloodlight_(nyantcha)', 'Bloodlight (nyantcha)', 1);
-INSERT INTO series (id, name, count) VALUES ('little_nightmares', 'Little Nightmares', 1);
-INSERT INTO series (id, name, count) VALUES ('warhammer_fantasy', 'Warhammer Fantasy', 1);
-INSERT INTO series (id, name, count) VALUES ('taratabong', 'Taratabong', 1);
-INSERT INTO series (id, name, count) VALUES ('code_of_princess', 'Code Of Princess', 1);
-INSERT INTO series (id, name, count) VALUES ('solty_rei', 'Solty Rei', 1);
+INSERT INTO series (id, name, count) VALUES ('emil_chronicle_online', '埃米尔纪事在线', 1);
+INSERT INTO series (id, name, count) VALUES ('tantei_wa_mou_shindeiru', '侦探和谋新出流', 1);
+INSERT INTO series (id, name, count) VALUES ('break_blade', '破碎刀片', 1);
+INSERT INTO series (id, name, count) VALUES ('jibaro_(love_death_+_robots)', 'Jibaro（爱死亡+机器人）', 1);
+INSERT INTO series (id, name, count) VALUES ('apple_inc.', '苹果公司', 1);
+INSERT INTO series (id, name, count) VALUES ('dennou_shoujo_youtuber_siro', '每日少女 YouTuber Siro', 1);
+INSERT INTO series (id, name, count) VALUES ('bloodlight_(nyantcha)', '血光 (nyantcha)', 1);
+INSERT INTO series (id, name, count) VALUES ('little_nightmares', '小噩梦', 1);
+INSERT INTO series (id, name, count) VALUES ('warhammer_fantasy', '战锤幻想', 1);
+INSERT INTO series (id, name, count) VALUES ('taratabong', '塔拉塔邦', 1);
+INSERT INTO series (id, name, count) VALUES ('code_of_princess', '公主密码', 1);
+INSERT INTO series (id, name, count) VALUES ('solty_rei', '索尔蒂·金', 1);
 INSERT INTO series (id, name, count) VALUES ('akb0048', 'Akb0048', 1);
-INSERT INTO series (id, name, count) VALUES ('koibito_doushi_de_suru_koto_zenbu', 'Koibito Doushi De Suru Koto Zenbu', 1);
-INSERT INTO series (id, name, count) VALUES ('super_danganronpa_another_2', 'Super Danganronpa Another 2', 1);
-INSERT INTO series (id, name, count) VALUES ('honey_strap', 'Honey Strap', 1);
-INSERT INTO series (id, name, count) VALUES ('spawn', 'Spawn', 1);
-INSERT INTO series (id, name, count) VALUES ('magical_antique', 'Magical Antique', 1);
-INSERT INTO series (id, name, count) VALUES ('gamer_supps', 'Gamer Supps', 1);
-INSERT INTO series (id, name, count) VALUES ('star_trek', 'Star Trek', 1);
-INSERT INTO series (id, name, count) VALUES ('okaasan_to_issho', 'Okaasan To Issho', 1);
-INSERT INTO series (id, name, count) VALUES ('mario_&_luigi_rpg', 'Mario & Luigi Rpg', 1);
-INSERT INTO series (id, name, count) VALUES ('ghostbusters', 'Ghostbusters', 1);
-INSERT INTO series (id, name, count) VALUES ('steam_(platform)', 'Steam (platform)', 1);
-INSERT INTO series (id, name, count) VALUES ('rakudai_kishi_no_cavalry', 'Rakudai Kishi No Cavalry', 1);
-INSERT INTO series (id, name, count) VALUES ('glitch_stars', 'Glitch Stars', 1);
-INSERT INTO series (id, name, count) VALUES ('stalker_(game)', 'Stalker (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('strider_(video_game)', 'Strider (video Game)', 1);
-INSERT INTO series (id, name, count) VALUES ('itemlabel', 'Itemlabel', 1);
-INSERT INTO series (id, name, count) VALUES ('fantastic_four', 'Fantastic Four', 1);
-INSERT INTO series (id, name, count) VALUES ('culture_japan', 'Culture Japan', 1);
-INSERT INTO series (id, name, count) VALUES ('onanie_master_kurosawa', 'Onanie Master Kurosawa', 1);
-INSERT INTO series (id, name, count) VALUES ('future_gpx_cyber_formula', 'Future Gpx Cyber Formula', 1);
-INSERT INTO series (id, name, count) VALUES ('dong-jin_rice-hime', 'Dong-jin Rice-hime', 1);
-INSERT INTO series (id, name, count) VALUES ('kirara_fantasia', 'Kirara Fantasia', 1);
-INSERT INTO series (id, name, count) VALUES ('yakunitatsu_node_chi_o_kudasai', 'Yakunitatsu Node Chi O Kudasai', 1);
-INSERT INTO series (id, name, count) VALUES ('plants_vs_zombies', 'Plants Vs Zombies', 1);
-INSERT INTO series (id, name, count) VALUES ('unleashed', 'Unleashed', 1);
-INSERT INTO series (id, name, count) VALUES ('tentai_senshi_sunred', 'Tentai Senshi Sunred', 1);
-INSERT INTO series (id, name, count) VALUES ('suntory', 'Suntory', 1);
-INSERT INTO series (id, name, count) VALUES ('shuumatsu_no_harem', 'Shuumatsu No Harem', 1);
-INSERT INTO series (id, name, count) VALUES ('tamatoys', 'Tamatoys', 1);
-INSERT INTO series (id, name, count) VALUES ('kizuna_kirameku_koi_iroha', 'Kizuna Kirameku Koi Iroha', 1);
-INSERT INTO series (id, name, count) VALUES ('rdg_red_data_girl', 'Rdg Red Data Girl', 1);
-INSERT INTO series (id, name, count) VALUES ('science_adventure', 'Science Adventure', 1);
-INSERT INTO series (id, name, count) VALUES ('mezzo_forte', 'Mezzo Forte', 1);
-INSERT INTO series (id, name, count) VALUES ('maid-san_wa_taberu_dake', 'Maid-san Wa Taberu Dake', 1);
-INSERT INTO series (id, name, count) VALUES ('memories_off_2nd', 'Memories Off 2nd', 1);
-INSERT INTO series (id, name, count) VALUES ('boku_girl', 'Boku Girl', 1);
-INSERT INTO series (id, name, count) VALUES ('kagaku_chop', 'Kagaku Chop', 1);
-INSERT INTO series (id, name, count) VALUES ('can_can_bunny', 'Can Can Bunny', 1);
-INSERT INTO series (id, name, count) VALUES ('eden''s_ritter_grenze', 'Eden''s Ritter Grenze', 1);
-INSERT INTO series (id, name, count) VALUES ('dorei_to_no_seikatsu_~teaching_feeling~', 'Dorei To No Seikatsu ~teaching Feeling~', 1);
-INSERT INTO series (id, name, count) VALUES ('loki_(disney+)', 'Loki (disney+)', 1);
-INSERT INTO series (id, name, count) VALUES ('the_adventure_zone', 'The Adventure Zone', 1);
+INSERT INTO series (id, name, count) VALUES ('koibito_doushi_de_suru_koto_zenbu', '恋人导师的古琴全武', 1);
+INSERT INTO series (id, name, count) VALUES ('super_danganronpa_another_2', '超级弹丸论破Another 2', 1);
+INSERT INTO series (id, name, count) VALUES ('honey_strap', '蜂蜜表带', 1);
+INSERT INTO series (id, name, count) VALUES ('spawn', '生成', 1);
+INSERT INTO series (id, name, count) VALUES ('magical_antique', '神奇古董', 1);
+INSERT INTO series (id, name, count) VALUES ('gamer_supps', '游戏玩家用品', 1);
+INSERT INTO series (id, name, count) VALUES ('star_trek', '星际迷航', 1);
+INSERT INTO series (id, name, count) VALUES ('okaasan_to_issho', '冈山至一所', 1);
+INSERT INTO series (id, name, count) VALUES ('mario_&_luigi_rpg', '马里奥与路易吉角色扮演游戏', 1);
+INSERT INTO series (id, name, count) VALUES ('ghostbusters', '捉鬼敢死队', 1);
+INSERT INTO series (id, name, count) VALUES ('steam_(platform)', '蒸汽（平台）', 1);
+INSERT INTO series (id, name, count) VALUES ('rakudai_kishi_no_cavalry', '乐大岸骑兵', 1);
+INSERT INTO series (id, name, count) VALUES ('glitch_stars', '故障星', 1);
+INSERT INTO series (id, name, count) VALUES ('stalker_(game)', '潜行者（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('strider_(video_game)', 'Strider（视频游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('itemlabel', '物品标签', 1);
+INSERT INTO series (id, name, count) VALUES ('fantastic_four', '神奇四侠', 1);
+INSERT INTO series (id, name, count) VALUES ('culture_japan', '文化日本', 1);
+INSERT INTO series (id, name, count) VALUES ('onanie_master_kurosawa', '黑泽奥南大师', 1);
+INSERT INTO series (id, name, count) VALUES ('future_gpx_cyber_formula', '未来 Gpx 网络方程式', 1);
+INSERT INTO series (id, name, count) VALUES ('dong-jin_rice-hime', '东进米姬', 1);
+INSERT INTO series (id, name, count) VALUES ('kirara_fantasia', '基拉拉幻想曲', 1);
+INSERT INTO series (id, name, count) VALUES ('yakunitatsu_node_chi_o_kudasai', '药一结Chi O Kudasai', 1);
+INSERT INTO series (id, name, count) VALUES ('plants_vs_zombies', '植物大战僵尸', 1);
+INSERT INTO series (id, name, count) VALUES ('unleashed', '释放', 1);
+INSERT INTO series (id, name, count) VALUES ('tentai_senshi_sunred', '天体战士 日红', 1);
+INSERT INTO series (id, name, count) VALUES ('suntory', '三得利', 1);
+INSERT INTO series (id, name, count) VALUES ('shuumatsu_no_harem', '秋末的后宫', 1);
+INSERT INTO series (id, name, count) VALUES ('tamatoys', '塔马托伊斯', 1);
+INSERT INTO series (id, name, count) VALUES ('kizuna_kirameku_koi_iroha', '锦鲤伊吕波绊', 1);
+INSERT INTO series (id, name, count) VALUES ('rdg_red_data_girl', 'Rdg 红色数据女孩', 1);
+INSERT INTO series (id, name, count) VALUES ('science_adventure', '科学冒险', 1);
+INSERT INTO series (id, name, count) VALUES ('mezzo_forte', '半强', 1);
+INSERT INTO series (id, name, count) VALUES ('maid-san_wa_taberu_dake', '女仆桑瓦塔贝鲁达克', 1);
+INSERT INTO series (id, name, count) VALUES ('memories_off_2nd', '回忆第二期', 1);
+INSERT INTO series (id, name, count) VALUES ('boku_girl', '书女孩', 1);
+INSERT INTO series (id, name, count) VALUES ('kagaku_chop', '化学印章', 1);
+INSERT INTO series (id, name, count) VALUES ('can_can_bunny', '可以可以兔子', 1);
+INSERT INTO series (id, name, count) VALUES ('eden''s_ritter_grenze', '伊甸园的骑士边境', 1);
+INSERT INTO series (id, name, count) VALUES ('dorei_to_no_seikatsu_~teaching_feeling~', 'Dorei To No Seikatsu ～教学感受～', 1);
+INSERT INTO series (id, name, count) VALUES ('loki_(disney+)', '洛基（迪士尼+）', 1);
+INSERT INTO series (id, name, count) VALUES ('the_adventure_zone', '冒险区', 1);
 INSERT INTO series (id, name, count) VALUES ('koi_wa_ameagari_no_you_ni', 'Koi Wa Ameagari No You Ni', 1);
-INSERT INTO series (id, name, count) VALUES ('fantasy_bishoujo_juniku_ojisan_to', 'Fantasy Bishoujo Juniku Ojisan To', 1);
-INSERT INTO series (id, name, count) VALUES ('jack_jeanne', 'Jack Jeanne', 1);
-INSERT INTO series (id, name, count) VALUES ('tachibana-san-chi_no_dansei_jijou', 'Tachibana-san-chi No Dansei Jijou', 1);
-INSERT INTO series (id, name, count) VALUES ('choujuushin_gravion', 'Choujuushin Gravion', 1);
-INSERT INTO series (id, name, count) VALUES ('magicorps_(alterkyon)', 'Magicorps (alterkyon)', 1);
-INSERT INTO series (id, name, count) VALUES ('aq_arium', 'Aq Arium', 1);
-INSERT INTO series (id, name, count) VALUES ('bionicle', 'Bionicle', 1);
-INSERT INTO series (id, name, count) VALUES ('haite_kudasai_takamine-san', 'Haite Kudasai Takamine-san', 1);
+INSERT INTO series (id, name, count) VALUES ('fantasy_bishoujo_juniku_ojisan_to', '奇幻美少女十二王子山图', 1);
+INSERT INTO series (id, name, count) VALUES ('jack_jeanne', '杰克·珍妮', 1);
+INSERT INTO series (id, name, count) VALUES ('tachibana-san-chi_no_dansei_jijou', '橘三地的丹青地主', 1);
+INSERT INTO series (id, name, count) VALUES ('choujuushin_gravion', '超十三神Gravion', 1);
+INSERT INTO series (id, name, count) VALUES ('magicorps_(alterkyon)', '魔法军团（alterkyon）', 1);
+INSERT INTO series (id, name, count) VALUES ('aq_arium', '阿里乌斯', 1);
+INSERT INTO series (id, name, count) VALUES ('bionicle', '生化战士', 1);
+INSERT INTO series (id, name, count) VALUES ('haite_kudasai_takamine-san', '海特·久大西高峰桑', 1);
 INSERT INTO series (id, name, count) VALUES ('oniichan_no_koto_nanka_zenzen_suki_janain_dakara_ne!!', 'Oniichan No Koto Nanka Zenzen Suki Janain Dakara Ne!!', 1);
-INSERT INTO series (id, name, count) VALUES ('seijo_no_maryoku_wa_bannou_desu', 'Seijo No Maryoku Wa Bannou Desu', 1);
-INSERT INTO series (id, name, count) VALUES ('hitomi-chan_wa_hitomishiri', 'Hitomi-chan Wa Hitomishiri', 1);
-INSERT INTO series (id, name, count) VALUES ('koi_to_uso', 'Koi To Uso', 1);
-INSERT INTO series (id, name, count) VALUES ('mamoru-kun_ni_megami_no_shukufuku_wo!', 'Mamoru-kun Ni Megami No Shukufuku Wo!', 1);
-INSERT INTO series (id, name, count) VALUES ('daiakuji', 'Daiakuji', 1);
-INSERT INTO series (id, name, count) VALUES ('sweetest_music', 'Sweetest Music', 1);
-INSERT INTO series (id, name, count) VALUES ('bijin_onna_joushi_takizawa-san', 'Bijin Onna Joushi Takizawa-san', 1);
-INSERT INTO series (id, name, count) VALUES ('idol_time_pripara', 'Idol Time Pripara', 1);
+INSERT INTO series (id, name, count) VALUES ('seijo_no_maryoku_wa_bannou_desu', '成城的魔力和般诺德苏', 1);
+INSERT INTO series (id, name, count) VALUES ('hitomi-chan_wa_hitomishiri', '瞳酱和瞳尻', 1);
+INSERT INTO series (id, name, count) VALUES ('koi_to_uso', '锦鲤乌索', 1);
+INSERT INTO series (id, name, count) VALUES ('mamoru-kun_ni_megami_no_shukufuku_wo!', '守君《女神的宿福》！', 1);
+INSERT INTO series (id, name, count) VALUES ('daiakuji', '大觉寺', 1);
+INSERT INTO series (id, name, count) VALUES ('sweetest_music', '最甜美的音乐', 1);
+INSERT INTO series (id, name, count) VALUES ('bijin_onna_joushi_takizawa-san', '美人女老师泷泽桑', 1);
+INSERT INTO series (id, name, count) VALUES ('idol_time_pripara', '偶像时间准备', 1);
 INSERT INTO series (id, name, count) VALUES ('netoge_no_yome_wa_onna_no_ko_janai_to_omotta?', 'Netoge No Yome Wa Onna No Ko Janai To Omotta?', 1);
-INSERT INTO series (id, name, count) VALUES ('momoiro_montage', 'Momoiro Montage', 1);
-INSERT INTO series (id, name, count) VALUES ('hatsuyuki_sakura', 'Hatsuyuki Sakura', 1);
-INSERT INTO series (id, name, count) VALUES ('fate/extella', 'Fate/extella', 1);
-INSERT INTO series (id, name, count) VALUES ('ghost_and_pals', 'Ghost And Pals', 1);
+INSERT INTO series (id, name, count) VALUES ('momoiro_montage', '桃色蒙太奇', 1);
+INSERT INTO series (id, name, count) VALUES ('hatsuyuki_sakura', '佐仓初之', 1);
+INSERT INTO series (id, name, count) VALUES ('fate/extella', '命运/埃斯特拉', 1);
+INSERT INTO series (id, name, count) VALUES ('ghost_and_pals', '幽灵与伙伴们', 1);
 INSERT INTO series (id, name, count) VALUES ('dai_mahou_touge', 'Dai Mahou Touge', 1);
-INSERT INTO series (id, name, count) VALUES ('ame_to_kimi_to', 'Ame To Kimi To', 1);
-INSERT INTO series (id, name, count) VALUES ('demon_mages', 'Demon Mages', 1);
-INSERT INTO series (id, name, count) VALUES ('mahjong_fight_girl', 'Mahjong Fight Girl', 1);
-INSERT INTO series (id, name, count) VALUES ('gokushufudou', 'Gokushufudou', 1);
-INSERT INTO series (id, name, count) VALUES ('debris_(game)', 'Debris (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('dinosaur_king', 'Dinosaur King', 1);
-INSERT INTO series (id, name, count) VALUES ('meitantei_precure!', 'Meitantei Precure!', 1);
-INSERT INTO series (id, name, count) VALUES ('tejina_senpai_(series)', 'Tejina Senpai', 1);
-INSERT INTO series (id, name, count) VALUES ('tekkaman_blade', 'Tekkaman Blade', 1);
-INSERT INTO series (id, name, count) VALUES ('grenadier_(manga)', 'Grenadier (manga)', 1);
-INSERT INTO series (id, name, count) VALUES ('prismplus', 'Prismplus', 1);
-INSERT INTO series (id, name, count) VALUES ('yat_anshin_uchuu_ryokou', 'Yat Anshin Uchuu Ryokou', 1);
-INSERT INTO series (id, name, count) VALUES ('bans', 'Bans', 1);
-INSERT INTO series (id, name, count) VALUES ('niconico', 'Niconico', 1);
-INSERT INTO series (id, name, count) VALUES ('hyrule_warriors:_age_of_calamity', 'Hyrule Warriors: Age Of Calamity', 1);
-INSERT INTO series (id, name, count) VALUES ('tetsujin_28-gou', 'Tetsujin 28-gou', 1);
-INSERT INTO series (id, name, count) VALUES ('tokyo_metropolitan_police_department', 'Tokyo Metropolitan Police Department', 1);
-INSERT INTO series (id, name, count) VALUES ('off_(game)', 'Off (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('doctor_who', 'Doctor Who', 1);
-INSERT INTO series (id, name, count) VALUES ('katamari_damacy', 'Katamari Damacy', 1);
-INSERT INTO series (id, name, count) VALUES ('elden_ring:_shadow_of_the_erdtree', 'Elden Ring: Shadow Of The Erdtree', 1);
-INSERT INTO series (id, name, count) VALUES ('thomas_the_tank_engine', 'Thomas The Tank Engine', 1);
-INSERT INTO series (id, name, count) VALUES ('darius_burst', 'Darius Burst', 1);
-INSERT INTO series (id, name, count) VALUES ('breakers', 'Breakers', 1);
-INSERT INTO series (id, name, count) VALUES ('grand_chase', 'Grand Chase', 1);
-INSERT INTO series (id, name, count) VALUES ('the_princess_and_the_frog', 'The Princess And The Frog', 1);
-INSERT INTO series (id, name, count) VALUES ('goth_girl_and_the_jock', 'Goth Girl And The Jock', 1);
-INSERT INTO series (id, name, count) VALUES ('kung_fu_panda', 'Kung Fu Panda', 1);
-INSERT INTO series (id, name, count) VALUES ('cop_craft:_dragnet_mirage_reloaded', 'Cop Craft: Dragnet Mirage Reloaded', 1);
-INSERT INTO series (id, name, count) VALUES ('tild_-_mage_a_louer', 'Tild - Mage A Louer', 1);
-INSERT INTO series (id, name, count) VALUES ('peter_pan_(disney)', 'Peter Pan (disney)', 1);
-INSERT INTO series (id, name, count) VALUES ('ebiten_(manga)', 'Ebiten (manga)', 1);
-INSERT INTO series (id, name, count) VALUES ('sengoku_ace', 'Sengoku Ace', 1);
-INSERT INTO series (id, name, count) VALUES ('one_outs', 'One Outs', 1);
-INSERT INTO series (id, name, count) VALUES ('bendee_stick_(series)', 'Bendee Stick', 1);
-INSERT INTO series (id, name, count) VALUES ('janken_game_acchi_muite_hoi!', 'Janken Game Acchi Muite Hoi!', 1);
-INSERT INTO series (id, name, count) VALUES ('bonyuu-chan_wa_dashitai', 'Bonyuu-chan Wa Dashitai', 1);
-INSERT INTO series (id, name, count) VALUES ('shiki_no_akari', 'Shiki No Akari', 1);
-INSERT INTO series (id, name, count) VALUES ('tongkkangi', 'Tongkkangi', 1);
-INSERT INTO series (id, name, count) VALUES ('kellogg''s', 'Kellogg''s', 1);
-INSERT INTO series (id, name, count) VALUES ('time_bokan_(series)', 'Time Bokan', 1);
-INSERT INTO series (id, name, count) VALUES ('gachiakuta', 'Gachiakuta', 1);
-INSERT INTO series (id, name, count) VALUES ('toriko_(series)', 'Toriko', 1);
-INSERT INTO series (id, name, count) VALUES ('hollow_song_of_birds', 'Hollow Song Of Birds', 1);
-INSERT INTO series (id, name, count) VALUES ('symphonic_rain', 'Symphonic Rain', 1);
-INSERT INTO series (id, name, count) VALUES ('izumo', 'Izumo', 1);
-INSERT INTO series (id, name, count) VALUES ('spec', 'Spec', 1);
-INSERT INTO series (id, name, count) VALUES ('slow_damage', 'Slow Damage', 1);
-INSERT INTO series (id, name, count) VALUES ('milk_junkies', 'Milk Junkies', 1);
-INSERT INTO series (id, name, count) VALUES ('journey', 'Journey', 1);
-INSERT INTO series (id, name, count) VALUES ('comic_exe', 'Comic Exe', 1);
-INSERT INTO series (id, name, count) VALUES ('supokon!_sports_wear_complex', 'Supokon! Sports Wear Complex', 1);
-INSERT INTO series (id, name, count) VALUES ('kirarin_revolution', 'Kirarin Revolution', 1);
-INSERT INTO series (id, name, count) VALUES ('shizuku_(game)', 'Shizuku (game)', 1);
-INSERT INTO series (id, name, count) VALUES ('mimi_wo_sumaseba', 'Mimi Wo Sumaseba', 1);
-INSERT INTO series (id, name, count) VALUES ('irozuku_sekai_no_ashita_kara', 'Irozuku Sekai No Ashita Kara', 1);
-INSERT INTO series (id, name, count) VALUES ('isekai_samurai', 'Isekai Samurai', 1);
-INSERT INTO series (id, name, count) VALUES ('zero_project', 'Zero Project', 1);
-INSERT INTO series (id, name, count) VALUES ('seiren', 'Seiren', 1);
+INSERT INTO series (id, name, count) VALUES ('ame_to_kimi_to', '阿梅图基米图', 1);
+INSERT INTO series (id, name, count) VALUES ('demon_mages', '恶魔法师', 1);
+INSERT INTO series (id, name, count) VALUES ('mahjong_fight_girl', '麻将打架女孩', 1);
+INSERT INTO series (id, name, count) VALUES ('gokushufudou', '极主府堂', 1);
+INSERT INTO series (id, name, count) VALUES ('debris_(game)', '碎片（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('dinosaur_king', '恐龙王', 1);
+INSERT INTO series (id, name, count) VALUES ('meitantei_precure!', '湄潭美少女！', 1);
+INSERT INTO series (id, name, count) VALUES ('tejina_senpai_(series)', '手吉那前辈', 1);
+INSERT INTO series (id, name, count) VALUES ('tekkaman_blade', '特卡曼刀片', 1);
+INSERT INTO series (id, name, count) VALUES ('grenadier_(manga)', '掷弹兵（漫画）', 1);
+INSERT INTO series (id, name, count) VALUES ('prismplus', '棱镜', 1);
+INSERT INTO series (id, name, count) VALUES ('yat_anshin_uchuu_ryokou', '逸安心宇中旅社', 1);
+INSERT INTO series (id, name, count) VALUES ('bans', '禁令', 1);
+INSERT INTO series (id, name, count) VALUES ('niconico', '尼科尼科', 1);
+INSERT INTO series (id, name, count) VALUES ('hyrule_warriors:_age_of_calamity', '海拉尔勇士：灾难时代', 1);
+INSERT INTO series (id, name, count) VALUES ('tetsujin_28-gou', '铁人28号', 1);
+INSERT INTO series (id, name, count) VALUES ('tokyo_metropolitan_police_department', '东京警察厅', 1);
+INSERT INTO series (id, name, count) VALUES ('off_(game)', '关闭（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('doctor_who', '神秘博士', 1);
+INSERT INTO series (id, name, count) VALUES ('katamari_damacy', '片玉', 1);
+INSERT INTO series (id, name, count) VALUES ('elden_ring:_shadow_of_the_erdtree', '埃尔登指环：埃尔德树之影', 1);
+INSERT INTO series (id, name, count) VALUES ('thomas_the_tank_engine', '托马斯坦克发动机', 1);
+INSERT INTO series (id, name, count) VALUES ('darius_burst', '大流士爆发', 1);
+INSERT INTO series (id, name, count) VALUES ('breakers', '断路器', 1);
+INSERT INTO series (id, name, count) VALUES ('grand_chase', '大追逐', 1);
+INSERT INTO series (id, name, count) VALUES ('the_princess_and_the_frog', '公主与青蛙', 1);
+INSERT INTO series (id, name, count) VALUES ('goth_girl_and_the_jock', '哥特女孩和运动员', 1);
+INSERT INTO series (id, name, count) VALUES ('kung_fu_panda', '功夫熊猫', 1);
+INSERT INTO series (id, name, count) VALUES ('cop_craft:_dragnet_mirage_reloaded', '警察世界：天罗地网幻影重装上阵', 1);
+INSERT INTO series (id, name, count) VALUES ('tild_-_mage_a_louer', '蒂尔德 - 法师 A Louer', 1);
+INSERT INTO series (id, name, count) VALUES ('peter_pan_(disney)', '彼得·潘（迪士尼）', 1);
+INSERT INTO series (id, name, count) VALUES ('ebiten_(manga)', '咬天（漫画）', 1);
+INSERT INTO series (id, name, count) VALUES ('sengoku_ace', '战国王牌', 1);
+INSERT INTO series (id, name, count) VALUES ('one_outs', '一出局', 1);
+INSERT INTO series (id, name, count) VALUES ('bendee_stick_(series)', '弯曲棒', 1);
+INSERT INTO series (id, name, count) VALUES ('janken_game_acchi_muite_hoi!', 'Janken 游戏 Acchi Muite Hoi！', 1);
+INSERT INTO series (id, name, count) VALUES ('bonyuu-chan_wa_dashitai', '本尤酱和大士太', 1);
+INSERT INTO series (id, name, count) VALUES ('shiki_no_akari', '四季之明', 1);
+INSERT INTO series (id, name, count) VALUES ('tongkkangi', '驳船', 1);
+INSERT INTO series (id, name, count) VALUES ('kellogg''s', '家乐氏', 1);
+INSERT INTO series (id, name, count) VALUES ('time_bokan_(series)', '时间博览', 1);
+INSERT INTO series (id, name, count) VALUES ('gachiakuta', '加奇亚库塔', 1);
+INSERT INTO series (id, name, count) VALUES ('toriko_(series)', '鸟子', 1);
+INSERT INTO series (id, name, count) VALUES ('hollow_song_of_birds', '空洞的鸟歌', 1);
+INSERT INTO series (id, name, count) VALUES ('symphonic_rain', '交响雨', 1);
+INSERT INTO series (id, name, count) VALUES ('izumo', '出云', 1);
+INSERT INTO series (id, name, count) VALUES ('spec', '规格', 1);
+INSERT INTO series (id, name, count) VALUES ('slow_damage', '缓慢伤害', 1);
+INSERT INTO series (id, name, count) VALUES ('milk_junkies', '牛奶迷', 1);
+INSERT INTO series (id, name, count) VALUES ('journey', '旅行', 1);
+INSERT INTO series (id, name, count) VALUES ('comic_exe', '漫画执行', 1);
+INSERT INTO series (id, name, count) VALUES ('supokon!_sports_wear_complex', '苏波孔！运动服饰综合体', 1);
+INSERT INTO series (id, name, count) VALUES ('kirarin_revolution', '呼吁革命', 1);
+INSERT INTO series (id, name, count) VALUES ('shizuku_(game)', '雫（游戏）', 1);
+INSERT INTO series (id, name, count) VALUES ('mimi_wo_sumaseba', '米米·沃·苏马塞巴', 1);
+INSERT INTO series (id, name, count) VALUES ('irozuku_sekai_no_ashita_kara', '色色世界的明日空', 1);
+INSERT INTO series (id, name, count) VALUES ('isekai_samurai', '异世界武士', 1);
+INSERT INTO series (id, name, count) VALUES ('zero_project', '零工程', 1);
+INSERT INTO series (id, name, count) VALUES ('seiren', '六个', 1);
 INSERT INTO series (id, name, count) VALUES ('korekara_dandan_shiawase_ni_natte_iku_kowai_onna_joushi', 'Korekara Dandan Shiawase Ni Natte Iku Kowai Onna Joushi', 1);
-INSERT INTO series (id, name, count) VALUES ('hizashi_no_naka_no_real', 'Hizashi No Naka No Real', 1);
-INSERT INTO series (id, name, count) VALUES ('zankyou_no_terror', 'Zankyou No Terror', 1);
-INSERT INTO series (id, name, count) VALUES ('venus_blood', 'Venus Blood', 1);
-INSERT INTO series (id, name, count) VALUES ('golden_axe', 'Golden Axe', 1);
-INSERT INTO series (id, name, count) VALUES ('aiura', 'Aiura', 1);
-INSERT INTO series (id, name, count) VALUES ('kakunaru_ue_wa', 'Kakunaru Ue Wa', 1);
-INSERT INTO series (id, name, count) VALUES ('tobaku_haouden_zero', 'Tobaku Haouden Zero', 1);
-INSERT INTO series (id, name, count) VALUES ('space_channel_5', 'Space Channel 5', 1);
-INSERT INTO series (id, name, count) VALUES ('shin_ultraman', 'Shin Ultraman', 1);
-INSERT INTO series (id, name, count) VALUES ('ultraman_tiga_(series)', 'Ultraman Tiga', 1);
-INSERT INTO series (id, name, count) VALUES ('umihara_kawase', 'Umihara Kawase', 1);
-INSERT INTO series (id, name, count) VALUES ('aquarion_logos', 'Aquarion Logos', 1);
-INSERT INTO series (id, name, count) VALUES ('i_want_you', 'I Want You', 1);
-INSERT INTO series (id, name, count) VALUES ('kenkon_no_washi', 'Kenkon No Washi', 1);
-INSERT INTO series (id, name, count) VALUES ('nazo_no_kanojo_x', 'Nazo No Kanojo X', 1);
-INSERT INTO series (id, name, count) VALUES ('kono_sekai_no_katasumi_ni', 'Kono Sekai No Katasumi Ni', 1);
-INSERT INTO series (id, name, count) VALUES ('g-senjou_no_maou', 'G-senjou No Maou', 1);
-INSERT INTO series (id, name, count) VALUES ('yume_nisshi', 'Yume Nisshi', 1);
-INSERT INTO series (id, name, count) VALUES ('hitomebore', 'Hitomebore', 1);
-INSERT INTO series (id, name, count) VALUES ('fate/requiem', 'Fate/requiem', 1);
-INSERT INTO series (id, name, count) VALUES ('killing_bites', 'Killing Bites', 1);
-INSERT INTO series (id, name, count) VALUES ('ultrakill', 'Ultrakill', 1);
-INSERT INTO series (id, name, count) VALUES ('vampirella', 'Vampirella', 1);
-INSERT INTO series (id, name, count) VALUES ('vanitas_no_carte', 'Vanitas No Carte', 1);
-INSERT INTO series (id, name, count) VALUES ('help!!_(hololive)', 'Help!! (hololive)', 1);
-INSERT INTO series (id, name, count) VALUES ('kinsou_no_vermeil', 'Kinsou No Vermeil', 1);
-INSERT INTO series (id, name, count) VALUES ('helck', 'Helck', 1);
-INSERT INTO series (id, name, count) VALUES ('gradius', 'Gradius', 1);
-INSERT INTO series (id, name, count) VALUES ('the_fairly_oddparents', 'The Fairly Oddparents', 1);
-INSERT INTO series (id, name, count) VALUES ('densetsu.exe', 'Densetsu.exe', 1);
-INSERT INTO series (id, name, count) VALUES ('cloud9', 'Cloud9', 1);
-INSERT INTO series (id, name, count) VALUES ('viewtiful_joe', 'Viewtiful Joe', 1);
-INSERT INTO series (id, name, count) VALUES ('ginga_hyouryuu_vifam', 'Ginga Hyouryuu Vifam', 1);
-INSERT INTO series (id, name, count) VALUES ('dungeons_&_dragons', 'Dungeons & Dragons', 1);
-INSERT INTO series (id, name, count) VALUES ('roman_(sound_horizon)', 'Roman (sound Horizon)', 1);
-INSERT INTO series (id, name, count) VALUES ('office_workers_(blushyspicy)', 'Office Workers (blushyspicy)', 1);
-INSERT INTO series (id, name, count) VALUES ('witch_watch', 'Witch Watch', 1);
-INSERT INTO series (id, name, count) VALUES ('where''s_wally', 'Where''s Wally', 1);
-INSERT INTO series (id, name, count) VALUES ('wonder_festival_mascots', 'Wonder Festival Mascots', 1);
-INSERT INTO series (id, name, count) VALUES ('to_be_hero_x', 'To Be Hero X', 1);
-INSERT INTO series (id, name, count) VALUES ('granado_espada', 'Granado Espada', 1);
-INSERT INTO series (id, name, count) VALUES ('fantasy_earth', 'Fantasy Earth', 1);
+INSERT INTO series (id, name, count) VALUES ('hizashi_no_naka_no_real', '日之中之真实', 1);
+INSERT INTO series (id, name, count) VALUES ('zankyou_no_terror', '残响无恐怖', 1);
+INSERT INTO series (id, name, count) VALUES ('venus_blood', '维纳斯之血', 1);
+INSERT INTO series (id, name, count) VALUES ('golden_axe', '金斧头', 1);
+INSERT INTO series (id, name, count) VALUES ('aiura', '相浦', 1);
+INSERT INTO series (id, name, count) VALUES ('kakunaru_ue_wa', '上羽角那鲁', 1);
+INSERT INTO series (id, name, count) VALUES ('tobaku_haouden_zero', '豪登零烟草', 1);
+INSERT INTO series (id, name, count) VALUES ('space_channel_5', '太空频道5', 1);
+INSERT INTO series (id, name, count) VALUES ('shin_ultraman', '辛奥特曼', 1);
+INSERT INTO series (id, name, count) VALUES ('ultraman_tiga_(series)', '奥特曼三', 1);
+INSERT INTO series (id, name, count) VALUES ('umihara_kawase', '海原河濑', 1);
+INSERT INTO series (id, name, count) VALUES ('aquarion_logos', 'Aquarion 徽标', 1);
+INSERT INTO series (id, name, count) VALUES ('i_want_you', '我想要你', 1);
+INSERT INTO series (id, name, count) VALUES ('kenkon_no_washi', '折纸纸', 1);
+INSERT INTO series (id, name, count) VALUES ('nazo_no_kanojo_x', '奈佐的鹿城X', 1);
+INSERT INTO series (id, name, count) VALUES ('kono_sekai_no_katasumi_ni', '河野世界的胜美二', 1);
+INSERT INTO series (id, name, count) VALUES ('g-senjou_no_maou', 'G千条魔王', 1);
+INSERT INTO series (id, name, count) VALUES ('yume_nisshi', '西梦', 1);
+INSERT INTO series (id, name, count) VALUES ('hitomebore', '一望无际', 1);
+INSERT INTO series (id, name, count) VALUES ('fate/requiem', '命运/安魂曲', 1);
+INSERT INTO series (id, name, count) VALUES ('killing_bites', '致命咬伤', 1);
+INSERT INTO series (id, name, count) VALUES ('ultrakill', '超杀', 1);
+INSERT INTO series (id, name, count) VALUES ('vampirella', '吸血鬼', 1);
+INSERT INTO series (id, name, count) VALUES ('vanitas_no_carte', '虚荣无卡', 1);
+INSERT INTO series (id, name, count) VALUES ('help!!_(hololive)', '帮助！！ （全息直播）', 1);
+INSERT INTO series (id, name, count) VALUES ('kinsou_no_vermeil', '金索诺·维尔梅尔', 1);
+INSERT INTO series (id, name, count) VALUES ('helck', '赫尔克', 1);
+INSERT INTO series (id, name, count) VALUES ('gradius', '步步', 1);
+INSERT INTO series (id, name, count) VALUES ('the_fairly_oddparents', '相当奇怪的父母', 1);
+INSERT INTO series (id, name, count) VALUES ('densetsu.exe', '电传.exe', 1);
+INSERT INTO series (id, name, count) VALUES ('cloud9', '云9', 1);
+INSERT INTO series (id, name, count) VALUES ('viewtiful_joe', '漂亮的乔', 1);
+INSERT INTO series (id, name, count) VALUES ('ginga_hyouryuu_vifam', '银河 Hyouruu Vifam', 1);
+INSERT INTO series (id, name, count) VALUES ('dungeons_&_dragons', '龙与地下城', 1);
+INSERT INTO series (id, name, count) VALUES ('roman_(sound_horizon)', '罗马（声音地平线）', 1);
+INSERT INTO series (id, name, count) VALUES ('office_workers_(blushyspicy)', '办公室职员 (blushyspicy)', 1);
+INSERT INTO series (id, name, count) VALUES ('witch_watch', '女巫手表', 1);
+INSERT INTO series (id, name, count) VALUES ('where''s_wally', '沃利在哪里', 1);
+INSERT INTO series (id, name, count) VALUES ('wonder_festival_mascots', '奇迹节吉祥物', 1);
+INSERT INTO series (id, name, count) VALUES ('to_be_hero_x', '成为英雄X', 1);
+INSERT INTO series (id, name, count) VALUES ('granado_espada', '格拉纳多剑', 1);
+INSERT INTO series (id, name, count) VALUES ('fantasy_earth', '幻想地球', 1);
 INSERT INTO series (id, name, count) VALUES ('"rouhou"_ore_no_iinazuke_ni_natta_jimiko_ie_dewa_kawaii_shikanai.', '"rouhou" Ore No Iinazuke Ni Natta Jimiko Ie Dewa Kawaii Shikanai.', 1);
-INSERT INTO series (id, name, count) VALUES ('wendy''s', 'Wendy''s', 1);
-INSERT INTO series (id, name, count) VALUES ('bomberman', 'Bomberman', 1);
-INSERT INTO series (id, name, count) VALUES ('wikipedia', 'Wikipedia', 1);
-INSERT INTO series (id, name, count) VALUES ('the_smoke_room', 'The Smoke Room', 1);
-INSERT INTO series (id, name, count) VALUES ('earth_defense_force', 'Earth Defense Force', 1);
-INSERT INTO series (id, name, count) VALUES ('over_the_garden_wall', 'Over The Garden Wall', 1);
-INSERT INTO series (id, name, count) VALUES ('kyou_kara_maou!', 'Kyou Kara Maou!', 1);
-INSERT INTO series (id, name, count) VALUES ('wooser_no_sono_higurashi', 'Wooser No Sono Higurashi', 1);
-INSERT INTO series (id, name, count) VALUES ('lethal_company', 'Lethal Company', 1);
-INSERT INTO series (id, name, count) VALUES ('the_lego_group', 'The Lego Group', 1);
-INSERT INTO series (id, name, count) VALUES ('lobotomy_corporation', 'Lobotomy Corporation', 1);
-INSERT INTO series (id, name, count) VALUES ('hakata_tonkotsu_ramens', 'Hakata Tonkotsu Ramens', 1);
-INSERT INTO series (id, name, count) VALUES ('magi_in_wanchin_basilica', 'Magi In Wanchin Basilica', 1);
-INSERT INTO series (id, name, count) VALUES ('sergestid_shrimp_in_tungkang', 'Sergestid Shrimp In Tungkang', 1);
-INSERT INTO series (id, name, count) VALUES ('judge_eyes', 'Judge Eyes', 1);
-INSERT INTO series (id, name, count) VALUES ('seikaisuru_kado', 'Seikaisuru Kado', 1);
-INSERT INTO series (id, name, count) VALUES ('haruru_minamo_ni!', 'Haruru Minamo Ni!', 1);
-INSERT INTO series (id, name, count) VALUES ('the_ring', 'The Ring', 1);
-INSERT INTO series (id, name, count) VALUES ('cross_channel', 'Cross Channel', 1);
-INSERT INTO series (id, name, count) VALUES ('kimi_no_suizou_wo_tabetai', 'Kimi No Suizou Wo Tabetai', 1);
-INSERT INTO series (id, name, count) VALUES ('zonchuu_zombie_jk_wa_game_haishinchuu', 'Zonchuu Zombie Jk Wa Game Haishinchuu', 1);
-INSERT INTO series (id, name, count) VALUES ('blood_lad', 'Blood Lad', 1);
-INSERT INTO series (id, name, count) VALUES ('momotarou_densetsu', 'Momotarou Densetsu', 1);
-INSERT INTO series (id, name, count) VALUES ('kuzu_no_honkai', 'Kuzu No Honkai', 1);
-INSERT INTO series (id, name, count) VALUES ('tenkyou_no_alderamin', 'Tenkyou No Alderamin', 1);
-INSERT INTO series (id, name, count) VALUES ('myself_yourself', 'Myself Yourself', 1);
-INSERT INTO series (id, name, count) VALUES ('machine-doll_wa_kizutsukanai', 'Machine-doll Wa Kizutsukanai', 1);
-INSERT INTO series (id, name, count) VALUES ('g-i-dle', 'G-i-dle', 1);
-INSERT INTO series (id, name, count) VALUES ('yggdra_union', 'Yggdra Union', 1);
-INSERT INTO series (id, name, count) VALUES ('nabari_no_ou', 'Nabari No Ou', 1);
-INSERT INTO series (id, name, count) VALUES ('icetea', 'Icetea', 1);
-INSERT INTO series (id, name, count) VALUES ('vesperbell', 'Vesperbell', 1);
-INSERT INTO series (id, name, count) VALUES ('kono_shima_ni_wa_midara_de_jaaku_na_mono_ga_sumu', 'Kono Shima Ni Wa Midara De Jaaku Na Mono Ga Sumu', 1);
-INSERT INTO series (id, name, count) VALUES ('emergence_(shindol)', 'Emergence (shindol)', 1);
-INSERT INTO series (id, name, count) VALUES ('cloud_nine_inc', 'Cloud Nine Inc', 1);
-INSERT INTO series (id, name, count) VALUES ('i"s', 'I"s', 1);
-INSERT INTO series (id, name, count) VALUES ('yotaka_futatabi', 'Yotaka Futatabi', 1);
-INSERT INTO series (id, name, count) VALUES ('regalia_the_three_sacred_stars', 'Regalia The Three Sacred Stars', 1);
-INSERT INTO series (id, name, count) VALUES ('gore_screaming_show', 'Gore Screaming Show', 1);
-INSERT INTO series (id, name, count) VALUES ('ring_dream', 'Ring Dream', 1);
-INSERT INTO series (id, name, count) VALUES ('yukijirushi', 'Yukijirushi', 1);
-INSERT INTO series (id, name, count) VALUES ('deaimon', 'Deaimon', 1);
-INSERT INTO series (id, name, count) VALUES ('dororon_enma-kun', 'Dororon Enma-kun', 1);
-INSERT INTO series (id, name, count) VALUES ('kekkaishi', 'Kekkaishi', 1);
-INSERT INTO series (id, name, count) VALUES ('hoshi_ori_yume_mirai', 'Hoshi Ori Yume Mirai', 1);
-INSERT INTO series (id, name, count) VALUES ('senryuu_shoujo', 'Senryuu Shoujo', 1);
-INSERT INTO series (id, name, count) VALUES ('wingman', 'Wingman', 1);
-INSERT INTO series (id, name, count) VALUES ('joshi_shougakusei_hajimemashita', 'Joshi Shougakusei Hajimemashita', 1);
-INSERT INTO series (id, name, count) VALUES ('kuma_kuma_kuma_bear', 'Kuma Kuma Kuma Bear', 1);
-INSERT INTO series (id, name, count) VALUES ('yuni_channel', 'Yuni Channel', 1);
-INSERT INTO series (id, name, count) VALUES ('absolute_duo', 'Absolute Duo', 1);
-INSERT INTO series (id, name, count) VALUES ('dimension_w', 'Dimension W', 1);
-INSERT INTO series (id, name, count) VALUES ('2024_summer_olympics', '2024 Summer Olympics', 1);
-INSERT INTO series (id, name, count) VALUES ('towa_no_yuugure', 'Towa No Yuugure', 1);
-INSERT INTO series (id, name, count) VALUES ('nora_to_oujo_to_noraneko_heart', 'Nora To Oujo To Noraneko Heart', 1);
-INSERT INTO series (id, name, count) VALUES ('kamikaze_explorer!', 'Kamikaze Explorer!', 1);
-INSERT INTO series (id, name, count) VALUES ('torikoro', 'Torikoro', 1);
-INSERT INTO series (id, name, count) VALUES ('tonikaku_kawaii', 'Tonikaku Kawaii', 1);
-INSERT INTO series (id, name, count) VALUES ('447_records', '447 Records', 1);
-INSERT INTO series (id, name, count) VALUES ('robot_girls_z', 'Robot Girls Z', 1);
-INSERT INTO series (id, name, count) VALUES ('jinhongi', 'Jinhongi', 1);
-INSERT INTO series (id, name, count) VALUES ('ano_ko_wa_toshi_densetsu', 'Ano Ko Wa Toshi Densetsu', 1);
-INSERT INTO series (id, name, count) VALUES ('shinken-zemi', 'Shinken-zemi', 1);
-INSERT INTO series (id, name, count) VALUES ('kikai_sentai_zenkaiger', 'Kikai Sentai Zenkaiger', 1);
-INSERT INTO series (id, name, count) VALUES ('hades_project_zeorymer', 'Hades Project Zeorymer', 1);
-INSERT INTO series (id, name, count) VALUES ('saikyou_ginga_ultimate_zero_~battle_spirits~', 'Saikyou Ginga Ultimate Zero ~battle Spirits~', 1);
-INSERT INTO series (id, name, count) VALUES ('romance_of_the_three_kingdoms', 'Romance Of The Three Kingdoms', 1);
-INSERT INTO series (id, name, count) VALUES ('dive_to_zone', 'Dive To Zone', 1);
+INSERT INTO series (id, name, count) VALUES ('wendy''s', '温迪的', 1);
+INSERT INTO series (id, name, count) VALUES ('bomberman', '炸弹人', 1);
+INSERT INTO series (id, name, count) VALUES ('wikipedia', '维基百科', 1);
+INSERT INTO series (id, name, count) VALUES ('the_smoke_room', '烟室', 1);
+INSERT INTO series (id, name, count) VALUES ('earth_defense_force', '地球防卫军', 1);
+INSERT INTO series (id, name, count) VALUES ('over_the_garden_wall', '越过花园围墙', 1);
+INSERT INTO series (id, name, count) VALUES ('kyou_kara_maou!', '京卡拉魔王！', 1);
+INSERT INTO series (id, name, count) VALUES ('wooser_no_sono_higurashi', '呜瑟之园·寒蝉', 1);
+INSERT INTO series (id, name, count) VALUES ('lethal_company', '致命公司', 1);
+INSERT INTO series (id, name, count) VALUES ('the_lego_group', '乐高集团', 1);
+INSERT INTO series (id, name, count) VALUES ('lobotomy_corporation', '脑叶公司', 1);
+INSERT INTO series (id, name, count) VALUES ('hakata_tonkotsu_ramens', '博多猪骨拉面', 1);
+INSERT INTO series (id, name, count) VALUES ('magi_in_wanchin_basilica', '东方贤士在万镇大殿', 1);
+INSERT INTO series (id, name, count) VALUES ('sergestid_shrimp_in_tungkang', '东港的虾', 1);
+INSERT INTO series (id, name, count) VALUES ('judge_eyes', '法官之眼', 1);
+INSERT INTO series (id, name, count) VALUES ('seikaisuru_kado', '清海鹤角', 1);
+INSERT INTO series (id, name, count) VALUES ('haruru_minamo_ni!', '南春鲁！', 1);
+INSERT INTO series (id, name, count) VALUES ('the_ring', '指环', 1);
+INSERT INTO series (id, name, count) VALUES ('cross_channel', '跨海峡', 1);
+INSERT INTO series (id, name, count) VALUES ('kimi_no_suizou_wo_tabetai', '君之水藏我塔贝泰', 1);
+INSERT INTO series (id, name, count) VALUES ('zonchuu_zombie_jk_wa_game_haishinchuu', 'Zonchuu 僵尸 JK Wa 游戏 Haishinchuu', 1);
+INSERT INTO series (id, name, count) VALUES ('blood_lad', '血小子', 1);
+INSERT INTO series (id, name, count) VALUES ('momotarou_densetsu', '桃太郎传说', 1);
+INSERT INTO series (id, name, count) VALUES ('kuzu_no_honkai', '葛之本海', 1);
+INSERT INTO series (id, name, count) VALUES ('tenkyou_no_alderamin', '天空之阿尔达拉米', 1);
+INSERT INTO series (id, name, count) VALUES ('myself_yourself', '我自己你自己', 1);
+INSERT INTO series (id, name, count) VALUES ('machine-doll_wa_kizutsukanai', '机械人形 木津金内', 1);
+INSERT INTO series (id, name, count) VALUES ('g-i-dle', 'G-空闲', 1);
+INSERT INTO series (id, name, count) VALUES ('yggdra_union', '世界树联盟', 1);
+INSERT INTO series (id, name, count) VALUES ('nabari_no_ou', '名张之王', 1);
+INSERT INTO series (id, name, count) VALUES ('icetea', '冰淇淋', 1);
+INSERT INTO series (id, name, count) VALUES ('vesperbell', '维斯珀贝尔', 1);
+INSERT INTO series (id, name, count) VALUES ('kono_shima_ni_wa_midara_de_jaaku_na_mono_ga_sumu', '科诺岛尼瓦米达拉德贾库纳莫诺嘎苏姆', 1);
+INSERT INTO series (id, name, count) VALUES ('emergence_(shindol)', '出现（新石）', 1);
+INSERT INTO series (id, name, count) VALUES ('cloud_nine_inc', '云九公司', 1);
+INSERT INTO series (id, name, count) VALUES ('i"s', '是', 1);
+INSERT INTO series (id, name, count) VALUES ('yotaka_futatabi', '二田洋隆', 1);
+INSERT INTO series (id, name, count) VALUES ('regalia_the_three_sacred_stars', '帝王三圣星', 1);
+INSERT INTO series (id, name, count) VALUES ('gore_screaming_show', '戈尔尖叫秀', 1);
+INSERT INTO series (id, name, count) VALUES ('ring_dream', '戒指梦', 1);
+INSERT INTO series (id, name, count) VALUES ('yukijirushi', '雪印', 1);
+INSERT INTO series (id, name, count) VALUES ('deaimon', '恶魔', 1);
+INSERT INTO series (id, name, count) VALUES ('dororon_enma-kun', '多罗隆阎魔君', 1);
+INSERT INTO series (id, name, count) VALUES ('kekkaishi', '结界石', 1);
+INSERT INTO series (id, name, count) VALUES ('hoshi_ori_yume_mirai', '星织梦未来', 1);
+INSERT INTO series (id, name, count) VALUES ('senryuu_shoujo', '千龙少女', 1);
+INSERT INTO series (id, name, count) VALUES ('wingman', '僚机', 1);
+INSERT INTO series (id, name, count) VALUES ('joshi_shougakusei_hajimemashita', '城志', 1);
+INSERT INTO series (id, name, count) VALUES ('kuma_kuma_kuma_bear', '和和和熊', 1);
+INSERT INTO series (id, name, count) VALUES ('yuni_channel', '尤尼频道', 1);
+INSERT INTO series (id, name, count) VALUES ('absolute_duo', '绝对二人组', 1);
+INSERT INTO series (id, name, count) VALUES ('dimension_w', '尺寸W', 1);
+INSERT INTO series (id, name, count) VALUES ('2024_summer_olympics', '2024 年夏季奥运会', 1);
+INSERT INTO series (id, name, count) VALUES ('towa_no_yuugure', '十和的夕阳', 1);
+INSERT INTO series (id, name, count) VALUES ('nora_to_oujo_to_noraneko_heart', '诺拉 与 奥乔 与 Noraneko 心', 1);
+INSERT INTO series (id, name, count) VALUES ('kamikaze_explorer!', '神风特攻队探险家！', 1);
+INSERT INTO series (id, name, count) VALUES ('torikoro', '鸟子郎', 1);
+INSERT INTO series (id, name, count) VALUES ('tonikaku_kawaii', '可爱卡哇伊', 1);
+INSERT INTO series (id, name, count) VALUES ('447_records', '447 条记录', 1);
+INSERT INTO series (id, name, count) VALUES ('robot_girls_z', '机器人少女Z', 1);
+INSERT INTO series (id, name, count) VALUES ('jinhongi', '真弘义', 1);
+INSERT INTO series (id, name, count) VALUES ('ano_ko_wa_toshi_densetsu', '安乃子和岁月传说', 1);
+INSERT INTO series (id, name, count) VALUES ('shinken-zemi', '真剑泽米', 1);
+INSERT INTO series (id, name, count) VALUES ('kikai_sentai_zenkaiger', '机械战队全凯格', 1);
+INSERT INTO series (id, name, count) VALUES ('hades_project_zeorymer', '哈迪斯计划 Zeorymer', 1);
+INSERT INTO series (id, name, count) VALUES ('saikyou_ginga_ultimate_zero_~battle_spirits~', '西京银河究极零～战斗之魂～', 1);
+INSERT INTO series (id, name, count) VALUES ('romance_of_the_three_kingdoms', '三个王国的浪漫', 1);
+INSERT INTO series (id, name, count) VALUES ('dive_to_zone', '潜入区域', 1);
 
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
 ('original', 'kemomimi-chan (naga u), original', 'Kemomimi-chan (naga U)', 'https://blobs.animadex.net/Outputs/thumbs/kemomimi-chan%20(naga%20u)%2C%20original.webp', 1814, ''),
@@ -5806,7 +5806,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('original', 'onsen tagamo (okitaima), original', 'Onsen Tagamo (okitaima)', 'https://blobs.animadex.net/Outputs/thumbs/onsen%20tagamo%20(okitaima)%2C%20original.webp', 20, ''),
 ('original', 'orion (alterkyon), original', 'Orion (alterkyon)', 'https://blobs.animadex.net/Outputs/thumbs/orion%20(alterkyon)%2C%20original.webp', 20, ''),
 ('original', 'syllia (huffslove), original', 'Syllia (huffslove)', 'https://blobs.animadex.net/Outputs/thumbs/syllia%20(huffslove)%2C%20original.webp', 20, ''),
-('original', '"vainamoinen (personification), original"', 'Vainamoinen (personification)', 'https://blobs.animadex.net/Outputs/thumbs/%22vainamoinen%20(personification)%2C%20original%22.webp', 20, ''),
+('original', '"vainamoinen (personification), original"', 'Vainamoinen (personification)', 'https://blobs.animadex.net/Outputs/thumbs/_vainamoinen%20(personification)%2C%20original_.webp', 20, ''),
 ('original', 'blyskawica (flandre5carlet), original', 'Blyskawica (flandre5carlet)', 'https://blobs.animadex.net/Outputs/thumbs/blyskawica%20(flandre5carlet)%2C%20original.webp', 19, ''),
 ('original', 'bremen (ergot), original', 'Bremen (ergot)', 'https://blobs.animadex.net/Outputs/thumbs/bremen%20(ergot)%2C%20original.webp', 19, ''),
 ('original', 'fran (arachnos), original', 'Fran (arachnos)', 'https://blobs.animadex.net/Outputs/thumbs/fran%20(arachnos)%2C%20original.webp', 19, ''),
@@ -5905,7 +5905,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('original', 'eclair (teuthidan), original', 'Eclair (teuthidan)', 'https://blobs.animadex.net/Outputs/thumbs/eclair%20(teuthidan)%2C%20original.webp', 11, ''),
 ('original', 'elena (hazuki kazue), original', 'Elena (hazuki Kazue)', 'https://blobs.animadex.net/Outputs/thumbs/elena%20(hazuki%20kazue)%2C%20original.webp', 11, ''),
 ('original', 'felicitee (utatatane), original', 'Felicitee (utatatane)', 'https://blobs.animadex.net/Outputs/thumbs/felicitee%20(utatatane)%2C%20original.webp', 11, ''),
-('original', '"ilmarinen (personification), original"', 'Ilmarinen (personification)', 'https://blobs.animadex.net/Outputs/thumbs/%22ilmarinen%20(personification)%2C%20original%22.webp', 11, ''),
+('original', '"ilmarinen (personification), original"', 'Ilmarinen (personification)', 'https://blobs.animadex.net/Outputs/thumbs/_ilmarinen%20(personification)%2C%20original_.webp', 11, ''),
 ('original', 'jeon jae-soon (goarosa), original', 'Jeon Jae-soon (goarosa)', 'https://blobs.animadex.net/Outputs/thumbs/jeon%20jae-soon%20(goarosa)%2C%20original.webp', 11, ''),
 ('original', 'julieth (dilan griz), original', 'Julieth (dilan Griz)', 'https://blobs.animadex.net/Outputs/thumbs/julieth%20(dilan%20griz)%2C%20original.webp', 11, ''),
 ('original', 'kitty (liuskin), original', 'Kitty (liuskin)', 'https://blobs.animadex.net/Outputs/thumbs/kitty%20(liuskin)%2C%20original.webp', 11, ''),
@@ -7729,7 +7729,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('pokemon', 'roxanne (fall 2023) (pokemon), pokemon', 'Roxanne (fall 2023) (pokemon)', 'https://blobs.animadex.net/Outputs/thumbs/roxanne%20(fall%202023)%20(pokemon)%2C%20pokemon.webp', 36, ''),
 ('pokemon', 'stonjourner, pokemon', 'Stonjourner', 'https://blobs.animadex.net/Outputs/thumbs/stonjourner%2C%20pokemon.webp', 36, ''),
 ('pokemon', 'tinkatuff, pokemon', 'Tinkatuff', 'https://blobs.animadex.net/Outputs/thumbs/tinkatuff%2C%20pokemon.webp', 36, ''),
-('pokemon', 'unown ?, pokemon', 'Unown ?', 'https://blobs.animadex.net/Outputs/thumbs/unown%20%3F%2C%20pokemon.webp', 36, ''),
+('pokemon', 'unown ?, pokemon', 'Unown ?', 'https://blobs.animadex.net/Outputs/thumbs/unown%20_%2C%20pokemon.webp', 36, ''),
 ('pokemon', 'alcremie (ribbon sweet), pokemon', 'Alcremie (ribbon Sweet)', 'https://blobs.animadex.net/Outputs/thumbs/alcremie%20(ribbon%20sweet)%2C%20pokemon.webp', 35, ''),
 ('pokemon', 'alolan raticate, pokemon', 'Alolan Raticate', 'https://blobs.animadex.net/Outputs/thumbs/alolan%20raticate%2C%20pokemon.webp', 35, ''),
 ('pokemon', 'anna (pokemon), pokemon', 'Anna (pokemon)', 'https://blobs.animadex.net/Outputs/thumbs/anna%20(pokemon)%2C%20pokemon.webp', 35, ''),
@@ -8011,7 +8011,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'u-47 (azur lane), azur lane', 'U-47 (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/u-47%20(azur%20lane)%2C%20azur%20lane.webp', 265, ''),
 ('azur_lane', 'swiftsure (azur lane), azur lane', 'Swiftsure (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/swiftsure%20(azur%20lane)%2C%20azur%20lane.webp', 263, ''),
 ('azur_lane', 'algerie (azur lane), azur lane', 'Algerie (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/algerie%20(azur%20lane)%2C%20azur%20lane.webp', 257, ''),
-('azur_lane', 'honolulu (summer accident?!) (azur lane), azur lane', 'Honolulu (summer Accident?!) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/honolulu%20(summer%20accident%3F%21)%20(azur%20lane)%2C%20azur%20lane.webp', 251, ''),
+('azur_lane', 'honolulu (summer accident?!) (azur lane), azur lane', 'Honolulu (summer Accident?!) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/honolulu%20(summer%20accident_%21)%20(azur%20lane)%2C%20azur%20lane.webp', 251, ''),
 ('azur_lane', 'unzen (azur lane), azur lane', 'Unzen (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/unzen%20(azur%20lane)%2C%20azur%20lane.webp', 248, ''),
 ('azur_lane', 'ibuki (azur lane), azur lane', 'Ibuki (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/ibuki%20(azur%20lane)%2C%20azur%20lane.webp', 247, ''),
 ('azur_lane', 'plymouth (azur lane), azur lane', 'Plymouth (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/plymouth%20(azur%20lane)%2C%20azur%20lane.webp', 246, ''),
@@ -8105,7 +8105,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'female commander (azur lane), azur lane', 'Female Commander (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/female%20commander%20(azur%20lane)%2C%20azur%20lane.webp', 149, ''),
 ('azur_lane', 'foch (azur lane), azur lane', 'Foch (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/foch%20(azur%20lane)%2C%20azur%20lane.webp', 148, ''),
 ('azur_lane', 'maya (azur lane), azur lane', 'Maya (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/maya%20(azur%20lane)%2C%20azur%20lane.webp', 148, ''),
-('azur_lane', 'yamashiro (summer offensive?) (azur lane), azur lane', 'Yamashiro (summer Offensive?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/yamashiro%20(summer%20offensive%3F)%20(azur%20lane)%2C%20azur%20lane.webp', 148, ''),
+('azur_lane', 'yamashiro (summer offensive?) (azur lane), azur lane', 'Yamashiro (summer Offensive?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/yamashiro%20(summer%20offensive_)%20(azur%20lane)%2C%20azur%20lane.webp', 148, ''),
 ('azur_lane', 'jeanne d''arc (azur lane), azur lane', 'Jeanne D''arc (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/jeanne%20d%27arc%20(azur%20lane)%2C%20azur%20lane.webp', 146, ''),
 ('azur_lane', 'shangri-la (azur lane), azur lane', 'Shangri-la (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/shangri-la%20(azur%20lane)%2C%20azur%20lane.webp', 146, ''),
 ('azur_lane', 'le malin (mercredi at the secret base) (azur lane), azur lane', 'Le Malin (mercredi At The Secret Base) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/le%20malin%20(mercredi%20at%20the%20secret%20base)%20(azur%20lane)%2C%20azur%20lane.webp', 144, ''),
@@ -8117,7 +8117,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'howe (azur lane), azur lane', 'Howe (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/howe%20(azur%20lane)%2C%20azur%20lane.webp', 141, ''),
 ('azur_lane', 'alsace (heat beating summer sacrament) (azur lane), azur lane', 'Alsace (heat Beating Summer Sacrament) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/alsace%20(heat%20beating%20summer%20sacrament)%20(azur%20lane)%2C%20azur%20lane.webp', 140, ''),
 ('azur_lane', 'ayanami (niconico) (azur lane), azur lane', 'Ayanami (niconico) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/ayanami%20(niconico)%20(azur%20lane)%2C%20azur%20lane.webp', 140, ''),
-('azur_lane', 'implacable (shepherd of the "lost") (azur lane), azur lane', 'Implacable (shepherd Of The "lost") (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/implacable%20(shepherd%20of%20the%20%22lost%22)%20(azur%20lane)%2C%20azur%20lane.webp', 140, ''),
+('azur_lane', 'implacable (shepherd of the "lost") (azur lane), azur lane', 'Implacable (shepherd Of The "lost") (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/implacable%20(shepherd%20of%20the%20_lost_)%20(azur%20lane)%2C%20azur%20lane.webp', 140, ''),
 ('azur_lane', 'nagara (azur lane), azur lane', 'Nagara (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/nagara%20(azur%20lane)%2C%20azur%20lane.webp', 140, ''),
 ('azur_lane', 'tashkent (the bound cruiser) (azur lane), azur lane', 'Tashkent (the Bound Cruiser) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/tashkent%20(the%20bound%20cruiser)%20(azur%20lane)%2C%20azur%20lane.webp', 140, ''),
 ('azur_lane', 'admiral graf spee (peaceful daily life) (azur lane), azur lane', 'Admiral Graf Spee (peaceful Daily Life) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/admiral%20graf%20spee%20(peaceful%20daily%20life)%20(azur%20lane)%2C%20azur%20lane.webp', 139, ''),
@@ -8182,7 +8182,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'unzen (sojourn through clear seas) (azur lane), azur lane', 'Unzen (sojourn Through Clear Seas) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/unzen%20(sojourn%20through%20clear%20seas)%20(azur%20lane)%2C%20azur%20lane.webp', 113, ''),
 ('azur_lane', 'leipzig (azur lane), azur lane', 'Leipzig (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/leipzig%20(azur%20lane)%2C%20azur%20lane.webp', 112, ''),
 ('azur_lane', 'azuma (soft voice of spring) (azur lane), azur lane', 'Azuma (soft Voice Of Spring) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/azuma%20(soft%20voice%20of%20spring)%20(azur%20lane)%2C%20azur%20lane.webp', 111, ''),
-('azur_lane', 'deutschland (service time?!) (azur lane), azur lane', 'Deutschland (service Time?!) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/deutschland%20(service%20time%3F%21)%20(azur%20lane)%2C%20azur%20lane.webp', 111, ''),
+('azur_lane', 'deutschland (service time?!) (azur lane), azur lane', 'Deutschland (service Time?!) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/deutschland%20(service%20time_%21)%20(azur%20lane)%2C%20azur%20lane.webp', 111, ''),
 ('azur_lane', 'jervis (azur lane), azur lane', 'Jervis (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/jervis%20(azur%20lane)%2C%20azur%20lane.webp', 111, ''),
 ('azur_lane', 'albion (azur lane), azur lane', 'Albion (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/albion%20(azur%20lane)%2C%20azur%20lane.webp', 110, ''),
 ('azur_lane', 'hobby (azur lane), azur lane', 'Hobby (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/hobby%20(azur%20lane)%2C%20azur%20lane.webp', 110, ''),
@@ -8381,7 +8381,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'strasbourg (azur lane), azur lane', 'Strasbourg (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/strasbourg%20(azur%20lane)%2C%20azur%20lane.webp', 65, ''),
 ('azur_lane', 'swiftsure (study hall cyclamen) (azur lane), azur lane', 'Swiftsure (study Hall Cyclamen) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/swiftsure%20(study%20hall%20cyclamen)%20(azur%20lane)%2C%20azur%20lane.webp', 65, ''),
 ('azur_lane', 'york (azur lane), azur lane', 'York (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/york%20(azur%20lane)%2C%20azur%20lane.webp', 65, ''),
-('azur_lane', 'z23 (upgrade failure?!) (azur lane), azur lane', 'Z23 (upgrade Failure?!) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/z23%20(upgrade%20failure%3F%21)%20(azur%20lane)%2C%20azur%20lane.webp', 65, ''),
+('azur_lane', 'z23 (upgrade failure?!) (azur lane), azur lane', 'Z23 (upgrade Failure?!) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/z23%20(upgrade%20failure_%21)%20(azur%20lane)%2C%20azur%20lane.webp', 65, ''),
 ('azur_lane', 'california (azur lane), azur lane', 'California (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/california%20(azur%20lane)%2C%20azur%20lane.webp', 64, ''),
 ('azur_lane', 'chen hai (retrofit) (azur lane), azur lane', 'Chen Hai (retrofit) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/chen%20hai%20(retrofit)%20(azur%20lane)%2C%20azur%20lane.webp', 64, '');
 
@@ -8390,7 +8390,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'maille-breze (azur lane), azur lane', 'Maille-breze (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/maille-breze%20(azur%20lane)%2C%20azur%20lane.webp', 64, ''),
 ('azur_lane', 'manchester (azur lane), azur lane', 'Manchester (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/manchester%20(azur%20lane)%2C%20azur%20lane.webp', 64, ''),
 ('azur_lane', 'asanagi (azur lane), azur lane', 'Asanagi (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/asanagi%20(azur%20lane)%2C%20azur%20lane.webp', 63, ''),
-('azur_lane', 'elbe (time to show off?) (azur lane), azur lane', 'Elbe (time To Show Off?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/elbe%20(time%20to%20show%20off%3F)%20(azur%20lane)%2C%20azur%20lane.webp', 63, ''),
+('azur_lane', 'elbe (time to show off?) (azur lane), azur lane', 'Elbe (time To Show Off?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/elbe%20(time%20to%20show%20off_)%20(azur%20lane)%2C%20azur%20lane.webp', 63, ''),
 ('azur_lane', 'foxhound (azur lane), azur lane', 'Foxhound (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/foxhound%20(azur%20lane)%2C%20azur%20lane.webp', 63, ''),
 ('azur_lane', 'hermione (pure white angel) (azur lane), azur lane', 'Hermione (pure White Angel) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/hermione%20(pure%20white%20angel)%20(azur%20lane)%2C%20azur%20lane.webp', 63, ''),
 ('azur_lane', 'arizona (azur lane), azur lane', 'Arizona (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/arizona%20(azur%20lane)%2C%20azur%20lane.webp', 62, ''),
@@ -8496,7 +8496,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'mary celeste (azur lane), azur lane', 'Mary Celeste (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/mary%20celeste%20(azur%20lane)%2C%20azur%20lane.webp', 50, ''),
 ('azur_lane', 'mullany (azur lane), azur lane', 'Mullany (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/mullany%20(azur%20lane)%2C%20azur%20lane.webp', 50, ''),
 ('azur_lane', 'new orleans (azur lane), azur lane', 'New Orleans (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/new%20orleans%20(azur%20lane)%2C%20azur%20lane.webp', 50, ''),
-('azur_lane', 'trento (summer''s hotness?) (azur lane), azur lane', 'Trento (summer''s Hotness?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/trento%20(summer%27s%20hotness%3F)%20(azur%20lane)%2C%20azur%20lane.webp', 50, ''),
+('azur_lane', 'trento (summer''s hotness?) (azur lane), azur lane', 'Trento (summer''s Hotness?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/trento%20(summer%27s%20hotness_)%20(azur%20lane)%2C%20azur%20lane.webp', 50, ''),
 ('azur_lane', 'duke of york (prestige of the glorious formula) (azur lane), azur lane', 'Duke Of York (prestige Of The Glorious Formula) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/duke%20of%20york%20(prestige%20of%20the%20glorious%20formula)%20(azur%20lane)%2C%20azur%20lane.webp', 49, ''),
 ('azur_lane', 'elbe (pure-hearted bad girl) (azur lane), azur lane', 'Elbe (pure-hearted Bad Girl) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/elbe%20(pure-hearted%20bad%20girl)%20(azur%20lane)%2C%20azur%20lane.webp', 49, ''),
 ('azur_lane', 'isokaze (new year''s campaign) (azur lane), azur lane', 'Isokaze (new Year''s Campaign) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/isokaze%20(new%20year%27s%20campaign)%20(azur%20lane)%2C%20azur%20lane.webp', 49, ''),
@@ -8528,7 +8528,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'u-47 (rookie rider) (azur lane), azur lane', 'U-47 (rookie Rider) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/u-47%20(rookie%20rider)%20(azur%20lane)%2C%20azur%20lane.webp', 46, ''),
 ('azur_lane', 'z24 (azur lane), azur lane', 'Z24 (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/z24%20(azur%20lane)%2C%20azur%20lane.webp', 46, ''),
 ('azur_lane', 'admiral graf spee (a novel anniversary) (azur lane), azur lane', 'Admiral Graf Spee (a Novel Anniversary) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/admiral%20graf%20spee%20(a%20novel%20anniversary)%20(azur%20lane)%2C%20azur%20lane.webp', 45, ''),
-('azur_lane', 'admiral nakhimov (cheerleading mechanic?) (azur lane), azur_lane', 'Admiral Nakhimov (cheerleading Mechanic?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/admiral%20nakhimov%20(cheerleading%20mechanic%3F)%20(azur%20lane)%2C%20azur_lane.webp', 45, ''),
+('azur_lane', 'admiral nakhimov (cheerleading mechanic?) (azur lane), azur_lane', 'Admiral Nakhimov (cheerleading Mechanic?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/admiral%20nakhimov%20(cheerleading%20mechanic_)%20(azur%20lane)%2C%20azur_lane.webp', 45, ''),
 ('azur_lane', 'agano (azur lane), azur lane', 'Agano (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/agano%20(azur%20lane)%2C%20azur%20lane.webp', 45, ''),
 ('azur_lane', 'bellona (armed to clean) (azur lane), azur lane', 'Bellona (armed To Clean) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/bellona%20(armed%20to%20clean)%20(azur%20lane)%2C%20azur%20lane.webp', 45, ''),
 ('azur_lane', 'chi an (azur lane), azur lane', 'Chi An (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/chi%20an%20(azur%20lane)%2C%20azur%20lane.webp', 45, ''),
@@ -8578,7 +8578,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'janus (fear of changing...clothes) (azur lane), azur lane', 'Janus (fear Of Changing...clothes) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/janus%20(fear%20of%20changing...clothes)%20(azur%20lane)%2C%20azur%20lane.webp', 41, ''),
 ('azur_lane', 'kashino (robust floral strings) (azur lane), azur lane', 'Kashino (robust Floral Strings) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/kashino%20(robust%20floral%20strings)%20(azur%20lane)%2C%20azur%20lane.webp', 41, ''),
 ('azur_lane', 'l''indomptable (azur lane), azur lane', 'L''indomptable (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/l%27indomptable%20(azur%20lane)%2C%20azur%20lane.webp', 41, ''),
-('azur_lane', 'laffey (bunny clerk?) (azur lane), azur lane', 'Laffey (bunny Clerk?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/laffey%20(bunny%20clerk%3F)%20(azur%20lane)%2C%20azur%20lane.webp', 41, ''),
+('azur_lane', 'laffey (bunny clerk?) (azur lane), azur lane', 'Laffey (bunny Clerk?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/laffey%20(bunny%20clerk_)%20(azur%20lane)%2C%20azur%20lane.webp', 41, ''),
 ('azur_lane', 'lena (azur lane), azur lane', 'Lena (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/lena%20(azur%20lane)%2C%20azur%20lane.webp', 41, ''),
 ('azur_lane', 'maestrale (azur lane), azur lane', 'Maestrale (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/maestrale%20(azur%20lane)%2C%20azur%20lane.webp', 41, ''),
 ('azur_lane', 'musashi (the purple rabbit''s marksmanship) (azur lane), azur lane', 'Musashi (the Purple Rabbit''s Marksmanship) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/musashi%20(the%20purple%20rabbit%27s%20marksmanship)%20(azur%20lane)%2C%20azur%20lane.webp', 41, ''),
@@ -8612,7 +8612,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'kimberly (azur lane), azur lane', 'Kimberly (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/kimberly%20(azur%20lane)%2C%20azur%20lane.webp', 39, ''),
 ('azur_lane', 'le mars (azur lane), azur lane', 'Le Mars (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/le%20mars%20(azur%20lane)%2C%20azur%20lane.webp', 39, ''),
 ('azur_lane', 'murmansk (sceneries of pure snow) (azur lane), azur lane', 'Murmansk (sceneries Of Pure Snow) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/murmansk%20(sceneries%20of%20pure%20snow)%20(azur%20lane)%2C%20azur%20lane.webp', 39, ''),
-('azur_lane', 'oumi (a failed escape?) (azur lane), azur_lane', 'Oumi (a Failed Escape?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/oumi%20(a%20failed%20escape%3F)%20(azur%20lane)%2C%20azur_lane.webp', 39, ''),
+('azur_lane', 'oumi (a failed escape?) (azur lane), azur_lane', 'Oumi (a Failed Escape?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/oumi%20(a%20failed%20escape_)%20(azur%20lane)%2C%20azur_lane.webp', 39, ''),
 ('azur_lane', 'perseus (spring lackadaisical leisure) (azur lane), azur lane', 'Perseus (spring Lackadaisical Leisure) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/perseus%20(spring%20lackadaisical%20leisure)%20(azur%20lane)%2C%20azur%20lane.webp', 39, ''),
 ('azur_lane', 'z46 (girls'' relay) (azur lane), azur lane', 'Z46 (girls'' Relay) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/z46%20(girls%27%20relay)%20(azur%20lane)%2C%20azur%20lane.webp', 39, ''),
 ('azur_lane', 'kazagumo (azur lane), azur lane', 'Kazagumo (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/kazagumo%20(azur%20lane)%2C%20azur%20lane.webp', 38, ''),
@@ -8620,7 +8620,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'musashi (purest wisteria) (azur lane), azur lane', 'Musashi (purest Wisteria) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/musashi%20(purest%20wisteria)%20(azur%20lane)%2C%20azur%20lane.webp', 38, ''),
 ('azur_lane', 'shouhou (retrofit) (azur lane), azur lane', 'Shouhou (retrofit) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/shouhou%20(retrofit)%20(azur%20lane)%2C%20azur%20lane.webp', 38, ''),
 ('azur_lane', 'yuudachi (the bride of solomon) (azur lane), azur lane', 'Yuudachi (the Bride Of Solomon) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/yuudachi%20(the%20bride%20of%20solomon)%20(azur%20lane)%2C%20azur%20lane.webp', 38, ''),
-('azur_lane', 'z23 (the eyecatch in the rye?) (azur lane), azur lane', 'Z23 (the Eyecatch In The Rye?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/z23%20(the%20eyecatch%20in%20the%20rye%3F)%20(azur%20lane)%2C%20azur%20lane.webp', 38, ''),
+('azur_lane', 'z23 (the eyecatch in the rye?) (azur lane), azur lane', 'Z23 (the Eyecatch In The Rye?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/z23%20(the%20eyecatch%20in%20the%20rye_)%20(azur%20lane)%2C%20azur%20lane.webp', 38, ''),
 ('azur_lane', 'admiral graf spee (world''s cutest) (azur lane), azur lane', 'Admiral Graf Spee (world''s Cutest) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/admiral%20graf%20spee%20(world%27s%20cutest)%20(azur%20lane)%2C%20azur%20lane.webp', 37, ''),
 ('azur_lane', 'aoba (azur lane), azur lane', 'Aoba (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/aoba%20(azur%20lane)%2C%20azur%20lane.webp', 37, ''),
 ('azur_lane', 'archerfish (azur lane), azur lane', 'Archerfish (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/archerfish%20(azur%20lane)%2C%20azur%20lane.webp', 37, ''),
@@ -8633,7 +8633,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'flasher (azur lane), azur lane', 'Flasher (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/flasher%20(azur%20lane)%2C%20azur%20lane.webp', 37, ''),
 ('azur_lane', 'fortune (azur lane), azur lane', 'Fortune (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/fortune%20(azur%20lane)%2C%20azur%20lane.webp', 37, ''),
 ('azur_lane', 'gorizia (azur lane), azur lane', 'Gorizia (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/gorizia%20(azur%20lane)%2C%20azur%20lane.webp', 37, ''),
-('azur_lane', 'helena (may i have this dance?) (azur lane), azur lane', 'Helena (may I Have This Dance?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/helena%20(may%20i%20have%20this%20dance%3F)%20(azur%20lane)%2C%20azur%20lane.webp', 37, ''),
+('azur_lane', 'helena (may i have this dance?) (azur lane), azur lane', 'Helena (may I Have This Dance?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/helena%20(may%20i%20have%20this%20dance_)%20(azur%20lane)%2C%20azur%20lane.webp', 37, ''),
 ('azur_lane', 'herring (azur lane), azur lane', 'Herring (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/herring%20(azur%20lane)%2C%20azur%20lane.webp', 37, ''),
 ('azur_lane', 'libeccio (azur lane), azur lane', 'Libeccio (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/libeccio%20(azur%20lane)%2C%20azur%20lane.webp', 37, ''),
 ('azur_lane', 'maury (azur lane), azur lane', 'Maury (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/maury%20(azur%20lane)%2C%20azur%20lane.webp', 37, ''),
@@ -8668,7 +8668,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'tanikaze (azur lane), azur lane', 'Tanikaze (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/tanikaze%20(azur%20lane)%2C%20azur%20lane.webp', 35, ''),
 ('azur_lane', 'trieste (rooftop lunch break) (azur lane), azur lane', 'Trieste (rooftop Lunch Break) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/trieste%20(rooftop%20lunch%20break)%20(azur%20lane)%2C%20azur%20lane.webp', 35, ''),
 ('azur_lane', 'u-31 (azur lane), azur lane', 'U-31 (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/u-31%20(azur%20lane)%2C%20azur%20lane.webp', 35, ''),
-('azur_lane', 'z23 (serious idol @acting manager?!) (azur lane), azur lane', 'Z23 (serious Idol @acting Manager?!) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/z23%20(serious%20idol%20%40acting%20manager%3F%21)%20(azur%20lane)%2C%20azur%20lane.webp', 35, ''),
+('azur_lane', 'z23 (serious idol @acting manager?!) (azur lane), azur lane', 'Z23 (serious Idol @acting Manager?!) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/z23%20(serious%20idol%20%40acting%20manager_%21)%20(azur%20lane)%2C%20azur%20lane.webp', 35, ''),
 ('azur_lane', 'z23 (the banquet''s honor student) (azur lane), azur lane', 'Z23 (the Banquet''s Honor Student) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/z23%20(the%20banquet%27s%20honor%20student)%20(azur%20lane)%2C%20azur%20lane.webp', 35, ''),
 ('azur_lane', 'amagi (cv) (throne of fallen petals) (azur lane), azur lane', 'Amagi (cv) (throne Of Fallen Petals) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/amagi%20(cv)%20(throne%20of%20fallen%20petals)%20(azur%20lane)%2C%20azur%20lane.webp', 34, ''),
 ('azur_lane', 'hatsuharu (azur lane), azur lane', 'Hatsuharu (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/hatsuharu%20(azur%20lane)%2C%20azur%20lane.webp', 34, ''),
@@ -8733,7 +8733,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('azur_lane', 'cleveland (muse) (azur lane), azur lane', 'Cleveland (muse) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/cleveland%20(muse)%20(azur%20lane)%2C%20azur%20lane.webp', 30, ''),
 ('azur_lane', 'hunter (azur lane), azur lane', 'Hunter (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/hunter%20(azur%20lane)%2C%20azur%20lane.webp', 30, ''),
 ('azur_lane', 'i-19 (departure''s gentle breeze) (azur lane), azur lane', 'I-19 (departure''s Gentle Breeze) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/i-19%20(departure%27s%20gentle%20breeze)%20(azur%20lane)%2C%20azur%20lane.webp', 30, ''),
-('azur_lane', 'noshiro (uncharted festival grounds?) (azur lane), azur lane', 'Noshiro (uncharted Festival Grounds?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/noshiro%20(uncharted%20festival%20grounds%3F)%20(azur%20lane)%2C%20azur%20lane.webp', 30, ''),
+('azur_lane', 'noshiro (uncharted festival grounds?) (azur lane), azur lane', 'Noshiro (uncharted Festival Grounds?) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/noshiro%20(uncharted%20festival%20grounds_)%20(azur%20lane)%2C%20azur%20lane.webp', 30, ''),
 ('azur_lane', 'u-410 (azur lane), azur lane', 'U-410 (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/u-410%20(azur%20lane)%2C%20azur%20lane.webp', 30, ''),
 ('azur_lane', 'yuudachi (woofy floofy christmas night) (azur lane), azur lane', 'Yuudachi (woofy Floofy Christmas Night) (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/yuudachi%20(woofy%20floofy%20christmas%20night)%20(azur%20lane)%2C%20azur%20lane.webp', 30, ''),
 ('azur_lane', 'z28 (azur lane), azur lane', 'Z28 (azur Lane)', 'https://blobs.animadex.net/Outputs/thumbs/z28%20(azur%20lane)%2C%20azur%20lane.webp', 30, ''),
@@ -13112,7 +13112,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('nijisanji', 'shinomiya yuno, nijisanji', 'Shinomiya Yuno', 'https://blobs.animadex.net/Outputs/thumbs/shinomiya%20yuno%2C%20nijisanji.webp', 19, ''),
 ('nijisanji', 'shirayuki tomoe (suit), nijisanji', 'Shirayuki Tomoe (suit)', 'https://blobs.animadex.net/Outputs/thumbs/shirayuki%20tomoe%20(suit)%2C%20nijisanji.webp', 19, ''),
 ('nijisanji', 'scarle yonaguni (pajamas), nijisanji', 'Scarle Yonaguni (pajamas)', 'https://blobs.animadex.net/Outputs/thumbs/scarle%20yonaguni%20(pajamas)%2C%20nijisanji.webp', 18, ''),
-('nijisanji', '"millie parfait (5th costume), nijisanji"', 'Millie Parfait (5th Costume)', 'https://blobs.animadex.net/Outputs/thumbs/%22millie%20parfait%20(5th%20costume)%2C%20nijisanji%22.webp', 17, ''),
+('nijisanji', '"millie parfait (5th costume), nijisanji"', 'Millie Parfait (5th Costume)', 'https://blobs.animadex.net/Outputs/thumbs/_millie%20parfait%20(5th%20costume)%2C%20nijisanji_.webp', 17, ''),
 ('nijisanji', 'kanae (18th costume) (nijisanji), nijisanji', 'Kanae (18th Costume) (nijisanji)', 'https://blobs.animadex.net/Outputs/thumbs/kanae%20(18th%20costume)%20(nijisanji)%2C%20nijisanji.webp', 16, ''),
 ('nijisanji', 'machita chima (lolita maid), nijisanji', 'Machita Chima (lolita Maid)', 'https://blobs.animadex.net/Outputs/thumbs/machita%20chima%20(lolita%20maid)%2C%20nijisanji.webp', 16, ''),
 ('nijisanji', 'scarle yonaguni (goth), nijisanji', 'Scarle Yonaguni (goth)', 'https://blobs.animadex.net/Outputs/thumbs/scarle%20yonaguni%20(goth)%2C%20nijisanji.webp', 16, '');
@@ -13558,7 +13558,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('girls''_frontline', 'rpk-16 (boss) (girls'' frontline), girls'' frontline', 'Rpk-16 (boss) (girls'' Frontline)', 'https://blobs.animadex.net/Outputs/thumbs/rpk-16%20(boss)%20(girls%27%20frontline)%2C%20girls%27%20frontline.webp', 33, ''),
 ('girls''_frontline', 'turing (neural cloud), girls'' frontline', 'Turing (neural Cloud)', 'https://blobs.animadex.net/Outputs/thumbs/turing%20(neural%20cloud)%2C%20girls%27%20frontline.webp', 33, ''),
 ('girls''_frontline', 'type 88 (girls'' frontline), girls'' frontline', 'Type 88 (girls'' Frontline)', 'https://blobs.animadex.net/Outputs/thumbs/type%2088%20(girls%27%20frontline)%2C%20girls%27%20frontline.webp', 33, ''),
-('girls''_frontline', 'ump45 ("just this time.") (girls'' frontline), girls'' frontline', 'Ump45 ("just This Time.") (girls'' Frontline)', 'https://blobs.animadex.net/Outputs/thumbs/ump45%20(%22just%20this%20time.%22)%20(girls%27%20frontline)%2C%20girls%27%20frontline.webp', 33, ''),
+('girls''_frontline', 'ump45 ("just this time.") (girls'' frontline), girls'' frontline', 'Ump45 ("just This Time.") (girls'' Frontline)', 'https://blobs.animadex.net/Outputs/thumbs/ump45%20(_just%20this%20time._)%20(girls%27%20frontline)%2C%20girls%27%20frontline.webp', 33, ''),
 ('girls''_frontline', 'willow (neural cloud), girls'' frontline', 'Willow (neural Cloud)', 'https://blobs.animadex.net/Outputs/thumbs/willow%20(neural%20cloud)%2C%20girls%27%20frontline.webp', 33, ''),
 ('girls''_frontline', 'an-94 (the diving bell and the doll) (girls'' frontline), girls'' frontline', 'An-94 (the Diving Bell And The Doll) (girls'' Frontline)', 'https://blobs.animadex.net/Outputs/thumbs/an-94%20(the%20diving%20bell%20and%20the%20doll)%20(girls%27%20frontline)%2C%20girls%27%20frontline.webp', 32, ''),
 ('girls''_frontline', 'c14 (girls'' frontline), girls'' frontline', 'C14 (girls'' Frontline)', 'https://blobs.animadex.net/Outputs/thumbs/c14%20(girls%27%20frontline)%2C%20girls%27%20frontline.webp', 32, ''),
@@ -14441,7 +14441,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('umamusume', 'obey your master (umamusume), umamusume', 'Obey Your Master (umamusume)', 'https://blobs.animadex.net/Outputs/thumbs/obey%20your%20master%20(umamusume)%2C%20umamusume.webp', 34, ''),
 ('umamusume', 'air messiah (inherited hope) (umamusume), umamusume', 'Air Messiah (inherited Hope) (umamusume)', 'https://blobs.animadex.net/Outputs/thumbs/air%20messiah%20(inherited%20hope)%20(umamusume)%2C%20umamusume.webp', 33, ''),
 ('umamusume', 'fenomeno (casual) (umamusume), umamusume', 'Fenomeno (casual) (umamusume)', 'https://blobs.animadex.net/Outputs/thumbs/fenomeno%20(casual)%20(umamusume)%2C%20umamusume.webp', 33, ''),
-('umamusume', 'sweep tosho (monopolizing the chill?) (umamusume), umamusume', 'Sweep Tosho (monopolizing The Chill?) (umamusume)', 'https://blobs.animadex.net/Outputs/thumbs/sweep%20tosho%20(monopolizing%20the%20chill%3F)%20(umamusume)%2C%20umamusume.webp', 33, ''),
+('umamusume', 'sweep tosho (monopolizing the chill?) (umamusume), umamusume', 'Sweep Tosho (monopolizing The Chill?) (umamusume)', 'https://blobs.animadex.net/Outputs/thumbs/sweep%20tosho%20(monopolizing%20the%20chill_)%20(umamusume)%2C%20umamusume.webp', 33, ''),
 ('umamusume', 'vodka (heart ignition!!) (umamusume), umamusume', 'Vodka (heart Ignition!!) (umamusume)', 'https://blobs.animadex.net/Outputs/thumbs/vodka%20(heart%20ignition%21%21)%20(umamusume)%2C%20umamusume.webp', 33, ''),
 ('umamusume', 'bubble gum fellow (umamusume), umamusume', 'Bubble Gum Fellow (umamusume)', 'https://blobs.animadex.net/Outputs/thumbs/bubble%20gum%20fellow%20(umamusume)%2C%20umamusume.webp', 32, ''),
 ('umamusume', 'king halo (evergreen identity) (umamusume), umamusume', 'King Halo (evergreen Identity) (umamusume)', 'https://blobs.animadex.net/Outputs/thumbs/king%20halo%20(evergreen%20identity)%20(umamusume)%2C%20umamusume.webp', 32, ''),
@@ -17549,7 +17549,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('yu-gi-oh!', 'madolche puddingcess, yu-gi-oh!', 'Madolche Puddingcess', 'https://blobs.animadex.net/Outputs/thumbs/madolche%20puddingcess%2C%20yu-gi-oh%21.webp', 30, ''),
 ('yu-gi-oh!', 'sunny (yu-gi-oh!), yu-gi-oh!', 'Sunny (yu-gi-oh!)', 'https://blobs.animadex.net/Outputs/thumbs/sunny%20(yu-gi-oh%21)%2C%20yu-gi-oh%21.webp', 30, ''),
 ('yu-gi-oh!', 'white magician pikeru, yu-gi-oh!', 'White Magician Pikeru', 'https://blobs.animadex.net/Outputs/thumbs/white%20magician%20pikeru%2C%20yu-gi-oh%21.webp', 30, ''),
-('yu-gi-oh!', 'k9-17 "ripper", yu-gi-oh!', 'K9-17 "ripper"', 'https://blobs.animadex.net/Outputs/thumbs/k9-17%20%22ripper%22%2C%20yu-gi-oh%21.webp', 22, ''),
+('yu-gi-oh!', 'k9-17 "ripper", yu-gi-oh!', 'K9-17 "ripper"', 'https://blobs.animadex.net/Outputs/thumbs/k9-17%20_ripper_%2C%20yu-gi-oh%21.webp', 22, ''),
 ('yu-gi-oh!', 'kewl tune reco, yu-gi-oh!', 'Kewl Tune Reco', 'https://blobs.animadex.net/Outputs/thumbs/kewl%20tune%20reco%2C%20yu-gi-oh%21.webp', 21, ''),
 ('yu-gi-oh!', 'filia regis, yu-gi-oh!', 'Filia Regis', 'https://blobs.animadex.net/Outputs/thumbs/filia%20regis%2C%20yu-gi-oh%21.webp', 13, ''),
 ('yu-gi-oh!', 'reeshaddoll wendikurhu, yu-gi-oh!', 'Reeshaddoll Wendikurhu', 'https://blobs.animadex.net/Outputs/thumbs/reeshaddoll%20wendikurhu%2C%20yu-gi-oh%21.webp', 12, ''),
@@ -24051,7 +24051,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('guilty_gear', 'raven (guilty gear), guilty gear', 'Raven (guilty Gear)', 'https://blobs.animadex.net/Outputs/thumbs/raven%20(guilty%20gear)%2C%20guilty%20gear.webp', 43, ''),
 ('guilty_gear', 'magician servant, guilty gear', 'Magician Servant', 'https://blobs.animadex.net/Outputs/thumbs/magician%20servant%2C%20guilty%20gear.webp', 39, ''),
 ('guilty_gear', 'zappa, guilty gear', 'Zappa', 'https://blobs.animadex.net/Outputs/thumbs/zappa%2C%20guilty%20gear.webp', 39, ''),
-('guilty_gear', 'bedman?, guilty gear', 'Bedman?', 'https://blobs.animadex.net/Outputs/thumbs/bedman%3F%2C%20guilty%20gear.webp', 36, ''),
+('guilty_gear', 'bedman?, guilty gear', 'Bedman?', 'https://blobs.animadex.net/Outputs/thumbs/bedman_%2C%20guilty%20gear.webp', 36, ''),
 ('guilty_gear', 'answer (guilty gear), guilty gear', 'Answer (guilty Gear)', 'https://blobs.animadex.net/Outputs/thumbs/answer%20(guilty%20gear)%2C%20guilty%20gear.webp', 34, ''),
 ('guilty_gear', 'kyko, guilty gear', 'Kyko', 'https://blobs.animadex.net/Outputs/thumbs/kyko%2C%20guilty%20gear.webp', 33, ''),
 ('guilty_gear', 'april (guilty gear), guilty gear', 'April (guilty Gear)', 'https://blobs.animadex.net/Outputs/thumbs/april%20(guilty%20gear)%2C%20guilty%20gear.webp', 32, ''),
@@ -24809,59 +24809,59 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('senran_kagura', 'ibuki (senran kagura), senran kagura', 'Ibuki (senran Kagura)', 'https://blobs.animadex.net/Outputs/thumbs/ibuki%20(senran%20kagura)%2C%20senran%20kagura.webp', 31, ''),
 ('senran_kagura', 'jasmine (senran kagura), senran kagura', 'Jasmine (senran Kagura)', 'https://blobs.animadex.net/Outputs/thumbs/jasmine%20(senran%20kagura)%2C%20senran%20kagura.webp', 30, ''),
 ('senran_kagura', 'tsubaki (senran kagura), senran kagura', 'Tsubaki (senran Kagura)', 'https://blobs.animadex.net/Outputs/thumbs/tsubaki%20(senran%20kagura)%2C%20senran%20kagura.webp', 30, ''),
-('nanashi_inc.', 'shishio chris, nanashi inc.', 'Shishio Chris', 'https://blobs.animadex.net/Outputs/thumbs/shishio%20chris%2C%20nanashi%20inc..webp', 983, ''),
-('nanashi_inc.', 'ryugasaki rene, nanashi inc.', 'Ryugasaki Rene', 'https://blobs.animadex.net/Outputs/thumbs/ryugasaki%20rene%2C%20nanashi%20inc..webp', 965, ''),
-('nanashi_inc.', 'suou patra, nanashi inc.', 'Suou Patra', 'https://blobs.animadex.net/Outputs/thumbs/suou%20patra%2C%20nanashi%20inc..webp', 764, ''),
-('nanashi_inc.', 'kojo anna, nanashi inc.', 'Kojo Anna', 'https://blobs.animadex.net/Outputs/thumbs/kojo%20anna%2C%20nanashi%20inc..webp', 603, ''),
-('nanashi_inc.', 'shishio chris (1st costume), nanashi inc.', 'Shishio Chris (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/shishio%20chris%20(1st%20costume)%2C%20nanashi%20inc..webp', 329, ''),
-('nanashi_inc.', 'sekishiro mico, nanashi inc.', 'Sekishiro Mico', 'https://blobs.animadex.net/Outputs/thumbs/sekishiro%20mico%2C%20nanashi%20inc..webp', 322, ''),
-('nanashi_inc.', 'shisui kiki, nanashi inc.', 'Shisui Kiki', 'https://blobs.animadex.net/Outputs/thumbs/shisui%20kiki%2C%20nanashi%20inc..webp', 277, '');
+('nanashi_inc.', 'shishio chris, nanashi inc.', 'Shishio Chris', 'https://blobs.animadex.net/Outputs/thumbs/shishio%20chris%2C%20nanashi%20inc.webp', 983, ''),
+('nanashi_inc.', 'ryugasaki rene, nanashi inc.', 'Ryugasaki Rene', 'https://blobs.animadex.net/Outputs/thumbs/ryugasaki%20rene%2C%20nanashi%20inc.webp', 965, ''),
+('nanashi_inc.', 'suou patra, nanashi inc.', 'Suou Patra', 'https://blobs.animadex.net/Outputs/thumbs/suou%20patra%2C%20nanashi%20inc.webp', 764, ''),
+('nanashi_inc.', 'kojo anna, nanashi inc.', 'Kojo Anna', 'https://blobs.animadex.net/Outputs/thumbs/kojo%20anna%2C%20nanashi%20inc.webp', 603, ''),
+('nanashi_inc.', 'shishio chris (1st costume), nanashi inc.', 'Shishio Chris (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/shishio%20chris%20(1st%20costume)%2C%20nanashi%20inc.webp', 329, ''),
+('nanashi_inc.', 'sekishiro mico, nanashi inc.', 'Sekishiro Mico', 'https://blobs.animadex.net/Outputs/thumbs/sekishiro%20mico%2C%20nanashi%20inc.webp', 322, ''),
+('nanashi_inc.', 'shisui kiki, nanashi inc.', 'Shisui Kiki', 'https://blobs.animadex.net/Outputs/thumbs/shisui%20kiki%2C%20nanashi%20inc.webp', 277, '');
 
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
-('nanashi_inc.', 'saionji mary, nanashi inc.', 'Saionji Mary', 'https://blobs.animadex.net/Outputs/thumbs/saionji%20mary%2C%20nanashi%20inc..webp', 271, ''),
-('nanashi_inc.', 'souya ichika, nanashi inc.', 'Souya Ichika', 'https://blobs.animadex.net/Outputs/thumbs/souya%20ichika%2C%20nanashi%20inc..webp', 256, ''),
-('nanashi_inc.', 'inaba haneru (animare), nanashi inc.', 'Inaba Haneru (animare)', 'https://blobs.animadex.net/Outputs/thumbs/inaba%20haneru%20(animare)%2C%20nanashi%20inc..webp', 233, ''),
-('nanashi_inc.', 'oura rukako, nanashi inc.', 'Oura Rukako', 'https://blobs.animadex.net/Outputs/thumbs/oura%20rukako%2C%20nanashi%20inc..webp', 214, ''),
-('nanashi_inc.', 'shimamura charlotte, nanashi inc.', 'Shimamura Charlotte', 'https://blobs.animadex.net/Outputs/thumbs/shimamura%20charlotte%2C%20nanashi%20inc..webp', 212, ''),
-('nanashi_inc.', 'hebiyoi tier, nanashi inc.', 'Hebiyoi Tier', 'https://blobs.animadex.net/Outputs/thumbs/hebiyoi%20tier%2C%20nanashi%20inc..webp', 209, ''),
-('nanashi_inc.', 'suzumi nemo, nanashi inc.', 'Suzumi Nemo', 'https://blobs.animadex.net/Outputs/thumbs/suzumi%20nemo%2C%20nanashi%20inc..webp', 189, ''),
-('nanashi_inc.', 'oinomori may, nanashi inc.', 'Oinomori May', 'https://blobs.animadex.net/Outputs/thumbs/oinomori%20may%2C%20nanashi%20inc..webp', 188, ''),
-('nanashi_inc.', 'ryugasaki rene (2nd costume), nanashi inc.', 'Ryugasaki Rene (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/ryugasaki%20rene%20(2nd%20costume)%2C%20nanashi%20inc..webp', 172, ''),
-('nanashi_inc.', 'shishio chris (3rd costume), nanashi inc.', 'Shishio Chris (3rd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/shishio%20chris%20(3rd%20costume)%2C%20nanashi%20inc..webp', 152, ''),
-('nanashi_inc.', 'shisui kiki (1st costume), nanashi inc.', 'Shisui Kiki (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/shisui%20kiki%20(1st%20costume)%2C%20nanashi%20inc..webp', 133, ''),
-('nanashi_inc.', 'and uge, nanashi inc.', 'And Uge', 'https://blobs.animadex.net/Outputs/thumbs/and%20uge%2C%20nanashi%20inc..webp', 130, ''),
-('nanashi_inc.', 'touri sei, nanashi inc.', 'Touri Sei', 'https://blobs.animadex.net/Outputs/thumbs/touri%20sei%2C%20nanashi%20inc..webp', 130, ''),
-('nanashi_inc.', 'hebiyoi tier (1st costume), nanashi inc.', 'Hebiyoi Tier (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/hebiyoi%20tier%20(1st%20costume)%2C%20nanashi%20inc..webp', 129, ''),
-('nanashi_inc.', 'oinomori may (1st costume), nanashi inc.', 'Oinomori May (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/oinomori%20may%20(1st%20costume)%2C%20nanashi%20inc..webp', 129, ''),
-('nanashi_inc.', 'ryugasaki rene (3rd costume), nanashi inc.', 'Ryugasaki Rene (3rd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/ryugasaki%20rene%20(3rd%20costume)%2C%20nanashi%20inc..webp', 128, ''),
-('nanashi_inc.', 'akane canna, nanashi inc.', 'Akane Canna', 'https://blobs.animadex.net/Outputs/thumbs/akane%20canna%2C%20nanashi%20inc..webp', 114, ''),
-('nanashi_inc.', 'hinokuma ran, nanashi inc.', 'Hinokuma Ran', 'https://blobs.animadex.net/Outputs/thumbs/hinokuma%20ran%2C%20nanashi%20inc..webp', 114, ''),
-('nanashi_inc.', 'kazami kuku, nanashi inc.', 'Kazami Kuku', 'https://blobs.animadex.net/Outputs/thumbs/kazami%20kuku%2C%20nanashi%20inc..webp', 108, ''),
-('nanashi_inc.', 'shishio chris (2nd costume), nanashi inc.', 'Shishio Chris (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/shishio%20chris%20(2nd%20costume)%2C%20nanashi%20inc..webp', 104, ''),
-('nanashi_inc.', 'seshima rui, nanashi inc.', 'Seshima Rui', 'https://blobs.animadex.net/Outputs/thumbs/seshima%20rui%2C%20nanashi%20inc..webp', 99, ''),
-('nanashi_inc.', 'amaui, nanashi inc.', 'Amaui', 'https://blobs.animadex.net/Outputs/thumbs/amaui%2C%20nanashi%20inc..webp', 88, ''),
-('nanashi_inc.', 'kohaku yuri, nanashi inc.', 'Kohaku Yuri', 'https://blobs.animadex.net/Outputs/thumbs/kohaku%20yuri%2C%20nanashi%20inc..webp', 85, ''),
-('nanashi_inc.', 'ieiri popo, nanashi inc.', 'Ieiri Popo', 'https://blobs.animadex.net/Outputs/thumbs/ieiri%20popo%2C%20nanashi%20inc..webp', 83, ''),
-('nanashi_inc.', 'hira hikari, nanashi inc.', 'Hira Hikari', 'https://blobs.animadex.net/Outputs/thumbs/hira%20hikari%2C%20nanashi%20inc..webp', 82, ''),
-('nanashi_inc.', 'suzumi nemo (1st costume), nanashi inc.', 'Suzumi Nemo (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/suzumi%20nemo%20(1st%20costume)%2C%20nanashi%20inc..webp', 79, ''),
-('nanashi_inc.', 'yunohara izumi, nanashi inc.', 'Yunohara Izumi', 'https://blobs.animadex.net/Outputs/thumbs/yunohara%20izumi%2C%20nanashi%20inc..webp', 79, ''),
-('nanashi_inc.', 'hinata mashu, nanashi inc.', 'Hinata Mashu', 'https://blobs.animadex.net/Outputs/thumbs/hinata%20mashu%2C%20nanashi%20inc..webp', 76, ''),
-('nanashi_inc.', 'kojo anna (3rd costume), nanashi inc.', 'Kojo Anna (3rd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/kojo%20anna%20(3rd%20costume)%2C%20nanashi%20inc..webp', 73, ''),
-('nanashi_inc.', 'oura rukako (2nd costume), nanashi inc.', 'Oura Rukako (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/oura%20rukako%20(2nd%20costume)%2C%20nanashi%20inc..webp', 64, ''),
-('nanashi_inc.', 'konan mia, nanashi inc.', 'Konan Mia', 'https://blobs.animadex.net/Outputs/thumbs/konan%20mia%2C%20nanashi%20inc..webp', 58, ''),
-('nanashi_inc.', 'shisui kiki (2nd costume), nanashi inc.', 'Shisui Kiki (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/shisui%20kiki%20(2nd%20costume)%2C%20nanashi%20inc..webp', 57, ''),
-('nanashi_inc.', 'kojo anna (2nd costume), nanashi inc.', 'Kojo Anna (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/kojo%20anna%20(2nd%20costume)%2C%20nanashi%20inc..webp', 52, ''),
-('nanashi_inc.', 'ina uruu, nanashi inc.', 'Ina Uruu', 'https://blobs.animadex.net/Outputs/thumbs/ina%20uruu%2C%20nanashi%20inc..webp', 49, ''),
-('nanashi_inc.', 'oura rukako (1st costume), nanashi inc.', 'Oura Rukako (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/oura%20rukako%20(1st%20costume)%2C%20nanashi%20inc..webp', 48, ''),
-('nanashi_inc.', 'touri sei (1st costume), nanashi inc.', 'Touri Sei (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/touri%20sei%20(1st%20costume)%2C%20nanashi%20inc..webp', 47, ''),
-('nanashi_inc.', 'akane canna (1st costume), nanashi inc.', 'Akane Canna (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/akane%20canna%20(1st%20costume)%2C%20nanashi%20inc..webp', 46, ''),
-('nanashi_inc.', 'tsukinoki tirol, nanashi inc.', 'Tsukinoki Tirol', 'https://blobs.animadex.net/Outputs/thumbs/tsukinoki%20tirol%2C%20nanashi%20inc..webp', 46, ''),
-('nanashi_inc.', 'kisaki anko, nanashi inc.', 'Kisaki Anko', 'https://blobs.animadex.net/Outputs/thumbs/kisaki%20anko%2C%20nanashi%20inc..webp', 44, ''),
-('nanashi_inc.', 'suzumi nemo (2nd costume), nanashi inc.', 'Suzumi Nemo (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/suzumi%20nemo%20(2nd%20costume)%2C%20nanashi%20inc..webp', 44, ''),
-('nanashi_inc.', 'ieiri popo (1st costume), nanashi inc.', 'Ieiri Popo (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/ieiri%20popo%20(1st%20costume)%2C%20nanashi%20inc..webp', 42, ''),
-('nanashi_inc.', 'touri sei (2nd costume), nanashi inc.', 'Touri Sei (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/touri%20sei%20(2nd%20costume)%2C%20nanashi%20inc..webp', 37, ''),
-('nanashi_inc.', 'kohaku yuri (1st costume), nanashi inc.', 'Kohaku Yuri (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/kohaku%20yuri%20(1st%20costume)%2C%20nanashi%20inc..webp', 35, ''),
-('nanashi_inc.', 'komori met (2nd costume), nanashi inc.', 'Komori Met (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/komori%20met%20(2nd%20costume)%2C%20nanashi%20inc..webp', 31, ''),
+('nanashi_inc.', 'saionji mary, nanashi inc.', 'Saionji Mary', 'https://blobs.animadex.net/Outputs/thumbs/saionji%20mary%2C%20nanashi%20inc.webp', 271, ''),
+('nanashi_inc.', 'souya ichika, nanashi inc.', 'Souya Ichika', 'https://blobs.animadex.net/Outputs/thumbs/souya%20ichika%2C%20nanashi%20inc.webp', 256, ''),
+('nanashi_inc.', 'inaba haneru (animare), nanashi inc.', 'Inaba Haneru (animare)', 'https://blobs.animadex.net/Outputs/thumbs/inaba%20haneru%20(animare)%2C%20nanashi%20inc.webp', 233, ''),
+('nanashi_inc.', 'oura rukako, nanashi inc.', 'Oura Rukako', 'https://blobs.animadex.net/Outputs/thumbs/oura%20rukako%2C%20nanashi%20inc.webp', 214, ''),
+('nanashi_inc.', 'shimamura charlotte, nanashi inc.', 'Shimamura Charlotte', 'https://blobs.animadex.net/Outputs/thumbs/shimamura%20charlotte%2C%20nanashi%20inc.webp', 212, ''),
+('nanashi_inc.', 'hebiyoi tier, nanashi inc.', 'Hebiyoi Tier', 'https://blobs.animadex.net/Outputs/thumbs/hebiyoi%20tier%2C%20nanashi%20inc.webp', 209, ''),
+('nanashi_inc.', 'suzumi nemo, nanashi inc.', 'Suzumi Nemo', 'https://blobs.animadex.net/Outputs/thumbs/suzumi%20nemo%2C%20nanashi%20inc.webp', 189, ''),
+('nanashi_inc.', 'oinomori may, nanashi inc.', 'Oinomori May', 'https://blobs.animadex.net/Outputs/thumbs/oinomori%20may%2C%20nanashi%20inc.webp', 188, ''),
+('nanashi_inc.', 'ryugasaki rene (2nd costume), nanashi inc.', 'Ryugasaki Rene (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/ryugasaki%20rene%20(2nd%20costume)%2C%20nanashi%20inc.webp', 172, ''),
+('nanashi_inc.', 'shishio chris (3rd costume), nanashi inc.', 'Shishio Chris (3rd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/shishio%20chris%20(3rd%20costume)%2C%20nanashi%20inc.webp', 152, ''),
+('nanashi_inc.', 'shisui kiki (1st costume), nanashi inc.', 'Shisui Kiki (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/shisui%20kiki%20(1st%20costume)%2C%20nanashi%20inc.webp', 133, ''),
+('nanashi_inc.', 'and uge, nanashi inc.', 'And Uge', 'https://blobs.animadex.net/Outputs/thumbs/and%20uge%2C%20nanashi%20inc.webp', 130, ''),
+('nanashi_inc.', 'touri sei, nanashi inc.', 'Touri Sei', 'https://blobs.animadex.net/Outputs/thumbs/touri%20sei%2C%20nanashi%20inc.webp', 130, ''),
+('nanashi_inc.', 'hebiyoi tier (1st costume), nanashi inc.', 'Hebiyoi Tier (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/hebiyoi%20tier%20(1st%20costume)%2C%20nanashi%20inc.webp', 129, ''),
+('nanashi_inc.', 'oinomori may (1st costume), nanashi inc.', 'Oinomori May (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/oinomori%20may%20(1st%20costume)%2C%20nanashi%20inc.webp', 129, ''),
+('nanashi_inc.', 'ryugasaki rene (3rd costume), nanashi inc.', 'Ryugasaki Rene (3rd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/ryugasaki%20rene%20(3rd%20costume)%2C%20nanashi%20inc.webp', 128, ''),
+('nanashi_inc.', 'akane canna, nanashi inc.', 'Akane Canna', 'https://blobs.animadex.net/Outputs/thumbs/akane%20canna%2C%20nanashi%20inc.webp', 114, ''),
+('nanashi_inc.', 'hinokuma ran, nanashi inc.', 'Hinokuma Ran', 'https://blobs.animadex.net/Outputs/thumbs/hinokuma%20ran%2C%20nanashi%20inc.webp', 114, ''),
+('nanashi_inc.', 'kazami kuku, nanashi inc.', 'Kazami Kuku', 'https://blobs.animadex.net/Outputs/thumbs/kazami%20kuku%2C%20nanashi%20inc.webp', 108, ''),
+('nanashi_inc.', 'shishio chris (2nd costume), nanashi inc.', 'Shishio Chris (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/shishio%20chris%20(2nd%20costume)%2C%20nanashi%20inc.webp', 104, ''),
+('nanashi_inc.', 'seshima rui, nanashi inc.', 'Seshima Rui', 'https://blobs.animadex.net/Outputs/thumbs/seshima%20rui%2C%20nanashi%20inc.webp', 99, ''),
+('nanashi_inc.', 'amaui, nanashi inc.', 'Amaui', 'https://blobs.animadex.net/Outputs/thumbs/amaui%2C%20nanashi%20inc.webp', 88, ''),
+('nanashi_inc.', 'kohaku yuri, nanashi inc.', 'Kohaku Yuri', 'https://blobs.animadex.net/Outputs/thumbs/kohaku%20yuri%2C%20nanashi%20inc.webp', 85, ''),
+('nanashi_inc.', 'ieiri popo, nanashi inc.', 'Ieiri Popo', 'https://blobs.animadex.net/Outputs/thumbs/ieiri%20popo%2C%20nanashi%20inc.webp', 83, ''),
+('nanashi_inc.', 'hira hikari, nanashi inc.', 'Hira Hikari', 'https://blobs.animadex.net/Outputs/thumbs/hira%20hikari%2C%20nanashi%20inc.webp', 82, ''),
+('nanashi_inc.', 'suzumi nemo (1st costume), nanashi inc.', 'Suzumi Nemo (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/suzumi%20nemo%20(1st%20costume)%2C%20nanashi%20inc.webp', 79, ''),
+('nanashi_inc.', 'yunohara izumi, nanashi inc.', 'Yunohara Izumi', 'https://blobs.animadex.net/Outputs/thumbs/yunohara%20izumi%2C%20nanashi%20inc.webp', 79, ''),
+('nanashi_inc.', 'hinata mashu, nanashi inc.', 'Hinata Mashu', 'https://blobs.animadex.net/Outputs/thumbs/hinata%20mashu%2C%20nanashi%20inc.webp', 76, ''),
+('nanashi_inc.', 'kojo anna (3rd costume), nanashi inc.', 'Kojo Anna (3rd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/kojo%20anna%20(3rd%20costume)%2C%20nanashi%20inc.webp', 73, ''),
+('nanashi_inc.', 'oura rukako (2nd costume), nanashi inc.', 'Oura Rukako (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/oura%20rukako%20(2nd%20costume)%2C%20nanashi%20inc.webp', 64, ''),
+('nanashi_inc.', 'konan mia, nanashi inc.', 'Konan Mia', 'https://blobs.animadex.net/Outputs/thumbs/konan%20mia%2C%20nanashi%20inc.webp', 58, ''),
+('nanashi_inc.', 'shisui kiki (2nd costume), nanashi inc.', 'Shisui Kiki (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/shisui%20kiki%20(2nd%20costume)%2C%20nanashi%20inc.webp', 57, ''),
+('nanashi_inc.', 'kojo anna (2nd costume), nanashi inc.', 'Kojo Anna (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/kojo%20anna%20(2nd%20costume)%2C%20nanashi%20inc.webp', 52, ''),
+('nanashi_inc.', 'ina uruu, nanashi inc.', 'Ina Uruu', 'https://blobs.animadex.net/Outputs/thumbs/ina%20uruu%2C%20nanashi%20inc.webp', 49, ''),
+('nanashi_inc.', 'oura rukako (1st costume), nanashi inc.', 'Oura Rukako (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/oura%20rukako%20(1st%20costume)%2C%20nanashi%20inc.webp', 48, ''),
+('nanashi_inc.', 'touri sei (1st costume), nanashi inc.', 'Touri Sei (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/touri%20sei%20(1st%20costume)%2C%20nanashi%20inc.webp', 47, ''),
+('nanashi_inc.', 'akane canna (1st costume), nanashi inc.', 'Akane Canna (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/akane%20canna%20(1st%20costume)%2C%20nanashi%20inc.webp', 46, ''),
+('nanashi_inc.', 'tsukinoki tirol, nanashi inc.', 'Tsukinoki Tirol', 'https://blobs.animadex.net/Outputs/thumbs/tsukinoki%20tirol%2C%20nanashi%20inc.webp', 46, ''),
+('nanashi_inc.', 'kisaki anko, nanashi inc.', 'Kisaki Anko', 'https://blobs.animadex.net/Outputs/thumbs/kisaki%20anko%2C%20nanashi%20inc.webp', 44, ''),
+('nanashi_inc.', 'suzumi nemo (2nd costume), nanashi inc.', 'Suzumi Nemo (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/suzumi%20nemo%20(2nd%20costume)%2C%20nanashi%20inc.webp', 44, ''),
+('nanashi_inc.', 'ieiri popo (1st costume), nanashi inc.', 'Ieiri Popo (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/ieiri%20popo%20(1st%20costume)%2C%20nanashi%20inc.webp', 42, ''),
+('nanashi_inc.', 'touri sei (2nd costume), nanashi inc.', 'Touri Sei (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/touri%20sei%20(2nd%20costume)%2C%20nanashi%20inc.webp', 37, ''),
+('nanashi_inc.', 'kohaku yuri (1st costume), nanashi inc.', 'Kohaku Yuri (1st Costume)', 'https://blobs.animadex.net/Outputs/thumbs/kohaku%20yuri%20(1st%20costume)%2C%20nanashi%20inc.webp', 35, ''),
+('nanashi_inc.', 'komori met (2nd costume), nanashi inc.', 'Komori Met (2nd Costume)', 'https://blobs.animadex.net/Outputs/thumbs/komori%20met%20(2nd%20costume)%2C%20nanashi%20inc.webp', 31, ''),
 ('vshojo', 'kson, vshojo', 'Kson', 'https://blobs.animadex.net/Outputs/thumbs/kson%2C%20vshojo.webp', 644, ''),
 ('vshojo', 'ironmouse, vshojo', 'Ironmouse', 'https://blobs.animadex.net/Outputs/thumbs/ironmouse%2C%20vshojo.webp', 637, ''),
 ('vshojo', 'silvervale, vshojo', 'Silvervale', 'https://blobs.animadex.net/Outputs/thumbs/silvervale%2C%20vshojo.webp', 526, ''),
@@ -29509,26 +29509,26 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('vampire_(game)', 'phobos (vampire), vampire (game)', 'Phobos (vampire)', 'https://blobs.animadex.net/Outputs/thumbs/phobos%20(vampire)%2C%20vampire%20(game).webp', 58, ''),
 ('vampire_(game)', 'lin-lin, vampire (game)', 'Lin-lin', 'https://blobs.animadex.net/Outputs/thumbs/lin-lin%2C%20vampire%20(game).webp', 47, ''),
 ('vampire_(game)', 'pyron, vampire (game)', 'Pyron', 'https://blobs.animadex.net/Outputs/thumbs/pyron%2C%20vampire%20(game).webp', 42, ''),
-('gochuumon_wa_usagi_desu_ka?', 'kafuu chino, gochuumon wa usagi desu ka?', 'Kafuu Chino', 'https://blobs.animadex.net/Outputs/thumbs/kafuu%20chino%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 7084, ''),
-('gochuumon_wa_usagi_desu_ka?', 'hoto cocoa, gochuumon wa usagi desu ka?', 'Hoto Cocoa', 'https://blobs.animadex.net/Outputs/thumbs/hoto%20cocoa%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 3095, ''),
-('gochuumon_wa_usagi_desu_ka?', 'kirima syaro, gochuumon wa usagi desu ka?', 'Kirima Syaro', 'https://blobs.animadex.net/Outputs/thumbs/kirima%20syaro%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 2781, ''),
-('gochuumon_wa_usagi_desu_ka?', 'tippy (gochiusa), gochuumon wa usagi desu ka?', 'Tippy (gochiusa)', 'https://blobs.animadex.net/Outputs/thumbs/tippy%20(gochiusa)%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 2475, ''),
-('gochuumon_wa_usagi_desu_ka?', 'tedeza rize, gochuumon wa usagi desu ka?', 'Tedeza Rize', 'https://blobs.animadex.net/Outputs/thumbs/tedeza%20rize%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 1953, ''),
-('gochuumon_wa_usagi_desu_ka?', 'ujimatsu chiya, gochuumon wa usagi desu ka?', 'Ujimatsu Chiya', 'https://blobs.animadex.net/Outputs/thumbs/ujimatsu%20chiya%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 1940, ''),
-('gochuumon_wa_usagi_desu_ka?', 'jouga maya, gochuumon wa usagi desu ka?', 'Jouga Maya', 'https://blobs.animadex.net/Outputs/thumbs/jouga%20maya%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 922, ''),
-('gochuumon_wa_usagi_desu_ka?', 'natsu megumi, gochuumon wa usagi desu ka?', 'Natsu Megumi', 'https://blobs.animadex.net/Outputs/thumbs/natsu%20megumi%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 895, ''),
-('gochuumon_wa_usagi_desu_ka?', 'anko (gochiusa), gochuumon wa usagi desu ka?', 'Anko (gochiusa)', 'https://blobs.animadex.net/Outputs/thumbs/anko%20(gochiusa)%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 562, ''),
-('gochuumon_wa_usagi_desu_ka?', 'wild geese, gochuumon wa usagi desu ka?', 'Wild Geese', 'https://blobs.animadex.net/Outputs/thumbs/wild%20geese%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 427, ''),
-('gochuumon_wa_usagi_desu_ka?', 'lilith (statue) (machikado mazoku), gochuumon_wa_usagi_desu_ka?', 'Lilith (statue) (machikado Mazoku)', 'https://blobs.animadex.net/Outputs/thumbs/lilith%20(statue)%20(machikado%20mazoku)%2C%20gochuumon_wa_usagi_desu_ka%3F.webp', 377, ''),
-('gochuumon_wa_usagi_desu_ka?', 'fuiba fuyu, gochuumon wa usagi desu ka?', 'Fuiba Fuyu', 'https://blobs.animadex.net/Outputs/thumbs/fuiba%20fuyu%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 267, ''),
-('gochuumon_wa_usagi_desu_ka?', 'aoyama blue mountain, gochuumon wa usagi desu ka?', 'Aoyama Blue Mountain', 'https://blobs.animadex.net/Outputs/thumbs/aoyama%20blue%20mountain%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 245, ''),
-('gochuumon_wa_usagi_desu_ka?', 'hoto mocha, gochuumon wa usagi desu ka?', 'Hoto Mocha', 'https://blobs.animadex.net/Outputs/thumbs/hoto%20mocha%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 239, ''),
-('gochuumon_wa_usagi_desu_ka?', 'minase inori, gochuumon wa usagi desu ka?', 'Minase Inori', 'https://blobs.animadex.net/Outputs/thumbs/minase%20inori%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 128, ''),
-('gochuumon_wa_usagi_desu_ka?', 'phantom thief lapin, gochuumon wa usagi desu ka?', 'Phantom Thief Lapin', 'https://blobs.animadex.net/Outputs/thumbs/phantom%20thief%20lapin%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 84, ''),
-('gochuumon_wa_usagi_desu_ka?', 'taneda risa, gochuumon wa usagi desu ka?', 'Taneda Risa', 'https://blobs.animadex.net/Outputs/thumbs/taneda%20risa%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 83, ''),
-('gochuumon_wa_usagi_desu_ka?', 'jinja eru, gochuumon wa usagi desu ka?', 'Jinja Eru', 'https://blobs.animadex.net/Outputs/thumbs/jinja%20eru%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 46, ''),
-('gochuumon_wa_usagi_desu_ka?', 'jinja natsume, gochuumon wa usagi desu ka?', 'Jinja Natsume', 'https://blobs.animadex.net/Outputs/thumbs/jinja%20natsume%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 43, ''),
-('gochuumon_wa_usagi_desu_ka?', 'mate rin, gochuumon wa usagi desu ka?', 'Mate Rin', 'https://blobs.animadex.net/Outputs/thumbs/mate%20rin%2C%20gochuumon%20wa%20usagi%20desu%20ka%3F.webp', 39, ''),
+('gochuumon_wa_usagi_desu_ka?', 'kafuu chino, gochuumon wa usagi desu ka?', 'Kafuu Chino', 'https://blobs.animadex.net/Outputs/thumbs/kafuu%20chino%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 7084, ''),
+('gochuumon_wa_usagi_desu_ka?', 'hoto cocoa, gochuumon wa usagi desu ka?', 'Hoto Cocoa', 'https://blobs.animadex.net/Outputs/thumbs/hoto%20cocoa%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 3095, ''),
+('gochuumon_wa_usagi_desu_ka?', 'kirima syaro, gochuumon wa usagi desu ka?', 'Kirima Syaro', 'https://blobs.animadex.net/Outputs/thumbs/kirima%20syaro%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 2781, ''),
+('gochuumon_wa_usagi_desu_ka?', 'tippy (gochiusa), gochuumon wa usagi desu ka?', 'Tippy (gochiusa)', 'https://blobs.animadex.net/Outputs/thumbs/tippy%20(gochiusa)%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 2475, ''),
+('gochuumon_wa_usagi_desu_ka?', 'tedeza rize, gochuumon wa usagi desu ka?', 'Tedeza Rize', 'https://blobs.animadex.net/Outputs/thumbs/tedeza%20rize%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 1953, ''),
+('gochuumon_wa_usagi_desu_ka?', 'ujimatsu chiya, gochuumon wa usagi desu ka?', 'Ujimatsu Chiya', 'https://blobs.animadex.net/Outputs/thumbs/ujimatsu%20chiya%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 1940, ''),
+('gochuumon_wa_usagi_desu_ka?', 'jouga maya, gochuumon wa usagi desu ka?', 'Jouga Maya', 'https://blobs.animadex.net/Outputs/thumbs/jouga%20maya%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 922, ''),
+('gochuumon_wa_usagi_desu_ka?', 'natsu megumi, gochuumon wa usagi desu ka?', 'Natsu Megumi', 'https://blobs.animadex.net/Outputs/thumbs/natsu%20megumi%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 895, ''),
+('gochuumon_wa_usagi_desu_ka?', 'anko (gochiusa), gochuumon wa usagi desu ka?', 'Anko (gochiusa)', 'https://blobs.animadex.net/Outputs/thumbs/anko%20(gochiusa)%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 562, ''),
+('gochuumon_wa_usagi_desu_ka?', 'wild geese, gochuumon wa usagi desu ka?', 'Wild Geese', 'https://blobs.animadex.net/Outputs/thumbs/wild%20geese%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 427, ''),
+('gochuumon_wa_usagi_desu_ka?', 'lilith (statue) (machikado mazoku), gochuumon_wa_usagi_desu_ka?', 'Lilith (statue) (machikado Mazoku)', 'https://blobs.animadex.net/Outputs/thumbs/lilith%20(statue)%20(machikado%20mazoku)%2C%20gochuumon_wa_usagi_desu_ka_.webp', 377, ''),
+('gochuumon_wa_usagi_desu_ka?', 'fuiba fuyu, gochuumon wa usagi desu ka?', 'Fuiba Fuyu', 'https://blobs.animadex.net/Outputs/thumbs/fuiba%20fuyu%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 267, ''),
+('gochuumon_wa_usagi_desu_ka?', 'aoyama blue mountain, gochuumon wa usagi desu ka?', 'Aoyama Blue Mountain', 'https://blobs.animadex.net/Outputs/thumbs/aoyama%20blue%20mountain%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 245, ''),
+('gochuumon_wa_usagi_desu_ka?', 'hoto mocha, gochuumon wa usagi desu ka?', 'Hoto Mocha', 'https://blobs.animadex.net/Outputs/thumbs/hoto%20mocha%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 239, ''),
+('gochuumon_wa_usagi_desu_ka?', 'minase inori, gochuumon wa usagi desu ka?', 'Minase Inori', 'https://blobs.animadex.net/Outputs/thumbs/minase%20inori%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 128, ''),
+('gochuumon_wa_usagi_desu_ka?', 'phantom thief lapin, gochuumon wa usagi desu ka?', 'Phantom Thief Lapin', 'https://blobs.animadex.net/Outputs/thumbs/phantom%20thief%20lapin%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 84, ''),
+('gochuumon_wa_usagi_desu_ka?', 'taneda risa, gochuumon wa usagi desu ka?', 'Taneda Risa', 'https://blobs.animadex.net/Outputs/thumbs/taneda%20risa%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 83, ''),
+('gochuumon_wa_usagi_desu_ka?', 'jinja eru, gochuumon wa usagi desu ka?', 'Jinja Eru', 'https://blobs.animadex.net/Outputs/thumbs/jinja%20eru%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 46, ''),
+('gochuumon_wa_usagi_desu_ka?', 'jinja natsume, gochuumon wa usagi desu ka?', 'Jinja Natsume', 'https://blobs.animadex.net/Outputs/thumbs/jinja%20natsume%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 43, ''),
+('gochuumon_wa_usagi_desu_ka?', 'mate rin, gochuumon wa usagi desu ka?', 'Mate Rin', 'https://blobs.animadex.net/Outputs/thumbs/mate%20rin%2C%20gochuumon%20wa%20usagi%20desu%20ka_.webp', 39, ''),
 ('berserk', 'guts (berserk), berserk', 'Guts (berserk)', 'https://blobs.animadex.net/Outputs/thumbs/guts%20(berserk)%2C%20berserk.webp', 1162, ''),
 ('berserk', 'griffith (berserk), berserk', 'Griffith (berserk)', 'https://blobs.animadex.net/Outputs/thumbs/griffith%20(berserk)%2C%20berserk.webp', 580, ''),
 ('berserk', 'casca (berserk), berserk', 'Casca (berserk)', 'https://blobs.animadex.net/Outputs/thumbs/casca%20(berserk)%2C%20berserk.webp', 339, ''),
@@ -31458,20 +31458,20 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('beatmania_iidx', 'ereki (beatmania), beatmania iidx', 'Ereki (beatmania)', 'https://blobs.animadex.net/Outputs/thumbs/ereki%20(beatmania)%2C%20beatmania%20iidx.webp', 40, ''),
 ('beatmania_iidx', 'ki no rapika, beatmania iidx', 'Ki No Rapika', 'https://blobs.animadex.net/Outputs/thumbs/ki%20no%20rapika%2C%20beatmania%20iidx.webp', 36, ''),
 ('beatmania_iidx', 'cuvelia, beatmania iidx', 'Cuvelia', 'https://blobs.animadex.net/Outputs/thumbs/cuvelia%2C%20beatmania%20iidx.webp', 30, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'yukinoshita yukino, yahari ore no seishun lovecome wa machigatteiru.', 'Yukinoshita Yukino', 'https://blobs.animadex.net/Outputs/thumbs/yukinoshita%20yukino%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 1617, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'yuigahama yui, yahari ore no seishun lovecome wa machigatteiru.', 'Yuigahama Yui', 'https://blobs.animadex.net/Outputs/thumbs/yuigahama%20yui%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 1466, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'isshiki iroha, yahari ore no seishun lovecome wa machigatteiru.', 'Isshiki Iroha', 'https://blobs.animadex.net/Outputs/thumbs/isshiki%20iroha%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 1000, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'hikigaya hachiman, yahari ore no seishun lovecome wa machigatteiru.', 'Hikigaya Hachiman', 'https://blobs.animadex.net/Outputs/thumbs/hikigaya%20hachiman%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 594, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'yuigahama yui''s mother, yahari ore no seishun lovecome wa machigatteiru.', 'Yuigahama Yui''s Mother', 'https://blobs.animadex.net/Outputs/thumbs/yuigahama%20yui%27s%20mother%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 276, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'hikigaya komachi, yahari ore no seishun lovecome wa machigatteiru.', 'Hikigaya Komachi', 'https://blobs.animadex.net/Outputs/thumbs/hikigaya%20komachi%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 224, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'yukinoshita haruno, yahari ore no seishun lovecome wa machigatteiru.', 'Yukinoshita Haruno', 'https://blobs.animadex.net/Outputs/thumbs/yukinoshita%20haruno%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 181, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'totsuka saika, yahari ore no seishun lovecome wa machigatteiru.', 'Totsuka Saika', 'https://blobs.animadex.net/Outputs/thumbs/totsuka%20saika%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 158, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'hiratsuka shizuka, yahari ore no seishun lovecome wa machigatteiru.', 'Hiratsuka Shizuka', 'https://blobs.animadex.net/Outputs/thumbs/hiratsuka%20shizuka%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 112, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'kawasaki saki, yahari ore no seishun lovecome wa machigatteiru.', 'Kawasaki Saki', 'https://blobs.animadex.net/Outputs/thumbs/kawasaki%20saki%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 101, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'hayama hayato, yahari ore no seishun lovecome wa machigatteiru.', 'Hayama Hayato', 'https://blobs.animadex.net/Outputs/thumbs/hayama%20hayato%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 91, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'miura yumiko, yahari ore no seishun lovecome wa machigatteiru.', 'Miura Yumiko', 'https://blobs.animadex.net/Outputs/thumbs/miura%20yumiko%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 73, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'tsurumi rumi, yahari ore no seishun lovecome wa machigatteiru.', 'Tsurumi Rumi', 'https://blobs.animadex.net/Outputs/thumbs/tsurumi%20rumi%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 40, ''),
-('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'ebina hina, yahari ore no seishun lovecome wa machigatteiru.', 'Ebina Hina', 'https://blobs.animadex.net/Outputs/thumbs/ebina%20hina%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru..webp', 34, '');
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'yukinoshita yukino, yahari ore no seishun lovecome wa machigatteiru.', 'Yukinoshita Yukino', 'https://blobs.animadex.net/Outputs/thumbs/yukinoshita%20yukino%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 1617, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'yuigahama yui, yahari ore no seishun lovecome wa machigatteiru.', 'Yuigahama Yui', 'https://blobs.animadex.net/Outputs/thumbs/yuigahama%20yui%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 1466, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'isshiki iroha, yahari ore no seishun lovecome wa machigatteiru.', 'Isshiki Iroha', 'https://blobs.animadex.net/Outputs/thumbs/isshiki%20iroha%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 1000, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'hikigaya hachiman, yahari ore no seishun lovecome wa machigatteiru.', 'Hikigaya Hachiman', 'https://blobs.animadex.net/Outputs/thumbs/hikigaya%20hachiman%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 594, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'yuigahama yui''s mother, yahari ore no seishun lovecome wa machigatteiru.', 'Yuigahama Yui''s Mother', 'https://blobs.animadex.net/Outputs/thumbs/yuigahama%20yui%27s%20mother%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 276, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'hikigaya komachi, yahari ore no seishun lovecome wa machigatteiru.', 'Hikigaya Komachi', 'https://blobs.animadex.net/Outputs/thumbs/hikigaya%20komachi%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 224, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'yukinoshita haruno, yahari ore no seishun lovecome wa machigatteiru.', 'Yukinoshita Haruno', 'https://blobs.animadex.net/Outputs/thumbs/yukinoshita%20haruno%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 181, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'totsuka saika, yahari ore no seishun lovecome wa machigatteiru.', 'Totsuka Saika', 'https://blobs.animadex.net/Outputs/thumbs/totsuka%20saika%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 158, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'hiratsuka shizuka, yahari ore no seishun lovecome wa machigatteiru.', 'Hiratsuka Shizuka', 'https://blobs.animadex.net/Outputs/thumbs/hiratsuka%20shizuka%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 112, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'kawasaki saki, yahari ore no seishun lovecome wa machigatteiru.', 'Kawasaki Saki', 'https://blobs.animadex.net/Outputs/thumbs/kawasaki%20saki%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 101, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'hayama hayato, yahari ore no seishun lovecome wa machigatteiru.', 'Hayama Hayato', 'https://blobs.animadex.net/Outputs/thumbs/hayama%20hayato%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 91, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'miura yumiko, yahari ore no seishun lovecome wa machigatteiru.', 'Miura Yumiko', 'https://blobs.animadex.net/Outputs/thumbs/miura%20yumiko%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 73, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'tsurumi rumi, yahari ore no seishun lovecome wa machigatteiru.', 'Tsurumi Rumi', 'https://blobs.animadex.net/Outputs/thumbs/tsurumi%20rumi%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 40, ''),
+('yahari_ore_no_seishun_lovecome_wa_machigatteiru.', 'ebina hina, yahari ore no seishun lovecome wa machigatteiru.', 'Ebina Hina', 'https://blobs.animadex.net/Outputs/thumbs/ebina%20hina%2C%20yahari%20ore%20no%20seishun%20lovecome%20wa%20machigatteiru.webp', 34, '');
 
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
 ('grandia', 'feena (grandia), grandia', 'Feena (grandia)', 'https://blobs.animadex.net/Outputs/thumbs/feena%20(grandia)%2C%20grandia.webp', 396, ''),
@@ -31952,19 +31952,19 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('gnosia', 'chipie (gnosia), gnosia', 'Chipie (gnosia)', 'https://blobs.animadex.net/Outputs/thumbs/chipie%20(gnosia)%2C%20gnosia.webp', 34, ''),
 ('gnosia', 'otome (gnosia), gnosia', 'Otome (gnosia)', 'https://blobs.animadex.net/Outputs/thumbs/otome%20(gnosia)%2C%20gnosia.webp', 33, ''),
 ('gnosia', 'jonas (gnosia), gnosia', 'Jonas (gnosia)', 'https://blobs.animadex.net/Outputs/thumbs/jonas%20(gnosia)%2C%20gnosia.webp', 31, ''),
-('super_smash_bros.', 'mii (nintendo), super smash bros.', 'Mii (nintendo)', 'https://blobs.animadex.net/Outputs/thumbs/mii%20(nintendo)%2C%20super%20smash%20bros..webp', 226, ''),
-('super_smash_bros.', 'mr. game & watch, super smash bros.', 'Mr. Game & Watch', 'https://blobs.animadex.net/Outputs/thumbs/mr.%20game%20%26%20watch%2C%20super%20smash%20bros..webp', 205, ''),
-('super_smash_bros.', 'family computer robot, super smash bros.', 'Family Computer Robot', 'https://blobs.animadex.net/Outputs/thumbs/family%20computer%20robot%2C%20super%20smash%20bros..webp', 161, ''),
-('super_smash_bros.', 'mii gunner, super smash bros.', 'Mii Gunner', 'https://blobs.animadex.net/Outputs/thumbs/mii%20gunner%2C%20super%20smash%20bros..webp', 106, ''),
-('super_smash_bros.', 'master hand, super smash bros.', 'Master Hand', 'https://blobs.animadex.net/Outputs/thumbs/master%20hand%2C%20super%20smash%20bros..webp', 60, ''),
-('super_smash_bros.', 'mii brawler, super smash bros.', 'Mii Brawler', 'https://blobs.animadex.net/Outputs/thumbs/mii%20brawler%2C%20super%20smash%20bros..webp', 58, ''),
-('super_smash_bros.', 'mii gunner (smash ultimate), super smash bros.', 'Mii Gunner (smash Ultimate)', 'https://blobs.animadex.net/Outputs/thumbs/mii%20gunner%20(smash%20ultimate)%2C%20super%20smash%20bros..webp', 56, ''),
-('super_smash_bros.', 'sakurai masahiro, super smash bros.', 'Sakurai Masahiro', 'https://blobs.animadex.net/Outputs/thumbs/sakurai%20masahiro%2C%20super%20smash%20bros..webp', 47, ''),
-('super_smash_bros.', 'mii gunner (smash 4), super smash bros.', 'Mii Gunner (smash 4)', 'https://blobs.animadex.net/Outputs/thumbs/mii%20gunner%20(smash%204)%2C%20super%20smash%20bros..webp', 44, ''),
-('super_smash_bros.', 'crazy hand, super smash bros.', 'Crazy Hand', 'https://blobs.animadex.net/Outputs/thumbs/crazy%20hand%2C%20super%20smash%20bros..webp', 41, ''),
-('super_smash_bros.', 'mii swordfighter, super smash bros.', 'Mii Swordfighter', 'https://blobs.animadex.net/Outputs/thumbs/mii%20swordfighter%2C%20super%20smash%20bros..webp', 37, ''),
-('super_smash_bros.', 'sandbag (smash bros), super smash bros.', 'Sandbag (smash Bros)', 'https://blobs.animadex.net/Outputs/thumbs/sandbag%20(smash%20bros)%2C%20super%20smash%20bros..webp', 36, ''),
-('super_smash_bros.', 'galeem, super smash bros.', 'Galeem', 'https://blobs.animadex.net/Outputs/thumbs/galeem%2C%20super%20smash%20bros..webp', 33, ''),
+('super_smash_bros.', 'mii (nintendo), super smash bros.', 'Mii (nintendo)', 'https://blobs.animadex.net/Outputs/thumbs/mii%20(nintendo)%2C%20super%20smash%20bros.webp', 226, ''),
+('super_smash_bros.', 'mr. game & watch, super smash bros.', 'Mr. Game & Watch', 'https://blobs.animadex.net/Outputs/thumbs/mr.%20game%20%26%20watch%2C%20super%20smash%20bros.webp', 205, ''),
+('super_smash_bros.', 'family computer robot, super smash bros.', 'Family Computer Robot', 'https://blobs.animadex.net/Outputs/thumbs/family%20computer%20robot%2C%20super%20smash%20bros.webp', 161, ''),
+('super_smash_bros.', 'mii gunner, super smash bros.', 'Mii Gunner', 'https://blobs.animadex.net/Outputs/thumbs/mii%20gunner%2C%20super%20smash%20bros.webp', 106, ''),
+('super_smash_bros.', 'master hand, super smash bros.', 'Master Hand', 'https://blobs.animadex.net/Outputs/thumbs/master%20hand%2C%20super%20smash%20bros.webp', 60, ''),
+('super_smash_bros.', 'mii brawler, super smash bros.', 'Mii Brawler', 'https://blobs.animadex.net/Outputs/thumbs/mii%20brawler%2C%20super%20smash%20bros.webp', 58, ''),
+('super_smash_bros.', 'mii gunner (smash ultimate), super smash bros.', 'Mii Gunner (smash Ultimate)', 'https://blobs.animadex.net/Outputs/thumbs/mii%20gunner%20(smash%20ultimate)%2C%20super%20smash%20bros.webp', 56, ''),
+('super_smash_bros.', 'sakurai masahiro, super smash bros.', 'Sakurai Masahiro', 'https://blobs.animadex.net/Outputs/thumbs/sakurai%20masahiro%2C%20super%20smash%20bros.webp', 47, ''),
+('super_smash_bros.', 'mii gunner (smash 4), super smash bros.', 'Mii Gunner (smash 4)', 'https://blobs.animadex.net/Outputs/thumbs/mii%20gunner%20(smash%204)%2C%20super%20smash%20bros.webp', 44, ''),
+('super_smash_bros.', 'crazy hand, super smash bros.', 'Crazy Hand', 'https://blobs.animadex.net/Outputs/thumbs/crazy%20hand%2C%20super%20smash%20bros.webp', 41, ''),
+('super_smash_bros.', 'mii swordfighter, super smash bros.', 'Mii Swordfighter', 'https://blobs.animadex.net/Outputs/thumbs/mii%20swordfighter%2C%20super%20smash%20bros.webp', 37, ''),
+('super_smash_bros.', 'sandbag (smash bros), super smash bros.', 'Sandbag (smash Bros)', 'https://blobs.animadex.net/Outputs/thumbs/sandbag%20(smash%20bros)%2C%20super%20smash%20bros.webp', 36, ''),
+('super_smash_bros.', 'galeem, super smash bros.', 'Galeem', 'https://blobs.animadex.net/Outputs/thumbs/galeem%2C%20super%20smash%20bros.webp', 33, ''),
 ('devil_may_cry_(series)', 'dante (devil may cry), devil may cry (series)', 'Dante (devil May Cry)', 'https://blobs.animadex.net/Outputs/thumbs/dante%20(devil%20may%20cry)%2C%20devil%20may%20cry%20(series).webp', 1676, ''),
 ('devil_may_cry_(series)', 'vergil (devil may cry), devil may cry (series)', 'Vergil (devil May Cry)', 'https://blobs.animadex.net/Outputs/thumbs/vergil%20(devil%20may%20cry)%2C%20devil%20may%20cry%20(series).webp', 1012, ''),
 ('devil_may_cry_(series)', 'nero (devil may cry), devil may cry (series)', 'Nero (devil May Cry)', 'https://blobs.animadex.net/Outputs/thumbs/nero%20(devil%20may%20cry)%2C%20devil%20may%20cry%20(series).webp', 518, ''),
@@ -32015,7 +32015,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('mob_psycho_100', 'serizawa katsuya, mob psycho 100', 'Serizawa Katsuya', 'https://blobs.animadex.net/Outputs/thumbs/serizawa%20katsuya%2C%20mob%20psycho%20100.webp', 142, ''),
 ('mob_psycho_100', 'suzuki shou, mob psycho 100', 'Suzuki Shou', 'https://blobs.animadex.net/Outputs/thumbs/suzuki%20shou%2C%20mob%20psycho%20100.webp', 115, ''),
 ('mob_psycho_100', 'takane tsubomi, mob psycho 100', 'Takane Tsubomi', 'https://blobs.animadex.net/Outputs/thumbs/takane%20tsubomi%2C%20mob%20psycho%20100.webp', 77, ''),
-('mob_psycho_100', 'kageyama shigeo (???), mob psycho 100', 'Kageyama Shigeo (???)', 'https://blobs.animadex.net/Outputs/thumbs/kageyama%20shigeo%20(%3F%3F%3F)%2C%20mob%20psycho%20100.webp', 49, ''),
+('mob_psycho_100', 'kageyama shigeo (???), mob psycho 100', 'Kageyama Shigeo (???)', 'https://blobs.animadex.net/Outputs/thumbs/kageyama%20shigeo%20(___)%2C%20mob%20psycho%20100.webp', 49, ''),
 ('mob_psycho_100', 'yoshioka mamoru, mob psycho 100', 'Yoshioka Mamoru', 'https://blobs.animadex.net/Outputs/thumbs/yoshioka%20mamoru%2C%20mob%20psycho%20100.webp', 45, ''),
 ('mob_psycho_100', 'shimazaki ryo, mob psycho 100', 'Shimazaki Ryo', 'https://blobs.animadex.net/Outputs/thumbs/shimazaki%20ryo%2C%20mob%20psycho%20100.webp', 31, ''),
 ('mob_psycho_100', 'mezato ichi, mob psycho 100', 'Mezato Ichi', 'https://blobs.animadex.net/Outputs/thumbs/mezato%20ichi%2C%20mob%20psycho%20100.webp', 30, ''),
@@ -34961,12 +34961,12 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('overman_king_gainer', 'king gainer, overman king gainer', 'King Gainer', 'https://blobs.animadex.net/Outputs/thumbs/king%20gainer%2C%20overman%20king%20gainer.webp', 39, ''),
 ('overman_king_gainer', 'ana medaiyu, overman king gainer', 'Ana Medaiyu', 'https://blobs.animadex.net/Outputs/thumbs/ana%20medaiyu%2C%20overman%20king%20gainer.webp', 35, ''),
 ('overman_king_gainer', 'gainer sanga, overman king gainer', 'Gainer Sanga', 'https://blobs.animadex.net/Outputs/thumbs/gainer%20sanga%2C%20overman%20king%20gainer.webp', 35, ''),
-('kore_wa_zombie_desu_ka?', 'eucliwood hellscythe, kore wa zombie desu ka?', 'Eucliwood Hellscythe', 'https://blobs.animadex.net/Outputs/thumbs/eucliwood%20hellscythe%2C%20kore%20wa%20zombie%20desu%20ka%3F.webp', 176, ''),
-('kore_wa_zombie_desu_ka?', 'haruna (korezom), kore wa zombie desu ka?', 'Haruna (korezom)', 'https://blobs.animadex.net/Outputs/thumbs/haruna%20(korezom)%2C%20kore%20wa%20zombie%20desu%20ka%3F.webp', 131, ''),
-('kore_wa_zombie_desu_ka?', 'seraphim (korezom), kore wa zombie desu ka?', 'Seraphim (korezom)', 'https://blobs.animadex.net/Outputs/thumbs/seraphim%20(korezom)%2C%20kore%20wa%20zombie%20desu%20ka%3F.webp', 106, ''),
-('kore_wa_zombie_desu_ka?', 'yoshida yuki (korezom), kore wa zombie desu ka?', 'Yoshida Yuki (korezom)', 'https://blobs.animadex.net/Outputs/thumbs/yoshida%20yuki%20(korezom)%2C%20kore%20wa%20zombie%20desu%20ka%3F.webp', 89, ''),
-('kore_wa_zombie_desu_ka?', 'aikawa ayumu, kore wa zombie desu ka?', 'Aikawa Ayumu', 'https://blobs.animadex.net/Outputs/thumbs/aikawa%20ayumu%2C%20kore%20wa%20zombie%20desu%20ka%3F.webp', 76, ''),
-('kore_wa_zombie_desu_ka?', 'kyouko (korezom), kore wa zombie desu ka?', 'Kyouko (korezom)', 'https://blobs.animadex.net/Outputs/thumbs/kyouko%20(korezom)%2C%20kore%20wa%20zombie%20desu%20ka%3F.webp', 38, ''),
+('kore_wa_zombie_desu_ka?', 'eucliwood hellscythe, kore wa zombie desu ka?', 'Eucliwood Hellscythe', 'https://blobs.animadex.net/Outputs/thumbs/eucliwood%20hellscythe%2C%20kore%20wa%20zombie%20desu%20ka_.webp', 176, ''),
+('kore_wa_zombie_desu_ka?', 'haruna (korezom), kore wa zombie desu ka?', 'Haruna (korezom)', 'https://blobs.animadex.net/Outputs/thumbs/haruna%20(korezom)%2C%20kore%20wa%20zombie%20desu%20ka_.webp', 131, ''),
+('kore_wa_zombie_desu_ka?', 'seraphim (korezom), kore wa zombie desu ka?', 'Seraphim (korezom)', 'https://blobs.animadex.net/Outputs/thumbs/seraphim%20(korezom)%2C%20kore%20wa%20zombie%20desu%20ka_.webp', 106, ''),
+('kore_wa_zombie_desu_ka?', 'yoshida yuki (korezom), kore wa zombie desu ka?', 'Yoshida Yuki (korezom)', 'https://blobs.animadex.net/Outputs/thumbs/yoshida%20yuki%20(korezom)%2C%20kore%20wa%20zombie%20desu%20ka_.webp', 89, ''),
+('kore_wa_zombie_desu_ka?', 'aikawa ayumu, kore wa zombie desu ka?', 'Aikawa Ayumu', 'https://blobs.animadex.net/Outputs/thumbs/aikawa%20ayumu%2C%20kore%20wa%20zombie%20desu%20ka_.webp', 76, ''),
+('kore_wa_zombie_desu_ka?', 'kyouko (korezom), kore wa zombie desu ka?', 'Kyouko (korezom)', 'https://blobs.animadex.net/Outputs/thumbs/kyouko%20(korezom)%2C%20kore%20wa%20zombie%20desu%20ka_.webp', 38, ''),
 ('summertime_render', 'kofune ushio, summertime render', 'Kofune Ushio', 'https://blobs.animadex.net/Outputs/thumbs/kofune%20ushio%2C%20summertime%20render.webp', 277, ''),
 ('summertime_render', 'minakata hizuru, summertime render', 'Minakata Hizuru', 'https://blobs.animadex.net/Outputs/thumbs/minakata%20hizuru%2C%20summertime%20render.webp', 157, ''),
 ('summertime_render', 'ajiro shinpei, summertime render', 'Ajiro Shinpei', 'https://blobs.animadex.net/Outputs/thumbs/ajiro%20shinpei%2C%20summertime%20render.webp', 155, ''),
@@ -35109,14 +35109,14 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('galaxy_angel_rune', 'anise azeat, galaxy angel rune', 'Anise Azeat', 'https://blobs.animadex.net/Outputs/thumbs/anise%20azeat%2C%20galaxy%20angel%20rune.webp', 64, ''),
 ('galaxy_angel_rune', 'lily c. sherbet, galaxy angel rune', 'Lily C. Sherbet', 'https://blobs.animadex.net/Outputs/thumbs/lily%20c.%20sherbet%2C%20galaxy%20angel%20rune.webp', 57, ''),
 ('galaxy_angel_rune', 'tequila marjoram, galaxy angel rune', 'Tequila Marjoram', 'https://blobs.animadex.net/Outputs/thumbs/tequila%20marjoram%2C%20galaxy%20angel%20rune.webp', 39, ''),
-('ano_hi_mita_hana_no_namae_wo_bokutachi_wa_mada_shiranai.', 'honma meiko, ano hi mita hana no namae wo bokutachi wa mada shiranai.', 'Honma Meiko', 'https://blobs.animadex.net/Outputs/thumbs/honma%20meiko%2C%20ano%20hi%20mita%20hana%20no%20namae%20wo%20bokutachi%20wa%20mada%20shiranai..webp', 1261, ''),
-('ano_hi_mita_hana_no_namae_wo_bokutachi_wa_mada_shiranai.', 'anjou naruko, ano hi mita hana no namae wo bokutachi wa mada shiranai.', 'Anjou Naruko', 'https://blobs.animadex.net/Outputs/thumbs/anjou%20naruko%2C%20ano%20hi%20mita%20hana%20no%20namae%20wo%20bokutachi%20wa%20mada%20shiranai..webp', 935, ''),
-('ano_hi_mita_hana_no_namae_wo_bokutachi_wa_mada_shiranai.', 'tsurumi chiriko, ano hi mita hana no namae wo bokutachi wa mada shiranai.', 'Tsurumi Chiriko', 'https://blobs.animadex.net/Outputs/thumbs/tsurumi%20chiriko%2C%20ano%20hi%20mita%20hana%20no%20namae%20wo%20bokutachi%20wa%20mada%20shiranai..webp', 282, '');
+('ano_hi_mita_hana_no_namae_wo_bokutachi_wa_mada_shiranai.', 'honma meiko, ano hi mita hana no namae wo bokutachi wa mada shiranai.', 'Honma Meiko', 'https://blobs.animadex.net/Outputs/thumbs/honma%20meiko%2C%20ano%20hi%20mita%20hana%20no%20namae%20wo%20bokutachi%20wa%20mada%20shiranai.webp', 1261, ''),
+('ano_hi_mita_hana_no_namae_wo_bokutachi_wa_mada_shiranai.', 'anjou naruko, ano hi mita hana no namae wo bokutachi wa mada shiranai.', 'Anjou Naruko', 'https://blobs.animadex.net/Outputs/thumbs/anjou%20naruko%2C%20ano%20hi%20mita%20hana%20no%20namae%20wo%20bokutachi%20wa%20mada%20shiranai.webp', 935, ''),
+('ano_hi_mita_hana_no_namae_wo_bokutachi_wa_mada_shiranai.', 'tsurumi chiriko, ano hi mita hana no namae wo bokutachi wa mada shiranai.', 'Tsurumi Chiriko', 'https://blobs.animadex.net/Outputs/thumbs/tsurumi%20chiriko%2C%20ano%20hi%20mita%20hana%20no%20namae%20wo%20bokutachi%20wa%20mada%20shiranai.webp', 282, '');
 
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
-('ano_hi_mita_hana_no_namae_wo_bokutachi_wa_mada_shiranai.', 'yadomi jinta, ano hi mita hana no namae wo bokutachi wa mada shiranai.', 'Yadomi Jinta', 'https://blobs.animadex.net/Outputs/thumbs/yadomi%20jinta%2C%20ano%20hi%20mita%20hana%20no%20namae%20wo%20bokutachi%20wa%20mada%20shiranai..webp', 267, ''),
-('ano_hi_mita_hana_no_namae_wo_bokutachi_wa_mada_shiranai.', 'matsuyuki atsumu, ano hi mita hana no namae wo bokutachi wa mada shiranai.', 'Matsuyuki Atsumu', 'https://blobs.animadex.net/Outputs/thumbs/matsuyuki%20atsumu%2C%20ano%20hi%20mita%20hana%20no%20namae%20wo%20bokutachi%20wa%20mada%20shiranai..webp', 162, ''),
-('ano_hi_mita_hana_no_namae_wo_bokutachi_wa_mada_shiranai.', 'hisakawa tetsudou, ano hi mita hana no namae wo bokutachi wa mada shiranai.', 'Hisakawa Tetsudou', 'https://blobs.animadex.net/Outputs/thumbs/hisakawa%20tetsudou%2C%20ano%20hi%20mita%20hana%20no%20namae%20wo%20bokutachi%20wa%20mada%20shiranai..webp', 126, ''),
+('ano_hi_mita_hana_no_namae_wo_bokutachi_wa_mada_shiranai.', 'yadomi jinta, ano hi mita hana no namae wo bokutachi wa mada shiranai.', 'Yadomi Jinta', 'https://blobs.animadex.net/Outputs/thumbs/yadomi%20jinta%2C%20ano%20hi%20mita%20hana%20no%20namae%20wo%20bokutachi%20wa%20mada%20shiranai.webp', 267, ''),
+('ano_hi_mita_hana_no_namae_wo_bokutachi_wa_mada_shiranai.', 'matsuyuki atsumu, ano hi mita hana no namae wo bokutachi wa mada shiranai.', 'Matsuyuki Atsumu', 'https://blobs.animadex.net/Outputs/thumbs/matsuyuki%20atsumu%2C%20ano%20hi%20mita%20hana%20no%20namae%20wo%20bokutachi%20wa%20mada%20shiranai.webp', 162, ''),
+('ano_hi_mita_hana_no_namae_wo_bokutachi_wa_mada_shiranai.', 'hisakawa tetsudou, ano hi mita hana no namae wo bokutachi wa mada shiranai.', 'Hisakawa Tetsudou', 'https://blobs.animadex.net/Outputs/thumbs/hisakawa%20tetsudou%2C%20ano%20hi%20mita%20hana%20no%20namae%20wo%20bokutachi%20wa%20mada%20shiranai.webp', 126, ''),
 ('kannagi', 'nagi (kannagi), kannagi', 'Nagi (kannagi)', 'https://blobs.animadex.net/Outputs/thumbs/nagi%20(kannagi)%2C%20kannagi.webp', 1199, ''),
 ('kannagi', 'zange, kannagi', 'Zange', 'https://blobs.animadex.net/Outputs/thumbs/zange%2C%20kannagi.webp', 435, ''),
 ('kannagi', 'aoba tsugumi, kannagi', 'Aoba Tsugumi', 'https://blobs.animadex.net/Outputs/thumbs/aoba%20tsugumi%2C%20kannagi.webp', 238, ''),
@@ -35441,12 +35441,12 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('9-nine-', 'kousaka haruka, 9-nine-', 'Kousaka Haruka', 'https://blobs.animadex.net/Outputs/thumbs/kousaka%20haruka%2C%209-nine-.webp', 81, ''),
 ('9-nine-', 'ghost (9-nine-), 9-nine-', 'Ghost (9-nine-)', 'https://blobs.animadex.net/Outputs/thumbs/ghost%20(9-nine-)%2C%209-nine-.webp', 56, ''),
 ('9-nine-', 'niimi kakeru, 9-nine-', 'Niimi Kakeru', 'https://blobs.animadex.net/Outputs/thumbs/niimi%20kakeru%2C%209-nine-.webp', 31, ''),
-('dumbbell_nan_kilo_moteru?', 'sakura hibiki, dumbbell nan kilo moteru?', 'Sakura Hibiki', 'https://blobs.animadex.net/Outputs/thumbs/sakura%20hibiki%2C%20dumbbell%20nan%20kilo%20moteru%3F.webp', 324, ''),
-('dumbbell_nan_kilo_moteru?', 'tachibana satomi, dumbbell nan kilo moteru?', 'Tachibana Satomi', 'https://blobs.animadex.net/Outputs/thumbs/tachibana%20satomi%2C%20dumbbell%20nan%20kilo%20moteru%3F.webp', 93, ''),
-('dumbbell_nan_kilo_moteru?', 'uehara ayaka, dumbbell nan kilo moteru?', 'Uehara Ayaka', 'https://blobs.animadex.net/Outputs/thumbs/uehara%20ayaka%2C%20dumbbell%20nan%20kilo%20moteru%3F.webp', 67, ''),
-('dumbbell_nan_kilo_moteru?', 'souryuuin akemi, dumbbell nan kilo moteru?', 'Souryuuin Akemi', 'https://blobs.animadex.net/Outputs/thumbs/souryuuin%20akemi%2C%20dumbbell%20nan%20kilo%20moteru%3F.webp', 58, ''),
-('dumbbell_nan_kilo_moteru?', 'gina boyd, dumbbell nan kilo moteru?', 'Gina Boyd', 'https://blobs.animadex.net/Outputs/thumbs/gina%20boyd%2C%20dumbbell%20nan%20kilo%20moteru%3F.webp', 56, ''),
-('dumbbell_nan_kilo_moteru?', 'machio naruzou, dumbbell nan kilo moteru?', 'Machio Naruzou', 'https://blobs.animadex.net/Outputs/thumbs/machio%20naruzou%2C%20dumbbell%20nan%20kilo%20moteru%3F.webp', 53, ''),
+('dumbbell_nan_kilo_moteru?', 'sakura hibiki, dumbbell nan kilo moteru?', 'Sakura Hibiki', 'https://blobs.animadex.net/Outputs/thumbs/sakura%20hibiki%2C%20dumbbell%20nan%20kilo%20moteru_.webp', 324, ''),
+('dumbbell_nan_kilo_moteru?', 'tachibana satomi, dumbbell nan kilo moteru?', 'Tachibana Satomi', 'https://blobs.animadex.net/Outputs/thumbs/tachibana%20satomi%2C%20dumbbell%20nan%20kilo%20moteru_.webp', 93, ''),
+('dumbbell_nan_kilo_moteru?', 'uehara ayaka, dumbbell nan kilo moteru?', 'Uehara Ayaka', 'https://blobs.animadex.net/Outputs/thumbs/uehara%20ayaka%2C%20dumbbell%20nan%20kilo%20moteru_.webp', 67, ''),
+('dumbbell_nan_kilo_moteru?', 'souryuuin akemi, dumbbell nan kilo moteru?', 'Souryuuin Akemi', 'https://blobs.animadex.net/Outputs/thumbs/souryuuin%20akemi%2C%20dumbbell%20nan%20kilo%20moteru_.webp', 58, ''),
+('dumbbell_nan_kilo_moteru?', 'gina boyd, dumbbell nan kilo moteru?', 'Gina Boyd', 'https://blobs.animadex.net/Outputs/thumbs/gina%20boyd%2C%20dumbbell%20nan%20kilo%20moteru_.webp', 56, ''),
+('dumbbell_nan_kilo_moteru?', 'machio naruzou, dumbbell nan kilo moteru?', 'Machio Naruzou', 'https://blobs.animadex.net/Outputs/thumbs/machio%20naruzou%2C%20dumbbell%20nan%20kilo%20moteru_.webp', 53, ''),
 ('waktaverse', 'jingburger, waktaverse', 'Jingburger', 'https://blobs.animadex.net/Outputs/thumbs/jingburger%2C%20waktaverse.webp', 264, ''),
 ('waktaverse', 'jururu, waktaverse', 'Jururu', 'https://blobs.animadex.net/Outputs/thumbs/jururu%2C%20waktaverse.webp', 196, ''),
 ('waktaverse', 'lilpa, waktaverse', 'Lilpa', 'https://blobs.animadex.net/Outputs/thumbs/lilpa%2C%20waktaverse.webp', 120, ''),
@@ -35677,12 +35677,12 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('ore_twintail_ni_narimasu', 'twoearle, ore twintail ni narimasu', 'Twoearle', 'https://blobs.animadex.net/Outputs/thumbs/twoearle%2C%20ore%20twintail%20ni%20narimasu.webp', 93, ''),
 ('ore_twintail_ni_narimasu', 'mitsuka souji, ore twintail ni narimasu', 'Mitsuka Souji', 'https://blobs.animadex.net/Outputs/thumbs/mitsuka%20souji%2C%20ore%20twintail%20ni%20narimasu.webp', 50, ''),
 ('ore_twintail_ni_narimasu', 'shindou erina, ore twintail ni narimasu', 'Shindou Erina', 'https://blobs.animadex.net/Outputs/thumbs/shindou%20erina%2C%20ore%20twintail%20ni%20narimasu.webp', 48, ''),
-('kimi_no_na_wa.', 'miyamizu mitsuha, kimi no na wa.', 'Miyamizu Mitsuha', 'https://blobs.animadex.net/Outputs/thumbs/miyamizu%20mitsuha%2C%20kimi%20no%20na%20wa..webp', 1165, ''),
-('kimi_no_na_wa.', 'tachibana taki, kimi no na wa.', 'Tachibana Taki', 'https://blobs.animadex.net/Outputs/thumbs/tachibana%20taki%2C%20kimi%20no%20na%20wa..webp', 565, ''),
-('kimi_no_na_wa.', 'miyamizu yotsuha, kimi no na wa.', 'Miyamizu Yotsuha', 'https://blobs.animadex.net/Outputs/thumbs/miyamizu%20yotsuha%2C%20kimi%20no%20na%20wa..webp', 61, ''),
-('kimi_no_na_wa.', 'teshigawara katsuhiko, kimi no na wa.', 'Teshigawara Katsuhiko', 'https://blobs.animadex.net/Outputs/thumbs/teshigawara%20katsuhiko%2C%20kimi%20no%20na%20wa..webp', 47, ''),
-('kimi_no_na_wa.', 'okudera miki, kimi no na wa.', 'Okudera Miki', 'https://blobs.animadex.net/Outputs/thumbs/okudera%20miki%2C%20kimi%20no%20na%20wa..webp', 40, ''),
-('kimi_no_na_wa.', 'natori sayaka, kimi no na wa.', 'Natori Sayaka', 'https://blobs.animadex.net/Outputs/thumbs/natori%20sayaka%2C%20kimi%20no%20na%20wa..webp', 39, ''),
+('kimi_no_na_wa.', 'miyamizu mitsuha, kimi no na wa.', 'Miyamizu Mitsuha', 'https://blobs.animadex.net/Outputs/thumbs/miyamizu%20mitsuha%2C%20kimi%20no%20na%20wa.webp', 1165, ''),
+('kimi_no_na_wa.', 'tachibana taki, kimi no na wa.', 'Tachibana Taki', 'https://blobs.animadex.net/Outputs/thumbs/tachibana%20taki%2C%20kimi%20no%20na%20wa.webp', 565, ''),
+('kimi_no_na_wa.', 'miyamizu yotsuha, kimi no na wa.', 'Miyamizu Yotsuha', 'https://blobs.animadex.net/Outputs/thumbs/miyamizu%20yotsuha%2C%20kimi%20no%20na%20wa.webp', 61, ''),
+('kimi_no_na_wa.', 'teshigawara katsuhiko, kimi no na wa.', 'Teshigawara Katsuhiko', 'https://blobs.animadex.net/Outputs/thumbs/teshigawara%20katsuhiko%2C%20kimi%20no%20na%20wa.webp', 47, ''),
+('kimi_no_na_wa.', 'okudera miki, kimi no na wa.', 'Okudera Miki', 'https://blobs.animadex.net/Outputs/thumbs/okudera%20miki%2C%20kimi%20no%20na%20wa.webp', 40, ''),
+('kimi_no_na_wa.', 'natori sayaka, kimi no na wa.', 'Natori Sayaka', 'https://blobs.animadex.net/Outputs/thumbs/natori%20sayaka%2C%20kimi%20no%20na%20wa.webp', 39, ''),
 ('little_witch_nobeta', 'nobeta, little witch nobeta', 'Nobeta', 'https://blobs.animadex.net/Outputs/thumbs/nobeta%2C%20little%20witch%20nobeta.webp', 587, '');
 
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
@@ -35779,11 +35779,11 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('vyugen', 'yuniiho (vtuber), vyugen', 'Yuniiho (vtuber)', 'https://blobs.animadex.net/Outputs/thumbs/yuniiho%20(vtuber)%2C%20vyugen.webp', 90, ''),
 ('vyugen', 'alheitrakzoth, vyugen', 'Alheitrakzoth', 'https://blobs.animadex.net/Outputs/thumbs/alheitrakzoth%2C%20vyugen.webp', 63, ''),
 ('vyugen', 'dyarikku (vtuber), vyugen', 'Dyarikku (vtuber)', 'https://blobs.animadex.net/Outputs/thumbs/dyarikku%20(vtuber)%2C%20vyugen.webp', 61, ''),
-('yondemasu_yo_azazel-san.', 'sakuma rinko, yondemasu yo azazel-san.', 'Sakuma Rinko', 'https://blobs.animadex.net/Outputs/thumbs/sakuma%20rinko%2C%20yondemasu%20yo%20azazel-san..webp', 127, ''),
-('yondemasu_yo_azazel-san.', 'beelzebub (azazel-san), yondemasu yo azazel-san.', 'Beelzebub (azazel-san)', 'https://blobs.animadex.net/Outputs/thumbs/beelzebub%20(azazel-san)%2C%20yondemasu%20yo%20azazel-san..webp', 100, ''),
-('yondemasu_yo_azazel-san.', 'azazel (azazel-san), yondemasu yo azazel-san.', 'Azazel (azazel-san)', 'https://blobs.animadex.net/Outputs/thumbs/azazel%20(azazel-san)%2C%20yondemasu%20yo%20azazel-san..webp', 91, ''),
-('yondemasu_yo_azazel-san.', 'akutabe, yondemasu yo azazel-san.', 'Akutabe', 'https://blobs.animadex.net/Outputs/thumbs/akutabe%2C%20yondemasu%20yo%20azazel-san..webp', 81, ''),
-('yondemasu_yo_azazel-san.', 'moloch (azazel-san), yondemasu_yo_azazel-san.', 'Moloch (azazel-san)', 'https://blobs.animadex.net/Outputs/thumbs/moloch%20(azazel-san)%2C%20yondemasu_yo_azazel-san..webp', 21, ''),
+('yondemasu_yo_azazel-san.', 'sakuma rinko, yondemasu yo azazel-san.', 'Sakuma Rinko', 'https://blobs.animadex.net/Outputs/thumbs/sakuma%20rinko%2C%20yondemasu%20yo%20azazel-san.webp', 127, ''),
+('yondemasu_yo_azazel-san.', 'beelzebub (azazel-san), yondemasu yo azazel-san.', 'Beelzebub (azazel-san)', 'https://blobs.animadex.net/Outputs/thumbs/beelzebub%20(azazel-san)%2C%20yondemasu%20yo%20azazel-san.webp', 100, ''),
+('yondemasu_yo_azazel-san.', 'azazel (azazel-san), yondemasu yo azazel-san.', 'Azazel (azazel-san)', 'https://blobs.animadex.net/Outputs/thumbs/azazel%20(azazel-san)%2C%20yondemasu%20yo%20azazel-san.webp', 91, ''),
+('yondemasu_yo_azazel-san.', 'akutabe, yondemasu yo azazel-san.', 'Akutabe', 'https://blobs.animadex.net/Outputs/thumbs/akutabe%2C%20yondemasu%20yo%20azazel-san.webp', 81, ''),
+('yondemasu_yo_azazel-san.', 'moloch (azazel-san), yondemasu_yo_azazel-san.', 'Moloch (azazel-san)', 'https://blobs.animadex.net/Outputs/thumbs/moloch%20(azazel-san)%2C%20yondemasu_yo_azazel-san.webp', 21, ''),
 ('demonbane', 'al azif, demonbane', 'Al Azif', 'https://blobs.animadex.net/Outputs/thumbs/al%20azif%2C%20demonbane.webp', 356, ''),
 ('demonbane', 'daijuuji kurou, demonbane', 'Daijuuji Kurou', 'https://blobs.animadex.net/Outputs/thumbs/daijuuji%20kurou%2C%20demonbane.webp', 62, ''),
 ('demonbane', 'etheldreda, demonbane', 'Etheldreda', 'https://blobs.animadex.net/Outputs/thumbs/etheldreda%2C%20demonbane.webp', 58, ''),
@@ -35895,11 +35895,11 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
 ('kokoro_iroduku_koi_ga_shitai', 'kurosu hajime, kokoro iroduku koi ga shitai', 'Kurosu Hajime', 'https://blobs.animadex.net/Outputs/thumbs/kurosu%20hajime%2C%20kokoro%20iroduku%20koi%20ga%20shitai.webp', 36, ''),
-('boku_to_koi_suru_ponkotsu_akuma.', 'arisegawa arle, boku to koi suru ponkotsu akuma.', 'Arisegawa Arle', 'https://blobs.animadex.net/Outputs/thumbs/arisegawa%20arle%2C%20boku%20to%20koi%20suru%20ponkotsu%20akuma..webp', 60, ''),
-('boku_to_koi_suru_ponkotsu_akuma.', 'ayasaki yuu, boku to koi suru ponkotsu akuma.', 'Ayasaki Yuu', 'https://blobs.animadex.net/Outputs/thumbs/ayasaki%20yuu%2C%20boku%20to%20koi%20suru%20ponkotsu%20akuma..webp', 56, ''),
-('boku_to_koi_suru_ponkotsu_akuma.', 'kiritani riria, boku to koi suru ponkotsu akuma.', 'Kiritani Riria', 'https://blobs.animadex.net/Outputs/thumbs/kiritani%20riria%2C%20boku%20to%20koi%20suru%20ponkotsu%20akuma..webp', 51, ''),
-('boku_to_koi_suru_ponkotsu_akuma.', 'fujima emiri, boku to koi suru ponkotsu akuma.', 'Fujima Emiri', 'https://blobs.animadex.net/Outputs/thumbs/fujima%20emiri%2C%20boku%20to%20koi%20suru%20ponkotsu%20akuma..webp', 34, ''),
-('boku_to_koi_suru_ponkotsu_akuma.', 'aoi miyabi, boku to koi suru ponkotsu akuma.', 'Aoi Miyabi', 'https://blobs.animadex.net/Outputs/thumbs/aoi%20miyabi%2C%20boku%20to%20koi%20suru%20ponkotsu%20akuma..webp', 33, ''),
+('boku_to_koi_suru_ponkotsu_akuma.', 'arisegawa arle, boku to koi suru ponkotsu akuma.', 'Arisegawa Arle', 'https://blobs.animadex.net/Outputs/thumbs/arisegawa%20arle%2C%20boku%20to%20koi%20suru%20ponkotsu%20akuma.webp', 60, ''),
+('boku_to_koi_suru_ponkotsu_akuma.', 'ayasaki yuu, boku to koi suru ponkotsu akuma.', 'Ayasaki Yuu', 'https://blobs.animadex.net/Outputs/thumbs/ayasaki%20yuu%2C%20boku%20to%20koi%20suru%20ponkotsu%20akuma.webp', 56, ''),
+('boku_to_koi_suru_ponkotsu_akuma.', 'kiritani riria, boku to koi suru ponkotsu akuma.', 'Kiritani Riria', 'https://blobs.animadex.net/Outputs/thumbs/kiritani%20riria%2C%20boku%20to%20koi%20suru%20ponkotsu%20akuma.webp', 51, ''),
+('boku_to_koi_suru_ponkotsu_akuma.', 'fujima emiri, boku to koi suru ponkotsu akuma.', 'Fujima Emiri', 'https://blobs.animadex.net/Outputs/thumbs/fujima%20emiri%2C%20boku%20to%20koi%20suru%20ponkotsu%20akuma.webp', 34, ''),
+('boku_to_koi_suru_ponkotsu_akuma.', 'aoi miyabi, boku to koi suru ponkotsu akuma.', 'Aoi Miyabi', 'https://blobs.animadex.net/Outputs/thumbs/aoi%20miyabi%2C%20boku%20to%20koi%20suru%20ponkotsu%20akuma.webp', 33, ''),
 ('kodomo_no_jikan', 'kokonoe rin, kodomo no jikan', 'Kokonoe Rin', 'https://blobs.animadex.net/Outputs/thumbs/kokonoe%20rin%2C%20kodomo%20no%20jikan.webp', 587, ''),
 ('kodomo_no_jikan', 'kagami kuro, kodomo no jikan', 'Kagami Kuro', 'https://blobs.animadex.net/Outputs/thumbs/kagami%20kuro%2C%20kodomo%20no%20jikan.webp', 213, ''),
 ('kodomo_no_jikan', 'usa mimi, kodomo no jikan', 'Usa Mimi', 'https://blobs.animadex.net/Outputs/thumbs/usa%20mimi%2C%20kodomo%20no%20jikan.webp', 193, ''),
@@ -35940,13 +35940,13 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('chihayafuru', 'ooe kanade, chihayafuru', 'Ooe Kanade', 'https://blobs.animadex.net/Outputs/thumbs/ooe%20kanade%2C%20chihayafuru.webp', 39, ''),
 ('chihayafuru', 'wataya arata, chihayafuru', 'Wataya Arata', 'https://blobs.animadex.net/Outputs/thumbs/wataya%20arata%2C%20chihayafuru.webp', 35, ''),
 ('chihayafuru', 'wakamiya shinobu, chihayafuru', 'Wakamiya Shinobu', 'https://blobs.animadex.net/Outputs/thumbs/wakamiya%20shinobu%2C%20chihayafuru.webp', 32, ''),
-('hentai_ouji_to_warawanai_neko.', 'tsutsukakushi tsukiko, hentai ouji to warawanai neko.', 'Tsutsukakushi Tsukiko', 'https://blobs.animadex.net/Outputs/thumbs/tsutsukakushi%20tsukiko%2C%20hentai%20ouji%20to%20warawanai%20neko..webp', 436, ''),
-('hentai_ouji_to_warawanai_neko.', 'azuki azusa, hentai ouji to warawanai neko.', 'Azuki Azusa', 'https://blobs.animadex.net/Outputs/thumbs/azuki%20azusa%2C%20hentai%20ouji%20to%20warawanai%20neko..webp', 285, ''),
-('hentai_ouji_to_warawanai_neko.', 'yokodera youto, hentai ouji to warawanai neko.', 'Yokodera Youto', 'https://blobs.animadex.net/Outputs/thumbs/yokodera%20youto%2C%20hentai%20ouji%20to%20warawanai%20neko..webp', 98, ''),
-('hentai_ouji_to_warawanai_neko.', 'tsutsukakushi tsukushi, hentai ouji to warawanai neko.', 'Tsutsukakushi Tsukushi', 'https://blobs.animadex.net/Outputs/thumbs/tsutsukakushi%20tsukushi%2C%20hentai%20ouji%20to%20warawanai%20neko..webp', 92, '');
+('hentai_ouji_to_warawanai_neko.', 'tsutsukakushi tsukiko, hentai ouji to warawanai neko.', 'Tsutsukakushi Tsukiko', 'https://blobs.animadex.net/Outputs/thumbs/tsutsukakushi%20tsukiko%2C%20hentai%20ouji%20to%20warawanai%20neko.webp', 436, ''),
+('hentai_ouji_to_warawanai_neko.', 'azuki azusa, hentai ouji to warawanai neko.', 'Azuki Azusa', 'https://blobs.animadex.net/Outputs/thumbs/azuki%20azusa%2C%20hentai%20ouji%20to%20warawanai%20neko.webp', 285, ''),
+('hentai_ouji_to_warawanai_neko.', 'yokodera youto, hentai ouji to warawanai neko.', 'Yokodera Youto', 'https://blobs.animadex.net/Outputs/thumbs/yokodera%20youto%2C%20hentai%20ouji%20to%20warawanai%20neko.webp', 98, ''),
+('hentai_ouji_to_warawanai_neko.', 'tsutsukakushi tsukushi, hentai ouji to warawanai neko.', 'Tsutsukakushi Tsukushi', 'https://blobs.animadex.net/Outputs/thumbs/tsutsukakushi%20tsukushi%2C%20hentai%20ouji%20to%20warawanai%20neko.webp', 92, '');
 
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
-('hentai_ouji_to_warawanai_neko.', 'emanuella porlallora, hentai ouji to warawanai neko.', 'Emanuella Porlallora', 'https://blobs.animadex.net/Outputs/thumbs/emanuella%20porlallora%2C%20hentai%20ouji%20to%20warawanai%20neko..webp', 41, ''),
+('hentai_ouji_to_warawanai_neko.', 'emanuella porlallora, hentai ouji to warawanai neko.', 'Emanuella Porlallora', 'https://blobs.animadex.net/Outputs/thumbs/emanuella%20porlallora%2C%20hentai%20ouji%20to%20warawanai%20neko.webp', 41, ''),
 ('yami_to_boushi_to_hon_no_tabibito', 'lilith (yamibou), yami to boushi to hon no tabibito', 'Lilith (yamibou)', 'https://blobs.animadex.net/Outputs/thumbs/lilith%20(yamibou)%2C%20yami%20to%20boushi%20to%20hon%20no%20tabibito.webp', 183, ''),
 ('yami_to_boushi_to_hon_no_tabibito', 'azuma hazuki, yami to boushi to hon no tabibito', 'Azuma Hazuki', 'https://blobs.animadex.net/Outputs/thumbs/azuma%20hazuki%2C%20yami%20to%20boushi%20to%20hon%20no%20tabibito.webp', 137, ''),
 ('yami_to_boushi_to_hon_no_tabibito', 'azuma hatsumi, yami to boushi to hon no tabibito', 'Azuma Hatsumi', 'https://blobs.animadex.net/Outputs/thumbs/azuma%20hatsumi%2C%20yami%20to%20boushi%20to%20hon%20no%20tabibito.webp', 101, ''),
@@ -36341,11 +36341,11 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('magic_kaito', 'nakamori aoko, magic kaito', 'Nakamori Aoko', 'https://blobs.animadex.net/Outputs/thumbs/nakamori%20aoko%2C%20magic%20kaito.webp', 215, ''),
 ('magic_kaito', 'hakuba saguru, magic kaito', 'Hakuba Saguru', 'https://blobs.animadex.net/Outputs/thumbs/hakuba%20saguru%2C%20magic%20kaito.webp', 58, ''),
 ('magic_kaito', 'koizumi akako, magic kaito', 'Koizumi Akako', 'https://blobs.animadex.net/Outputs/thumbs/koizumi%20akako%2C%20magic%20kaito.webp', 39, ''),
-('suiheisen_made_nan_mile?', 'miyamae tomoka, suiheisen made nan mile?', 'Miyamae Tomoka', 'https://blobs.animadex.net/Outputs/thumbs/miyamae%20tomoka%2C%20suiheisen%20made%20nan%20mile%3F.webp', 59, ''),
-('suiheisen_made_nan_mile?', 'koga sayoko, suiheisen made nan mile?', 'Koga Sayoko', 'https://blobs.animadex.net/Outputs/thumbs/koga%20sayoko%2C%20suiheisen%20made%20nan%20mile%3F.webp', 49, ''),
-('suiheisen_made_nan_mile?', 'tsuyazaki kokage, suiheisen made nan mile?', 'Tsuyazaki Kokage', 'https://blobs.animadex.net/Outputs/thumbs/tsuyazaki%20kokage%2C%20suiheisen%20made%20nan%20mile%3F.webp', 41, ''),
-('suiheisen_made_nan_mile?', 'nakano hinata, suiheisen made nan mile?', 'Nakano Hinata', 'https://blobs.animadex.net/Outputs/thumbs/nakano%20hinata%2C%20suiheisen%20made%20nan%20mile%3F.webp', 36, ''),
-('suiheisen_made_nan_mile?', 'hanami mariya, suiheisen made nan mile?', 'Hanami Mariya', 'https://blobs.animadex.net/Outputs/thumbs/hanami%20mariya%2C%20suiheisen%20made%20nan%20mile%3F.webp', 30, ''),
+('suiheisen_made_nan_mile?', 'miyamae tomoka, suiheisen made nan mile?', 'Miyamae Tomoka', 'https://blobs.animadex.net/Outputs/thumbs/miyamae%20tomoka%2C%20suiheisen%20made%20nan%20mile_.webp', 59, ''),
+('suiheisen_made_nan_mile?', 'koga sayoko, suiheisen made nan mile?', 'Koga Sayoko', 'https://blobs.animadex.net/Outputs/thumbs/koga%20sayoko%2C%20suiheisen%20made%20nan%20mile_.webp', 49, ''),
+('suiheisen_made_nan_mile?', 'tsuyazaki kokage, suiheisen made nan mile?', 'Tsuyazaki Kokage', 'https://blobs.animadex.net/Outputs/thumbs/tsuyazaki%20kokage%2C%20suiheisen%20made%20nan%20mile_.webp', 41, ''),
+('suiheisen_made_nan_mile?', 'nakano hinata, suiheisen made nan mile?', 'Nakano Hinata', 'https://blobs.animadex.net/Outputs/thumbs/nakano%20hinata%2C%20suiheisen%20made%20nan%20mile_.webp', 36, ''),
+('suiheisen_made_nan_mile?', 'hanami mariya, suiheisen made nan mile?', 'Hanami Mariya', 'https://blobs.animadex.net/Outputs/thumbs/hanami%20mariya%2C%20suiheisen%20made%20nan%20mile_.webp', 30, ''),
 ('fushigi_na_neko_no_machi_meltier', 'moco (fushigi na neko no machi meltier), fushigi na neko no machi meltier', 'Moco (fushigi Na Neko No Machi Meltier)', 'https://blobs.animadex.net/Outputs/thumbs/moco%20(fushigi%20na%20neko%20no%20machi%20meltier)%2C%20fushigi%20na%20neko%20no%20machi%20meltier.webp', 154, ''),
 ('fushigi_na_neko_no_machi_meltier', 'haru (fushigi na neko no machi meltier), fushigi na neko no machi meltier', 'Haru (fushigi Na Neko No Machi Meltier)', 'https://blobs.animadex.net/Outputs/thumbs/haru%20(fushigi%20na%20neko%20no%20machi%20meltier)%2C%20fushigi%20na%20neko%20no%20machi%20meltier.webp', 66, ''),
 ('fushigi_na_neko_no_machi_meltier', 'rucora (fushigi na neko no machi meltier), fushigi na neko no machi meltier', 'Rucora (fushigi Na Neko No Machi Meltier)', 'https://blobs.animadex.net/Outputs/thumbs/rucora%20(fushigi%20na%20neko%20no%20machi%20meltier)%2C%20fushigi%20na%20neko%20no%20machi%20meltier.webp', 65, ''),
@@ -36507,11 +36507,11 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('voltron_(series)', 'lance (voltron), voltron (series)', 'Lance (voltron)', 'https://blobs.animadex.net/Outputs/thumbs/lance%20(voltron)%2C%20voltron%20(series).webp', 94, ''),
 ('voltron_(series)', 'princess allura, voltron (series)', 'Princess Allura', 'https://blobs.animadex.net/Outputs/thumbs/princess%20allura%2C%20voltron%20(series).webp', 92, ''),
 ('voltron_(series)', 'voltron (mecha), voltron (series)', 'Voltron (mecha)', 'https://blobs.animadex.net/Outputs/thumbs/voltron%20(mecha)%2C%20voltron%20(series).webp', 33, ''),
-('kizuna_ai_inc.', 'kizuna ai, kizuna ai inc.', 'Kizuna Ai', 'https://blobs.animadex.net/Outputs/thumbs/kizuna%20ai%2C%20kizuna%20ai%20inc..webp', 1666, ''),
-('kizuna_ai_inc.', 'kizuna ai (a.i. games), kizuna ai inc.', 'Kizuna Ai (a.i. Games)', 'https://blobs.animadex.net/Outputs/thumbs/kizuna%20ai%20(a.i.%20games)%2C%20kizuna%20ai%20inc..webp', 171, ''),
-('kizuna_ai_inc.', 'kizuna ai (elegant), kizuna ai inc.', 'Kizuna Ai (elegant)', 'https://blobs.animadex.net/Outputs/thumbs/kizuna%20ai%20(elegant)%2C%20kizuna%20ai%20inc..webp', 71, ''),
-('kizuna_ai_inc.', 'kizuna ai (musician), kizuna ai inc.', 'Kizuna Ai (musician)', 'https://blobs.animadex.net/Outputs/thumbs/kizuna%20ai%20(musician)%2C%20kizuna%20ai%20inc..webp', 67, ''),
-('kizuna_ai_inc.', 'kizuna ai (anniversary), kizuna ai inc.', 'Kizuna Ai (anniversary)', 'https://blobs.animadex.net/Outputs/thumbs/kizuna%20ai%20(anniversary)%2C%20kizuna%20ai%20inc..webp', 63, ''),
+('kizuna_ai_inc.', 'kizuna ai, kizuna ai inc.', 'Kizuna Ai', 'https://blobs.animadex.net/Outputs/thumbs/kizuna%20ai%2C%20kizuna%20ai%20inc.webp', 1666, ''),
+('kizuna_ai_inc.', 'kizuna ai (a.i. games), kizuna ai inc.', 'Kizuna Ai (a.i. Games)', 'https://blobs.animadex.net/Outputs/thumbs/kizuna%20ai%20(a.i.%20games)%2C%20kizuna%20ai%20inc.webp', 171, ''),
+('kizuna_ai_inc.', 'kizuna ai (elegant), kizuna ai inc.', 'Kizuna Ai (elegant)', 'https://blobs.animadex.net/Outputs/thumbs/kizuna%20ai%20(elegant)%2C%20kizuna%20ai%20inc.webp', 71, ''),
+('kizuna_ai_inc.', 'kizuna ai (musician), kizuna ai inc.', 'Kizuna Ai (musician)', 'https://blobs.animadex.net/Outputs/thumbs/kizuna%20ai%20(musician)%2C%20kizuna%20ai%20inc.webp', 67, ''),
+('kizuna_ai_inc.', 'kizuna ai (anniversary), kizuna ai inc.', 'Kizuna Ai (anniversary)', 'https://blobs.animadex.net/Outputs/thumbs/kizuna%20ai%20(anniversary)%2C%20kizuna%20ai%20inc.webp', 63, ''),
 ('seitokai_nimo_anawa_aru!', 'komaro-chan, seitokai nimo anawa aru!', 'Komaro-chan', 'https://blobs.animadex.net/Outputs/thumbs/komaro-chan%2C%20seitokai%20nimo%20anawa%20aru%21.webp', 104, ''),
 ('seitokai_nimo_anawa_aru!', 'michinoku komaro, seitokai nimo anawa aru!', 'Michinoku Komaro', 'https://blobs.animadex.net/Outputs/thumbs/michinoku%20komaro%2C%20seitokai%20nimo%20anawa%20aru%21.webp', 94, ''),
 ('seitokai_nimo_anawa_aru!', 'muchimaro-chan, seitokai nimo anawa aru!', 'Muchimaro-chan', 'https://blobs.animadex.net/Outputs/thumbs/muchimaro-chan%2C%20seitokai%20nimo%20anawa%20aru%21.webp', 90, ''),
@@ -36730,10 +36730,10 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('bakuon!!', 'amano onsa, bakuon!!', 'Amano Onsa', 'https://blobs.animadex.net/Outputs/thumbs/amano%20onsa%2C%20bakuon%21%21.webp', 71, ''),
 ('bakuon!!', 'sakura hane, bakuon!!', 'Sakura Hane', 'https://blobs.animadex.net/Outputs/thumbs/sakura%20hane%2C%20bakuon%21%21.webp', 68, ''),
 ('bakuon!!', 'kawasaki raimu, bakuon!!', 'Kawasaki Raimu', 'https://blobs.animadex.net/Outputs/thumbs/kawasaki%20raimu%2C%20bakuon%21%21.webp', 42, ''),
-('sounan_desuka?', 'onishima homare, sounan desuka?', 'Onishima Homare', 'https://blobs.animadex.net/Outputs/thumbs/onishima%20homare%2C%20sounan%20desuka%3F.webp', 119, ''),
-('sounan_desuka?', 'kujou shion, sounan desuka?', 'Kujou Shion', 'https://blobs.animadex.net/Outputs/thumbs/kujou%20shion%2C%20sounan%20desuka%3F.webp', 66, ''),
-('sounan_desuka?', 'amatani mutsu, sounan desuka?', 'Amatani Mutsu', 'https://blobs.animadex.net/Outputs/thumbs/amatani%20mutsu%2C%20sounan%20desuka%3F.webp', 60, ''),
-('sounan_desuka?', 'suzumori asuka, sounan desuka?', 'Suzumori Asuka', 'https://blobs.animadex.net/Outputs/thumbs/suzumori%20asuka%2C%20sounan%20desuka%3F.webp', 50, ''),
+('sounan_desuka?', 'onishima homare, sounan desuka?', 'Onishima Homare', 'https://blobs.animadex.net/Outputs/thumbs/onishima%20homare%2C%20sounan%20desuka_.webp', 119, ''),
+('sounan_desuka?', 'kujou shion, sounan desuka?', 'Kujou Shion', 'https://blobs.animadex.net/Outputs/thumbs/kujou%20shion%2C%20sounan%20desuka_.webp', 66, ''),
+('sounan_desuka?', 'amatani mutsu, sounan desuka?', 'Amatani Mutsu', 'https://blobs.animadex.net/Outputs/thumbs/amatani%20mutsu%2C%20sounan%20desuka_.webp', 60, ''),
+('sounan_desuka?', 'suzumori asuka, sounan desuka?', 'Suzumori Asuka', 'https://blobs.animadex.net/Outputs/thumbs/suzumori%20asuka%2C%20sounan%20desuka_.webp', 50, ''),
 ('yuragisou_no_yuuna-san', 'yunohana yuuna, yuragisou no yuuna-san', 'Yunohana Yuuna', 'https://blobs.animadex.net/Outputs/thumbs/yunohana%20yuuna%2C%20yuragisou%20no%20yuuna-san.webp', 90, ''),
 ('yuragisou_no_yuuna-san', 'miyazaki hiyori, yuragisou no yuuna-san', 'Miyazaki Hiyori', 'https://blobs.animadex.net/Outputs/thumbs/miyazaki%20hiyori%2C%20yuragisou%20no%20yuuna-san.webp', 47, ''),
 ('yuragisou_no_yuuna-san', 'ameno sagiri (yuragisou no yuuna-san), yuragisou no yuuna-san', 'Ameno Sagiri (yuragisou No Yuuna-san)', 'https://blobs.animadex.net/Outputs/thumbs/ameno%20sagiri%20(yuragisou%20no%20yuuna-san)%2C%20yuragisou%20no%20yuuna-san.webp', 35, ''),
@@ -37132,10 +37132,10 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('sentou_mecha_xabungle', 'elchi cargo, sentou mecha xabungle', 'Elchi Cargo', 'https://blobs.animadex.net/Outputs/thumbs/elchi%20cargo%2C%20sentou%20mecha%20xabungle.webp', 41, ''),
 ('sentou_mecha_xabungle', 'jiron amos, sentou mecha xabungle', 'Jiron Amos', 'https://blobs.animadex.net/Outputs/thumbs/jiron%20amos%2C%20sentou%20mecha%20xabungle.webp', 33, ''),
 ('sentou_mecha_xabungle', 'rag uralo, sentou mecha xabungle', 'Rag Uralo', 'https://blobs.animadex.net/Outputs/thumbs/rag%20uralo%2C%20sentou%20mecha%20xabungle.webp', 33, ''),
-('elf-san_wa_yaserarenai.', 'erufuda-san, elf-san wa yaserarenai.', 'Erufuda-san', 'https://blobs.animadex.net/Outputs/thumbs/erufuda-san%2C%20elf-san%20wa%20yaserarenai..webp', 211, ''),
-('elf-san_wa_yaserarenai.', 'kuroeda-san, elf-san wa yaserarenai.', 'Kuroeda-san', 'https://blobs.animadex.net/Outputs/thumbs/kuroeda-san%2C%20elf-san%20wa%20yaserarenai..webp', 156, ''),
-('elf-san_wa_yaserarenai.', 'oga-san, elf-san wa yaserarenai.', 'Oga-san', 'https://blobs.animadex.net/Outputs/thumbs/oga-san%2C%20elf-san%20wa%20yaserarenai..webp', 70, ''),
-('elf-san_wa_yaserarenai.', 'elfuda (elf-san wa yaserarenai.), elf-san wa yaserarenai.', 'Elfuda (elf-san Wa Yaserarenai.)', 'https://blobs.animadex.net/Outputs/thumbs/elfuda%20(elf-san%20wa%20yaserarenai.)%2C%20elf-san%20wa%20yaserarenai..webp', 39, ''),
+('elf-san_wa_yaserarenai.', 'erufuda-san, elf-san wa yaserarenai.', 'Erufuda-san', 'https://blobs.animadex.net/Outputs/thumbs/erufuda-san%2C%20elf-san%20wa%20yaserarenai.webp', 211, ''),
+('elf-san_wa_yaserarenai.', 'kuroeda-san, elf-san wa yaserarenai.', 'Kuroeda-san', 'https://blobs.animadex.net/Outputs/thumbs/kuroeda-san%2C%20elf-san%20wa%20yaserarenai.webp', 156, ''),
+('elf-san_wa_yaserarenai.', 'oga-san, elf-san wa yaserarenai.', 'Oga-san', 'https://blobs.animadex.net/Outputs/thumbs/oga-san%2C%20elf-san%20wa%20yaserarenai.webp', 70, ''),
+('elf-san_wa_yaserarenai.', 'elfuda (elf-san wa yaserarenai.), elf-san wa yaserarenai.', 'Elfuda (elf-san Wa Yaserarenai.)', 'https://blobs.animadex.net/Outputs/thumbs/elfuda%20(elf-san%20wa%20yaserarenai.)%2C%20elf-san%20wa%20yaserarenai.webp', 39, ''),
 ('sky_girls', 'ichijou eika, sky girls', 'Ichijou Eika', 'https://blobs.animadex.net/Outputs/thumbs/ichijou%20eika%2C%20sky%20girls.webp', 83, ''),
 ('sky_girls', 'elise von dietrich, sky girls', 'Elise Von Dietrich', 'https://blobs.animadex.net/Outputs/thumbs/elise%20von%20dietrich%2C%20sky%20girls.webp', 78, ''),
 ('sky_girls', 'sakurano otoha, sky girls', 'Sakurano Otoha', 'https://blobs.animadex.net/Outputs/thumbs/sakurano%20otoha%2C%20sky%20girls.webp', 76, ''),
@@ -37448,10 +37448,10 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('kizuato', 'kashiwagi hatsune, kizuato', 'Kashiwagi Hatsune', 'https://blobs.animadex.net/Outputs/thumbs/kashiwagi%20hatsune%2C%20kizuato.webp', 65, ''),
 ('kizuato', 'kashiwagi kaede, kizuato', 'Kashiwagi Kaede', 'https://blobs.animadex.net/Outputs/thumbs/kashiwagi%20kaede%2C%20kizuato.webp', 61, ''),
 ('kizuato', 'kashiwagi chizuru, kizuato', 'Kashiwagi Chizuru', 'https://blobs.animadex.net/Outputs/thumbs/kashiwagi%20chizuru%2C%20kizuato.webp', 60, ''),
-('mondaiji-tachi_ga_isekai_kara_kuru_sou_desu_yo?', 'kurousagi (mondaiji), mondaiji-tachi ga isekai kara kuru sou desu yo?', 'Kurousagi (mondaiji)', 'https://blobs.animadex.net/Outputs/thumbs/kurousagi%20(mondaiji)%2C%20mondaiji-tachi%20ga%20isekai%20kara%20kuru%20sou%20desu%20yo%3F.webp', 129, ''),
-('mondaiji-tachi_ga_isekai_kara_kuru_sou_desu_yo?', 'kasukabe you, mondaiji-tachi ga isekai kara kuru sou desu yo?', 'Kasukabe You', 'https://blobs.animadex.net/Outputs/thumbs/kasukabe%20you%2C%20mondaiji-tachi%20ga%20isekai%20kara%20kuru%20sou%20desu%20yo%3F.webp', 38, ''),
-('mondaiji-tachi_ga_isekai_kara_kuru_sou_desu_yo?', 'kudou asuka, mondaiji-tachi ga isekai kara kuru sou desu yo?', 'Kudou Asuka', 'https://blobs.animadex.net/Outputs/thumbs/kudou%20asuka%2C%20mondaiji-tachi%20ga%20isekai%20kara%20kuru%20sou%20desu%20yo%3F.webp', 32, ''),
-('mondaiji-tachi_ga_isekai_kara_kuru_sou_desu_yo?', 'sakamaki izayoi, mondaiji-tachi ga isekai kara kuru sou desu yo?', 'Sakamaki Izayoi', 'https://blobs.animadex.net/Outputs/thumbs/sakamaki%20izayoi%2C%20mondaiji-tachi%20ga%20isekai%20kara%20kuru%20sou%20desu%20yo%3F.webp', 31, '');
+('mondaiji-tachi_ga_isekai_kara_kuru_sou_desu_yo?', 'kurousagi (mondaiji), mondaiji-tachi ga isekai kara kuru sou desu yo?', 'Kurousagi (mondaiji)', 'https://blobs.animadex.net/Outputs/thumbs/kurousagi%20(mondaiji)%2C%20mondaiji-tachi%20ga%20isekai%20kara%20kuru%20sou%20desu%20yo_.webp', 129, ''),
+('mondaiji-tachi_ga_isekai_kara_kuru_sou_desu_yo?', 'kasukabe you, mondaiji-tachi ga isekai kara kuru sou desu yo?', 'Kasukabe You', 'https://blobs.animadex.net/Outputs/thumbs/kasukabe%20you%2C%20mondaiji-tachi%20ga%20isekai%20kara%20kuru%20sou%20desu%20yo_.webp', 38, ''),
+('mondaiji-tachi_ga_isekai_kara_kuru_sou_desu_yo?', 'kudou asuka, mondaiji-tachi ga isekai kara kuru sou desu yo?', 'Kudou Asuka', 'https://blobs.animadex.net/Outputs/thumbs/kudou%20asuka%2C%20mondaiji-tachi%20ga%20isekai%20kara%20kuru%20sou%20desu%20yo_.webp', 32, ''),
+('mondaiji-tachi_ga_isekai_kara_kuru_sou_desu_yo?', 'sakamaki izayoi, mondaiji-tachi ga isekai kara kuru sou desu yo?', 'Sakamaki Izayoi', 'https://blobs.animadex.net/Outputs/thumbs/sakamaki%20izayoi%2C%20mondaiji-tachi%20ga%20isekai%20kara%20kuru%20sou%20desu%20yo_.webp', 31, '');
 
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
 ('tayutama', 'mito mashiro, tayutama', 'Mito Mashiro', 'https://blobs.animadex.net/Outputs/thumbs/mito%20mashiro%2C%20tayutama.webp', 126, ''),
@@ -37606,12 +37606,12 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('boku_no_himitsu_taiken', 'saeki yuki (boku no himitsu taiken), boku_no_himitsu_taiken', 'Saeki Yuki (boku No Himitsu Taiken)', 'https://blobs.animadex.net/Outputs/thumbs/saeki%20yuki%20(boku%20no%20himitsu%20taiken)%2C%20boku_no_himitsu_taiken.webp', 55, ''),
 ('boku_no_himitsu_taiken', 'nonaka yoshiko (boku no himitsu taiken), boku_no_himitsu_taiken', 'Nonaka Yoshiko (boku No Himitsu Taiken)', 'https://blobs.animadex.net/Outputs/thumbs/nonaka%20yoshiko%20(boku%20no%20himitsu%20taiken)%2C%20boku_no_himitsu_taiken.webp', 18, ''),
 ('boku_no_himitsu_taiken', 'tomoda junpei (boku no himitsu taiken), boku_no_himitsu_taiken', 'Tomoda Junpei (boku No Himitsu Taiken)', 'https://blobs.animadex.net/Outputs/thumbs/tomoda%20junpei%20(boku%20no%20himitsu%20taiken)%2C%20boku_no_himitsu_taiken.webp', 17, ''),
-('otoko_no_ko_wa_meido_fuku_ga_osuki!?', 'yuki (otosuki), otoko no ko wa meido fuku ga osuki!?', 'Yuki (otosuki)', 'https://blobs.animadex.net/Outputs/thumbs/yuki%20(otosuki)%2C%20otoko%20no%20ko%20wa%20meido%20fuku%20ga%20osuki%21%3F.webp', 48, ''),
-('otoko_no_ko_wa_meido_fuku_ga_osuki!?', 'nao (otosuki), otoko no ko wa meido fuku ga osuki!?', 'Nao (otosuki)', 'https://blobs.animadex.net/Outputs/thumbs/nao%20(otosuki)%2C%20otoko%20no%20ko%20wa%20meido%20fuku%20ga%20osuki%21%3F.webp', 41, '');
+('otoko_no_ko_wa_meido_fuku_ga_osuki!?', 'yuki (otosuki), otoko no ko wa meido fuku ga osuki!?', 'Yuki (otosuki)', 'https://blobs.animadex.net/Outputs/thumbs/yuki%20(otosuki)%2C%20otoko%20no%20ko%20wa%20meido%20fuku%20ga%20osuki%21_.webp', 48, ''),
+('otoko_no_ko_wa_meido_fuku_ga_osuki!?', 'nao (otosuki), otoko no ko wa meido fuku ga osuki!?', 'Nao (otosuki)', 'https://blobs.animadex.net/Outputs/thumbs/nao%20(otosuki)%2C%20otoko%20no%20ko%20wa%20meido%20fuku%20ga%20osuki%21_.webp', 41, '');
 
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
-('otoko_no_ko_wa_meido_fuku_ga_osuki!?', 'tomo (otosuki), otoko no ko wa meido fuku ga osuki!?', 'Tomo (otosuki)', 'https://blobs.animadex.net/Outputs/thumbs/tomo%20(otosuki)%2C%20otoko%20no%20ko%20wa%20meido%20fuku%20ga%20osuki%21%3F.webp', 36, ''),
-('otoko_no_ko_wa_meido_fuku_ga_osuki!?', 'rio (otosuki), otoko no ko wa meido fuku ga osuki!?', 'Rio (otosuki)', 'https://blobs.animadex.net/Outputs/thumbs/rio%20(otosuki)%2C%20otoko%20no%20ko%20wa%20meido%20fuku%20ga%20osuki%21%3F.webp', 30, ''),
+('otoko_no_ko_wa_meido_fuku_ga_osuki!?', 'tomo (otosuki), otoko no ko wa meido fuku ga osuki!?', 'Tomo (otosuki)', 'https://blobs.animadex.net/Outputs/thumbs/tomo%20(otosuki)%2C%20otoko%20no%20ko%20wa%20meido%20fuku%20ga%20osuki%21_.webp', 36, ''),
+('otoko_no_ko_wa_meido_fuku_ga_osuki!?', 'rio (otosuki), otoko no ko wa meido fuku ga osuki!?', 'Rio (otosuki)', 'https://blobs.animadex.net/Outputs/thumbs/rio%20(otosuki)%2C%20otoko%20no%20ko%20wa%20meido%20fuku%20ga%20osuki%21_.webp', 30, ''),
 ('crayon_shin-chan', 'nohara shinnosuke, crayon shin-chan', 'Nohara Shinnosuke', 'https://blobs.animadex.net/Outputs/thumbs/nohara%20shinnosuke%2C%20crayon%20shin-chan.webp', 249, ''),
 ('crayon_shin-chan', 'nohara misae, crayon shin-chan', 'Nohara Misae', 'https://blobs.animadex.net/Outputs/thumbs/nohara%20misae%2C%20crayon%20shin-chan.webp', 116, ''),
 ('crayon_shin-chan', 'nohara hiroshi, crayon shin-chan', 'Nohara Hiroshi', 'https://blobs.animadex.net/Outputs/thumbs/nohara%20hiroshi%2C%20crayon%20shin-chan.webp', 72, ''),
@@ -37719,9 +37719,9 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('aladdin_(disney)', 'jasmine (disney), aladdin (disney)', 'Jasmine (disney)', 'https://blobs.animadex.net/Outputs/thumbs/jasmine%20(disney)%2C%20aladdin%20(disney).webp', 200, ''),
 ('aladdin_(disney)', 'aladdin (character), aladdin (disney)', 'Aladdin (character)', 'https://blobs.animadex.net/Outputs/thumbs/aladdin%20(character)%2C%20aladdin%20(disney).webp', 77, ''),
 ('aladdin_(disney)', 'genie (aladdin), aladdin (disney)', 'Genie (aladdin)', 'https://blobs.animadex.net/Outputs/thumbs/genie%20(aladdin)%2C%20aladdin%20(disney).webp', 30, ''),
-('sen''yuu.', 'alba (senyuu), sen''yuu.', 'Alba (senyuu)', 'https://blobs.animadex.net/Outputs/thumbs/alba%20(senyuu)%2C%20sen%27yuu..webp', 132, ''),
-('sen''yuu.', 'ruki (senyuu), sen''yuu.', 'Ruki (senyuu)', 'https://blobs.animadex.net/Outputs/thumbs/ruki%20(senyuu)%2C%20sen%27yuu..webp', 123, ''),
-('sen''yuu.', 'ross (senyuu), sen''yuu.', 'Ross (senyuu)', 'https://blobs.animadex.net/Outputs/thumbs/ross%20(senyuu)%2C%20sen%27yuu..webp', 100, ''),
+('sen''yuu.', 'alba (senyuu), sen''yuu.', 'Alba (senyuu)', 'https://blobs.animadex.net/Outputs/thumbs/alba%20(senyuu)%2C%20sen%27yuu.webp', 132, ''),
+('sen''yuu.', 'ruki (senyuu), sen''yuu.', 'Ruki (senyuu)', 'https://blobs.animadex.net/Outputs/thumbs/ruki%20(senyuu)%2C%20sen%27yuu.webp', 123, ''),
+('sen''yuu.', 'ross (senyuu), sen''yuu.', 'Ross (senyuu)', 'https://blobs.animadex.net/Outputs/thumbs/ross%20(senyuu)%2C%20sen%27yuu.webp', 100, ''),
 ('arc_the_lad_iii', 'cheryl (arc the lad), arc the lad iii', 'Cheryl (arc The Lad)', 'https://blobs.animadex.net/Outputs/thumbs/cheryl%20(arc%20the%20lad)%2C%20arc%20the%20lad%20iii.webp', 75, ''),
 ('arc_the_lad_iii', 'alec (arc the lad), arc the lad iii', 'Alec (arc The Lad)', 'https://blobs.animadex.net/Outputs/thumbs/alec%20(arc%20the%20lad)%2C%20arc%20the%20lad%20iii.webp', 71, ''),
 ('arc_the_lad_iii', 'anrietta rochefort, arc the lad iii', 'Anrietta Rochefort', 'https://blobs.animadex.net/Outputs/thumbs/anrietta%20rochefort%2C%20arc%20the%20lad%20iii.webp', 47, ''),
@@ -37808,9 +37808,9 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('read_or_die', 'yomiko readman, read or die', 'Yomiko Readman', 'https://blobs.animadex.net/Outputs/thumbs/yomiko%20readman%2C%20read%20or%20die.webp', 309, ''),
 ('read_or_die', 'anita king, read or die', 'Anita King', 'https://blobs.animadex.net/Outputs/thumbs/anita%20king%2C%20read%20or%20die.webp', 124, ''),
 ('read_or_die', 'sumiregawa nenene, read or die', 'Sumiregawa Nenene', 'https://blobs.animadex.net/Outputs/thumbs/sumiregawa%20nenene%2C%20read%20or%20die.webp', 35, ''),
-('takt_op.', 'destiny (takt op.), takt op.', 'Destiny (takt Op.)', 'https://blobs.animadex.net/Outputs/thumbs/destiny%20(takt%20op.)%2C%20takt%20op..webp', 95, ''),
-('takt_op.', 'cosette schneider, takt op.', 'Cosette Schneider', 'https://blobs.animadex.net/Outputs/thumbs/cosette%20schneider%2C%20takt%20op..webp', 85, ''),
-('takt_op.', 'anna schneider, takt op.', 'Anna Schneider', 'https://blobs.animadex.net/Outputs/thumbs/anna%20schneider%2C%20takt%20op..webp', 40, ''),
+('takt_op.', 'destiny (takt op.), takt op.', 'Destiny (takt Op.)', 'https://blobs.animadex.net/Outputs/thumbs/destiny%20(takt%20op.)%2C%20takt%20op.webp', 95, ''),
+('takt_op.', 'cosette schneider, takt op.', 'Cosette Schneider', 'https://blobs.animadex.net/Outputs/thumbs/cosette%20schneider%2C%20takt%20op.webp', 85, ''),
+('takt_op.', 'anna schneider, takt op.', 'Anna Schneider', 'https://blobs.animadex.net/Outputs/thumbs/anna%20schneider%2C%20takt%20op.webp', 40, ''),
 ('amphibia', 'anne boonchuy, amphibia', 'Anne Boonchuy', 'https://blobs.animadex.net/Outputs/thumbs/anne%20boonchuy%2C%20amphibia.webp', 283, ''),
 ('amphibia', 'sasha waybright, amphibia', 'Sasha Waybright', 'https://blobs.animadex.net/Outputs/thumbs/sasha%20waybright%2C%20amphibia.webp', 282, ''),
 ('amphibia', 'marcy wu, amphibia', 'Marcy Wu', 'https://blobs.animadex.net/Outputs/thumbs/marcy%20wu%2C%20amphibia.webp', 258, ''),
@@ -37843,9 +37843,9 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('seiken_no_blacksmith', 'cecily cambell, seiken no blacksmith', 'Cecily Cambell', 'https://blobs.animadex.net/Outputs/thumbs/cecily%20cambell%2C%20seiken%20no%20blacksmith.webp', 139, ''),
 ('seiken_no_blacksmith', 'lisa (seiken no blacksmith), seiken no blacksmith', 'Lisa (seiken No Blacksmith)', 'https://blobs.animadex.net/Outputs/thumbs/lisa%20(seiken%20no%20blacksmith)%2C%20seiken%20no%20blacksmith.webp', 80, ''),
 ('seiken_no_blacksmith', 'aria (seiken no blacksmith), seiken no blacksmith', 'Aria (seiken No Blacksmith)', 'https://blobs.animadex.net/Outputs/thumbs/aria%20(seiken%20no%20blacksmith)%2C%20seiken%20no%20blacksmith.webp', 40, ''),
-('kumo_desu_ga_nani_ka?', 'shiraori, kumo desu ga nani ka?', 'Shiraori', 'https://blobs.animadex.net/Outputs/thumbs/shiraori%2C%20kumo%20desu%20ga%20nani%20ka%3F.webp', 160, ''),
-('kumo_desu_ga_nani_ka?', 'kumoko (kumo desu ga nani ka?), kumo desu ga nani ka?', 'Kumoko (kumo Desu Ga Nani Ka?)', 'https://blobs.animadex.net/Outputs/thumbs/kumoko%20(kumo%20desu%20ga%20nani%20ka%3F)%2C%20kumo%20desu%20ga%20nani%20ka%3F.webp', 72, ''),
-('kumo_desu_ga_nani_ka?', 'ariel (kumo desu ga nani ka?), kumo desu ga nani ka?', 'Ariel (kumo Desu Ga Nani Ka?)', 'https://blobs.animadex.net/Outputs/thumbs/ariel%20(kumo%20desu%20ga%20nani%20ka%3F)%2C%20kumo%20desu%20ga%20nani%20ka%3F.webp', 62, ''),
+('kumo_desu_ga_nani_ka?', 'shiraori, kumo desu ga nani ka?', 'Shiraori', 'https://blobs.animadex.net/Outputs/thumbs/shiraori%2C%20kumo%20desu%20ga%20nani%20ka_.webp', 160, ''),
+('kumo_desu_ga_nani_ka?', 'kumoko (kumo desu ga nani ka?), kumo desu ga nani ka?', 'Kumoko (kumo Desu Ga Nani Ka?)', 'https://blobs.animadex.net/Outputs/thumbs/kumoko%20(kumo%20desu%20ga%20nani%20ka_)%2C%20kumo%20desu%20ga%20nani%20ka_.webp', 72, ''),
+('kumo_desu_ga_nani_ka?', 'ariel (kumo desu ga nani ka?), kumo desu ga nani ka?', 'Ariel (kumo Desu Ga Nani Ka?)', 'https://blobs.animadex.net/Outputs/thumbs/ariel%20(kumo%20desu%20ga%20nani%20ka_)%2C%20kumo%20desu%20ga%20nani%20ka_.webp', 62, ''),
 ('chigau_miyahara_omae_janai!', 'miyahara chisaki, chigau_miyahara_omae_janai!', 'Miyahara Chisaki', 'https://blobs.animadex.net/Outputs/thumbs/miyahara%20chisaki%2C%20chigau_miyahara_omae_janai%21.webp', 51, ''),
 ('chigau_miyahara_omae_janai!', 'arima keisuke, chigau_miyahara_omae_janai!', 'Arima Keisuke', 'https://blobs.animadex.net/Outputs/thumbs/arima%20keisuke%2C%20chigau_miyahara_omae_janai%21.webp', 48, ''),
 ('chigau_miyahara_omae_janai!', 'yukihira rei, chigau_miyahara_omae_janai!', 'Yukihira Rei', 'https://blobs.animadex.net/Outputs/thumbs/yukihira%20rei%2C%20chigau_miyahara_omae_janai%21.webp', 33, ''),
@@ -38131,9 +38131,9 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
 ('romancing_saga_3', 'monica (romancing saga 3), romancing saga 3', 'Monica (romancing Saga 3)', 'https://blobs.animadex.net/Outputs/thumbs/monica%20(romancing%20saga%203)%2C%20romancing%20saga%203.webp', 31, ''),
-('isekai_wa_smartphone_to_tomo_ni.', 'yumina elnea belfast, isekai wa smartphone to tomo ni.', 'Yumina Elnea Belfast', 'https://blobs.animadex.net/Outputs/thumbs/yumina%20elnea%20belfast%2C%20isekai%20wa%20smartphone%20to%20tomo%20ni..webp', 52, ''),
-('isekai_wa_smartphone_to_tomo_ni.', 'linse shileska, isekai wa smartphone to tomo ni.', 'Linse Shileska', 'https://blobs.animadex.net/Outputs/thumbs/linse%20shileska%2C%20isekai%20wa%20smartphone%20to%20tomo%20ni..webp', 40, ''),
-('isekai_wa_smartphone_to_tomo_ni.', 'else shileska, isekai wa smartphone to tomo ni.', 'Else Shileska', 'https://blobs.animadex.net/Outputs/thumbs/else%20shileska%2C%20isekai%20wa%20smartphone%20to%20tomo%20ni..webp', 30, ''),
+('isekai_wa_smartphone_to_tomo_ni.', 'yumina elnea belfast, isekai wa smartphone to tomo ni.', 'Yumina Elnea Belfast', 'https://blobs.animadex.net/Outputs/thumbs/yumina%20elnea%20belfast%2C%20isekai%20wa%20smartphone%20to%20tomo%20ni.webp', 52, ''),
+('isekai_wa_smartphone_to_tomo_ni.', 'linse shileska, isekai wa smartphone to tomo ni.', 'Linse Shileska', 'https://blobs.animadex.net/Outputs/thumbs/linse%20shileska%2C%20isekai%20wa%20smartphone%20to%20tomo%20ni.webp', 40, ''),
+('isekai_wa_smartphone_to_tomo_ni.', 'else shileska, isekai wa smartphone to tomo ni.', 'Else Shileska', 'https://blobs.animadex.net/Outputs/thumbs/else%20shileska%2C%20isekai%20wa%20smartphone%20to%20tomo%20ni.webp', 30, ''),
 ('shirotsume_souwa', 'ema (shirotsume souwa), shirotsume souwa', 'Ema (shirotsume Souwa)', 'https://blobs.animadex.net/Outputs/thumbs/ema%20(shirotsume%20souwa)%2C%20shirotsume%20souwa.webp', 40, ''),
 ('shirotsume_souwa', 'touka (shirotsume souwa), shirotsume souwa', 'Touka (shirotsume Souwa)', 'https://blobs.animadex.net/Outputs/thumbs/touka%20(shirotsume%20souwa)%2C%20shirotsume%20souwa.webp', 36, ''),
 ('shirotsume_souwa', 'sayu (shirotsume souwa), shirotsume souwa', 'Sayu (shirotsume Souwa)', 'https://blobs.animadex.net/Outputs/thumbs/sayu%20(shirotsume%20souwa)%2C%20shirotsume%20souwa.webp', 31, ''),
@@ -38220,9 +38220,9 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('mononoke', 'kusuriuri (mononoke), mononoke', 'Kusuriuri (mononoke)', 'https://blobs.animadex.net/Outputs/thumbs/kusuriuri%20(mononoke)%2C%20mononoke.webp', 278, ''),
 ('mononoke', 'kusuriuri (dark), mononoke', 'Kusuriuri (dark)', 'https://blobs.animadex.net/Outputs/thumbs/kusuriuri%20(dark)%2C%20mononoke.webp', 34, ''),
 ('mononoke', 'funayuurei (mononoke), mononoke', 'Funayuurei (mononoke)', 'https://blobs.animadex.net/Outputs/thumbs/funayuurei%20(mononoke)%2C%20mononoke.webp', 10, ''),
-('inari_konkon_koi_iroha.', 'uka-no-mitama-no-kami (inakon), inari konkon koi iroha.', 'Uka-no-mitama-no-kami (inakon)', 'https://blobs.animadex.net/Outputs/thumbs/uka-no-mitama-no-kami%20(inakon)%2C%20inari%20konkon%20koi%20iroha..webp', 152, ''),
-('inari_konkon_koi_iroha.', 'fushimi inari, inari konkon koi iroha.', 'Fushimi Inari', 'https://blobs.animadex.net/Outputs/thumbs/fushimi%20inari%2C%20inari%20konkon%20koi%20iroha..webp', 44, ''),
-('inari_konkon_koi_iroha.', 'kon (inakon), inari konkon koi iroha.', 'Kon (inakon)', 'https://blobs.animadex.net/Outputs/thumbs/kon%20(inakon)%2C%20inari%20konkon%20koi%20iroha..webp', 31, ''),
+('inari_konkon_koi_iroha.', 'uka-no-mitama-no-kami (inakon), inari konkon koi iroha.', 'Uka-no-mitama-no-kami (inakon)', 'https://blobs.animadex.net/Outputs/thumbs/uka-no-mitama-no-kami%20(inakon)%2C%20inari%20konkon%20koi%20iroha.webp', 152, ''),
+('inari_konkon_koi_iroha.', 'fushimi inari, inari konkon koi iroha.', 'Fushimi Inari', 'https://blobs.animadex.net/Outputs/thumbs/fushimi%20inari%2C%20inari%20konkon%20koi%20iroha.webp', 44, ''),
+('inari_konkon_koi_iroha.', 'kon (inakon), inari konkon koi iroha.', 'Kon (inakon)', 'https://blobs.animadex.net/Outputs/thumbs/kon%20(inakon)%2C%20inari%20konkon%20koi%20iroha.webp', 31, ''),
 ('samurai_champloo', 'fuu (samurai champloo), samurai champloo', 'Fuu (samurai Champloo)', 'https://blobs.animadex.net/Outputs/thumbs/fuu%20(samurai%20champloo)%2C%20samurai%20champloo.webp', 145, ''),
 ('samurai_champloo', 'mugen (samurai champloo), samurai champloo', 'Mugen (samurai Champloo)', 'https://blobs.animadex.net/Outputs/thumbs/mugen%20(samurai%20champloo)%2C%20samurai%20champloo.webp', 84, ''),
 ('samurai_champloo', 'jinnosuke, samurai champloo', 'Jinnosuke', 'https://blobs.animadex.net/Outputs/thumbs/jinnosuke%2C%20samurai%20champloo.webp', 74, ''),
@@ -38426,9 +38426,9 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('ghostblade', 'princess aeolian, ghostblade', 'Princess Aeolian', 'https://blobs.animadex.net/Outputs/thumbs/princess%20aeolian%2C%20ghostblade.webp', 68, ''),
 ('ghostblade', 'princess yan, ghostblade', 'Princess Yan', 'https://blobs.animadex.net/Outputs/thumbs/princess%20yan%2C%20ghostblade.webp', 66, ''),
 ('ghostblade', 'jade (ghostblade), ghostblade', 'Jade (ghostblade)', 'https://blobs.animadex.net/Outputs/thumbs/jade%20(ghostblade)%2C%20ghostblade.webp', 36, ''),
-('monsters_inc.', 'mike wazowski, monsters inc.', 'Mike Wazowski', 'https://blobs.animadex.net/Outputs/thumbs/mike%20wazowski%2C%20monsters%20inc..webp', 81, ''),
-('monsters_inc.', 'randall boggs, monsters inc.', 'Randall Boggs', 'https://blobs.animadex.net/Outputs/thumbs/randall%20boggs%2C%20monsters%20inc..webp', 68, ''),
-('monsters_inc.', 'james p. sullivan, monsters inc.', 'James P. Sullivan', 'https://blobs.animadex.net/Outputs/thumbs/james%20p.%20sullivan%2C%20monsters%20inc..webp', 66, ''),
+('monsters_inc.', 'mike wazowski, monsters inc.', 'Mike Wazowski', 'https://blobs.animadex.net/Outputs/thumbs/mike%20wazowski%2C%20monsters%20inc.webp', 81, ''),
+('monsters_inc.', 'randall boggs, monsters inc.', 'Randall Boggs', 'https://blobs.animadex.net/Outputs/thumbs/randall%20boggs%2C%20monsters%20inc.webp', 68, ''),
+('monsters_inc.', 'james p. sullivan, monsters inc.', 'James P. Sullivan', 'https://blobs.animadex.net/Outputs/thumbs/james%20p.%20sullivan%2C%20monsters%20inc.webp', 66, ''),
 ('suicide_boy', 'lee hoon, suicide boy', 'Lee Hoon', 'https://blobs.animadex.net/Outputs/thumbs/lee%20hoon%2C%20suicide%20boy.webp', 114, ''),
 ('suicide_boy', 'jeong surim, suicide boy', 'Jeong Surim', 'https://blobs.animadex.net/Outputs/thumbs/jeong%20surim%2C%20suicide%20boy.webp', 43, ''),
 ('suicide_boy', 'jeong sana, suicide boy', 'Jeong Sana', 'https://blobs.animadex.net/Outputs/thumbs/jeong%20sana%2C%20suicide%20boy.webp', 34, ''),
@@ -38759,8 +38759,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('cyphers', 'aaron huton (cyphers), cyphers', 'Aaron Huton (cyphers)', 'https://blobs.animadex.net/Outputs/thumbs/aaron%20huton%20(cyphers)%2C%20cyphers.webp', 89, ''),
 ('kuso_miso_technique', 'abe takakazu, kuso miso technique', 'Abe Takakazu', 'https://blobs.animadex.net/Outputs/thumbs/abe%20takakazu%2C%20kuso%20miso%20technique.webp', 260, ''),
 ('kuso_miso_technique', 'michishita masaki, kuso miso technique', 'Michishita Masaki', 'https://blobs.animadex.net/Outputs/thumbs/michishita%20masaki%2C%20kuso%20miso%20technique.webp', 33, ''),
-('project_a.d.a.', 'ad-6-0001a, project a.d.a.', 'Ad-6-0001a', 'https://blobs.animadex.net/Outputs/thumbs/ad-6-0001a%2C%20project%20a.d.a..webp', 60, ''),
-('project_a.d.a.', 'dr. molly simon, project a.d.a.', 'Dr. Molly Simon', 'https://blobs.animadex.net/Outputs/thumbs/dr.%20molly%20simon%2C%20project%20a.d.a..webp', 49, ''),
+('project_a.d.a.', 'ad-6-0001a, project a.d.a.', 'Ad-6-0001a', 'https://blobs.animadex.net/Outputs/thumbs/ad-6-0001a%2C%20project%20a.d.a.webp', 60, ''),
+('project_a.d.a.', 'dr. molly simon, project a.d.a.', 'Dr. Molly Simon', 'https://blobs.animadex.net/Outputs/thumbs/dr.%20molly%20simon%2C%20project%20a.d.a.webp', 49, ''),
 ('adachi_to_shimamura', 'adachi sakura, adachi to shimamura', 'Adachi Sakura', 'https://blobs.animadex.net/Outputs/thumbs/adachi%20sakura%2C%20adachi%20to%20shimamura.webp', 379, ''),
 ('adachi_to_shimamura', 'shimamura hougetsu, adachi to shimamura', 'Shimamura Hougetsu', 'https://blobs.animadex.net/Outputs/thumbs/shimamura%20hougetsu%2C%20adachi%20to%20shimamura.webp', 357, ''),
 ('the_raven_cycle', 'adam parrish, the raven cycle', 'Adam Parrish', 'https://blobs.animadex.net/Outputs/thumbs/adam%20parrish%2C%20the%20raven%20cycle.webp', 56, ''),
@@ -38964,7 +38964,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
 ('gachimuchi_de_dosukebe_na_kateikyoushi_no_oniisan_to_sugosu_natsu', 'ryota hibiki, gachimuchi de dosukebe na kateikyoushi no oniisan to sugosu natsu', 'Ryota Hibiki', 'https://blobs.animadex.net/Outputs/thumbs/ryota%20hibiki%2C%20gachimuchi%20de%20dosukebe%20na%20kateikyoushi%20no%20oniisan%20to%20sugosu%20natsu.webp', 32, ''),
 ('isekai_maou_gokko', 'sasaki nono, isekai_maou_gokko', 'Sasaki Nono', 'https://blobs.animadex.net/Outputs/thumbs/sasaki%20nono%2C%20isekai_maou_gokko.webp', 26, ''),
-('isekai_maou_gokko', '"avaritia (isekai maou gokko), isekai_maou_gokko"', 'Avaritia (isekai Maou Gokko)', 'https://blobs.animadex.net/Outputs/thumbs/%22avaritia%20(isekai%20maou%20gokko)%2C%20isekai_maou_gokko%22.webp', 15, ''),
+('isekai_maou_gokko', '"avaritia (isekai maou gokko), isekai_maou_gokko"', 'Avaritia (isekai Maou Gokko)', 'https://blobs.animadex.net/Outputs/thumbs/_avaritia%20(isekai%20maou%20gokko)%2C%20isekai_maou_gokko_.webp', 15, ''),
 ('oneechanbara', 'aya (oneechanbara), oneechanbara', 'Aya (oneechanbara)', 'https://blobs.animadex.net/Outputs/thumbs/aya%20(oneechanbara)%2C%20oneechanbara.webp', 62, ''),
 ('oneechanbara', 'kagura (oneechanbara), oneechanbara', 'Kagura (oneechanbara)', 'https://blobs.animadex.net/Outputs/thumbs/kagura%20(oneechanbara)%2C%20oneechanbara.webp', 42, ''),
 ('greaseberries', 'lilynna blueberry, greaseberries', 'Lilynna Blueberry', 'https://blobs.animadex.net/Outputs/thumbs/lilynna%20blueberry%2C%20greaseberries.webp', 71, ''),
@@ -39077,8 +39077,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('puchimasu!', 'takanya, puchimasu!', 'Takanya', 'https://blobs.animadex.net/Outputs/thumbs/takanya%2C%20puchimasu%21.webp', 33, ''),
 ('chobits', 'chii, chobits', 'Chii', 'https://blobs.animadex.net/Outputs/thumbs/chii%2C%20chobits.webp', 515, ''),
 ('chobits', 'freya (chobits), chobits', 'Freya (chobits)', 'https://blobs.animadex.net/Outputs/thumbs/freya%20(chobits)%2C%20chobits.webp', 50, ''),
-('shuumatsu_train_doko_e_iku?', 'shinonome akira, shuumatsu train doko e iku?', 'Shinonome Akira', 'https://blobs.animadex.net/Outputs/thumbs/shinonome%20akira%2C%20shuumatsu%20train%20doko%20e%20iku%3F.webp', 40, ''),
-('shuumatsu_train_doko_e_iku?', 'chikura shizuru, shuumatsu train doko e iku?', 'Chikura Shizuru', 'https://blobs.animadex.net/Outputs/thumbs/chikura%20shizuru%2C%20shuumatsu%20train%20doko%20e%20iku%3F.webp', 32, ''),
+('shuumatsu_train_doko_e_iku?', 'shinonome akira, shuumatsu train doko e iku?', 'Shinonome Akira', 'https://blobs.animadex.net/Outputs/thumbs/shinonome%20akira%2C%20shuumatsu%20train%20doko%20e%20iku_.webp', 40, ''),
+('shuumatsu_train_doko_e_iku?', 'chikura shizuru, shuumatsu train doko e iku?', 'Chikura Shizuru', 'https://blobs.animadex.net/Outputs/thumbs/chikura%20shizuru%2C%20shuumatsu%20train%20doko%20e%20iku_.webp', 32, ''),
 ('soukou_kihei_votoms', 'scopedog, soukou kihei votoms', 'Scopedog', 'https://blobs.animadex.net/Outputs/thumbs/scopedog%2C%20soukou%20kihei%20votoms.webp', 181, ''),
 ('soukou_kihei_votoms', 'chirico cuvie, soukou kihei votoms', 'Chirico Cuvie', 'https://blobs.animadex.net/Outputs/thumbs/chirico%20cuvie%2C%20soukou%20kihei%20votoms.webp', 99, ''),
 ('voisona', 'chis-a, voisona', 'Chis-a', 'https://blobs.animadex.net/Outputs/thumbs/chis-a%2C%20voisona.webp', 85, ''),
@@ -39227,8 +39227,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('el_shaddai', 'enoch, el shaddai', 'Enoch', 'https://blobs.animadex.net/Outputs/thumbs/enoch%2C%20el%20shaddai.webp', 76, ''),
 ('futoku_no_guild', 'tokishikko dana, futoku no guild', 'Tokishikko Dana', 'https://blobs.animadex.net/Outputs/thumbs/tokishikko%20dana%2C%20futoku%20no%20guild.webp', 46, ''),
 ('futoku_no_guild', 'enome, futoku no guild', 'Enome', 'https://blobs.animadex.net/Outputs/thumbs/enome%2C%20futoku%20no%20guild.webp', 32, ''),
-('danjo_no_yuujou_wa_seiritsu_suru?', 'inuzuka himari, danjo no yuujou wa seiritsu suru?', 'Inuzuka Himari', 'https://blobs.animadex.net/Outputs/thumbs/inuzuka%20himari%2C%20danjo%20no%20yuujou%20wa%20seiritsu%20suru%3F.webp', 56, ''),
-('danjo_no_yuujou_wa_seiritsu_suru?', 'enomoto rion, danjo no yuujou wa seiritsu suru?', 'Enomoto Rion', 'https://blobs.animadex.net/Outputs/thumbs/enomoto%20rion%2C%20danjo%20no%20yuujou%20wa%20seiritsu%20suru%3F.webp', 34, ''),
+('danjo_no_yuujou_wa_seiritsu_suru?', 'inuzuka himari, danjo no yuujou wa seiritsu suru?', 'Inuzuka Himari', 'https://blobs.animadex.net/Outputs/thumbs/inuzuka%20himari%2C%20danjo%20no%20yuujou%20wa%20seiritsu%20suru_.webp', 56, ''),
+('danjo_no_yuujou_wa_seiritsu_suru?', 'enomoto rion, danjo no yuujou wa seiritsu suru?', 'Enomoto Rion', 'https://blobs.animadex.net/Outputs/thumbs/enomoto%20rion%2C%20danjo%20no%20yuujou%20wa%20seiritsu%20suru_.webp', 34, ''),
 ('beat_angel_escalayer', 'escalayer, beat angel escalayer', 'Escalayer', 'https://blobs.animadex.net/Outputs/thumbs/escalayer%2C%20beat%20angel%20escalayer.webp', 140, ''),
 ('beat_angel_escalayer', 'kouenji sayuka, beat angel escalayer', 'Kouenji Sayuka', 'https://blobs.animadex.net/Outputs/thumbs/kouenji%20sayuka%2C%20beat%20angel%20escalayer.webp', 136, ''),
 ('plave', 'eunho (plave), plave', 'Eunho (plave)', 'https://blobs.animadex.net/Outputs/thumbs/eunho%20(plave)%2C%20plave.webp', 31, ''),
@@ -39307,8 +39307,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('oshi_no_love_yori_koi_no_love', 'hayahoshi akuru, oshi no love yori koi no love', 'Hayahoshi Akuru', 'https://blobs.animadex.net/Outputs/thumbs/hayahoshi%20akuru%2C%20oshi%20no%20love%20yori%20koi%20no%20love.webp', 52, ''),
 ('raging_loop', 'serizawa chiemi, raging loop', 'Serizawa Chiemi', 'https://blobs.animadex.net/Outputs/thumbs/serizawa%20chiemi%2C%20raging%20loop.webp', 72, ''),
 ('raging_loop', 'fusaishi haruaki, raging loop', 'Fusaishi Haruaki', 'https://blobs.animadex.net/Outputs/thumbs/fusaishi%20haruaki%2C%20raging%20loop.webp', 52, ''),
-('shachiku-san_wa_youjo_yuurei_ni_iyasaretai.', 'yuurei-chan, shachiku-san wa youjo yuurei ni iyasaretai.', 'Yuurei-chan', 'https://blobs.animadex.net/Outputs/thumbs/yuurei-chan%2C%20shachiku-san%20wa%20youjo%20yuurei%20ni%20iyasaretai..webp', 54, ''),
-('shachiku-san_wa_youjo_yuurei_ni_iyasaretai.', 'fushihara-san, shachiku-san wa youjo yuurei ni iyasaretai.', 'Fushihara-san', 'https://blobs.animadex.net/Outputs/thumbs/fushihara-san%2C%20shachiku-san%20wa%20youjo%20yuurei%20ni%20iyasaretai..webp', 49, ''),
+('shachiku-san_wa_youjo_yuurei_ni_iyasaretai.', 'yuurei-chan, shachiku-san wa youjo yuurei ni iyasaretai.', 'Yuurei-chan', 'https://blobs.animadex.net/Outputs/thumbs/yuurei-chan%2C%20shachiku-san%20wa%20youjo%20yuurei%20ni%20iyasaretai.webp', 54, ''),
+('shachiku-san_wa_youjo_yuurei_ni_iyasaretai.', 'fushihara-san, shachiku-san wa youjo yuurei ni iyasaretai.', 'Fushihara-san', 'https://blobs.animadex.net/Outputs/thumbs/fushihara-san%2C%20shachiku-san%20wa%20youjo%20yuurei%20ni%20iyasaretai.webp', 49, ''),
 ('futaba-san_chi_no_kyoudai', 'futaba neiko, futaba-san chi no kyoudai', 'Futaba Neiko', 'https://blobs.animadex.net/Outputs/thumbs/futaba%20neiko%2C%20futaba-san%20chi%20no%20kyoudai.webp', 63, ''),
 ('futaba-san_chi_no_kyoudai', 'futaba otohiro, futaba-san chi no kyoudai', 'Futaba Otohiro', 'https://blobs.animadex.net/Outputs/thumbs/futaba%20otohiro%2C%20futaba-san%20chi%20no%20kyoudai.webp', 52, ''),
 ('getbackers', 'fuuchouin kazuki, getbackers', 'Fuuchouin Kazuki', 'https://blobs.animadex.net/Outputs/thumbs/fuuchouin%20kazuki%2C%20getbackers.webp', 126, ''),
@@ -39393,8 +39393,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('kitanai_kimi_ga_ichiban_kawaii', 'sezaki airi, kitanai kimi ga ichiban kawaii', 'Sezaki Airi', 'https://blobs.animadex.net/Outputs/thumbs/sezaki%20airi%2C%20kitanai%20kimi%20ga%20ichiban%20kawaii.webp', 43, ''),
 ('one_room', 'hanasaka yui, one room', 'Hanasaka Yui', 'https://blobs.animadex.net/Outputs/thumbs/hanasaka%20yui%2C%20one%20room.webp', 38, ''),
 ('one_room', 'momohara natsuki, one room', 'Momohara Natsuki', 'https://blobs.animadex.net/Outputs/thumbs/momohara%20natsuki%2C%20one%20room.webp', 32, ''),
-('kobato.', 'hanato kobato, kobato.', 'Hanato Kobato', 'https://blobs.animadex.net/Outputs/thumbs/hanato%20kobato%2C%20kobato..webp', 70, ''),
-('kobato.', 'ioryogi, kobato.', 'Ioryogi', 'https://blobs.animadex.net/Outputs/thumbs/ioryogi%2C%20kobato..webp', 35, ''),
+('kobato.', 'hanato kobato, kobato.', 'Hanato Kobato', 'https://blobs.animadex.net/Outputs/thumbs/hanato%20kobato%2C%20kobato.webp', 70, ''),
+('kobato.', 'ioryogi, kobato.', 'Ioryogi', 'https://blobs.animadex.net/Outputs/thumbs/ioryogi%2C%20kobato.webp', 35, ''),
 ('kaitou_saint_tail', 'saint tail, kaitou saint tail', 'Saint Tail', 'https://blobs.animadex.net/Outputs/thumbs/saint%20tail%2C%20kaitou%20saint%20tail.webp', 158, ''),
 ('kaitou_saint_tail', 'haneoka meimi, kaitou saint tail', 'Haneoka Meimi', 'https://blobs.animadex.net/Outputs/thumbs/haneoka%20meimi%2C%20kaitou%20saint%20tail.webp', 129, ''),
 ('hanebado!', 'hanesaki ayano, hanebado!', 'Hanesaki Ayano', 'https://blobs.animadex.net/Outputs/thumbs/hanesaki%20ayano%2C%20hanebado%21.webp', 54, ''),
@@ -39515,8 +39515,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('after_school_lessons_for_unripe_apples', 'kim cheol, after school lessons for unripe apples', 'Kim Cheol', 'https://blobs.animadex.net/Outputs/thumbs/kim%20cheol%2C%20after%20school%20lessons%20for%20unripe%20apples.webp', 31, ''),
 ('majo_to_hyakkihei', 'metallica (majo to hyakkihei), majo to hyakkihei', 'Metallica (majo To Hyakkihei)', 'https://blobs.animadex.net/Outputs/thumbs/metallica%20(majo%20to%20hyakkihei)%2C%20majo%20to%20hyakkihei.webp', 129, ''),
 ('majo_to_hyakkihei', 'hyakkihei, majo to hyakkihei', 'Hyakkihei', 'https://blobs.animadex.net/Outputs/thumbs/hyakkihei%2C%20majo%20to%20hyakkihei.webp', 37, ''),
-('osananajimi_no_h_na_onee-san_wa_suki_desu_ka?', 'hyuuga mayumi (osananajimi no h na onee-san), osananajimi_no_h_na_onee-san_wa_suki_desu_ka?', 'Hyuuga Mayumi (osananajimi No H Na Onee-san)', 'https://blobs.animadex.net/Outputs/thumbs/hyuuga%20mayumi%20(osananajimi%20no%20h%20na%20onee-san)%2C%20osananajimi_no_h_na_onee-san_wa_suki_desu_ka%3F.webp', 37, ''),
-('osananajimi_no_h_na_onee-san_wa_suki_desu_ka?', 'yuu (osananajimi no h na onee-san), osananajimi_no_h_na_onee-san_wa_suki_desu_ka?', 'Yuu (osananajimi No H Na Onee-san)', 'https://blobs.animadex.net/Outputs/thumbs/yuu%20(osananajimi%20no%20h%20na%20onee-san)%2C%20osananajimi_no_h_na_onee-san_wa_suki_desu_ka%3F.webp', 36, ''),
+('osananajimi_no_h_na_onee-san_wa_suki_desu_ka?', 'hyuuga mayumi (osananajimi no h na onee-san), osananajimi_no_h_na_onee-san_wa_suki_desu_ka?', 'Hyuuga Mayumi (osananajimi No H Na Onee-san)', 'https://blobs.animadex.net/Outputs/thumbs/hyuuga%20mayumi%20(osananajimi%20no%20h%20na%20onee-san)%2C%20osananajimi_no_h_na_onee-san_wa_suki_desu_ka_.webp', 37, ''),
+('osananajimi_no_h_na_onee-san_wa_suki_desu_ka?', 'yuu (osananajimi no h na onee-san), osananajimi_no_h_na_onee-san_wa_suki_desu_ka?', 'Yuu (osananajimi No H Na Onee-san)', 'https://blobs.animadex.net/Outputs/thumbs/yuu%20(osananajimi%20no%20h%20na%20onee-san)%2C%20osananajimi_no_h_na_onee-san_wa_suki_desu_ka_.webp', 36, ''),
 ('ico', 'yorda, ico', 'Yorda', 'https://blobs.animadex.net/Outputs/thumbs/yorda%2C%20ico.webp', 274, ''),
 ('ico', 'ico (character), ico', 'Ico (character)', 'https://blobs.animadex.net/Outputs/thumbs/ico%20(character)%2C%20ico.webp', 177, ''),
 ('el_hazard', 'ifurita, el hazard', 'Ifurita', 'https://blobs.animadex.net/Outputs/thumbs/ifurita%2C%20el%20hazard.webp', 39, ''),
@@ -39639,8 +39639,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
 ('genjitsu_no_yohane', 'kanan (genjitsu no yohane), genjitsu no yohane', 'Kanan (genjitsu No Yohane)', 'https://blobs.animadex.net/Outputs/thumbs/kanan%20(genjitsu%20no%20yohane)%2C%20genjitsu%20no%20yohane.webp', 39, ''),
-('bernard-jou_iwaku.', 'kanbayashi shiori, bernard-jou iwaku.', 'Kanbayashi Shiori', 'https://blobs.animadex.net/Outputs/thumbs/kanbayashi%20shiori%2C%20bernard-jou%20iwaku..webp', 104, ''),
-('bernard-jou_iwaku.', 'machida sawako, bernard-jou iwaku.', 'Machida Sawako', 'https://blobs.animadex.net/Outputs/thumbs/machida%20sawako%2C%20bernard-jou%20iwaku..webp', 89, ''),
+('bernard-jou_iwaku.', 'kanbayashi shiori, bernard-jou iwaku.', 'Kanbayashi Shiori', 'https://blobs.animadex.net/Outputs/thumbs/kanbayashi%20shiori%2C%20bernard-jou%20iwaku.webp', 104, ''),
+('bernard-jou_iwaku.', 'machida sawako, bernard-jou iwaku.', 'Machida Sawako', 'https://blobs.animadex.net/Outputs/thumbs/machida%20sawako%2C%20bernard-jou%20iwaku.webp', 89, ''),
 ('joreibu_no_mikado-san', 'kanda yui, joreibu no mikado-san', 'Kanda Yui', 'https://blobs.animadex.net/Outputs/thumbs/kanda%20yui%2C%20joreibu%20no%20mikado-san.webp', 68, ''),
 ('joreibu_no_mikado-san', 'mikado iori, joreibu no mikado-san', 'Mikado Iori', 'https://blobs.animadex.net/Outputs/thumbs/mikado%20iori%2C%20joreibu%20no%20mikado-san.webp', 68, ''),
 ('akira_(manga)', 'kaneda shoutarou (akira), akira (manga)', 'Kaneda Shoutarou (akira)', 'https://blobs.animadex.net/Outputs/thumbs/kaneda%20shoutarou%20(akira)%2C%20akira%20(manga).webp', 206, ''),
@@ -39727,8 +39727,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('kininatteru_hito_ga_otoko_ja_nakatta', 'oosawa aya, kininatteru hito ga otoko ja nakatta', 'Oosawa Aya', 'https://blobs.animadex.net/Outputs/thumbs/oosawa%20aya%2C%20kininatteru%20hito%20ga%20otoko%20ja%20nakatta.webp', 303, ''),
 ('narutaru', 'koga norio, narutaru', 'Koga Norio', 'https://blobs.animadex.net/Outputs/thumbs/koga%20norio%2C%20narutaru.webp', 127, ''),
 ('narutaru', 'tamai shiina, narutaru', 'Tamai Shiina', 'https://blobs.animadex.net/Outputs/thumbs/tamai%20shiina%2C%20narutaru.webp', 31, ''),
-('kawaikereba_hentai_demo_suki_ni_natte_kuremasu_ka?', 'tokihara sayuki, kawaikereba hentai demo suki ni natte kuremasu ka?', 'Tokihara Sayuki', 'https://blobs.animadex.net/Outputs/thumbs/tokihara%20sayuki%2C%20kawaikereba%20hentai%20demo%20suki%20ni%20natte%20kuremasu%20ka%3F.webp', 57, ''),
-('kawaikereba_hentai_demo_suki_ni_natte_kuremasu_ka?', 'koga yuika, kawaikereba hentai demo suki ni natte kuremasu ka?', 'Koga Yuika', 'https://blobs.animadex.net/Outputs/thumbs/koga%20yuika%2C%20kawaikereba%20hentai%20demo%20suki%20ni%20natte%20kuremasu%20ka%3F.webp', 39, ''),
+('kawaikereba_hentai_demo_suki_ni_natte_kuremasu_ka?', 'tokihara sayuki, kawaikereba hentai demo suki ni natte kuremasu ka?', 'Tokihara Sayuki', 'https://blobs.animadex.net/Outputs/thumbs/tokihara%20sayuki%2C%20kawaikereba%20hentai%20demo%20suki%20ni%20natte%20kuremasu%20ka_.webp', 57, ''),
+('kawaikereba_hentai_demo_suki_ni_natte_kuremasu_ka?', 'koga yuika, kawaikereba hentai demo suki ni natte kuremasu ka?', 'Koga Yuika', 'https://blobs.animadex.net/Outputs/thumbs/koga%20yuika%2C%20kawaikereba%20hentai%20demo%20suki%20ni%20natte%20kuremasu%20ka_.webp', 39, ''),
 ('koharu_and_minato', 'koharu suzumura, koharu and minato', 'Koharu Suzumura', 'https://blobs.animadex.net/Outputs/thumbs/koharu%20suzumura%2C%20koharu%20and%20minato.webp', 71, ''),
 ('koharu_and_minato', 'minato matsuki, koharu and minato', 'Minato Matsuki', 'https://blobs.animadex.net/Outputs/thumbs/minato%20matsuki%2C%20koharu%20and%20minato.webp', 71, ''),
 ('amanchu!', 'ooki futaba, amanchu!', 'Ooki Futaba', 'https://blobs.animadex.net/Outputs/thumbs/ooki%20futaba%2C%20amanchu%21.webp', 59, ''),
@@ -39967,8 +39967,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('rick_and_morty', 'morty smith, rick and morty', 'Morty Smith', 'https://blobs.animadex.net/Outputs/thumbs/morty%20smith%2C%20rick%20and%20morty.webp', 58, ''),
 ('dekkano!!', 'suzurikawa sasha, dekkano!!', 'Suzurikawa Sasha', 'https://blobs.animadex.net/Outputs/thumbs/suzurikawa%20sasha%2C%20dekkano%21%21.webp', 39, ''),
 ('dekkano!!', 'mucchan, dekkano!!', 'Mucchan', 'https://blobs.animadex.net/Outputs/thumbs/mucchan%2C%20dekkano%21%21.webp', 38, ''),
-('kimi_to_kanojo_to_kanojo_no_koi.', 'mukou aoi (totono), kimi to kanojo to kanojo no koi.', 'Mukou Aoi (totono)', 'https://blobs.animadex.net/Outputs/thumbs/mukou%20aoi%20(totono)%2C%20kimi%20to%20kanojo%20to%20kanojo%20no%20koi..webp', 38, ''),
-('kimi_to_kanojo_to_kanojo_no_koi.', 'sone miyuki, kimi to kanojo to kanojo no koi.', 'Sone Miyuki', 'https://blobs.animadex.net/Outputs/thumbs/sone%20miyuki%2C%20kimi%20to%20kanojo%20to%20kanojo%20no%20koi..webp', 32, ''),
+('kimi_to_kanojo_to_kanojo_no_koi.', 'mukou aoi (totono), kimi to kanojo to kanojo no koi.', 'Mukou Aoi (totono)', 'https://blobs.animadex.net/Outputs/thumbs/mukou%20aoi%20(totono)%2C%20kimi%20to%20kanojo%20to%20kanojo%20no%20koi.webp', 38, ''),
+('kimi_to_kanojo_to_kanojo_no_koi.', 'sone miyuki, kimi to kanojo to kanojo no koi.', 'Sone Miyuki', 'https://blobs.animadex.net/Outputs/thumbs/sone%20miyuki%2C%20kimi%20to%20kanojo%20to%20kanojo%20no%20koi.webp', 32, ''),
 ('kyokugen_dasshutsu', 'yotsuba (kyokugen dasshutsu), kyokugen dasshutsu', 'Yotsuba (kyokugen Dasshutsu)', 'https://blobs.animadex.net/Outputs/thumbs/yotsuba%20(kyokugen%20dasshutsu)%2C%20kyokugen%20dasshutsu.webp', 64, ''),
 ('kyokugen_dasshutsu', 'murasaki (kyokugen dasshutsu), kyokugen dasshutsu', 'Murasaki (kyokugen Dasshutsu)', 'https://blobs.animadex.net/Outputs/thumbs/murasaki%20(kyokugen%20dasshutsu)%2C%20kyokugen%20dasshutsu.webp', 36, ''),
 ('akb48', 'okada nana, akb48', 'Okada Nana', 'https://blobs.animadex.net/Outputs/thumbs/okada%20nana%2C%20akb48.webp', 52, ''),
@@ -40005,8 +40005,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('dance_with_devils', 'natsumezaka shiki, dance with devils', 'Natsumezaka Shiki', 'https://blobs.animadex.net/Outputs/thumbs/natsumezaka%20shiki%2C%20dance%20with%20devils.webp', 53, ''),
 ('burn_the_witch', 'niihashi noel, burn the witch', 'Niihashi Noel', 'https://blobs.animadex.net/Outputs/thumbs/niihashi%20noel%2C%20burn%20the%20witch.webp', 110, ''),
 ('burn_the_witch', 'ninny spangcole, burn the witch', 'Ninny Spangcole', 'https://blobs.animadex.net/Outputs/thumbs/ninny%20spangcole%2C%20burn%20the%20witch.webp', 67, ''),
-('rokujouma_no_shinryakusha!?', 'nijino yurika, rokujouma no shinryakusha!?', 'Nijino Yurika', 'https://blobs.animadex.net/Outputs/thumbs/nijino%20yurika%2C%20rokujouma%20no%20shinryakusha%21%3F.webp', 41, ''),
-('rokujouma_no_shinryakusha!?', 'theiamillis gre fortorthe, rokujouma no shinryakusha!?', 'Theiamillis Gre Fortorthe', 'https://blobs.animadex.net/Outputs/thumbs/theiamillis%20gre%20fortorthe%2C%20rokujouma%20no%20shinryakusha%21%3F.webp', 32, ''),
+('rokujouma_no_shinryakusha!?', 'nijino yurika, rokujouma no shinryakusha!?', 'Nijino Yurika', 'https://blobs.animadex.net/Outputs/thumbs/nijino%20yurika%2C%20rokujouma%20no%20shinryakusha%21_.webp', 41, ''),
+('rokujouma_no_shinryakusha!?', 'theiamillis gre fortorthe, rokujouma no shinryakusha!?', 'Theiamillis Gre Fortorthe', 'https://blobs.animadex.net/Outputs/thumbs/theiamillis%20gre%20fortorthe%2C%20rokujouma%20no%20shinryakusha%21_.webp', 32, ''),
 ('taimadou_gakuen_35_shiken_shoutai', 'saionji usagi, taimadou gakuen 35 shiken shoutai', 'Saionji Usagi', 'https://blobs.animadex.net/Outputs/thumbs/saionji%20usagi%2C%20taimadou%20gakuen%2035%20shiken%20shoutai.webp', 56, ''),
 ('taimadou_gakuen_35_shiken_shoutai', 'nikaidou mari, taimadou gakuen 35 shiken shoutai', 'Nikaidou Mari', 'https://blobs.animadex.net/Outputs/thumbs/nikaidou%20mari%2C%20taimadou%20gakuen%2035%20shiken%20shoutai.webp', 35, ''),
 ('kenkou_zenrakei_suieibu_umishou', 'ninagawa amuro, kenkou zenrakei suieibu umishou', 'Ninagawa Amuro', 'https://blobs.animadex.net/Outputs/thumbs/ninagawa%20amuro%2C%20kenkou%20zenrakei%20suieibu%20umishou.webp', 46, ''),
@@ -40045,8 +40045,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('oyasumi_punpun', 'tanaka aiko, oyasumi punpun', 'Tanaka Aiko', 'https://blobs.animadex.net/Outputs/thumbs/tanaka%20aiko%2C%20oyasumi%20punpun.webp', 37, ''),
 ('pixiv_azriel', 'oono mayu, pixiv azriel', 'Oono Mayu', 'https://blobs.animadex.net/Outputs/thumbs/oono%20mayu%2C%20pixiv%20azriel.webp', 106, ''),
 ('pixiv_azriel', 'yumeshima kanata, pixiv azriel', 'Yumeshima Kanata', 'https://blobs.animadex.net/Outputs/thumbs/yumeshima%20kanata%2C%20pixiv%20azriel.webp', 40, ''),
-('tsuujou_kougeki_ga_zentai_kougeki_de_ni-kai_kougeki_no_okaasan_wa_suki_desu_ka?', 'oosuki mamako, tsuujou kougeki ga zentai kougeki de ni-kai kougeki no okaasan wa suki desu ka?', 'Oosuki Mamako', 'https://blobs.animadex.net/Outputs/thumbs/oosuki%20mamako%2C%20tsuujou%20kougeki%20ga%20zentai%20kougeki%20de%20ni-kai%20kougeki%20no%20okaasan%20wa%20suki%20desu%20ka%3F.webp', 317, ''),
-('tsuujou_kougeki_ga_zentai_kougeki_de_ni-kai_kougeki_no_okaasan_wa_suki_desu_ka?', 'oosuki masato, tsuujou kougeki ga zentai kougeki de ni-kai kougeki no okaasan wa suki desu ka?', 'Oosuki Masato', 'https://blobs.animadex.net/Outputs/thumbs/oosuki%20masato%2C%20tsuujou%20kougeki%20ga%20zentai%20kougeki%20de%20ni-kai%20kougeki%20no%20okaasan%20wa%20suki%20desu%20ka%3F.webp', 32, ''),
+('tsuujou_kougeki_ga_zentai_kougeki_de_ni-kai_kougeki_no_okaasan_wa_suki_desu_ka?', 'oosuki mamako, tsuujou kougeki ga zentai kougeki de ni-kai kougeki no okaasan wa suki desu ka?', 'Oosuki Mamako', 'https://blobs.animadex.net/Outputs/thumbs/oosuki%20mamako%2C%20tsuujou%20kougeki%20ga%20zentai%20kougeki%20de%20ni-kai%20kougeki%20no%20okaasan%20wa%20suki%20desu%20ka_.webp', 317, ''),
+('tsuujou_kougeki_ga_zentai_kougeki_de_ni-kai_kougeki_no_okaasan_wa_suki_desu_ka?', 'oosuki masato, tsuujou kougeki ga zentai kougeki de ni-kai kougeki no okaasan wa suki desu ka?', 'Oosuki Masato', 'https://blobs.animadex.net/Outputs/thumbs/oosuki%20masato%2C%20tsuujou%20kougeki%20ga%20zentai%20kougeki%20de%20ni-kai%20kougeki%20no%20okaasan%20wa%20suki%20desu%20ka_.webp', 32, ''),
 ('iyagatteru_kimi_ga_suki', 'shirakawa mikoto, iyagatteru kimi ga suki', 'Shirakawa Mikoto', 'https://blobs.animadex.net/Outputs/thumbs/shirakawa%20mikoto%2C%20iyagatteru%20kimi%20ga%20suki.webp', 91, ''),
 ('iyagatteru_kimi_ga_suki', 'ootsuki makoto, iyagatteru kimi ga suki', 'Ootsuki Makoto', 'https://blobs.animadex.net/Outputs/thumbs/ootsuki%20makoto%2C%20iyagatteru%20kimi%20ga%20suki.webp', 68, ''),
 ('getsumento_heiki_miina', 'tsukishiro mina, getsumento heiki miina', 'Tsukishiro Mina', 'https://blobs.animadex.net/Outputs/thumbs/tsukishiro%20mina%2C%20getsumento%20heiki%20miina.webp', 60, ''),
@@ -40153,8 +40153,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('d-frag!', 'shibasaki roka, d-frag!', 'Shibasaki Roka', 'https://blobs.animadex.net/Outputs/thumbs/shibasaki%20roka%2C%20d-frag%21.webp', 39, ''),
 ('uchouten_kazoku', 'shimogamo yasaburou, uchouten kazoku', 'Shimogamo Yasaburou', 'https://blobs.animadex.net/Outputs/thumbs/shimogamo%20yasaburou%2C%20uchouten%20kazoku.webp', 38, ''),
 ('uchouten_kazoku', 'shimogamo yajirou, uchouten kazoku', 'Shimogamo Yajirou', 'https://blobs.animadex.net/Outputs/thumbs/shimogamo%20yajirou%2C%20uchouten%20kazoku.webp', 31, ''),
-('fuufu_ijou_koibito_miman.', 'watanabe akari, fuufu ijou koibito miman.', 'Watanabe Akari', 'https://blobs.animadex.net/Outputs/thumbs/watanabe%20akari%2C%20fuufu%20ijou%20koibito%20miman..webp', 71, ''),
-('fuufu_ijou_koibito_miman.', 'shirakawa runa, fuufu_ijou_koibito_miman.', 'Shirakawa Runa', 'https://blobs.animadex.net/Outputs/thumbs/shirakawa%20runa%2C%20fuufu_ijou_koibito_miman..webp', 30, ''),
+('fuufu_ijou_koibito_miman.', 'watanabe akari, fuufu ijou koibito miman.', 'Watanabe Akari', 'https://blobs.animadex.net/Outputs/thumbs/watanabe%20akari%2C%20fuufu%20ijou%20koibito%20miman.webp', 71, ''),
+('fuufu_ijou_koibito_miman.', 'shirakawa runa, fuufu_ijou_koibito_miman.', 'Shirakawa Runa', 'https://blobs.animadex.net/Outputs/thumbs/shirakawa%20runa%2C%20fuufu_ijou_koibito_miman.webp', 30, ''),
 ('akagami_no_shirayukihime', 'shirayuki (akagami no shirayukihime), akagami no shirayukihime', 'Shirayuki (akagami No Shirayukihime)', 'https://blobs.animadex.net/Outputs/thumbs/shirayuki%20(akagami%20no%20shirayukihime)%2C%20akagami%20no%20shirayukihime.webp', 73, '');
 
 INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url) VALUES
@@ -40185,8 +40185,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('sasami-san@ganbaranai', 'yagami kagami, sasami-san@ganbaranai', 'Yagami Kagami', 'https://blobs.animadex.net/Outputs/thumbs/yagami%20kagami%2C%20sasami-san%40ganbaranai.webp', 43, ''),
 ('brown_dust_(series)', 'zenith (poolside guardian) (brown dust), brown_dust_(series)', 'Zenith (poolside Guardian) (brown Dust)', 'https://blobs.animadex.net/Outputs/thumbs/zenith%20(poolside%20guardian)%20(brown%20dust)%2C%20brown_dust_(series).webp', 35, ''),
 ('brown_dust_(series)', 'tyr (brown dust), brown_dust_(series)', 'Tyr (brown Dust)', 'https://blobs.animadex.net/Outputs/thumbs/tyr%20(brown%20dust)%2C%20brown_dust_(series).webp', 26, ''),
-('kuu_ka_kuwareru_ka?', 'utsui chizuru, kuu ka kuwareru ka?', 'Utsui Chizuru', 'https://blobs.animadex.net/Outputs/thumbs/utsui%20chizuru%2C%20kuu%20ka%20kuwareru%20ka%3F.webp', 37, ''),
-('kuu_ka_kuwareru_ka?', 'yamagata kousuke, kuu ka kuwareru ka?', 'Yamagata Kousuke', 'https://blobs.animadex.net/Outputs/thumbs/yamagata%20kousuke%2C%20kuu%20ka%20kuwareru%20ka%3F.webp', 31, ''),
+('kuu_ka_kuwareru_ka?', 'utsui chizuru, kuu ka kuwareru ka?', 'Utsui Chizuru', 'https://blobs.animadex.net/Outputs/thumbs/utsui%20chizuru%2C%20kuu%20ka%20kuwareru%20ka_.webp', 37, ''),
+('kuu_ka_kuwareru_ka?', 'yamagata kousuke, kuu ka kuwareru ka?', 'Yamagata Kousuke', 'https://blobs.animadex.net/Outputs/thumbs/yamagata%20kousuke%2C%20kuu%20ka%20kuwareru%20ka_.webp', 31, ''),
 ('wreck-it_ralph', 'vanellope von schweetz, wreck-it ralph', 'Vanellope Von Schweetz', 'https://blobs.animadex.net/Outputs/thumbs/vanellope%20von%20schweetz%2C%20wreck-it%20ralph.webp', 113, ''),
 ('wreck-it_ralph', 'wreck-it ralph (character), wreck-it ralph', 'Wreck-it Ralph (character)', 'https://blobs.animadex.net/Outputs/thumbs/wreck-it%20ralph%20(character)%2C%20wreck-it%20ralph.webp', 47, ''),
 ('ex_astris', 'vi3 (ex astris), ex astris', 'Vi3 (ex Astris)', 'https://blobs.animadex.net/Outputs/thumbs/vi3%20(ex%20astris)%2C%20ex%20astris.webp', 40, ''),
@@ -40285,7 +40285,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('ac_japan', 'arigato usagi, ac japan', 'Arigato Usagi', 'https://blobs.animadex.net/Outputs/thumbs/arigato%20usagi%2C%20ac%20japan.webp', 55, ''),
 ('himegoto', 'arikawa hime, himegoto', 'Arikawa Hime', 'https://blobs.animadex.net/Outputs/thumbs/arikawa%20hime%2C%20himegoto.webp', 93, ''),
 ('w.l.o_sekai_ren''ai_kikou', 'arisa crain femiluna, w.l.o sekai ren''ai kikou', 'Arisa Crain Femiluna', 'https://blobs.animadex.net/Outputs/thumbs/arisa%20crain%20femiluna%2C%20w.l.o%20sekai%20ren%27ai%20kikou.webp', 34, ''),
-('ore_ga_ojou-sama_gakkou_ni_"shomin_sample"_toshite_rachirareta_ken', 'arisugawa reiko, ore ga ojou-sama gakkou ni "shomin sample" toshite rachirareta ken', 'Arisugawa Reiko', 'https://blobs.animadex.net/Outputs/thumbs/arisugawa%20reiko%2C%20ore%20ga%20ojou-sama%20gakkou%20ni%20%22shomin%20sample%22%20toshite%20rachirareta%20ken.webp', 41, ''),
+('ore_ga_ojou-sama_gakkou_ni_"shomin_sample"_toshite_rachirareta_ken', 'arisugawa reiko, ore ga ojou-sama gakkou ni "shomin sample" toshite rachirareta ken', 'Arisugawa Reiko', 'https://blobs.animadex.net/Outputs/thumbs/arisugawa%20reiko%2C%20ore%20ga%20ojou-sama%20gakkou%20ni%20_shomin%20sample_%20toshite%20rachirareta%20ken.webp', 41, ''),
 ('kud_wafter', 'arizuki shiina, kud wafter', 'Arizuki Shiina', 'https://blobs.animadex.net/Outputs/thumbs/arizuki%20shiina%2C%20kud%20wafter.webp', 42, ''),
 ('arslan_senki', 'arslan, arslan senki', 'Arslan', 'https://blobs.animadex.net/Outputs/thumbs/arslan%2C%20arslan%20senki.webp', 65, ''),
 ('red_dead_redemption_2', 'arthur morgan, red dead redemption 2', 'Arthur Morgan', 'https://blobs.animadex.net/Outputs/thumbs/arthur%20morgan%2C%20red%20dead%20redemption%202.webp', 44, ''),
@@ -40331,7 +40331,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('ayakashi:_japanese_classic_horror', 'bakeneko (mononoke), ayakashi:_japanese_classic_horror', 'Bakeneko (mononoke)', 'https://blobs.animadex.net/Outputs/thumbs/bakeneko%20(mononoke)%2C%20ayakashi__japanese_classic_horror.webp', 21, ''),
 ('seirei_no_moribito', 'balsa, seirei no moribito', 'Balsa', 'https://blobs.animadex.net/Outputs/thumbs/balsa%2C%20seirei%20no%20moribito.webp', 51, ''),
 ('riding_bean', 'bean bandit, riding bean', 'Bean Bandit', 'https://blobs.animadex.net/Outputs/thumbs/bean%20bandit%2C%20riding%20bean.webp', 49, ''),
-('beelzebub-jou_no_okinimesu_mama.', 'beelzebub (beelzebub-jou), beelzebub-jou no okinimesu mama.', 'Beelzebub (beelzebub-jou)', 'https://blobs.animadex.net/Outputs/thumbs/beelzebub%20(beelzebub-jou)%2C%20beelzebub-jou%20no%20okinimesu%20mama..webp', 36, ''),
+('beelzebub-jou_no_okinimesu_mama.', 'beelzebub (beelzebub-jou), beelzebub-jou no okinimesu mama.', 'Beelzebub (beelzebub-jou)', 'https://blobs.animadex.net/Outputs/thumbs/beelzebub%20(beelzebub-jou)%2C%20beelzebub-jou%20no%20okinimesu%20mama.webp', 36, ''),
 ('sand_land', 'beelzebub (sand land), sand land', 'Beelzebub (sand Land)', 'https://blobs.animadex.net/Outputs/thumbs/beelzebub%20(sand%20land)%2C%20sand%20land.webp', 44, ''),
 ('unlight', 'belinda (unlight), unlight', 'Belinda (unlight)', 'https://blobs.animadex.net/Outputs/thumbs/belinda%20(unlight)%2C%20unlight.webp', 31, ''),
 ('carrefour', 'bellabot, carrefour', 'Bellabot', 'https://blobs.animadex.net/Outputs/thumbs/bellabot%2C%20carrefour.webp', 38, ''),
@@ -40397,7 +40397,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('last_period', 'choko (last period), last period', 'Choko (last Period)', 'https://blobs.animadex.net/Outputs/thumbs/choko%20(last%20period)%2C%20last%20period.webp', 43, ''),
 ('nandome_ka_no_hajimemashite', 'choumai sui, nandome_ka_no_hajimemashite', 'Choumai Sui', 'https://blobs.animadex.net/Outputs/thumbs/choumai%20sui%2C%20nandome_ka_no_hajimemashite.webp', 58, ''),
 ('kaiba', 'chroniko, kaiba', 'Chroniko', 'https://blobs.animadex.net/Outputs/thumbs/chroniko%2C%20kaiba.webp', 41, ''),
-('shuumatsu_nani_shitemasu_ka?', 'chtholly nota seniorious, shuumatsu nani shitemasu ka?', 'Chtholly Nota Seniorious', 'https://blobs.animadex.net/Outputs/thumbs/chtholly%20nota%20seniorious%2C%20shuumatsu%20nani%20shitemasu%20ka%3F.webp', 123, ''),
+('shuumatsu_nani_shitemasu_ka?', 'chtholly nota seniorious, shuumatsu nani shitemasu ka?', 'Chtholly Nota Seniorious', 'https://blobs.animadex.net/Outputs/thumbs/chtholly%20nota%20seniorious%2C%20shuumatsu%20nani%20shitemasu%20ka_.webp', 123, ''),
 ('chu_x_chu_idol', 'chua churam, chu x chu idol', 'Chua Churam', 'https://blobs.animadex.net/Outputs/thumbs/chua%20churam%2C%20chu%20x%20chu%20idol.webp', 41, ''),
 ('child''s_play', 'chucky, child''s play', 'Chucky', 'https://blobs.animadex.net/Outputs/thumbs/chucky%2C%20child%27s%20play.webp', 55, ''),
 ('the_summoning', 'claire d''lune, the summoning', 'Claire D''lune', 'https://blobs.animadex.net/Outputs/thumbs/claire%20d%27lune%2C%20the%20summoning.webp', 38, ''),
@@ -40455,7 +40455,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('arc_the_lad_ii', 'elc (arc the lad), arc the lad ii', 'Elc (arc The Lad)', 'https://blobs.animadex.net/Outputs/thumbs/elc%20(arc%20the%20lad)%2C%20arc%20the%20lad%20ii.webp', 138, ''),
 ('rave', 'elie (rave), rave', 'Elie (rave)', 'https://blobs.animadex.net/Outputs/thumbs/elie%20(rave)%2C%20rave.webp', 45, ''),
 ('aoi_sora_no_neosphere', 'elincie yerthrop, aoi sora no neosphere', 'Elincie Yerthrop', 'https://blobs.animadex.net/Outputs/thumbs/elincie%20yerthrop%2C%20aoi%20sora%20no%20neosphere.webp', 35, ''),
-('koakuma_teeri_to_kyuuseishu!?', 'elise (koakuma teeri to kyuuseishu!?), koakuma teeri to kyuuseishu!?', 'Elise (koakuma Teeri To Kyuuseishu!?)', 'https://blobs.animadex.net/Outputs/thumbs/elise%20(koakuma%20teeri%20to%20kyuuseishu%21%3F)%2C%20koakuma%20teeri%20to%20kyuuseishu%21%3F.webp', 30, ''),
+('koakuma_teeri_to_kyuuseishu!?', 'elise (koakuma teeri to kyuuseishu!?), koakuma teeri to kyuuseishu!?', 'Elise (koakuma Teeri To Kyuuseishu!?)', 'https://blobs.animadex.net/Outputs/thumbs/elise%20(koakuma%20teeri%20to%20kyuuseishu%21_)%2C%20koakuma%20teeri%20to%20kyuuseishu%21_.webp', 30, ''),
 ('folkssoul', 'ellen (folkssoul), folkssoul', 'Ellen (folkssoul)', 'https://blobs.animadex.net/Outputs/thumbs/ellen%20(folkssoul)%2C%20folkssoul.webp', 34, ''),
 ('agarest_senki', 'ellis (agarest senki), agarest senki', 'Ellis (agarest Senki)', 'https://blobs.animadex.net/Outputs/thumbs/ellis%20(agarest%20senki)%2C%20agarest%20senki.webp', 32, ''),
 ('orguss', 'emaan, orguss', 'Emaan', 'https://blobs.animadex.net/Outputs/thumbs/emaan%2C%20orguss.webp', 39, ''),
@@ -40487,7 +40487,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('dust:_an_elysian_tail', 'fidget (dust: an elysian tail), dust: an elysian tail', 'Fidget (dust: An Elysian Tail)', 'https://blobs.animadex.net/Outputs/thumbs/fidget%20(dust_%20an%20elysian%20tail)%2C%20dust_%20an%20elysian%20tail.webp', 38, ''),
 ('juniper''s_knot', 'fiend (juniper''s knot), juniper''s knot', 'Fiend (juniper''s Knot)', 'https://blobs.animadex.net/Outputs/thumbs/fiend%20(juniper%27s%20knot)%2C%20juniper%27s%20knot.webp', 30, ''),
 ('cannonball_~neko_neko_machine_mou-race!~', 'filho rossi, cannonball ~neko neko machine mou-race!~', 'Filho Rossi', 'https://blobs.animadex.net/Outputs/thumbs/filho%20rossi%2C%20cannonball%20~neko%20neko%20machine%20mou-race%21~.webp', 33, ''),
-('yuusha_ni_narenakatta_ore_wa_shibushibu_shuushoku_wo_ketsui_shimashita.', 'fino bloodstone, yuusha ni narenakatta ore wa shibushibu shuushoku wo ketsui shimashita.', 'Fino Bloodstone', 'https://blobs.animadex.net/Outputs/thumbs/fino%20bloodstone%2C%20yuusha%20ni%20narenakatta%20ore%20wa%20shibushibu%20shuushoku%20wo%20ketsui%20shimashita..webp', 43, ''),
+('yuusha_ni_narenakatta_ore_wa_shibushibu_shuushoku_wo_ketsui_shimashita.', 'fino bloodstone, yuusha ni narenakatta ore wa shibushibu shuushoku wo ketsui shimashita.', 'Fino Bloodstone', 'https://blobs.animadex.net/Outputs/thumbs/fino%20bloodstone%2C%20yuusha%20ni%20narenakatta%20ore%20wa%20shibushibu%20shuushoku%20wo%20ketsui%20shimashita.webp', 43, ''),
 ('border_break', 'fiona (border break), border break', 'Fiona (border Break)', 'https://blobs.animadex.net/Outputs/thumbs/fiona%20(border%20break)%2C%20border%20break.webp', 48, ''),
 ('firefox', 'firefox-tan, firefox', 'Firefox-tan', 'https://blobs.animadex.net/Outputs/thumbs/firefox-tan%2C%20firefox.webp', 67, ''),
 ('shiboritoranaide_onna_shounin-san', 'firo (shiboritoranaide onna shounin-san), shiboritoranaide onna shounin-san', 'Firo (shiboritoranaide Onna Shounin-san)', 'https://blobs.animadex.net/Outputs/thumbs/firo%20(shiboritoranaide%20onna%20shounin-san)%2C%20shiboritoranaide%20onna%20shounin-san.webp', 34, ''),
@@ -40504,7 +40504,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('fisheye_placebo', 'frey (fisheye placebo), fisheye placebo', 'Frey (fisheye Placebo)', 'https://blobs.animadex.net/Outputs/thumbs/frey%20(fisheye%20placebo)%2C%20fisheye%20placebo.webp', 33, ''),
 ('the_lord_of_the_rings', 'frodo baggins, the lord of the rings', 'Frodo Baggins', 'https://blobs.animadex.net/Outputs/thumbs/frodo%20baggins%2C%20the%20lord%20of%20the%20rings.webp', 34, ''),
 ('fudatsuki_no_kyouko-chan', 'fudatsuki kyouko, fudatsuki no kyouko-chan', 'Fudatsuki Kyouko', 'https://blobs.animadex.net/Outputs/thumbs/fudatsuki%20kyouko%2C%20fudatsuki%20no%20kyouko-chan.webp', 55, ''),
-('aoi_ch.', 'fuji aoi, aoi ch.', 'Fuji Aoi', 'https://blobs.animadex.net/Outputs/thumbs/fuji%20aoi%2C%20aoi%20ch..webp', 141, ''),
+('aoi_ch.', 'fuji aoi, aoi ch.', 'Fuji Aoi', 'https://blobs.animadex.net/Outputs/thumbs/fuji%20aoi%2C%20aoi%20ch.webp', 141, ''),
 ('boku_no_kanojo_sensei', 'fujiki maka, boku no kanojo sensei', 'Fujiki Maka', 'https://blobs.animadex.net/Outputs/thumbs/fujiki%20maka%2C%20boku%20no%20kanojo%20sensei.webp', 108, ''),
 ('blue_seed', 'fujimiya momiji, blue seed', 'Fujimiya Momiji', 'https://blobs.animadex.net/Outputs/thumbs/fujimiya%20momiji%2C%20blue%20seed.webp', 32, ''),
 ('hatsu_inu', 'fujino shion, hatsu inu', 'Fujino Shion', 'https://blobs.animadex.net/Outputs/thumbs/fujino%20shion%2C%20hatsu%20inu.webp', 48, ''),
@@ -40563,7 +40563,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('i-chu', 'hanabusa kokoro, i-chu', 'Hanabusa Kokoro', 'https://blobs.animadex.net/Outputs/thumbs/hanabusa%20kokoro%2C%20i-chu.webp', 74, ''),
 ('toire_no_hanako-san', 'hanako-san (toire no hanako-san), toire no hanako-san', 'Hanako-san (toire No Hanako-san)', 'https://blobs.animadex.net/Outputs/thumbs/hanako-san%20(toire%20no%20hanako-san)%2C%20toire%20no%20hanako-san.webp', 66, ''),
 ('akihabara_dennou_gumi', 'hanakoganei hibari, akihabara dennou gumi', 'Hanakoganei Hibari', 'https://blobs.animadex.net/Outputs/thumbs/hanakoganei%20hibari%2C%20akihabara%20dennou%20gumi.webp', 31, ''),
-('mahou_shoujo_nante_mou_ii_desukara.', 'hanami yuzuka, mahou shoujo nante mou ii desukara.', 'Hanami Yuzuka', 'https://blobs.animadex.net/Outputs/thumbs/hanami%20yuzuka%2C%20mahou%20shoujo%20nante%20mou%20ii%20desukara..webp', 50, ''),
+('mahou_shoujo_nante_mou_ii_desukara.', 'hanami yuzuka, mahou shoujo nante mou ii desukara.', 'Hanami Yuzuka', 'https://blobs.animadex.net/Outputs/thumbs/hanami%20yuzuka%2C%20mahou%20shoujo%20nante%20mou%20ii%20desukara.webp', 50, ''),
 ('super_elegant', 'hanamoto tenka, super elegant', 'Hanamoto Tenka', 'https://blobs.animadex.net/Outputs/thumbs/hanamoto%20tenka%2C%20super%20elegant.webp', 34, ''),
 ('gouketsuji_ichizoku', 'hananokouji kurara, gouketsuji ichizoku', 'Hananokouji Kurara', 'https://blobs.animadex.net/Outputs/thumbs/hananokouji%20kurara%2C%20gouketsuji%20ichizoku.webp', 41, ''),
 ('samurai_sentai_shinkenger', 'hanaori kotoha, samurai sentai shinkenger', 'Hanaori Kotoha', 'https://blobs.animadex.net/Outputs/thumbs/hanaori%20kotoha%2C%20samurai%20sentai%20shinkenger.webp', 39, ''),
@@ -40607,8 +40607,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('parodius', 'hikaru (parodius), parodius', 'Hikaru (parodius)', 'https://blobs.animadex.net/Outputs/thumbs/hikaru%20(parodius)%2C%20parodius.webp', 31, ''),
 ('stella_glow', 'hilda (stella glow), stella glow', 'Hilda (stella Glow)', 'https://blobs.animadex.net/Outputs/thumbs/hilda%20(stella%20glow)%2C%20stella%20glow.webp', 64, ''),
 ('crunchyroll', 'hime (crunchyroll), crunchyroll', 'Hime (crunchyroll)', 'https://blobs.animadex.net/Outputs/thumbs/hime%20(crunchyroll)%2C%20crunchyroll.webp', 39, ''),
-('hime-sama_"goumon"_no_jikan_desu', 'hime (himesama goumon), hime-sama "goumon" no jikan desu', 'Hime (himesama Goumon)', 'https://blobs.animadex.net/Outputs/thumbs/hime%20(himesama%20goumon)%2C%20hime-sama%20%22goumon%22%20no%20jikan%20desu.webp', 42, ''),
-('jitsuha_imouto_deshita.', 'himeno akira, jitsuha imouto deshita.', 'Himeno Akira', 'https://blobs.animadex.net/Outputs/thumbs/himeno%20akira%2C%20jitsuha%20imouto%20deshita..webp', 80, ''),
+('hime-sama_"goumon"_no_jikan_desu', 'hime (himesama goumon), hime-sama "goumon" no jikan desu', 'Hime (himesama Goumon)', 'https://blobs.animadex.net/Outputs/thumbs/hime%20(himesama%20goumon)%2C%20hime-sama%20_goumon_%20no%20jikan%20desu.webp', 42, ''),
+('jitsuha_imouto_deshita.', 'himeno akira, jitsuha imouto deshita.', 'Himeno Akira', 'https://blobs.animadex.net/Outputs/thumbs/himeno%20akira%2C%20jitsuha%20imouto%20deshita.webp', 80, ''),
 ('love_r', 'himenogi rinze, love r', 'Himenogi Rinze', 'https://blobs.animadex.net/Outputs/thumbs/himenogi%20rinze%2C%20love%20r.webp', 99, ''),
 ('btooom!', 'himiko (btooom!), btooom!', 'Himiko (btooom!)', 'https://blobs.animadex.net/Outputs/thumbs/himiko%20(btooom%21)%2C%20btooom%21.webp', 53, ''),
 ('hinamatsuri_(manga)', 'hina (hinamatsuri), hinamatsuri (manga)', 'Hina (hinamatsuri)', 'https://blobs.animadex.net/Outputs/thumbs/hina%20(hinamatsuri)%2C%20hinamatsuri%20(manga).webp', 46, ''),
@@ -40791,8 +40791,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('dokidoki_sister_aoi-chan', 'kohinata aoi (dokidoki sister aoi-chan), dokidoki sister aoi-chan', 'Kohinata Aoi (dokidoki Sister Aoi-chan)', 'https://blobs.animadex.net/Outputs/thumbs/kohinata%20aoi%20(dokidoki%20sister%20aoi-chan)%2C%20dokidoki%20sister%20aoi-chan.webp', 127, ''),
 ('propro_production', 'koinoya mai, propro production', 'Koinoya Mai', 'https://blobs.animadex.net/Outputs/thumbs/koinoya%20mai%2C%20propro%20production.webp', 36, ''),
 ('kyou_no_go_no_ni', 'koizumi chika, kyou no go no ni', 'Koizumi Chika', 'https://blobs.animadex.net/Outputs/thumbs/koizumi%20chika%2C%20kyou%20no%20go%20no%20ni.webp', 37, ''),
-('nande_koko_ni_sensei_ga!?', 'kojima kana, nande koko ni sensei ga!?', 'Kojima Kana', 'https://blobs.animadex.net/Outputs/thumbs/kojima%20kana%2C%20nande%20koko%20ni%20sensei%20ga%21%3F.webp', 30, ''),
-('boku_no_kanojo_wa_ningyohime!?', 'koma ion, boku no kanojo wa ningyohime!?', 'Koma Ion', 'https://blobs.animadex.net/Outputs/thumbs/koma%20ion%2C%20boku%20no%20kanojo%20wa%20ningyohime%21%3F.webp', 46, ''),
+('nande_koko_ni_sensei_ga!?', 'kojima kana, nande koko ni sensei ga!?', 'Kojima Kana', 'https://blobs.animadex.net/Outputs/thumbs/kojima%20kana%2C%20nande%20koko%20ni%20sensei%20ga%21_.webp', 30, ''),
+('boku_no_kanojo_wa_ningyohime!?', 'koma ion, boku no kanojo wa ningyohime!?', 'Koma Ion', 'https://blobs.animadex.net/Outputs/thumbs/koma%20ion%2C%20boku%20no%20kanojo%20wa%20ningyohime%21_.webp', 46, ''),
 ('kokurikozaka_kara', 'komatsuzaki umi, kokurikozaka kara', 'Komatsuzaki Umi', 'https://blobs.animadex.net/Outputs/thumbs/komatsuzaki%20umi%2C%20kokurikozaka%20kara.webp', 32, ''),
 ('komori-san_wa_kotowarenai!', 'komori shuri, komori-san wa kotowarenai!', 'Komori Shuri', 'https://blobs.animadex.net/Outputs/thumbs/komori%20shuri%2C%20komori-san%20wa%20kotowarenai%21.webp', 88, ''),
 ('diabolik_lovers', 'komori yui, diabolik lovers', 'Komori Yui', 'https://blobs.animadex.net/Outputs/thumbs/komori%20yui%2C%20diabolik%20lovers.webp', 49, ''),
@@ -40837,7 +40837,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('rolling_girl_(vocaloid)', 'kurosu (nyakelap), rolling girl (vocaloid)', 'Kurosu (nyakelap)', 'https://blobs.animadex.net/Outputs/thumbs/kurosu%20(nyakelap)%2C%20rolling%20girl%20(vocaloid).webp', 34, ''),
 ('magikano', 'kurosu yuri, magikano', 'Kurosu Yuri', 'https://blobs.animadex.net/Outputs/thumbs/kurosu%20yuri%2C%20magikano.webp', 31, ''),
 ('kuromajo-san_ga_tooru!!', 'kurotori chiyoko, kuromajo-san ga tooru!!', 'Kurotori Chiyoko', 'https://blobs.animadex.net/Outputs/thumbs/kurotori%20chiyoko%2C%20kuromajo-san%20ga%20tooru%21%21.webp', 42, ''),
-('jitsuwa_kankin_mankitsu?_kurumi-chan!', 'kurumi (jitsuwa kankin mankitsu), jitsuwa_kankin_mankitsu?_kurumi-chan!', 'Kurumi (jitsuwa Kankin Mankitsu)', 'https://blobs.animadex.net/Outputs/thumbs/kurumi%20(jitsuwa%20kankin%20mankitsu)%2C%20jitsuwa_kankin_mankitsu%3F_kurumi-chan%21.webp', 62, ''),
+('jitsuwa_kankin_mankitsu?_kurumi-chan!', 'kurumi (jitsuwa kankin mankitsu), jitsuwa_kankin_mankitsu?_kurumi-chan!', 'Kurumi (jitsuwa Kankin Mankitsu)', 'https://blobs.animadex.net/Outputs/thumbs/kurumi%20(jitsuwa%20kankin%20mankitsu)%2C%20jitsuwa_kankin_mankitsu__kurumi-chan%21.webp', 62, ''),
 ('bakappuru_supplement', 'kurumi akiha, bakappuru_supplement', 'Kurumi Akiha', 'https://blobs.animadex.net/Outputs/thumbs/kurumi%20akiha%2C%20bakappuru_supplement.webp', 71, ''),
 ('asumi-chan_wa_rezu_fuuzoku_ni_kyoumi_ga_arimasu!', 'kusumoto asumi, asumi-chan wa rezu fuuzoku ni kyoumi ga arimasu!', 'Kusumoto Asumi', 'https://blobs.animadex.net/Outputs/thumbs/kusumoto%20asumi%2C%20asumi-chan%20wa%20rezu%20fuuzoku%20ni%20kyoumi%20ga%20arimasu%21.webp', 32, ''),
 ('the_personification_of_atmosphere', 'kuuki shoujo, the personification of atmosphere', 'Kuuki Shoujo', 'https://blobs.animadex.net/Outputs/thumbs/kuuki%20shoujo%2C%20the%20personification%20of%20atmosphere.webp', 91, ''),
@@ -40855,7 +40855,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('tom_clancy''s_the_division', 'last man battalion, tom clancy''s the division', 'Last Man Battalion', 'https://blobs.animadex.net/Outputs/thumbs/last%20man%20battalion%2C%20tom%20clancy%27s%20the%20division.webp', 34, ''),
 ('angelic_serenade', 'lasty farson, angelic serenade', 'Lasty Farson', 'https://blobs.animadex.net/Outputs/thumbs/lasty%20farson%2C%20angelic%20serenade.webp', 31, ''),
 ('nanoka_no_kuigami', 'latimeriya (nanoka no kuigami), nanoka_no_kuigami', 'Latimeriya (nanoka No Kuigami)', 'https://blobs.animadex.net/Outputs/thumbs/latimeriya%20(nanoka%20no%20kuigami)%2C%20nanoka_no_kuigami.webp', 13, ''),
-('uchi_no_musume_no_tame_naraba_ore_wa_moshikashitara_maou_mo_taoseru_kamo_shirenai.', 'latina (uchi no musume no tame naraba), uchi no musume no tame naraba ore wa moshikashitara maou mo taoseru kamo shirenai.', 'Latina (uchi No Musume No Tame Naraba)', 'https://blobs.animadex.net/Outputs/thumbs/latina%20(uchi%20no%20musume%20no%20tame%20naraba)%2C%20uchi%20no%20musume%20no%20tame%20naraba%20ore%20wa%20moshikashitara%20maou%20mo%20taoseru%20kamo%20shirenai..webp', 74, ''),
+('uchi_no_musume_no_tame_naraba_ore_wa_moshikashitara_maou_mo_taoseru_kamo_shirenai.', 'latina (uchi no musume no tame naraba), uchi no musume no tame naraba ore wa moshikashitara maou mo taoseru kamo shirenai.', 'Latina (uchi No Musume No Tame Naraba)', 'https://blobs.animadex.net/Outputs/thumbs/latina%20(uchi%20no%20musume%20no%20tame%20naraba)%2C%20uchi%20no%20musume%20no%20tame%20naraba%20ore%20wa%20moshikashitara%20maou%20mo%20taoseru%20kamo%20shirenai.webp', 74, ''),
 ('lapis_re:lights', 'lavie (lapis re:lights), lapis re:lights', 'Lavie (lapis Re:lights)', 'https://blobs.animadex.net/Outputs/thumbs/lavie%20(lapis%20re_lights)%2C%20lapis%20re_lights.webp', 30, ''),
 ('aoki_ryuusei_spt_layzner', 'layzner, aoki ryuusei spt layzner', 'Layzner', 'https://blobs.animadex.net/Outputs/thumbs/layzner%2C%20aoki%20ryuusei%20spt%20layzner.webp', 63, ''),
 ('the_texas_chainsaw_massacre', 'leatherface, the texas chainsaw massacre', 'Leatherface', 'https://blobs.animadex.net/Outputs/thumbs/leatherface%2C%20the%20texas%20chainsaw%20massacre.webp', 37, ''),
@@ -40917,7 +40917,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('popful_mail', 'mail (popful mail), popful mail', 'Mail (popful Mail)', 'https://blobs.animadex.net/Outputs/thumbs/mail%20(popful%20mail)%2C%20popful%20mail.webp', 90, ''),
 ('waku_waku_7', 'makihara arina, waku waku 7', 'Makihara Arina', 'https://blobs.animadex.net/Outputs/thumbs/makihara%20arina%2C%20waku%20waku%207.webp', 169, ''),
 ('koi_de_wa_naku', 'makishima yumi, koi de wa naku', 'Makishima Yumi', 'https://blobs.animadex.net/Outputs/thumbs/makishima%20yumi%2C%20koi%20de%20wa%20naku.webp', 38, ''),
-('doushitara_osananajimi_no_kanojo_ni_naremasu_ka!?', 'makita yuzu, doushitara osananajimi no kanojo ni naremasu ka!?', 'Makita Yuzu', 'https://blobs.animadex.net/Outputs/thumbs/makita%20yuzu%2C%20doushitara%20osananajimi%20no%20kanojo%20ni%20naremasu%20ka%21%3F.webp', 48, ''),
+('doushitara_osananajimi_no_kanojo_ni_naremasu_ka!?', 'makita yuzu, doushitara osananajimi no kanojo ni naremasu ka!?', 'Makita Yuzu', 'https://blobs.animadex.net/Outputs/thumbs/makita%20yuzu%2C%20doushitara%20osananajimi%20no%20kanojo%20ni%20naremasu%20ka%21_.webp', 48, ''),
 ('hajime_no_ippo', 'makunouchi ippo, hajime no ippo', 'Makunouchi Ippo', 'https://blobs.animadex.net/Outputs/thumbs/makunouchi%20ippo%2C%20hajime%20no%20ippo.webp', 31, ''),
 ('cooking_mama', 'mama (cooking mama), cooking mama', 'Mama (cooking Mama)', 'https://blobs.animadex.net/Outputs/thumbs/mama%20(cooking%20mama)%2C%20cooking%20mama.webp', 32, ''),
 ('euphoria_(clockup)', 'manaka nemu, euphoria (clockup)', 'Manaka Nemu', 'https://blobs.animadex.net/Outputs/thumbs/manaka%20nemu%2C%20euphoria%20(clockup).webp', 40, ''),
@@ -41081,12 +41081,12 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('misao', 'narukami aki (female), misao', 'Narukami Aki (female)', 'https://blobs.animadex.net/Outputs/thumbs/narukami%20aki%20(female)%2C%20misao.webp', 32, ''),
 ('wind_a_breath_of_heart', 'narukaze minamo, wind a breath of heart', 'Narukaze Minamo', 'https://blobs.animadex.net/Outputs/thumbs/narukaze%20minamo%2C%20wind%20a%20breath%20of%20heart.webp', 37, ''),
 ('occultic;nine', 'narusawa ryouka, occultic;nine', 'Narusawa Ryouka', 'https://blobs.animadex.net/Outputs/thumbs/narusawa%20ryouka%2C%20occultic%3Bnine.webp', 459, ''),
-('kokoro_ga_sakebitagatterunda.', 'naruse jun, kokoro ga sakebitagatterunda.', 'Naruse Jun', 'https://blobs.animadex.net/Outputs/thumbs/naruse%20jun%2C%20kokoro%20ga%20sakebitagatterunda..webp', 58, ''),
+('kokoro_ga_sakebitagatterunda.', 'naruse jun, kokoro ga sakebitagatterunda.', 'Naruse Jun', 'https://blobs.animadex.net/Outputs/thumbs/naruse%20jun%2C%20kokoro%20ga%20sakebitagatterunda.webp', 58, ''),
 ('imouto_no_seiiki', 'nase yukana, imouto no seiiki', 'Nase Yukana', 'https://blobs.animadex.net/Outputs/thumbs/nase%20yukana%2C%20imouto%20no%20seiiki.webp', 30, ''),
 ('type-moon', 'nasu kinoko, type-moon', 'Nasu Kinoko', 'https://blobs.animadex.net/Outputs/thumbs/nasu%20kinoko%2C%20type-moon.webp', 58, ''),
 ('epic_battle_fantasy', 'natalie (epic battle fantasy), epic battle fantasy', 'Natalie (epic Battle Fantasy)', 'https://blobs.animadex.net/Outputs/thumbs/natalie%20(epic%20battle%20fantasy)%2C%20epic%20battle%20fantasy.webp', 30, ''),
 ('uncharted', 'nathan drake, uncharted', 'Nathan Drake', 'https://blobs.animadex.net/Outputs/thumbs/nathan%20drake%2C%20uncharted.webp', 50, ''),
-('natsuyasumi.', 'natsuki (natsuyasumi.), natsuyasumi.', 'Natsuki (natsuyasumi.)', 'https://blobs.animadex.net/Outputs/thumbs/natsuki%20(natsuyasumi.)%2C%20natsuyasumi..webp', 33, ''),
+('natsuyasumi.', 'natsuki (natsuyasumi.), natsuyasumi.', 'Natsuki (natsuyasumi.)', 'https://blobs.animadex.net/Outputs/thumbs/natsuki%20(natsuyasumi.)%2C%20natsuyasumi.webp', 33, ''),
 ('sakura_no_toki', 'natsume ai, sakura no toki', 'Natsume Ai', 'https://blobs.animadex.net/Outputs/thumbs/natsume%20ai%2C%20sakura%20no%20toki.webp', 30, ''),
 ('bannou_bunka_nekomusume', 'natsume atsuko, bannou bunka nekomusume', 'Natsume Atsuko', 'https://blobs.animadex.net/Outputs/thumbs/natsume%20atsuko%2C%20bannou%20bunka%20nekomusume.webp', 36, ''),
 ('himawari_no_kyoukai_to_nagai_natsuyasumi', 'natsusaki yomi, himawari no kyoukai to nagai natsuyasumi', 'Natsusaki Yomi', 'https://blobs.animadex.net/Outputs/thumbs/natsusaki%20yomi%2C%20himawari%20no%20kyoukai%20to%20nagai%20natsuyasumi.webp', 32, ''),
@@ -41097,7 +41097,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('youkai_hyakki-tan!', 'nekomata (youkai hyakki-tan!), youkai hyakki-tan!', 'Nekomata (youkai Hyakki-tan!)', 'https://blobs.animadex.net/Outputs/thumbs/nekomata%20(youkai%20hyakki-tan%21)%2C%20youkai%20hyakki-tan%21.webp', 36, ''),
 ('hinata_channel', 'nekomiya hinata, hinata channel', 'Nekomiya Hinata', 'https://blobs.animadex.net/Outputs/thumbs/nekomiya%20hinata%2C%20hinata%20channel.webp', 704, ''),
 ('yotsunoha', 'nekomiya nono, yotsunoha', 'Nekomiya Nono', 'https://blobs.animadex.net/Outputs/thumbs/nekomiya%20nono%2C%20yotsunoha.webp', 110, ''),
-('maou_no_ore_ga_dorei_elf_wo_yome_ni_shitanda_ga_dou_medereba_ii?', 'nephelia, maou no ore ga dorei elf wo yome ni shitanda ga dou medereba ii?', 'Nephelia', 'https://blobs.animadex.net/Outputs/thumbs/nephelia%2C%20maou%20no%20ore%20ga%20dorei%20elf%20wo%20yome%20ni%20shitanda%20ga%20dou%20medereba%20ii%3F.webp', 37, ''),
+('maou_no_ore_ga_dorei_elf_wo_yome_ni_shitanda_ga_dou_medereba_ii?', 'nephelia, maou no ore ga dorei elf wo yome ni shitanda ga dou medereba ii?', 'Nephelia', 'https://blobs.animadex.net/Outputs/thumbs/nephelia%2C%20maou%20no%20ore%20ga%20dorei%20elf%20wo%20yome%20ni%20shitanda%20ga%20dou%20medereba%20ii_.webp', 37, ''),
 ('fractale', 'nessa (fractale), fractale', 'Nessa (fractale)', 'https://blobs.animadex.net/Outputs/thumbs/nessa%20(fractale)%2C%20fractale.webp', 46, ''),
 ('sangai_senki', 'nie xiaoqian, sangai senki', 'Nie Xiaoqian', 'https://blobs.animadex.net/Outputs/thumbs/nie%20xiaoqian%2C%20sangai%20senki.webp', 35, ''),
 ('nier', 'nier (brother), nier', 'Nier (brother)', 'https://blobs.animadex.net/Outputs/thumbs/nier%20(brother)%2C%20nier.webp', 50, ''),
@@ -41114,7 +41114,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('ultimate_nipper', 'nipako, ultimate nipper', 'Nipako', 'https://blobs.animadex.net/Outputs/thumbs/nipako%2C%20ultimate%20nipper.webp', 103, ''),
 ('zutto_mayonaka_de_ii_no_ni', 'nira-chan, zutto mayonaka de ii no ni', 'Nira-chan', 'https://blobs.animadex.net/Outputs/thumbs/nira-chan%2C%20zutto%20mayonaka%20de%20ii%20no%20ni.webp', 133, ''),
 ('kanojo_ga_aitsu_ni_sareta_koto', 'nishijima ren, kanojo ga aitsu ni sareta koto', 'Nishijima Ren', 'https://blobs.animadex.net/Outputs/thumbs/nishijima%20ren%2C%20kanojo%20ga%20aitsu%20ni%20sareta%20koto.webp', 54, ''),
-('jijou_wo_shiranai_tenkousei_ga_guigui_kuru.', 'nishimura akane, jijou wo shiranai tenkousei ga guigui kuru.', 'Nishimura Akane', 'https://blobs.animadex.net/Outputs/thumbs/nishimura%20akane%2C%20jijou%20wo%20shiranai%20tenkousei%20ga%20guigui%20kuru..webp', 94, ''),
+('jijou_wo_shiranai_tenkousei_ga_guigui_kuru.', 'nishimura akane, jijou wo shiranai tenkousei ga guigui kuru.', 'Nishimura Akane', 'https://blobs.animadex.net/Outputs/thumbs/nishimura%20akane%2C%20jijou%20wo%20shiranai%20tenkousei%20ga%20guigui%20kuru.webp', 94, ''),
 ('little_noah', 'noah (little noah), little noah', 'Noah (little Noah)', 'https://blobs.animadex.net/Outputs/thumbs/noah%20(little%20noah)%2C%20little%20noah.webp', 62, ''),
 ('noworld', 'noir (noworld), noworld', 'Noir (noworld)', 'https://blobs.animadex.net/Outputs/thumbs/noir%20(noworld)%2C%20noworld.webp', 60, ''),
 ('greed_packet_unlimited', 'nokia, greed packet unlimited', 'Nokia', 'https://blobs.animadex.net/Outputs/thumbs/nokia%2C%20greed%20packet%20unlimited.webp', 31, ''),
@@ -41129,7 +41129,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('tears_to_tiara', 'octavia, tears to tiara', 'Octavia', 'https://blobs.animadex.net/Outputs/thumbs/octavia%2C%20tears%20to%20tiara.webp', 30, ''),
 ('insomniac_workers', 'office lady (senukin), insomniac_workers', 'Office Lady (senukin)', 'https://blobs.animadex.net/Outputs/thumbs/office%20lady%20(senukin)%2C%20insomniac_workers.webp', 60, ''),
 ('kaii_to_otome_to_kamikakushi', 'ogawa sumireko, kaii to otome to kamikakushi', 'Ogawa Sumireko', 'https://blobs.animadex.net/Outputs/thumbs/ogawa%20sumireko%2C%20kaii%20to%20otome%20to%20kamikakushi.webp', 150, ''),
-('hige_wo_soru._soshite_joshikousei_wo_hirou.', 'ogiwara sayu, hige wo soru. soshite joshikousei wo hirou.', 'Ogiwara Sayu', 'https://blobs.animadex.net/Outputs/thumbs/ogiwara%20sayu%2C%20hige%20wo%20soru.%20soshite%20joshikousei%20wo%20hirou..webp', 76, ''),
+('hige_wo_soru._soshite_joshikousei_wo_hirou.', 'ogiwara sayu, hige wo soru. soshite joshikousei wo hirou.', 'Ogiwara Sayu', 'https://blobs.animadex.net/Outputs/thumbs/ogiwara%20sayu%2C%20hige%20wo%20soru.%20soshite%20joshikousei%20wo%20hirou.webp', 76, ''),
 ('island_(game)', 'ohara rinne, island (game)', 'Ohara Rinne', 'https://blobs.animadex.net/Outputs/thumbs/ohara%20rinne%2C%20island%20(game).webp', 50, ''),
 ('los_angeles_dodgers', 'ohtani shohei, los_angeles_dodgers', 'Ohtani Shohei', 'https://blobs.animadex.net/Outputs/thumbs/ohtani%20shohei%2C%20los_angeles_dodgers.webp', 42, ''),
 ('toujima_tanzaburou_wa_kamen_rider_ni_naritai', 'okada yuriko, toujima_tanzaburou_wa_kamen_rider_ni_naritai', 'Okada Yuriko', 'https://blobs.animadex.net/Outputs/thumbs/okada%20yuriko%2C%20toujima_tanzaburou_wa_kamen_rider_ni_naritai.webp', 38, ''),
@@ -41181,7 +41181,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('pizza_tower', 'peppino spaghetti, pizza tower', 'Peppino Spaghetti', 'https://blobs.animadex.net/Outputs/thumbs/peppino%20spaghetti%2C%20pizza%20tower.webp', 91, ''),
 ('pepsiman_(game)', 'pepsiman, pepsiman (game)', 'Pepsiman', 'https://blobs.animadex.net/Outputs/thumbs/pepsiman%2C%20pepsiman%20(game).webp', 38, ''),
 ('mahou_no_yousei_persia', 'persia (mahou no yousei persia), mahou no yousei persia', 'Persia (mahou No Yousei Persia)', 'https://blobs.animadex.net/Outputs/thumbs/persia%20(mahou%20no%20yousei%20persia)%2C%20mahou%20no%20yousei%20persia.webp', 45, ''),
-('top_gun', 'pete "maverick" mitchell, top gun', 'Pete "maverick" Mitchell', 'https://blobs.animadex.net/Outputs/thumbs/pete%20%22maverick%22%20mitchell%2C%20top%20gun.webp', 43, ''),
+('top_gun', 'pete "maverick" mitchell, top gun', 'Pete "maverick" Mitchell', 'https://blobs.animadex.net/Outputs/thumbs/pete%20_maverick_%20mitchell%2C%20top%20gun.webp', 43, ''),
 ('crossbone_gundam_ghost', 'phantom gundam, crossbone gundam ghost', 'Phantom Gundam', 'https://blobs.animadex.net/Outputs/thumbs/phantom%20gundam%2C%20crossbone%20gundam%20ghost.webp', 42, ''),
 ('les_chevaucheurs', 'phenice walholl, les chevaucheurs', 'Phenice Walholl', 'https://blobs.animadex.net/Outputs/thumbs/phenice%20walholl%2C%20les%20chevaucheurs.webp', 69, ''),
 ('miracle_snack_shop', 'philia salis, miracle snack shop', 'Philia Salis', 'https://blobs.animadex.net/Outputs/thumbs/philia%20salis%2C%20miracle%20snack%20shop.webp', 37, ''),
@@ -41253,7 +41253,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('radiata_stories', 'ridley timberlake, radiata stories', 'Ridley Timberlake', 'https://blobs.animadex.net/Outputs/thumbs/ridley%20timberlake%2C%20radiata%20stories.webp', 50, ''),
 ('shelter_(song)', 'rin (shelter), shelter (song)', 'Rin (shelter)', 'https://blobs.animadex.net/Outputs/thumbs/rin%20(shelter)%2C%20shelter%20(song).webp', 77, ''),
 ('soul_hackers_2', 'ringo (soul hackers 2), soul hackers 2', 'Ringo (soul Hackers 2)', 'https://blobs.animadex.net/Outputs/thumbs/ringo%20(soul%20hackers%202)%2C%20soul%20hackers%202.webp', 37, ''),
-('isshiki-san_wa_koi_wo_shiritai.', 'rinna milford, isshiki-san wa koi wo shiritai.', 'Rinna Milford', 'https://blobs.animadex.net/Outputs/thumbs/rinna%20milford%2C%20isshiki-san%20wa%20koi%20wo%20shiritai..webp', 94, ''),
+('isshiki-san_wa_koi_wo_shiritai.', 'rinna milford, isshiki-san wa koi wo shiritai.', 'Rinna Milford', 'https://blobs.animadex.net/Outputs/thumbs/rinna%20milford%2C%20isshiki-san%20wa%20koi%20wo%20shiritai.webp', 94, ''),
 ('rinrinne', 'rinne (rinrinne), rinrinne', 'Rinne (rinrinne)', 'https://blobs.animadex.net/Outputs/thumbs/rinne%20(rinrinne)%2C%20rinrinne.webp', 145, ''),
 ('super_blackjack', 'rio rollins, super blackjack', 'Rio Rollins', 'https://blobs.animadex.net/Outputs/thumbs/rio%20rollins%2C%20super%20blackjack.webp', 325, ''),
 ('ohsama_sentai_king-ohger', 'rita kanisuka, ohsama sentai king-ohger', 'Rita Kanisuka', 'https://blobs.animadex.net/Outputs/thumbs/rita%20kanisuka%2C%20ohsama%20sentai%20king-ohger.webp', 31, ''),
@@ -41339,7 +41339,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('3ldk', 'senoo chihogi, 3ldk', 'Senoo Chihogi', 'https://blobs.animadex.net/Outputs/thumbs/senoo%20chihogi%2C%203ldk.webp', 31, ''),
 ('kuro_senpai_to_kuro_yashiki_no_yami_ni_mayowanai', 'senpai (kuro senpai), kuro senpai to kuro yashiki no yami ni mayowanai', 'Senpai (kuro Senpai)', 'https://blobs.animadex.net/Outputs/thumbs/senpai%20(kuro%20senpai)%2C%20kuro%20senpai%20to%20kuro%20yashiki%20no%20yami%20ni%20mayowanai.webp', 35, ''),
 ('denki-gai_no_hon''ya-san', 'sensei (denki-gai), denki-gai no hon''ya-san', 'Sensei (denki-gai)', 'https://blobs.animadex.net/Outputs/thumbs/sensei%20(denki-gai)%2C%20denki-gai%20no%20hon%27ya-san.webp', 38, ''),
-('bucchigiri?!', 'senya (bucchigiri?!), bucchigiri?!', 'Senya (bucchigiri?!)', 'https://blobs.animadex.net/Outputs/thumbs/senya%20(bucchigiri%3F%21)%2C%20bucchigiri%3F%21.webp', 31, ''),
+('bucchigiri?!', 'senya (bucchigiri?!), bucchigiri?!', 'Senya (bucchigiri?!)', 'https://blobs.animadex.net/Outputs/thumbs/senya%20(bucchigiri_%21)%2C%20bucchigiri_%21.webp', 31, ''),
 ('special_civil_servant', 'seon-woo eden, special_civil_servant', 'Seon-woo Eden', 'https://blobs.animadex.net/Outputs/thumbs/seon-woo%20eden%2C%20special_civil_servant.webp', 18, ''),
 ('kimihagu', 'serizawa madoka, kimihagu', 'Serizawa Madoka', 'https://blobs.animadex.net/Outputs/thumbs/serizawa%20madoka%2C%20kimihagu.webp', 53, ''),
 ('kyoushirou_to_towa_no_sora', 'setsuna (kyoushirou to towa no sora), kyoushirou to towa no sora', 'Setsuna (kyoushirou To Towa No Sora)', 'https://blobs.animadex.net/Outputs/thumbs/setsuna%20(kyoushirou%20to%20towa%20no%20sora)%2C%20kyoushirou%20to%20towa%20no%20sora.webp', 34, ''),
@@ -41400,7 +41400,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('tantei_wa_mou_shindeiru', 'siesta (tantei wa mou shindeiru), tantei wa mou shindeiru', 'Siesta (tantei Wa Mou Shindeiru)', 'https://blobs.animadex.net/Outputs/thumbs/siesta%20(tantei%20wa%20mou%20shindeiru)%2C%20tantei%20wa%20mou%20shindeiru.webp', 165, ''),
 ('break_blade', 'sigyn erster, break blade', 'Sigyn Erster', 'https://blobs.animadex.net/Outputs/thumbs/sigyn%20erster%2C%20break%20blade.webp', 34, ''),
 ('jibaro_(love_death_+_robots)', 'siren (jibaro), jibaro (love death + robots)', 'Siren (jibaro)', 'https://blobs.animadex.net/Outputs/thumbs/siren%20(jibaro)%2C%20jibaro%20(love%20death%20%2B%20robots).webp', 31, ''),
-('apple_inc.', 'siri, apple inc.', 'Siri', 'https://blobs.animadex.net/Outputs/thumbs/siri%2C%20apple%20inc..webp', 42, ''),
+('apple_inc.', 'siri, apple inc.', 'Siri', 'https://blobs.animadex.net/Outputs/thumbs/siri%2C%20apple%20inc.webp', 42, ''),
 ('dennou_shoujo_youtuber_siro', 'siro (dennou shoujo youtuber siro), dennou shoujo youtuber siro', 'Siro (dennou Shoujo Youtuber Siro)', 'https://blobs.animadex.net/Outputs/thumbs/siro%20(dennou%20shoujo%20youtuber%20siro)%2C%20dennou%20shoujo%20youtuber%20siro.webp', 659, ''),
 ('bloodlight_(nyantcha)', 'sister almonde (nyantcha), bloodlight (nyantcha)', 'Sister Almonde (nyantcha)', 'https://blobs.animadex.net/Outputs/thumbs/sister%20almonde%20(nyantcha)%2C%20bloodlight%20(nyantcha).webp', 85, ''),
 ('little_nightmares', 'six (little nightmares), little nightmares', 'Six (little Nightmares)', 'https://blobs.animadex.net/Outputs/thumbs/six%20(little%20nightmares)%2C%20little%20nightmares.webp', 71, '');
@@ -41473,7 +41473,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('sweetest_music', 'takeuchi mariya, sweetest music', 'Takeuchi Mariya', 'https://blobs.animadex.net/Outputs/thumbs/takeuchi%20mariya%2C%20sweetest%20music.webp', 41, ''),
 ('bijin_onna_joushi_takizawa-san', 'takizawa kyouko, bijin onna joushi takizawa-san', 'Takizawa Kyouko', 'https://blobs.animadex.net/Outputs/thumbs/takizawa%20kyouko%2C%20bijin%20onna%20joushi%20takizawa-san.webp', 200, ''),
 ('idol_time_pripara', 'takki (pripara), idol time pripara', 'Takki (pripara)', 'https://blobs.animadex.net/Outputs/thumbs/takki%20(pripara)%2C%20idol%20time%20pripara.webp', 37, ''),
-('netoge_no_yome_wa_onna_no_ko_janai_to_omotta?', 'tamaki ako, netoge no yome wa onna no ko janai to omotta?', 'Tamaki Ako', 'https://blobs.animadex.net/Outputs/thumbs/tamaki%20ako%2C%20netoge%20no%20yome%20wa%20onna%20no%20ko%20janai%20to%20omotta%3F.webp', 129, ''),
+('netoge_no_yome_wa_onna_no_ko_janai_to_omotta?', 'tamaki ako, netoge no yome wa onna no ko janai to omotta?', 'Tamaki Ako', 'https://blobs.animadex.net/Outputs/thumbs/tamaki%20ako%2C%20netoge%20no%20yome%20wa%20onna%20no%20ko%20janai%20to%20omotta_.webp', 129, ''),
 ('momoiro_montage', 'tamaki mone, momoiro montage', 'Tamaki Mone', 'https://blobs.animadex.net/Outputs/thumbs/tamaki%20mone%2C%20momoiro%20montage.webp', 79, ''),
 ('hatsuyuki_sakura', 'tamaki sakura, hatsuyuki sakura', 'Tamaki Sakura', 'https://blobs.animadex.net/Outputs/thumbs/tamaki%20sakura%2C%20hatsuyuki%20sakura.webp', 32, ''),
 ('fate/extella', 'tamamo no mae (tailmaid strike) (fate), fate/extella', 'Tamamo No Mae (tailmaid Strike) (fate)', 'https://blobs.animadex.net/Outputs/thumbs/tamamo%20no%20mae%20(tailmaid%20strike)%20(fate)%2C%20fate_extella.webp', 71, ''),
@@ -41585,7 +41585,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('to_be_hero_x', 'wang nuonuo, to_be_hero_x', 'Wang Nuonuo', 'https://blobs.animadex.net/Outputs/thumbs/wang%20nuonuo%2C%20to_be_hero_x.webp', 16, ''),
 ('granado_espada', 'warlock (granado espada), granado espada', 'Warlock (granado Espada)', 'https://blobs.animadex.net/Outputs/thumbs/warlock%20(granado%20espada)%2C%20granado%20espada.webp', 45, ''),
 ('fantasy_earth', 'warrior (fantasy earth), fantasy earth', 'Warrior (fantasy Earth)', 'https://blobs.animadex.net/Outputs/thumbs/warrior%20(fantasy%20earth)%2C%20fantasy%20earth.webp', 83, ''),
-('"rouhou"_ore_no_iinazuke_ni_natta_jimiko_ie_dewa_kawaii_shikanai.', 'watanae yuuka, "rouhou" ore no iinazuke ni natta jimiko ie dewa kawaii shikanai.', 'Watanae Yuuka', 'https://blobs.animadex.net/Outputs/thumbs/watanae%20yuuka%2C%20%22rouhou%22%20ore%20no%20iinazuke%20ni%20natta%20jimiko%20ie%20dewa%20kawaii%20shikanai..webp', 64, ''),
+('"rouhou"_ore_no_iinazuke_ni_natta_jimiko_ie_dewa_kawaii_shikanai.', 'watanae yuuka, "rouhou" ore no iinazuke ni natta jimiko ie dewa kawaii shikanai.', 'Watanae Yuuka', 'https://blobs.animadex.net/Outputs/thumbs/watanae%20yuuka%2C%20_rouhou_%20ore%20no%20iinazuke%20ni%20natta%20jimiko%20ie%20dewa%20kawaii%20shikanai.webp', 64, ''),
 ('wendy''s', 'wendy (wendy''s), wendy''s', 'Wendy (wendy''s)', 'https://blobs.animadex.net/Outputs/thumbs/wendy%20(wendy%27s)%2C%20wendy%27s.webp', 214, ''),
 ('bomberman', 'white bomberman, bomberman', 'White Bomberman', 'https://blobs.animadex.net/Outputs/thumbs/white%20bomberman%2C%20bomberman.webp', 130, ''),
 ('wikipedia', 'wikipe-tan, wikipedia', 'Wikipe-tan', 'https://blobs.animadex.net/Outputs/thumbs/wikipe-tan%2C%20wikipedia.webp', 73, ''),
@@ -41623,7 +41623,7 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('kono_shima_ni_wa_midara_de_jaaku_na_mono_ga_sumu', 'yoruto umi, kono_shima_ni_wa_midara_de_jaaku_na_mono_ga_sumu', 'Yoruto Umi', 'https://blobs.animadex.net/Outputs/thumbs/yoruto%20umi%2C%20kono_shima_ni_wa_midara_de_jaaku_na_mono_ga_sumu.webp', 59, ''),
 ('emergence_(shindol)', 'yoshida saki, emergence (shindol)', 'Yoshida Saki', 'https://blobs.animadex.net/Outputs/thumbs/yoshida%20saki%2C%20emergence%20(shindol).webp', 54, ''),
 ('cloud_nine_inc', 'yoshino (utaite), cloud nine inc', 'Yoshino (utaite)', 'https://blobs.animadex.net/Outputs/thumbs/yoshino%20(utaite)%2C%20cloud%20nine%20inc.webp', 58, ''),
-('i"s', 'yoshizuki iori, i"s', 'Yoshizuki Iori', 'https://blobs.animadex.net/Outputs/thumbs/yoshizuki%20iori%2C%20i%22s.webp', 58, ''),
+('i"s', 'yoshizuki iori, i"s', 'Yoshizuki Iori', 'https://blobs.animadex.net/Outputs/thumbs/yoshizuki%20iori%2C%20i_s.webp', 58, ''),
 ('yotaka_futatabi', 'yotaka aoi, yotaka_futatabi', 'Yotaka Aoi', 'https://blobs.animadex.net/Outputs/thumbs/yotaka%20aoi%2C%20yotaka_futatabi.webp', 15, ''),
 ('regalia_the_three_sacred_stars', 'yuinshiel asteria, regalia the three sacred stars', 'Yuinshiel Asteria', 'https://blobs.animadex.net/Outputs/thumbs/yuinshiel%20asteria%2C%20regalia%20the%20three%20sacred%20stars.webp', 77, ''),
 ('gore_screaming_show', 'yuka (gore screaming show), gore screaming show', 'Yuka (gore Screaming Show)', 'https://blobs.animadex.net/Outputs/thumbs/yuka%20(gore%20screaming%20show)%2C%20gore%20screaming%20show.webp', 36, ''),

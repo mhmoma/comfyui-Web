@@ -98,6 +98,16 @@ const MIN_CHARS_PER_SERIES = 1;
 const MIN_SERIES_TOTAL_COUNT = 0; // was 500; that dropped ~2840 series from animadex
 
 function getSeriesCN(copyright) {
+  // Prefer curated full map (series_cn_map.json) then inline SERIES_CN.
+  if (!getSeriesCN._map) {
+    try {
+      const p = path.join(__dirname, 'series_cn_map.json');
+      getSeriesCN._map = fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')) : {};
+    } catch {
+      getSeriesCN._map = {};
+    }
+  }
+  if (getSeriesCN._map[copyright]) return getSeriesCN._map[copyright];
   if (SERIES_CN[copyright]) return SERIES_CN[copyright];
   return copyright
     .replace(/_/g, ' ')
@@ -134,12 +144,13 @@ function main() {
 
   console.log(`Series with enough characters: ${seriesList.length}`);
 
-  // Animadex blob keys: "/" and ":" → "_"; keep () unencoded.
+  // Animadex blob keys: "/" ":" "?" → "_"; strip trailing "."; keep () literal.
   const thumbFromTrigger = (trigger, fallback) => {
-    const t = String(trigger || '').trim();
+    let t = String(trigger || '').trim();
     if (!t) return fallback || '';
-    const key = t.replace(/[\/:]/g, '_');
-    const enc = encodeURIComponent(key).replace(/%28/g, '(').replace(/%29/g, ')');
+    t = t.replace(/\.+$/, '');
+    t = t.replace(/[\/:?"]/g, '_');
+    const enc = encodeURIComponent(t).replace(/%28/g, '(').replace(/%29/g, ')');
     return `https://blobs.animadex.net/Outputs/thumbs/${enc}.webp`;
   };
 

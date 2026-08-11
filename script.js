@@ -8172,7 +8172,7 @@
 
     function showCharPreview(tag) {
         const imgUrl = tag.th
-            ? String(tag.th).replace(/%2F/gi, '_').replace(/%3A/gi, '_').replace('/thumbs/', '/').replace('.webp', '.png')
+            ? String(tag.th).replace(/%2F/gi, '_').replace(/%3A/gi, '_').replace(/%3F/gi, '_').replace(/%22/gi, '_').replace(/\.+(?=\.webp(?:\?|$))/i, '').replace('/thumbs/', '/').replace('.webp', '.png')
             : '';
         if (!imgUrl) return;
         let overlay = document.getElementById('char-preview-overlay');
@@ -8259,7 +8259,7 @@
 
     function showArtistPreview(tag) {
         const imgUrl = tag.img || (tag.th
-            ? String(tag.th).replace(/%2F/gi, '_').replace(/%3A/gi, '_').replace('/thumbs/', '/').replace('.webp', '.png')
+            ? String(tag.th).replace(/%2F/gi, '_').replace(/%3A/gi, '_').replace(/%3F/gi, '_').replace(/%22/gi, '_').replace(/\.+(?=\.webp(?:\?|$))/i, '').replace('/thumbs/', '/').replace('.webp', '.png')
             : '');
         if (!imgUrl) return;
         let overlay = document.getElementById('artist-preview-overlay');
@@ -8711,7 +8711,7 @@
 
         const img = document.createElement('img');
         img.className = 'char-browser-img img-loading';
-        if (tag.th) img.dataset.src = String(tag.th).replace(/%2F/gi, '_').replace(/%3A/gi, '_');
+        if (tag.th) img.dataset.src = String(tag.th).replace(/%2F/gi, '_').replace(/%3A/gi, '_').replace(/%3F/gi, '_').replace(/%22/gi, '_').replace(/\.+(?=\.webp(?:\?|$))/i, '');
         img.alt = tag.d || tag.t.split(',')[0];
         img.referrerPolicy = 'no-referrer';
         thumb.appendChild(img);
