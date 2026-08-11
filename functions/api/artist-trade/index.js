@@ -93,13 +93,14 @@ async function ensureTable(db) {
   }
 }
 
-function json(status, data) {
+function json(status, data, extraHeaders = {}) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Headers": "Content-Type",
+      ...extraHeaders,
     },
   });
 }
@@ -198,6 +199,35 @@ function bytesToBase64(bytes) {
 
 /** 服务端拉取平台效果图并转成可入库的 data URL（绕过浏览器 CORS） */
 async function fetchRemoteListingImage(url) {
+  // 优先用 CF Image Resizing 生成列表缩略图（失败则再拉原图）
+  let thumb = "";
+  try {
+    const thumbRes = await fetch(url, {
+      method: "GET",
+      redirect: "follow",
+      headers: {
+        Accept: "image/jpeg,image/webp,image/*,*/*;q=0.8",
+        "User-Agent": "comfyui-web-artist-trade/1.0",
+      },
+      cf: {
+        image: {
+          width: 280,
+          height: 420,
+          fit: "cover",
+          quality: 42,
+          format: "jpeg",
+        },
+      },
+    });
+    if (thumbRes.ok) {
+      const buf = await thumbRes.arrayBuffer();
+      if (buf.byteLength && buf.byteLength < 80_000) {
+        const dataUrl = `data:image/jpeg;base64,${bytesToBase64(new Uint8Array(buf))}`;
+        if (dataUrl.length <= MAX_THUMB) thumb = dataUrl;
+      }
+    }
+  } catch (_) {}
+
   const res = await fetch(url, {
     method: "GET",
     redirect: "follow",
@@ -206,26 +236,23 @@ async function fetchRemoteListingImage(url) {
       "User-Agent": "comfyui-web-artist-trade/1.0",
     },
   });
-  if (!res.ok) return { image: "", thumb: "", error: `拉取效果图失败 HTTP ${res.status}` };
+  if (!res.ok) return { image: "", thumb, error: `拉取效果图失败 HTTP ${res.status}` };
   const ctype = String(res.headers.get("content-type") || "image/jpeg").split(";")[0].trim().toLowerCase();
-  if (!ctype.startsWith("image/")) return { image: "", thumb: "", error: "效果图不是图片" };
+  if (!ctype.startsWith("image/")) return { image: "", thumb, error: "效果图不是图片" };
   const buf = await res.arrayBuffer();
   if (!buf.byteLength || buf.byteLength > 2_500_000) {
+    if (thumb) return { image: thumb, thumb };
     return { image: "", thumb: "", error: "效果图过大或为空" };
   }
   const dataUrl = `data:${ctype};base64,${bytesToBase64(new Uint8Array(buf))}`;
   if (dataUrl.length > MAX_IMAGE) {
-    // 原图太大：仍尝试只存缩略字段放不下则失败，提示前端压缩后再传
-    if (dataUrl.length <= MAX_IMAGE * 2) {
-      // 放宽一档入库（D1 可承受）；列表仍优先 thumb
-      const image = dataUrl.length <= 900_000 ? dataUrl : "";
-      if (!image) return { image: "", thumb: "", error: "效果图过大，请换本地压缩图上架" };
-      const thumb = dataUrl.length <= MAX_THUMB ? dataUrl : "";
-      return { image, thumb };
+    if (dataUrl.length <= 900_000) {
+      return { image: dataUrl, thumb: thumb || (dataUrl.length <= MAX_THUMB ? dataUrl : "") };
     }
+    if (thumb) return { image: thumb, thumb };
     return { image: "", thumb: "", error: "效果图过大，请换本地压缩图上架" };
   }
-  const thumb = dataUrl.length <= MAX_THUMB ? dataUrl : "";
+  if (!thumb && dataUrl.length <= MAX_THUMB) thumb = dataUrl;
   return { image: dataUrl, thumb };
 }
 
@@ -252,7 +279,12 @@ function cleanPrice(value) {
 }
 
 function listThumb(row) {
-  return String(row.thumb || "").trim() || String(row.image || "").trim();
+  const thumb = String(row.thumb || "").trim();
+  if (thumb && thumb.length <= MAX_THUMB) return thumb;
+  // 列表绝不回退到大图：否则 12 条就能把 JSON 撑到数 MB，打开极慢
+  const image = String(row.image || "").trim();
+  if (image && image.length <= MAX_THUMB) return image;
+  return "";
 }
 
 /** list=true: 列表只带缩略图；full=true: 购买/导入带原图 */
@@ -313,11 +345,15 @@ export async function onRequest(context) {
     let page = pageRaw < 1 ? 1 : pageRaw;
     if (page > totalPages) page = totalPages;
     const offset = (page - 1) * PAGE_SIZE;
-    // 列表不拉原图 image，只拉 thumb（旧数据无 thumb 时回退读 image）
+    // 列表只取 thumb；无合格缩略图时不要回退大图（length 限制）
     const { results } = await env.DB.prepare(
       `SELECT id, seller_id, seller_name, title, trigger_text, price,
               thumb,
-              CASE WHEN thumb IS NULL OR thumb = '' THEN image ELSE '' END AS image,
+              CASE
+                WHEN thumb IS NOT NULL AND thumb != '' THEN ''
+                WHEN length(image) <= ${MAX_THUMB} THEN image
+                ELSE ''
+              END AS image,
               at
        FROM artist_trade_listings
        WHERE status = 'active'
@@ -338,7 +374,9 @@ export async function onRequest(context) {
 
     const rows = (results || []).map((row) => {
       const unlocked = !!(userId && (row.seller_id === userId || bought.has(row.id)));
-      return publicRow(row, { unlocked, list: true });
+      const item = publicRow(row, { unlocked, list: true });
+      if (item.image && item.image.length > MAX_THUMB) item.image = "";
+      return item;
     });
 
     return json(200, { ok: true, rows, page, pageSize: PAGE_SIZE, total, totalPages, maxPrice: MAX_PRICE });
