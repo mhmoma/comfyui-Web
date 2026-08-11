@@ -9408,7 +9408,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.96');
+        console.log('[ComfyUI Web] v4.97');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -13815,13 +13815,27 @@
             return /captcha_required|验证码/i.test(String(text || ''));
         }
 
+        function isPageLocalhost() {
+            return /^(localhost|127\.0\.0\.1)$/i.test(location.hostname || '');
+        }
+
+        function isLoopbackRelay(base) {
+            return /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?\/?$/i.test(String(base || '').replace(/\/+$/, ''));
+        }
+
         function dzmmRelayCandidates() {
             const list = [];
-            if (dzmmRelayBase) list.push(dzmmRelayBase);
+            // 线上 https 页不要优先/锁定本机 127.0.0.1（图 URL 会指错域名）
+            if (dzmmRelayBase && (isPageLocalhost() || !isLoopbackRelay(dzmmRelayBase))) {
+                list.push(dzmmRelayBase);
+            }
             const inp = document.getElementById('inp-dzmm-relay')?.value?.trim();
-            if (inp) list.push(inp.replace(/\/+$/, ''));
+            if (inp) {
+                const v = inp.replace(/\/+$/, '');
+                if (isPageLocalhost() || !isLoopbackRelay(v)) list.push(v);
+            }
             list.push(DZMM_DEFAULT_PUBLIC_RELAY);
-            list.push('http://127.0.0.1:8765');
+            if (isPageLocalhost()) list.push('http://127.0.0.1:8765');
             return [...new Set(list.filter(Boolean))];
         }
 
@@ -13831,20 +13845,35 @@
             return dzmmRelayBase + p;
         }
 
-        function dzmmRelayFetchHeaders(base, extra) {
+        /** 中转返回的 /api/dzmm/files/xxx 必须拼到中转域名，否则会打到 Pages 空白 */
+        function resolveDzmmAssetUrl(url) {
+            if (!url) return url;
+            const s = String(url);
+            if (/^(data:|blob:)/i.test(s)) return s;
+            const fileMatch = s.match(/\/api\/dzmm\/files\/[^?#]+/i);
+            if (fileMatch && dzmmRelayBase) return dzmmRelayBase + fileMatch[0];
+            if (s.startsWith('/')) return dzmmApiUrl(s);
+            return s;
+        }
+
+        function dzmmRelayFetchHeaders(extra) {
             const headers = new Headers(extra || {});
+            // 勿加 Bypass-Tunnel-Reminder：非 CORS 白名单头会触发预检，loca.lt 直接拦
             if (!headers.has('Accept')) headers.set('Accept', 'application/json');
-            if (/loca\.lt/i.test(String(base || ''))) {
-                headers.set('Bypass-Tunnel-Reminder', '1');
-            }
             return headers;
         }
 
         async function probeDzmmRelay({ force = false } = {}) {
+            // 清掉错误缓存的本机中转（线上页）
+            if (!isPageLocalhost() && isLoopbackRelay(dzmmRelayBase)) {
+                dzmmRelayBase = '';
+                try { localStorage.removeItem(DZMM_RELAY_KEY); } catch { /* ignore */ }
+            }
+
             const tryHealth = async (base) => {
                 const res = await fetch(base + '/api/dzmm/health', {
                     method: 'GET',
-                    headers: dzmmRelayFetchHeaders(base),
+                    headers: dzmmRelayFetchHeaders(),
                     mode: 'cors',
                 });
                 if (!res.ok) return false;
@@ -13863,7 +13892,7 @@
                     dzmmRelayBase = base.replace(/\/+$/, '');
                     try { localStorage.setItem(DZMM_RELAY_KEY, dzmmRelayBase); } catch { /* ignore */ }
                     const relayInp = document.getElementById('inp-dzmm-relay');
-                    if (relayInp && !relayInp.value.trim()) relayInp.value = dzmmRelayBase;
+                    if (relayInp) relayInp.value = dzmmRelayBase;
                     console.info('[DZMM] relay', dzmmRelayBase);
                     return dzmmRelayBase;
                 } catch { /* next */ }
@@ -13881,7 +13910,7 @@
         }
 
         function dzmmFetch(url, options = {}) {
-            const headers = dzmmRelayFetchHeaders(dzmmRelayBase, options.headers || {});
+            const headers = dzmmRelayFetchHeaders(options.headers || {});
             const cookie = getLocalDzmmCookie();
             if (cookie) headers.set('X-Dzmm-Cookie', cookie);
             if (options.body && !headers.has('Content-Type')) {
@@ -13891,12 +13920,19 @@
         }
 
         function dzmmFetchWithCookie(url, cookie, options = {}) {
-            const headers = dzmmRelayFetchHeaders(dzmmRelayBase, options.headers || {});
+            const headers = dzmmRelayFetchHeaders(options.headers || {});
             if (cookie) headers.set('X-Dzmm-Cookie', cookie);
             if (options.body && !headers.has('Content-Type')) {
                 headers.set('Content-Type', 'application/json');
             }
             return fetch(dzmmApiUrl(url), { ...options, headers, mode: 'cors' });
+        }
+
+        function normalizeDzmmTaskPayload(data) {
+            if (!data || typeof data !== 'object') return data;
+            if (data.imageUrl) data.imageUrl = resolveDzmmAssetUrl(data.imageUrl);
+            if (data.remoteUrl) data.remoteUrl = resolveDzmmAssetUrl(data.remoteUrl);
+            return data;
         }
 
         async function dzmmDirectStatus(cookie) {
@@ -13962,7 +13998,7 @@
                 if (isDzmmCaptchaError(data)) {
                     return { ok: false, error: DZMM_CAPTCHA_HINT, code: 'CAPTCHA_REQUIRED', taskId };
                 }
-                return data;
+                return normalizeDzmmTaskPayload(data);
             } catch (e) {
                 return { ok: false, error: DZMM_RELAY_HINT, code: 'RELAY_NETWORK', taskId };
             }
