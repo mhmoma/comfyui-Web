@@ -581,8 +581,8 @@ export async function onRequest(context) {
     }
     const action = String(body.action || "").trim();
 
-    // 管理端：删除 / 屏蔽图片（打码后对外与卖家均不可见）
-    if (action === "admin_delete" || action === "admin_block_image") {
+    // 管理端：删除 / 屏蔽图片 / 强制下架
+    if (action === "admin_delete" || action === "admin_block_image" || action === "admin_force_off") {
       if (!checkAdmin(request, env)) {
         return json(403, { ok: false, error: "forbid", message: "需要管理员密钥" });
       }
@@ -599,6 +599,14 @@ export async function onRequest(context) {
         await env.DB.prepare("DELETE FROM artist_trade_listings WHERE id = ?").bind(listingId).run();
         invalidateTotalCache();
         return json(200, { ok: true, deleted: listingId });
+      }
+
+      if (action === "admin_force_off") {
+        await env.DB.prepare(
+          "UPDATE artist_trade_listings SET status = 'off' WHERE id = ?"
+        ).bind(listingId).run();
+        invalidateTotalCache();
+        return json(200, { ok: true, off: listingId });
       }
 
       await env.DB.prepare(

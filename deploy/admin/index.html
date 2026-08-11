@@ -1,127 +1,50 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>资讯管理后台 · ComfyUI Web</title>
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="/assets/site.css?v=5">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>绘画大师运营台 · ComfyUI Web</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="/assets/tk-admin.css?v=1">
 </head>
-<body class="admin-page">
-    <header class="site-header">
-        <div class="site-header-inner">
-            <a href="/" class="site-logo">ComfyUI Web</a>
-            <nav class="site-nav">
-                <a href="/news/">资讯</a>
-                <a href="/admin/" class="active">管理</a>
-                <a href="/admin/board.html">留言板</a>
-                <a href="/admin/trade.html">画师串交流</a>
-            </nav>
-            <a href="/news/" class="site-cta">查看资讯 →</a>
+<body>
+  <section id="login" class="login-wrap">
+    <div class="login-card">
+      <h1>绘画大师运营台</h1>
+      <p>统一管理画师串交流、留言板、资讯、画师/角色库与玩家偏好。密钥写入本机 <code>localStorage</code>，刷新页面不会退出。</p>
+      <div class="login-row">
+        <input id="admin-key" type="password" placeholder="ADMIN_KEY" autocomplete="current-password">
+        <button type="button" class="primary" id="btn-login">进入后台</button>
+      </div>
+      <p id="login-error" class="err hidden"></p>
+      <p class="hint">与 Cloudflare 环境变量 <code>ADMIN_KEY</code> 相同。不要把密钥写进仓库。</p>
+    </div>
+  </section>
+
+  <div id="app" class="shell hidden">
+    <aside class="sidebar">
+      <div class="brand">
+        <strong>运营台</strong>
+        <span>TK / comfyui-web</span>
+      </div>
+      <nav class="nav" id="nav"></nav>
+      <div class="side-foot">
+        <button type="button" id="btn-reload">刷新当前模块</button>
+        <button type="button" id="btn-logout">退出登录</button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <h2 id="view-title">总览</h2>
+          <p class="sub" id="view-sub"></p>
         </div>
-    </header>
-
-    <main class="site-main admin-main">
-        <section id="login-panel" class="admin-login">
-            <h1>资讯管理后台</h1>
-            <p>发帖、编辑、删帖、草稿与发布，一站管理。</p>
-            <div class="admin-login-form">
-                <input type="password" id="admin-key-input" placeholder="管理密钥" autocomplete="current-password">
-                <button type="button" id="btn-admin-login" class="btn-primary">登录</button>
-            </div>
-            <p class="admin-hint">密钥与 Cloudflare 环境变量 <code>ADMIN_KEY</code> 相同。</p>
-            <p id="login-error" class="login-error hidden"></p>
-        </section>
-
-        <section id="composer-panel" class="hidden">
-            <div class="admin-toolbar">
-                <div class="admin-stats" id="admin-stats">
-                    <span class="stat-pill">全部 <b id="stat-total">0</b></span>
-                    <span class="stat-pill published">已发布 <b id="stat-published">0</b></span>
-                    <span class="stat-pill draft">草稿 <b id="stat-draft">0</b></span>
-                </div>
-                <div class="admin-toolbar-actions">
-                    <button type="button" id="btn-init-db" class="btn-secondary btn-sm">初始化数据库</button>
-                    <button type="button" id="btn-admin-logout" class="btn-secondary btn-sm">退出登录</button>
-                </div>
-            </div>
-
-            <div class="admin-layout">
-                <div class="admin-compose-col">
-                    <div class="weibo-composer" id="compose-box">
-                        <div class="weibo-composer-head">
-                            <span class="weibo-avatar">管</span>
-                            <div>
-                                <strong id="compose-mode-label">发布新动态</strong>
-                                <span class="weibo-sub" id="compose-mode-hint">内容将显示在资讯板块</span>
-                            </div>
-                            <button type="button" id="btn-cancel-edit" class="btn-text hidden">取消编辑</button>
-                        </div>
-
-                        <label class="admin-field-label">标题 <span class="optional">（可选，留空自动取首行）</span></label>
-                        <input type="text" id="post-title" class="admin-input" maxlength="120" placeholder="文章标题">
-
-                        <label class="admin-field-label">作者 <span class="optional">（列表头像旁显示，默认「纵欲」）</span></label>
-                        <input type="text" id="post-author" class="admin-input" maxlength="40" placeholder="纵欲" value="纵欲">
-
-                        <label class="admin-field-label">正文 <span id="char-count" class="char-count">0 / 5000</span></label>
-                        <textarea id="post-content" class="weibo-textarea" rows="8" maxlength="5000" placeholder="有什么新鲜事？支持 Markdown：## 标题、**粗体**、- 列表、![](图片url)"></textarea>
-
-                        <label class="admin-field-label">摘要 <span class="optional">（可选，留空自动截取）</span></label>
-                        <input type="text" id="post-summary" class="admin-input" maxlength="200" placeholder="列表页显示的简短摘要">
-
-                        <label class="admin-field-label">标签 <span class="optional">（逗号分隔）</span></label>
-                        <input type="text" id="post-tags" class="admin-input" placeholder="anima, 教程, 局部重绘">
-
-                        <label class="admin-field-label">封面图 URL</label>
-                        <input type="url" id="post-cover" class="admin-input" placeholder="https://...">
-                        <div id="cover-preview" class="cover-preview hidden"></div>
-
-                        <div class="weibo-cats" id="post-categories">
-                            <button type="button" class="weibo-cat active" data-cat="tool">工具更新</button>
-                            <button type="button" class="weibo-cat" data-cat="model">模型动态</button>
-                            <button type="button" class="weibo-cat" data-cat="tutorial">教程技巧</button>
-                            <button type="button" class="weibo-cat" data-cat="community">社区精选</button>
-                        </div>
-
-                        <div class="compose-actions">
-                            <label class="weibo-draft-label">
-                                <input type="checkbox" id="post-draft"> 存为草稿
-                            </label>
-                            <div class="compose-btns">
-                                <button type="button" id="btn-clear" class="btn-secondary btn-sm">清空</button>
-                                <button type="button" id="btn-publish" class="btn-primary">发布</button>
-                            </div>
-                        </div>
-                        <p id="composer-msg" class="composer-msg"></p>
-                    </div>
-                </div>
-
-                <div class="admin-list-col">
-                    <div class="admin-list-head">
-                        <h2>内容管理</h2>
-                        <input type="search" id="admin-search" class="admin-search" placeholder="搜索标题/内容…">
-                    </div>
-                    <div class="admin-filters" id="admin-filters">
-                        <button type="button" class="filter-tab active" data-status="">全部</button>
-                        <button type="button" class="filter-tab" data-status="published">已发布</button>
-                        <button type="button" class="filter-tab" data-status="draft">草稿</button>
-                        <select id="filter-category" class="admin-select">
-                            <option value="">全部分类</option>
-                            <option value="tool">工具更新</option>
-                            <option value="model">模型动态</option>
-                            <option value="tutorial">教程技巧</option>
-                            <option value="community">社区精选</option>
-                        </select>
-                    </div>
-                    <div id="admin-feed" class="admin-table-wrap">
-                        <p class="empty-state">加载中…</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <a class="meta" href="/" target="_blank" rel="noopener">打开站点</a>
+      </div>
+      <div id="view"></div>
     </main>
+  </div>
 
-    <script src="/assets/admin.js?v=6"></script>
+  <script src="/assets/tk-admin.js?v=1"></script>
 </body>
 </html>

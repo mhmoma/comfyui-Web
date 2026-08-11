@@ -4,7 +4,12 @@
     const KEY_STORAGE = 'comfyui_admin_key';
     const CATEGORY_LABELS = { model: '模型动态', tutorial: '教程技巧', tool: '工具更新', community: '社区精选' };
 
-    let adminKey = sessionStorage.getItem(KEY_STORAGE) || '';
+    // localStorage 持久登录；兼容旧 sessionStorage
+    let adminKey = localStorage.getItem(KEY_STORAGE) || sessionStorage.getItem(KEY_STORAGE) || '';
+    if (adminKey) {
+        localStorage.setItem(KEY_STORAGE, adminKey);
+        try { sessionStorage.setItem(KEY_STORAGE, adminKey); } catch (_) {}
+    }
     let currentCategory = 'tool';
     let editingId = null;
     let editingSlug = null;
@@ -412,11 +417,13 @@
         try {
             await verifyAuth(key);
             adminKey = key;
-            sessionStorage.setItem(KEY_STORAGE, adminKey);
+            localStorage.setItem(KEY_STORAGE, adminKey);
+            try { sessionStorage.setItem(KEY_STORAGE, adminKey); } catch (_) {}
             showComposer();
         } catch (e) {
             adminKey = '';
-            sessionStorage.removeItem(KEY_STORAGE);
+            localStorage.removeItem(KEY_STORAGE);
+            try { sessionStorage.removeItem(KEY_STORAGE); } catch (_) {}
             showLoginError(e.message);
         } finally {
             btn.disabled = false;
@@ -426,7 +433,8 @@
 
     function logout() {
         adminKey = '';
-        sessionStorage.removeItem(KEY_STORAGE);
+        localStorage.removeItem(KEY_STORAGE);
+        try { sessionStorage.removeItem(KEY_STORAGE); } catch (_) {}
         $('composer-panel').classList.add('hidden');
         $('login-panel').classList.remove('hidden');
         $('admin-key-input').value = '';
@@ -442,6 +450,12 @@
             logout();
             showLoginError('上次登录已失效，请重新输入密钥');
         }
+    }
+
+    // 嵌入运营台时隐藏站点头
+    if (new URLSearchParams(location.search).get('embed') === '1') {
+        document.querySelector('.site-header')?.style.setProperty('display', 'none');
+        document.body.classList.add('admin-embed');
     }
 
     // ── 事件绑定 ──
