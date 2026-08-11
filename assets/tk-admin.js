@@ -193,16 +193,26 @@
   }
 
   async function renderNotice(root) {
-    setTop("公告", "发布后玩家顶栏显示；新公告会自动下线旧公告，只保留一条生效。");
+    setTop("公告", "支持 HTML / 图片 / 代码块 / CSS 特效。玩家端黑白硬边框全能显示栏；新公告会替换旧公告。");
     const data = await api(`/api/announcements?view=admin&page=${state.noticePage}`);
     const rows = data.rows || [];
+    const plainPreview = (html) => String(html || "")
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 160);
     root.innerHTML = `
       <div class="panel">
-        <div class="toolbar" style="flex-wrap:wrap;gap:8px;align-items:flex-start">
-          <input id="notice-title" type="text" maxlength="40" placeholder="标题（可选）" style="max-width:180px">
-          <textarea id="notice-body" maxlength="500" rows="3" placeholder="公告正文（必填，最多 500 字）" style="flex:1;min-width:220px;resize:vertical"></textarea>
-          <button type="button" id="notice-publish">发布公告</button>
-          <button type="button" id="notice-refresh">刷新</button>
+        <div class="toolbar" style="flex-direction:column;align-items:stretch;gap:8px">
+          <input id="notice-title" type="text" maxlength="80" placeholder="标题（大字显示，最多 80 字）" style="max-width:100%">
+          <textarea id="notice-body" maxlength="48000" rows="12" placeholder="正文：可写纯文本，或 HTML。支持 &lt;b&gt;&lt;i&gt;&lt;code&gt;&lt;pre&gt;&lt;img&gt;&lt;style&gt;、表情 🎉、以及 class=&quot;fx-blink|fx-pulse|fx-shake|fx-marquee|fx-stamp|fx-invert|fx-outline&quot; 特效。纯文本也可用 **粗体** *斜体* &#96;代码&#96; ![图](url)" style="width:100%;min-height:180px;resize:vertical;font-family:Consolas,monospace;font-size:12px"></textarea>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" id="notice-publish">发布公告</button>
+            <button type="button" id="notice-refresh">刷新</button>
+          </div>
+          <p class="meta">最多约 48KB。勿写 &lt;script&gt;（服务端会剥离）。图片请用可公网访问的 https 地址。</p>
         </div>
         <p class="meta">共 ${data.total || 0} 条 · 第 ${data.page || 1}/${data.totalPages || 1} 页</p>
         <div class="list">
@@ -216,8 +226,8 @@
                   <button type="button" class="danger" data-del="${escapeHtml(row.id)}">删除</button>
                 </div>
               </div>
-              <div>${escapeHtml(row.body || "")}</div>
-              <div class="meta">${escapeHtml(formatTime(row.at))} · <span class="mono">${escapeHtml(row.id)}</span></div>
+              <div>${escapeHtml(plainPreview(row.body) || "（空）")}</div>
+              <div class="meta">${escapeHtml(formatTime(row.at))} · <span class="mono">${escapeHtml(row.id)}</span> · ${String(row.body || "").length} 字</div>
             </article>`).join("") : `<div class="meta">暂无公告</div>`}
         </div>
         <div class="pager">

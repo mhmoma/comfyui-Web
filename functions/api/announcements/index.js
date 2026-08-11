@@ -48,8 +48,18 @@ function corsPreflight() {
   });
 }
 
-function cleanText(value, max) {
+function cleanTitle(value, max) {
   return String(value || "").replace(/\s+/g, " ").trim().slice(0, max);
+}
+
+/** 公告正文：保留 HTML/换行/空白，仅截断长度 */
+function cleanBody(value, max = 48000) {
+  let s = String(value || "").replace(/\0/g, "");
+  // 去掉可执行脚本块（管理端仍可写样式与结构）
+  s = s.replace(/<script[\s\S]*?<\/script>/gi, "");
+  s = s.trim();
+  if (s.length > max) s = s.slice(0, max);
+  return s;
 }
 
 export async function onRequest(context) {
@@ -110,8 +120,8 @@ export async function onRequest(context) {
     }
     const action = String(body.action || "create").trim();
     if (action === "create") {
-      const title = cleanText(body.title, 40);
-      const text = cleanText(body.body || body.text, 500);
+      const title = cleanTitle(body.title, 80);
+      const text = cleanBody(body.body || body.text, 48000);
       if (!text) return json(400, { ok: false, error: "empty", message: "请填写公告内容" });
       const id = `an-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
       const now = Date.now();
