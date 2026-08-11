@@ -253,8 +253,11 @@
         <div class="list">
           ${rows.length ? rows.map((row) => {
             const blocked = !!row.imageBlocked;
-            const media = row.image
-              ? `<img class="thumb" src="${escapeHtml(row.image)}" alt="">`
+            const thumb = row.hasImage && !blocked
+              ? `/api/artist-trade?thumb=${encodeURIComponent(row.id)}`
+              : "";
+            const media = thumb
+              ? `<img class="thumb" src="${escapeHtml(thumb)}" alt="" loading="lazy" decoding="async">`
               : `<div class="thumb-empty">${blocked ? "已打码" : "无图"}</div>`;
             return `<article class="item">
               <div class="thumb-row">
@@ -270,7 +273,7 @@
                   <div class="meta">卖家 ${escapeHtml(row.sellerName || "访客")} · UID <span class="mono">${escapeHtml(row.sellerId || "-")}</span> · ${Number(row.price) || 0} 画泥 · ${escapeHtml(formatTime(row.at))}</div>
                   <pre class="trigger">${escapeHtml(row.trigger || "")}</pre>
                   <div class="item-actions">
-                    <button type="button" class="warn" data-block="${escapeHtml(row.id)}" ${blocked || (!row.image && !row.hasImage) ? "disabled" : ""}>屏蔽图片</button>
+                    <button type="button" class="warn" data-block="${escapeHtml(row.id)}" ${blocked || !row.hasImage ? "disabled" : ""}>屏蔽图片</button>
                     <button type="button" data-off="${escapeHtml(row.id)}" ${row.status === "off" ? "disabled" : ""}>强制下架</button>
                     <button type="button" class="danger" data-del="${escapeHtml(row.id)}">删除整条</button>
                   </div>

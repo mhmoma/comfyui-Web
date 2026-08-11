@@ -408,7 +408,7 @@ export async function onRequest(context) {
     const pageRaw = Math.floor(Number(url.searchParams.get("page")) || 1);
     const admin = checkAdmin(request, env);
     const adminView = admin && url.searchParams.get("view") === "admin";
-    const listPageSize = adminView ? 20 : PAGE_SIZE;
+    const listPageSize = adminView ? 12 : PAGE_SIZE;
     const thumbId = String(url.searchParams.get("thumb") || "").trim().slice(0, 64);
 
     // 单张缩略图：列表不再内嵌 data URL，浏览器可并行拉取 + CDN 缓存
@@ -417,7 +417,8 @@ export async function onRequest(context) {
         `SELECT thumb, image, image_blocked, status
          FROM artist_trade_listings WHERE id = ? LIMIT 1`
       ).bind(thumbId).first();
-      if (!row || row.status !== "active" || isImageBlocked(row)) {
+      // 未打码即可取缩略图（含已下架，供管理审图；id 本身难猜）
+      if (!row || isImageBlocked(row)) {
         return new Response(null, {
           status: 404,
           headers: {
@@ -426,7 +427,7 @@ export async function onRequest(context) {
           },
         });
       }
-      const dataUrl = listThumb(row);
+      const dataUrl = listThumb({ ...row, image_blocked: 0 });
       const bin = dataUrlToBinaryResponse(dataUrl);
       if (bin) return bin;
       return new Response(null, {
@@ -454,20 +455,31 @@ export async function onRequest(context) {
       let page = pageRaw < 1 ? 1 : pageRaw;
       if (page > totalPages) page = totalPages;
       const offset = (page - 1) * listPageSize;
+      // 管理列表同样不读大图字段，缩略图走 ?thumb=
       const { results } = await env.DB.prepare(
         `SELECT id, seller_id, seller_name, title, trigger_text, price,
-                image, thumb, image_blocked, status, at
+                image_blocked, status, at,
+                CASE
+                  WHEN image_blocked = 1 THEN 0
+                  WHEN thumb IS NOT NULL AND thumb != '' THEN 1
+                  WHEN image IS NOT NULL AND image != '' AND length(image) <= ${MAX_THUMB} THEN 1
+                  ELSE 0
+                END AS has_image
          FROM artist_trade_listings
          WHERE ${where}
          ORDER BY at DESC
          LIMIT ? OFFSET ?`
       ).bind(listPageSize, offset).all();
-      const rows = (results || []).map((row) =>
-        publicRow(row, { unlocked: true, list: true, admin: true })
-      );
+      const rows = (results || []).map((row) => {
+        const item = publicRow(row, { unlocked: true, list: true, admin: true });
+        item.image = "";
+        item.hasImage = Number(row.has_image) === 1 && !isImageBlocked(row);
+        return item;
+      });
       return json(200, {
         ok: true,
         admin: true,
+        lite: true,
         rows,
         page,
         pageSize: listPageSize,
