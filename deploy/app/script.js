@@ -9408,7 +9408,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.98');
+        console.log('[ComfyUI Web] v4.99');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -13511,6 +13511,10 @@
         // DZMM 生图已下线（官网跨域/机房验证码，无稳定线上路径）
         return;
     }
+
+    // ==================== NAI 在线生图 ====================
+    const NAI_API_BASE = 'https://api.idlecloud.cc/api';
+    const NAI_STORAGE_KEY = 'nai_api_key';
 
     function setupNai() {
         const apiKeyInput = document.getElementById('inp-nai-apikey');
