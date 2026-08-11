@@ -193,7 +193,7 @@
   }
 
   async function renderNotice(root) {
-    setTop("公告", "支持 HTML / 图片 / 代码块 / CSS 特效。玩家端黑白硬边框全能显示栏；新公告会替换旧公告。");
+    setTop("公告", "左侧编辑，右侧实时预览（与玩家端黑白硬边栏一致）。支持 HTML / 图 / 代码 / 特效。");
     const data = await api(`/api/announcements?view=admin&page=${state.noticePage}`);
     const rows = data.rows || [];
     const plainPreview = (html) => String(html || "")
@@ -203,16 +203,86 @@
       .replace(/\s+/g, " ")
       .trim()
       .slice(0, 160);
+
+    function sanitizeNoticeHtml(raw) {
+      let html = String(raw || "");
+      html = html.replace(/<script[\s\S]*?<\/script>/gi, "");
+      html = html.replace(/\son[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "");
+      html = html.replace(/\shref\s*=\s*(['"])\s*javascript:[^'"]*\1/gi, ' href="#"');
+      html = html.replace(/\ssrc\s*=\s*(['"])\s*javascript:[^'"]*\1/gi, "");
+      return html;
+    }
+    function escapeNotice(value) {
+      return String(value || "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+      }[c]));
+    }
+    function looksLikeHtml(raw) {
+      return /<\/?[a-z][\s\S]*>/i.test(String(raw || ""));
+    }
+    function markdownLite(raw) {
+      let s = escapeNotice(raw);
+      s = s.replace(/```([\s\S]*?)```/g, (_, code) => `<pre class="notice-code"><code>${code}</code></pre>`);
+      s = s.replace(/`([^`\n]+)`/g, "<code>$1</code>");
+      s = s.replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
+      s = s.replace(/(^|[^*\w])\*([^*\n]+)\*(?!\*)/g, "$1<em>$2</em>");
+      s = s.replace(/!\[([^\]]*)\]\((https?:\/\/[^)\s]+)\)/g, '<img class="notice-img" src="$2" alt="$1" loading="lazy">');
+      s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+      s = s.replace(/\n{2,}/g, "</p><p>");
+      s = s.replace(/\n/g, "<br>");
+      return `<p>${s}</p>`;
+    }
+    function renderBodyHtml(raw) {
+      const text = String(raw || "").trim();
+      if (!text) return `<p class="notice-empty">在左侧输入正文，这里实时预览</p>`;
+      if (looksLikeHtml(text)) return sanitizeNoticeHtml(text);
+      return markdownLite(text);
+    }
+    function formatPreviewTime() {
+      const d = new Date();
+      const pad = (n) => String(n).padStart(2, "0");
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+    function updateLivePreview() {
+      const title = String($("notice-title")?.value || "").trim() || "公告标题预览";
+      const body = $("notice-body")?.value || "";
+      const titleEl = $("notice-preview-title");
+      const timeEl = $("notice-preview-time");
+      const bodyEl = $("notice-preview-body");
+      if (titleEl) titleEl.textContent = title;
+      if (timeEl) timeEl.textContent = formatPreviewTime() + " · 预览";
+      if (bodyEl) bodyEl.innerHTML = renderBodyHtml(body);
+    }
+
     root.innerHTML = `
       <div class="panel">
-        <div class="toolbar" style="flex-direction:column;align-items:stretch;gap:8px">
-          <input id="notice-title" type="text" maxlength="80" placeholder="标题（大字显示，最多 80 字）" style="max-width:100%">
-          <textarea id="notice-body" maxlength="48000" rows="12" placeholder="正文：可写纯文本，或 HTML。支持 &lt;b&gt;&lt;i&gt;&lt;code&gt;&lt;pre&gt;&lt;img&gt;&lt;style&gt;、表情 🎉、以及 class=&quot;fx-blink|fx-pulse|fx-shake|fx-marquee|fx-stamp|fx-invert|fx-outline&quot; 特效。纯文本也可用 **粗体** *斜体* &#96;代码&#96; ![图](url)" style="width:100%;min-height:180px;resize:vertical;font-family:Consolas,monospace;font-size:12px"></textarea>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button type="button" id="notice-publish">发布公告</button>
-            <button type="button" id="notice-refresh">刷新</button>
+        <div class="notice-editor-grid">
+          <div class="notice-editor-pane">
+            <div class="meta" style="margin-bottom:6px">编辑</div>
+            <input id="notice-title" type="text" maxlength="80" placeholder="标题（大字显示，最多 80 字）">
+            <textarea id="notice-body" maxlength="48000" rows="14" placeholder="正文：纯文本或 HTML。支持 b/i/code/pre/img/style、表情，以及 fx-blink / fx-pulse / fx-shake / fx-marquee / fx-stamp / fx-invert / fx-outline"></textarea>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+              <button type="button" id="notice-publish">发布公告</button>
+              <button type="button" id="notice-preview-refresh">刷新预览</button>
+              <button type="button" id="notice-refresh">刷新列表</button>
+            </div>
+            <p class="meta" style="margin-top:8px">最多约 48KB。勿写 script。点列表「载入预览」可回看已发内容。</p>
           </div>
-          <p class="meta">最多约 48KB。勿写 &lt;script&gt;（服务端会剥离）。图片请用可公网访问的 https 地址。</p>
+          <div class="notice-preview-pane">
+            <div class="meta" style="margin-bottom:6px">玩家端预览</div>
+            <div class="notice-preview-shell" aria-label="公告预览">
+              <header class="notice-preview-head">
+                <div class="notice-preview-head-row">
+                  <span class="notice-preview-kicker">NOTICE</span>
+                  <span class="notice-preview-close">关闭</span>
+                </div>
+                <h2 id="notice-preview-title" class="notice-preview-title">公告标题预览</h2>
+                <p id="notice-preview-time" class="notice-preview-time"></p>
+              </header>
+              <div class="notice-preview-rule"></div>
+              <div id="notice-preview-body" class="notice-preview-rich notice-rich"></div>
+            </div>
+          </div>
         </div>
         <p class="meta">共 ${data.total || 0} 条 · 第 ${data.page || 1}/${data.totalPages || 1} 页</p>
         <div class="list">
@@ -222,6 +292,7 @@
                 <strong>${escapeHtml(row.title || "（无标题）")}</strong>
                 <div>
                   <span class="badge ${row.active ? "" : "off"}">${row.active ? "生效中" : "已下线"}</span>
+                  <button type="button" data-load="${escapeHtml(row.id)}">载入预览</button>
                   ${row.active ? `<button type="button" class="warn" data-off="${escapeHtml(row.id)}">下线</button>` : ""}
                   <button type="button" class="danger" data-del="${escapeHtml(row.id)}">删除</button>
                 </div>
@@ -236,9 +307,24 @@
           <button type="button" id="notice-next" ${state.noticePage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
         </div>
       </div>`;
+
+    const rowById = Object.fromEntries(rows.map((r) => [r.id, r]));
     $("notice-refresh")?.addEventListener("click", () => render());
     $("notice-prev")?.addEventListener("click", () => { state.noticePage = Math.max(1, state.noticePage - 1); render(); });
     $("notice-next")?.addEventListener("click", () => { state.noticePage += 1; render(); });
+    $("notice-preview-refresh")?.addEventListener("click", updateLivePreview);
+    $("notice-title")?.addEventListener("input", updateLivePreview);
+    $("notice-body")?.addEventListener("input", updateLivePreview);
+    updateLivePreview();
+
+    // 默认载入当前生效公告到预览（不覆盖正在输入时：仅空编辑框）
+    const active = rows.find((r) => r.active);
+    if (active && !$("notice-title")?.value && !$("notice-body")?.value) {
+      if ($("notice-title")) $("notice-title").value = active.title || "";
+      if ($("notice-body")) $("notice-body").value = active.body || "";
+      updateLivePreview();
+    }
+
     $("notice-publish")?.addEventListener("click", async () => {
       const title = $("notice-title")?.value || "";
       const body = $("notice-body")?.value || "";
@@ -246,13 +332,24 @@
         alert("请填写公告正文");
         return;
       }
-      if (!confirm("发布后将替换当前生效公告，玩家会看到新内容。继续？")) return;
+      updateLivePreview();
+      if (!confirm("发布后将替换当前生效公告，玩家会看到预览中的内容。继续？")) return;
       await api("/api/announcements", {
         method: "POST",
         body: JSON.stringify({ action: "create", title, body }),
       });
       state.noticePage = 1;
       render();
+    });
+    root.querySelectorAll("[data-load]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const row = rowById[btn.getAttribute("data-load")];
+        if (!row) return;
+        if ($("notice-title")) $("notice-title").value = row.title || "";
+        if ($("notice-body")) $("notice-body").value = row.body || "";
+        updateLivePreview();
+        $("notice-body")?.scrollIntoView?.({ behavior: "smooth", block: "nearest" });
+      });
     });
     root.querySelectorAll("[data-off]").forEach((btn) => {
       btn.addEventListener("click", async () => {
