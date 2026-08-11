@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v4.97</title>
-    <link rel="stylesheet" href="style.css?v=471">
+    <title>生图工具 · ComfyUI Web v4.98</title>
+    <link rel="stylesheet" href="style.css?v=472">
     <meta name="theme-color" content="#e94560">
     <script>
     (function () {
@@ -27,7 +27,7 @@
     <div class="app">
         <header class="header">
             <a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.97</span></h1>
+            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.98</span></h1>
             <nav class="header-tools" aria-label="工具栏">
                 <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
                     <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
@@ -774,28 +774,10 @@
                     <div class="action-bar-main">
                         <button id="btn-generate" class="btn-primary">生成图片</button>
                         <button id="btn-nai-generate" class="btn-primary btn-nai hidden">NAI 在线生图</button>
-                        <button id="btn-dzmm" class="btn-dzmm" title="使用本地代理调用 dzmm.ai 生图（需配置 Cookie）">使用dzmm生图</button>
                     </div>
                     <div id="progress-container" class="progress-container hidden">
                         <div id="progress-bar" class="progress-bar"></div>
                         <span id="progress-text">0%</span>
-                    </div>
-                    <div class="dzmm-controls" id="dzmm-controls" title="DZMM 模型 / 画幅 / 配额">
-                        <select id="sel-dzmm-model" class="dzmm-select" title="DZMM 模型" aria-label="DZMM 模型">
-                            <option value="anime">Anime 动漫</option>
-                            <option value="iroha">Iroha</option>
-                            <option value="z-image">Z-Image</option>
-                        </select>
-                        <select id="sel-dzmm-dimension" class="dzmm-select" title="DZMM 画幅" aria-label="DZMM 画幅"></select>
-                        <span id="dzmm-quota-badge" class="dzmm-quota-badge" title="当前账号免费配额">配额 --</span>
-                        <span id="dzmm-quota-pool-badge" class="dzmm-quota-badge dzmm-pool-badge hidden" title="账号池合计配额">池 --</span>
-                    </div>
-                    <div class="dzmm-mobile-dock" id="dzmm-mobile-dock" aria-label="DZMM 快捷栏">
-                        <button type="button" id="btn-dzmm-panel-toggle" class="dzmm-dock-d" title="展开/收起 DZMM 设置" aria-label="展开或收起 DZMM 设置" aria-expanded="false">D</button>
-                        <button type="button" id="btn-dzmm-fab-gen" class="dzmm-dock-play" title="DZMM 生图" aria-label="DZMM 生图">
-                            <span class="dzmm-dock-play-tri" aria-hidden="true"></span>
-                            <span class="dzmm-dock-count" id="dzmm-dock-count" hidden></span>
-                        </button>
                     </div>
                 </div>
 
@@ -1045,46 +1027,6 @@
                 <input type="password" id="inp-admin-key" placeholder="留空则以普通用户身份使用">
             </label>
             <div id="admin-status" style="font-size:0.75rem;color:var(--accent-green);margin-top:-6px;display:none">✓ 管理员模式已激活</div>
-            <hr class="settings-divider">
-            <h3 class="settings-section-title">DZMM 生图</h3>
-            <label>登录 Cookie / Token
-                <textarea id="inp-dzmm-cookie" rows="3" placeholder="粘贴 Cookie 头 / cURL / sb-rls-auth-token=... / .0/.1/.2"></textarea>
-            </label>
-            <small class="profile-hint">个人登录凭证<strong>只保存在本机浏览器</strong>（多账号轮换池 + localStorage），不会上传到服务器。额度用尽可自动无感切下一账号。</small>
-            <label style="margin-top:8px">中转地址（一般无需改）
-                <input type="url" id="inp-dzmm-relay" placeholder="https://comfyui-dzmm-relay.loca.lt" autocomplete="off">
-            </label>
-            <small class="profile-hint">线上生图经站长中转访问官网（浏览器直连会被跨域拦住，与 Cookie 新旧无关）。</small>
-            <div class="dzmm-cookie-guide profile-hint" style="margin-top:8px">
-                <div><b>如何获取 Cookie（推荐浏览器扩展）</b></div>
-                <ol style="margin:6px 0 0;padding-left:1.2em">
-                    <li>安装 Cookie 导出扩展，例如
-                        <a href="https://chromewebstore.google.com/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm" target="_blank" rel="noopener">Chrome / Edge：Cookie-Editor</a>
-                        ·
-                        <a href="https://addons.mozilla.org/firefox/addon/cookie-editor/" target="_blank" rel="noopener">Firefox：Cookie-Editor</a>
-                    </li>
-                    <li>在 <a href="https://www.dzmm.ai/" target="_blank" rel="noopener">www.dzmm.ai</a> 登录账号</li>
-                    <li>用扩展导出 / 复制 <code>sb-rls-auth-token</code>（若有 <code>.0/.1/.2</code> 请全部复制）</li>
-                    <li>回到这里粘贴，或点「从剪贴板导入」→「加入账号池」</li>
-                </ol>
-                <div style="margin-top:6px">官网 Cookie 为 HttpOnly，书签/页面脚本读不到；请用扩展或开发者工具复制。</div>
-            </div>
-            <div class="profile-actions" style="margin-top:6px;flex-wrap:wrap">
-                <button type="button" id="btn-dzmm-add-account" class="btn-primary">加入账号池</button>
-                <button type="button" id="btn-dzmm-paste-cookie" class="btn-secondary">从剪贴板导入</button>
-                <button type="button" id="btn-dzmm-test" class="btn-secondary">检测登录/配额</button>
-                <button type="button" id="btn-dzmm-open-site" class="btn-secondary">打开官网生图页</button>
-            </div>
-            <div id="dzmm-account-list" class="dzmm-account-list" aria-label="DZMM 账号列表"></div>
-            <label class="chk-label dzmm-inline-row" style="margin-top:8px">
-                <input type="checkbox" id="chk-dzmm-auto-rotate" checked>
-                <span class="chk-label-text">额度用尽自动切号</span>
-                <span id="dzmm-status" class="dzmm-inline-status">未检测</span>
-            </label>
-            <label class="chk-label dzmm-inline-row" style="margin-top:6px">
-                <input type="checkbox" id="chk-dzmm-dewmark" checked>
-                <span class="chk-label-text">本机去水印/二维码</span>
-            </label>
             <hr class="settings-divider">
             <h3 class="settings-section-title">配置方案</h3>
             <label>当前方案
@@ -1451,20 +1393,11 @@
                     <li><b>参考图 (img2img)</b> — 基于参考图重绘</li>
                 </ul>
 
-                <h3>7. DZMM 生图（Cookie）</h3>
-                <p>设置 →「DZMM 生图」。仅支持粘贴 Cookie，凭证只保存在本机浏览器；线上经站长中转访问官网（与 Cookie 新旧无关）。</p>
-                <ul>
-                    <li>推荐安装 <b>Cookie-Editor</b> 等扩展，在已登录的 dzmm.ai 导出 <code>sb-rls-auth-token</code></li>
-                    <li>粘贴到设置框或「从剪贴板导入」→「加入账号池」</li>
-                    <li>Cookie 有效时会自动走官网续期；过期后重新导出一次即可</li>
-                </ul>
-
-                <h3>8. 注意事项</h3>
+                <h3>7. 注意事项</h3>
                 <ul>
                     <li>HTTPS 页面无法访问 HTTP 的 ComfyUI，建议本地使用</li>
                     <li>Anima 架构暂不支持 ControlNet（官方开发中）</li>
                     <li>种子设为 -1 表示随机</li>
-                    <li>DZMM Cookie 过期后需重新登录官网并用扩展再导出一次</li>
                 </ul>
             </div>
             <div class="modal-actions">
@@ -1641,9 +1574,8 @@
     </div>
 
     <script src="vendor/jsQR.js"></script>
-    <script src="dzmm-dewmark.js?v=2"></script>
     <script src="lora-library.js?v=5"></script>
-    <script src="script.js?v=493"></script>
+    <script src="script.js?v=494"></script>
     <script src="/assets/pwa-register.js?v=2"></script>
 </body>
 </html>

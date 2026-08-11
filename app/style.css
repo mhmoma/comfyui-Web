@@ -1480,156 +1480,9 @@ textarea {
     flex-wrap: wrap;
 }
 
-.btn-dzmm {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: var(--radius);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-}
-
-.btn-dzmm:hover {
-    background: linear-gradient(135deg, #5a6fd6, #6a4198);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
-}
-
-.btn-dzmm:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
 
 /* PC锛氭ā鍨?灏哄/閰嶉闈犲彸绱у噾 */
-.dzmm-controls {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: nowrap;
-    margin-left: auto;
-}
 
-.dzmm-select {
-    background: var(--bg-input, #1a1a22);
-    color: var(--text, #eee);
-    border: 1px solid var(--border, #333);
-    border-radius: var(--radius, 8px);
-    padding: 8px 10px;
-    font-size: 12px;
-    line-height: 1.2;
-    max-width: 132px;
-    min-width: 0;
-}
-
-.dzmm-quota-badge {
-    font-size: 11px;
-    color: var(--muted, #9aa3b5);
-    padding: 5px 8px;
-    border-radius: 999px;
-    border: 1px solid var(--border, #333);
-    background: var(--bg-input, rgba(255,255,255,0.04));
-    white-space: nowrap;
-}
-
-.dzmm-quota-badge.empty {
-    color: #f0a0a0;
-    border-color: rgba(240, 120, 120, 0.35);
-}
-
-.dzmm-quota-badge.ok {
-    color: #a8f0ce;
-    border-color: rgba(62, 207, 142, 0.35);
-}
-
-.dzmm-pool-badge {
-    border-color: rgba(102, 126, 234, 0.45);
-    color: #b8c4ff;
-}
-
-.dzmm-pool-badge.empty {
-    color: #f0a0a0;
-    border-color: rgba(240, 120, 120, 0.35);
-}
-
-.dzmm-pool-badge.ok {
-    color: #a8d4f0;
-    border-color: rgba(102, 180, 234, 0.45);
-}
-
-/* 鎵嬫満绔?DZMM 鎮诞鍧烇細榛樿闅愯棌锛屼粎绐勫睆鏄剧ず */
-.dzmm-mobile-dock {
-    display: none;
-}
-
-.dzmm-account-list {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin: 6px 0 4px;
-    max-height: 140px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-.dzmm-account-item {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 8px;
-    border: 1px solid var(--border, #333);
-    border-radius: 6px;
-    background: var(--bg-input, rgba(255,255,255,0.03));
-    font-size: 12px;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.dzmm-account-item.active {
-    border-color: rgba(102, 126, 234, 0.55);
-    box-shadow: inset 0 0 0 1px rgba(102, 126, 234, 0.25);
-}
-
-.dzmm-account-item .meta {
-    flex: 1 1 0;
-    min-width: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    line-height: 1.3;
-    color: var(--muted, #9aa3b5);
-}
-
-.dzmm-account-item .meta .name {
-    color: var(--text, #eee);
-    font-weight: 600;
-}
-
-.dzmm-account-item .btn-secondary,
-.dzmm-account-item .btn-danger,
-.dzmm-account-item button {
-    flex: 0 0 auto !important;
-    width: auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 2px 8px !important;
-    font-size: 11px !important;
-    white-space: nowrap;
-    line-height: 1.4;
-}
 
 .chk-label {
     display: flex;
@@ -1647,26 +1500,6 @@ textarea {
     flex-shrink: 0;
 }
 
-.dzmm-inline-row {
-    flex-wrap: nowrap;
-    white-space: nowrap;
-    overflow: hidden;
-    margin-bottom: 4px;
-}
-
-.dzmm-inline-row .chk-label-text {
-    flex-shrink: 0;
-}
-
-.dzmm-inline-status {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: var(--text-muted, var(--text-secondary));
-    font-size: 0.78rem;
-    opacity: 0.9;
-}
 
 .progress-container {
     flex: 1;
@@ -2016,129 +1849,6 @@ textarea {
     color: var(--text-primary);
 }
 
-.dzmm-login-box {
-    margin-top: 12px;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--bg-tertiary);
-}
-
-.dzmm-login-box label {
-    margin-top: 6px;
-}
-
-.dzmm-login-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 8px;
-}
-
-.dzmm-login-tab {
-    border: 1px solid var(--border);
-    background: var(--bg-input, var(--bg-secondary));
-    color: var(--text-secondary);
-    border-radius: 999px;
-    padding: 4px 10px;
-    font-size: 0.78rem;
-    cursor: pointer;
-}
-
-.dzmm-login-tab.active {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 12%, transparent);
-}
-
-.dzmm-login-panel.hidden {
-    display: none;
-}
-
-.dzmm-tg-row {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-}
-
-.dzmm-tg-qr {
-    width: 132px;
-    height: 132px;
-    flex-shrink: 0;
-    border: 1px dashed var(--border);
-    border-radius: 8px;
-    background: #fff;
-    color: #666;
-    font-size: 0.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 8px;
-    overflow: hidden;
-}
-
-.dzmm-tg-qr img,
-.dzmm-tg-qr svg {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.dzmm-tg-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 0;
-}
-
-.dzmm-tg-link {
-    font-size: 0.82rem;
-    color: var(--accent);
-}
-
-.dzmm-oauth-btn {
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-}
-
-.dzmm-cookie-guide {
-    margin-top: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.dzmm-cookie-guide summary {
-    cursor: pointer;
-    color: var(--text-secondary);
-    margin-bottom: 6px;
-}
-
-.dzmm-cookie-tag {
-    display: inline-block;
-    align-self: flex-start;
-    margin-top: 2px;
-    padding: 8px 12px;
-    border: 1px dashed var(--accent);
-    border-radius: 8px;
-    background: var(--bg-tertiary);
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.85rem;
-    cursor: grab;
-    user-select: none;
-}
-
-.dzmm-cookie-tag:hover {
-    background: color-mix(in srgb, var(--accent) 12%, var(--bg-tertiary));
-}
-
-.tutorial-body .dzmm-cookie-tag {
-    margin: 8px 0 12px;
-}
 
 .tutorial-dl-hint {
     font-size: 0.82rem !important;
@@ -4611,7 +4321,6 @@ body.char-browser-open {
         content: none;
     }
 
-    /* 鐢熸垚 FAB 鈥?榛樿璐村簳鏍忎笂鏂癸紝鍙嫋鍔紙涓嶅啀棰勭暀鏃?DZMM 搴曟潯 44px锛?*/
     .generate-fab {
         display: flex;
         align-items: center;
@@ -4659,9 +4368,6 @@ body.char-browser-open {
     /* 鍏ㄥ睆瑙掕壊娴忚娴眰锛堟墜鏈虹瑙︽帶灏哄瑕嗙洊锛?*/
     body.char-browser-open .mobile-nav,
     body.char-browser-open .generate-fab,
-    body.char-browser-open .dzmm-mobile-dock {
-        display: none !important;
-    }
 
     .char-browser-back {
         min-height: 44px;
@@ -4785,7 +4491,6 @@ body.char-browser-open {
     }
 
     body.prompt-tag-sheet-open .main.mobile-tab-create .content {
-        /* 搴曟爮 + 鏍囩璋冭妭闈㈡澘楂樺害锛屼笉鍐嶅姞鏃?DZMM 搴曟潯 48px */
         padding-bottom: calc(56px + 132px + env(safe-area-inset-bottom, 0px));
     }
 
@@ -5139,7 +4844,6 @@ body.char-browser-open {
         width: 100%;
     }
 
-    /* Fixed dzmm bar above bottom nav 鈥?榛樿鏀惰捣涓烘偓娴潪锛屽睍寮€鎵嶆樉绀鸿缃?*/
     .main.mobile-tab-create .action-bar {
         position: fixed;
         left: 0;
@@ -5162,180 +4866,6 @@ body.char-browser-open {
         pointer-events: auto;
     }
 
-    .main.mobile-tab-create .action-bar:not(.dzmm-panel-open) .action-bar-main,
-    .main.mobile-tab-create .action-bar:not(.dzmm-panel-open) .dzmm-controls,
-    .main.mobile-tab-create .action-bar:not(.dzmm-panel-open) .progress-container {
-        display: none !important;
-    }
-
-    .main.mobile-tab-create .action-bar.dzmm-panel-open {
-        padding: 8px 12px calc(58px + env(safe-area-inset-bottom, 0px));
-        background: var(--bg-secondary);
-        border-top: 1px solid var(--border);
-        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.22);
-        max-height: min(42vh, 280px);
-        overflow-y: auto;
-    }
-
-    .main.mobile-tab-create .action-bar.dzmm-panel-open .action-bar-main {
-        display: none !important;
-    }
-
-    .main.mobile-tab-create .action-bar.dzmm-panel-open .dzmm-controls {
-        display: flex !important;
-        order: 1;
-        width: 100%;
-        margin: 0;
-        flex-wrap: wrap;
-        gap: 6px;
-    }
-
-    .main.mobile-tab-create .action-bar.dzmm-panel-open .progress-container {
-        order: 2;
-        width: 100%;
-    }
-
-    .main.mobile-tab-create .dzmm-mobile-dock {
-        display: inline-flex;
-        position: fixed;
-        left: 12px;
-        bottom: calc(56px + 10px + env(safe-area-inset-bottom, 0px));
-        z-index: 220;
-        align-items: center;
-        justify-content: center;
-        gap: 0;
-        width: auto;
-        height: 48px;
-        padding: 3px;
-        box-sizing: border-box;
-        border: 2px solid #7b8cff;
-        border-radius: 12px;
-        background: rgba(12, 14, 28, 0.55);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        box-shadow: 0 4px 18px rgba(102, 126, 234, 0.28);
-        pointer-events: auto;
-        cursor: grab;
-        touch-action: none;
-        user-select: none;
-        -webkit-user-select: none;
-    }
-
-    .main.mobile-tab-create .dzmm-mobile-dock.is-custom-pos {
-        right: auto;
-        bottom: auto;
-    }
-
-    .main.mobile-tab-create .dzmm-mobile-dock.is-dragging {
-        cursor: grabbing;
-        transform: scale(1.04);
-        box-shadow: 0 6px 22px rgba(102, 126, 234, 0.45);
-        border-color: #a78bfa;
-    }
-
-    .main.mobile-tab-create .action-bar.dzmm-panel-open .dzmm-mobile-dock {
-        border-color: #a78bfa;
-        box-shadow: 0 4px 18px rgba(167, 139, 250, 0.35);
-    }
-
-    .dzmm-dock-d,
-    .dzmm-dock-play {
-        position: relative;
-        z-index: 2;
-        flex: 0 0 42px;
-        width: 42px;
-        height: 42px;
-        min-width: 42px;
-        max-width: 42px;
-        min-height: 42px;
-        max-height: 42px;
-        padding: 0;
-        margin: 0;
-        border: none;
-        border-radius: 9px;
-        background: transparent;
-        color: #c5cdff;
-        cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
-        overflow: hidden;
-        box-sizing: border-box;
-        pointer-events: auto;
-        touch-action: manipulation;
-    }
-
-    .dzmm-dock-d {
-        font-size: 1.15rem;
-        font-weight: 800;
-        letter-spacing: 0;
-        line-height: 1;
-        font-family: ui-sans-serif, system-ui, sans-serif;
-    }
-
-    .dzmm-dock-d[aria-expanded="true"] {
-        color: #e9d5ff;
-        background: rgba(167, 139, 250, 0.18);
-    }
-
-    .dzmm-dock-play {
-        color: #8ef0c0;
-    }
-
-    .dzmm-dock-play:active,
-    .dzmm-dock-d:active {
-        transform: scale(0.94);
-    }
-
-    .dzmm-dock-play.is-busy {
-        color: #ffe08a;
-    }
-
-    .dzmm-dock-play-tri {
-        display: block;
-        width: 0;
-        height: 0;
-        margin: 0 auto;
-        border-style: solid;
-        border-width: 8px 0 8px 14px;
-        border-color: transparent transparent transparent currentColor;
-        transform: translateX(1px);
-    }
-
-    .dzmm-dock-play.is-busy .dzmm-dock-play-tri {
-        opacity: 0.22;
-    }
-
-    .dzmm-dock-count {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0 2px;
-        box-sizing: border-box;
-        font-weight: 800;
-        font-variant-numeric: tabular-nums;
-        line-height: 1;
-        color: #fff6c8;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
-        pointer-events: none;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
-    .dzmm-dock-count[hidden] {
-        display: none !important;
-    }
-
-    .main.mobile-tab-create .action-bar-main {
-        order: 1;
-    }
-
-    .main.mobile-tab-create .dzmm-controls {
-        order: 2;
-    }
 
     .main.mobile-tab-create .progress-container {
         order: 3;
@@ -5349,45 +4879,10 @@ body.char-browser-open {
     }
 
     .action-bar-main .btn-primary,
-    .action-bar-main .btn-dzmm {
-        width: 100%;
-        justify-content: center;
-    }
 
-    .btn-dzmm {
-        width: 100%;
-        justify-content: center;
-        padding: 10px;
-        min-height: 40px;
-        font-size: 14px;
-    }
 
     /* 绉诲姩绔睍寮€闈㈡澘鍐呮帶浠剁揣鍑?*/
-    .dzmm-controls {
-        width: 100%;
-        margin-left: 0;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
 
-    .dzmm-select {
-        flex: 1;
-        max-width: none;
-        min-width: 0;
-        padding: 8px 10px;
-        font-size: 13px;
-    }
-
-    .dzmm-quota-badge {
-        flex: 1 1 calc(50% - 4px);
-        width: auto;
-        text-align: center;
-        font-size: 11px;
-        padding: 5px 8px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
 
     .action-bar {
         padding: 0;
@@ -5413,9 +4908,6 @@ body.char-browser-open {
         font-size: 12px;
     }
 
-    body.dzmm-panel-open .main.mobile-tab-create .content {
-        padding-bottom: calc(56px + 200px + env(safe-area-inset-bottom, 0px));
-    }
 
     .result-actions {
         flex-wrap: wrap;
@@ -5489,7 +4981,6 @@ body.char-browser-open {
         position: fixed;
         left: 0;
         right: 0;
-        /* DZMM 宸叉敼涓烘偓娴潪锛屼笉鍐嶅崰搴曟爮涓婃柟 44px锛涚揣璐村簳閮?Tab */
         bottom: calc(56px + env(safe-area-inset-bottom, 0px));
         z-index: 205;
         display: block;
@@ -8300,12 +7791,6 @@ body.composite-open {
     color: var(--text-secondary);
 }
 
-[data-ui="v2"] .dzmm-dock,
-[data-ui="v2"] .mobile-fab,
-[data-ui="v2"] .generate-fab {
-    box-shadow: var(--shadow);
-    border: 1.5px solid var(--border);
-}
 
 [data-ui="v2"] .chip,
 [data-ui="v2"] .tag-item,
