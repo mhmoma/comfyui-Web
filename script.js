@@ -8258,7 +8258,9 @@
     }
 
     function showArtistPreview(tag) {
-        const imgUrl = tag.img || (tag.th ? tag.th.replace('/thumbs/', '/').replace('.webp', '.png') : '');
+        const imgUrl = tag.img || (tag.th
+            ? String(tag.th).replace(/%2F/gi, '_').replace('/thumbs/', '/').replace('.webp', '.png')
+            : '');
         if (!imgUrl) return;
         let overlay = document.getElementById('artist-preview-overlay');
         if (!overlay) {
