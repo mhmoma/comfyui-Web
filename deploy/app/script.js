@@ -9408,7 +9408,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v4.93');
+        console.log('[ComfyUI Web] v4.94');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -13803,6 +13803,71 @@
             }).join('');
         }
 
+        // 线上 Pages 出口 IP 会被 dzmm 要求 captcha；本机 server.py(默认 8080) 可绕过
+        const DZMM_LOCAL_BASE_KEY = 'dzmm_local_proxy_base';
+        const DZMM_LOCAL_CANDIDATES = [
+            'http://127.0.0.1:8080',
+            'http://localhost:8080',
+            'http://127.0.0.1:8090',
+            'http://127.0.0.1:8787',
+        ];
+        const CAPTCHA_TOAST =
+            '云端出口被官网验证码拦截。请本机运行 python server.py 后打开 http://127.0.0.1:8080/app/ 再生图（Cookie 仍可用）。';
+        let dzmmLocalBase = '';
+        try { dzmmLocalBase = localStorage.getItem(DZMM_LOCAL_BASE_KEY) || ''; } catch { /* ignore */ }
+
+        function isDzmmCaptchaError(data, text) {
+            if (data && typeof data === 'object') {
+                if (data.code === 'CAPTCHA_REQUIRED') return true;
+                if (data.error === 'captcha_required') return true;
+                if (typeof data.error === 'string' && /captcha|验证码|云端出口/i.test(data.error)) return true;
+                if (data.generate?.error === 'captcha_required') return true;
+                if (data.generate?.location && String(data.generate.location).includes('captcha')) return true;
+            }
+            return /captcha_required|验证码|云端出口/i.test(String(text || ''));
+        }
+
+        function resolveDzmmUrl(url) {
+            if (/^https?:\/\//i.test(url)) return url;
+            if (isLocalProxy()) return url;
+            if (dzmmLocalBase) return `${dzmmLocalBase.replace(/\/+$/, '')}${url.startsWith('/') ? url : `/${url}`}`;
+            return url;
+        }
+
+        async function probeDzmmLocalProxy({ force = false } = {}) {
+            if (isLocalProxy()) {
+                dzmmLocalBase = '';
+                return '';
+            }
+            if (!force && dzmmLocalBase) {
+                try {
+                    const res = await fetch(`${dzmmLocalBase.replace(/\/+$/, '')}/api/dzmm/status`, {
+                        method: 'GET',
+                        headers: { Accept: 'application/json' },
+                    });
+                    if (res.ok) return dzmmLocalBase;
+                } catch { /* fall through */ }
+                dzmmLocalBase = '';
+                try { localStorage.removeItem(DZMM_LOCAL_BASE_KEY); } catch { /* ignore */ }
+            }
+            for (const base of DZMM_LOCAL_CANDIDATES) {
+                try {
+                    const res = await fetch(`${base}/api/dzmm/status`, {
+                        method: 'GET',
+                        headers: { Accept: 'application/json' },
+                    });
+                    if (!res.ok) continue;
+                    const data = await res.json().catch(() => ({}));
+                    if (data && (data.ok === true || data.hasCookie != null || data.models)) {
+                        dzmmLocalBase = base;
+                        try { localStorage.setItem(DZMM_LOCAL_BASE_KEY, base); } catch { /* ignore */ }
+                        return base;
+                    }
+                } catch { /* try next */ }
+            }
+            return '';
+        }
+
         function dzmmFetch(url, options = {}) {
             const headers = new Headers(options.headers || {});
             const cookie = getLocalDzmmCookie();
@@ -13810,7 +13875,7 @@
             if (options.body && !headers.has('Content-Type')) {
                 headers.set('Content-Type', 'application/json');
             }
-            return fetch(url, { ...options, headers });
+            return fetch(resolveDzmmUrl(url), { ...options, headers });
         }
 
         function dzmmFetchWithCookie(url, cookie, options = {}) {
@@ -13819,7 +13884,22 @@
             if (options.body && !headers.has('Content-Type')) {
                 headers.set('Content-Type', 'application/json');
             }
-            return fetch(url, { ...options, headers });
+            return fetch(resolveDzmmUrl(url), { ...options, headers });
+        }
+
+        /** 云端 captcha 时自动切到本机代理再重试一次 */
+        async function dzmmFetchWithCookieAuto(url, cookie, options = {}) {
+            let res = await dzmmFetchWithCookie(url, cookie, options);
+            if (isLocalProxy() || dzmmLocalBase) return res;
+            const clone = res.clone();
+            const rawText = await clone.text().catch(() => '');
+            let data = {};
+            try { data = rawText ? JSON.parse(rawText) : {}; } catch { data = {}; }
+            if (!(isDzmmCaptchaError(data, rawText) || res.status === 403)) return res;
+            const base = await probeDzmmLocalProxy({ force: true });
+            if (!base) return res;
+            showToast('已切换到本机 DZMM 代理生图');
+            return dzmmFetchWithCookie(url, cookie, options);
         }
 
         function aggregatePoolQuotas() {
@@ -14585,7 +14665,7 @@
             let authCookie = cookie;
             for (let i = 0; i < maxAttempts; i++) {
                 const qs = new URLSearchParams({ id: taskId, model });
-                const res = await dzmmFetchWithCookie(`/api/dzmm/task?${qs}`, authCookie);
+                const res = await dzmmFetchWithCookieAuto(`/api/dzmm/task?${qs}`, authCookie);
                 const data = await res.json().catch(() => ({}));
                 if (data.cookie) {
                     applyAuthCookieUpdate(data);
@@ -14645,7 +14725,7 @@
                     tried.add(accKey);
                     let cookie = acc?.cookie || getLocalDzmmCookie();
 
-                    const statusRes = await dzmmFetchWithCookie('/api/dzmm/status', cookie);
+                    const statusRes = await dzmmFetchWithCookieAuto('/api/dzmm/status', cookie);
                     const status = await statusRes.json().catch(() => ({}));
                     if (!statusRes.ok) throw new Error(status.error || 'DZMM 代理不可用');
                     if (status.cookie) {
@@ -14695,7 +14775,7 @@
                         email: acc?.email || '',
                         password: acc?.password || '',
                     };
-                    const res = await dzmmFetchWithCookie('/api/dzmm/generate', cookie, {
+                    const res = await dzmmFetchWithCookieAuto('/api/dzmm/generate', cookie, {
                         method: 'POST',
                         body: JSON.stringify(genPayload),
                     });
@@ -14708,8 +14788,8 @@
                             data.detail ||
                             (rawText && !rawText.startsWith('{') ? rawText.slice(0, 160) : '') ||
                             `生成失败 (${res.status})`;
-                        if (msg === 'captcha_required' || data.code === 'CAPTCHA_REQUIRED' || /captcha/i.test(String(msg))) {
-                            msg = '官网要求验证码或 Cookie 失效。请在 dzmm.ai 重新登录，用 Cookie-Editor 等扩展导出后粘贴到设置。';
+                        if (isDzmmCaptchaError(data, msg)) {
+                            msg = CAPTCHA_TOAST;
                         }
                         lastError = msg;
                         if (/Cookie|UNAUTHORIZED|登录|验证码|captcha/i.test(String(msg))) {
@@ -14799,6 +14879,11 @@
                 refreshDzmmStatus();
             }, 50);
         });
+
+        // 线上站预探测本机 server.py，有则优先走本地代理（避免云端 captcha）
+        probeDzmmLocalProxy().then((base) => {
+            if (base) console.info('[DZMM] 使用本机代理', base);
+        }).catch(() => null);
     }
 
     // ==================== NAI 在线生图 ====================

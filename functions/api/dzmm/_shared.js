@@ -601,6 +601,22 @@ export function listModels() {
 /** 与 dzmm-local-dev 一致：剩余不足 180s 时续期 */
 export const AUTH_REFRESH_SKEW = 180;
 
+const CAPTCHA_HINT =
+  '官网对云端出口要求验证码，生图被拦截。请在本机运行 python server.py（默认 http://127.0.0.1:8080/app/）后再用 Cookie 生图，或直接在 dzmm.ai 网页生图。';
+
+export function isCaptchaPayload(data) {
+  if (data == null) return false;
+  if (typeof data === 'string') {
+    return data === 'captcha_required' || /captcha/i.test(data);
+  }
+  if (typeof data !== 'object') return false;
+  if (data.error === 'captcha_required' || data.code === 'CAPTCHA_REQUIRED') return true;
+  if (typeof data.error === 'string' && /captcha/i.test(data.error)) return true;
+  if (data.location && String(data.location).includes('captcha')) return true;
+  if (data.generate && isCaptchaPayload(data.generate)) return true;
+  return false;
+}
+
 /** 从 cookie session 解析剩余秒数；无法解析则返回 null */
 export function sessionRemainSec(cookie) {
   const session = parseDzmmSession(cookie);
@@ -660,6 +676,15 @@ export async function refreshSessionCookie(cookie) {
     data = JSON.parse(text);
   } catch {
     /* ignore */
+  }
+
+  if (isCaptchaPayload(data) || /captcha/i.test(String(text || ''))) {
+    return {
+      ok: false,
+      error: CAPTCHA_HINT,
+      status: res.status,
+      code: 'CAPTCHA_REQUIRED',
+    };
   }
 
   if (!res.ok) {
@@ -742,10 +767,17 @@ export async function ensureFreshCookie(
     }
     // 续期失败则尝试密码重登
     if (!mail || !pass) {
+      const captcha =
+        isCaptchaPayload(refreshed) ||
+        refreshed.error === 'captcha_required' ||
+        /captcha/i.test(String(refreshed.error || ''));
       return {
         ok: false,
-        error: refreshed.error || '登录态即将过期且续期失败，请重新登录或保存密码供自动重登',
-        code: refreshed.code || 'REFRESH_FAILED',
+        error: captcha
+          ? CAPTCHA_HINT
+          : refreshed.error ||
+            '登录态即将过期且续期失败，请到 dzmm.ai 重新登录后粘贴 Cookie，或保存密码供自动重登',
+        code: captcha ? 'CAPTCHA_REQUIRED' : refreshed.code || 'REFRESH_FAILED',
         remainSec: remain,
       };
     }
@@ -830,12 +862,21 @@ export async function trpcPost(cookie, name, payload, referer) {
 
 export function trpcErrorMessage(resp) {
   const err = resp?.error;
+  // 云端出口常收到 {"error":"captcha_required","location":"/__captcha/"}（非 tRPC 对象）
+  if (typeof err === 'string') {
+    if (err === 'captcha_required' || /captcha/i.test(err)) return CAPTCHA_HINT;
+    return err;
+  }
+  if (isCaptchaPayload(resp)) return CAPTCHA_HINT;
   if (!err || typeof err !== 'object') return '';
   const inner = err.json && typeof err.json === 'object' ? err.json : err;
   const msg = inner.message || err.message || '';
   const code = inner.data?.code || inner.code;
   if (code === 'UNAUTHORIZED' || msg === 'UNAUTHORIZED') {
     return 'Cookie 无效或已过期，请重新登录 dzmm.ai 后在设置中粘贴 Cookie';
+  }
+  if (msg === 'captcha_required' || /captcha/i.test(String(msg || code || ''))) {
+    return CAPTCHA_HINT;
   }
   return String(msg || code || '');
 }
@@ -1026,11 +1067,12 @@ export async function generate(cookie, body) {
     },
   });
   if (gen?.error) {
+    const captcha = isCaptchaPayload(gen);
     return {
       ok: false,
       error: trpcErrorMessage(gen) || 'generate failed',
       generate: gen,
-      code: 'GENERATE_ERROR',
+      code: captcha ? 'CAPTCHA_REQUIRED' : 'GENERATE_ERROR',
     };
   }
 

@@ -554,7 +554,16 @@ def get_options() -> Dict[str, Any]:
 
 def _trpc_error_message(resp: dict) -> str:
     err = resp.get("error")
+    if isinstance(err, str):
+        if err == "captcha_required" or "captcha" in err.lower():
+            return (
+                "官网对当前出口要求验证码。请确认本机网络可直连 dzmm.ai，"
+                "或到浏览器重新登录后更新 Cookie。"
+            )
+        return err
     if not isinstance(err, dict):
+        if resp.get("location") and "captcha" in str(resp.get("location")):
+            return "官网要求验证码，请求被拦截"
         return ""
     # tRPC shape: error.json.message
     inner = err.get("json") if isinstance(err.get("json"), dict) else err
@@ -562,6 +571,8 @@ def _trpc_error_message(resp: dict) -> str:
     code = (inner.get("data") or {}).get("code") if isinstance(inner.get("data"), dict) else inner.get("code")
     if code == "UNAUTHORIZED" or msg == "UNAUTHORIZED":
         return "Cookie 无效或已过期，请重新登录 dzmm.ai 后在设置中粘贴 Cookie"
+    if msg == "captcha_required" or "captcha" in str(msg or code or "").lower():
+        return "官网要求验证码，请求被拦截"
     return str(msg or code or "")
 
 
