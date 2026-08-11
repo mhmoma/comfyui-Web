@@ -6,7 +6,7 @@ alwaysApply: true
 
 # ComfyUI-Web 部署与 D1 数据库操作规范
 
-> **部署版本**: 1.208
+> **部署版本**: 1.209
 > **版本记录**: 见底部「版本历史」 
 > **重要**: 每次修改代码后，必须更新本文件的**部署版本号**和**版本历史**。凡前端相关代码变更（`index.html` / `script.js` / `style.css` 及 `deploy/` 对应文件），必须递增前端版本号与静态资源版本参数。
 
@@ -353,6 +353,7 @@ D1 绑定在 Settings → Functions → D1 database bindings：
 | 1.131 | 2026-07-12 | 手机标签单行高度修复 | 拆分栏剩一行时标签不再被 flex 拉伸变高，保持紧凑 chip 尺寸（`app v4.49` / `style.css?v=434`）。 |
 | 1.205 | 2026-08-11 | DZMM 站长中转 | 线上经 `dzmm_public_relay`（loca.lt）住宅出口；不再误报 Cookie/跨域；设置可改中转地址（`app v4.96` / `script.js?v=492`） |
 | 1.206 | 2026-08-11 | DZMM 出图 URL/CORS | 去掉 Bypass-Tunnel-Reminder 预检失败；图 URL 拼中转域名；线上不再误锁 127.0.0.1（`app v4.97` / `script.js?v=493`） |
+| 1.209 | 2026-08-11 | 强制刷新 NAI 修复缓存 | 升 `app v5.00` / `script.js?v=496` / SW `shell-v3`，避免 PWA/边缘缓存继续跑缺常量的旧脚本 |
 | 1.208 | 2026-08-11 | 修复 NAI 常量缺失 | 补回 `NAI_API_BASE` / `NAI_STORAGE_KEY`，消除 setupNai ReferenceError（`app v4.99` / `script.js?v=495`） |
 | 1.207 | 2026-08-11 | 下线 DZMM 生图 | 移除按钮/设置/手机坞与教程入口；保留本地 ComfyUI + NAI（`app v4.98` / `script.js?v=494` / `style.css?v=472`） |
 | 1.204 | 2026-08-11 | DZMM 浏览器直连 | 生图/状态/轮询改浏览器直连 dzmm.ai（Bearer），不再经 CF 出口；去掉本地 server.py 依赖（`app v4.95` / `script.js?v=491`） |
