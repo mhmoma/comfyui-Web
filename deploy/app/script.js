@@ -8643,7 +8643,9 @@
     }
 
     function showCharPreview(tag) {
-        const imgUrl = tag.th ? tag.th.replace('/thumbs/', '/').replace('.webp', '.png') : '';
+        const imgUrl = tag.th
+            ? String(tag.th).replace(/%2F/gi, '_').replace('/thumbs/', '/').replace('.webp', '.png')
+            : '';
         if (!imgUrl) return;
         let overlay = document.getElementById('char-preview-overlay');
         if (!overlay) {
@@ -8728,7 +8730,9 @@
     }
 
     function showArtistPreview(tag) {
-        const imgUrl = tag.img || (tag.th ? tag.th.replace('/thumbs/', '/').replace('.webp', '.png') : '');
+        const imgUrl = tag.img || (tag.th
+            ? String(tag.th).replace(/%2F/gi, '_').replace('/thumbs/', '/').replace('.webp', '.png')
+            : '');
         if (!imgUrl) return;
         let overlay = document.getElementById('artist-preview-overlay');
         if (!overlay) {
@@ -9542,8 +9546,9 @@
 
         const img = document.createElement('img');
         img.className = 'char-browser-img img-loading';
-        if (tag.th) img.dataset.src = tag.th;
+        if (tag.th) img.dataset.src = String(tag.th).replace(/%2F/gi, '_');
         img.alt = tag.d || tag.t.split(',')[0];
+        img.referrerPolicy = 'no-referrer';
         thumb.appendChild(img);
 
         const star = document.createElement('span');
