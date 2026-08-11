@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v4.95</title>
+    <title>生图工具 · ComfyUI Web v4.96</title>
     <link rel="stylesheet" href="style.css?v=471">
     <meta name="theme-color" content="#e94560">
     <script>
@@ -27,7 +27,7 @@
     <div class="app">
         <header class="header">
             <a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.95</span></h1>
+            <h1>ComfyUI Web <span id="app-version" class="version-badge">v4.96</span></h1>
             <nav class="header-tools" aria-label="工具栏">
                 <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
                     <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
@@ -1051,6 +1051,10 @@
                 <textarea id="inp-dzmm-cookie" rows="3" placeholder="粘贴 Cookie 头 / cURL / sb-rls-auth-token=... / .0/.1/.2"></textarea>
             </label>
             <small class="profile-hint">个人登录凭证<strong>只保存在本机浏览器</strong>（多账号轮换池 + localStorage），不会上传到服务器。额度用尽可自动无感切下一账号。</small>
+            <label style="margin-top:8px">中转地址（一般无需改）
+                <input type="url" id="inp-dzmm-relay" placeholder="https://comfyui-dzmm-relay.loca.lt" autocomplete="off">
+            </label>
+            <small class="profile-hint">线上生图经站长中转访问官网（浏览器直连会被跨域拦住，与 Cookie 新旧无关）。</small>
             <div class="dzmm-cookie-guide profile-hint" style="margin-top:8px">
                 <div><b>如何获取 Cookie（推荐浏览器扩展）</b></div>
                 <ol style="margin:6px 0 0;padding-left:1.2em">
@@ -1448,7 +1452,7 @@
                 </ul>
 
                 <h3>7. DZMM 生图（Cookie）</h3>
-                <p>设置 →「DZMM 生图」。仅支持粘贴 Cookie，凭证只保存在本机浏览器。</p>
+                <p>设置 →「DZMM 生图」。仅支持粘贴 Cookie，凭证只保存在本机浏览器；线上经站长中转访问官网（与 Cookie 新旧无关）。</p>
                 <ul>
                     <li>推荐安装 <b>Cookie-Editor</b> 等扩展，在已登录的 dzmm.ai 导出 <code>sb-rls-auth-token</code></li>
                     <li>粘贴到设置框或「从剪贴板导入」→「加入账号池」</li>
@@ -1639,7 +1643,7 @@
     <script src="vendor/jsQR.js"></script>
     <script src="dzmm-dewmark.js?v=2"></script>
     <script src="lora-library.js?v=5"></script>
-    <script src="script.js?v=491"></script>
+    <script src="script.js?v=492"></script>
     <script src="/assets/pwa-register.js?v=2"></script>
 </body>
 </html>
