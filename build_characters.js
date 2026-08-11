@@ -134,12 +134,13 @@ function main() {
 
   console.log(`Series with enough characters: ${seriesList.length}`);
 
-  // Blob filenames replace "/" with "_" (e.g. fate/grand order → fate_grand order).
+  // Blob filenames replace "/" with "_"; keep () unencoded to match animadex.net URLs.
   const thumbFromTrigger = (trigger, fallback) => {
     const t = String(trigger || '').trim();
     if (!t) return fallback || '';
     const key = t.replace(/\//g, '_');
-    return `https://blobs.animadex.net/Outputs/thumbs/${encodeURIComponent(key)}.webp`;
+    const enc = encodeURIComponent(key).replace(/%28/g, '(').replace(/%29/g, ')');
+    return `https://blobs.animadex.net/Outputs/thumbs/${enc}.webp`;
   };
 
   const output = seriesList.map(s => ({

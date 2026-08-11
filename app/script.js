@@ -26,28 +26,6 @@
         localStorage.setItem('comfyui_address', url.replace(/\/+$/, ''));
     }
 
-    window.isLocalProxy = isLocalProxy;
-    window.getComfyUIAddress = getComfyUIAddress;
-
-    /** 本地日期文件夹 YYYY-MM-DD（ComfyUI output 子目录） */
-    function getLocalDateFolder(date = new Date()) {
-        const y = date.getFullYear();
-        const m = String(date.getMonth() + 1).padStart(2, '0');
-        const d = String(date.getDate()).padStart(2, '0');
-        return `${y}-${m}-${d}`;
-    }
-
-    /** SaveImage 按日期分子目录，例如 2026-07-10/ComfyUI_Web */
-    function getSaveImagePrefix(baseName) {
-        const safeBase = String(baseName || 'ComfyUI_Web').replace(/[\\/:*?"<>|]+/g, '_');
-        return `${getLocalDateFolder()}/${safeBase}`;
-    }
-
-    function openComfyUINative() {
-        const base = getComfyUIAddress().replace(/\/+$/, '');
-        window.open(`${base}/`, '_blank', 'noopener,noreferrer');
-    }
-
     // ==================== DOM 引用 ====================
     const $ = (sel) => document.querySelector(sel);
     const dom = {
@@ -64,7 +42,6 @@
         inpCfg: $('#inp-cfg'),
         inpWidth: $('#inp-width'),
         inpHeight: $('#inp-height'),
-        btnSwapSize: $('#btn-swap-size'),
         inpSeed: $('#inp-seed'),
         btnRandomSeed: $('#btn-random-seed'),
         txtPositive: $('#txt-positive'),
@@ -90,7 +67,6 @@
         modalTutorial: $('#modal-tutorial'),
         btnCloseTutorial: $('#btn-close-tutorial'),
         btnSettings: $('#btn-settings'),
-        btnComfyNative: $('#btn-comfy-native'),
         modalSettings: $('#modal-settings'),
         inpServer: $('#inp-server'),
         btnSaveSettings: $('#btn-save-settings'),
@@ -356,10 +332,6 @@
         lastPreviewUrl: null,
     };
 
-    function _promptExtraData() {
-        return { preview_method: 'latent2rgb' };
-    }
-
     function _fmtMs(ms) {
         const s = Math.max(0, Math.floor(ms / 1000));
         const m = Math.floor(s / 60);
@@ -402,7 +374,6 @@
         _gen.lastPreviewUrl = url;
         dom.livePreview.src = url;
         dom.livePreview.classList.remove('hidden');
-        dom.resultPlaceholder?.classList.add('hidden');
     }
 
     function _hideLivePreview() {
@@ -447,14 +418,6 @@
             return;
         }
         ws.binaryType = 'arraybuffer';
-        ws.onopen = () => {
-            try {
-                ws.send(JSON.stringify({
-                    type: 'feature_flags',
-                    data: { supports_preview_metadata: true },
-                }));
-            } catch { /* ignore */ }
-        };
         ws.onmessage = (ev) => {
             if (!_gen.active) return;
             if (typeof ev.data === 'string') {
@@ -530,199 +493,28 @@
         });
     }
 
-    function syncControlnetSpeedupGuard(opts = {}) {
-        const speedup = document.getElementById('chk-speedup');
-        if (!speedup || !dom.chkControlnet) return;
-
-        const cnOn = dom.chkControlnet.checked;
-        const speedupLabel = speedup.closest('label');
-
-        if (cnOn) {
-            if (speedup.checked) {
-                speedup.checked = false;
-                if (!opts.silent) {
-                    showToast('ControlNet 已开启，已自动关闭加速模式（二者不兼容）');
-                }
-            }
-            speedup.disabled = true;
-            if (speedupLabel) {
-                speedupLabel.title = 'ControlNet 开启时不可用：加速模式会破坏线稿/姿势控制';
-                speedupLabel.style.opacity = '0.55';
-            }
-        } else {
-            speedup.disabled = false;
-            if (speedupLabel) {
-                speedupLabel.title = '';
-                speedupLabel.style.opacity = '';
-            }
-        }
-    }
-
-    function setupControlnetSpeedupGuard() {
-        const speedup = document.getElementById('chk-speedup');
-        if (!speedup || !dom.chkControlnet) return;
-
-        dom.chkControlnet.addEventListener('change', () => syncControlnetSpeedupGuard());
-        speedup.addEventListener('change', () => {
-            if (speedup.checked && dom.chkControlnet.checked) {
-                speedup.checked = false;
-                showToast('ControlNet 开启时无法使用加速模式');
-            }
-        });
-        syncControlnetSpeedupGuard({ silent: true });
-        syncArchIsolation({ silent: true });
-    }
-
     // ==================== LoRA 多选管理 ====================
     let loraOptions = [];
     let loraCount = 0;
 
-    /** ComfyUI 在 Windows 下 lora_name 用反斜杠，统一比对后取 object_info 里的原始值 */
-    function normalizeLoraKey(name) {
-        return String(name || '').replace(/\\/g, '/').toLowerCase();
-    }
-
-    function resolveLoraNameForComfy(name) {
-        if (name == null || name === '') return name;
-        // 点击「添加 LoRA」时若误传入 Event，直接忽略
-        if (typeof name !== 'string') {
-            if (typeof name === 'object' && (name instanceof Event || typeof name.preventDefault === 'function')) {
-                return '';
-            }
-            name = String(name);
-        }
-        if (loraOptions.includes(name)) return name;
-        const key = normalizeLoraKey(name);
-        const exact = loraOptions.find(l => normalizeLoraKey(l) === key);
-        if (exact) return exact;
-        const parts = name.replace(/\\/g, '/').split('/');
-        const base = (parts.pop() || '').toLowerCase();
-        const folder = parts.join('/').toLowerCase();
-        const fuzzy = loraOptions.find(l => {
-            const lp = String(l).replace(/\\/g, '/').split('/');
-            const lb = (lp.pop() || '').toLowerCase();
-            const lf = lp.join('/').toLowerCase();
-            return lb === base && (!folder || lf === folder);
-        });
-        return fuzzy || name;
-    }
-
-    function _parsePromptParts(text) {
-        return String(text || '').split(',').map(s => s.trim()).filter(Boolean);
-    }
-
-    function _promptPartName(part) {
-        const m = part.match(/^\((.+?):[\d.]+\)$/);
-        return (m ? m[1] : part).trim();
-    }
-
-    function _getLoraTriggerWords(loraName) {
-        if (window.LoraLibrary?.getTriggerWordsForLora) {
-            return LoraLibrary.getTriggerWordsForLora(loraName);
-        }
-        return [];
-    }
-
-    function _appendTriggersToPrompt(triggers) {
-        if (!triggers?.length || !dom.txtPositive) return;
-        const existing = new Set(_parsePromptParts(dom.txtPositive.value).map(p => _promptPartName(p).toLowerCase()));
-        const toAdd = [];
-        triggers.forEach((t) => {
-            const w = String(t).trim();
-            if (w && !existing.has(w.toLowerCase())) {
-                toAdd.push(w);
-                existing.add(w.toLowerCase());
-            }
-        });
-        if (!toAdd.length) return;
-        const cur = dom.txtPositive.value.trim();
-        dom.txtPositive.value = cur ? `${cur}, ${toAdd.join(', ')}` : toAdd.join(', ');
-        dom.txtPositive.dispatchEvent(new Event('input', { bubbles: true }));
-    }
-
-    function _removeTriggersFromPrompt(triggers) {
-        if (!triggers?.length || !dom.txtPositive) return;
-        const removeSet = new Set(triggers.map(t => String(t).trim().toLowerCase()).filter(Boolean));
-        if (!removeSet.size) return;
-        const parts = _parsePromptParts(dom.txtPositive.value).filter(
-            p => !removeSet.has(_promptPartName(p).toLowerCase())
-        );
-        dom.txtPositive.value = parts.join(', ');
-        dom.txtPositive.dispatchEvent(new Event('input', { bubbles: true }));
-    }
-
-    function _bindLoraRowEvents(row) {
-        const sel = row.querySelector('.lora-select');
-        const removeBtn = row.querySelector('.lora-remove');
-        if (sel) {
-            sel.addEventListener('change', () => {
-                const oldTriggers = JSON.parse(row.dataset.loraTriggers || '[]');
-                _removeTriggersFromPrompt(oldTriggers);
-                const name = resolveLoraNameForComfy(sel.value);
-                const newTriggers = _getLoraTriggerWords(name);
-                row.dataset.loraTriggers = JSON.stringify(newTriggers);
-                _appendTriggersToPrompt(newTriggers);
-            });
-        }
-        if (removeBtn) {
-            removeBtn.addEventListener('click', () => {
-                const triggers = JSON.parse(row.dataset.loraTriggers || '[]');
-                _removeTriggersFromPrompt(triggers);
-                row.remove();
-            });
-        }
-    }
-
-    function clearLoraRows(removeTriggers = false) {
-        if (removeTriggers) {
-            dom.loraList.querySelectorAll('.lora-row').forEach((row) => {
-                _removeTriggersFromPrompt(JSON.parse(row.dataset.loraTriggers || '[]'));
-            });
-        }
-        dom.loraList.innerHTML = '';
-        loraCount = 0;
-    }
-
-    function addLoraRow(presetName, presetStrength, presetTriggers, syncTriggers = true) {
-        // 作为 click 回调时第一个参数是 Event，不能当成 LoRA 名
-        if (presetName && typeof presetName === 'object' && (presetName instanceof Event || typeof presetName.preventDefault === 'function')) {
-            presetName = undefined;
-            presetStrength = undefined;
-            presetTriggers = undefined;
-        }
-        const resolvedName = presetName ? resolveLoraNameForComfy(presetName) : presetName;
-        const triggers = presetTriggers?.length
-            ? presetTriggers.filter(Boolean)
-            : (resolvedName ? _getLoraTriggerWords(resolvedName) : []);
+    function addLoraRow() {
         loraCount++;
         const row = document.createElement('div');
         row.className = 'lora-row';
         row.dataset.id = loraCount;
-        row.dataset.loraTriggers = JSON.stringify(syncTriggers ? triggers : []);
-        let options = loraOptions.map(l => `<option value="${l}">${l}</option>`).join('');
-        if (resolvedName && !loraOptions.includes(resolvedName)) {
-            options = `<option value="${resolvedName}">${resolvedName}</option>` + options;
-        }
         row.innerHTML = `
-            <select class="lora-select">${options}</select>
-            <input type="number" class="lora-strength" value="${presetStrength ?? 1}" min="0" max="2" step="0.05" title="强度">
+            <select class="lora-select">${loraOptions.map(l => `<option value="${l}">${l}</option>`).join('')}</select>
+            <input type="number" class="lora-strength" value="1" min="0" max="2" step="0.05" title="强度">
             <button class="btn-icon lora-remove" title="移除">✕</button>
         `;
-        if (resolvedName) {
-            const sel = row.querySelector('.lora-select');
-            if (sel) sel.value = resolvedName;
-        }
-        _bindLoraRowEvents(row);
+        row.querySelector('.lora-remove').addEventListener('click', () => row.remove());
         dom.loraList.appendChild(row);
-        if (syncTriggers && triggers.length) {
-            _appendTriggersToPrompt(triggers);
-        }
     }
 
     function getLoraSelections() {
         const rows = dom.loraList.querySelectorAll('.lora-row');
         return Array.from(rows).map(row => ({
-            name: resolveLoraNameForComfy(row.querySelector('.lora-select').value),
+            name: row.querySelector('.lora-select').value,
             strength: parseFloat(row.querySelector('.lora-strength').value),
         })).filter(l => l.name);
     }
@@ -1050,14 +842,6 @@
     const _archState = { sdxl: null, anima: null };
     const _archModules = { sdxl: null, anima: null };
 
-    /** SDXL 专用：Anima 下 UI 隐藏，且不得进入 buildWorkflow */
-    const SDXL_ONLY_CHECKBOX_IDS = [
-        'chk-speedup', 'chk-vae', 'chk-freeu', 'chk-controlnet', 'chk-ipadapter',
-    ];
-
-    /** FaceDetailer 的 bbox_detector 必须用检测模型，不能用 segm 分割模型 */
-    const ADETAILER_DEFAULT_MODEL = 'bbox/face_yolov8m.pt';
-
     const ARCH_MODULE_CHECKBOX_IDS = [
         'chk-speedup', 'chk-vae', 'chk-lora', 'chk-hires', 'chk-freeu',
         'chk-controlnet', 'chk-img2img', 'chk-regional', 'chk-post-preview', 'chk-adetailer', 'chk-ipadapter',
@@ -1078,44 +862,6 @@
 
     function isAnimaMode() {
         return dom.selArch.value === 'anima';
-    }
-
-    function stripSdxlOnlyCheckboxes(checkboxes) {
-        if (!checkboxes) return;
-        SDXL_ONLY_CHECKBOX_IDS.forEach(id => { checkboxes[id] = false; });
-    }
-
-    function resolveAdetailerModelName(raw) {
-        const val = String(raw || '').trim();
-        if (!val) return ADETAILER_DEFAULT_MODEL;
-        // 分割模型不能作为 FaceDetailer 的 bbox 检测器
-        if (val.startsWith('segm/')) return ADETAILER_DEFAULT_MODEL;
-        return val;
-    }
-
-    function ensureAdetailerDefaultModel() {
-        if (!dom.selAdetailerModel) return;
-        const fixed = resolveAdetailerModelName(dom.selAdetailerModel.value);
-        if (dom.selAdetailerModel.value !== fixed) {
-            setSelectIfExists(dom.selAdetailerModel, fixed);
-        }
-    }
-
-    function syncArchIsolation(opts = {}) {
-        if (!isAnimaMode()) return;
-
-        let changed = false;
-        SDXL_ONLY_CHECKBOX_IDS.forEach(id => {
-            const el = document.getElementById(id);
-            if (el?.checked) {
-                el.checked = false;
-                changed = true;
-            }
-        });
-        syncControlnetSpeedupGuard({ silent: true });
-        if (changed && !opts.silent) {
-            showToast('Anima 模式已自动关闭 SDXL 专用模块（ControlNet / FreeU / IP-Adapter 等）');
-        }
     }
 
     function captureArchState() {
@@ -1157,19 +903,6 @@
         setSelectIfExists(dom.selScheduler, state.scheduler);
     }
 
-    function swapCurrentSize() {
-        if (!dom.inpWidth || !dom.inpHeight) return;
-        const width = dom.inpWidth.value;
-        const height = dom.inpHeight.value;
-        dom.inpWidth.value = height;
-        dom.inpHeight.value = width;
-        dom.inpWidth.dispatchEvent(new Event('input', { bubbles: true }));
-        dom.inpHeight.dispatchEvent(new Event('input', { bubbles: true }));
-        const arch = dom.selArch?.value || 'sdxl';
-        _archState[arch] = captureArchState();
-        ProfileManager.scheduleAutosave();
-    }
-
     function formatAnimaArtistTag(tag) {
         let name = tag.replace(/_/g, ' ');
         if (!name.startsWith('@')) name = '@' + name;
@@ -1202,8 +935,6 @@
             }
             ProfileManager.scheduleAutosave();
         });
-
-        dom.btnSwapSize?.addEventListener('click', swapCurrentSize);
     }
 
     function createEmptyArchModules() {
@@ -1217,7 +948,7 @@
             const el = document.getElementById(id);
             if (el) inputs[id] = el.value;
         });
-        return { loras: [], regions: [], checkboxes, selects: { 'sel-adetailer-model': ADETAILER_DEFAULT_MODEL }, inputs };
+        return { loras: [], regions: [], checkboxes, selects: {}, inputs };
     }
 
     function captureArchModules() {
@@ -1238,17 +969,18 @@
 
     function applyArchModules(modules) {
         const data = modules || createEmptyArchModules();
-        if (isAnimaMode()) stripSdxlOnlyCheckboxes(data.checkboxes);
         _profileWriteMap(data.checkboxes);
         _profileWriteMap(data.selects);
         _profileWriteMap(data.inputs);
-        if (!data.selects?.['sel-adetailer-model']) {
-            setSelectIfExists(dom.selAdetailerModel, ADETAILER_DEFAULT_MODEL);
-        }
-        ensureAdetailerDefaultModel();
-        clearLoraRows(false);
+        dom.loraList.innerHTML = '';
+        loraCount = 0;
         (data.loras || []).forEach(l => {
-            addLoraRow(l.name, l.strength, undefined, false);
+            addLoraRow();
+            const row = dom.loraList.lastElementChild;
+            if (!row) return;
+            setSelectIfExists(row.querySelector('.lora-select'), l.name);
+            const strength = row.querySelector('.lora-strength');
+            if (strength && l.strength !== undefined) strength.value = l.strength;
         });
         dom.regionalList.innerHTML = '';
         regionCount = 0;
@@ -1259,7 +991,6 @@
             if (prompt) prompt.value = r.prompt || '';
         });
         drawRegionCanvas();
-        syncArchIsolation({ silent: true });
         _profileRefreshTogglePanels();
     }
 
@@ -1279,13 +1010,10 @@
         });
         modules.loras = data.loras || [];
         modules.regions = data.regions || [];
-        const otherModules = createEmptyArchModules();
-        if (other === 'anima') stripSdxlOnlyCheckboxes(otherModules.checkboxes);
         data.archModules = {
             [arch]: modules,
-            [other]: otherModules,
+            [other]: createEmptyArchModules(),
         };
-        if (arch === 'anima') stripSdxlOnlyCheckboxes(data.archModules.anima.checkboxes);
         data.v = 2;
         return data;
     }
@@ -1431,7 +1159,6 @@
             dom.chkVae, dom.chkLora, dom.chkHires, dom.chkControlnet, dom.chkImg2img,
             dom.chkAdetailer, dom.chkRegional, $('#chk-freeu'), dom.chkIpadapter,
         ].forEach(chk => chk?.dispatchEvent(new Event('change')));
-        syncControlnetSpeedupGuard({ silent: true });
     }
 
     function _profileCaptureLoras() {
@@ -1439,9 +1166,15 @@
     }
 
     function _profileApplyLoras(loras) {
-        clearLoraRows(false);
+        dom.loraList.innerHTML = '';
+        loraCount = 0;
         (loras || []).forEach(l => {
-            addLoraRow(l.name, l.strength, undefined, false);
+            addLoraRow();
+            const row = dom.loraList.lastElementChild;
+            if (!row) return;
+            setSelectIfExists(row.querySelector('.lora-select'), l.name);
+            const strength = row.querySelector('.lora-strength');
+            if (strength && l.strength !== undefined) strength.value = l.strength;
         });
     }
 
@@ -2247,8 +1980,10 @@
         const speedupLabel = speedupCheckbox?.closest('label');
         if (speedupCheckbox && speedupLabel) {
             speedupLabel.classList.toggle('arch-hidden', isAnima);
+            if (isAnima) {
+                speedupCheckbox.checked = false;
+            }
         }
-        syncArchIsolation({ silent: true });
         _inpaintUpdateArchPanels();
     }
 
@@ -2265,17 +2000,17 @@
         let nextId = 10;
         const id = () => String(nextId++);
 
-        const isAnima = isAnimaMode();
-        const useVae = dom.chkVae.checked && !isAnima;
+        const useVae = dom.chkVae.checked;
         const useLora = dom.chkLora.checked;
         const useHires = dom.chkHires.checked && stage !== 'base';
-        const useControlnet = dom.chkControlnet.checked && uploadedImages.controlnet && !isAnima;
+        const useControlnet = dom.chkControlnet.checked && uploadedImages.controlnet;
         const useImg2img = dom.chkImg2img.checked && (uploadedImages.img2img || refImageUrl) && stage !== 'post';
         const useAdetailer = dom.chkAdetailer.checked && stage !== 'base';
         const useRegional = dom.chkRegional.checked;
-        const useIpadapter = dom.chkIpadapter?.checked && uploadedImages.ipadapter && !isAnima;
+        const useIpadapter = dom.chkIpadapter?.checked && uploadedImages.ipadapter && !isAnimaMode();
 
         let modelOut, clipOut, vaeOut;
+        const isAnima = dom.selArch.value === 'anima';
 
         if (isAnima) {
             const unetId = id();
@@ -2464,7 +2199,7 @@
                 const previewSaveId = id();
                 nodes[previewSaveId] = {
                     class_type: "SaveImage",
-                    inputs: { filename_prefix: getSaveImagePrefix("CN_Preview"), images: preprocessedImage },
+                    inputs: { filename_prefix: "CN_Preview", images: preprocessedImage },
                 };
             }
 
@@ -2524,8 +2259,8 @@
             }
         }
 
-        // FreeU (quality enhancement, SDXL only)
-        const useFreeu = document.getElementById('chk-freeu')?.checked && !isAnima;
+        // FreeU (quality enhancement)
+        const useFreeu = document.getElementById('chk-freeu')?.checked;
         if (useFreeu) {
             const freeuId = id();
             nodes[freeuId] = {
@@ -2541,8 +2276,8 @@
             modelOut = [freeuId, 0];
         }
 
-        // PatchModelAddDownscale (speed boost, SDXL only) — 与 ControlNet 不兼容
-        const useSpeedup = document.getElementById('chk-speedup')?.checked && !dom.chkControlnet.checked && !isAnima;
+        // PatchModelAddDownscale (speed boost)
+        const useSpeedup = document.getElementById('chk-speedup')?.checked;
         if (useSpeedup) {
             const downscaleId = id();
             nodes[downscaleId] = {
@@ -2716,7 +2451,7 @@
             const beforeSaveId = id();
             nodes[beforeSaveId] = {
                 class_type: "SaveImage",
-                inputs: { filename_prefix: getSaveImagePrefix("CW_Before"), images: finalImage },
+                inputs: { filename_prefix: "CW_Before", images: finalImage },
             };
         }
 
@@ -2725,7 +2460,7 @@
             const detectorId = id();
             nodes[detectorId] = {
                 class_type: "UltralyticsDetectorProvider",
-                inputs: { model_name: resolveAdetailerModelName(dom.selAdetailerModel?.value) },
+                inputs: { model_name: dom.selAdetailerModel.value },
             };
 
             const detailerId = id();
@@ -2773,7 +2508,7 @@
         nodes[saveId] = {
             class_type: "SaveImage",
             inputs: {
-                filename_prefix: getSaveImagePrefix(stage === 'base' ? 'CW_Base' : 'ComfyUI_Web'),
+                filename_prefix: stage === 'base' ? 'CW_Base' : 'ComfyUI_Web',
                 images: finalImage,
             },
         };
@@ -2983,10 +2718,12 @@
         if (_inpaintNodes && !force) return _inpaintNodes;
         const nodes = {
             loadImageMask: false,
+            composite: false,
             inpaintCropRequired: {},
         };
         const checks = [
             ['loadImageMask', 'LoadImageMask'],
+            ['composite', 'ImageCompositeMasked'],
             ['animaLLLite', 'AnimaLLLiteApply'],
             ['inpaintPreprocessor', 'InpaintPreprocessor'],
             ['inpaintCrop', 'InpaintCropImproved'],
@@ -3218,8 +2955,11 @@
         if (!dom.btnInpaintDownload) return;
         dom.btnInpaintDownload.disabled = true;
         dom.inpaintDownloadProgress?.classList.remove('hidden');
+        const anima = isAnimaMode();
         if (dom.inpaintProgressText) {
-            dom.inpaintProgressText.textContent = '正在下载 Anima LLLite Inpaint 权重...';
+            dom.inpaintProgressText.textContent = anima
+                ? '正在下载 Anima LLLite Inpaint 权重...'
+                : '正在下载 Fooocus Inpaint 补丁...';
         }
         if (dom.inpaintProgressBar) dom.inpaintProgressBar.style.width = '8%';
         try {
@@ -3260,14 +3000,18 @@
             });
             if (dom.inpaintProgressBar) dom.inpaintProgressBar.style.width = '100%';
             if (dom.inpaintProgressText) {
-                dom.inpaintProgressText.textContent = 'LLLite 权重就绪！请重启 ComfyUI 后使用';
+                dom.inpaintProgressText.textContent = anima
+                    ? 'LLLite 权重就绪！请重启 ComfyUI 后使用'
+                    : '补丁就绪！请重启 ComfyUI 后使用';
             }
             await updateInpaintEngineUI();
             setTimeout(() => dom.inpaintDownloadProgress?.classList.add('hidden'), 2500);
         } catch (e) {
             console.warn('[Inpaint] download failed:', e);
             if (dom.inpaintProgressText) {
-                dom.inpaintProgressText.textContent = '下载失败：请安装 ComfyUI-Anima-LLLite，并手动将权重放到 models/controlnet/';
+                dom.inpaintProgressText.textContent = anima
+                    ? '下载失败：请安装 ComfyUI-Anima-LLLite，并手动将权重放到 models/controlnet/'
+                    : '自动下载失败：请在 Manager 安装 comfyui-inpaint-nodes，并手动下载补丁到 models/inpaint/';
             }
             setTimeout(() => dom.inpaintDownloadProgress?.classList.add('hidden'), 5000);
         } finally {
@@ -3422,7 +3166,7 @@
             denoise: 0.50,
         },
         nude: {
-            hint: '只涂衣物区域。建议选「强化小范围」；强度过高容易偏离原图。',
+            hint: '只涂衣物。模式选「标准」或「强力」；Fooocus 引擎就绪后效果最好。',
             positive: 'bare skin, nude, natural skin texture, nipples, anatomically correct, seamless skin',
             negative: 'clothes, clothing, underwear, bra, panties, bikini, swimsuit, fabric, strap, censored, mosaic, deformed',
             denoise: 0.62,
@@ -3695,7 +3439,7 @@
         }
 
         const saveId = id();
-        wf[saveId] = { class_type: 'SaveImage', inputs: { filename_prefix: getSaveImagePrefix('ComfyUI_Web'), images: finalImage } };
+        wf[saveId] = { class_type: 'SaveImage', inputs: { filename_prefix: 'ComfyUI_Web', images: finalImage } };
 
         return {
             prompt: wf,
@@ -5962,7 +5706,7 @@
     async function collectUploadedImages() {
         const uploadedImages = {};
 
-        if (dom.chkControlnet.checked && !isAnimaMode() && dom.inpCnImage.files[0]) {
+        if (dom.chkControlnet.checked && dom.inpCnImage.files[0]) {
             const res = await uploadImage(dom.inpCnImage.files[0]);
             uploadedImages.controlnet = res.name;
         }
@@ -5989,7 +5733,6 @@
         const payload = {
             prompt: workflowBuilt.prompt,
             client_id: _gen.wsClientId || (`cw_${Math.random().toString(16).slice(2)}${Date.now().toString(16)}`),
-            extra_data: _promptExtraData(),
         };
         _gen.wsClientId = payload.client_id;
         _connectPreviewWS();
@@ -6251,192 +5994,63 @@
     }
 
     // ==================== 历史管理 ====================
-    const HISTORY_BATCH = 40;
-    const HISTORY_IDB_KEY = 'comfyui_history';
-    let historyRenderedCount = 0;
-    let historyScrollObserver = null;
-    let _historyMem = null;
-    let _historyLoadPromise = null;
-
-    function ensureHistoryLoaded() {
-        if (_historyLoadPromise) return _historyLoadPromise;
-        _historyLoadPromise = (async () => {
-            if (_historyMem) return _historyMem;
-            const fromIdb = typeof _bigCacheGet === 'function'
-                ? await _bigCacheGet(HISTORY_IDB_KEY)
-                : null;
-            if (Array.isArray(fromIdb)) {
-                _historyMem = fromIdb;
-                return _historyMem;
-            }
-            try {
-                const legacy = JSON.parse(localStorage.getItem('comfyui_history') || '[]');
-                _historyMem = Array.isArray(legacy) ? legacy : [];
-                if (_historyMem.length && typeof _bigCacheSet === 'function') {
-                    await _bigCacheSet(HISTORY_IDB_KEY, _historyMem);
-                }
-                if (_historyMem.length) {
-                    try { localStorage.removeItem('comfyui_history'); } catch { /* ignore */ }
-                }
-            } catch {
-                _historyMem = [];
-            }
-            if (!_historyMem) _historyMem = [];
-            return _historyMem;
-        })();
-        return _historyLoadPromise;
-    }
-
     function getHistory() {
-        return _historyMem || [];
-    }
-
-    async function persistHistory(history) {
-        _historyMem = history;
-        if (typeof _bigCacheSet !== 'function') {
-            try {
-                localStorage.setItem('comfyui_history', JSON.stringify(history));
-                return true;
-            } catch (e) {
-                console.warn('[History] localStorage full:', e.message);
-                return false;
-            }
-        }
-        let trimmed = history;
-        let ok = await _bigCacheSet(HISTORY_IDB_KEY, trimmed);
-        while (!ok && trimmed.length > 1) {
-            trimmed = trimmed.slice(0, -1);
-            _historyMem = trimmed;
-            ok = await _bigCacheSet(HISTORY_IDB_KEY, trimmed);
-        }
-        if (!ok) return false;
-        try { localStorage.removeItem('comfyui_history'); } catch { /* ignore */ }
-        return true;
-    }
-
-    function pickHistoryUrl(url, meta = {}) {
-        const candidates = [meta.persistUrl, meta.remoteUrl, url].filter(Boolean);
-        for (const u of candidates) {
-            if (typeof u === 'string' && !u.startsWith('data:') && u.length < 4000) return u;
-        }
-        return url;
-    }
-
-    function prependHistoryUI(entry, historyLength) {
-        if (!dom.historyGrid) return;
-        if (historyRenderedCount > 0) {
-            dom.historyGrid.insertBefore(createHistoryItemElement(entry), dom.historyGrid.firstChild);
-            historyRenderedCount += 1;
-            ensureHistorySentinel(historyLength);
-        } else {
-            renderHistory({ reset: true });
+        try {
+            return JSON.parse(localStorage.getItem('comfyui_history') || '[]');
+        } catch {
+            return [];
         }
     }
 
-    function createHistoryItemElement(item) {
-        const displayUrl = item.fullUrl || item.url;
-        const div = document.createElement('div');
-        div.className = 'history-item';
-        const img = document.createElement('img');
-        img.src = displayUrl;
-        img.alt = '历史图片';
-        img.loading = 'lazy';
-        div.appendChild(img);
-        const overlay = document.createElement('div');
-        overlay.className = 'history-overlay';
-        overlay.innerHTML = '<button class="btn-history-ref" title="用作参考图">📌</button><button class="btn-history-inpaint" title="局部重绘">🖌</button><button class="btn-history-composite" title="图层合成">🧩</button><button class="btn-history-cutout" title="抠图">✂️</button>';
-        overlay.querySelector('.btn-history-ref').addEventListener('click', (e) => {
-            e.stopPropagation();
-            useImageAsRef(displayUrl);
-        });
-        overlay.querySelector('.btn-history-inpaint').addEventListener('click', (e) => {
-            e.stopPropagation();
-            openInpaintModal(displayUrl);
-        });
-        overlay.querySelector('.btn-history-composite').addEventListener('click', (e) => {
-            e.stopPropagation();
-            openCompositorModal({ baseUrl: displayUrl });
-        });
-        overlay.querySelector('.btn-history-cutout').addEventListener('click', (e) => {
-            e.stopPropagation();
-            openCutoutModal({ imageUrl: displayUrl });
-        });
-        div.appendChild(overlay);
-        div.addEventListener('click', () => {
-            dom.previewImage.src = displayUrl;
-            dom.modalPreview.classList.remove('hidden');
-        });
-        return div;
-    }
-
-    function removeHistorySentinel() {
-        dom.historyGrid?.querySelector('.history-sentinel')?.remove();
-    }
-
-    function ensureHistorySentinel(historyLength) {
-        if (!dom.historyGrid) return;
-        removeHistorySentinel();
-        if (historyRenderedCount >= historyLength) return;
-        const sentinel = document.createElement('div');
-        sentinel.className = 'history-sentinel';
-        sentinel.setAttribute('aria-hidden', 'true');
-        dom.historyGrid.appendChild(sentinel);
-        if (!historyScrollObserver) {
-            historyScrollObserver = new IntersectionObserver((entries) => {
-                if (entries.some((e) => e.isIntersecting)) {
-                    renderHistory({ append: true });
-                }
-            }, { root: dom.historyGrid, rootMargin: '120px' });
-        }
-        historyScrollObserver.observe(sentinel);
-    }
-
-    function saveToHistory(url, meta = {}) {
-        const storeUrl = pickHistoryUrl(url, meta);
-        const entry = { url: storeUrl, time: Date.now(), ...meta };
-        if (storeUrl !== url) entry.fullUrl = url;
-        (async () => {
-            await ensureHistoryLoaded();
-            const history = [...getHistory()];
-            history.unshift(entry);
-            const ok = await persistHistory(history);
-            if (!ok) {
-                showToast('历史保存失败（存储空间不足）', 2200);
-                return;
-            }
-            prependHistoryUI(entry, history.length);
-        })().catch((e) => {
-            console.warn('[History] save failed:', e);
-            showToast('历史保存失败', 2000);
-        });
+    function saveToHistory(url) {
+        const history = getHistory();
+        history.unshift({ url, time: Date.now() });
+        localStorage.setItem('comfyui_history', JSON.stringify(history));
+        renderHistory();
     }
 
     function clearHistory() {
-        (async () => {
-            await ensureHistoryLoaded();
-            await persistHistory([]);
-            renderHistory({ reset: true });
-        })().catch((e) => console.warn('[History] clear failed:', e));
+        localStorage.removeItem('comfyui_history');
+        renderHistory();
     }
 
-    function renderHistory({ reset = false, append = false } = {}) {
-        if (!dom.historyGrid) return;
+    function renderHistory() {
         const history = getHistory();
-        if (reset || (!append && historyRenderedCount === 0)) {
-            historyScrollObserver?.disconnect();
-            historyScrollObserver = null;
-            dom.historyGrid.innerHTML = '';
-            historyRenderedCount = 0;
-        }
-        if (!history.length) return;
-        const nextEnd = Math.min(historyRenderedCount + HISTORY_BATCH, history.length);
-        const frag = document.createDocumentFragment();
-        for (let i = historyRenderedCount; i < nextEnd; i++) {
-            frag.appendChild(createHistoryItemElement(history[i]));
-        }
-        dom.historyGrid.appendChild(frag);
-        historyRenderedCount = nextEnd;
-        ensureHistorySentinel(history.length);
+        dom.historyGrid.innerHTML = '';
+        history.forEach((item) => {
+            const div = document.createElement('div');
+            div.className = 'history-item';
+            const img = document.createElement('img');
+            img.src = item.url;
+            img.alt = '历史图片';
+            img.loading = 'lazy';
+            div.appendChild(img);
+            const overlay = document.createElement('div');
+            overlay.className = 'history-overlay';
+            overlay.innerHTML = '<button class="btn-history-ref" title="用作参考图">📌</button><button class="btn-history-inpaint" title="局部重绘">🖌</button><button class="btn-history-composite" title="图层合成">🧩</button><button class="btn-history-cutout" title="抠图">✂️</button>';
+            overlay.querySelector('.btn-history-ref').addEventListener('click', (e) => {
+                e.stopPropagation();
+                useImageAsRef(item.url);
+            });
+            overlay.querySelector('.btn-history-inpaint').addEventListener('click', (e) => {
+                e.stopPropagation();
+                openInpaintModal(item.url);
+            });
+            overlay.querySelector('.btn-history-composite').addEventListener('click', (e) => {
+                e.stopPropagation();
+                openCompositorModal({ baseUrl: item.url });
+            });
+            overlay.querySelector('.btn-history-cutout').addEventListener('click', (e) => {
+                e.stopPropagation();
+                openCutoutModal({ imageUrl: item.url });
+            });
+            div.appendChild(overlay);
+            div.addEventListener('click', () => {
+                dom.previewImage.src = item.url;
+                dom.modalPreview.classList.remove('hidden');
+            });
+            dom.historyGrid.appendChild(div);
+        });
     }
 
     // ==================== ControlNet 预览 ====================
@@ -6471,7 +6085,7 @@
                 prompt: {
                     '1': { class_type: 'LoadImage', inputs: { image: uploaded.name } },
                     '2': { class_type: prepClass, inputs: prepInputs },
-                    '3': { class_type: 'SaveImage', inputs: { filename_prefix: getSaveImagePrefix('CN_Preview'), images: ['2', 0] } },
+                    '3': { class_type: 'SaveImage', inputs: { filename_prefix: 'CN_Preview', images: ['2', 0] } },
                 },
             };
 
@@ -6559,8 +6173,6 @@
 
         setupTutorialDownloads();
 
-        dom.btnComfyNative?.addEventListener('click', openComfyUINative);
-
         // Settings modal
         dom.btnSettings.addEventListener('click', () => {
             dom.inpServer.value = getComfyUIAddress();
@@ -6569,91 +6181,14 @@
             const admStatus = document.getElementById('admin-status');
             if (admInput) admInput.value = sessionStorage.getItem('_adm') || '';
             if (admStatus) admStatus.style.display = sessionStorage.getItem('_adm') ? 'block' : 'none';
-            const civHost = document.getElementById('inp-civitai-host');
-            const civKey = document.getElementById('inp-civitai-key');
-            if (civHost) civHost.value = localStorage.getItem('lora_civitai_host') || 'civitai.red';
-            if (civKey) civKey.value = localStorage.getItem('lora_civitai_key') || '';
-            const dzmmInp = document.getElementById('inp-dzmm-cookie');
-            if (dzmmInp) {
-                const saved = localStorage.getItem('dzmm_cookie') || '';
-                if (!dzmmInp.value.trim() && saved) dzmmInp.value = saved;
-            }
-            const rotateChk = document.getElementById('chk-dzmm-auto-rotate');
-            if (rotateChk) {
-                const v = localStorage.getItem('dzmm_auto_rotate');
-                rotateChk.checked = v === null ? true : v !== '0';
-            }
-            const dewmarkChk = document.getElementById('chk-dzmm-dewmark');
-            if (dewmarkChk && window.DzmmDewmark) {
-                dewmarkChk.checked = DzmmDewmark.enabled();
-            }
             dom.modalSettings.classList.remove('hidden');
         });
 
-        dom.btnSaveSettings.addEventListener('click', async () => {
+        dom.btnSaveSettings.addEventListener('click', () => {
             const url = dom.inpServer.value.trim();
             if (!url) return;
             setComfyUIAddress(url);
             ProfileManager.saveSessionFromUI();
-            const civHost = document.getElementById('inp-civitai-host')?.value.trim();
-            const civKey = document.getElementById('inp-civitai-key')?.value.trim();
-            if (window.LoraLibrary?.saveCivitaiConfig) {
-                try {
-                    await LoraLibrary.saveCivitaiConfig(civKey || '', civHost || 'civitai.red');
-                } catch (e) {
-                    console.warn('[LoRA] civitai config save:', e);
-                }
-            }
-            const dzmmCookie = document.getElementById('inp-dzmm-cookie')?.value.trim();
-            if (dzmmCookie) {
-                try {
-                    localStorage.setItem('dzmm_cookie', dzmmCookie);
-                    // 写入账号池（去重）
-                    const idHash = (() => {
-                        let h = 0;
-                        for (let i = 0; i < dzmmCookie.length; i++) h = ((h << 5) - h + dzmmCookie.charCodeAt(i)) | 0;
-                        return `a_${Math.abs(h).toString(36)}_${dzmmCookie.length}`;
-                    })();
-                    let accounts = [];
-                    try { accounts = JSON.parse(localStorage.getItem('dzmm_accounts') || '[]'); } catch { accounts = []; }
-                    if (!Array.isArray(accounts)) accounts = [];
-                    const idx = accounts.findIndex((a) => a && a.id === idHash);
-                    const row = {
-                        id: idHash,
-                        cookie: dzmmCookie,
-                        label: (idx >= 0 && accounts[idx].label) || `账号 ${accounts.length + (idx >= 0 ? 0 : 1)}`,
-                        email: idx >= 0 ? accounts[idx].email : '',
-                        fullName: idx >= 0 ? accounts[idx].fullName : '',
-                        quotas: idx >= 0 ? accounts[idx].quotas : null,
-                        updatedAt: Date.now(),
-                    };
-                    if (idx >= 0) accounts[idx] = { ...accounts[idx], ...row };
-                    else accounts.push(row);
-                    localStorage.setItem('dzmm_accounts', JSON.stringify(accounts));
-                    localStorage.setItem('dzmm_active_id', idHash);
-                } catch (e) {
-                    console.warn('[DZMM] localStorage cookie:', e);
-                }
-                try {
-                    const r = await fetch('/api/dzmm/cookie', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ cookie: dzmmCookie }),
-                    });
-                    const d = await r.json().catch(() => ({}));
-                    if (!r.ok) throw new Error(d.error || r.statusText);
-                } catch (e) {
-                    console.warn('[DZMM] cookie save (local API):', e.message || e);
-                }
-            }
-            const rotateChkSave = document.getElementById('chk-dzmm-auto-rotate');
-            if (rotateChkSave) {
-                localStorage.setItem('dzmm_auto_rotate', rotateChkSave.checked ? '1' : '0');
-            }
-            const dewmarkChk = document.getElementById('chk-dzmm-dewmark');
-            if (dewmarkChk && window.DzmmDewmark) {
-                DzmmDewmark.setEnabled(!!dewmarkChk.checked);
-            }
             const admKey = document.getElementById('inp-admin-key')?.value.trim();
             if (admKey) {
                 sessionStorage.setItem('_adm', admKey);
@@ -6745,7 +6280,7 @@
         });
 
         // LoRA add button
-        dom.btnAddLora.addEventListener('click', () => addLoraRow());
+        dom.btnAddLora.addEventListener('click', addLoraRow);
 
         // ControlNet model description
         dom.selControlnet.addEventListener('change', updateCnDesc);
@@ -7273,9 +6808,9 @@
             picker.searchModeBtn.textContent = '标签';
             picker.searchModeBtn.classList.remove('mode-category');
         }
-        const sub = tagData[_artistGroupIdx]?.subgroups[picker.subIdx];
         picker.searchEl.placeholder = sub?._artistSort === 'chains' ? '搜索画师串...' : '搜索画师...';
         _artistPage = 1;
+        const sub = tagData[_artistGroupIdx]?.subgroups[picker.subIdx];
         if (sub?._artistSort) {
             _artistCurrentSort = sub._artistSort;
             _artistCurrentLetter = 'all';
@@ -7380,7 +6915,7 @@
             _patchSeriesCountsOnTagData();
         }
         try {
-            const res = await fetch('/series_char_counts.json');
+            const res = await fetch('series_char_counts.json');
             if (!res.ok) return false;
             const currentVer = res.headers.get('etag') || res.headers.get('last-modified') || '';
             const cachedVer = (await _bigCacheGet('_series_char_counts_ver')) || '';
@@ -7479,7 +7014,7 @@
     async function _refreshTagsAndSeriesInBackground() {
         let tagsChanged = false;
         try {
-            const res = await fetch('/tags.json');
+            const res = await fetch('tags.json');
             if (res.ok) {
                 const currentVer = res.headers.get('etag') || res.headers.get('last-modified') || '';
                 const cachedVer = (await _bigCacheGet('_tags_ver')) || '';
@@ -7520,7 +7055,7 @@
 
         if (!tagData.length) {
             try {
-                const res = await fetch('/tags.json');
+                const res = await fetch('tags.json');
                 tagData = await res.json();
                 const currentVer = res.headers.get('etag') || res.headers.get('last-modified') || '';
                 await _bigCacheSet('_tags_cache', tagData);
@@ -8102,46 +7637,39 @@
         _renderPagination(total) {
             this._removePagination();
             if (_artistTotalPages <= 1) return;
-            const mobile = window.matchMedia('(max-width: 640px)').matches;
             const nav = document.createElement('div');
             nav.className = 'artist-pagination';
             const prevBtn = document.createElement('button');
-            prevBtn.textContent = mobile ? '←' : '← 上一页';
+            prevBtn.textContent = '← 上一页';
             prevBtn.disabled = _artistPage <= 1;
             prevBtn.addEventListener('click', () => { _artistPage--; this.renderGrid(); });
 
             const info = document.createElement('span');
             info.className = 'page-info';
-            info.textContent = mobile
-                ? `第 ${_artistPage}/${_artistTotalPages} 页 · ${total || '?'}`
-                : `第 ${_artistPage} / ${_artistTotalPages} 页（共 ${total || '?'} 位画师）`;
+            info.textContent = `第 ${_artistPage} / ${_artistTotalPages} 页（共 ${total || '?'} 位画师）`;
 
             const nextBtn = document.createElement('button');
-            nextBtn.textContent = mobile ? '→' : '下一页 →';
+            nextBtn.textContent = '下一页 →';
             nextBtn.disabled = _artistPage >= _artistTotalPages;
             nextBtn.addEventListener('click', () => { _artistPage++; this.renderGrid(); });
 
-            nav.append(prevBtn, info, nextBtn);
+            const jumpWrap = document.createElement('span');
+            jumpWrap.className = 'page-jump';
+            const jumpInput = document.createElement('input');
+            jumpInput.type = 'number';
+            jumpInput.min = 1;
+            jumpInput.max = _artistTotalPages;
+            jumpInput.placeholder = '跳转';
+            jumpInput.style.width = '50px';
+            const jumpBtn = document.createElement('button');
+            jumpBtn.textContent = 'Go';
+            jumpBtn.addEventListener('click', () => {
+                const p = parseInt(jumpInput.value);
+                if (p >= 1 && p <= _artistTotalPages) { _artistPage = p; this.renderGrid(); }
+            });
+            jumpWrap.append(jumpInput, jumpBtn);
 
-            if (!mobile) {
-                const jumpWrap = document.createElement('span');
-                jumpWrap.className = 'page-jump';
-                const jumpInput = document.createElement('input');
-                jumpInput.type = 'number';
-                jumpInput.min = 1;
-                jumpInput.max = _artistTotalPages;
-                jumpInput.placeholder = '跳转';
-                jumpInput.style.width = '50px';
-                const jumpBtn = document.createElement('button');
-                jumpBtn.textContent = 'Go';
-                jumpBtn.addEventListener('click', () => {
-                    const p = parseInt(jumpInput.value);
-                    if (p >= 1 && p <= _artistTotalPages) { _artistPage = p; this.renderGrid(); }
-                });
-                jumpWrap.append(jumpInput, jumpBtn);
-                nav.append(jumpWrap);
-            }
-
+            nav.append(prevBtn, info, nextBtn, jumpWrap);
             this.gridEl.parentElement.insertBefore(nav, this.gridEl.nextSibling);
         }
 
@@ -8643,7 +8171,9 @@
     }
 
     function showCharPreview(tag) {
-        const imgUrl = tag.th ? tag.th.replace('/thumbs/', '/').replace('.webp', '.png') : '';
+        const imgUrl = tag.th
+            ? String(tag.th).replace(/%2F/gi, '_').replace('/thumbs/', '/').replace('.webp', '.png')
+            : '';
         if (!imgUrl) return;
         let overlay = document.getElementById('char-preview-overlay');
         if (!overlay) {
@@ -9050,373 +8580,16 @@
         });
     }
 
-    // ==================== 深链跳转 ====================
-    let _appliedDeepLinkKey = '';
-    let _portalArtistSubIdx = 0;
-    let _portalArtistPage = 1;
-    let _portalArtistTotalPages = 1;
-
-    function _isMobileAppLayout() {
-        const nav = document.getElementById('mobile-nav');
-        if (nav && getComputedStyle(nav).display !== 'none') return true;
-        return window.matchMedia('(max-width: 640px)').matches;
-    }
-
-    function _parseDeepLinkParams() {
-        const params = new URLSearchParams(location.search);
-        const hashRaw = location.hash.replace(/^#/, '').trim();
-        const hashParams = new URLSearchParams(hashRaw.includes('=') ? hashRaw : '');
-        if (hashRaw === 'settings') hashParams.set('tab', 'settings');
-        const get = (k) => params.get(k) || hashParams.get(k);
-        return {
-            tag: get('tag'),
-            arch: get('arch'),
-            mode: get('mode'),
-            tab: get('tab'),
-            action: get('action'),
-            focus: get('focus'),
-        };
-    }
-
-    function _makeDeepLinkIntentKey(dl) {
-        return [dl.tag, dl.arch, dl.mode, dl.tab, dl.action, dl.focus].map(v => v || '').join('|');
-    }
-
-    function _hasDeepLinkIntent(dl) {
-        return !!(dl.tag || dl.arch || dl.mode || dl.tab || dl.focus);
-    }
-
-    function _closePortalOverlays() {
-        ['portal-char-overlay', 'portal-artist-overlay', 'portal-lora-overlay'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) {
-                el.classList.add('hidden');
-                el.setAttribute('aria-hidden', 'true');
-            }
-        });
-        document.body.classList.remove('portal-overlay-open');
-    }
-
-    function _openPortalCharOverlay() {
-        _closePortalOverlays();
-        const overlay = document.getElementById('portal-char-overlay');
-        if (!overlay) return;
-        overlay.classList.remove('hidden');
-        overlay.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('portal-overlay-open');
-        _seriesListState.page = 1;
-        _seriesListState.filter = '';
-        const search = document.getElementById('portal-char-search');
-        if (search) search.value = '';
-        renderMobileSeriesList('', { context: 'portal' });
-    }
-
-    function _renderPortalArtistPagination(total) {
-        const nav = document.getElementById('portal-artist-pagination');
-        if (!nav) return;
-        nav.innerHTML = '';
-        if (_portalArtistTotalPages <= 1) return;
-
-        const prevBtn = document.createElement('button');
-        prevBtn.type = 'button';
-        prevBtn.textContent = '← 上一页';
-        prevBtn.disabled = _portalArtistPage <= 1;
-        prevBtn.addEventListener('click', () => {
-            _portalArtistPage--;
-            renderPortalArtistGrid();
-        });
-
-        const info = document.createElement('span');
-        info.className = 'page-info';
-        info.textContent = `第 ${_portalArtistPage} / ${_portalArtistTotalPages} 页（共 ${total || '?'} 位画师）`;
-
-        const nextBtn = document.createElement('button');
-        nextBtn.type = 'button';
-        nextBtn.textContent = '下一页 →';
-        nextBtn.disabled = _portalArtistPage >= _portalArtistTotalPages;
-        nextBtn.addEventListener('click', () => {
-            _portalArtistPage++;
-            renderPortalArtistGrid();
-        });
-
-        nav.append(prevBtn, info, nextBtn);
-    }
-
-    function renderPortalArtistGrid() {
-        const grid = document.getElementById('portal-artist-grid');
-        if (!grid) return;
-        if (_artistGroupIdx < 0) _injectArtistGroup();
-
-        const mode = _ARTIST_SORT_MODES[_portalArtistSubIdx];
-        if (!mode) return;
-
-        document.querySelectorAll('#portal-artist-nav .portal-artist-nav-btn').forEach((btn, i) => {
-            btn.classList.toggle('active', i === _portalArtistSubIdx);
-        });
-
-        grid.innerHTML = '<div class="portal-artist-empty">加载中…</div>';
-
-        if (mode.sort === 'chains') {
-            ArtistChainManager.getAll().then(chains => {
-                grid.innerHTML = '';
-                if (!chains.length) {
-                    grid.innerHTML = '<div class="portal-artist-empty">暂无自定义画师串<br><small>可在工具内「画师串」分类创建</small></div>';
-                    _renderPortalArtistPagination(0);
-                    return;
-                }
-                const items = chains.map(c => ArtistChainManager.toTagItem(c));
-                const selected = posTagPicker ? posTagPicker.getSelectedTags() : new Set();
-                const lazyImages = [];
-                items.forEach(tag => {
-                    const card = document.createElement('button');
-                    card.type = 'button';
-                    card.className = 'portal-artist-card' + (selected.has(tag.t) ? ' selected' : '');
-                    if (tag.th) {
-                        const img = document.createElement('img');
-                        img.className = 'tag-thumb img-loading';
-                        img.dataset.src = tag.th;
-                        img.alt = tag.d;
-                        card.appendChild(img);
-                        lazyImages.push(img);
-                    } else {
-                        const ph = document.createElement('div');
-                        ph.className = 'tag-thumb';
-                        ph.textContent = '🎨';
-                        ph.style.display = 'flex';
-                        ph.style.alignItems = 'center';
-                        ph.style.justifyContent = 'center';
-                        card.appendChild(ph);
-                    }
-                    const desc = document.createElement('span');
-                    desc.className = 'tag-desc';
-                    desc.textContent = tag.d;
-                    card.appendChild(desc);
-                    card.addEventListener('click', () => {
-                        if (posTagPicker) {
-                            posTagPicker.toggleArtistChain(tag.t, tag.d);
-                            renderPortalArtistGrid();
-                        }
-                    });
-                    grid.appendChild(card);
-                });
-                if (lazyImages.length) _observeLazyImages(lazyImages);
-                _renderPortalArtistPagination(items.length);
-            });
-            return;
-        }
-
-        const letter = mode.sort === 'name' ? _artistCurrentLetter : 'all';
-        _fetchArtists(mode.sort, mode.order, _portalArtistPage, letter).then(result => {
-            grid.innerHTML = '';
-            _portalArtistTotalPages = result.pages || 1;
-            if (!result.tags?.length) {
-                grid.innerHTML = '<div class="portal-artist-empty">暂无画师数据</div>';
-                _renderPortalArtistPagination(0);
-                return;
-            }
-            const selected = posTagPicker ? posTagPicker.getSelectedTags() : new Set();
-            const lazyImages = [];
-            result.tags.forEach(tag => {
-                const card = document.createElement('button');
-                card.type = 'button';
-                card.className = 'portal-artist-card' + (selected.has(tag.t) ? ' selected' : '');
-                if (tag.th) {
-                    const img = document.createElement('img');
-                    img.className = 'tag-thumb img-loading';
-                    img.dataset.src = tag.th;
-                    img.alt = tag.d;
-                    card.appendChild(img);
-                    lazyImages.push(img);
-                } else {
-                    const ph = document.createElement('div');
-                    ph.className = 'tag-thumb';
-                    ph.textContent = '🎨';
-                    ph.style.display = 'flex';
-                    ph.style.alignItems = 'center';
-                    ph.style.justifyContent = 'center';
-                    card.appendChild(ph);
-                }
-                const desc = document.createElement('span');
-                desc.className = 'tag-desc';
-                desc.textContent = tag.d || tag.t.split(',')[0];
-                card.appendChild(desc);
-                card.addEventListener('click', () => {
-                    if (posTagPicker) {
-                        posTagPicker.toggleTag(tag.t, tag.d, tag.th, 'artist');
-                        renderPortalArtistGrid();
-                    }
-                });
-                grid.appendChild(card);
-            });
-            if (lazyImages.length) _observeLazyImages(lazyImages);
-            _renderPortalArtistPagination(result.total);
-        });
-    }
-
-    function _openPortalArtistOverlay() {
-        _closePortalOverlays();
-        const overlay = document.getElementById('portal-artist-overlay');
-        if (!overlay) return;
-        overlay.classList.remove('hidden');
-        overlay.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('portal-overlay-open');
-        _portalArtistSubIdx = 0;
-        _portalArtistPage = 1;
-        renderPortalArtistGrid();
-    }
-
-    function _applyModeDeepLink(mode) {
-        if (!mode || !['nai', 'simple', 'workflow'].includes(mode)) return;
-        const tab = document.querySelector(`.mode-tab[data-mode="${mode}"]`);
-        if (tab) tab.click();
-        else _profileApplyActiveMode(mode);
-    }
-
-    function _focusCharacterLibrary() {
-        if (_isMobileAppLayout()) {
-            switchMobileTab('characters');
-            renderMobileSeriesList(document.getElementById('char-series-search')?.value || '');
-            return;
-        }
-        _openPortalCharOverlay();
-    }
-
-    function _focusArtistLibrary() {
-        if (_isMobileAppLayout()) {
-            switchMobileTab('artists');
-            return;
-        }
-        _openPortalArtistOverlay();
-    }
-
-    function _openSettingsFocus(focus) {
-        _closePortalOverlays();
-        if (!dom.btnSettings || !dom.modalSettings) return;
-        dom.inpServer.value = getComfyUIAddress();
-        if (dom.selProfile) dom.selProfile.value = ProfileManager.store.activeId;
-        dom.modalSettings.classList.remove('hidden');
-        if (focus === 'profile') {
-            requestAnimationFrame(() => {
-                document.getElementById('sel-profile')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            });
-        }
-    }
-
-    function setupPortalOverlays() {
-        const closeChar = () => {
-            _closePortalOverlays();
-            history.replaceState(null, '', location.pathname);
-        };
-        document.getElementById('portal-char-close')?.addEventListener('click', closeChar);
-        document.getElementById('portal-artist-close')?.addEventListener('click', closeChar);
-
-        const portalCharSearch = document.getElementById('portal-char-search');
-        if (portalCharSearch) {
-            let debounce;
-            portalCharSearch.addEventListener('input', () => {
-                clearTimeout(debounce);
-                debounce = setTimeout(() => {
-                    _seriesListState.page = 1;
-                    renderMobileSeriesList(portalCharSearch.value, { context: 'portal' });
-                }, 200);
-            });
-        }
-
-        document.querySelectorAll('#portal-artist-nav .portal-artist-nav-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const mode = parseInt(btn.dataset.artistMode, 10);
-                if (Number.isNaN(mode)) return;
-                _portalArtistSubIdx = mode;
-                _portalArtistPage = 1;
-                renderPortalArtistGrid();
-            });
-        });
-    }
-
-    function applyDeepLinks() {
-        const dl = _parseDeepLinkParams();
-        if (!_hasDeepLinkIntent(dl)) {
-            _appliedDeepLinkKey = '';
-            return;
-        }
-
-        const key = _makeDeepLinkIntentKey(dl);
-
-        if (dl.tag && dom.txtPositive) {
-            const cur = dom.txtPositive.value.trim();
-            dom.txtPositive.value = cur ? `${cur}, ${dl.tag}` : dl.tag;
-            dom.txtPositive.dispatchEvent(new Event('input', { bubbles: true }));
-        }
-
-        if (dl.arch && dom.selArch) {
-            dom.selArch.value = dl.arch;
-            dom.selArch.dispatchEvent(new Event('change'));
-        }
-
-        if (dl.mode) _applyModeDeepLink(dl.mode);
-
-        if (dl.tab === 'characters') _focusCharacterLibrary();
-        else if (dl.tab === 'artists') _focusArtistLibrary();
-        else if (dl.tab === 'settings') _openSettingsFocus(dl.focus || 'profile');
-        else _closePortalOverlays();
-
-        if (dl.focus === 'profile' && dl.tab !== 'settings') _openSettingsFocus('profile');
-
-        _appliedDeepLinkKey = key;
-    }
-
-    function scheduleDeepLinks() {
-        try { applyDeepLinks(); } catch (e) { console.warn('[DeepLink]', e); }
-        requestAnimationFrame(() => {
-            try { applyDeepLinks(); } catch (e) { console.warn('[DeepLink]', e); }
-        });
-        setTimeout(() => { try { applyDeepLinks(); } catch (e) { /* ignore */ } }, 350);
-        setTimeout(() => { try { applyDeepLinks(); } catch (e) { /* ignore */ } }, 1200);
-    }
-
-    window.addEventListener('hashchange', () => {
-        _appliedDeepLinkKey = '';
-        scheduleDeepLinks();
-    });
-    window.addEventListener('pageshow', (e) => {
-        if (e.persisted) {
-            _appliedDeepLinkKey = '';
-            scheduleDeepLinks();
-        }
-    });
-
-    function setupLoraLibrary() {
-        if (!window.LoraLibraryUI) return;
-        LoraLibraryUI.onUseLora = async (name, strength, triggers) => {
-            await loadLoRAs();
-            const resolved = resolveLoraNameForComfy(name);
-            if (resolved !== name && normalizeLoraKey(resolved) === normalizeLoraKey(name)) {
-                console.log('[LoRA] 路径已对齐 ComfyUI:', name, '→', resolved);
-            }
-            if (dom.chkLora && !dom.chkLora.checked) {
-                dom.chkLora.checked = true;
-                dom.chkLora.dispatchEvent(new Event('change'));
-            }
-            const words = triggers?.length ? triggers : _getLoraTriggerWords(resolved);
-            addLoraRow(resolved, strength, words, true);
-        };
-        LoraLibraryUI.bind();
-    }
-
+    // ==================== 初始化 ====================
     async function init() {
-        console.log('[ComfyUI Web] v4.93');
+        console.log('[ComfyUI Web] v4.19');
         await loadTags();
-        await ensureHistoryLoaded();
         renderHistory();
         setupTagPickers();
-        setupPortalOverlays();
-        setupLoraLibrary();
         setupMobileTagsMount();
         setupMobileArtistNav();
         setupMobileCharBrowser();
         renderMobileSeriesList('');
-
-        scheduleDeepLinks();
 
         Promise.all([
             loadCheckpoints(),
@@ -9427,17 +8600,11 @@
             loadIPAdapterModels(),
             loadAnimaModels(),
             _checkInpaintNodes(),
-        ]).finally(async () => {
+        ]).then(async () => {
             loadInpaintSettings();
             updateInpaintEngineUI();
             updateArchAwarePanels();
-            try {
-                await ProfileManager.restoreActiveProfile();
-            } catch (e) {
-                console.warn('[Profile] restore failed:', e);
-            }
-            ensureAdetailerDefaultModel();
-            scheduleDeepLinks();
+            await ProfileManager.restoreActiveProfile();
         });
     }
 
@@ -9542,8 +8709,9 @@
 
         const img = document.createElement('img');
         img.className = 'char-browser-img img-loading';
-        if (tag.th) img.dataset.src = tag.th;
+        if (tag.th) img.dataset.src = String(tag.th).replace(/%2F/gi, '_');
         img.alt = tag.d || tag.t.split(',')[0];
+        img.referrerPolicy = 'no-referrer';
         thumb.appendChild(img);
 
         const star = document.createElement('span');
@@ -9638,8 +8806,8 @@
         imgList.forEach(img => { if (img) _seriesCoverObserver.observe(img); });
     }
 
-    function _renderSeriesPagination(total, totalPages, paginationId, rerender) {
-        const nav = document.getElementById(paginationId || 'char-series-pagination');
+    function _renderSeriesPagination(total, totalPages) {
+        const nav = document.getElementById('char-series-pagination');
         if (!nav) return;
         nav.innerHTML = '';
         if (totalPages <= 1) return;
@@ -9650,7 +8818,7 @@
         prevBtn.disabled = _seriesListState.page <= 1;
         prevBtn.addEventListener('click', () => {
             _seriesListState.page--;
-            rerender();
+            renderMobileSeriesList(_seriesListState.filter, { keepPage: true });
         });
 
         const info = document.createElement('span');
@@ -9663,7 +8831,7 @@
         nextBtn.disabled = _seriesListState.page >= totalPages;
         nextBtn.addEventListener('click', () => {
             _seriesListState.page++;
-            rerender();
+            renderMobileSeriesList(_seriesListState.filter, { keepPage: true });
         });
 
         nav.append(prevBtn, info, nextBtn);
@@ -9720,13 +8888,8 @@
     }
 
     function renderMobileSeriesList(filter, options = {}) {
-        const isPortal = options.context === 'portal';
-        const scrollId = options.scrollId || (isPortal ? 'portal-char-scroll' : 'char-series-scroll');
-        const paginationId = options.paginationId || (isPortal ? 'portal-char-pagination' : 'char-series-pagination');
-        const scroll = document.getElementById(scrollId);
+        const scroll = document.getElementById('char-series-scroll');
         if (!scroll) return;
-
-        const rerender = () => renderMobileSeriesList(_seriesListState.filter, { ...options, keepPage: true });
 
         if (_charGroupIdx < 0) {
             _charGroupIdx = tagData.findIndex(g => g.name === '人物');
@@ -9743,17 +8906,17 @@
 
         if (!subs.length) {
             scroll.innerHTML = '<div class="char-browser-empty">正在加载作品列表…<br><small>共 800+ 个作品，请稍候</small></div>';
-            _renderSeriesPagination(0, 1, paginationId, rerender);
+            _renderSeriesPagination(0, 1);
             _loadSeriesFromApi().then(ok => {
                 if (ok) renderMobileSeriesList(q, options);
-                else scroll.innerHTML = '<div class="char-browser-empty">作品列表加载失败<br><small>请检查网络后刷新页面</small></div>';
+                else scroll.innerHTML = '<div class="char-browser-empty">作品列表加载失败<br><small>请检查网络后刷新页面；线上版需访问已部署站点</small></div>';
             });
             return;
         }
 
         if (!subs.every(s => s._coverUrl !== undefined)) {
             scroll.innerHTML = '<div class="char-browser-empty">正在加载作品封面…</div>';
-            _renderSeriesPagination(0, 1, paginationId, rerender);
+            _renderSeriesPagination(0, 1);
             _loadSeriesFromApi().then(ok => {
                 if (ok) renderMobileSeriesList(q, options);
             });
@@ -9769,37 +8932,36 @@
         const pageStart = (_seriesListState.page - 1) * _SERIES_PAGE_SIZE;
         const pageList = list.slice(pageStart, pageStart + _SERIES_PAGE_SIZE);
 
+        let recentIds = [];
+        try { recentIds = JSON.parse(localStorage.getItem('comfyui_recent_series') || '[]'); } catch { /* ignore */ }
+        recentIds = recentIds.slice(0, _SERIES_RECENT_MAX);
+
         scroll.innerHTML = '';
         const lazyImages = [];
 
-        if (!isPortal && !q && _seriesListState.page === 1) {
-            let recentIds = [];
-            try { recentIds = JSON.parse(localStorage.getItem('comfyui_recent_series') || '[]'); } catch { /* ignore */ }
-            recentIds = recentIds.slice(0, _SERIES_RECENT_MAX);
-            if (recentIds.length) {
-                const recentLabel = document.createElement('div');
-                recentLabel.className = 'char-series-section-label';
-                recentLabel.textContent = '最近浏览';
-                scroll.appendChild(recentLabel);
-                const recentList = [];
-                recentIds.forEach(id => {
-                    const s = subs.find(x => x._seriesId === id);
-                    if (s) recentList.push(s);
+        if (!q && _seriesListState.page === 1 && recentIds.length) {
+            const recentLabel = document.createElement('div');
+            recentLabel.className = 'char-series-section-label';
+            recentLabel.textContent = '最近浏览';
+            scroll.appendChild(recentLabel);
+            const recentList = [];
+            recentIds.forEach(id => {
+                const s = subs.find(x => x._seriesId === id);
+                if (s) recentList.push(s);
+            });
+            if (recentList.length) {
+                const recentWrap = document.createElement('div');
+                recentWrap.className = 'char-series-recent-scroll';
+                const recentGrid = document.createElement('div');
+                recentGrid.className = 'char-series-grid char-series-grid-recent';
+                recentList.forEach(s => {
+                    const card = _createSeriesCard(s);
+                    const img = card.querySelector('img.char-series-cover-img');
+                    if (img) lazyImages.push(img);
+                    recentGrid.appendChild(card);
                 });
-                if (recentList.length) {
-                    const recentWrap = document.createElement('div');
-                    recentWrap.className = 'char-series-recent-scroll';
-                    const recentGrid = document.createElement('div');
-                    recentGrid.className = 'char-series-grid char-series-grid-recent';
-                    recentList.forEach(s => {
-                        const card = _createSeriesCard(s);
-                        const img = card.querySelector('img.char-series-cover-img');
-                        if (img) lazyImages.push(img);
-                        recentGrid.appendChild(card);
-                    });
-                    recentWrap.appendChild(recentGrid);
-                    scroll.appendChild(recentWrap);
-                }
+                recentWrap.appendChild(recentGrid);
+                scroll.appendChild(recentWrap);
             }
         }
 
@@ -9815,14 +8977,14 @@
             empty.className = 'char-browser-empty';
             empty.textContent = '未找到匹配作品';
             scroll.appendChild(empty);
-            _renderSeriesPagination(list.length, totalPages, paginationId, rerender);
+            _renderSeriesPagination(list.length, totalPages);
             if (lazyImages.length) _observeSeriesCoverImages(lazyImages);
             return;
         }
 
         _appendSeriesGrid(scroll, pageList, lazyImages);
         if (lazyImages.length) _observeSeriesCoverImages(lazyImages);
-        _renderSeriesPagination(list.length, totalPages, paginationId, rerender);
+        _renderSeriesPagination(list.length, totalPages);
 
         if (options.keepPage) scroll.scrollTop = 0;
     }
@@ -9912,7 +9074,7 @@
         document.body.classList.toggle('mobile-artist-nav-visible', tab === 'artists');
 
         const fab = document.getElementById('btn-generate-fab');
-        if (fab) fab.classList.toggle('hidden', tab !== 'create');
+        if (fab) fab.classList.toggle('hidden', tab === 'settings');
 
         if (tab === 'characters') renderMobileSeriesList(document.getElementById('char-series-search')?.value || '');
         if (tab === 'tags') {
@@ -9947,242 +9109,12 @@
             posTagPicker?.render();
             negTagPicker?.render();
         }
-        MobilePromptTagSheet.close();
     }
-
-    const MobilePromptTagSheet = {
-        sheet: null,
-        editor: null,
-        idx: -1,
-        _inited: false,
-
-        isMobile() {
-            const nav = document.getElementById('mobile-nav');
-            if (nav && getComputedStyle(nav).display !== 'none') return true;
-            return window.matchMedia('(max-width: 640px)').matches;
-        },
-
-        init() {
-            if (this._inited) return;
-            this.sheet = document.getElementById('prompt-tag-mobile-sheet');
-            if (!this.sheet) return;
-            this._inited = true;
-
-            document.getElementById('prompt-tag-sheet-close')?.addEventListener('click', () => this.close());
-            document.getElementById('prompt-tag-sheet-w-up')?.addEventListener('click', () => this.changeWeight(0.1));
-            document.getElementById('prompt-tag-sheet-w-down')?.addEventListener('click', () => this.changeWeight(-0.1));
-            document.getElementById('prompt-tag-sheet-move-left')?.addEventListener('click', () => this.moveTag(-1));
-            document.getElementById('prompt-tag-sheet-move-right')?.addEventListener('click', () => this.moveTag(1));
-            document.getElementById('prompt-tag-sheet-copy')?.addEventListener('click', () => this.copyTag());
-            document.getElementById('prompt-tag-sheet-delete')?.addEventListener('click', () => this.deleteTag());
-
-            const slider = document.getElementById('prompt-tag-sheet-weight-range');
-            slider?.addEventListener('input', () => {
-                if (!this.editor || this.idx < 0) return;
-                const tag = this.editor.tags[this.idx];
-                if (!tag) return;
-                tag.weight = Math.max(0.1, Math.round(parseFloat(slider.value) * 10) / 10);
-                this.editor.syncToTextarea();
-                this.editor.render();
-                this.updateUI();
-            });
-        },
-
-        scrollActiveIntoView() {
-            if (!this.editor || this.idx < 0) return;
-            requestAnimationFrame(() => {
-                const el = this.editor.container.querySelector(`.prompt-tag[data-idx="${this.idx}"]`);
-                el?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
-            });
-        },
-
-        open(editor, idx) {
-            this.init();
-            if (!this.sheet) return;
-            this.editor = editor;
-            this.idx = idx;
-            document.body.classList.add('prompt-tag-sheet-open');
-            this.sheet.classList.remove('hidden');
-            this.sheet.setAttribute('aria-hidden', 'false');
-            editor.render();
-            this.updateUI();
-            this.scrollActiveIntoView();
-        },
-
-        close() {
-            if (!this.sheet) return;
-            const hadOpen = this.idx >= 0;
-            this.idx = -1;
-            this.editor = null;
-            document.body.classList.remove('prompt-tag-sheet-open');
-            this.sheet.classList.add('hidden');
-            this.sheet.setAttribute('aria-hidden', 'true');
-            if (hadOpen) {
-                [dom.txtPositive, dom.txtNegative].forEach(ta => ta?._tagEditor?.render());
-            }
-        },
-
-        updateUI() {
-            const tag = this.editor?.tags[this.idx];
-            if (!tag) return;
-            const title = document.getElementById('prompt-tag-sheet-title');
-            const weightVal = document.getElementById('prompt-tag-sheet-weight-val');
-            const slider = document.getElementById('prompt-tag-sheet-weight-range');
-            const zh = TagTranslator.getSync(tag.name);
-            if (title) {
-                title.textContent = TagTranslator.showChinese && zh
-                    ? `${tag.name} · ${zh}`
-                    : tag.name;
-            }
-            if (weightVal) weightVal.textContent = tag.weight.toFixed(1);
-            if (slider) slider.value = String(tag.weight);
-        },
-
-        changeWeight(delta) {
-            if (!this.editor || this.idx < 0) return;
-            this.editor.changeWeight(this.idx, delta);
-            this.updateUI();
-            this.scrollActiveIntoView();
-        },
-
-        moveTag(delta) {
-            if (!this.editor || this.idx < 0) return;
-            const oldIdx = this.idx;
-            const newIdx = oldIdx + delta;
-            if (newIdx < 0 || newIdx >= this.editor.tags.length) return;
-            this.idx = newIdx;
-            this.editor.moveTag(oldIdx, delta);
-            this.updateUI();
-            this.scrollActiveIntoView();
-        },
-
-        copyTag() {
-            if (!this.editor || this.idx < 0) return;
-            const tag = this.editor.tags[this.idx];
-            if (!tag) return;
-            const text = tag.weight !== 1.0
-                ? `(${tag.name}:${tag.weight.toFixed(1)})`
-                : tag.name;
-            navigator.clipboard.writeText(text);
-        },
-
-        deleteTag() {
-            if (!this.editor || this.idx < 0) return;
-            const removedIdx = this.idx;
-            this.editor.tags.splice(removedIdx, 1);
-            if (this.editor.tags.length === 0) {
-                this.editor.syncToTextarea();
-                this.editor.render();
-                this.close();
-                return;
-            }
-            this.idx = Math.min(removedIdx, this.editor.tags.length - 1);
-            this.editor.syncToTextarea();
-            this.editor.render();
-            this.updateUI();
-            this.scrollActiveIntoView();
-        },
-
-        syncAfterRender(editor) {
-            if (this.editor !== editor || this.idx < 0) return;
-            if (this.idx >= editor.tags.length) {
-                this.close();
-                return;
-            }
-            this.updateUI();
-            this.scrollActiveIntoView();
-        }
-    };
 
     function setupGenerateFab() {
         const fab = document.getElementById('btn-generate-fab');
         if (!fab) return;
-
-        const STORAGE_KEY = 'comfyui_fab_pos_v1';
-        let fabDragMoved = false;
-        let fabDragging = false;
-        let startX = 0;
-        let startY = 0;
-        let origLeft = 0;
-        let origTop = 0;
-
-        function isMobileFab() {
-            return window.matchMedia('(max-width: 640px)').matches;
-        }
-
-        function applySavedFabPos() {
-            if (!isMobileFab()) return;
-            try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if (!raw) return;
-                const pos = JSON.parse(raw);
-                if (typeof pos.x === 'number' && typeof pos.y === 'number') {
-                    fab.classList.add('is-custom-pos');
-                    fab.style.left = `${pos.x}px`;
-                    fab.style.top = `${pos.y}px`;
-                    fab.style.right = 'auto';
-                    fab.style.bottom = 'auto';
-                }
-            } catch (_) { /* ignore */ }
-        }
-
-        applySavedFabPos();
-
-        fab.addEventListener('pointerdown', (e) => {
-            if (!isMobileFab() || e.button !== 0) return;
-            fabDragMoved = false;
-            fabDragging = true;
-            fab.classList.add('is-dragging');
-            fab.setPointerCapture(e.pointerId);
-            const rect = fab.getBoundingClientRect();
-            startX = e.clientX;
-            startY = e.clientY;
-            origLeft = rect.left;
-            origTop = rect.top;
-            fab.classList.add('is-custom-pos');
-            fab.style.right = 'auto';
-            fab.style.bottom = 'auto';
-            fab.style.left = `${origLeft}px`;
-            fab.style.top = `${origTop}px`;
-        });
-
-        fab.addEventListener('pointermove', (e) => {
-            if (!fabDragging) return;
-            const dx = e.clientX - startX;
-            const dy = e.clientY - startY;
-            if (Math.abs(dx) + Math.abs(dy) > 5) fabDragMoved = true;
-            const w = fab.offsetWidth;
-            const h = fab.offsetHeight;
-            let nx = origLeft + dx;
-            let ny = origTop + dy;
-            nx = Math.max(8, Math.min(window.innerWidth - w - 8, nx));
-            ny = Math.max(8, Math.min(window.innerHeight - h - 8, ny));
-            fab.style.left = `${nx}px`;
-            fab.style.top = `${ny}px`;
-        });
-
-        function endFabDrag(e) {
-            if (!fabDragging) return;
-            fabDragging = false;
-            fab.classList.remove('is-dragging');
-            try { fab.releasePointerCapture(e.pointerId); } catch (_) { /* ignore */ }
-            if (fabDragMoved) {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify({
-                    x: parseInt(fab.style.left, 10),
-                    y: parseInt(fab.style.top, 10)
-                }));
-            }
-        }
-
-        fab.addEventListener('pointerup', endFabDrag);
-        fab.addEventListener('pointercancel', endFabDrag);
-
-        fab.addEventListener('click', (e) => {
-            if (fabDragMoved) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                return;
-            }
+        fab.addEventListener('click', () => {
             const modeNai = document.querySelector('.mode-tab[data-mode="nai"]')?.classList.contains('active');
             if (modeNai) {
                 document.getElementById('btn-nai-generate')?.click();
@@ -11190,7 +10122,7 @@
             const clientId = _gen.wsClientId || (`cw_${Math.random().toString(16).slice(2)}${Date.now().toString(16)}`);
             _gen.wsClientId = clientId;
             _connectPreviewWS();
-            const result = await apiPost('/prompt', { prompt: workflow, client_id: clientId, extra_data: _promptExtraData() });
+            const result = await apiPost('/prompt', { prompt: workflow, client_id: clientId });
             _gen.promptId = result.prompt_id;
             await pollProgress(result.prompt_id);
         } catch (e) {
@@ -11223,46 +10155,10 @@
         }
     }
 
-    // ==================== 界面皮肤（新版 v2 / 旧版 classic）====================
-    const UI_SKIN_KEY = 'comfyui_ui_skin';
-
-    function getUiSkin() {
-        const v = localStorage.getItem(UI_SKIN_KEY);
-        return v === 'classic' ? 'classic' : 'v2';
-    }
-
-    function applyUiSkin(skin) {
-        const next = skin === 'classic' ? 'classic' : 'v2';
-        if (next === 'v2') {
-            document.documentElement.setAttribute('data-ui', 'v2');
-        } else {
-            document.documentElement.removeAttribute('data-ui');
-        }
-        localStorage.setItem(UI_SKIN_KEY, next);
-
-        const sel = document.getElementById('sel-ui-skin');
-        if (sel && sel.value !== next) sel.value = next;
-
-        // 旧版恢复配色主题；新版不套 data-theme，避免冲突
-        if (next === 'classic') {
-            applyTheme(localStorage.getItem('comfyui_theme') || 'default');
-        } else {
-            document.documentElement.removeAttribute('data-theme');
-        }
-    }
-
-    function setupUiSkin() {
-        applyUiSkin(getUiSkin());
-        const sel = document.getElementById('sel-ui-skin');
-        if (!sel) return;
-        sel.value = getUiSkin();
-        sel.addEventListener('change', () => applyUiSkin(sel.value));
-    }
-
-    // ==================== 主题系统（仅旧版界面） ====================
+    // ==================== 主题系统 ====================
     function setupTheme() {
         const saved = localStorage.getItem('comfyui_theme') || 'default';
-        if (getUiSkin() === 'classic') applyTheme(saved);
+        applyTheme(saved);
 
         const btn = document.getElementById('btn-theme');
         const panel = document.getElementById('theme-panel');
@@ -11270,7 +10166,6 @@
 
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (getUiSkin() === 'v2') return;
             panel.classList.toggle('hidden');
         });
 
@@ -11282,7 +10177,6 @@
 
         panel.querySelectorAll('.theme-dot').forEach(dot => {
             dot.addEventListener('click', () => {
-                if (getUiSkin() === 'v2') return;
                 const theme = dot.dataset.theme;
                 applyTheme(theme);
                 localStorage.setItem('comfyui_theme', theme);
@@ -11428,12 +10322,6 @@
             allEditors.push(editor);
         });
 
-        window.addEventListener('resize', () => {
-            allEditors.forEach(ed => ed.render());
-        });
-
-        MobilePromptTagSheet.init();
-
         const toggleBtn = document.getElementById('btn-translate-toggle');
         if (toggleBtn) {
             toggleBtn.classList.toggle('active', TagTranslator.showChinese);
@@ -11466,26 +10354,12 @@
 
             this.textarea.addEventListener('blur', (e) => {
                 if (this.container.contains(e.relatedTarget)) return;
-                // 手机点标签时 blur 会抢先触发并重绘 DOM，导致点击丢失
-                if (MobilePromptTagSheet.isMobile()) return;
                 this.parseAndRender();
             });
 
             this.textarea.addEventListener('input', () => {
                 if (!this.suppressSync) this.parseAndRender();
             });
-
-            this._onTagPointerDown = (e) => {
-                if (!MobilePromptTagSheet.isMobile()) return;
-                const tagEl = e.target.closest('.prompt-tag');
-                if (!tagEl || !this.container.contains(tagEl)) return;
-                if (e.target.closest('.prompt-tag-btn')) return;
-                const idx = parseInt(tagEl.dataset.idx, 10);
-                if (Number.isNaN(idx)) return;
-                e.preventDefault();
-                MobilePromptTagSheet.open(this, idx);
-            };
-            this.container.addEventListener('pointerdown', this._onTagPointerDown);
 
             this.container.addEventListener('dragover', (e) => e.preventDefault());
             this.container.addEventListener('drop', (e) => e.preventDefault());
@@ -11527,19 +10401,13 @@
                 const el = this.createTagElement(tag, idx);
                 this.container.appendChild(el);
             });
-            MobilePromptTagSheet.syncAfterRender(this);
         }
 
         createTagElement(tag, idx) {
             const el = document.createElement('div');
-            const isMobileTap = MobilePromptTagSheet.isMobile();
-            el.className = 'prompt-tag' + (isMobileTap ? ' prompt-tag-tap' : '');
-            el.draggable = !isMobileTap;
+            el.className = 'prompt-tag';
+            el.draggable = true;
             el.dataset.idx = idx;
-
-            if (isMobileTap && MobilePromptTagSheet.editor === this && MobilePromptTagSheet.idx === idx) {
-                el.classList.add('active');
-            }
 
             const textCol = document.createElement('span');
             textCol.className = 'prompt-tag-text-col';
@@ -11592,40 +10460,38 @@
             actions.append(btnUp, btnDown, btnCopy, btnDel);
             el.appendChild(actions);
 
-            if (!isMobileTap) {
-                el.addEventListener('dragstart', (e) => {
-                    this.dragIdx = idx;
-                    el.classList.add('dragging');
-                    e.dataTransfer.effectAllowed = 'move';
-                });
+            el.addEventListener('dragstart', (e) => {
+                this.dragIdx = idx;
+                el.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            });
 
-                el.addEventListener('dragend', () => {
-                    el.classList.remove('dragging');
-                    this.container.querySelectorAll('.prompt-tag').forEach(t => t.classList.remove('drag-over'));
-                });
+            el.addEventListener('dragend', () => {
+                el.classList.remove('dragging');
+                this.container.querySelectorAll('.prompt-tag').forEach(t => t.classList.remove('drag-over'));
+            });
 
-                el.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    const dragging = this.container.querySelector('.dragging');
-                    if (dragging && dragging !== el) {
-                        el.classList.add('drag-over');
-                    }
-                });
+            el.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const dragging = this.container.querySelector('.dragging');
+                if (dragging && dragging !== el) {
+                    el.classList.add('drag-over');
+                }
+            });
 
-                el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
+            el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
 
-                el.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    el.classList.remove('drag-over');
-                    const fromIdx = this.dragIdx;
-                    const toIdx = idx;
-                    if (fromIdx === toIdx || fromIdx < 0) return;
-                    const [moved] = this.tags.splice(fromIdx, 1);
-                    this.tags.splice(toIdx, 0, moved);
-                    this.syncToTextarea();
-                    this.render();
-                });
-            }
+            el.addEventListener('drop', (e) => {
+                e.preventDefault();
+                el.classList.remove('drag-over');
+                const fromIdx = this.dragIdx;
+                const toIdx = idx;
+                if (fromIdx === toIdx || fromIdx < 0) return;
+                const [moved] = this.tags.splice(fromIdx, 1);
+                this.tags.splice(toIdx, 0, moved);
+                this.syncToTextarea();
+                this.render();
+            });
 
             return el;
         }
@@ -11646,15 +10512,6 @@
             const tag = this.tags[idx];
             if (!tag) return;
             tag.weight = Math.max(0.1, Math.round((tag.weight + delta) * 10) / 10);
-            this.syncToTextarea();
-            this.render();
-        }
-
-        moveTag(idx, delta) {
-            const newIdx = idx + delta;
-            if (newIdx < 0 || newIdx >= this.tags.length) return;
-            const [moved] = this.tags.splice(idx, 1);
-            this.tags.splice(newIdx, 0, moved);
             this.syncToTextarea();
             this.render();
         }
@@ -11713,148 +10570,6 @@
                 for (const c of chunks) { result.set(c, pos); pos += c.length; }
                 return new TextDecoder('utf-8').decode(result);
             } catch { return null; }
-        },
-
-        async _decompressToBytes(data, format) {
-            try {
-                const ds = new DecompressionStream(format);
-                const writer = ds.writable.getWriter();
-                writer.write(data instanceof Uint8Array ? data : new Uint8Array(data));
-                writer.close();
-                const reader = ds.readable.getReader();
-                const chunks = [];
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-                    chunks.push(value);
-                }
-                const totalLen = chunks.reduce((s, c) => s + c.length, 0);
-                const result = new Uint8Array(totalLen);
-                let pos = 0;
-                for (const c of chunks) { result.set(c, pos); pos += c.length; }
-                return result;
-            } catch { return null; }
-        },
-
-        async _gunzipToString(data) {
-            const bytes = await this._decompressToBytes(data, 'gzip');
-            if (!bytes) return null;
-            return new TextDecoder('utf-8').decode(bytes);
-        },
-
-        /**
-         * NovelAI / stealth PNG Info：从 alpha LSB 提取元数据。
-         * 像素遍历顺序与官方一致：先 x 后 y（列优先）。
-         * 魔数 stealth_pngcomp = gzip JSON；stealth_pnginfo = 明文。
-         */
-        async extractStealthMetadata(source) {
-            try {
-                const blob = source instanceof Blob
-                    ? source
-                    : new Blob([source], { type: 'image/png' });
-                let bitmap;
-                try {
-                    bitmap = await createImageBitmap(blob);
-                } catch {
-                    return null;
-                }
-                const w = bitmap.width;
-                const h = bitmap.height;
-                if (w < 1 || h < 1) {
-                    bitmap.close?.();
-                    return null;
-                }
-
-                const canvas = typeof OffscreenCanvas !== 'undefined'
-                    ? new OffscreenCanvas(w, h)
-                    : Object.assign(document.createElement('canvas'), { width: w, height: h });
-                const ctx = canvas.getContext('2d', {
-                    willReadFrequently: true,
-                    alpha: true,
-                    colorSpace: 'srgb',
-                });
-                if (!ctx) {
-                    bitmap.close?.();
-                    return null;
-                }
-                ctx.drawImage(bitmap, 0, 0);
-                bitmap.close?.();
-                const pixels = ctx.getImageData(0, 0, w, h).data;
-                const totalPixels = w * h;
-
-                const readBytes = (startPixel, nBytes) => {
-                    const out = new Uint8Array(nBytes);
-                    let p = startPixel;
-                    for (let i = 0; i < nBytes; i++) {
-                        let byte = 0;
-                        for (let b = 0; b < 8; b++) {
-                            if (p >= totalPixels) return null;
-                            const x = Math.floor(p / h);
-                            const y = p % h;
-                            const alpha = pixels[(y * w + x) * 4 + 3];
-                            byte = (byte << 1) | (alpha & 1);
-                            p++;
-                        }
-                        out[i] = byte;
-                    }
-                    return { bytes: out, nextPixel: p };
-                };
-
-                const sigResult = readBytes(0, 15);
-                if (!sigResult) return null;
-                const sig = new TextDecoder('utf-8').decode(sigResult.bytes);
-                let compressed = false;
-                if (sig === 'stealth_pngcomp') compressed = true;
-                else if (sig === 'stealth_pnginfo') compressed = false;
-                else return null;
-
-                const lenResult = readBytes(sigResult.nextPixel, 4);
-                if (!lenResult) return null;
-                const bitLen = ((lenResult.bytes[0] << 24) | (lenResult.bytes[1] << 16) |
-                    (lenResult.bytes[2] << 8) | lenResult.bytes[3]) >>> 0;
-                const byteLen = Math.floor(bitLen / 8);
-                if (byteLen <= 0 || byteLen > totalPixels) return null;
-
-                const dataResult = readBytes(lenResult.nextPixel, byteLen);
-                if (!dataResult) return null;
-
-                let payloadStr;
-                if (compressed) {
-                    payloadStr = await this._gunzipToString(dataResult.bytes);
-                } else {
-                    payloadStr = new TextDecoder('utf-8').decode(dataResult.bytes);
-                }
-                if (!payloadStr) return null;
-
-                try {
-                    const data = JSON.parse(payloadStr);
-                    if (typeof data.Comment === 'string') {
-                        try { data.Comment = JSON.parse(data.Comment); } catch { /* keep string */ }
-                    }
-                    data._stealthSig = sig;
-                    return data;
-                } catch {
-                    return { _stealthRaw: payloadStr, _stealthSig: sig };
-                }
-            } catch {
-                return null;
-            }
-        },
-
-        _stealthToResult(stealth) {
-            if (!stealth) return null;
-            if (stealth._stealthRaw) {
-                const raw = stealth._stealthRaw;
-                if (raw.includes('Steps:') || raw.includes('Negative prompt:')) {
-                    const r = this.parseA1111(raw);
-                    r.source = 'Stealth PNG Info';
-                    return r;
-                }
-                return { source: 'Stealth PNG Info', positive: raw };
-            }
-            const r = this.parseNovelAI(stealth);
-            if (stealth._stealthSig) r.stealth = stealth._stealthSig;
-            return r;
         },
 
         async parsePNG(buffer) {
@@ -12102,175 +10817,19 @@
         },
 
         extractLoras(result) {
-            const loraRegex = /<lora:([^:>]+):([\d.]+)>/gi;
-            const loras = result.loras ? [...result.loras] : [];
-            const seen = new Set(loras.map(l => (l.fullName || l.name).toLowerCase()));
-
-            const addLora = (name, weight, fullName) => {
-                if (!name) return;
-                const key = (fullName || name).toLowerCase();
-                if (seen.has(key)) return;
-                seen.add(key);
-                loras.push({
-                    name: name.split('/').pop() || name,
-                    fullName: fullName || name,
-                    weight: Number.isFinite(weight) ? weight : 1,
-                });
-            };
-
+            const loraRegex = /<lora:([^:>]+):([\d.]+)>/g;
+            const tiRegex = /\b(embedding:)?([a-zA-Z0-9_-]+\.(?:pt|safetensors))\b/g;
+            const loras = [];
             for (const field of ['positive', 'negative']) {
                 const text = result[field];
                 if (!text) continue;
                 let match;
                 while ((match = loraRegex.exec(text)) !== null) {
-                    addLora(match[1], parseFloat(match[2]), match[1]);
+                    loras.push({ name: match[1], weight: parseFloat(match[2]) });
                 }
                 loraRegex.lastIndex = 0;
             }
-
             if (loras.length > 0) result.loras = loras;
-        },
-
-        extractComfyLoras(prompt, wfMap) {
-            return this.extractUsedComfyLoras(prompt, wfMap);
-        },
-
-        dedupeLoras(loras) {
-            const deduped = [];
-            const seen = new Set();
-            for (const l of loras) {
-                const key = (l.fullName || l.name).toLowerCase();
-                if (seen.has(key)) continue;
-                seen.add(key);
-                deduped.push(l);
-            }
-            return deduped;
-        },
-
-        loraEntryFromName(fullName, weight) {
-            const w = parseFloat(weight);
-            return {
-                name: fullName.split('/').pop() || fullName,
-                fullName,
-                weight: Number.isFinite(w) ? w : 1,
-            };
-        },
-
-        extractLorasFromTextField(text, out) {
-            if (typeof text !== 'string' || !text.includes('<lora:')) return;
-            const loraRegex = /<lora:([^:>]+):([^>]+)>/gi;
-            let match;
-            while ((match = loraRegex.exec(text)) !== null) {
-                out.push(this.loraEntryFromName(match[1].trim(), match[2]));
-            }
-        },
-
-        countLoraTags(text) {
-            if (typeof text !== 'string') return 0;
-            return (text.match(/<lora:[^>]+>/gi) || []).length;
-        },
-
-        extractLorasFromManagerNode(inputs, out) {
-            const list = inputs?.loras?.__value__;
-            const activeList = Array.isArray(list)
-                ? list.filter(l => l?.name && l.active !== false)
-                : [];
-            const textCount = this.countLoraTags(inputs?.text);
-
-            // text 常含作者整库；若明显多于 active 条目，以 active 为准
-            if (activeList.length > 0 && textCount > 20 && textCount > activeList.length) {
-                activeList.forEach(l => {
-                    out.push(this.loraEntryFromName(
-                        l.name,
-                        l.strength ?? l.strength_model ?? l.clipStrength ?? 1
-                    ));
-                });
-                return;
-            }
-
-            if (typeof inputs?.text === 'string' && inputs.text.includes('<lora:')) {
-                this.extractLorasFromTextField(inputs.text, out);
-                return;
-            }
-
-            activeList.forEach(l => {
-                out.push(this.loraEntryFromName(
-                    l.name,
-                    l.strength ?? l.strength_model ?? l.clipStrength ?? 1
-                ));
-            });
-        },
-
-        extractUsedComfyLoras(prompt, wfMap) {
-            const loras = [];
-
-            for (const node of Object.values(prompt)) {
-                const ct = node.class_type || '';
-                const inputs = node.inputs || {};
-
-                if (ct === 'LoraLoader' || ct === 'LoraLoaderModelOnly') {
-                    const loraName = inputs.lora_name;
-                    const strength = parseFloat(inputs.strength_model ?? inputs.strength ?? 1);
-                    if (typeof loraName === 'string' && loraName) {
-                        loras.push(this.loraEntryFromName(loraName, strength));
-                    }
-                }
-
-                if (ct === 'Lora Loader (LoraManager)') {
-                    this.extractLorasFromManagerNode(inputs, loras);
-                }
-
-                if (ct === 'WeiLinPromptUI' || ct === 'WeiLinPromptUIWithoutLora') {
-                    const loraStr = inputs.lora_str || inputs.temp_lora_str || '';
-                    this.extractLorasFromTextField(loraStr, loras);
-                }
-            }
-
-            for (const node of Object.values(prompt)) {
-                if (node.class_type === 'Lora Loader (LoraManager)') continue;
-                const scanVal = (val) => {
-                    if (typeof val === 'string' && val.includes('<lora:')) {
-                        const tc = this.countLoraTags(val);
-                        if (tc > 0 && tc <= 30) this.extractLorasFromTextField(val, loras);
-                    } else if (val && typeof val === 'object' && !Array.isArray(val)) {
-                        for (const v of Object.values(val)) scanVal(v);
-                    }
-                };
-                scanVal(node.inputs);
-            }
-
-            return this.dedupeLoras(loras);
-        },
-
-        extractLibraryComfyLoras(prompt, wfMap) {
-            const loras = [];
-            const addFromManager = (list) => {
-                if (!Array.isArray(list)) return;
-                list.forEach(l => {
-                    if (!l?.name) return;
-                    loras.push(this.loraEntryFromName(
-                        l.name,
-                        l.strength ?? l.strength_model ?? l.clipStrength ?? 1
-                    ));
-                });
-            };
-
-            for (const node of Object.values(prompt)) {
-                if (node.class_type === 'Lora Loader (LoraManager)') {
-                    addFromManager(node.inputs?.loras?.__value__);
-                }
-            }
-
-            if (wfMap) {
-                for (const wfNode of Object.values(wfMap)) {
-                    if (wfNode?.type !== 'Lora Loader (LoraManager)') continue;
-                    const wv = wfNode.widgets_values;
-                    if (!Array.isArray(wv) || !wv[0]?.__value__) continue;
-                    addFromManager(wv[0].__value__);
-                }
-            }
-
-            return this.dedupeLoras(loras);
         },
 
         tokenJsonToText(val) {
@@ -12287,755 +10846,69 @@
             } catch { return val; }
         },
 
-        isNodeRef(val) {
-            return Array.isArray(val) && val.length === 2 && typeof val[0] === 'string';
-        },
-
-        parseComfyJson(str) {
-            if (!str || typeof str !== 'string') return null;
-            try {
-                return JSON.parse(str);
-            } catch {
-                try {
-                    const sanitized = str
-                        .replace(/\b-Infinity\b/g, 'null')
-                        .replace(/\bInfinity\b/g, 'null')
-                        .replace(/\bNaN\b/g, 'null');
-                    return JSON.parse(sanitized);
-                } catch { return null; }
-            }
-        },
-
-        buildWorkflowMap(workflowStr) {
-            if (!workflowStr) return null;
-            const wf = this.parseComfyJson(workflowStr);
-            if (!wf) return null;
-            const map = {};
-            for (const n of (wf.nodes || [])) map[String(n.id)] = n;
-            return map;
-        },
-
-        getWorkflowNode(wfMap, nodeId) {
-            if (!wfMap || !nodeId) return null;
-            return wfMap[nodeId]
-                || wfMap[String(Number(nodeId))]
-                || wfMap[nodeId.split(':').pop()]
-                || null;
-        },
-
-        getWidgetValue(wfMap, nodeId, slot) {
-            const wfNode = this.getWorkflowNode(wfMap, nodeId);
-            const wv = wfNode?.widgets_values;
-            if (!Array.isArray(wv)) return null;
-            if (slot == null) return wv;
-            return slot < wv.length ? wv[slot] : null;
-        },
-
-        resolvePromptValue(val, prompt, wfMap, ctx = {}) {
-            const visited = ctx.visited || new Set();
-            const wantSlot = ctx.wantSlot;
-
-            if (val == null) return null;
-            if (!this.isNodeRef(val)) {
-                if (typeof val === 'string') return this.tokenJsonToText(val);
-                return val;
-            }
-
-            const [nodeId, slot] = val;
-            const effSlot = wantSlot != null ? wantSlot : slot;
-            const visitKey = `${nodeId}#${effSlot}`;
-            if (visited.has(visitKey)) return null;
-            visited.add(visitKey);
-
-            const node = prompt[nodeId] || prompt[nodeId.split(':').pop()];
-            if (!node) return this.getWidgetValue(wfMap, nodeId, effSlot);
-
-            const ct = node.class_type || '';
-            const inputs = node.inputs || {};
-
-            if (ct === 'KSampler Config (rgthree)') {
-                const keys = ['steps_total', 'refiner_step', 'cfg', 'sampler_name', 'scheduler'];
-                const key = keys[effSlot];
-                if (key && inputs[key] != null) {
-                    return this.resolvePromptValue(inputs[key], prompt, wfMap, { visited });
-                }
-            }
-
-            if (ct === 'ParameterBreak') {
-                if (inputs.parameters != null) {
-                    return this.resolvePromptValue(inputs.parameters, prompt, wfMap, { visited, wantSlot: effSlot });
-                }
-            }
-
-            if (ct === 'ParameterControlPanel') {
-                const wv = this.getWidgetValue(wfMap, nodeId, effSlot);
-                if (wv != null && wv !== '') return wv;
-            }
-
-            if (ct === 'Context (rgthree)') {
-                const ctxKeys = ['base_ctx', 'model', 'clip', 'vae', 'positive', 'negative', 'latent', 'images'];
-                const key = ctxKeys[effSlot];
-                if (key && inputs[key] != null) {
-                    const v = inputs[key];
-                    if (key === 'base_ctx') {
-                        return this.resolvePromptValue(v, prompt, wfMap, { visited, wantSlot: effSlot });
-                    }
-                    return this.resolvePromptValue(v, prompt, wfMap, { visited });
-                }
-                if (inputs.base_ctx != null) {
-                    return this.resolvePromptValue(inputs.base_ctx, prompt, wfMap, { visited, wantSlot: effSlot });
-                }
-            }
-
-            if (ct === 'Context Switch (rgthree)') {
-                for (const [k, v] of Object.entries(inputs)) {
-                    if (k.startsWith('ctx_')) {
-                        const r = this.resolvePromptValue(v, prompt, wfMap, { visited: new Set(visited), wantSlot: effSlot });
-                        if (this._looksLikePrompt(r)) return r;
-                    }
-                }
-            }
-
-            if (ct === 'WeiLinPromptUI' || ct === 'WeiLinPromptUIWithoutLora') {
-                for (const k of ['temp_str', 'positive', 'negative']) {
-                    const t = inputs[k];
-                    if (typeof t === 'string' && t.trim()) return this.tokenJsonToText(t);
-                }
-            }
-
-            if (ct === 'CLIPTextEncode') {
-                if (inputs.text != null) {
-                    return this.resolvePromptValue(inputs.text, prompt, wfMap, { visited });
-                }
-            }
-
-            if (ct === 'easy promptConcat' || ct === 'PromptConcat') {
-                const p1 = this.resolvePromptValue(inputs.prompt1 || inputs.a, prompt, wfMap, { visited: new Set(visited) });
-                const p2 = this.resolvePromptValue(inputs.prompt2 || inputs.b, prompt, wfMap, { visited: new Set(visited) });
-                const sep = inputs.separator || ', ';
-                return [p1, p2].filter(v => v != null && v !== '').map(String).join(typeof sep === 'string' ? sep : ', ');
-            }
-
-            if (ct === 'easy ifElse') {
-                for (const k of ['on_true', 'on_false', 'true', 'false']) {
-                    if (inputs[k] != null) {
-                        const r = this.resolvePromptValue(inputs[k], prompt, wfMap, { visited: new Set(visited) });
-                        if (typeof r === 'string' && r.trim()) return r;
-                    }
-                }
-            }
-
-            if (ct === 'Any Switch (rgthree)') {
-                for (const [k, v] of Object.entries(inputs)) {
-                    if (k.startsWith('any_')) {
-                        const r = this.resolvePromptValue(v, prompt, wfMap, { visited: new Set(visited) });
-                        if (typeof r === 'string' && r.trim()) return r;
-                        if (typeof r === 'number') return r;
-                    }
-                }
-            }
-
-            if (ct === 'easy cleanGpuUsed' && inputs.anything != null) {
-                return this.resolvePromptValue(inputs.anything, prompt, wfMap, { visited });
-            }
-
-            if (ct === 'StringReplace' && inputs.replace != null) {
-                const r = this.resolvePromptValue(inputs.replace, prompt, wfMap, { visited: new Set(visited) });
-                if (typeof r === 'string' && r.trim()) return r;
-            }
-
-            if (ct.includes('PromptCleaning') && inputs.string != null) {
-                return this.resolvePromptValue(inputs.string, prompt, wfMap, { visited });
-            }
-
-            if (ct.includes('TriggerWord') || ct.includes('LoraManager')) {
-                const msg = inputs.orinalMessage || inputs.originalMessage;
-                if (typeof msg === 'string' && msg.trim()) return this.tokenJsonToText(msg);
-            }
-
-            if (ct === 'ResolutionMasterSimplify') {
-                if (effSlot === 0) return inputs.width;
-                if (effSlot === 1) return inputs.height;
-            }
-
-            if (ct.includes('String') || ct === 'Text' || ct.includes('Primitive')) {
-                for (const k of ['value', 'string', 'text']) {
-                    if (typeof inputs[k] === 'string' && inputs[k].trim()) return this.tokenJsonToText(inputs[k]);
-                }
-            }
-
-            for (const k of ['orinalMessage', 'originalMessage', 'text', 'string', 'value', 'positive', 'negative', 'temp_str', 'width', 'height', 'steps_total', 'cfg', 'sampler_name', 'scheduler']) {
-                if (inputs[k] != null && !this.isNodeRef(inputs[k])) {
-                    const v = inputs[k];
-                    if (typeof v === 'string') return this.tokenJsonToText(v);
-                    return v;
-                }
-            }
-
-            const wv = this.getWidgetValue(wfMap, nodeId, effSlot);
-            if (wv != null && wv !== '') return wv;
-
-            for (const v of Object.values(inputs)) {
-                if (this.isNodeRef(v)) {
-                    const resolved = this.resolvePromptValue(v, prompt, wfMap, { visited: new Set(visited) });
-                    if (resolved != null && resolved !== '' && !this.isNodeRef(resolved)) return resolved;
-                }
-            }
-
-            return null;
-        },
-
-        coerceNumber(val) {
-            if (typeof val === 'number' && Number.isFinite(val)) return val;
-            if (typeof val === 'string' && val.trim() && !isNaN(Number(val))) return Number(val);
-            return null;
-        },
-
-        _looksLikePrompt(val) {
-            if (typeof val !== 'string') return false;
-            const s = val.trim();
-            if (s.length < 8) return false;
-            if (/\.(safetensors|ckpt|pt)$/i.test(s)) return false;
-            if (s.includes(',') || s.includes('\n') || s.split(/\s+/).length >= 3) return true;
-            return s.length >= 20;
-        },
-
-        _samplerScore(data) {
-            let score = 0;
-            if (this._looksLikePrompt(data.positive)) score += 20;
-            if (this._looksLikePrompt(data.negative)) score += 8;
-            if (data.steps != null) score += 5;
-            if (data.cfg != null) score += 3;
-            if (data.sampler) score += 2;
-            if (data.seed) score += 1;
-            return score;
-        },
-
-        applyComfyLiteralFallback(prompt, result) {
-            for (const node of Object.values(prompt)) {
-                const ct = node.class_type || '';
-                const inputs = node.inputs || {};
-
-                if (ct === 'KSampler' || ct === 'KSampler (Efficient)' || ct === 'KSamplerAdvanced') {
-                    if (!result.seed && inputs.seed != null && !this.isNodeRef(inputs.seed)) {
-                        result.seed = String(inputs.seed);
-                    }
-                    if (result.steps == null && typeof inputs.steps === 'number') result.steps = inputs.steps;
-                    if (result.cfg == null && typeof inputs.cfg === 'number') result.cfg = inputs.cfg;
-                    if (!result.sampler && typeof inputs.sampler_name === 'string') result.sampler = inputs.sampler_name;
-                    if (!result.scheduler && typeof inputs.scheduler === 'string') result.scheduler = inputs.scheduler;
-                    if (result.denoise == null && typeof inputs.denoise === 'number') result.denoise = inputs.denoise;
-                }
-
-                if (ct === 'CheckpointLoaderSimple' && !result.model && typeof inputs.ckpt_name === 'string') {
-                    result.model = inputs.ckpt_name;
-                }
-
-                if (ct === 'ResolutionMasterSimplify') {
-                    if (!result.width && typeof inputs.width === 'number') result.width = inputs.width;
-                    if (!result.height && typeof inputs.height === 'number') result.height = inputs.height;
-                }
-
-                if (ct === 'EmptyLatentImage') {
-                    if (!result.width && typeof inputs.width === 'number') result.width = inputs.width;
-                    if (!result.height && typeof inputs.height === 'number') result.height = inputs.height;
-                }
-
-                if (ct === 'PromptSelector' && typeof inputs.selected_prompts === 'string') {
-                    const extra = inputs.selected_prompts.trim();
-                    if (extra) {
-                        if (!result.positive) result.positive = extra;
-                        else if (!result.positive.includes(extra.slice(0, 32))) {
-                            result.positive = `${result.positive}, ${extra}`;
-                        }
-                    }
-                }
-
-                if (ct === 'WeiLinPromptUI' || ct === 'WeiLinPromptUIWithoutLora') {
-                    for (const k of ['positive', 'negative', 'temp_str']) {
-                        const raw = inputs[k];
-                        if (typeof raw !== 'string' || !raw.trim()) continue;
-                        const t = this.tokenJsonToText(raw).trim();
-                        if (/bad quality|worst quality|anatomical nonsense|bad_hands/i.test(t)) {
-                            if (!result.negative) result.negative = t;
-                        } else if (!result.positive || t.length > result.positive.length) {
-                            result.positive = t;
-                        }
-                    }
-                }
-            }
-        },
-
-        UNIVERSAL_SAMPLER_FIELDS: {
-            seed: ['seed', 'noise_seed', 'rand_seed', 'random_seed'],
-            steps: ['steps', 'steps_total', 'step', 'sample_steps'],
-            cfg: ['cfg', 'cfg_scale', 'guidance', 'guidance_scale'],
-            sampler: ['sampler_name', 'sampler'],
-            scheduler: ['scheduler', 'scheduler_name', 'schedule_type'],
-            denoise: ['denoise', 'denoising_strength', 'strength'],
-        },
-
-        UNIVERSAL_MODEL_KEYS: [
-            'ckpt_name', 'unet_name', 'model_name', 'checkpoint_name',
-            'ckpt', 'model', 'model_path', 'diffusion_model', 'checkpoint',
-        ],
-
-        UNIVERSAL_POSITIVE_KEYS: [
-            'positive', 'prompt', 'text', 'string', 'value', 'selected_prompts',
-            'temp_str', 'positive_prompt', 'prompt_positive', 'orinalMessage', 'originalMessage',
-        ],
-
-        UNIVERSAL_NEGATIVE_KEYS: [
-            'negative', 'negative_prompt', 'prompt_negative', 'uc', 'bad_prompt',
-        ],
-
-        _isSamplerLikeNode(ct) {
-            if (!ct || typeof ct !== 'string') return false;
-            if (/^KSampler/i.test(ct)) return true;
-            if (/Sampler/i.test(ct) && !/Config|Select|Create|Preview|Cycle|Schedule|Switch|Input/i.test(ct)) {
-                return true;
-            }
-            return false;
-        },
-
-        _isNegativePromptText(text, key = '') {
-            if (/negative|neg_prompt|bad_prompt|\buc\b/i.test(key)) return true;
-            return /bad quality|worst quality|low quality|bad_hands|bad_anatomy|anatomical nonsense|jpeg artifacts/i.test(text);
-        },
-
-        _looksLikeModelName(val) {
-            if (typeof val !== 'string') return false;
-            const s = val.trim();
-            return /\.(safetensors|ckpt|pt|gguf|sft)$/i.test(s) || /^[\w.-]+\/[\w.-]+\.(safetensors|ckpt)$/i.test(s);
-        },
-
-        _promptCandidateScore(text, key, classType) {
-            if (!this._looksLikePrompt(text)) return -1;
-            if (this._looksLikeModelName(text)) return -1;
-            if (/<lora:/i.test(text) && this.countLoraTags(text) > 20) return -1;
-
-            let score = Math.min(text.length, 5000);
-            if (this.UNIVERSAL_POSITIVE_KEYS.some(k => key.toLowerCase().includes(k.toLowerCase()))) score += 800;
-            if (this.UNIVERSAL_NEGATIVE_KEYS.some(k => key.toLowerCase().includes(k.toLowerCase()))) score -= 900;
-            if (classType === 'CLIPTextEncode') score += 400;
-            if (/PromptSelector|WeiLin|CLIP|Text|Prompt/i.test(classType || '')) score += 250;
-            if (this._isNegativePromptText(text, key)) score -= 1200;
-            if (/^[\d\s.,:;+-]+$/.test(text)) score -= 500;
-            return score;
-        },
-
-        _collectUniversalStrings(prompt, wfMap) {
-            const items = [];
-            const seenText = new Set();
-
-            const addString = (text, key, nodeId, classType) => {
-                const normalized = this.tokenJsonToText(text).trim();
-                if (normalized.length < 8) return;
-                if (this._looksLikeModelName(normalized)) return;
-                const sig = normalized.slice(0, 120);
-                if (seenText.has(sig)) return;
-                seenText.add(sig);
-                items.push({ text: normalized, key, nodeId, classType });
-            };
-
-            const walk = (nodeId, val, key, classType, depth = 0) => {
-                if (val == null || depth > 10) return;
-                if (key === 'loras' || key.startsWith('__')) return;
-
-                if (typeof val === 'string') {
-                    addString(val, key, nodeId, classType);
-                    return;
-                }
-
-                if (this.isNodeRef(val)) {
-                    const resolved = this.resolvePromptValue(val, prompt, wfMap, { visited: new Set() });
-                    if (typeof resolved === 'string') addString(resolved, key, nodeId, classType);
-                    return;
-                }
-
-                if (Array.isArray(val)) return;
-
-                if (typeof val === 'object') {
-                    for (const [k, v] of Object.entries(val)) walk(nodeId, v, k, classType, depth + 1);
-                }
-            };
-
-            for (const [nodeId, node] of Object.entries(prompt)) {
-                walk(nodeId, node.inputs || {}, '', node.class_type || '', 0);
-            }
-
-            if (wfMap) {
-                for (const wfNode of Object.values(wfMap)) {
-                    const wv = wfNode?.widgets_values;
-                    if (!Array.isArray(wv)) continue;
-                    wv.forEach((v, idx) => {
-                        if (typeof v === 'string') addString(v, `widget_${idx}`, String(wfNode.id), wfNode.type || '');
-                    });
-                }
-            }
-
-            return items;
-        },
-
-        _extractUniversalSampler(prompt, wfMap) {
-            const candidates = [];
-
-            for (const [nodeId, node] of Object.entries(prompt)) {
-                const inputs = node.inputs || {};
-                const candidate = { nodeId, classType: node.class_type || '' };
-                let hits = 0;
-
-                for (const [field, aliases] of Object.entries(this.UNIVERSAL_SAMPLER_FIELDS)) {
-                    for (const alias of aliases) {
-                        if (inputs[alias] == null) continue;
-                        const raw = inputs[alias];
-                        const val = this.isNodeRef(raw)
-                            ? this.resolvePromptValue(raw, prompt, wfMap)
-                            : raw;
-                        if (val == null || val === '' || this.isNodeRef(val)) continue;
-                        if (field === 'seed') candidate.seed = String(val);
-                        else if (field === 'steps') candidate.steps = this.coerceNumber(val);
-                        else if (field === 'cfg') candidate.cfg = this.coerceNumber(val);
-                        else if (field === 'sampler' && typeof val === 'string') candidate.sampler = val.trim();
-                        else if (field === 'scheduler' && typeof val === 'string') candidate.scheduler = val.trim();
-                        else if (field === 'denoise') candidate.denoise = this.coerceNumber(val);
-                        hits++;
-                        break;
-                    }
-                }
-
-                if (hits > 0 || this._isSamplerLikeNode(candidate.classType)) {
-                    candidates.push(candidate);
-                }
-            }
-
-            candidates.sort((a, b) => this._samplerScore(b) - this._samplerScore(a));
-            return candidates[0] || null;
-        },
-
-        _extractUniversalModel(prompt) {
-            const models = [];
-            for (const node of Object.values(prompt)) {
-                const inputs = node.inputs || {};
-                for (const key of this.UNIVERSAL_MODEL_KEYS) {
-                    const val = inputs[key];
-                    if (typeof val === 'string' && val.trim()) models.push(val.trim());
-                }
-                for (const val of Object.values(inputs)) {
-                    if (typeof val === 'string' && this._looksLikeModelName(val)) models.push(val.trim());
-                }
-            }
-            if (!models.length) return null;
-            return models.find(m => !/branch|refiner|vae|lora/i.test(m)) || models[0];
-        },
-
-        _extractUniversalSize(prompt, wfMap) {
-            let width = null;
-            let height = null;
-
-            for (const node of Object.values(prompt)) {
-                const inputs = node.inputs || {};
-                const w = this.coerceNumber(this.resolvePromptValue(inputs.width ?? inputs.image_width ?? inputs.w, prompt, wfMap));
-                const h = this.coerceNumber(this.resolvePromptValue(inputs.height ?? inputs.image_height ?? inputs.h, prompt, wfMap));
-                if (w && h && w >= 64 && h >= 64 && w <= 8192 && h <= 8192) {
-                    width = w;
-                    height = h;
-                }
-            }
-
-            return width && height ? { width, height } : null;
-        },
-
-        applyUniversalComfyInference(prompt, wfMap, result) {
-            let touched = false;
-
-            const strings = this._collectUniversalStrings(prompt, wfMap);
-            const posCands = [];
-            const negCands = [];
-
-            for (const item of strings) {
-                const score = this._promptCandidateScore(item.text, item.key, item.classType);
-                if (score < 0) continue;
-                if (this._isNegativePromptText(item.text, item.key)) {
-                    negCands.push({ text: item.text, score: score + item.text.length });
-                } else {
-                    posCands.push({ text: item.text, score });
-                }
-            }
-
-            posCands.sort((a, b) => b.score - a.score);
-            negCands.sort((a, b) => b.score - a.score);
-
-            if (posCands[0] && (!result.positive || result.positive.length < posCands[0].text.length * 0.75)) {
-                result.positive = posCands[0].text;
-                touched = true;
-            }
-            if (negCands[0] && (!result.negative || result.negative.length < negCands[0].text.length * 0.75)) {
-                result.negative = negCands[0].text;
-                touched = true;
-            }
-
-            const sampler = this._extractUniversalSampler(prompt, wfMap);
-            if (sampler) {
-                if (!result.seed && sampler.seed) { result.seed = sampler.seed; touched = true; }
-                if (result.steps == null && sampler.steps != null) { result.steps = sampler.steps; touched = true; }
-                if (result.cfg == null && sampler.cfg != null) { result.cfg = sampler.cfg; touched = true; }
-                if (!result.sampler && sampler.sampler) { result.sampler = sampler.sampler; touched = true; }
-                if (!result.scheduler && sampler.scheduler) { result.scheduler = sampler.scheduler; touched = true; }
-                if (result.denoise == null && sampler.denoise != null) { result.denoise = sampler.denoise; touched = true; }
-                if (!result.positive && sampler.positive) { result.positive = sampler.positive; touched = true; }
-                if (!result.negative && sampler.negative) { result.negative = sampler.negative; touched = true; }
-            }
-
-            if (!result.model) {
-                const model = this._extractUniversalModel(prompt);
-                if (model) { result.model = model; touched = true; }
-            }
-
-            if (!result.width || !result.height) {
-                const size = this._extractUniversalSize(prompt, wfMap);
-                if (size) {
-                    if (!result.width) result.width = size.width;
-                    if (!result.height) result.height = size.height;
-                    touched = true;
-                }
-            }
-
-            if (result.positive && result.negative && result.positive === result.negative) {
-                result.negative = '';
-            }
-
-            if (touched) result.universalParse = true;
-            return touched;
-        },
-
         parseComfyUI(promptStr, workflowStr) {
-            const result = { source: 'ComfyUI · 通用解析' };
+            const result = { source: 'ComfyUI' };
+            const loras = [];
             try {
-                const prompt = this.parseComfyJson(promptStr);
-                if (!prompt) return { source: 'ComfyUI', noData: true };
-                const wfMap = this.buildWorkflowMap(workflowStr);
-                result.comfyPrompt = prompt;
-
-                if (workflowStr) {
-                    const wf = this.parseComfyJson(workflowStr);
-                    if (wf) {
-                        result.comfyWorkflow = wf;
-                        result.workflowNodeCount = wf.nodes?.length || 0;
-                    }
-                }
-
-                const samplerNodes = [];
-                const textCandidates = [];
-
+                const prompt = JSON.parse(promptStr);
                 for (const [nodeId, node] of Object.entries(prompt)) {
                     const ct = node.class_type;
-                    const inputs = node.inputs || {};
-
-                    if (ct === 'WeiLinPromptUI' || ct === 'WeiLinPromptUIWithoutLora') {
-                        for (const [k, kind] of [['temp_str', 'pos'], ['positive', 'pos'], ['negative', 'neg']]) {
-                            const t = inputs[k];
-                            if (typeof t === 'string' && t.trim()) {
-                                const text = this.tokenJsonToText(t);
-                                const isNeg = kind === 'neg' || /bad quality|worst quality|anatomical nonsense|bad_hands/i.test(text);
-                                textCandidates.push({ text, kind: isNeg ? 'neg' : 'pos', len: text.length });
-                            }
-                        }
+                    if (ct === 'CLIPTextEncode' || ct === 'WeiLinPromptUIWithoutLora') {
+                        let txt = node.inputs?.text || node.inputs?.temp_str || '';
+                        txt = this.tokenJsonToText(txt);
+                        if (!result.positive) result.positive = txt;
+                        else if (!result.negative) result.negative = txt;
                     }
-
-                    if (ct === 'PromptSelector' && typeof inputs.selected_prompts === 'string' && inputs.selected_prompts.trim()) {
-                        const text = inputs.selected_prompts.trim();
-                        textCandidates.push({ text, kind: 'pos', len: text.length });
+                    if (ct === 'KSampler' || ct === 'KSampler (Efficient)' || ct === 'KSamplerAdvanced') {
+                        const seedVal = node.inputs?.seed ?? node.inputs?.noise_seed;
+                        if (seedVal != null && !Array.isArray(seedVal)) result.seed = String(seedVal);
+                        if (node.inputs?.steps && typeof node.inputs.steps === 'number') result.steps = node.inputs.steps;
+                        if (node.inputs?.cfg && typeof node.inputs.cfg === 'number') result.cfg = node.inputs.cfg;
+                        if (typeof node.inputs?.sampler_name === 'string') result.sampler = node.inputs.sampler_name;
+                        if (typeof node.inputs?.scheduler === 'string') result.scheduler = node.inputs.scheduler;
+                        if (node.inputs?.denoise && typeof node.inputs.denoise === 'number') result.denoise = node.inputs.denoise;
                     }
-
-                    if (ct === 'CLIPTextEncode' && typeof inputs.text === 'string' && inputs.text.trim()) {
-                        textCandidates.push({ text: this.tokenJsonToText(inputs.text), kind: 'clip', len: inputs.text.length });
-                    }
-
-                    if (ct.includes('TriggerWord') || ct.includes('LoraManager')) {
-                        const msg = inputs.orinalMessage || inputs.originalMessage;
-                        if (typeof msg === 'string' && msg.trim()) {
-                            textCandidates.push({ text: this.tokenJsonToText(msg), kind: 'pos', len: msg.length });
-                        }
-                    }
-
-                    if (ct === 'KSampler' || ct === 'KSampler (Efficient)' || ct === 'KSamplerAdvanced' || this._isSamplerLikeNode(ct)) {
-                        samplerNodes.push({ nodeId, node });
-                    }
-
                     if (ct === 'EmptyLatentImage') {
-                        const w = this.coerceNumber(this.resolvePromptValue(inputs.width, prompt, wfMap));
-                        const h = this.coerceNumber(this.resolvePromptValue(inputs.height, prompt, wfMap));
-                        if (w) result.width = w;
-                        if (h) result.height = h;
+                        if (typeof node.inputs?.width === 'number') result.width = node.inputs.width;
+                        if (typeof node.inputs?.height === 'number') result.height = node.inputs.height;
+                    }
+                    if (ct === 'CheckpointLoaderSimple' || ct === 'UNETLoader') {
+                        result.model = node.inputs?.ckpt_name || node.inputs?.unet_name || '';
+                    }
+                    if (ct === 'LoraLoader' || ct === 'LoraLoaderModelOnly') {
+                        const loraName = node.inputs?.lora_name;
+                        const strength = node.inputs?.strength_model ?? node.inputs?.strength ?? 1;
+                        if (loraName) loras.push({ name: loraName, weight: strength });
                     }
                 }
-
-                samplerNodes.sort((a, b) => {
-                    const na = parseInt(String(a.nodeId).split(':').pop(), 10) || 0;
-                    const nb = parseInt(String(b.nodeId).split(':').pop(), 10) || 0;
-                    return nb - na;
-                });
-
-                let bestSampler = null;
-                let bestScore = -1;
-
-                for (const { node } of samplerNodes) {
-                    const inputs = node.inputs || {};
-                    const candidate = {};
-
-                    const seedVal = this.resolvePromptValue(inputs.seed ?? inputs.noise_seed, prompt, wfMap);
-                    if (seedVal != null && !this.isNodeRef(seedVal)) candidate.seed = String(seedVal);
-
-                    candidate.steps = this.coerceNumber(this.resolvePromptValue(inputs.steps, prompt, wfMap));
-                    candidate.cfg = this.coerceNumber(this.resolvePromptValue(inputs.cfg, prompt, wfMap));
-                    const sampler = this.resolvePromptValue(inputs.sampler_name, prompt, wfMap);
-                    const scheduler = this.resolvePromptValue(inputs.scheduler, prompt, wfMap);
-                    candidate.denoise = this.coerceNumber(this.resolvePromptValue(inputs.denoise, prompt, wfMap));
-
-                    if (typeof sampler === 'string' && sampler.trim() && !this.isNodeRef(sampler)) candidate.sampler = sampler.trim();
-                    if (typeof scheduler === 'string' && scheduler.trim() && !this.isNodeRef(scheduler)) candidate.scheduler = scheduler.trim();
-
-                    const pos = this.resolvePromptValue(inputs.positive, prompt, wfMap);
-                    const neg = this.resolvePromptValue(inputs.negative, prompt, wfMap);
-                    if (this._looksLikePrompt(pos)) candidate.positive = pos.trim();
-                    if (this._looksLikePrompt(neg)) candidate.negative = neg.trim();
-
-                    const score = this._samplerScore(candidate);
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestSampler = candidate;
-                    }
-                }
-
-                if (bestSampler) {
-                    if (bestSampler.seed) result.seed = bestSampler.seed;
-                    if (bestSampler.steps != null) result.steps = bestSampler.steps;
-                    if (bestSampler.cfg != null) result.cfg = bestSampler.cfg;
-                    if (bestSampler.sampler) result.sampler = bestSampler.sampler;
-                    if (bestSampler.scheduler) result.scheduler = bestSampler.scheduler;
-                    if (bestSampler.denoise != null) result.denoise = bestSampler.denoise;
-                    if (bestSampler.positive) result.positive = bestSampler.positive;
-                    if (bestSampler.negative) result.negative = bestSampler.negative;
-                }
-
-                if (!result.positive && textCandidates.length) {
-                    const posCands = textCandidates.filter(t => this._looksLikePrompt(t.text));
-                    posCands.sort((a, b) => b.len - a.len);
-                    if (posCands[0]) result.positive = posCands[0].text;
-                }
-                if (!result.negative && textCandidates.length) {
-                    const negCands = textCandidates.filter(t => t.kind === 'neg' && this._looksLikePrompt(t.text));
-                    negCands.sort((a, b) => b.len - a.len);
-                    if (negCands[0]) result.negative = negCands[0].text;
-                }
-
-                if (result.positive && result.negative && result.positive === result.negative) {
-                    result.negative = '';
-                }
-                if (!result.negative && textCandidates.length) {
-                    const badQuality = textCandidates.filter(t =>
-                        /bad quality|worst quality|low quality/i.test(t.text)
-                    );
-                    badQuality.sort((a, b) => b.len - a.len);
-                    if (badQuality[0]) result.negative = badQuality[0].text;
-                }
-
-                if (!result.model) {
-                    const checkpoints = [];
-                    for (const node of Object.values(prompt)) {
-                        const ct = node.class_type;
-                        if (ct === 'CheckpointLoaderSimple' || ct === 'UNETLoader') {
-                            const m = node.inputs?.ckpt_name || node.inputs?.unet_name;
-                            if (typeof m === 'string' && m) checkpoints.push(m);
-                        }
-                    }
-                    if (checkpoints.length) {
-                        result.model = checkpoints.find(m => !/branch/i.test(m)) || checkpoints[0];
-                    }
-                }
-
-                this.applyComfyLiteralFallback(prompt, result);
-                this.applyUniversalComfyInference(prompt, wfMap, result);
-
-                result.loras = this.extractUsedComfyLoras(prompt, wfMap);
-                result.lorasLibrary = this.extractLibraryComfyLoras(prompt, wfMap);
             } catch {}
-            if (!result.positive && !result.seed && !result.model && !result.loras?.length) {
-                result.source = 'ComfyUI';
+            if (loras.length > 0) result.loras = loras;
+            if (workflowStr) {
+                try { result.workflow = JSON.parse(workflowStr); } catch {}
             }
+            this.extractLoras(result);
             return result;
         },
 
-        parseNovelAI(input) {
+        parseNovelAI(text) {
             const result = { source: 'NovelAI' };
-            let commentObj = null;
-            let description = '';
-
-            const takeComment = (c) => {
-                if (!c) return;
-                if (typeof c === 'object') {
-                    commentObj = c;
-                    return;
-                }
-                if (typeof c === 'string') {
-                    try { commentObj = JSON.parse(c); } catch { /* ignore */ }
-                }
-            };
-
-            if (input && typeof input === 'object') {
-                if (typeof input.Description === 'string') description = input.Description;
-                if (input.Comment !== undefined) takeComment(input.Comment);
-                else if (input.prompt !== undefined || input.uc !== undefined || input.steps !== undefined) {
-                    commentObj = input;
-                }
-                if (typeof input.Source === 'string' && input.Source.trim()) {
-                    result.model = input.Source.trim();
-                }
-            } else if (typeof input === 'string') {
-                try {
-                    const data = JSON.parse(input);
-                    if (data && typeof data === 'object') {
-                        if (data.Description || data.Comment || data.Software === 'NovelAI') {
-                            return this.parseNovelAI(data);
-                        }
-                        commentObj = data;
-                    }
-                } catch {
-                    description = input;
-                }
+            try {
+                const data = JSON.parse(text);
+                result.positive = data.prompt || '';
+                result.negative = data.uc || '';
+                if (data.steps) result.steps = data.steps;
+                if (data.scale) result.cfg = data.scale;
+                if (data.seed) result.seed = String(data.seed);
+                if (data.sampler) result.sampler = data.sampler;
+                if (data.width) result.width = data.width;
+                if (data.height) result.height = data.height;
+                if (data.noise_schedule) result.scheduler = data.noise_schedule;
+                if (data.sm !== undefined) result.smea = data.sm;
+                if (data.sm_dyn !== undefined) result.smeaDyn = data.sm_dyn;
+                if (data.strength) result.denoise = data.strength;
+            } catch {
+                result.positive = text;
             }
-
-            if (commentObj) {
-                result.positive = commentObj.prompt || description || '';
-                result.negative = commentObj.uc || '';
-                if (commentObj.steps) result.steps = commentObj.steps;
-                if (commentObj.scale != null) result.cfg = commentObj.scale;
-                if (commentObj.seed != null) result.seed = String(commentObj.seed);
-                if (commentObj.sampler) result.sampler = commentObj.sampler;
-                if (commentObj.width) result.width = commentObj.width;
-                if (commentObj.height) result.height = commentObj.height;
-                if (commentObj.noise_schedule) result.scheduler = commentObj.noise_schedule;
-                if (commentObj.sm !== undefined) result.smea = commentObj.sm;
-                if (commentObj.sm_dyn !== undefined) result.smeaDyn = commentObj.sm_dyn;
-                if (commentObj.strength != null) result.denoise = commentObj.strength;
-            } else {
-                result.positive = description || '';
-            }
-            return result;
-        },
-
-        parseNovelAIFromTexts(texts) {
-            if (!texts) return null;
-            const payload = {
-                Description: texts.Description || '',
-                Comment: texts.Comment,
-                Source: texts.Source,
-                Software: texts.Software,
-            };
-            if (texts.UserComment && !payload.Comment) payload.Comment = texts.UserComment;
-            const result = this.parseNovelAI(payload);
-            if (!result.positive && !result.negative && !result.seed && !result.steps) return null;
             return result;
         },
 
@@ -13107,25 +10980,14 @@
                 texts = this.parseJPEG(buffer);
             }
 
-            const tryStealth = async () => {
-                if (format === 'jpeg') return null;
-                const stealth = await this.extractStealthMetadata(
-                    new Blob([buffer], { type: file.type || (format === 'webp' ? 'image/webp' : 'image/png') })
-                );
-                return this._stealthToResult(stealth);
-            };
-
-            if (!texts) {
-                const stealthResult = await tryStealth();
-                if (stealthResult) return stealthResult;
-                return { source: '未检测到元数据', noData: true };
-            }
+            if (!texts) return { source: '未检测到元数据', noData: true };
 
             // ComfyUI: has "prompt" key with JSON
             if (texts.prompt) {
-                if (this.parseComfyJson(texts.prompt)) {
+                try {
+                    JSON.parse(texts.prompt);
                     return this.parseComfyUI(texts.prompt, texts.workflow);
-                }
+                } catch {}
             }
 
             // A1111/Forge: has "parameters" key
@@ -13146,29 +11008,9 @@
                 return this.parseSwarmUI(texts.sui_image_params);
             }
 
-            // NovelAI: Comment / Description / Software，并在缺字段时回退 alpha 隐写
-            const looksNai = !!(texts.Comment || texts.Description ||
-                (texts.Software && String(texts.Software).includes('NovelAI')));
-            if (looksNai) {
-                let nai = this.parseNovelAIFromTexts(texts);
-                const needStealth = !nai || !nai.positive || (nai.seed == null && nai.steps == null);
-                if (needStealth) {
-                    const stealthResult = await tryStealth();
-                    if (stealthResult && !stealthResult.noData) {
-                        if (!nai) return stealthResult;
-                        if (!nai.positive && stealthResult.positive) nai.positive = stealthResult.positive;
-                        if (!nai.negative && stealthResult.negative) nai.negative = stealthResult.negative;
-                        if (nai.seed == null && stealthResult.seed != null) nai.seed = stealthResult.seed;
-                        if (nai.steps == null && stealthResult.steps != null) nai.steps = stealthResult.steps;
-                        if (nai.cfg == null && stealthResult.cfg != null) nai.cfg = stealthResult.cfg;
-                        if (!nai.sampler && stealthResult.sampler) nai.sampler = stealthResult.sampler;
-                        if (!nai.width && stealthResult.width) nai.width = stealthResult.width;
-                        if (!nai.height && stealthResult.height) nai.height = stealthResult.height;
-                        if (stealthResult.stealth) nai.stealth = stealthResult.stealth;
-                    }
-                }
-                if (nai) return nai;
-            }
+            // NovelAI: has "Comment" or "Description"
+            if (texts.Comment) return this.parseNovelAI(texts.Comment);
+            if (texts.Description) return this.parseNovelAI(texts.Description);
 
             // UserComment fallback
             if (texts.UserComment) {
@@ -13179,10 +11021,7 @@
                 if (texts.UserComment.includes('Steps:')) return this.parseA1111(texts.UserComment);
             }
 
-            // Unknown format: try stealth before giving up
-            const stealthResult = await tryStealth();
-            if (stealthResult) return stealthResult;
-
+            // Unknown format: return raw texts
             const firstVal = Object.values(texts)[0] || '';
             if (firstVal.includes('Steps:') || firstVal.includes('Negative prompt:')) {
                 return this.parseA1111(firstVal);
@@ -13192,58 +11031,6 @@
         }
     };
 
-    function civitaiSearchUrl(name, modelType = 'LORA') {
-        const q = String(name || '')
-            .replace(/\.(safetensors|ckpt|pt)$/i, '')
-            .replace(/_/g, ' ')
-            .trim();
-        return `https://civitai.com/search/models?modelType=${modelType}&query=${encodeURIComponent(q)}`;
-    }
-
-    function downloadJsonFile(filename, data) {
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-    }
-
-    function renderMetaLoraRows(container, loras, usedKeys, showingAll) {
-        container.innerHTML = '';
-        loras.forEach((lora, idx) => {
-            const key = (lora.fullName || lora.name).toLowerCase();
-            const row = document.createElement('div');
-            row.className = 'meta-field meta-field-lora-item';
-            if (showingAll && !usedKeys.has(key)) row.classList.add('meta-field-lora-inactive');
-
-            const lbl = document.createElement('span');
-            lbl.className = 'meta-field-label';
-            lbl.textContent = `#${idx + 1}`;
-
-            const val = document.createElement('span');
-            val.className = 'meta-field-value';
-            let label = `${lora.name} (${lora.weight})`;
-            if (showingAll && usedKeys.has(key)) label += ' · 使用中';
-            val.textContent = label;
-            val.title = lora.fullName || lora.name;
-
-            const link = document.createElement('a');
-            link.className = 'meta-civitai-link';
-            link.href = civitaiSearchUrl(lora.fullName || lora.name, 'LORA');
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-            link.textContent = 'C站下载';
-            link.title = `在 Civitai 搜索 ${lora.name}`;
-
-            row.append(lbl, val, link);
-            container.appendChild(row);
-        });
-    }
-
     function setupMetaImport() {
         const btn = document.getElementById('btn-import-meta');
         const inp = document.getElementById('inp-import-meta');
@@ -13252,7 +11039,6 @@
 
         let parsedData = null;
         let previewUrl = null;
-        let sourceFileName = 'image';
 
         btn.addEventListener('click', () => {
             inp.value = '';
@@ -13262,7 +11048,6 @@
         inp.addEventListener('change', async () => {
             const file = inp.files[0];
             if (!file) return;
-            sourceFileName = file.name.replace(/\.[^.]+$/, '') || 'image';
 
             const buffer = await file.arrayBuffer();
             const blob = new Blob([buffer], { type: file.type });
@@ -13278,19 +11063,18 @@
             const source = document.getElementById('meta-source');
             source.textContent = parsedData.noData
                 ? '⚠️ 该图片未检测到生成参数元数据'
-                : `来源: ${parsedData.source || '未知'}${parsedData.stealth ? ` (${parsedData.stealth})` : ''}`;
+                : `来源: ${parsedData.source || '未知'}`;
             source.className = 'meta-source' + (parsedData.noData ? ' meta-no-data' : '');
 
             const fields = document.getElementById('meta-fields');
-            const downloads = document.getElementById('meta-downloads');
             fields.innerHTML = '';
-            if (downloads) downloads.innerHTML = '';
 
             if (!parsedData.noData) {
+                const loraStr = parsedData.loras?.map(l => `${l.name} (${l.weight})`).join(', ');
                 const rows = [
                     ['正面提示词', parsedData.positive, 'positive'],
                     ['负面提示词', parsedData.negative, 'negative'],
-                    ['模型', parsedData.model, 'model', 'Checkpoint'],
+                    ['模型', parsedData.model, 'model'],
                     ['采样器', parsedData.sampler, 'sampler'],
                     ['调度器', parsedData.scheduler, 'scheduler'],
                     ['步数', parsedData.steps, 'steps'],
@@ -13299,10 +11083,7 @@
                     ['尺寸', parsedData.width && parsedData.height ? `${parsedData.width}×${parsedData.height}` : null, 'size'],
                     ['重绘强度', parsedData.denoise, 'denoise'],
                     ['Clip Skip', parsedData.clipSkip, 'clipSkip'],
-                    ['工作流', parsedData.comfyPrompt
-                        ? `${Object.keys(parsedData.comfyPrompt).length} 个执行节点` +
-                          (parsedData.workflowNodeCount ? ` / UI ${parsedData.workflowNodeCount} 节点` : '')
-                        : null, 'workflow'],
+                    ['LoRA', loraStr, 'loras'],
                     ['Refiner', parsedData.refinerModel, 'refiner'],
                     ['Refiner 切换', parsedData.refinerSwitch, 'refinerSwitch'],
                     ['ADetailer 模型', parsedData.adetailerModel, 'adetailer'],
@@ -13313,7 +11094,7 @@
                     ['SMEA', parsedData.smea !== undefined ? (parsedData.smea ? '开' : '关') : null, 'smea'],
                     ['SMEA Dyn', parsedData.smeaDyn !== undefined ? (parsedData.smeaDyn ? '开' : '关') : null, 'smeaDyn'],
                 ];
-                rows.forEach(([label, value, key, civitaiType]) => {
+                rows.forEach(([label, value, key]) => {
                     if (value == null || value === '') return;
                     const row = document.createElement('div');
                     row.className = 'meta-field';
@@ -13322,98 +11103,13 @@
                     lbl.textContent = label;
                     const val = document.createElement('span');
                     val.className = 'meta-field-value';
-                    const text = String(value);
-                    val.textContent = text.length > 200 ? text.substring(0, 200) + '...' : text;
-                    val.title = text;
+                    val.textContent = String(value).length > 200
+                        ? String(value).substring(0, 200) + '...'
+                        : String(value);
+                    val.title = String(value);
                     row.append(lbl, val);
-                    if (key === 'model' && parsedData.model) {
-                        const link = document.createElement('a');
-                        link.className = 'meta-civitai-link';
-                        link.href = civitaiSearchUrl(parsedData.model, civitaiType || 'Checkpoint');
-                        link.target = '_blank';
-                        link.rel = 'noopener noreferrer';
-                        link.textContent = 'C站';
-                        link.title = '在 Civitai 搜索此模型';
-                        row.appendChild(link);
-                    }
                     fields.appendChild(row);
                 });
-
-                const usedLoras = parsedData.loras || [];
-                const libraryLoras = parsedData.lorasLibrary || [];
-                const usedKeys = new Set(usedLoras.map(l => (l.fullName || l.name).toLowerCase()));
-                const hasLibraryExtra = libraryLoras.some(l => !usedKeys.has((l.fullName || l.name).toLowerCase()));
-
-                if (usedLoras.length || libraryLoras.length) {
-                    let showingAll = false;
-                    const loraHeader = document.createElement('div');
-                    loraHeader.className = 'meta-field meta-field-lora-header';
-                    const loraListHost = document.createElement('div');
-                    loraListHost.className = 'meta-lora-list';
-
-                    const syncLoraView = () => {
-                        const list = showingAll ? libraryLoras : usedLoras;
-                        const title = showingAll ? 'LoRA 库（作者全部）' : 'LoRA（当前图使用）';
-                        loraHeader.innerHTML = `<span class="meta-field-label">${title}</span><span class="meta-field-value">共 ${list.length} 个</span>`;
-                        renderMetaLoraRows(loraListHost, list, usedKeys, showingAll);
-                    };
-
-                    syncLoraView();
-                    fields.appendChild(loraHeader);
-                    fields.appendChild(loraListHost);
-
-                    if (libraryLoras.length > 0 && hasLibraryExtra) {
-                        const toggleBtn = document.createElement('button');
-                        toggleBtn.type = 'button';
-                        toggleBtn.className = 'btn-secondary btn-meta-lora-toggle';
-                        toggleBtn.textContent = `查看该作者所有 LoRA (${libraryLoras.length})`;
-                        toggleBtn.addEventListener('click', () => {
-                            showingAll = !showingAll;
-                            toggleBtn.textContent = showingAll
-                                ? `仅看当前图使用的 LoRA (${usedLoras.length})`
-                                : `查看该作者所有 LoRA (${libraryLoras.length})`;
-                            syncLoraView();
-                        });
-                        fields.appendChild(toggleBtn);
-                    }
-                }
-
-                if (downloads && (parsedData.comfyWorkflow || parsedData.comfyPrompt)) {
-                    const hasUiWorkflow = parsedData.comfyWorkflow?.nodes?.length > 0;
-
-                    if (hasUiWorkflow) {
-                        const wfBtn = document.createElement('button');
-                        wfBtn.type = 'button';
-                        wfBtn.className = 'btn-secondary btn-meta-dl';
-                        wfBtn.textContent = '⬇ 下载 ComfyUI 工作流';
-                        wfBtn.title = 'UI 格式，可在 ComfyUI 官方界面「加载」或拖入画布';
-                        wfBtn.addEventListener('click', () => {
-                            downloadJsonFile(`${sourceFileName}-comfyui-workflow.json`, parsedData.comfyWorkflow);
-                            showToast('已下载 UI 工作流，可在 ComfyUI 加载或拖入导入');
-                        });
-                        downloads.appendChild(wfBtn);
-                    }
-
-                    if (parsedData.comfyPrompt) {
-                        const apiBtn = document.createElement('button');
-                        apiBtn.type = 'button';
-                        apiBtn.className = 'btn-secondary btn-meta-dl';
-                        apiBtn.textContent = '⬇ 下载 API Prompt';
-                        apiBtn.title = '仅供 /prompt 接口调用，ComfyUI 界面无法直接打开';
-                        apiBtn.addEventListener('click', () => {
-                            downloadJsonFile(`${sourceFileName}-comfyui-api.json`, parsedData.comfyPrompt);
-                            showToast('已下载 API Prompt（接口用，不能拖进 ComfyUI 界面）');
-                        });
-                        downloads.appendChild(apiBtn);
-                    }
-
-                    const hint = document.createElement('p');
-                    hint.className = 'meta-hint';
-                    hint.textContent = hasUiWorkflow
-                        ? '导入 ComfyUI 请用「ComfyUI 工作流」，或直接拖原始 PNG 到 ComfyUI 画布。之前的 { prompt, workflow } 合并包界面打不开。'
-                        : '该图未嵌入 UI 布局，只有 API Prompt；请直接拖原始 PNG 到 ComfyUI，或用 API 提交。';
-                    downloads.appendChild(hint);
-                }
             }
 
             const rawToggle = document.getElementById('meta-raw-toggle');
@@ -13421,15 +11117,9 @@
             const rawSection = document.getElementById('meta-raw');
             rawContent.classList.add('hidden');
             rawToggle.textContent = '▶ 原始数据';
-            if (parsedData.raw || parsedData.comfyPrompt || parsedData.comfyWorkflow) {
+            if (parsedData.raw || parsedData.workflow) {
                 rawSection.classList.remove('hidden');
-                const rawPayload = parsedData.comfyPrompt || parsedData.comfyWorkflow
-                    ? {
-                        prompt: parsedData.comfyPrompt || null,
-                        workflow: parsedData.comfyWorkflow || null,
-                    }
-                    : (parsedData.raw || parsedData);
-                rawContent.textContent = JSON.stringify(rawPayload, null, 2);
+                rawContent.textContent = JSON.stringify(parsedData.raw || parsedData.workflow || parsedData, null, 2);
             } else {
                 rawSection.classList.add('hidden');
             }
@@ -13446,7 +11136,6 @@
 
         document.getElementById('btn-meta-apply').addEventListener('click', () => {
             if (!parsedData || parsedData.noData) { modal.classList.add('hidden'); return; }
-
             if (parsedData.positive) {
                 dom.txtPositive.value = parsedData.positive;
                 dom.txtPositive.dispatchEvent(new Event('input', { bubbles: true }));
@@ -13471,10 +11160,8 @@
                 const opt = [...dom.selScheduler.options].find(o => o.value.toLowerCase() === parsedData.scheduler.toLowerCase());
                 if (opt) dom.selScheduler.value = opt.value;
             }
-
             modal.classList.add('hidden');
             if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; }
-            showToast('已填入生成参数（LoRA / 工作流请自行下载）');
         });
 
         document.getElementById('btn-meta-cancel').addEventListener('click', () => {
@@ -13506,1293 +11193,17 @@
         const btn = document.getElementById('btn-dzmm');
         if (!btn) return;
         const DZMM_URL = 'https://www.dzmm.ai/draw/generate/create';
-        const DZMM_COOKIE_KEY = 'dzmm_cookie';
-        const DZMM_ACCOUNTS_KEY = 'dzmm_accounts';
-        const DZMM_ACTIVE_ID_KEY = 'dzmm_active_id';
-        const DZMM_AUTO_ROTATE_KEY = 'dzmm_auto_rotate';
-        const progressContainer = document.getElementById('progress-container');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        const modelSel = document.getElementById('sel-dzmm-model');
-        const dimSel = document.getElementById('sel-dzmm-dimension');
-        const quotaBadge = document.getElementById('dzmm-quota-badge');
-        const poolQuotaBadge = document.getElementById('dzmm-quota-pool-badge');
-        const accountListEl = document.getElementById('dzmm-account-list');
-
-        function cookieFingerprint(cookie) {
-            const s = String(cookie || '');
-            let h = 0;
-            for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
-            return `a_${Math.abs(h).toString(36)}_${s.length}`;
-        }
-
-        function loadAccounts() {
-            try {
-                const raw = JSON.parse(localStorage.getItem(DZMM_ACCOUNTS_KEY) || '[]');
-                return Array.isArray(raw) ? raw.filter((a) => a && a.cookie) : [];
-            } catch {
-                return [];
-            }
-        }
-
-        function saveAccounts(list) {
-            localStorage.setItem(DZMM_ACCOUNTS_KEY, JSON.stringify(list));
-        }
-
-        function isAutoRotateEnabled() {
-            const el = document.getElementById('chk-dzmm-auto-rotate');
-            if (el) return !!el.checked;
-            const v = localStorage.getItem(DZMM_AUTO_ROTATE_KEY);
-            return v === null ? true : v !== '0';
-        }
-
-        function getActiveAccountId() {
-            return localStorage.getItem(DZMM_ACTIVE_ID_KEY) || '';
-        }
-
-        function getActiveAccount() {
-            const list = loadAccounts();
-            const id = getActiveAccountId();
-            return list.find((a) => a.id === id) || list[0] || null;
-        }
-
-        function getLocalDzmmCookie() {
-            const active = getActiveAccount();
-            if (active?.cookie) return active.cookie;
-            const fromInput = document.getElementById('inp-dzmm-cookie')?.value.trim();
-            if (fromInput) return fromInput;
-            try { return localStorage.getItem(DZMM_COOKIE_KEY) || ''; } catch { return ''; }
-        }
-
-        function migrateLegacyCookie() {
-            let list = loadAccounts();
-            if (list.length) return list;
-            const legacy = localStorage.getItem(DZMM_COOKIE_KEY) || '';
-            if (!legacy) return list;
-            const id = cookieFingerprint(legacy);
-            list = [{ id, cookie: legacy, label: '账号 1', email: '', fullName: '', quotas: null, updatedAt: Date.now() }];
-            saveAccounts(list);
-            localStorage.setItem(DZMM_ACTIVE_ID_KEY, id);
-            return list;
-        }
-
-        async function setActiveAccount(id, { syncServer = true, fillInput = true } = {}) {
-            const list = loadAccounts();
-            const acc = list.find((a) => a.id === id);
-            if (!acc) return false;
-            localStorage.setItem(DZMM_ACTIVE_ID_KEY, id);
-            localStorage.setItem(DZMM_COOKIE_KEY, acc.cookie);
-            if (fillInput) {
-                const inp = document.getElementById('inp-dzmm-cookie');
-                if (inp) inp.value = acc.cookie;
-            }
-            if (acc.quotas) state.quotas = acc.quotas;
-            if (syncServer) {
-                await dzmmFetch('/api/dzmm/cookie', {
-                    method: 'POST',
-                    body: JSON.stringify({ cookie: acc.cookie }),
-                }).catch(() => null);
-            }
-            renderAccountList();
-            updateQuotaBadge();
-            return true;
-        }
-
-        function upsertAccount(cookie, meta = {}) {
-            const normalized = normalizeDzmmCookieClient(cookie);
-            if (!normalized) return null;
-            const fp = cookieFingerprint(normalized);
-            const list = loadAccounts();
-            // 续期后 cookie 指纹会变：优先按 accountId / 邮箱 / 当前账号原地更新
-            let idx = -1;
-            if (meta.accountId) idx = list.findIndex((a) => a.id === meta.accountId);
-            if (idx < 0) idx = list.findIndex((a) => a.id === fp);
-            if (idx < 0 && meta.email) {
-                idx = list.findIndex((a) => a.email && a.email === meta.email);
-            }
-            if (idx < 0 && meta.replaceActive) {
-                const activeId = getActiveAccountId();
-                if (activeId) idx = list.findIndex((a) => a.id === activeId);
-            }
-            const prev = idx >= 0 ? list[idx] : null;
-            const id = prev?.id || fp;
-            const next = {
-                id,
-                cookie: normalized,
-                label: meta.label || prev?.label || meta.fullName || meta.email || `账号 ${list.length + (idx >= 0 ? 0 : 1)}`,
-                email: meta.email ?? prev?.email ?? '',
-                fullName: meta.fullName ?? prev?.fullName ?? '',
-                quotas: meta.quotas ?? prev?.quotas ?? null,
-                // 密码仅本机；未传入时保留原值；显式 null/'' 可清除
-                password: meta.password !== undefined ? (meta.password || '') : (prev?.password || ''),
-                remainSec: meta.remainSec ?? prev?.remainSec ?? null,
-                updatedAt: Date.now(),
-            };
-            if (idx >= 0) list[idx] = next;
-            else list.push(next);
-            saveAccounts(list);
-            localStorage.setItem(DZMM_ACTIVE_ID_KEY, id);
-            localStorage.setItem(DZMM_COOKIE_KEY, normalized);
-            const inp = document.getElementById('inp-dzmm-cookie');
-            if (inp) inp.value = normalized;
-            return next;
-        }
-
-        function parseDzmmRemainSec(cookie) {
-            try {
-                const c = normalizeDzmmCookieClient(cookie);
-                if (!c.startsWith('sb-rls-auth-token=')) return null;
-                let v = c.slice('sb-rls-auth-token='.length).trim();
-                if (v.startsWith('base64-')) v = v.slice(7);
-                const pad = v + '='.repeat((4 - (v.length % 4)) % 4);
-                const json = JSON.parse(atob(pad.replace(/-/g, '+').replace(/_/g, '/')));
-                const exp = Number(json?.expires_at || 0);
-                if (!exp) return null;
-                return Math.floor(exp - Date.now() / 1000);
-            } catch {
-                return null;
-            }
-        }
-
-        function applyAuthCookieUpdate(data, { accountId, email, password } = {}) {
-            if (!data?.cookie) return null;
-            const acc = getActiveAccount();
-            return upsertAccount(data.cookie, {
-                accountId: accountId || acc?.id,
-                email: email || data.user?.email || acc?.email || '',
-                fullName: data.user?.fullName || acc?.fullName || '',
-                password: password !== undefined ? password : undefined,
-                remainSec: data.remainSec ?? parseDzmmRemainSec(data.cookie),
-                replaceActive: true,
-                quotas: data.quotas,
-            });
-        }
-
-        /** 懒续期：剩余 < 180s 时调 /api/dzmm/refresh；可带本机保存的密码作重登兜底 */
-        async function ensureDzmmAuthFresh({ force = false, silent = true } = {}) {
-            const acc = getActiveAccount();
-            const cookie = acc?.cookie || getLocalDzmmCookie();
-            if (!cookie) return { ok: false, error: '未配置 Cookie' };
-
-            const remain = parseDzmmRemainSec(cookie);
-            if (!force && remain != null && remain >= 180) {
-                return { ok: true, cookie, remainSec: remain, refreshed: false };
-            }
-
-            try {
-                const res = await dzmmFetchWithCookie('/api/dzmm/refresh', cookie, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        cookie,
-                        email: acc?.email || '',
-                        password: acc?.password || '',
-                        force: !!force,
-                        minRemain: 60,
-                    }),
-                });
-                const data = await res.json().catch(() => ({}));
-                if (!res.ok || !data.ok || !data.cookie) {
-                    return { ok: false, error: data.error || `续期失败 (${res.status})`, remainSec: remain };
-                }
-                applyAuthCookieUpdate(data, {
-                    accountId: acc?.id,
-                    email: acc?.email,
-                    password: acc?.password,
-                });
-                if (!silent && data.refreshed) {
-                    const sec = data.remainSec ?? parseDzmmRemainSec(data.cookie);
-                    showToast(`登录态已续期${sec != null ? ` · 剩余约 ${sec}s` : ''}`);
-                }
-                return { ok: true, ...data, cookie: data.cookie };
-            } catch (e) {
-                return { ok: false, error: e.message || String(e), remainSec: remain };
-            }
-        }
-
-        function removeAccount(id) {
-            let list = loadAccounts().filter((a) => a.id !== id);
-            saveAccounts(list);
-            if (getActiveAccountId() === id) {
-                if (list[0]) {
-                    localStorage.setItem(DZMM_ACTIVE_ID_KEY, list[0].id);
-                    localStorage.setItem(DZMM_COOKIE_KEY, list[0].cookie);
-                } else {
-                    localStorage.removeItem(DZMM_ACTIVE_ID_KEY);
-                    localStorage.removeItem(DZMM_COOKIE_KEY);
-                }
-            }
-            renderAccountList();
-        }
-
-        function quotaRemaining(acc, quotaType) {
-            const q = acc?.quotas?.[quotaType];
-            return typeof q?.remaining === 'number' ? q.remaining : null;
-        }
-
-        function pickAccountWithQuota(quotaType, { preferId } = {}) {
-            const list = loadAccounts();
-            if (!list.length) return null;
-            const withQuota = list.filter((a) => {
-                const r = quotaRemaining(a, quotaType);
-                return r === null || r > 0;
-            });
-            const pool = withQuota.length ? withQuota : list;
-            if (preferId) {
-                const pref = pool.find((a) => a.id === preferId);
-                if (pref) return pref;
-            }
-            const activeId = getActiveAccountId();
-            return pool.find((a) => a.id === activeId) || pool[0];
-        }
-
-        /** 免费额度用尽时切到仍有额度的账号；全部用尽则留在当前（可用积分） */
-        async function ensureAccountForQuota(quotaType, { silent = true } = {}) {
-            if (!isAutoRotateEnabled()) return getActiveAccount();
-            const active = getActiveAccount();
-            const rem = quotaRemaining(active, quotaType);
-            if (active && (rem === null || rem > 0)) return active;
-            const next = pickAccountWithQuota(quotaType, { preferId: null });
-            if (!next) return active;
-            if (active && next.id === active.id) return active;
-            // 优先选 remaining>0 的
-            const list = loadAccounts();
-            const better = list.find((a) => (quotaRemaining(a, quotaType) || 0) > 0);
-            const target = better || next;
-            if (active && target.id === active.id) return active;
-            await setActiveAccount(target.id, { syncServer: true, fillInput: true });
-            if (!silent) {
-                const name = target.fullName || target.email || target.label || '下一账号';
-                showToast(`已切换账号：${name}`, 1600);
-            }
-            return target;
-        }
-
-        function renderAccountList() {
-            if (!accountListEl) return;
-            const list = loadAccounts();
-            const activeId = getActiveAccountId();
-            if (!list.length) {
-                accountListEl.innerHTML = '<div class="profile-hint" style="margin:0">账号池为空 — 粘贴 Cookie 后点「加入账号池」</div>';
-                return;
-            }
-            accountListEl.innerHTML = list.map((a) => {
-                const draw = a.quotas?.draw;
-                const edit = a.quotas?.edit;
-                const dq = typeof draw?.remaining === 'number' ? `${draw.remaining}/${draw.limit ?? '?'}` : '--';
-                const eq = typeof edit?.remaining === 'number' ? `${edit.remaining}/${edit.limit ?? '?'}` : '--';
-                const title = a.fullName || a.email || a.label || '账号';
-                const mark = a.id === activeId ? ' ·当前' : '';
-                const active = a.id === activeId ? ' active' : '';
-                const remain = a.remainSec ?? parseDzmmRemainSec(a.cookie);
-                const remainTxt = remain != null
-                    ? (remain > 0 ? ` · ${Math.max(1, Math.round(remain / 60))}分` : ' · 过期')
-                    : '';
-                const pwMark = a.password ? ' ·密' : '';
-                // 单行：超长省略，不撑开容器
-                const line = `${title}${mark} · 日${dq} · Z${eq}${remainTxt}${pwMark}`;
-                return `<div class="dzmm-account-item${active}" data-id="${a.id}" title="${line.replace(/"/g, '&quot;')}">
-                    <div class="meta"><span class="name">${title}${mark}</span> · 日${dq} · Z${eq}${remainTxt}</div>
-                    <button type="button" class="btn-secondary" data-act="use">用</button>
-                    <button type="button" class="btn-danger" data-act="del">删</button>
-                </div>`;
-            }).join('');
-        }
-
-        function dzmmFetch(url, options = {}) {
-            const headers = new Headers(options.headers || {});
-            const cookie = getLocalDzmmCookie();
-            if (cookie) headers.set('X-Dzmm-Cookie', cookie);
-            if (options.body && !headers.has('Content-Type')) {
-                headers.set('Content-Type', 'application/json');
-            }
-            return fetch(url, { ...options, headers });
-        }
-
-        function dzmmFetchWithCookie(url, cookie, options = {}) {
-            const headers = new Headers(options.headers || {});
-            if (cookie) headers.set('X-Dzmm-Cookie', cookie);
-            if (options.body && !headers.has('Content-Type')) {
-                headers.set('Content-Type', 'application/json');
-            }
-            return fetch(url, { ...options, headers });
-        }
-
-        function aggregatePoolQuotas() {
-            const list = loadAccounts();
-            const out = {
-                draw: { remaining: 0, limit: 0, count: 0 },
-                edit: { remaining: 0, limit: 0, count: 0 },
-            };
-            for (const a of list) {
-                for (const type of ['draw', 'edit']) {
-                    const q = a.quotas?.[type];
-                    if (q && typeof q.remaining === 'number') {
-                        out[type].remaining += q.remaining;
-                        if (typeof q.limit === 'number') out[type].limit += q.limit;
-                        out[type].count += 1;
-                    }
-                }
-            }
-            return out;
-        }
-
-        async function refreshPoolQuotas() {
-            const list = loadAccounts();
-            if (!list.length) return;
-            const activeId = getActiveAccountId();
-            for (const acc of list) {
+        btn.addEventListener('click', async () => {
+            const positive = document.getElementById('txt-positive').value.trim();
+            if (positive) {
                 try {
-                    const res = await dzmmFetchWithCookie('/api/dzmm/status', acc.cookie);
-                    const data = await res.json();
-                    if (!res.ok || !(data.cookieComplete || data.acceptedLocally || (data.hasCookie && !data.error))) continue;
-                    upsertAccount(acc.cookie, {
-                        email: data.user?.email || acc.email,
-                        fullName: data.user?.fullName || acc.fullName,
-                        quotas: data.quotas || { draw: data.quota, edit: null },
-                    });
-                } catch { /* ignore per-account */ }
-            }
-            const active = loadAccounts().find((a) => a.id === activeId) || loadAccounts()[0];
-            if (active?.quotas) state.quotas = active.quotas;
-            state.user = active ? { fullName: active.fullName, email: active.email } : state.user;
-        }
-
-        const FALLBACK_MODELS = [
-            {
-                id: 'anime', label: 'Anime 动漫', quotaType: 'draw', defaultDimension: '1:1',
-                dimensions: [
-                    { value: '1:1', label: '1:1 方形', pixels: '2048×2048' },
-                    { value: '2:3', label: '2:3 竖图', pixels: '1664×2496' },
-                    { value: '3:2', label: '3:2 横图', pixels: '2496×1664' },
-                ],
-            },
-            {
-                id: 'iroha', label: 'Iroha', quotaType: 'draw', defaultDimension: '9:16',
-                dimensions: [
-                    { value: '9:16', label: '9:16 竖屏', pixels: '1440×2560' },
-                    { value: '1:1', label: '1:1 方形', pixels: '2048×2048' },
-                    { value: '2:3', label: '2:3 竖拍', pixels: '1664×2496' },
-                    { value: '3:4', label: '3:4 竖照', pixels: '1728×2304' },
-                    { value: '3:2', label: '3:2 横图', pixels: '2496×1664' },
-                    { value: '4:3', label: '4:3 传统', pixels: '2304×1728' },
-                    { value: '16:9', label: '16:9 宽屏', pixels: '2560×1440' },
-                ],
-            },
-            {
-                id: 'z-image', label: 'Z-Image', quotaType: 'edit', defaultDimension: '4:3',
-                dimensions: [
-                    { value: '1:1', label: '1:1 方形', pixels: '2048×2048' },
-                    { value: '4:3', label: '4:3 传统', pixels: '2304×1728' },
-                    { value: '3:4', label: '3:4 竖照', pixels: '1728×2304' },
-                    { value: '16:9', label: '16:9 宽屏', pixels: '2560×1440' },
-                    { value: '9:16', label: '9:16 竖屏', pixels: '1440×2560' },
-                    { value: '3:2', label: '3:2 经典', pixels: '2496×1664' },
-                    { value: '2:3', label: '2:3 竖拍', pixels: '1664×2496' },
-                    { value: '21:9', label: '21:9 超宽', pixels: '3024×1296' },
-                ],
-            },
-        ];
-
-        const state = {
-            models: FALLBACK_MODELS,
-            quotas: { draw: null, edit: null },
-            user: null,
-        };
-
-        function currentModel() {
-            const id = modelSel?.value || 'anime';
-            return state.models.find((m) => m.id === id) || state.models[0];
-        }
-
-        function formatQuota(q) {
-            if (!q || typeof q.remaining !== 'number') return '配额 --';
-            let t = `剩余 ${q.remaining}/${q.limit ?? '?'}`;
-            if (typeof q.hoursUntilReset === 'number' && q.hoursUntilReset >= 0) {
-                t += ` · ${q.hoursUntilReset}h后重置`;
-            }
-            return t;
-        }
-
-        function formatQuotaShort(q) {
-            if (!q || typeof q.remaining !== 'number') return '--';
-            return `${q.remaining}/${q.limit ?? '?'}`;
-        }
-
-        function updateQuotaBadge() {
-            if (!quotaBadge) return;
-            const model = currentModel();
-            const qType = model?.quotaType || 'draw';
-            const q = state.quotas?.[qType] || null;
-            const typeLabel = qType === 'edit' ? 'Z配额' : '日配额';
-            quotaBadge.textContent = `${typeLabel} ${formatQuota(q).replace(/^配额 /, '')}`;
-            quotaBadge.classList.remove('empty', 'ok');
-            if (q && typeof q.remaining === 'number') {
-                quotaBadge.classList.add(q.remaining <= 0 ? 'empty' : 'ok');
-            }
-
-            const pool = aggregatePoolQuotas();
-            const n = loadAccounts().length;
-            if (poolQuotaBadge) {
-                if (n > 1 && pool[qType].count > 0) {
-                    poolQuotaBadge.classList.remove('hidden');
-                    const poolLabel = qType === 'edit' ? '池Z' : '池日';
-                    const p = pool[qType];
-                    poolQuotaBadge.textContent = `${poolLabel} ${formatQuotaShort(p)}`;
-                    poolQuotaBadge.title = `账号池合计（${n} 账号）：日 ${formatQuotaShort(pool.draw)} · Z ${formatQuotaShort(pool.edit)}`;
-                    poolQuotaBadge.classList.remove('empty', 'ok');
-                    poolQuotaBadge.classList.add(p.remaining <= 0 ? 'empty' : 'ok');
-                } else {
-                    poolQuotaBadge.classList.add('hidden');
+                    await navigator.clipboard.writeText(positive);
+                    showToast('正向提示词已复制到剪贴板，请在 dzmm 中粘贴');
+                } catch {
+                    showToast('复制失败，请手动复制提示词');
                 }
             }
-
-            const empty = q && q.remaining <= 0;
-            const acc = getActiveAccount();
-            const accName = acc?.fullName || acc?.email || acc?.label || '';
-            if (empty) {
-                btn.title = n > 1
-                    ? '当前账号免费配额已用完，将自动尝试切换或使用积分'
-                    : '免费配额已用完，仍可用积分继续生成';
-            } else {
-                btn.title = accName
-                    ? `DZMM 生图（${accName}${n > 1 ? ` · 共${n}账号` : ''}）`
-                    : '使用本地代理调用 dzmm.ai 生图（需配置 Cookie）';
-            }
-        }
-
-        function fillDimensions(keepValue) {
-            if (!dimSel) return;
-            const model = currentModel();
-            const dims = model?.dimensions || [];
-            const prev = keepValue || dimSel.value;
-            dimSel.innerHTML = dims.map((d) => {
-                const tip = d.pixels ? ` (${d.pixels})` : '';
-                return `<option value="${d.value}">${d.label || d.value}${tip}</option>`;
-            }).join('');
-            const allowed = new Set(dims.map((d) => d.value));
-            if (prev && allowed.has(prev)) dimSel.value = prev;
-            else dimSel.value = model?.defaultDimension || dims[0]?.value || '';
-        }
-
-        function applyModels(models) {
-            if (Array.isArray(models) && models.length) state.models = models;
-            if (modelSel) {
-                const prev = modelSel.value || localStorage.getItem('dzmm_model') || 'anime';
-                modelSel.innerHTML = state.models.map((m) =>
-                    `<option value="${m.id}">${m.label || m.id}</option>`
-                ).join('');
-                modelSel.value = state.models.some((m) => m.id === prev) ? prev : state.models[0].id;
-            }
-            fillDimensions();
-            updateQuotaBadge();
-        }
-
-        async function refreshDzmmStatus() {
-            const el = document.getElementById('dzmm-status');
-            try {
-                if (loadAccounts().length > 1) {
-                    await refreshPoolQuotas();
-                }
-                const res = await dzmmFetch('/api/dzmm/status');
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.error || res.statusText);
-                if (data.models) applyModels(data.models);
-                if (data.quotas) state.quotas = data.quotas;
-                else if (data.quota) state.quotas = { draw: data.quota, edit: state.quotas.edit };
-                state.user = data.user || null;
-                if (data.cookie) {
-                    applyAuthCookieUpdate(data);
-                } else {
-                    const cookie = getLocalDzmmCookie();
-                    if (cookie && data.hasCookie && !data.error) {
-                        upsertAccount(cookie, {
-                            accountId: getActiveAccount()?.id,
-                            email: data.user?.email || '',
-                            fullName: data.user?.fullName || '',
-                            quotas: state.quotas,
-                            remainSec: data.remainSec ?? parseDzmmRemainSec(cookie),
-                            replaceActive: true,
-                        });
-                    }
-                }
-                renderAccountList();
-                updateQuotaBadge();
-
-                if (!el) return data;
-                if (!data.hasCookie) {
-                    el.textContent = '未配置 Cookie';
-                    return data;
-                }
-                if (data.error && !data.cookieComplete && !data.acceptedLocally) {
-                    el.textContent = data.error;
-                    return data;
-                }
-                const name = data.user?.fullName || data.user?.email || '已登录';
-                const dq = formatQuota(data.quotas?.draw || data.quota).replace(/^配额 /, '');
-                const eq = formatQuota(data.quotas?.edit).replace(/^配额 /, '');
-                const n = loadAccounts().length;
-                const pool = aggregatePoolQuotas();
-                const poolLine = n > 1 && pool.draw.count
-                    ? ` · 池${formatQuotaShort(pool.draw)}/${formatQuotaShort(pool.edit)}`
-                    : '';
-                const remain = data.remainSec ?? parseDzmmRemainSec(getLocalDzmmCookie());
-                const remainLine = remain != null
-                    ? (remain > 0 ? ` · 剩余${Math.max(1, Math.round(remain / 60))}分` : ' · 已过期')
-                    : '';
-                const renewMark = data.authRefreshed ? ' · 已续期' : '';
-                el.textContent = `${name} · 日${dq} · Z${eq}${poolLine}${n > 1 ? ` · ${n}号` : ''}${remainLine}${renewMark}`;
-                el.title = data.warning || data.authWarning || el.textContent;
-                return data;
-            } catch (e) {
-                if (el) el.textContent = `代理不可用`;
-                applyModels(FALLBACK_MODELS);
-                renderAccountList();
-                updateQuotaBadge();
-                return null;
-            }
-        }
-
-        modelSel?.addEventListener('change', () => {
-            localStorage.setItem('dzmm_model', modelSel.value);
-            const saved = localStorage.getItem('dzmm_dimension_' + modelSel.value);
-            fillDimensions(saved || undefined);
-            updateQuotaBadge();
-        });
-        dimSel?.addEventListener('change', () => {
-            localStorage.setItem('dzmm_dimension_' + (modelSel?.value || 'anime'), dimSel.value);
-        });
-
-        // 初次填充（本地兜底），再拉服务端配置
-        migrateLegacyCookie();
-        const rotateChk = document.getElementById('chk-dzmm-auto-rotate');
-        if (rotateChk) {
-            rotateChk.checked = isAutoRotateEnabled();
-            rotateChk.addEventListener('change', () => {
-                localStorage.setItem(DZMM_AUTO_ROTATE_KEY, rotateChk.checked ? '1' : '0');
-            });
-        }
-        applyModels(FALLBACK_MODELS);
-        const savedDim = localStorage.getItem('dzmm_dimension_' + (modelSel?.value || 'anime'));
-        if (savedDim) fillDimensions(savedDim);
-        renderAccountList();
-        const active = getActiveAccount();
-        if (active) {
-            const inp = document.getElementById('inp-dzmm-cookie');
-            if (inp && !inp.value.trim()) inp.value = active.cookie;
-        }
-        refreshDzmmStatus();
-
-        accountListEl?.addEventListener('click', async (e) => {
-            const btn = e.target.closest('button[data-act]');
-            const row = e.target.closest('.dzmm-account-item');
-            if (!btn || !row) return;
-            const id = row.getAttribute('data-id');
-            if (btn.getAttribute('data-act') === 'del') {
-                removeAccount(id);
-                await refreshDzmmStatus();
-                return;
-            }
-            if (btn.getAttribute('data-act') === 'use') {
-                await setActiveAccount(id);
-                await refreshDzmmStatus();
-                showToast('已切换当前账号');
-            }
-        });
-
-        document.getElementById('btn-dzmm-add-account')?.addEventListener('click', async () => {
-            const cookie = document.getElementById('inp-dzmm-cookie')?.value.trim() || getLocalDzmmCookie();
-            if (!cookie) {
-                showToast('请先粘贴 Cookie');
-                return;
-            }
-            await applyDzmmCookie(cookie, { addToPool: true });
-        });
-
-        document.getElementById('btn-dzmm-test')?.addEventListener('click', async () => {
-            const cookie = getLocalDzmmCookie() || document.getElementById('inp-dzmm-cookie')?.value.trim();
-            if (cookie) {
-                upsertAccount(cookie);
-                await dzmmFetch('/api/dzmm/cookie', {
-                    method: 'POST',
-                    body: JSON.stringify({ cookie }),
-                }).catch(() => null);
-            }
-            const data = await refreshDzmmStatus();
-            if (data?.cookieComplete || data?.acceptedLocally || (data?.hasCookie && !data.error)) {
-                showToast(data.warning ? `已登录（${data.warning}）` : 'DZMM 登录有效（已识别完整 Cookie）');
-            } else {
-                showToast(data?.error || '请检查 Cookie 是否完整');
-            }
-        });
-
-        function isCompleteDzmmCookieClient(raw) {
-            const cookie = normalizeDzmmCookieClient(raw);
-            if (!cookie.startsWith('sb-rls-auth-token=')) return false;
-            const value = cookie.slice('sb-rls-auth-token='.length).trim();
-            if (!value) return false;
-            try {
-                let v = value.startsWith('base64-') ? value.slice(7) : value;
-                const pad = v + '='.repeat((4 - (v.length % 4)) % 4);
-                const json = JSON.parse(atob(pad.replace(/-/g, '+').replace(/_/g, '/')));
-                if (json && (json.access_token || json.refresh_token || json.accessToken || json.refreshToken)) {
-                    return true;
-                }
-            } catch { /* ignore */ }
-            if (value.startsWith('base64-') && value.length >= 40) return true;
-            if (value.startsWith('eyJ') && value.length >= 40) return true;
-            return value.length >= 80;
-        }
-
-        function normalizeDzmmCookieClient(raw) {
-            const COOKIE_NAME = 'sb-rls-auth-token';
-            const utf8ToBase64 = (str) => {
-                const bytes = new TextEncoder().encode(String(str));
-                let bin = '';
-                for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-                return btoa(bin);
-            };
-            const finalize = (value) => {
-                let v = String(value || '').trim().replace(/^["']|["']$/g, '');
-                if (!v) return '';
-                if (v.toLowerCase().startsWith('cookie=')) v = v.slice(7).trim();
-                const prefix = `${COOKIE_NAME}=`;
-                while (v.startsWith(`${prefix}${prefix}`)) v = v.slice(prefix.length);
-                if (v.startsWith(prefix)) v = v.slice(prefix.length);
-                if (v.startsWith('eyJ') && !v.startsWith('base64-')) v = `base64-${v}`;
-                return `${COOKIE_NAME}=${v}`;
-            };
-
-            let text = String(raw || '').trim().replace(/^["']|["']$/g, '');
-            if (!text) return '';
-            if (text.toLowerCase().startsWith('cookie:')) text = text.slice(7).trim();
-            const curlCookie =
-                text.match(/-H\s+['"]Cookie:\s*([^'"]+)['"]/i) ||
-                text.match(/--header\s+['"]Cookie:\s*([^'"]+)['"]/i) ||
-                text.match(/(?:^|\n)\s*Cookie:\s*([^\n\r]+)/i);
-            if (curlCookie && /sb-.*auth-token/i.test(curlCookie[1])) {
-                text = curlCookie[1].trim();
-            }
-            if (text.startsWith('{')) {
-                try {
-                    const obj = JSON.parse(text);
-                    if (obj && (obj.access_token || obj.accessToken || obj.refresh_token || obj.refreshToken)) {
-                        return finalize(`base64-${utf8ToBase64(JSON.stringify(obj))}`);
-                    }
-                } catch { /* fall through */ }
-            }
-
-            const parts = [];
-            for (const line of text.split(/\r?\n/)) {
-                let ln = line.trim().replace(/^["']|["']$/g, '');
-                if (!ln) continue;
-                if (ln.includes('\t')) {
-                    const tab = ln.indexOf('\t');
-                    const left = ln.slice(0, tab).trim();
-                    const right = ln.slice(tab + 1).trim();
-                    if (left && !left.includes('=')) ln = `${left}=${right}`;
-                }
-                if (ln.includes(';') && ln.includes('=')) {
-                    for (const p of ln.split(';')) {
-                        const t = p.trim();
-                        if (t) parts.push(t);
-                    }
-                } else {
-                    parts.push(ln);
-                }
-            }
-
-            let single = '';
-            const chunks = {};
-            const bare = [];
-            for (const part of parts) {
-                if (!part.includes('=')) {
-                    bare.push(part);
-                    continue;
-                }
-                const eq = part.indexOf('=');
-                const name = part.slice(0, eq).trim();
-                const value = part.slice(eq + 1).trim().replace(/^["']|["']$/g, '');
-                if (name === COOKIE_NAME) {
-                    single = value;
-                    continue;
-                }
-                let m = name.match(/^sb-rls-auth-token\.(\d+)$/);
-                if (m) {
-                    chunks[Number(m[1])] = value;
-                    continue;
-                }
-                if (/^sb-[A-Za-z0-9_-]+-auth-token$/.test(name) && !single) {
-                    single = value;
-                    continue;
-                }
-                m = name.match(/^sb-[A-Za-z0-9_-]+-auth-token\.(\d+)$/);
-                if (m) chunks[Number(m[1])] = value;
-            }
-
-            const indexes = Object.keys(chunks).map(Number).sort((a, b) => a - b);
-            let value = '';
-            if (indexes.length) value = indexes.map((i) => chunks[i]).join('');
-            else if (single) value = single;
-            else if (bare.length) value = bare.join('');
-            else if (text.startsWith('base64-') || text.startsWith('eyJ')) value = text;
-            else return text;
-            return finalize(value);
-        }
-
-        async function applyDzmmCookie(raw, { silent, addToPool = true } = {}) {
-            const cookie = normalizeDzmmCookieClient(raw);
-            if (!cookie) {
-                if (!silent) showToast('未识别到有效 Cookie');
-                return false;
-            }
-            if (!isCompleteDzmmCookieClient(cookie)) {
-                if (!silent) showToast('Cookie 字段不完整，请粘贴完整 sb-rls-auth-token 或全部 .0/.1/.2');
-                return false;
-            }
-            const inp = document.getElementById('inp-dzmm-cookie');
-            if (inp) inp.value = cookie;
-            if (addToPool) {
-                upsertAccount(cookie, {
-                    accountId: getActiveAccount()?.id,
-                    remainSec: parseDzmmRemainSec(cookie),
-                    replaceActive: true,
-                });
-            } else {
-                try { localStorage.setItem(DZMM_COOKIE_KEY, cookie); } catch { /* ignore */ }
-            }
-            await dzmmFetch('/api/dzmm/cookie', {
-                method: 'POST',
-                body: JSON.stringify({ cookie }),
-            }).catch(() => null);
-            if (!silent) showToast(addToPool ? '已识别完整 Cookie，已加入账号池' : '已识别完整 Cookie，已导入本机');
-            await refreshDzmmStatus();
-            renderAccountList();
-            return true;
-        }
-
-        document.getElementById('btn-dzmm-paste-cookie')?.addEventListener('click', async () => {
-            try {
-                const text = await navigator.clipboard.readText();
-                const ok = await applyDzmmCookie(text);
-                if (!ok) showToast('剪贴板里没有可用的 Cookie');
-            } catch (e) {
-                showToast('无法读剪贴板，请手动粘贴到输入框后保存');
-                document.getElementById('inp-dzmm-cookie')?.focus();
-            }
-        });
-
-        document.getElementById('btn-dzmm-open-site')?.addEventListener('click', () => {
             window.open(DZMM_URL, 'dzmm_window', 'width=1280,height=900,menubar=no,toolbar=no,location=yes,status=no');
-        });
-
-        const dewmarkChk = document.getElementById('chk-dzmm-dewmark');
-        if (dewmarkChk && window.DzmmDewmark) {
-            dewmarkChk.checked = DzmmDewmark.enabled();
-            dewmarkChk.addEventListener('change', () => {
-                DzmmDewmark.setEnabled(dewmarkChk.checked);
-            });
-        }
-
-        btn.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            window.open(DZMM_URL, 'dzmm_window', 'width=1280,height=900,menubar=no,toolbar=no,location=yes,status=no');
-            showToast('已打开 dzmm 官网生图页');
-        });
-
-        async function dewmarkDzmmResult(imageUrl) {
-            if (!window.DzmmDewmark || !DzmmDewmark.enabled()) return imageUrl;
-            try {
-                if (progressText) progressText.textContent = '去除宣传水印…';
-                if (progressBar) progressBar.style.width = '88%';
-                const cleaned = await DzmmDewmark.remove(imageUrl);
-                if (cleaned?.changed && cleaned.url) {
-                    showToast('已去除宣传水印');
-                    return cleaned.url;
-                }
-            } catch (e) {
-                console.warn('[DZMM] dewmark:', e);
-            }
-            return imageUrl;
-        }
-
-        function isQuotaExhaustedError(msg) {
-            return /配额|额度|quota|limit|次数用尽|不足|exceed|每日|免费次数/i.test(String(msg || ''));
-        }
-
-        const dzmmTasks = new Map();
-        let dzmmTaskSeq = 0;
-        const DZMM_BTN_LABEL = '使用dzmm生图';
-        const DZMM_PANEL_KEY = 'dzmm_mobile_panel_open';
-        const actionBar = document.getElementById('action-bar');
-        const dockToggle = document.getElementById('btn-dzmm-panel-toggle');
-        const dockPlay = document.getElementById('btn-dzmm-fab-gen');
-        const dockCount = document.getElementById('dzmm-dock-count');
-
-        function isMobileDzmmUi() {
-            return window.matchMedia('(max-width: 640px)').matches;
-        }
-
-        function isDzmmPanelOpen() {
-            return !!actionBar?.classList.contains('dzmm-panel-open');
-        }
-
-        function setDzmmPanelOpen(open) {
-            const next = !!open;
-            actionBar?.classList.toggle('dzmm-panel-open', next);
-            document.body.classList.toggle('dzmm-panel-open', next);
-            if (dockToggle) {
-                dockToggle.setAttribute('aria-expanded', next ? 'true' : 'false');
-                dockToggle.title = next ? '收起 DZMM 设置' : '展开 DZMM 设置';
-            }
-            try { localStorage.setItem(DZMM_PANEL_KEY, next ? '1' : '0'); } catch { /* ignore */ }
-            updateDzmmTaskUI();
-        }
-
-        function fitDzmmDockCount(n) {
-            if (!dockCount || !dockPlay) return;
-            if (!n || n < 1) {
-                dockCount.hidden = true;
-                dockCount.textContent = '';
-                dockCount.style.fontSize = '';
-                dockPlay.classList.remove('is-busy');
-                return;
-            }
-            dockPlay.classList.add('is-busy');
-            dockCount.hidden = false;
-            dockCount.textContent = String(n);
-            // 固定按钮尺寸：按位数缩放字号，绝不撑大按钮
-            const digits = String(n).length;
-            const size = Math.max(8, Math.min(16, Math.floor(28 / Math.max(digits, 1))));
-            dockCount.style.fontSize = `${size}px`;
-            // 二次校正：若仍溢出则继续缩小
-            requestAnimationFrame(() => {
-                let s = size;
-                while (s > 7 && (dockCount.scrollWidth > dockPlay.clientWidth - 2 || dockCount.scrollHeight > dockPlay.clientHeight - 2)) {
-                    s -= 1;
-                    dockCount.style.fontSize = `${s}px`;
-                }
-            });
-        }
-
-        function countActiveDzmmTasks() {
-            let n = 0;
-            for (const t of dzmmTasks.values()) {
-                if (t.state === 'submitting' || t.state === 'polling') n += 1;
-            }
-            return n;
-        }
-
-        function updateDzmmTaskUI() {
-            const active = countActiveDzmmTasks();
-            fitDzmmDockCount(active);
-            const mobile = isMobileDzmmUi();
-            const collapsed = mobile && !isDzmmPanelOpen();
-
-            // 桌面 / 展开：保留原按钮文案；收起：不写「生成中」长文案
-            if (!collapsed) {
-                btn.textContent = active > 0 ? `${DZMM_BTN_LABEL} (${active})` : DZMM_BTN_LABEL;
-            } else {
-                btn.textContent = DZMM_BTN_LABEL;
-            }
-
-            if (active > 0 && !collapsed) {
-                progressContainer?.classList.remove('hidden');
-                if (progressText) {
-                    progressText.textContent = active === 1
-                        ? 'DZMM 生成中…'
-                        : `进行中 ${active}`;
-                }
-                if (progressBar) {
-                    progressBar.style.width = `${Math.min(92, 12 + active * 18)}%`;
-                }
-            } else if (active > 0 && collapsed) {
-                // 收起态：进度条不占屏，只在播放键显示数字
-                progressContainer?.classList.add('hidden');
-            } else {
-                setTimeout(() => {
-                    if (countActiveDzmmTasks() === 0) {
-                        progressContainer?.classList.add('hidden');
-                        if (progressBar) progressBar.style.width = '0%';
-                    }
-                }, 600);
-            }
-        }
-
-        // 手机端 DZMM 悬浮坞可自由拖动，位置本地记忆
-        const dock = document.getElementById('dzmm-mobile-dock');
-        const DZMM_DOCK_POS_KEY = 'dzmm_mobile_dock_pos_v1';
-        let dockDragging = false;
-        let dockDragMoved = false;
-        let dockStartX = 0;
-        let dockStartY = 0;
-        let dockOrigLeft = 0;
-        let dockOrigTop = 0;
-
-        function applySavedDzmmDockPos() {
-            if (!dock || !isMobileDzmmUi()) return;
-            try {
-                const raw = localStorage.getItem(DZMM_DOCK_POS_KEY);
-                if (!raw) return;
-                const pos = JSON.parse(raw);
-                if (typeof pos.x === 'number' && typeof pos.y === 'number') {
-                    dock.classList.add('is-custom-pos');
-                    dock.style.left = `${pos.x}px`;
-                    dock.style.top = `${pos.y}px`;
-                    dock.style.right = 'auto';
-                    dock.style.bottom = 'auto';
-                }
-            } catch { /* ignore */ }
-        }
-
-        function clampDzmmDockPos(nx, ny) {
-            const w = dock.offsetWidth || 96;
-            const h = dock.offsetHeight || 48;
-            return {
-                x: Math.max(8, Math.min(window.innerWidth - w - 8, nx)),
-                y: Math.max(8, Math.min(window.innerHeight - h - 8, ny)),
-            };
-        }
-
-        applySavedDzmmDockPos();
-
-        function isDzmmDockControlTarget(target) {
-            return !!target?.closest?.('#btn-dzmm-panel-toggle, #btn-dzmm-fab-gen, .dzmm-dock-d, .dzmm-dock-play');
-        }
-
-        dock?.addEventListener('pointerdown', (e) => {
-            if (!isMobileDzmmUi() || e.button !== 0) return;
-            // 点在 D / 播放键上：不启动拖动，避免抢点击
-            if (isDzmmDockControlTarget(e.target)) {
-                dockDragging = false;
-                dockDragMoved = false;
-                return;
-            }
-            dockDragMoved = false;
-            dockDragging = true;
-            dock.classList.add('is-dragging');
-            try { dock.setPointerCapture(e.pointerId); } catch { /* ignore */ }
-            const rect = dock.getBoundingClientRect();
-            dockStartX = e.clientX;
-            dockStartY = e.clientY;
-            dockOrigLeft = rect.left;
-            dockOrigTop = rect.top;
-            dock.classList.add('is-custom-pos');
-            dock.style.right = 'auto';
-            dock.style.bottom = 'auto';
-            dock.style.left = `${dockOrigLeft}px`;
-            dock.style.top = `${dockOrigTop}px`;
-        });
-
-        dock?.addEventListener('pointermove', (e) => {
-            if (!dockDragging) return;
-            const dx = e.clientX - dockStartX;
-            const dy = e.clientY - dockStartY;
-            // 提高阈值，减少手指微抖误判为拖动
-            if (Math.abs(dx) + Math.abs(dy) > 12) dockDragMoved = true;
-            if (!dockDragMoved) return;
-            const next = clampDzmmDockPos(dockOrigLeft + dx, dockOrigTop + dy);
-            dock.style.left = `${next.x}px`;
-            dock.style.top = `${next.y}px`;
-        });
-
-        function endDzmmDockDrag(e) {
-            if (!dockDragging) return;
-            dockDragging = false;
-            dock?.classList.remove('is-dragging');
-            try { dock?.releasePointerCapture(e.pointerId); } catch { /* ignore */ }
-            if (dockDragMoved && dock) {
-                try {
-                    localStorage.setItem(DZMM_DOCK_POS_KEY, JSON.stringify({
-                        x: parseInt(dock.style.left, 10) || 0,
-                        y: parseInt(dock.style.top, 10) || 0,
-                    }));
-                } catch { /* ignore */ }
-            }
-            // click 之后再清，避免拖完后残留屏蔽下次点击
-            setTimeout(() => { dockDragMoved = false; }, 50);
-        }
-
-        dock?.addEventListener('pointerup', endDzmmDockDrag);
-        dock?.addEventListener('pointercancel', endDzmmDockDrag);
-
-        window.addEventListener('resize', () => {
-            if (!dock?.classList.contains('is-custom-pos')) return;
-            const next = clampDzmmDockPos(
-                parseInt(dock.style.left, 10) || 0,
-                parseInt(dock.style.top, 10) || 0
-            );
-            dock.style.left = `${next.x}px`;
-            dock.style.top = `${next.y}px`;
-        });
-
-        // 用 pointerup 作为主触发（移动端更稳）；click 仅桌面/未处理时兜底，防双触发
-        let dockTapLock = false;
-        function withDockTapLock(fn) {
-            if (dockTapLock || dockDragMoved) return false;
-            dockTapLock = true;
-            try { fn(); } finally {
-                setTimeout(() => { dockTapLock = false; }, 320);
-            }
-            return true;
-        }
-
-        dockToggle?.addEventListener('pointerup', (e) => {
-            if (!isMobileDzmmUi() || e.button !== 0) return;
-            e.preventDefault();
-            e.stopPropagation();
-            withDockTapLock(() => setDzmmPanelOpen(!isDzmmPanelOpen()));
-        });
-        dockPlay?.addEventListener('pointerup', (e) => {
-            if (!isMobileDzmmUi() || e.button !== 0) return;
-            e.preventDefault();
-            e.stopPropagation();
-            withDockTapLock(() => {
-                if (!btn.disabled) btn.click();
-            });
-        });
-        dockToggle?.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (dockTapLock) return;
-            if (dockDragMoved) return;
-            setDzmmPanelOpen(!isDzmmPanelOpen());
-        });
-        dockPlay?.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (dockTapLock) return;
-            if (dockDragMoved) return;
-            if (btn.disabled) return;
-            btn.click();
-        });
-
-        // 手机端默认收起，避免挡反向提示词；记住用户上次选择
-        try {
-            const saved = localStorage.getItem(DZMM_PANEL_KEY);
-            setDzmmPanelOpen(saved === '1');
-        } catch {
-            setDzmmPanelOpen(false);
-        }
-
-        async function pollDzmmTaskUntilDone(taskId, model, cookie) {
-            const maxAttempts = 60;
-            const interval = 2000;
-            let authCookie = cookie;
-            for (let i = 0; i < maxAttempts; i++) {
-                const qs = new URLSearchParams({ id: taskId, model });
-                const res = await dzmmFetchWithCookie(`/api/dzmm/task?${qs}`, authCookie);
-                const data = await res.json().catch(() => ({}));
-                if (data.cookie) {
-                    applyAuthCookieUpdate(data);
-                    authCookie = data.cookie;
-                }
-                const pending = ['pending', 'processing', 'queued'].includes(data.status);
-                if (!res.ok && !pending) {
-                    throw new Error(data.error || `查询失败 (${res.status})`);
-                }
-                if (data.status === 'completed' && data.imageUrl) return data;
-                if (data.status === 'failed' || data.status === 'error') {
-                    throw new Error(data.error || '生成失败');
-                }
-                if (data.ok === false && !pending) {
-                    throw new Error(data.error || '查询失败');
-                }
-                await new Promise((r) => setTimeout(r, interval));
-            }
-            throw new Error('轮询超时');
-        }
-
-        async function submitDzmmGeneration(positive, negative) {
-            const model = currentModel();
-            const qType = model.quotaType || 'draw';
-            const payload = {
-                prompt: positive,
-                negativePrompt: negative,
-                model: model.id,
-                dimension: dimSel?.value || model.defaultDimension,
-                poll: false,
-            };
-
-            const localId = ++dzmmTaskSeq;
-            const task = {
-                id: localId,
-                state: 'submitting',
-                prompt: positive,
-                model: model.id,
-                modelLabel: model.label,
-            };
-            dzmmTasks.set(localId, task);
-            updateDzmmTaskUI();
-
-            const tried = new Set();
-            let lastError = null;
-
-            try {
-                await ensureAccountForQuota(qType, { silent: true });
-                // 生图前懒续期（对齐本地工具 load_auth）
-                await ensureDzmmAuthFresh({ silent: true });
-                const maxTries = Math.max(1, loadAccounts().length || 1);
-
-                for (let attempt = 0; attempt < maxTries; attempt++) {
-                    const acc = getActiveAccount();
-                    const accKey = acc?.id || getLocalDzmmCookie() || `try_${attempt}`;
-                    if (tried.has(accKey)) break;
-                    tried.add(accKey);
-                    let cookie = acc?.cookie || getLocalDzmmCookie();
-
-                    const statusRes = await dzmmFetchWithCookie('/api/dzmm/status', cookie);
-                    const status = await statusRes.json().catch(() => ({}));
-                    if (!statusRes.ok) throw new Error(status.error || 'DZMM 代理不可用');
-                    if (status.cookie) {
-                        applyAuthCookieUpdate(status, { accountId: acc?.id });
-                        cookie = status.cookie;
-                    }
-                    const cookieOk = status.cookieComplete || status.acceptedLocally
-                        || (status.hasCookie && !status.error);
-                    if (!cookieOk) {
-                        if (isAutoRotateEnabled() && loadAccounts().length > tried.size) {
-                            const list = loadAccounts().filter((a) => !tried.has(a.id));
-                            if (list[0]) {
-                                await setActiveAccount(list[0].id, { syncServer: true });
-                                continue;
-                            }
-                        }
-                        showToast(status.error || '请先在设置中配置完整的 DZMM Cookie');
-                        document.getElementById('btn-settings')?.click();
-                        return;
-                    }
-                    if (status.quotas) {
-                        state.quotas = status.quotas;
-                        if (acc || cookie) {
-                            upsertAccount(cookie, {
-                                accountId: acc?.id,
-                                email: status.user?.email || acc?.email,
-                                fullName: status.user?.fullName || acc?.fullName,
-                                quotas: status.quotas,
-                                remainSec: status.remainSec,
-                                replaceActive: true,
-                            });
-                        }
-                        updateQuotaBadge();
-                    }
-
-                    const rem = status.quotas?.[qType]?.remaining;
-                    if (typeof rem === 'number' && rem <= 0 && isAutoRotateEnabled()) {
-                        const better = loadAccounts().find((a) => !tried.has(a.id) && (quotaRemaining(a, qType) || 0) > 0);
-                        if (better) {
-                            await setActiveAccount(better.id, { syncServer: true });
-                            continue;
-                        }
-                    }
-
-                    const genPayload = {
-                        ...payload,
-                        email: acc?.email || '',
-                        password: acc?.password || '',
-                    };
-                    const res = await dzmmFetchWithCookie('/api/dzmm/generate', cookie, {
-                        method: 'POST',
-                        body: JSON.stringify(genPayload),
-                    });
-                    const rawText = await res.text().catch(() => '');
-                    let data = {};
-                    try { data = rawText ? JSON.parse(rawText) : {}; } catch { data = {}; }
-                    if (!res.ok || !data.ok) {
-                        let msg =
-                            data.error ||
-                            data.detail ||
-                            (rawText && !rawText.startsWith('{') ? rawText.slice(0, 160) : '') ||
-                            `生成失败 (${res.status})`;
-                        if (msg === 'captcha_required' || data.code === 'CAPTCHA_REQUIRED' || /captcha/i.test(String(msg))) {
-                            msg = '官网要求验证码或 Cookie 失效。请在 dzmm.ai 重新登录，用 Cookie-Editor 等扩展导出后粘贴到设置。';
-                        }
-                        lastError = msg;
-                        if (/Cookie|UNAUTHORIZED|登录|验证码|captcha/i.test(String(msg))) {
-                            const list = loadAccounts().filter((a) => !tried.has(a.id));
-                            if (isAutoRotateEnabled() && list[0]) {
-                                await setActiveAccount(list[0].id, { syncServer: true });
-                                continue;
-                            }
-                            document.getElementById('btn-settings')?.click();
-                            throw new Error(msg);
-                        }
-                        if (isQuotaExhaustedError(msg) && isAutoRotateEnabled()) {
-                            const list = loadAccounts().filter((a) => !tried.has(a.id));
-                            const better = list.find((a) => (quotaRemaining(a, qType) || 0) > 0) || list[0];
-                            if (better) {
-                                await setActiveAccount(better.id, { syncServer: true });
-                                continue;
-                            }
-                        }
-                        throw new Error(msg);
-                    }
-                    if (!data.taskId) throw new Error('未返回 taskId');
-                    if (data.cookie) {
-                        applyAuthCookieUpdate(data, { accountId: acc?.id });
-                        cookie = data.cookie;
-                    }
-
-                    task.state = 'polling';
-                    task.taskId = data.taskId;
-                    task.cookie = cookie;
-                    updateDzmmTaskUI();
-
-                    const polled = await pollDzmmTaskUntilDone(data.taskId, model.id, cookie);
-                    if (!polled.imageUrl) throw new Error('生成完成但未返回图片');
-
-                    const finalUrl = await dewmarkDzmmResult(polled.imageUrl);
-                    if (typeof showResult === 'function') {
-                        showResult(finalUrl, false);
-                    } else {
-                        const img = document.getElementById('result-image');
-                        const ph = document.getElementById('result-placeholder');
-                        const actions = document.getElementById('result-actions');
-                        if (img) {
-                            img.src = finalUrl;
-                            img.classList.remove('hidden');
-                        }
-                        ph?.classList.add('hidden');
-                        actions?.classList.remove('hidden');
-                    }
-                    if (typeof saveToHistory === 'function') {
-                        saveToHistory(finalUrl, {
-                            source: 'dzmm',
-                            taskId: data.taskId,
-                            remoteUrl: polled.remoteUrl || polled.imageUrl,
-                            persistUrl: polled.imageUrl?.startsWith('data:') ? polled.remoteUrl : polled.imageUrl,
-                        });
-                    }
-                    showToast('DZMM 生图完成');
-                    refreshDzmmStatus().catch(() => null);
-                    return;
-                }
-                throw new Error(lastError || '所有账号均无法生成');
-            } catch (e) {
-                console.error('[DZMM]', e);
-                showToast(`DZMM 失败: ${e.message}`);
-            } finally {
-                task.state = 'done';
-                dzmmTasks.delete(localId);
-                updateDzmmTaskUI();
-            }
-        }
-
-        btn.addEventListener('click', () => {
-            const positive = document.getElementById('txt-positive')?.value.trim() || '';
-            const negative = document.getElementById('txt-negative')?.value.trim() || '';
-            if (!positive) {
-                showToast('请先填写正向提示词');
-                return;
-            }
-            submitDzmmGeneration(positive, negative);
-        });
-
-        document.getElementById('btn-settings')?.addEventListener('click', () => {
-            setTimeout(() => {
-                migrateLegacyCookie();
-                renderAccountList();
-                refreshDzmmStatus();
-            }, 50);
         });
     }
 
@@ -15386,10 +11797,8 @@
         }
     }
 
-    setupUiSkin();
     setupTheme();
     setupToggles();
-    setupControlnetSpeedupGuard();
     setupArchSwitch();
     setupIPAdapter();
     setupPanelGroups();

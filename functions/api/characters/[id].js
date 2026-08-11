@@ -34,7 +34,7 @@ export async function onRequestGet(context) {
     }));
 
     return new Response(JSON.stringify(mapped), {
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'public, max-age=3600' },
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'public, max-age=120, must-revalidate' },
     });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), {
