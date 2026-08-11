@@ -134,11 +134,11 @@ function main() {
 
   console.log(`Series with enough characters: ${seriesList.length}`);
 
-  // Blob filenames replace "/" with "_"; keep () unencoded to match animadex.net URLs.
+  // Animadex blob keys: "/" and ":" → "_"; keep () unencoded.
   const thumbFromTrigger = (trigger, fallback) => {
     const t = String(trigger || '').trim();
     if (!t) return fallback || '';
-    const key = t.replace(/\//g, '_');
+    const key = t.replace(/[\/:]/g, '_');
     const enc = encodeURIComponent(key).replace(/%28/g, '(').replace(/%29/g, ')');
     return `https://blobs.animadex.net/Outputs/thumbs/${enc}.webp`;
   };
