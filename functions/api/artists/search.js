@@ -1,34 +1,46 @@
+import { ensureContentBlocks, listBlockedIds } from "../content-blocks/_shared.js";
+
 export async function onRequestGet(context) {
   const { request, env } = context;
   const db = env.DB;
 
-  if (!db) return json(500, { error: 'DB not bound' });
+  if (!db) return json(500, { error: "DB not bound" });
 
   const url = new URL(request.url);
-  const q = (url.searchParams.get('q') || '').trim();
-  const limit = Math.min(parseInt(url.searchParams.get('limit') || '60', 10), 200);
+  const q = (url.searchParams.get("q") || "").trim();
+  const limit = Math.min(parseInt(url.searchParams.get("limit") || "60", 10), 200);
 
   if (!q || q.length < 1) {
     return new Response(JSON.stringify([]), {
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
     });
   }
 
   try {
+    await ensureContentBlocks(db);
+    const blocked = await listBlockedIds(db, "artist");
     const pattern = `%${q}%`;
+    const binds = [pattern, pattern, pattern];
+    let notIn = "";
+    if (blocked.length) {
+      notIn = ` AND slug NOT IN (${blocked.map(() => "?").join(",")})`;
+      binds.push(...blocked);
+    }
+    binds.push(limit);
+
     const { results } = await db.prepare(
       `SELECT slug, name, trigger_text, count, score, thumb_url, img_url
        FROM artists
-       WHERE name LIKE ?1 OR trigger_text LIKE ?1 OR slug LIKE ?1
+       WHERE (name LIKE ? OR trigger_text LIKE ? OR slug LIKE ?)${notIn}
        ORDER BY count DESC
-       LIMIT ?2`
-    ).bind(pattern, limit).all();
+       LIMIT ?`
+    ).bind(...binds).all();
 
     return new Response(JSON.stringify(results), {
       headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Cache-Control': 'public, max-age=300',
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "public, max-age=30",
       },
     });
   } catch (e) {
@@ -39,6 +51,6 @@ export async function onRequestGet(context) {
 function json(status, data) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
   });
 }

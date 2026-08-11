@@ -1,3 +1,5 @@
+import { ensureContentBlocks, isContentBlocked } from "../content-blocks/_shared.js";
+
 export async function onRequestGet(context) {
   const { request, env, params } = context;
   const db = env.DB;
@@ -13,7 +15,7 @@ export async function onRequestGet(context) {
   const cors = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'Cache-Control': 'public, max-age=60, must-revalidate',
+    'Cache-Control': 'public, max-age=30, must-revalidate',
   };
 
   if (!db) {
@@ -24,6 +26,15 @@ export async function onRequestGet(context) {
   }
 
   try {
+    await ensureContentBlocks(db);
+    if (await isContentBlocked(db, 'series', seriesId)) {
+      return new Response(JSON.stringify({
+        ok: false,
+        error: 'blocked',
+        message: '该作品已被管理员最高级屏蔽，无法访问',
+      }), { status: 403, headers: cors });
+    }
+
     const like = q ? `%${q}%` : null;
 
     // 无 page：兼容旧客户端，返回完整数组

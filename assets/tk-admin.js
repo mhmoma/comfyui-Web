@@ -21,7 +21,11 @@
     tradeStatus: "active",
     prefsPage: 1,
     artistsPage: 1,
-    charsSeries: "",
+    artistsQ: "",
+    artistsFilter: "all",
+    charsPage: 1,
+    charsQ: "",
+    charsFilter: "all",
   };
 
   const $ = (id) => document.getElementById(id);
@@ -328,74 +332,161 @@
   }
 
   async function renderArtists(root) {
-    setTop("画师库", "公开画师串检索库；可看库存与抽样，重灌请走 seed 脚本。");
-    let status = { artists: "—" };
-    try {
-      status = await api("/api/artists/seed?action=status", { method: "POST", body: "{}" });
-    } catch (_) {}
-    const list = await fetch(`/api/artists/list?page=${state.artistsPage}&limit=40`).then((r) => r.json());
-    const rows = list.results || list.artists || list.rows || list.data || [];
+    setTop("画师库", "分页搜索；最高级屏蔽后玩家端列表/搜索都看不到，解锁码也无效。");
+    const q = state.artistsQ || "";
+    const filter = state.artistsFilter || "all";
+    const data = await api(
+      `/api/content-blocks?view=admin&kind=artist&page=${state.artistsPage}&q=${encodeURIComponent(q)}&filter=${encodeURIComponent(filter)}`
+    );
+    const rows = data.rows || [];
     root.innerHTML = `
       <div class="panel">
         <div class="toolbar">
-          <span class="meta grow">库内约 ${status.artists ?? "—"} 条 · 本页 ${rows.length}</span>
+          <input class="grow" id="artists-q" placeholder="搜名称 / slug / 触发词…" value="${escapeHtml(q)}">
+          <select id="artists-filter" style="max-width:120px">
+            <option value="all" ${filter === "all" ? "selected" : ""}>全部</option>
+            <option value="blocked" ${filter === "blocked" ? "selected" : ""}>已屏蔽</option>
+            <option value="open" ${filter === "open" ? "selected" : ""}>未屏蔽</option>
+          </select>
+          <button type="button" class="primary" id="artists-search">搜索</button>
           <button type="button" id="artists-refresh">刷新</button>
         </div>
+        <div class="meta" style="margin-bottom:8px">共 ${data.total || 0} 条 · 第 ${data.page || 1}/${data.totalPages || 1} 页</div>
         <div class="table-wrap">
           <table class="admin">
-            <thead><tr><th>名称</th><th>触发词</th><th>热度</th></tr></thead>
+            <thead><tr><th>名称</th><th>触发词</th><th>热度</th><th>状态</th><th></th></tr></thead>
             <tbody>
               ${rows.length ? rows.map((row) => `
                 <tr>
-                  <td>${escapeHtml(row.name || row.slug || "")}</td>
-                  <td class="mono">${escapeHtml(String(row.trigger_text || row.trigger || "").slice(0, 120))}</td>
-                  <td>${escapeHtml(String(row.count ?? row.score ?? ""))}</td>
-                </tr>`).join("") : `<tr><td colspan="3">暂无数据</td></tr>`}
+                  <td>${escapeHtml(row.name || "")}<div class="mono meta">${escapeHtml(row.slug || row.id || "")}</div></td>
+                  <td class="mono">${escapeHtml(String(row.trigger || "").slice(0, 100))}</td>
+                  <td>${escapeHtml(String(row.count ?? ""))}</td>
+                  <td>${row.blocked ? `<span class="badge warn">已屏蔽</span>` : `<span class="badge">正常</span>`}</td>
+                  <td>
+                    ${row.blocked
+                      ? `<button type="button" data-unblock="${escapeHtml(row.id || row.slug)}">解除屏蔽</button>`
+                      : `<button type="button" class="danger" data-block="${escapeHtml(row.id || row.slug)}">最高级屏蔽</button>`}
+                  </td>
+                </tr>`).join("") : `<tr><td colspan="5">暂无数据</td></tr>`}
             </tbody>
           </table>
         </div>
         <div class="pager">
           <button type="button" id="artists-prev" ${state.artistsPage <= 1 ? "disabled" : ""}>上一页</button>
-          <span class="meta">第 ${state.artistsPage} 页</span>
-          <button type="button" id="artists-next">下一页</button>
+          <span class="meta">${state.artistsPage} / ${data.totalPages || 1}</span>
+          <button type="button" id="artists-next" ${state.artistsPage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
         </div>
       </div>`;
+    const syncQ = () => {
+      state.artistsQ = $("artists-q")?.value || "";
+      state.artistsFilter = $("artists-filter")?.value || "all";
+      state.artistsPage = 1;
+      render();
+    };
+    $("artists-search")?.addEventListener("click", syncQ);
+    $("artists-filter")?.addEventListener("change", syncQ);
+    $("artists-q")?.addEventListener("keydown", (e) => { if (e.key === "Enter") syncQ(); });
     $("artists-refresh")?.addEventListener("click", () => render());
     $("artists-prev")?.addEventListener("click", () => { state.artistsPage = Math.max(1, state.artistsPage - 1); render(); });
     $("artists-next")?.addEventListener("click", () => { state.artistsPage += 1; render(); });
+    root.querySelectorAll("[data-block]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        if (!confirm("最高级屏蔽该画师？玩家将完全看不到，任何解锁码无效。")) return;
+        await api("/api/content-blocks", {
+          method: "POST",
+          body: JSON.stringify({ kind: "artist", id: btn.getAttribute("data-block"), blocked: true }),
+        });
+        render();
+      });
+    });
+    root.querySelectorAll("[data-unblock]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        await api("/api/content-blocks", {
+          method: "POST",
+          body: JSON.stringify({ kind: "artist", id: btn.getAttribute("data-unblock"), blocked: false }),
+        });
+        render();
+      });
+    });
   }
 
   async function renderCharacters(root) {
-    setTop("角色库", "系列与角色库存；详细维护仍以 seed 灌库为主。");
-    let status = {};
-    try {
-      status = await api("/api/characters/seed?action=status", { method: "POST", body: "{}" });
-    } catch (_) {}
-    const seriesRaw = await fetch("/api/characters/series").then((r) => r.json()).catch(() => []);
-    const seriesRows = Array.isArray(seriesRaw)
-      ? seriesRaw
-      : (seriesRaw.series || seriesRaw.rows || seriesRaw.data || []);
+    setTop("角色库 / 作品", "按作品（系列）分页搜索；最高级屏蔽后列表消失，解锁码/全解锁也无法打开。");
+    const q = state.charsQ || "";
+    const filter = state.charsFilter || "all";
+    const data = await api(
+      `/api/content-blocks?view=admin&kind=series&page=${state.charsPage}&q=${encodeURIComponent(q)}&filter=${encodeURIComponent(filter)}`
+    );
+    const rows = data.rows || [];
     root.innerHTML = `
       <div class="panel">
         <div class="toolbar">
-          <span class="meta grow">系列 ${status.series ?? seriesRows.length ?? "—"} · 角色 ${status.characters ?? "—"}</span>
+          <input class="grow" id="chars-q" placeholder="搜作品 id / 名称…" value="${escapeHtml(q)}">
+          <select id="chars-filter" style="max-width:120px">
+            <option value="all" ${filter === "all" ? "selected" : ""}>全部</option>
+            <option value="blocked" ${filter === "blocked" ? "selected" : ""}>已屏蔽</option>
+            <option value="open" ${filter === "open" ? "selected" : ""}>未屏蔽</option>
+          </select>
+          <button type="button" class="primary" id="chars-search">搜索</button>
           <button type="button" id="chars-refresh">刷新</button>
         </div>
+        <div class="meta" style="margin-bottom:8px">共 ${data.total || 0} 部 · 第 ${data.page || 1}/${data.totalPages || 1} 页</div>
         <div class="table-wrap">
           <table class="admin">
-            <thead><tr><th>系列 ID</th><th>名称</th><th>数量</th></tr></thead>
+            <thead><tr><th>作品</th><th>角色数</th><th>状态</th><th></th></tr></thead>
             <tbody>
-              ${seriesRows.length ? seriesRows.map((row) => `
+              ${rows.length ? rows.map((row) => `
                 <tr>
-                  <td class="mono">${escapeHtml(row.id || "")}</td>
-                  <td>${escapeHtml(row.name || "")}</td>
-                  <td>${escapeHtml(String(row.count ?? ""))}</td>
-                </tr>`).join("") : `<tr><td colspan="3">暂无系列</td></tr>`}
+                  <td>${escapeHtml(row.name || "")}<div class="mono meta">${escapeHtml(row.id || "")}</div></td>
+                  <td>${escapeHtml(String(row.count ?? 0))}</td>
+                  <td>${row.blocked ? `<span class="badge warn">已屏蔽</span>` : `<span class="badge">正常</span>`}</td>
+                  <td>
+                    ${row.blocked
+                      ? `<button type="button" data-unblock="${escapeHtml(row.id)}">解除屏蔽</button>`
+                      : `<button type="button" class="danger" data-block="${escapeHtml(row.id)}">最高级屏蔽</button>`}
+                  </td>
+                </tr>`).join("") : `<tr><td colspan="4">暂无数据</td></tr>`}
             </tbody>
           </table>
         </div>
+        <div class="pager">
+          <button type="button" id="chars-prev" ${state.charsPage <= 1 ? "disabled" : ""}>上一页</button>
+          <span class="meta">${state.charsPage} / ${data.totalPages || 1}</span>
+          <button type="button" id="chars-next" ${state.charsPage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
+        </div>
+        <div class="notes">最高级屏蔽写入服务端。玩家端系列列表不会再出现；角色接口返回 403；tk321 / 单作品解锁码也无法绕过。</div>
       </div>`;
+    const syncQ = () => {
+      state.charsQ = $("chars-q")?.value || "";
+      state.charsFilter = $("chars-filter")?.value || "all";
+      state.charsPage = 1;
+      render();
+    };
+    $("chars-search")?.addEventListener("click", syncQ);
+    $("chars-filter")?.addEventListener("change", syncQ);
+    $("chars-q")?.addEventListener("keydown", (e) => { if (e.key === "Enter") syncQ(); });
     $("chars-refresh")?.addEventListener("click", () => render());
+    $("chars-prev")?.addEventListener("click", () => { state.charsPage = Math.max(1, state.charsPage - 1); render(); });
+    $("chars-next")?.addEventListener("click", () => { state.charsPage += 1; render(); });
+    root.querySelectorAll("[data-block]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        if (!confirm("最高级屏蔽该作品？任何解锁码都不能打开。")) return;
+        await api("/api/content-blocks", {
+          method: "POST",
+          body: JSON.stringify({ kind: "series", id: btn.getAttribute("data-block"), blocked: true }),
+        });
+        render();
+      });
+    });
+    root.querySelectorAll("[data-unblock]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        await api("/api/content-blocks", {
+          method: "POST",
+          body: JSON.stringify({ kind: "series", id: btn.getAttribute("data-unblock"), blocked: false }),
+        });
+        render();
+      });
+    });
   }
 
   async function renderPrefs(root) {
@@ -464,8 +555,8 @@
       ["画师串交流", "市场/上架/购买/收益", "删除、强制下架、屏蔽打码", "可管", "#trade"],
       ["留言板", "全服聊天", "删单条、清空", "可管", "#board"],
       ["资讯", "站点教程资讯", "发帖/草稿/发布/删", "可管", "#news"],
-      ["画师库", "官方画师串检索", "看库存；灌库用 seed", "只读+运维", "#artists"],
-      ["角色库", "作品角色系列", "看库存；灌库用 seed", "只读+运维", "#characters"],
+      ["画师库", "官方画师串检索", "分页搜索；最高级屏蔽", "可管", "#artists"],
+      ["角色库", "作品角色系列", "按作品搜索；最高级屏蔽（解锁码无效）", "可管", "#characters"],
       ["玩家偏好", "版本已读 / 兑换码痕迹", "查询、删除", "可管", "#prefs"],
       ["画泥经济", "商店/抽奖/交易花泥", "余额在玩家本地+KV", "不可信管", ""],
       ["标签库", "tags.json", "静态文件，无 API CRUD", "仓库维护", ""],
