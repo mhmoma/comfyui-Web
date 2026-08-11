@@ -158,6 +158,93 @@ function cleanImage(value, maxLen = MAX_IMAGE) {
   return text;
 }
 
+const ALLOW_IMAGE_HOST_SUFFIXES = [
+  "dzmm.ai",
+  "dzmm.io",
+  "aifukk.com",
+  "fuckaibot.com",
+  "thottai.com",
+  "aicbnv.com",
+  "aikda.com",
+  "ainvmei.com",
+  "girlloveai.com",
+  "meimoaidao.com",
+  "loreveil.xyz",
+  "museloom.xyz",
+  "echolore.xyz",
+];
+
+function cleanRemoteImageUrl(value) {
+  const text = String(value || "").trim();
+  if (!/^https:\/\//i.test(text) || text.length > 4000) return "";
+  try {
+    const u = new URL(text);
+    const host = (u.hostname || "").toLowerCase();
+    if (!ALLOW_IMAGE_HOST_SUFFIXES.some((s) => host === s || host.endsWith("." + s))) return "";
+    return text;
+  } catch (_) {
+    return "";
+  }
+}
+
+function bytesToBase64(bytes) {
+  let binary = "";
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+  }
+  return btoa(binary);
+}
+
+/** 服务端拉取平台效果图并转成可入库的 data URL（绕过浏览器 CORS） */
+async function fetchRemoteListingImage(url) {
+  const res = await fetch(url, {
+    method: "GET",
+    redirect: "follow",
+    headers: {
+      Accept: "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+      "User-Agent": "comfyui-web-artist-trade/1.0",
+    },
+  });
+  if (!res.ok) return { image: "", thumb: "", error: `拉取效果图失败 HTTP ${res.status}` };
+  const ctype = String(res.headers.get("content-type") || "image/jpeg").split(";")[0].trim().toLowerCase();
+  if (!ctype.startsWith("image/")) return { image: "", thumb: "", error: "效果图不是图片" };
+  const buf = await res.arrayBuffer();
+  if (!buf.byteLength || buf.byteLength > 2_500_000) {
+    return { image: "", thumb: "", error: "效果图过大或为空" };
+  }
+  const dataUrl = `data:${ctype};base64,${bytesToBase64(new Uint8Array(buf))}`;
+  if (dataUrl.length > MAX_IMAGE) {
+    // 原图太大：仍尝试只存缩略字段放不下则失败，提示前端压缩后再传
+    if (dataUrl.length <= MAX_IMAGE * 2) {
+      // 放宽一档入库（D1 可承受）；列表仍优先 thumb
+      const image = dataUrl.length <= 900_000 ? dataUrl : "";
+      if (!image) return { image: "", thumb: "", error: "效果图过大，请换本地压缩图上架" };
+      const thumb = dataUrl.length <= MAX_THUMB ? dataUrl : "";
+      return { image, thumb };
+    }
+    return { image: "", thumb: "", error: "效果图过大，请换本地压缩图上架" };
+  }
+  const thumb = dataUrl.length <= MAX_THUMB ? dataUrl : "";
+  return { image: dataUrl, thumb };
+}
+
+async function resolveListingImages(body) {
+  let image = cleanImage(body.image, MAX_IMAGE);
+  let thumb = cleanImage(body.thumb, MAX_THUMB);
+  if (image) return { image, thumb: thumb || image };
+
+  const remote = cleanRemoteImageUrl(body.imageUrl || body.image);
+  if (!remote) return { image: "", thumb: "", error: "请上传示例图（压缩后仍过大或不支持）" };
+  try {
+    const fetched = await fetchRemoteListingImage(remote);
+    if (!fetched.image) return { image: "", thumb: "", error: fetched.error || "效果图转存失败" };
+    return { image: fetched.image, thumb: fetched.thumb || fetched.image };
+  } catch (err) {
+    return { image: "", thumb: "", error: err?.message || "效果图转存失败" };
+  }
+}
+
 function cleanPrice(value) {
   const n = Math.floor(Number(value) || 0);
   if (n < 1 || n > MAX_PRICE) return 0;
@@ -272,13 +359,21 @@ export async function onRequest(context) {
       const title = cleanTitle(body.title);
       const trigger = cleanTrigger(body.trigger);
       const price = cleanPrice(body.price);
-      const image = cleanImage(body.image, MAX_IMAGE);
-      const thumb = cleanImage(body.thumb, MAX_THUMB) || image;
       const sellerName = cleanName(body.sellerName || body.name);
       if (!title) return json(400, { ok: false, error: "no_title", message: "请填写标题" });
       if (!trigger) return json(400, { ok: false, error: "no_trigger", message: "请填写画师串" });
       if (!price) return json(400, { ok: false, error: "bad_price", message: `价格需为 1–${MAX_PRICE} 画泥` });
-      if (!image) return json(400, { ok: false, error: "no_image", message: "请上传示例图（压缩后仍过大或不支持）" });
+
+      const resolved = await resolveListingImages(body);
+      const image = resolved.image || "";
+      const thumb = resolved.thumb || image;
+      if (!image) {
+        return json(400, {
+          ok: false,
+          error: "no_image",
+          message: resolved.error || "请上传示例图（压缩后仍过大或不支持）",
+        });
+      }
 
       const hash = await contentHash(trigger);
       if (await buyerOwnsContent(env.DB, userId, hash, trigger)) {
