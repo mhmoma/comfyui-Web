@@ -4,6 +4,7 @@
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   const MODULES = [
     { id: "overview", label: "总览" },
+    { id: "notice", label: "公告" },
     { id: "trade", label: "画师串交流" },
     { id: "board", label: "留言板" },
     { id: "news", label: "资讯" },
@@ -17,6 +18,7 @@
   let route = "overview";
   const state = {
     boardPage: 1,
+    noticePage: 1,
     tradePage: 1,
     tradeStatus: "active",
     prefsPage: 1,
@@ -141,6 +143,7 @@
     root.innerHTML = `<div class="panel meta">加载中…</div>`;
     try {
       if (route === "overview") await renderOverview(root);
+      else if (route === "notice") await renderNotice(root);
       else if (route === "board") await renderBoard(root);
       else if (route === "trade") await renderTrade(root);
       else if (route === "news") renderNews(root);
@@ -163,6 +166,7 @@
     const data = await api("/api/admin/overview");
     const m = data.modules || {};
     const cards = [
+      { href: "notice", k: "当前公告", v: m.notice?.active ? "有" : "无", s: "游戏顶栏公告栏" },
       { href: "trade", k: "画师串在售", v: m.trade?.active ?? "—", s: `下架 ${m.trade?.off ?? 0} · 打码 ${m.trade?.imageBlocked ?? 0}` },
       { href: "board", k: "留言条数", v: m.board?.total ?? "—", s: "可删 / 清空" },
       { href: "news", k: "已发资讯", v: m.news?.published ?? "—", s: `草稿 ${m.news?.draft ?? 0}` },
@@ -185,6 +189,77 @@
       </div>`;
     root.querySelectorAll("[data-go]").forEach((el) => {
       el.addEventListener("click", () => go(el.getAttribute("data-go")));
+    });
+  }
+
+  async function renderNotice(root) {
+    setTop("公告", "发布后玩家顶栏显示；新公告会自动下线旧公告，只保留一条生效。");
+    const data = await api(`/api/announcements?view=admin&page=${state.noticePage}`);
+    const rows = data.rows || [];
+    root.innerHTML = `
+      <div class="panel">
+        <div class="toolbar" style="flex-wrap:wrap;gap:8px;align-items:flex-start">
+          <input id="notice-title" type="text" maxlength="40" placeholder="标题（可选）" style="max-width:180px">
+          <textarea id="notice-body" maxlength="500" rows="3" placeholder="公告正文（必填，最多 500 字）" style="flex:1;min-width:220px;resize:vertical"></textarea>
+          <button type="button" id="notice-publish">发布公告</button>
+          <button type="button" id="notice-refresh">刷新</button>
+        </div>
+        <p class="meta">共 ${data.total || 0} 条 · 第 ${data.page || 1}/${data.totalPages || 1} 页</p>
+        <div class="list">
+          ${rows.length ? rows.map((row) => `
+            <article class="item">
+              <div class="item-head">
+                <strong>${escapeHtml(row.title || "（无标题）")}</strong>
+                <div>
+                  <span class="badge ${row.active ? "" : "off"}">${row.active ? "生效中" : "已下线"}</span>
+                  ${row.active ? `<button type="button" class="warn" data-off="${escapeHtml(row.id)}">下线</button>` : ""}
+                  <button type="button" class="danger" data-del="${escapeHtml(row.id)}">删除</button>
+                </div>
+              </div>
+              <div>${escapeHtml(row.body || "")}</div>
+              <div class="meta">${escapeHtml(formatTime(row.at))} · <span class="mono">${escapeHtml(row.id)}</span></div>
+            </article>`).join("") : `<div class="meta">暂无公告</div>`}
+        </div>
+        <div class="pager">
+          <button type="button" id="notice-prev" ${state.noticePage <= 1 ? "disabled" : ""}>上一页</button>
+          <span class="meta">${state.noticePage} / ${data.totalPages || 1}</span>
+          <button type="button" id="notice-next" ${state.noticePage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
+        </div>
+      </div>`;
+    $("notice-refresh")?.addEventListener("click", () => render());
+    $("notice-prev")?.addEventListener("click", () => { state.noticePage = Math.max(1, state.noticePage - 1); render(); });
+    $("notice-next")?.addEventListener("click", () => { state.noticePage += 1; render(); });
+    $("notice-publish")?.addEventListener("click", async () => {
+      const title = $("notice-title")?.value || "";
+      const body = $("notice-body")?.value || "";
+      if (!String(body).trim()) {
+        alert("请填写公告正文");
+        return;
+      }
+      if (!confirm("发布后将替换当前生效公告，玩家会看到新内容。继续？")) return;
+      await api("/api/announcements", {
+        method: "POST",
+        body: JSON.stringify({ action: "create", title, body }),
+      });
+      state.noticePage = 1;
+      render();
+    });
+    root.querySelectorAll("[data-off]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        if (!confirm("下线这条公告？")) return;
+        await api("/api/announcements", {
+          method: "POST",
+          body: JSON.stringify({ action: "deactivate", id: btn.getAttribute("data-off") }),
+        });
+        render();
+      });
+    });
+    root.querySelectorAll("[data-del]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        if (!confirm("删除这条公告记录？")) return;
+        await api(`/api/announcements?id=${encodeURIComponent(btn.getAttribute("data-del"))}`, { method: "DELETE" });
+        render();
+      });
     });
   }
 
