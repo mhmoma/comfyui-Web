@@ -17,6 +17,7 @@ const SCHEMA = [
     price INTEGER NOT NULL,
     image TEXT NOT NULL DEFAULT '',
     thumb TEXT NOT NULL DEFAULT '',
+    image_blocked INTEGER NOT NULL DEFAULT 0,
     status TEXT NOT NULL DEFAULT 'active',
     at INTEGER NOT NULL
   )`,
@@ -70,6 +71,11 @@ async function ensureTable(db) {
   } catch (_) {}
   try {
     await db.prepare(
+      `ALTER TABLE artist_trade_listings ADD COLUMN image_blocked INTEGER NOT NULL DEFAULT 0`
+    ).run();
+  } catch (_) {}
+  try {
+    await db.prepare(
       `CREATE INDEX IF NOT EXISTS idx_artist_trade_active_at ON artist_trade_listings(status, at DESC)`
     ).run();
   } catch (_) {}
@@ -99,7 +105,7 @@ function json(status, data, extraHeaders = {}) {
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key",
       ...extraHeaders,
     },
   });
@@ -110,10 +116,19 @@ function corsPreflight() {
     status: 204,
     headers: {
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key",
     },
   });
+}
+
+function checkAdmin(request, env) {
+  const adminKey = request.headers.get("x-admin-key");
+  return !!(env.ADMIN_KEY && adminKey && adminKey === env.ADMIN_KEY);
+}
+
+function isImageBlocked(row) {
+  return Number(row?.image_blocked) === 1;
 }
 
 function cleanUserId(value) {
@@ -279,6 +294,7 @@ function cleanPrice(value) {
 }
 
 function listThumb(row) {
+  if (isImageBlocked(row)) return "";
   const thumb = String(row.thumb || "").trim();
   if (thumb && thumb.length <= MAX_THUMB) return thumb;
   // 列表绝不回退到大图：否则 12 条就能把 JSON 撑到数 MB，打开极慢
@@ -288,19 +304,36 @@ function listThumb(row) {
 }
 
 /** list=true: 列表只带缩略图；full=true: 购买/导入带原图 */
-function publicRow(row, { unlocked = false, list = false } = {}) {
+function publicRow(row, { unlocked = false, list = false, admin = false } = {}) {
+  const blocked = isImageBlocked(row);
+  let image = "";
+  if (admin) {
+    // 管理端：未清除前仍可审图；已屏蔽则库内已清空
+    image = listThumb({ ...row, image_blocked: 0 }) || String(row.thumb || row.image || "").trim();
+    if (image.length > MAX_THUMB) image = String(row.thumb || "").trim().slice(0, MAX_THUMB);
+  } else if (!blocked) {
+    image = list ? listThumb(row) : (row.image || listThumb(row) || "");
+  }
   const item = {
     id: row.id,
     title: row.title,
     sellerName: row.seller_name || "访客",
     sellerId: row.seller_id || "",
     price: Number(row.price) || 0,
-    image: list ? listThumb(row) : (row.image || listThumb(row) || ""),
+    image,
+    imageBlocked: blocked,
     at: Number(row.at) || 0,
     unlocked: !!unlocked,
   };
-  if (unlocked) item.trigger = row.trigger_text || "";
-  else item.trigger = "";
+  if (admin) {
+    item.status = row.status || "active";
+    item.trigger = row.trigger_text || "";
+    item.hasImage = !!(String(row.image || "").trim() || String(row.thumb || "").trim());
+  } else if (unlocked) {
+    item.trigger = row.trigger_text || "";
+  } else {
+    item.trigger = "";
+  }
   return item;
 }
 
@@ -337,6 +370,49 @@ export async function onRequest(context) {
     const url = new URL(request.url);
     const userId = cleanUserId(url.searchParams.get("userId"));
     const pageRaw = Math.floor(Number(url.searchParams.get("page")) || 1);
+    const admin = checkAdmin(request, env);
+    const adminView = admin && url.searchParams.get("view") === "admin";
+    const listPageSize = adminView ? 20 : PAGE_SIZE;
+
+    if (adminView) {
+      const statusFilter = String(url.searchParams.get("status") || "active").trim();
+      const where =
+        statusFilter === "all"
+          ? "1=1"
+          : statusFilter === "off"
+            ? "status = 'off'"
+            : "status = 'active'";
+      const totalRow = await env.DB.prepare(
+        `SELECT COUNT(*) AS c FROM artist_trade_listings WHERE ${where}`
+      ).first();
+      const total = Number(totalRow?.c) || 0;
+      const totalPages = Math.max(1, Math.ceil(total / listPageSize) || 1);
+      let page = pageRaw < 1 ? 1 : pageRaw;
+      if (page > totalPages) page = totalPages;
+      const offset = (page - 1) * listPageSize;
+      const { results } = await env.DB.prepare(
+        `SELECT id, seller_id, seller_name, title, trigger_text, price,
+                image, thumb, image_blocked, status, at
+         FROM artist_trade_listings
+         WHERE ${where}
+         ORDER BY at DESC
+         LIMIT ? OFFSET ?`
+      ).bind(listPageSize, offset).all();
+      const rows = (results || []).map((row) =>
+        publicRow(row, { unlocked: true, list: true, admin: true })
+      );
+      return json(200, {
+        ok: true,
+        admin: true,
+        rows,
+        page,
+        pageSize: listPageSize,
+        total,
+        totalPages,
+        maxPrice: MAX_PRICE,
+      });
+    }
+
     const totalRow = await env.DB.prepare(
       "SELECT COUNT(*) AS c FROM artist_trade_listings WHERE status = 'active'"
     ).first();
@@ -350,10 +426,12 @@ export async function onRequest(context) {
       `SELECT id, seller_id, seller_name, title, trigger_text, price,
               thumb,
               CASE
+                WHEN image_blocked = 1 THEN ''
                 WHEN thumb IS NOT NULL AND thumb != '' THEN ''
                 WHEN length(image) <= ${MAX_THUMB} THEN image
                 ELSE ''
               END AS image,
+              image_blocked,
               at
        FROM artist_trade_listings
        WHERE status = 'active'
@@ -382,6 +460,25 @@ export async function onRequest(context) {
     return json(200, { ok: true, rows, page, pageSize: PAGE_SIZE, total, totalPages, maxPrice: MAX_PRICE });
   }
 
+  if (request.method === "DELETE") {
+    if (!checkAdmin(request, env)) {
+      return json(403, { ok: false, error: "forbid", message: "需要管理员密钥" });
+    }
+    const url = new URL(request.url);
+    const id = String(url.searchParams.get("id") || "").trim().slice(0, 64);
+    if (!id || id === "__admin_auth_check__") {
+      return json(404, { ok: false, error: "gone", message: "商品不存在" });
+    }
+    const row = await env.DB.prepare(
+      "SELECT id FROM artist_trade_listings WHERE id = ? LIMIT 1"
+    ).bind(id).first();
+    if (!row) return json(404, { ok: false, error: "gone", message: "商品不存在" });
+    await env.DB.prepare("DELETE FROM artist_trade_purchases WHERE listing_id = ?").bind(id).run();
+    await env.DB.prepare("DELETE FROM artist_trade_earnings WHERE listing_id = ?").bind(id).run();
+    await env.DB.prepare("DELETE FROM artist_trade_listings WHERE id = ?").bind(id).run();
+    return json(200, { ok: true, deleted: id });
+  }
+
   if (request.method === "POST") {
     let body = {};
     try {
@@ -390,6 +487,34 @@ export async function onRequest(context) {
       return json(400, { ok: false, error: "bad_json", message: "请求体无效" });
     }
     const action = String(body.action || "").trim();
+
+    // 管理端：删除 / 屏蔽图片（打码后对外与卖家均不可见）
+    if (action === "admin_delete" || action === "admin_block_image") {
+      if (!checkAdmin(request, env)) {
+        return json(403, { ok: false, error: "forbid", message: "需要管理员密钥" });
+      }
+      const listingId = String(body.listingId || body.id || "").trim().slice(0, 64);
+      if (!listingId) return json(400, { ok: false, error: "no_id", message: "缺少商品" });
+      const row = await env.DB.prepare(
+        "SELECT id FROM artist_trade_listings WHERE id = ? LIMIT 1"
+      ).bind(listingId).first();
+      if (!row) return json(404, { ok: false, error: "gone", message: "商品不存在" });
+
+      if (action === "admin_delete") {
+        await env.DB.prepare("DELETE FROM artist_trade_purchases WHERE listing_id = ?").bind(listingId).run();
+        await env.DB.prepare("DELETE FROM artist_trade_earnings WHERE listing_id = ?").bind(listingId).run();
+        await env.DB.prepare("DELETE FROM artist_trade_listings WHERE id = ?").bind(listingId).run();
+        return json(200, { ok: true, deleted: listingId });
+      }
+
+      await env.DB.prepare(
+        `UPDATE artist_trade_listings
+         SET image_blocked = 1, image = '', thumb = ''
+         WHERE id = ?`
+      ).bind(listingId).run();
+      return json(200, { ok: true, blocked: listingId, imageBlocked: true });
+    }
+
     const userId = cleanUserId(body.userId);
     if (!userId) return json(400, { ok: false, error: "no_user", message: "请先登录后再操作" });
 
@@ -433,8 +558,8 @@ export async function onRequest(context) {
       const now = Date.now();
       await env.DB.prepare(
         `INSERT INTO artist_trade_listings
-         (id, seller_id, seller_name, title, trigger_text, content_hash, price, image, thumb, status, at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'active', ?)`
+         (id, seller_id, seller_name, title, trigger_text, content_hash, price, image, thumb, image_blocked, status, at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 'active', ?)`
       ).bind(id, userId, sellerName, title, trigger, hash, price, image, thumb, now).run();
 
       return json(200, {
@@ -448,6 +573,7 @@ export async function onRequest(context) {
           price,
           image,
           thumb,
+          image_blocked: 0,
           at: now,
         }, { unlocked: true, list: true }),
       });
@@ -457,7 +583,7 @@ export async function onRequest(context) {
       const listingId = String(body.listingId || "").trim().slice(0, 64);
       if (!listingId) return json(400, { ok: false, error: "no_id", message: "缺少商品" });
       const row = await env.DB.prepare(
-        `SELECT id, seller_id, seller_name, title, trigger_text, price, image, thumb, status, at
+        `SELECT id, seller_id, seller_name, title, trigger_text, price, image, thumb, image_blocked, status, at
          FROM artist_trade_listings WHERE id = ? LIMIT 1`
       ).bind(listingId).first();
       if (!row || row.status !== "active") {
@@ -504,7 +630,7 @@ export async function onRequest(context) {
       const listingId = String(body.listingId || "").trim().slice(0, 64);
       if (!listingId) return json(400, { ok: false, error: "no_id", message: "缺少商品" });
       const row = await env.DB.prepare(
-        `SELECT id, seller_id, seller_name, title, trigger_text, price, image, thumb, status, at
+        `SELECT id, seller_id, seller_name, title, trigger_text, price, image, thumb, image_blocked, status, at
          FROM artist_trade_listings WHERE id = ? LIMIT 1`
       ).bind(listingId).first();
       if (!row || row.status !== "active") {
