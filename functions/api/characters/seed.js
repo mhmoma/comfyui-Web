@@ -61,7 +61,11 @@ export async function onRequestPost(context) {
 
     let charCount = 0;
     const seriesStmts = body.map(s =>
-      db.prepare('INSERT OR REPLACE INTO series (id, name, count) VALUES (?, ?, ?)').bind(s.id, s.name, s.count || 0)
+      db.prepare('INSERT OR REPLACE INTO series (id, name, count) VALUES (?, ?, ?)').bind(
+        s.id,
+        s.name,
+        Array.isArray(s.characters) ? s.characters.length : (s.count || 0)
+      )
     );
     await db.batch(seriesStmts);
 

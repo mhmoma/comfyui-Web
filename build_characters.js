@@ -146,7 +146,8 @@ function main() {
   const output = seriesList.map(s => ({
     id: s.copyright,
     name: s.cn,
-    count: s.totalCount,
+    count: s.chars.length, // 作品下角色数（不是 Danbooru 热度总和）
+    heat: s.totalCount,
     characters: s.chars.map(c => {
       const trigger = c.trigger || c.slug.replace(/_/g, ' ');
       return {
