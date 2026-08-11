@@ -30,6 +30,7 @@ export async function onRequestGet(context) {
     articlesPublished,
     articlesDraft,
     boardTotal,
+    noticeActive,
     tradeActive,
     tradeOff,
     tradeBlocked,
@@ -41,6 +42,7 @@ export async function onRequestGet(context) {
     countSafe(db, "SELECT COUNT(*) AS c FROM articles WHERE status = 'published'"),
     countSafe(db, "SELECT COUNT(*) AS c FROM articles WHERE status = 'draft'"),
     countSafe(db, "SELECT COUNT(*) AS c FROM board_messages"),
+    countSafe(db, "SELECT COUNT(*) AS c FROM announcements WHERE active = 1"),
     countSafe(db, "SELECT COUNT(*) AS c FROM artist_trade_listings WHERE status = 'active'"),
     countSafe(db, "SELECT COUNT(*) AS c FROM artist_trade_listings WHERE status = 'off'"),
     countSafe(db, "SELECT COUNT(*) AS c FROM artist_trade_listings WHERE image_blocked = 1"),
@@ -59,6 +61,11 @@ export async function onRequestGet(context) {
         published: articlesPublished,
         draft: articlesDraft,
         href: "#news",
+      },
+      notice: {
+        label: "公告",
+        active: noticeActive > 0,
+        href: "#notice",
       },
       board: {
         label: "留言板",

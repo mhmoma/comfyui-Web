@@ -205,6 +205,26 @@ export async function onRequestGet(context) {
     await ensureTable(db);
     const url = new URL(request.url);
     const admin = checkAdmin(request, env);
+
+    // 轻量未读：?meta=1&since=时间戳
+    if (url.searchParams.get('meta') === '1') {
+      const since = Math.max(0, Math.floor(Number(url.searchParams.get('since')) || 0));
+      const latest = await db.prepare(
+        'SELECT at FROM board_messages ORDER BY at DESC LIMIT 1'
+      ).first();
+      const latestAt = Number(latest?.at) || 0;
+      const totalRow = await db.prepare('SELECT COUNT(*) AS c FROM board_messages').first();
+      const total = Number(totalRow?.c) || 0;
+      let unread = 0;
+      if (since > 0) {
+        const row = await db.prepare(
+          'SELECT COUNT(*) AS c FROM board_messages WHERE at > ?'
+        ).bind(since).first();
+        unread = Number(row?.c) || 0;
+      }
+      return json(200, { ok: true, meta: true, total, latestAt, unread, since });
+    }
+
     return json(200, await pagePayload(db, url.searchParams.get('page'), { admin }));
   } catch (e) {
     return json(500, { ok: false, error: 'server', message: String(e?.message || e) });
