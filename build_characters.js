@@ -94,8 +94,8 @@ const SERIES_CN = {
   'demon_slayer': '鬼灭之刃',
 };
 
-const MIN_CHARS_PER_SERIES = 3;
-const MIN_SERIES_TOTAL_COUNT = 500;
+const MIN_CHARS_PER_SERIES = 1;
+const MIN_SERIES_TOTAL_COUNT = 0; // was 500; that dropped ~2840 series from animadex
 
 function getSeriesCN(copyright) {
   if (SERIES_CN[copyright]) return SERIES_CN[copyright];
