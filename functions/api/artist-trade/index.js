@@ -6,6 +6,11 @@ const MAX_THUMB = 60_000;
 const MAX_PRICE = 5;
 const RATE_WINDOW_MS = 20_000;
 
+/** isolate 内热身后跳过反复 ALTER，减少每次列表耗时 */
+let schemaReady = false;
+let totalCache = { at: 0, total: -1 };
+const TOTAL_CACHE_MS = 30_000;
+
 const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS artist_trade_listings (
     id TEXT PRIMARY KEY,
@@ -44,6 +49,7 @@ const SCHEMA = [
 ];
 
 async function ensureTable(db) {
+  if (schemaReady) return;
   try {
     await db.prepare("SELECT 1 FROM artist_trade_listings LIMIT 1").all();
   } catch (_) {
@@ -96,6 +102,34 @@ async function ensureTable(db) {
     await db.prepare(
       `CREATE INDEX IF NOT EXISTS idx_artist_trade_earn_seller ON artist_trade_earnings(seller_id, claimed, at DESC)`
     ).run();
+  }
+  schemaReady = true;
+}
+
+function invalidateTotalCache() {
+  totalCache = { at: 0, total: -1 };
+}
+
+function dataUrlToBinaryResponse(dataUrl, cacheSec = 86_400) {
+  const raw = String(dataUrl || "").trim();
+  const m = raw.match(/^data:([^;,]+);base64,([A-Za-z0-9+/=\s]+)$/i);
+  if (!m) return null;
+  const mime = (m[1] || "image/jpeg").split(";")[0].trim() || "image/jpeg";
+  let b64 = m[2].replace(/\s+/g, "");
+  try {
+    const bin = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+    if (!bin.length) return null;
+    return new Response(bin, {
+      status: 200,
+      headers: {
+        "Content-Type": mime,
+        "Cache-Control": `public, max-age=${cacheSec}, stale-while-revalidate=86400`,
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key",
+      },
+    });
+  } catch (_) {
+    return null;
   }
 }
 
@@ -303,16 +337,17 @@ function listThumb(row) {
   return "";
 }
 
-/** list=true: 列表只带缩略图；full=true: 购买/导入带原图 */
+/** list=true: 列表只带元数据（图走 ?thumb=）；full: 购买/导入带原图 */
 function publicRow(row, { unlocked = false, list = false, admin = false } = {}) {
   const blocked = isImageBlocked(row);
+  const hasImageFlag = Number(row.has_image) === 1
+    || (!blocked && !!(String(row.thumb || "").trim() || (String(row.image || "").trim() && String(row.image || "").length <= MAX_THUMB)));
   let image = "";
   if (admin) {
-    // 管理端：未清除前仍可审图；已屏蔽则库内已清空
     image = listThumb({ ...row, image_blocked: 0 }) || String(row.thumb || row.image || "").trim();
     if (image.length > MAX_THUMB) image = String(row.thumb || "").trim().slice(0, MAX_THUMB);
-  } else if (!blocked) {
-    image = list ? listThumb(row) : (row.image || listThumb(row) || "");
+  } else if (!list && !blocked) {
+    image = row.image || listThumb(row) || "";
   }
   const item = {
     id: row.id,
@@ -321,6 +356,7 @@ function publicRow(row, { unlocked = false, list = false, admin = false } = {}) 
     sellerId: row.seller_id || "",
     price: Number(row.price) || 0,
     image,
+    hasImage: !blocked && (admin ? !!(image || row.hasImage) : hasImageFlag),
     imageBlocked: blocked,
     at: Number(row.at) || 0,
     unlocked: !!unlocked,
@@ -328,7 +364,7 @@ function publicRow(row, { unlocked = false, list = false, admin = false } = {}) 
   if (admin) {
     item.status = row.status || "active";
     item.trigger = row.trigger_text || "";
-    item.hasImage = !!(String(row.image || "").trim() || String(row.thumb || "").trim());
+    item.hasImage = !blocked && !!(String(row.image || "").trim() || String(row.thumb || "").trim() || image);
   } else if (unlocked) {
     item.trigger = row.trigger_text || "";
   } else {
@@ -373,6 +409,34 @@ export async function onRequest(context) {
     const admin = checkAdmin(request, env);
     const adminView = admin && url.searchParams.get("view") === "admin";
     const listPageSize = adminView ? 20 : PAGE_SIZE;
+    const thumbId = String(url.searchParams.get("thumb") || "").trim().slice(0, 64);
+
+    // 单张缩略图：列表不再内嵌 data URL，浏览器可并行拉取 + CDN 缓存
+    if (thumbId) {
+      const row = await env.DB.prepare(
+        `SELECT thumb, image, image_blocked, status
+         FROM artist_trade_listings WHERE id = ? LIMIT 1`
+      ).bind(thumbId).first();
+      if (!row || row.status !== "active" || isImageBlocked(row)) {
+        return new Response(null, {
+          status: 404,
+          headers: {
+            "Cache-Control": "public, max-age=60",
+            "Access-Control-Allow-Origin": "*",
+          },
+        });
+      }
+      const dataUrl = listThumb(row);
+      const bin = dataUrlToBinaryResponse(dataUrl);
+      if (bin) return bin;
+      return new Response(null, {
+        status: 404,
+        headers: {
+          "Cache-Control": "public, max-age=60",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+    }
 
     if (adminView) {
       const statusFilter = String(url.searchParams.get("status") || "active").trim();
@@ -413,26 +477,28 @@ export async function onRequest(context) {
       });
     }
 
-    const totalRow = await env.DB.prepare(
-      "SELECT COUNT(*) AS c FROM artist_trade_listings WHERE status = 'active'"
-    ).first();
-    const total = Number(totalRow?.c) || 0;
+    let total = totalCache.total;
+    if (total < 0 || Date.now() - totalCache.at > TOTAL_CACHE_MS) {
+      const totalRow = await env.DB.prepare(
+        "SELECT COUNT(*) AS c FROM artist_trade_listings WHERE status = 'active'"
+      ).first();
+      total = Number(totalRow?.c) || 0;
+      totalCache = { at: Date.now(), total };
+    }
     const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE) || 1);
     let page = pageRaw < 1 ? 1 : pageRaw;
     if (page > totalPages) page = totalPages;
     const offset = (page - 1) * PAGE_SIZE;
-    // 列表只取 thumb；无合格缩略图时不要回退大图（length 限制）
+    // 列表不读 thumb/image/trigger 大字段；图走 ?thumb=；已解锁再补 trigger
     const { results } = await env.DB.prepare(
-      `SELECT id, seller_id, seller_name, title, trigger_text, price,
-              thumb,
+      `SELECT id, seller_id, seller_name, title, price,
+              image_blocked, at,
               CASE
-                WHEN image_blocked = 1 THEN ''
-                WHEN thumb IS NOT NULL AND thumb != '' THEN ''
-                WHEN length(image) <= ${MAX_THUMB} THEN image
-                ELSE ''
-              END AS image,
-              image_blocked,
-              at
+                WHEN image_blocked = 1 THEN 0
+                WHEN thumb IS NOT NULL AND thumb != '' THEN 1
+                WHEN image IS NOT NULL AND image != '' AND length(image) <= ${MAX_THUMB} THEN 1
+                ELSE 0
+              END AS has_image
        FROM artist_trade_listings
        WHERE status = 'active'
        ORDER BY at DESC
@@ -450,14 +516,40 @@ export async function onRequest(context) {
       bought = new Set((purchased.results || []).map((r) => r.listing_id));
     }
 
+    const unlockIds = (results || [])
+      .filter((row) => userId && (row.seller_id === userId || bought.has(row.id)))
+      .map((row) => row.id);
+    const triggerMap = new Map();
+    if (unlockIds.length) {
+      const placeholders = unlockIds.map(() => "?").join(",");
+      const trig = await env.DB.prepare(
+        `SELECT id, trigger_text FROM artist_trade_listings WHERE id IN (${placeholders})`
+      ).bind(...unlockIds).all();
+      for (const row of trig.results || []) {
+        triggerMap.set(row.id, row.trigger_text || "");
+      }
+    }
+
     const rows = (results || []).map((row) => {
       const unlocked = !!(userId && (row.seller_id === userId || bought.has(row.id)));
-      const item = publicRow(row, { unlocked, list: true });
-      if (item.image && item.image.length > MAX_THUMB) item.image = "";
-      return item;
+      return publicRow({
+        ...row,
+        trigger_text: unlocked ? (triggerMap.get(row.id) || "") : "",
+      }, { unlocked, list: true });
     });
 
-    return json(200, { ok: true, rows, page, pageSize: PAGE_SIZE, total, totalPages, maxPrice: MAX_PRICE });
+    return json(200, {
+      ok: true,
+      rows,
+      page,
+      pageSize: PAGE_SIZE,
+      total,
+      totalPages,
+      maxPrice: MAX_PRICE,
+      lite: true,
+    }, {
+      "Cache-Control": userId ? "private, max-age=10" : "public, max-age=20",
+    });
   }
 
   if (request.method === "DELETE") {
@@ -476,6 +568,7 @@ export async function onRequest(context) {
     await env.DB.prepare("DELETE FROM artist_trade_purchases WHERE listing_id = ?").bind(id).run();
     await env.DB.prepare("DELETE FROM artist_trade_earnings WHERE listing_id = ?").bind(id).run();
     await env.DB.prepare("DELETE FROM artist_trade_listings WHERE id = ?").bind(id).run();
+    invalidateTotalCache();
     return json(200, { ok: true, deleted: id });
   }
 
@@ -504,6 +597,7 @@ export async function onRequest(context) {
         await env.DB.prepare("DELETE FROM artist_trade_purchases WHERE listing_id = ?").bind(listingId).run();
         await env.DB.prepare("DELETE FROM artist_trade_earnings WHERE listing_id = ?").bind(listingId).run();
         await env.DB.prepare("DELETE FROM artist_trade_listings WHERE id = ?").bind(listingId).run();
+        invalidateTotalCache();
         return json(200, { ok: true, deleted: listingId });
       }
 
@@ -561,6 +655,7 @@ export async function onRequest(context) {
          (id, seller_id, seller_name, title, trigger_text, content_hash, price, image, thumb, image_blocked, status, at)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 'active', ?)`
       ).bind(id, userId, sellerName, title, trigger, hash, price, image, thumb, now).run();
+      invalidateTotalCache();
 
       return json(200, {
         ok: true,
@@ -574,8 +669,9 @@ export async function onRequest(context) {
           image,
           thumb,
           image_blocked: 0,
+          has_image: 1,
           at: now,
-        }, { unlocked: true, list: true }),
+        }, { unlocked: true, list: false }),
       });
     }
 
@@ -678,6 +774,7 @@ export async function onRequest(context) {
       await env.DB.prepare(
         "UPDATE artist_trade_listings SET status = 'off' WHERE id = ?"
       ).bind(listingId).run();
+      invalidateTotalCache();
       return json(200, { ok: true });
     }
 
