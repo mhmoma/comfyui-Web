@@ -134,18 +134,29 @@ function main() {
 
   console.log(`Series with enough characters: ${seriesList.length}`);
 
+  // Blob filenames replace "/" with "_" (e.g. fate/grand order → fate_grand order).
+  const thumbFromTrigger = (trigger, fallback) => {
+    const t = String(trigger || '').trim();
+    if (!t) return fallback || '';
+    const key = t.replace(/\//g, '_');
+    return `https://blobs.animadex.net/Outputs/thumbs/${encodeURIComponent(key)}.webp`;
+  };
+
   const output = seriesList.map(s => ({
     id: s.copyright,
     name: s.cn,
     count: s.totalCount,
-    characters: s.chars.map(c => ({
-      t: c.trigger || c.slug.replace(/_/g, ' '),
-      n: c.name,
-      th: c.thumb_url || '',
-      c: c.count || 0,
-      lora: (c.loras && c.loras.length > 0) ? c.loras[0].url : undefined,
-      tags: (c.tags && c.tags.length > 0) ? c.tags : undefined,
-    })),
+    characters: s.chars.map(c => {
+      const trigger = c.trigger || c.slug.replace(/_/g, ' ');
+      return {
+        t: trigger,
+        n: c.name,
+        th: thumbFromTrigger(trigger, c.thumb_url || ''),
+        c: c.count || 0,
+        lora: (c.loras && c.loras.length > 0) ? c.loras[0].url : undefined,
+        tags: (c.tags && c.tags.length > 0) ? c.tags : undefined,
+      };
+    }),
   }));
 
   let totalChars = 0;
