@@ -866,15 +866,20 @@
     });
   }
 
-  function prefGroupsHtml(prefs, groups) {
+  function prefGroupsHtml(prefs, groups, meta) {
     const order = [
       ["reads", "已读状态"],
       ["profile", "界面与进度"],
       ["economy", "画泥经济"],
       ["other", "其他"],
     ];
+    const matchGroup = (key, gid) => {
+      const g = prefs[key]?.group || meta?.[key]?.group || "other";
+      if (gid === "profile") return g === "profile" || g === "progress";
+      return g === gid;
+    };
     return order.map(([gid, title]) => {
-      const fromBag = Object.keys(prefs).filter((k) => (prefs[k].group || "other") === gid);
+      const fromBag = Object.keys(prefs).filter((k) => matchGroup(k, gid));
       const known = groups?.[gid] || [];
       const list = Array.from(new Set([...known, ...fromBag]));
       if (!list.length) return "";
@@ -886,11 +891,14 @@
               <thead><tr><th>字段</th><th>说明</th><th>值</th><th></th></tr></thead>
               <tbody>
                 ${list.map((key) => {
-                  const row = prefs[key] || { value: "", label: key, hint: "" };
+                  const metaRow = meta?.[key] || {};
+                  const row = prefs[key] || {};
+                  const label = row.label || metaRow.label || key;
+                  const hint = row.hint || metaRow.hint || "";
                   const val = String(row.value ?? "");
                   return `<tr>
-                    <td><strong>${escapeHtml(row.label || key)}</strong><div class="meta mono">${escapeHtml(key)}</div></td>
-                    <td class="meta">${escapeHtml(row.hint || "")}</td>
+                    <td><strong>${escapeHtml(label)}</strong><div class="meta mono">${escapeHtml(key)}</div></td>
+                    <td class="meta">${escapeHtml(hint)}</td>
                     <td>
                       <textarea class="pref-edit mono" data-pref-key="${escapeHtml(key)}" rows="${val.length > 80 ? 4 : 2}">${escapeHtml(val)}</textarea>
                     </td>
