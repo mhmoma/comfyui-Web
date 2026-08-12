@@ -2,6 +2,11 @@
   "use strict";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
+  /** 素材站（画师/角色/资讯/登录探针） */
+  const ASSET_BASE = "https://comfyui-web-89u.pages.dev";
+  /** 游戏云端（公告/留言/交易/偏好/玩家画师串） */
+  const CLOUD_BASE = "https://tk-game-cloud.pages.dev";
+
   const MODULES = [
     { id: "overview", label: "总览" },
     { id: "notice", label: "公告" },
@@ -12,6 +17,15 @@
     { id: "characters", label: "角色库" },
     { id: "prefs", label: "玩家偏好" },
     { id: "map", label: "能力地图" },
+  ];
+
+  const CLOUD_PREFIXES = [
+    "/api/announcements",
+    "/api/board",
+    "/api/artist-trade",
+    "/api/prefs",
+    "/api/player-artists",
+    "/api/admin/overview",
   ];
 
   let adminKey = localStorage.getItem(KEY_STORE) || "";
@@ -54,8 +68,56 @@
     try { sessionStorage.setItem(KEY_STORE, adminKey); } catch (_) {}
   }
 
+  function resolveUrl(path) {
+    if (/^https?:\/\//i.test(path)) return path;
+    const p = String(path || "");
+    const useCloud = CLOUD_PREFIXES.some((prefix) => p === prefix || p.startsWith(`${prefix}?`) || p.startsWith(`${prefix}/`));
+    const base = useCloud ? CLOUD_BASE : ASSET_BASE;
+    return new URL(p, base).toString();
+  }
+
   async function api(path, opts = {}) {
-    const res = await fetch(path, {
+    const res = await fetch(resolveUrl(path), {
+      ...opts,
+      headers: {
+        ...(opts.headers || {}),
+        "x-admin-key": adminKey,
+        ...(opts.body ? { "Content-Type": "application/json" } : {}),
+      },
+    });
+    let data = null;
+    try { data = await res.json(); } catch (_) {}
+    if (!res.ok) {
+      const err = new Error(data?.message || data?.error || `HTTP ${res.status}`);
+      err.status = res.status;
+      err.data = data;
+      throw err;
+    }
+    return data;
+  }
+
+  async function assetApi(path, opts = {}) {
+    const res = await fetch(new URL(path, ASSET_BASE).toString(), {
+      ...opts,
+      headers: {
+        ...(opts.headers || {}),
+        "x-admin-key": adminKey,
+        ...(opts.body ? { "Content-Type": "application/json" } : {}),
+      },
+    });
+    let data = null;
+    try { data = await res.json(); } catch (_) {}
+    if (!res.ok) {
+      const err = new Error(data?.message || data?.error || `HTTP ${res.status}`);
+      err.status = res.status;
+      err.data = data;
+      throw err;
+    }
+    return data;
+  }
+
+  async function cloudApi(path, opts = {}) {
+    const res = await fetch(new URL(path, CLOUD_BASE).toString(), {
       ...opts,
       headers: {
         ...(opts.headers || {}),
@@ -89,8 +151,13 @@
   }
 
   async function verifyAuth() {
-    // articles/auth 是现成探针
-    await api("/api/articles/auth");
+    // 游戏数据只认新云端库；素材站密钥另作二次探针（资讯/画师/角色）
+    await cloudApi("/api/admin/overview");
+    try {
+      await assetApi("/api/articles/auth");
+    } catch (_) {
+      // 素材站密钥不一致时仍可进后台，仅云端模块可用
+    }
   }
 
   async function login() {
@@ -104,7 +171,10 @@
       render();
     } catch (err) {
       setKey("");
-      showLogin(err.status === 403 ? "密钥错误" : (err.message || "登录失败"));
+      const msg = err.status === 403
+        ? "密钥错误"
+        : (err.status === 503 ? "云端未配置 ADMIN_KEY" : (err.message || "登录失败"));
+      showLogin(msg);
     }
   }
 
@@ -162,30 +232,48 @@
   }
 
   async function renderOverview(root) {
-    setTop("总览", "各模块库存一眼看完，点卡片进入对应管理。");
-    const data = await api("/api/admin/overview");
-    const m = data.modules || {};
+    setTop("总览", "云端库（新）+ 素材库（正式站）分开展示。");
+    let cloud = null;
+    let asset = null;
+    let cloudErr = "";
+    try {
+      cloud = await cloudApi("/api/admin/overview");
+    } catch (err) {
+      cloudErr = err.message || "云端总览失败";
+    }
+    try {
+      asset = await assetApi("/api/admin/overview");
+    } catch (_) {}
+
+    const c = cloud?.modules || {};
+    const a = asset?.modules || {};
     const cards = [
-      { href: "notice", k: "当前公告", v: m.notice?.active ? "有" : "无", s: "游戏顶栏公告栏" },
-      { href: "trade", k: "画师串在售", v: m.trade?.active ?? "—", s: `下架 ${m.trade?.off ?? 0} · 打码 ${m.trade?.imageBlocked ?? 0}` },
-      { href: "board", k: "留言条数", v: m.board?.total ?? "—", s: "可删 / 清空" },
-      { href: "news", k: "已发资讯", v: m.news?.published ?? "—", s: `草稿 ${m.news?.draft ?? 0}` },
-      { href: "artists", k: "画师库", v: m.artists?.total ?? "—", s: "公开检索库" },
-      { href: "characters", k: "角色数", v: m.characters?.characters ?? "—", s: `系列 ${m.characters?.series ?? 0}` },
-      { href: "prefs", k: "偏好记录", v: m.prefs?.total ?? "—", s: "seen_version / mud_codes" },
+      { href: "notice", k: "当前公告", v: c.notice?.active ? "有" : (cloud ? "无" : "—"), s: "云端库 · 游戏顶栏" },
+      { href: "trade", k: "画师串在售", v: c.trade?.active ?? "—", s: `云端 · 下架 ${c.trade?.off ?? 0} · 打码 ${c.trade?.imageBlocked ?? 0}` },
+      { href: "board", k: "留言条数", v: c.board?.total ?? "—", s: "云端库 · 可删 / 清空" },
+      { href: "prefs", k: "偏好记录", v: c.prefs?.total ?? "—", s: `云端 · 玩家画师串 ${c.playerArtists?.total ?? 0}` },
+      { href: "news", k: "已发资讯", v: a.news?.published ?? "—", s: `素材站 · 草稿 ${a.news?.draft ?? 0}` },
+      { href: "artists", k: "画师库", v: a.artists?.total ?? "—", s: "素材站 · 公开检索库" },
+      { href: "characters", k: "角色数", v: a.characters?.characters ?? "—", s: `素材站 · 系列 ${a.characters?.series ?? 0}` },
+    ];
+    const notes = [
+      ...(cloud?.notes || []),
+      "素材站：" + ASSET_BASE,
+      "云端站：" + CLOUD_BASE,
+      ...(cloudErr ? [`云端告警：${cloudErr}`] : []),
     ];
     root.innerHTML = `
       <div class="grid-cards">
-        ${cards.map((c) => `
-          <button type="button" class="stat-card" data-go="${c.href}">
-            <div class="k">${escapeHtml(c.k)}</div>
-            <div class="v">${escapeHtml(String(c.v))}</div>
-            <div class="s">${escapeHtml(c.s)}</div>
+        ${cards.map((card) => `
+          <button type="button" class="stat-card" data-go="${card.href}">
+            <div class="k">${escapeHtml(card.k)}</div>
+            <div class="v">${escapeHtml(String(card.v))}</div>
+            <div class="s">${escapeHtml(card.s)}</div>
           </button>`).join("")}
       </div>
       <div class="panel notes">
         <strong>说明</strong>
-        <ul>${(data.notes || []).map((n) => `<li>${escapeHtml(n)}</li>`).join("")}</ul>
+        <ul>${notes.map((n) => `<li>${escapeHtml(n)}</li>`).join("")}</ul>
       </div>`;
     root.querySelectorAll("[data-go]").forEach((el) => {
       el.addEventListener("click", () => go(el.getAttribute("data-go")));
@@ -440,7 +528,7 @@
           ${rows.length ? rows.map((row) => {
             const blocked = !!row.imageBlocked;
             const thumb = row.hasImage && !blocked
-              ? `/api/artist-trade?thumb=${encodeURIComponent(row.id)}`
+              ? `${CLOUD_BASE}/api/artist-trade?thumb=${encodeURIComponent(row.id)}`
               : "";
             const media = thumb
               ? `<img class="thumb" src="${escapeHtml(thumb)}" alt="" loading="lazy" decoding="async">`

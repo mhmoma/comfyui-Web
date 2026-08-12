@@ -3,34 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>绘画大师运营�?· ComfyUI Web</title>
+  <title>绘画大师运营台 · ComfyUI Web</title>
   <meta name="robots" content="noindex, nofollow">
-  <link rel="stylesheet" href="/assets/tk-admin.css?v=7">
+  <link rel="stylesheet" href="/assets/tk-admin.css?v=9">
 </head>
 <body>
   <section id="login" class="login-wrap">
     <div class="login-card">
-      <h1>绘画大师运营�?/h1>
-      <p>统一管理公告、画师串交流、留言板、资讯、画�?角色库与玩家偏好。密钥写入本�?<code>localStorage</code>，刷新页面不会退出�?/p>
+      <h1>绘画大师运营台</h1>
+      <p>公告/留言/交易/偏好/玩家画师串只操作 <code>tk-game-cloud</code> 新库；画师/角色/资讯仍在正式站素材库。密钥写入本机 <code>localStorage</code>。</p>
       <div class="login-row">
         <input id="admin-key" type="password" placeholder="ADMIN_KEY" autocomplete="current-password">
         <button type="button" class="primary" id="btn-login">进入后台</button>
       </div>
       <p id="login-error" class="err hidden"></p>
-      <p class="hint">�?Cloudflare 环境变量 <code>ADMIN_KEY</code> 相同。不要把密钥写进仓库�?/p>
+      <p class="hint">与 Cloudflare 环境变量 <code>ADMIN_KEY</code> 相同（正式站与 tk-game-cloud 都要配置）。不要把密钥写进仓库。</p>
     </div>
   </section>
 
   <div id="app" class="shell hidden">
     <aside class="sidebar">
       <div class="brand">
-        <strong>运营�?/strong>
-        <span>TK / comfyui-web</span>
+        <strong>运营台</strong>
+        <span>游戏新库 · 素材旧仓</span>
       </div>
       <nav class="nav" id="nav"></nav>
       <div class="side-foot">
         <button type="button" id="btn-reload">刷新当前模块</button>
-        <button type="button" id="btn-logout">退出登�?/button>
+        <button type="button" id="btn-logout">退出登录</button>
       </div>
     </aside>
     <main class="main">
@@ -45,6 +45,6 @@
     </main>
   </div>
 
-  <script src="/assets/tk-admin.js?v=7"></script>
+  <script src="/assets/tk-admin.js?v=9"></script>
 </body>
 </html>
