@@ -738,7 +738,68 @@ textarea {
 /* Prompt Tools */
 .prompt-tools {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     gap: 4px;
+    justify-content: flex-end;
+}
+
+.inserted-chars-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    max-width: min(100%, 420px);
+}
+
+.inserted-chars-wrap.hidden {
+    display: none !important;
+}
+
+.inserted-chars-label {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    padding: 0 2px;
+    flex: 0 0 auto;
+}
+
+.inserted-char-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 140px;
+    padding: 2px 6px 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg-panel);
+    color: var(--text-primary);
+    font-size: 0.7rem;
+    line-height: 1.3;
+    cursor: pointer;
+}
+
+.inserted-char-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.inserted-char-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.inserted-char-x {
+    flex: 0 0 auto;
+    opacity: 0.7;
+    font-size: 0.72rem;
+}
+
+[data-ui="v2"] .inserted-char-chip {
+    border-radius: 3px;
+    background: #fff;
+    border-color: var(--border);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.06);
 }
 
 /* Wildcard */

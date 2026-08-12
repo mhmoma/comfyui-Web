@@ -651,6 +651,141 @@
         dom.txtPositive.dispatchEvent(new Event('input', { bubbles: true }));
     }
 
+    /** 从作品栏填入的角色：可单独撤销，不必清空整段提示词 */
+    const InsertedCharacters = {
+        items: [],
+
+        _tokensFromTag(tag, includeFeatureTags) {
+            const tokens = [];
+            const seen = new Set();
+            const push = (raw) => {
+                String(raw || '').split(',').forEach((piece) => {
+                    const w = piece.trim();
+                    if (!w) return;
+                    const key = w.toLowerCase();
+                    if (seen.has(key)) return;
+                    seen.add(key);
+                    tokens.push(w);
+                });
+            };
+            push(tag?.t);
+            if (includeFeatureTags && Array.isArray(tag?.tags)) {
+                tag.tags.forEach(push);
+            }
+            return tokens;
+        },
+
+        _idOf(tag) {
+            return String(tag?.t || tag?.d || '').trim().toLowerCase() || `c_${Date.now()}`;
+        },
+
+        add(tag, mode = 'trigger') {
+            if (!tag?.t) return;
+            const includeTags = mode === 'trigger-tags';
+            const tokens = this._tokensFromTag(tag, includeTags);
+            if (!tokens.length) return;
+
+            const id = this._idOf(tag);
+            const existing = this.items.find(i => i.id === id);
+            if (existing) {
+                // 同一角色再次填入：合并要跟踪的词，避免重复 chip
+                const have = new Set(existing.tokens.map(t => t.toLowerCase()));
+                tokens.forEach((t) => {
+                    if (!have.has(t.toLowerCase())) existing.tokens.push(t);
+                });
+                existing.mode = includeTags ? 'trigger-tags' : existing.mode;
+                existing.name = tag.d || tag.t.split(',')[0] || existing.name;
+                existing.thumb = tag.th || existing.thumb;
+            } else {
+                this.items.push({
+                    id,
+                    name: tag.d || tag.t.split(',')[0] || '角色',
+                    thumb: tag.th || '',
+                    mode: includeTags ? 'trigger-tags' : 'trigger',
+                    tokens: tokens.slice(),
+                });
+            }
+
+            _appendTriggersToPrompt(tokens);
+            this.render();
+        },
+
+        remove(id) {
+            const idx = this.items.findIndex(i => i.id === id);
+            if (idx < 0) return;
+            const [item] = this.items.splice(idx, 1);
+            const stillNeeded = new Set();
+            this.items.forEach((other) => {
+                other.tokens.forEach((t) => stillNeeded.add(t.toLowerCase()));
+            });
+            const toRemove = item.tokens.filter(t => !stillNeeded.has(t.toLowerCase()));
+            _removeTriggersFromPrompt(toRemove);
+            this.render();
+        },
+
+        clearAll(removeFromPrompt = true) {
+            if (removeFromPrompt) {
+                const all = [];
+                this.items.forEach(i => all.push(...i.tokens));
+                _removeTriggersFromPrompt(all);
+            }
+            this.items = [];
+            this.render();
+        },
+
+        pruneMissing() {
+            if (!this.items.length || !dom.txtPositive) return;
+            const parts = new Set(
+                _parsePromptParts(dom.txtPositive.value).map(p => _promptPartName(p).toLowerCase())
+            );
+            const next = this.items.filter(item =>
+                item.tokens.some(t => parts.has(String(t).toLowerCase()))
+            );
+            if (next.length !== this.items.length) {
+                this.items = next;
+                this.render();
+            }
+        },
+
+        render() {
+            const wrap = document.getElementById('inserted-chars-wrap');
+            if (!wrap) return;
+            wrap.innerHTML = '';
+            if (!this.items.length) {
+                wrap.classList.add('hidden');
+                return;
+            }
+            wrap.classList.remove('hidden');
+
+            const label = document.createElement('span');
+            label.className = 'inserted-chars-label';
+            label.textContent = '角色';
+            label.title = '从作品栏加入的角色；点 ✕ 只删除该角色相关提示词';
+            wrap.appendChild(label);
+
+            this.items.forEach((item) => {
+                const chip = document.createElement('button');
+                chip.type = 'button';
+                chip.className = 'inserted-char-chip';
+                chip.title = `移除「${item.name}」及其相关提示词\n${item.tokens.join(', ')}`;
+                chip.innerHTML = `<span class="inserted-char-name"></span><span class="inserted-char-x" aria-hidden="true">✕</span>`;
+                chip.querySelector('.inserted-char-name').textContent = item.name;
+                chip.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.remove(item.id);
+                });
+                wrap.appendChild(chip);
+            });
+        },
+    };
+
+    function setupInsertedCharacters() {
+        InsertedCharacters.render();
+        if (!dom.txtPositive) return;
+        dom.txtPositive.addEventListener('input', () => InsertedCharacters.pruneMissing());
+    }
+
     function _bindLoraRowEvents(row) {
         const sel = row.querySelector('.lora-select');
         const removeBtn = row.querySelector('.lora-remove');
@@ -8709,15 +8844,9 @@
                 if (e.target.dataset.action) {
                     const storedTag = overlay._currentTag;
                     if (!storedTag) return;
-                    let text = storedTag.t;
-                    if (e.target.dataset.action === 'trigger-tags' && storedTag.tags && storedTag.tags.length > 0) {
-                        text = text + ', ' + storedTag.tags.join(', ');
-                    }
+                    const mode = e.target.dataset.action === 'trigger-tags' ? 'trigger-tags' : 'trigger';
                     UsageTracker.record(storedTag.t, storedTag.d, storedTag.th, 'character');
-                    const ta = dom.txtPositive;
-                    const cur = ta.value.trim();
-                    ta.value = cur ? cur + ', ' + text : text;
-                    ta.dispatchEvent(new Event('input', { bubbles: true }));
+                    InsertedCharacters.add(storedTag, mode);
                     overlay.classList.add('hidden');
                 }
             });
@@ -9431,7 +9560,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.04');
+        console.log('[ComfyUI Web] v5.05');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -14178,6 +14307,7 @@
 
     setupUiSkin();
     setupTheme();
+    setupInsertedCharacters();
     setupToggles();
     setupControlnetSpeedupGuard();
     setupArchSwitch();
