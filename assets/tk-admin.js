@@ -31,6 +31,7 @@
     "/api/player-artists",
     "/api/admin/overview",
     "/api/admin/players",
+    "/api/player-blocks",
   ];
 
   let adminKey = localStorage.getItem(KEY_STORE) || "";
@@ -795,8 +796,15 @@
     });
   }
 
+  async function userAction(userId, action, extra = {}) {
+    return api("/api/admin/players", {
+      method: "POST",
+      body: JSON.stringify({ userId, action, ...extra }),
+    });
+  }
+
   async function renderUsers(root) {
-    setTop("用户档案", "按玩家汇总主题、已读、解锁、画泥；点开可改单项或清空档案。");
+    setTop("用户管理", "显示玩家昵称；点进去用中文按钮管画泥、装扮、解锁、隐藏作品。");
     if (state.usersDetail) {
       await renderUserDetail(root, state.usersDetail);
       return;
@@ -807,33 +815,38 @@
     root.innerHTML = `
       <div class="panel">
         <div class="toolbar">
-          <input class="grow" id="users-q" placeholder="搜 userId…" value="${escapeHtml(q)}">
+          <input class="grow" id="users-q" placeholder="搜昵称或用户ID…" value="${escapeHtml(q)}">
           <button type="button" class="primary" id="users-search">搜索</button>
           <button type="button" id="users-refresh">刷新</button>
         </div>
-        <p class="meta">共 ${data.total || 0} 名有云端记录的玩家</p>
+        <p class="meta">共 ${data.total || 0} 名玩家 · 点「打开」进入完整管理</p>
         <div class="table-wrap">
           <table class="admin">
             <thead>
               <tr>
-                <th>用户</th><th>主题</th><th>日志已读</th><th>画泥</th><th>解锁</th><th>收藏标签</th><th>画师串</th><th>更新</th><th></th>
+                <th>玩家</th><th>画泥</th><th>装扮</th><th>已解锁</th><th>个人限制</th><th>主题</th><th>更新</th><th></th>
               </tr>
             </thead>
             <tbody>
               ${rows.length ? rows.map((row) => {
                 const s = row.summary || {};
+                const name = row.displayName || "未留名";
                 return `<tr>
-                  <td class="mono">${escapeHtml(row.userId)}</td>
-                  <td>${escapeHtml(s.theme || "—")}</td>
-                  <td class="mono">${escapeHtml(s.seenVersion || "—")}</td>
+                  <td>
+                    <button type="button" class="linkish" data-open-user="${escapeHtml(row.userId)}">
+                      <strong>${escapeHtml(name)}</strong>
+                    </button>
+                    <div class="meta mono">${escapeHtml(row.userId)}</div>
+                  </td>
                   <td><strong>${escapeHtml(String(s.mudBalance ?? 0))}</strong></td>
+                  <td>${escapeHtml(String(s.mudOwnedCount ?? 0))}</td>
                   <td>${escapeHtml(String(s.unlockedCount ?? 0))}</td>
-                  <td>${escapeHtml(String(s.favTagCount ?? 0))}</td>
-                  <td>${escapeHtml(String(row.artistCount ?? 0))}</td>
+                  <td>${escapeHtml(String(row.blockCount ?? 0))}</td>
+                  <td>${escapeHtml(s.themeLabel || s.theme || "—")}</td>
                   <td class="meta">${escapeHtml(formatTime(row.updatedAt))}</td>
-                  <td><button type="button" class="primary" data-open-user="${escapeHtml(row.userId)}">详情</button></td>
+                  <td><button type="button" class="primary" data-open-user="${escapeHtml(row.userId)}">打开</button></td>
                 </tr>`;
-              }).join("") : `<tr><td colspan="9">暂无用户</td></tr>`}
+              }).join("") : `<tr><td colspan="8">暂无用户</td></tr>`}
             </tbody>
           </table>
         </div>
@@ -866,122 +879,239 @@
     });
   }
 
-  function prefGroupsHtml(prefs, groups, meta) {
-    const order = [
-      ["reads", "已读状态"],
-      ["profile", "界面与进度"],
-      ["economy", "画泥经济"],
-      ["other", "其他"],
-    ];
-    const matchGroup = (key, gid) => {
-      const g = prefs[key]?.group || meta?.[key]?.group || "other";
-      if (gid === "profile") return g === "profile" || g === "progress";
-      return g === gid;
-    };
-    return order.map(([gid, title]) => {
-      const fromBag = Object.keys(prefs).filter((k) => matchGroup(k, gid));
-      const known = groups?.[gid] || [];
-      const list = Array.from(new Set([...known, ...fromBag]));
-      if (!list.length) return "";
-      return `
-        <div class="detail-block">
-          <h3>${escapeHtml(title)}</h3>
-          <div class="table-wrap">
-            <table class="admin">
-              <thead><tr><th>字段</th><th>说明</th><th>值</th><th></th></tr></thead>
-              <tbody>
-                ${list.map((key) => {
-                  const metaRow = meta?.[key] || {};
-                  const row = prefs[key] || {};
-                  const label = row.label || metaRow.label || key;
-                  const hint = row.hint || metaRow.hint || "";
-                  const val = String(row.value ?? "");
-                  return `<tr>
-                    <td><strong>${escapeHtml(label)}</strong><div class="meta mono">${escapeHtml(key)}</div></td>
-                    <td class="meta">${escapeHtml(hint)}</td>
-                    <td>
-                      <textarea class="pref-edit mono" data-pref-key="${escapeHtml(key)}" rows="${val.length > 80 ? 4 : 2}">${escapeHtml(val)}</textarea>
-                    </td>
-                    <td class="stack-btns">
-                      <button type="button" class="primary" data-save-pref="${escapeHtml(key)}">保存</button>
-                      <button type="button" class="danger" data-del-pref="${escapeHtml(key)}">删除</button>
-                    </td>
-                  </tr>`;
-                }).join("")}
-              </tbody>
-            </table>
-          </div>
-        </div>`;
-    }).join("");
-  }
-
   async function renderUserDetail(root, userId) {
-    setTop("用户详情", userId);
     const data = await api(`/api/admin/players?userId=${encodeURIComponent(userId)}`);
     const s = data.summary || {};
-    const prefs = data.prefs || {};
+    const name = data.displayName || "未留名玩家";
+    const catalog = data.mudCatalog || {};
+    const owned = s.mudOwnedLabeled || [];
+    const unlocked = s.unlockedSeries || [];
+    const blocks = data.blocks || [];
+    const equip = s.mudEquipLabeled || [];
+    setTop(`管理 · ${name}`, `ID：${userId}`);
+
+    const catalogOpts = Object.entries(catalog).map(([id, label]) =>
+      `<option value="${escapeHtml(id)}">${escapeHtml(label)}（${escapeHtml(id)}）</option>`
+    ).join("");
+
     root.innerHTML = `
       <div class="panel">
         <div class="toolbar">
-          <button type="button" id="user-back">← 返回列表</button>
-          <button type="button" class="danger" id="user-wipe">清空该用户全部偏好</button>
-          <button type="button" class="warn" id="user-wipe-all">清空偏好 + 画师串</button>
+          <button type="button" id="user-back">← 返回用户列表</button>
+          <span class="meta">昵称来自留言/交易记录，未发言时可能显示「未留名」</span>
         </div>
         <div class="summary-grid">
-          <div class="summary-card"><div class="k">主题</div><div class="v">${escapeHtml(s.theme || "—")}</div></div>
-          <div class="summary-card"><div class="k">更新日志已读</div><div class="v mono">${escapeHtml(s.seenVersion || "—")}</div></div>
-          <div class="summary-card"><div class="k">画泥</div><div class="v">${escapeHtml(String(s.mudBalance ?? 0))}</div></div>
+          <div class="summary-card"><div class="k">玩家</div><div class="v">${escapeHtml(name)}</div></div>
+          <div class="summary-card"><div class="k">画泥余额</div><div class="v">${escapeHtml(String(s.mudBalance ?? 0))}</div></div>
           <div class="summary-card"><div class="k">已购装扮</div><div class="v">${escapeHtml(String(s.mudOwnedCount ?? 0))}</div></div>
-          <div class="summary-card"><div class="k">解锁作品</div><div class="v">${escapeHtml(String(s.unlockedCount ?? 0))}</div></div>
-          <div class="summary-card"><div class="k">玩家画师串</div><div class="v">${escapeHtml(String(data.artistCount ?? 0))}</div></div>
+          <div class="summary-card"><div class="k">已解锁作品</div><div class="v">${escapeHtml(String(s.unlockedCount ?? 0))}</div></div>
+          <div class="summary-card"><div class="k">个人隐藏</div><div class="v">${escapeHtml(String(blocks.length))}</div></div>
+          <div class="summary-card"><div class="k">主题</div><div class="v">${escapeHtml(s.themeLabel || "—")}</div></div>
         </div>
-        ${prefGroupsHtml(prefs, data.groups, data.meta)}
+      </div>
+
+      <div class="panel detail-block">
+        <h3>① 画泥（加钱 / 扣钱）</h3>
+        <div class="lazy-row">
+          <button type="button" class="primary" data-mud="+100">+100</button>
+          <button type="button" class="primary" data-mud="+500">+500</button>
+          <button type="button" class="primary" data-mud="+1000">+1000</button>
+          <button type="button" class="warn" data-mud="-100">-100</button>
+          <button type="button" class="danger" data-mud="0">余额清零</button>
+        </div>
+        <div class="lazy-row">
+          <input id="mud-custom" type="number" placeholder="自定义数量（正加负扣）" style="max-width:220px">
+          <button type="button" class="primary" id="mud-custom-go">执行</button>
+          <input id="mud-set" type="number" min="0" placeholder="直接设为…" style="max-width:160px" value="${escapeHtml(String(s.mudBalance ?? 0))}">
+          <button type="button" id="mud-set-go">设为该数</button>
+        </div>
+      </div>
+
+      <div class="panel detail-block">
+        <h3>② 装扮背包（删除 / 赠送）</h3>
+        <div class="chip-list">
+          ${owned.length ? owned.map((item) => `
+            <span class="chip">
+              ${escapeHtml(item.name)}
+              <button type="button" class="danger tiny" data-del-owned="${escapeHtml(item.id)}">删除</button>
+            </span>`).join("") : `<span class="meta">暂无已购装扮</span>`}
+        </div>
+        ${equip.length ? `<p class="meta">当前装备：${equip.map((e) => `${escapeHtml(e.slotLabel)}=${escapeHtml(e.name)}`).join(" · ")}</p>` : ""}
+        <div class="lazy-row">
+          <select id="grant-item">${catalogOpts}</select>
+          <button type="button" class="primary" id="grant-owned">赠送选中装扮</button>
+          <button type="button" class="warn" id="clear-owned">清空全部装扮</button>
+        </div>
+      </div>
+
+      <div class="panel detail-block">
+        <h3>③ 解锁状态（已解锁哪些）</h3>
+        <div class="chip-list">
+          ${unlocked.length ? unlocked.map((id) => `
+            <span class="chip mono">
+              ${escapeHtml(id)}
+              <button type="button" class="danger tiny" data-del-unlock="${escapeHtml(id)}">收回</button>
+            </span>`).join("") : `<span class="meta">尚未解锁任何需码作品</span>`}
+        </div>
+        <div class="lazy-row">
+          <input id="unlock-id" class="grow" placeholder="作品 ID，例如 fate_(series)">
+          <button type="button" class="primary" id="add-unlock">解锁该作品</button>
+          <button type="button" class="warn" id="clear-unlocks">清空全部解锁</button>
+        </div>
+        <div class="lazy-row flags">
+          <label><input type="checkbox" id="flag-locked" ${s.lockedOn ? "checked" : ""}> 允许看锁定作品列表</label>
+          <label><input type="checkbox" id="flag-hidden" ${s.hiddenOn ? "checked" : ""}> 开启隐藏区（tk18）</label>
+          <label><input type="checkbox" id="flag-adult" ${s.adultOn ? "checked" : ""}> 成人标签</label>
+          <button type="button" class="primary" id="save-flags">保存开关</button>
+        </div>
+      </div>
+
+      <div class="panel detail-block">
+        <h3>④ 高级限制（单独对该用户隐藏作品）</h3>
+        <p class="meta">被限制的作品对该用户列表中不显示，也无法打开使用。不影响其他玩家。</p>
+        <div class="chip-list">
+          ${blocks.length ? blocks.map((b) => `
+            <span class="chip">
+              <strong>${escapeHtml(b.targetId)}</strong>
+              ${b.note ? `<span class="meta">（${escapeHtml(b.note)}）</span>` : ""}
+              <button type="button" class="danger tiny" data-unblock="${escapeHtml(b.targetId)}">解除</button>
+            </span>`).join("") : `<span class="meta">当前无个人限制</span>`}
+        </div>
+        <div class="lazy-row">
+          <input id="block-id" class="grow" placeholder="作品 ID（隐藏）">
+          <input id="block-note" placeholder="备注（可选）" style="max-width:180px">
+          <button type="button" class="danger" id="add-block">对该用户隐藏</button>
+          <button type="button" class="warn" id="clear-blocks">清空其全部限制</button>
+        </div>
+      </div>
+
+      <div class="panel detail-block">
+        <h3>⑤ 其他</h3>
+        <p class="meta">更新日志已读：${escapeHtml(s.seenVersion || "—")} · 兑换码：${escapeHtml((s.codes || []).join(", ") || "无")} · 画师串 ${escapeHtml(String(data.artistCount ?? 0))} 条</p>
+        <div class="lazy-row">
+          <select id="set-theme">
+            <option value="hard" ${s.theme === "hard" ? "selected" : ""}>硬朗框</option>
+            <option value="ink" ${s.theme === "ink" ? "selected" : ""}>水墨像素</option>
+            <option value="hand" ${s.theme === "hand" ? "selected" : ""}>手绘本</option>
+          </select>
+          <button type="button" id="save-theme">改主题</button>
+          <button type="button" class="danger" id="user-wipe">清空该用户全部偏好</button>
+          <button type="button" class="warn" id="user-wipe-all">清空偏好+画师串</button>
+        </div>
       </div>`;
+
     $("user-back")?.addEventListener("click", () => { state.usersDetail = ""; render(); });
-    $("user-wipe")?.addEventListener("click", async () => {
-      if (!confirm(`清空 ${userId} 的全部偏好？`)) return;
-      await api("/api/admin/players", {
-        method: "POST",
-        body: JSON.stringify({ action: "wipe_user", userId }),
+
+    root.querySelectorAll("[data-mud]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const raw = btn.getAttribute("data-mud");
+        if (raw === "0") {
+          if (!confirm("确认把画泥清零？")) return;
+          await userAction(userId, "set_mud", { amount: 0 });
+        } else {
+          await userAction(userId, "add_mud", { amount: Number(raw) });
+        }
+        render();
       });
+    });
+    $("mud-custom-go")?.addEventListener("click", async () => {
+      const amount = Number($("mud-custom")?.value || 0);
+      if (!amount) return alert("请输入非 0 数量");
+      await userAction(userId, "add_mud", { amount });
+      render();
+    });
+    $("mud-set-go")?.addEventListener("click", async () => {
+      await userAction(userId, "set_mud", { amount: Number($("mud-set")?.value || 0) });
+      render();
+    });
+
+    root.querySelectorAll("[data-del-owned]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        if (!confirm("删除该装扮？")) return;
+        await userAction(userId, "remove_owned", { itemId: btn.getAttribute("data-del-owned") });
+        render();
+      });
+    });
+    $("grant-owned")?.addEventListener("click", async () => {
+      await userAction(userId, "grant_owned", { itemId: $("grant-item")?.value });
+      render();
+    });
+    $("clear-owned")?.addEventListener("click", async () => {
+      if (!confirm("清空全部装扮与装备？")) return;
+      await userAction(userId, "clear_owned");
+      render();
+    });
+
+    root.querySelectorAll("[data-del-unlock]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        await userAction(userId, "remove_unlock", { seriesId: btn.getAttribute("data-del-unlock") });
+        render();
+      });
+    });
+    $("add-unlock")?.addEventListener("click", async () => {
+      const seriesId = ($("unlock-id")?.value || "").trim();
+      if (!seriesId) return alert("请填写作品 ID");
+      await userAction(userId, "add_unlock", { seriesId });
+      render();
+    });
+    $("clear-unlocks")?.addEventListener("click", async () => {
+      if (!confirm("清空该用户全部解锁？")) return;
+      await userAction(userId, "clear_unlocks");
+      render();
+    });
+    $("save-flags")?.addEventListener("click", async () => {
+      await userAction(userId, "set_flag", { key: "show_locked_series", value: !!$("flag-locked")?.checked });
+      await userAction(userId, "set_flag", { key: "show_hidden_series", value: !!$("flag-hidden")?.checked });
+      await userAction(userId, "set_flag", { key: "show_adult_tags", value: !!$("flag-adult")?.checked });
+      alert("开关已保存");
+      render();
+    });
+
+    root.querySelectorAll("[data-unblock]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        await userAction(userId, "unblock_series", { seriesId: btn.getAttribute("data-unblock") });
+        render();
+      });
+    });
+    $("add-block")?.addEventListener("click", async () => {
+      const seriesId = ($("block-id")?.value || "").trim();
+      if (!seriesId) return alert("请填写要隐藏的作品 ID");
+      await userAction(userId, "block_series", {
+        seriesId,
+        note: ($("block-note")?.value || "").trim(),
+      });
+      render();
+    });
+    $("clear-blocks")?.addEventListener("click", async () => {
+      if (!confirm("清空该用户全部个人隐藏限制？")) return;
+      await userAction(userId, "clear_blocks");
+      render();
+    });
+
+    $("save-theme")?.addEventListener("click", async () => {
+      await userAction(userId, "set_flag", { key: "ui_theme", value: $("set-theme")?.value });
+      render();
+    });
+    $("user-wipe")?.addEventListener("click", async () => {
+      if (!confirm(`清空 ${name} 的全部偏好？`)) return;
+      await userAction(userId, "wipe_user");
       state.usersDetail = "";
       render();
     });
     $("user-wipe-all")?.addEventListener("click", async () => {
-      if (!confirm(`清空 ${userId} 的偏好 AND 玩家画师串？不可恢复`)) return;
-      await api("/api/admin/players", {
-        method: "POST",
-        body: JSON.stringify({ action: "wipe_user", userId, wipeArtists: true }),
-      });
+      if (!confirm(`清空 ${name} 的偏好和画师串？不可恢复`)) return;
+      await userAction(userId, "wipe_user", { wipeArtists: true });
       state.usersDetail = "";
       render();
-    });
-    root.querySelectorAll("[data-save-pref]").forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        const key = btn.getAttribute("data-save-pref");
-        const ta = Array.from(root.querySelectorAll("textarea[data-pref-key]"))
-          .find((el) => el.getAttribute("data-pref-key") === key);
-        await api("/api/admin/players", {
-          method: "POST",
-          body: JSON.stringify({ action: "set_pref", userId, key, value: ta?.value ?? "" }),
-        });
-        render();
-      });
-    });
-    root.querySelectorAll("[data-del-pref]").forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        const key = btn.getAttribute("data-del-pref");
-        if (!confirm(`删除字段 ${key}？`)) return;
-        await api(`/api/admin/players?userId=${encodeURIComponent(userId)}&key=${encodeURIComponent(key)}`, { method: "DELETE" });
-        render();
-      });
     });
   }
 
   async function renderEconomy(root) {
-    setTop("画泥经济", "按余额排序；可调整余额、已购、装备、兑换码痕迹。");
+    setTop("画泥经济", "按余额排序；点玩家名进入完整中文管理。");
     if (state.economyDetail) {
-      await renderEconomyDetail(root, state.economyDetail);
+      state.usersDetail = state.economyDetail;
+      state.economyDetail = "";
+      go("users");
       return;
     }
     const q = (state.economyQ || "").trim();
@@ -996,30 +1126,28 @@
       </div>
       <div class="panel">
         <div class="toolbar">
-          <input class="grow" id="eco-q" placeholder="搜 userId / 余额…" value="${escapeHtml(q)}">
+          <input class="grow" id="eco-q" placeholder="搜昵称 / 用户ID / 余额…" value="${escapeHtml(q)}">
           <button type="button" class="primary" id="eco-search">搜索</button>
           <button type="button" id="eco-refresh">刷新</button>
         </div>
         <div class="table-wrap">
           <table class="admin">
             <thead>
-              <tr><th>用户</th><th>余额</th><th>已购</th><th>兑换码数</th><th>今日领泥</th><th>更新</th><th></th></tr>
+              <tr><th>玩家</th><th>余额</th><th>已购</th><th>兑换码</th><th>更新</th><th></th></tr>
             </thead>
             <tbody>
-              ${rows.length ? rows.map((row) => {
-                const day = row.drawDay && typeof row.drawDay === "object"
-                  ? `${row.drawDay.day || "—"} / ${row.drawDay.earned ?? 0}`
-                  : "—";
-                return `<tr>
-                  <td class="mono">${escapeHtml(row.userId)}</td>
+              ${rows.length ? rows.map((row) => `
+                <tr>
+                  <td>
+                    <strong>${escapeHtml(row.displayName || "未留名")}</strong>
+                    <div class="meta mono">${escapeHtml(row.userId)}</div>
+                  </td>
                   <td><strong>${escapeHtml(String(row.mudBalance ?? 0))}</strong></td>
                   <td>${escapeHtml(String(row.mudOwnedCount ?? 0))}</td>
                   <td>${escapeHtml(String(row.codesCount ?? 0))}</td>
-                  <td class="meta">${escapeHtml(day)}</td>
                   <td class="meta">${escapeHtml(formatTime(row.updatedAt))}</td>
-                  <td><button type="button" class="primary" data-eco-user="${escapeHtml(row.userId)}">调整</button></td>
-                </tr>`;
-              }).join("") : `<tr><td colspan="7">暂无经济记录</td></tr>`}
+                  <td><button type="button" class="primary" data-eco-user="${escapeHtml(row.userId)}">管理</button></td>
+                </tr>`).join("") : `<tr><td colspan="6">暂无经济记录</td></tr>`}
             </tbody>
           </table>
         </div>
@@ -1046,92 +1174,18 @@
     $("eco-next")?.addEventListener("click", () => { state.economyPage += 1; render(); });
     root.querySelectorAll("[data-eco-user]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        state.economyDetail = btn.getAttribute("data-eco-user") || "";
-        render();
+        state.usersDetail = btn.getAttribute("data-eco-user") || "";
+        go("users");
       });
     });
   }
 
-  async function renderEconomyDetail(root, userId) {
-    setTop("经济调整", userId);
-    const data = await api(`/api/admin/players?userId=${encodeURIComponent(userId)}`);
-    const prefs = data.prefs || {};
-    const bal = prefs.mud_balance?.value || "0";
-    const owned = prefs.mud_owned?.value || "[]";
-    const equip = prefs.mud_equip?.value || "{}";
-    const codes = prefs.mud_codes?.value || "";
-    const draw = prefs.mud_draw_day?.value || "{}";
-    const ach = prefs.mud_ach_show?.value || "{}";
-    root.innerHTML = `
-      <div class="panel">
-        <div class="toolbar">
-          <button type="button" id="eco-back">← 返回经济榜</button>
-          <button type="button" data-go-user="${escapeHtml(userId)}">打开完整用户档案</button>
-        </div>
-        <div class="form-grid">
-          <label>画泥余额
-            <input id="eco-bal" type="number" min="0" step="1" value="${escapeHtml(bal)}">
-          </label>
-          <label>已购装扮 JSON 数组
-            <textarea id="eco-owned" class="mono" rows="4">${escapeHtml(owned)}</textarea>
-          </label>
-          <label>当前装备 JSON
-            <textarea id="eco-equip" class="mono" rows="4">${escapeHtml(equip)}</textarea>
-          </label>
-          <label>已用兑换码（逗号分隔）
-            <textarea id="eco-codes" class="mono" rows="2">${escapeHtml(codes)}</textarea>
-          </label>
-          <label>每日领泥 JSON
-            <textarea id="eco-draw" class="mono" rows="2">${escapeHtml(draw)}</textarea>
-          </label>
-          <label>成就展示 JSON
-            <textarea id="eco-ach" class="mono" rows="2">${escapeHtml(ach)}</textarea>
-          </label>
-        </div>
-        <div class="toolbar">
-          <button type="button" class="primary" id="eco-save">保存经济数据</button>
-          <button type="button" class="warn" id="eco-zero">余额清零</button>
-        </div>
-      </div>`;
-    $("eco-back")?.addEventListener("click", () => { state.economyDetail = ""; render(); });
-    root.querySelector("[data-go-user]")?.addEventListener("click", () => {
-      state.economyDetail = "";
-      state.usersDetail = userId;
-      go("users");
-    });
-    $("eco-zero")?.addEventListener("click", () => { if ($("eco-bal")) $("eco-bal").value = "0"; });
-    $("eco-save")?.addEventListener("click", async () => {
-      let mudOwned = $("eco-owned")?.value || "[]";
-      let mudEquip = $("eco-equip")?.value || "{}";
-      let mudDrawDay = $("eco-draw")?.value || "{}";
-      try { mudOwned = JSON.parse(mudOwned); } catch (_) { alert("已购 JSON 无效"); return; }
-      try { mudEquip = JSON.parse(mudEquip); } catch (_) { alert("装备 JSON 无效"); return; }
-      try { mudDrawDay = JSON.parse(mudDrawDay); } catch (_) { alert("每日领泥 JSON 无效"); return; }
-      await api("/api/admin/players", {
-        method: "POST",
-        body: JSON.stringify({
-          action: "set_economy",
-          userId,
-          mudBalance: Number($("eco-bal")?.value || 0),
-          mudOwned,
-          mudEquip,
-          mudCodes: $("eco-codes")?.value || "",
-          mudDrawDay,
-        }),
-      });
-      await api("/api/admin/players", {
-        method: "POST",
-        body: JSON.stringify({
-          action: "set_pref",
-          userId,
-          key: "mud_ach_show",
-          value: $("eco-ach")?.value || "{}",
-        }),
-      });
-      alert("已保存");
-      render();
-    });
+  async function renderEconomyDetail() {
+    /* 已并入用户管理详情 */
   }
+
+  /* legacy stub kept for safety */
+  function prefGroupsHtml() { return ""; }
 
   async function renderReads(root) {
     setTop("已读状态", "更新日志 / 公告 / 留言已读；可按类型筛选并删除异常记录。");
