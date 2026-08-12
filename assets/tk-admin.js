@@ -955,10 +955,11 @@
             </span>`).join("") : `<span class="meta">尚未解锁任何需码作品</span>`}
         </div>
         <div class="lazy-row">
-          <input id="unlock-id" class="grow" placeholder="作品 ID，例如 fate_(series)">
+          <input id="unlock-id" class="grow" placeholder="作品 ID（与角色库一致，如 fate_(series)）">
           <button type="button" class="primary" id="add-unlock">解锁该作品</button>
           <button type="button" class="warn" id="clear-unlocks">清空全部解锁</button>
         </div>
+        <p class="meta">后台改解锁/画泥/装扮后，玩家需重新打开游戏才会同步。作品 ID 可在「角色库」复制。</p>
         <div class="lazy-row flags">
           <label><input type="checkbox" id="flag-locked" ${s.lockedOn ? "checked" : ""}> 允许看锁定作品列表</label>
           <label><input type="checkbox" id="flag-hidden" ${s.hiddenOn ? "checked" : ""}> 开启隐藏区（tk18）</label>
