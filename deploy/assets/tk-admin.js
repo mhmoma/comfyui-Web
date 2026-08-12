@@ -760,7 +760,7 @@
   }
 
   async function renderPrefs(root) {
-    setTop("玩家偏好", "seen_version / mud_codes；可按 UID 删除，防止异常占用。");
+    setTop("玩家偏好", "已读/主题/解锁/收藏/画泥等；可按 UID 删除。");
     const q = ($("prefs-q")?.value || state.prefsQ || "").trim();
     state.prefsQ = q;
     const data = await api(`/api/prefs?view=admin&page=${state.prefsPage}&q=${encodeURIComponent(q)}`);
