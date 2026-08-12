@@ -786,6 +786,172 @@
         dom.txtPositive.addEventListener('input', () => InsertedCharacters.pruneMissing());
     }
 
+    // ==================== 随机画师串（对齐 TK 绘画工具） ====================
+    let _randomArtistBusy = false;
+    let _lastRandomArtists = []; // 干净画师名（无 @ / by）
+    let _lastRandomTokens = [];  // 实际写入提示词的 token
+
+    function _cleanArtistName(name) {
+        return String(name || '').replace(/^@/, '').replace(/^by\s+/i, '').trim();
+    }
+
+    function _formatRandomArtistToken(rawName) {
+        const clean = _cleanArtistName(rawName);
+        if (!clean) return '';
+        if (isAnimaMode()) return formatAnimaArtistTag(clean);
+        // SDXL：尽量保留库里的 trigger 形态（下划线）
+        return clean.replace(/\s+/g, '_');
+    }
+
+    function _isArtistStylePart(part) {
+        const p = _promptPartName(part).trim();
+        if (/^@/.test(p) || /^by\s+/i.test(p)) return true;
+        const key = _cleanArtistName(p).toLowerCase().replace(/\s+/g, '_');
+        return _lastRandomTokens.some((t) => {
+            const ct = _cleanArtistName(_promptPartName(t)).toLowerCase().replace(/\s+/g, '_');
+            return ct && ct === key;
+        });
+    }
+
+    function _setLeadingArtists(names) {
+        const cleanNames = (Array.isArray(names) ? names : [])
+            .map((n) => _cleanArtistName(n))
+            .filter(Boolean);
+        if (!cleanNames.length || !dom.txtPositive) return [];
+        const tokens = cleanNames.map(_formatRandomArtistToken).filter(Boolean);
+        const rows = _parsePromptParts(dom.txtPositive.value);
+        let i = 0;
+        while (i < rows.length && _isArtistStylePart(rows[i])) i += 1;
+        const rest = rows.slice(i);
+        dom.txtPositive.value = tokens.concat(rest).join(', ');
+        dom.txtPositive.dispatchEvent(new Event('input', { bubbles: true }));
+        _lastRandomArtists = cleanNames.slice();
+        _lastRandomTokens = tokens.slice();
+        return tokens;
+    }
+
+    function _getLeadingArtistNamesFromPrompt() {
+        if (!dom.txtPositive) return [];
+        const rows = _parsePromptParts(dom.txtPositive.value);
+        const names = [];
+        for (const part of rows) {
+            if (!_isArtistStylePart(part)) break;
+            const name = _cleanArtistName(_promptPartName(part));
+            if (name) names.push(name);
+        }
+        return names;
+    }
+
+    function _resolveStyleArtists() {
+        if (_lastRandomArtists.length) return _lastRandomArtists.slice();
+        return _getLeadingArtistNamesFromPrompt();
+    }
+
+    function _updateFavoriteStyleBtn() {
+        const btn = document.getElementById('btn-favorite-style');
+        if (!btn) return;
+        const artists = _resolveStyleArtists();
+        btn.disabled = artists.length === 0;
+        btn.title = artists.length
+            ? `把当前 ${artists.length} 个画师串加入「画师 → 画师串」`
+            : '请先随机画师串，或在正向开头保留画师串';
+    }
+
+    async function randomArtistMix() {
+        if (_randomArtistBusy) return;
+        const countSel = document.getElementById('random-artist-count');
+        const count = Math.min(5, Math.max(2, Math.floor(Number(countSel?.value) || 3)));
+        const btn = document.getElementById('btn-random-artists');
+        _randomArtistBusy = true;
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = '抽取中…';
+        }
+        try {
+            const first = await _fetchArtists('score', 'desc', 1, 'all');
+            const pages = Math.max(1, Number(first?.pages) || 1);
+            const page = 1 + Math.floor(Math.random() * pages);
+            const data = page === 1 ? first : await _fetchArtists('score', 'desc', page, 'all');
+            const pool = (data?.tags || [])
+                .map((row) => String(row?.t || row?.d || '').trim())
+                .filter(Boolean);
+            if (pool.length < 2) throw new Error('画师库不足，请稍后重试');
+            const n = Math.min(count, pool.length);
+            const bag = pool.slice();
+            const picked = [];
+            for (let i = 0; i < n; i += 1) {
+                const idx = Math.floor(Math.random() * bag.length);
+                picked.push(bag.splice(idx, 1)[0]);
+            }
+            const clean = picked.map(_cleanArtistName).filter(Boolean);
+            _setLeadingArtists(clean);
+            _updateFavoriteStyleBtn();
+            showToast(`已随机填入 ${clean.length} 个画师`);
+        } catch (err) {
+            showToast(err?.message || '随机画师串失败');
+        } finally {
+            _randomArtistBusy = false;
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = '🎲 随机画师串';
+            }
+        }
+    }
+
+    async function favoriteCurrentStyle() {
+        const artists = _resolveStyleArtists();
+        if (!artists.length) {
+            showToast('请先随机画师串，或在正向开头保留画师串');
+            _updateFavoriteStyleBtn();
+            return;
+        }
+        const btn = document.getElementById('btn-favorite-style');
+        if (btn) btn.disabled = true;
+        try {
+            const prompt = artists.map(_formatRandomArtistToken).filter(Boolean).join(', ');
+            await ArtistChainManager.add({
+                name: `随机风格 · ${artists.length}画师`,
+                prompt: artists.join(', '),
+                imageData: '',
+            });
+            // 若当前在画师串分类，刷新网格
+            if (posTagPicker && _isArtistChainsMode(posTagPicker)) {
+                posTagPicker.renderGrid?.();
+            }
+            showToast('已加入画师 → 画师串');
+        } catch (err) {
+            showToast(err?.message || '收藏失败');
+        } finally {
+            _updateFavoriteStyleBtn();
+        }
+    }
+
+    function setupRandomArtists() {
+        document.getElementById('btn-random-artists')?.addEventListener('click', () => {
+            randomArtistMix();
+        });
+        document.getElementById('btn-favorite-style')?.addEventListener('click', () => {
+            favoriteCurrentStyle();
+        });
+        document.getElementById('random-artist-count')?.addEventListener('change', (e) => {
+            try { localStorage.setItem('comfyui_random_artist_count', e.target.value); } catch { /* ignore */ }
+        });
+        const savedCount = localStorage.getItem('comfyui_random_artist_count');
+        const countSel = document.getElementById('random-artist-count');
+        if (countSel && savedCount && ['2', '3', '4', '5'].includes(savedCount)) {
+            countSel.value = savedCount;
+        }
+        dom.txtPositive?.addEventListener('input', () => _updateFavoriteStyleBtn());
+        // 架构切换时若已有随机串，按新格式重写头部
+        dom.selArch?.addEventListener('change', () => {
+            if (_lastRandomArtists.length) {
+                _setLeadingArtists(_lastRandomArtists);
+            }
+            _updateFavoriteStyleBtn();
+        });
+        _updateFavoriteStyleBtn();
+    }
+
     function _bindLoraRowEvents(row) {
         const sel = row.querySelector('.lora-select');
         const removeBtn = row.querySelector('.lora-remove');
@@ -9560,7 +9726,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.05');
+        console.log('[ComfyUI Web] v5.06');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -14308,6 +14474,7 @@
     setupUiSkin();
     setupTheme();
     setupInsertedCharacters();
+    setupRandomArtists();
     setupToggles();
     setupControlnetSpeedupGuard();
     setupArchSwitch();

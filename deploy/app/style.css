@@ -795,6 +795,29 @@ textarea {
     font-size: 0.72rem;
 }
 
+.random-artist-count {
+    height: 26px;
+    min-width: 42px;
+    padding: 2px 4px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-panel);
+    color: var(--text-primary);
+    font-size: 0.72rem;
+    cursor: pointer;
+}
+
+#btn-favorite-style:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+[data-ui="v2"] .random-artist-count {
+    border-radius: 3px;
+    background: #fff;
+    border-color: var(--border);
+}
+
 [data-ui="v2"] .inserted-char-chip {
     border-radius: 3px;
     background: #fff;
