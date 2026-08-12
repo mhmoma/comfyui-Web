@@ -820,8 +820,13 @@ a:hover { color: var(--accent); }
     margin-bottom: 12px;
     color: var(--accent-purple);
 }
-.guide-section p, .guide-section li { color: var(--text-secondary); }
-.guide-section ul { margin: 8px 0 0 20px; }
+.guide-section h3 {
+    font-size: 1rem;
+    margin: 18px 0 8px;
+    color: var(--text-primary);
+}
+.guide-section p, .guide-section li { color: var(--text-secondary); line-height: 1.65; }
+.guide-section ul, .guide-section ol { margin: 8px 0 0 20px; }
 .guide-section code, .guide-section pre {
     background: var(--bg-secondary);
     border-radius: 4px;
@@ -831,6 +836,58 @@ a:hover { color: var(--accent); }
     margin: 10px 0;
     overflow-x: auto;
     border: 1px solid var(--border);
+}
+.guide-toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 24px;
+}
+.guide-toc a {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--text-primary);
+    background: var(--bg-card);
+}
+.guide-toc a:hover { border-color: var(--accent-purple); }
+.guide-callout {
+    margin: 12px 0;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-left: 4px solid var(--accent-purple);
+    border-radius: 4px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+.guide-callout strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+}
+.guide-where {
+    margin: 10px 0 14px;
+    padding: 10px 12px;
+    border: 1.5px dashed var(--accent-purple);
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--accent-purple) 8%, #fff);
+    color: var(--text-primary) !important;
+    font-size: 0.92rem;
+}
+.guide-map {
+    list-style: none;
+    margin: 12px 0 0 !important;
+    padding: 0 !important;
+}
+.guide-map li {
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-secondary);
 }
 
 /* ── 页脚 ── */
@@ -1403,7 +1460,29 @@ body.page-site .guide-section h2 {
     color: var(--home-ink);
     font-weight: 800;
 }
+body.page-site .guide-section h3 {
+    color: var(--home-ink);
+    font-weight: 700;
+}
 body.page-site .guide-section a { font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+body.page-site .guide-toc a {
+    border-color: var(--home-ink);
+    box-shadow: var(--home-shadow-sm);
+    font-weight: 600;
+}
+body.page-site .guide-callout {
+    border-color: var(--home-ink);
+    border-left-color: var(--home-accent, #e94560);
+    background: var(--home-soft);
+}
+body.page-site .guide-where {
+    border-color: var(--home-ink);
+    background: #fff8f0;
+}
+body.page-site .guide-map li {
+    border-color: var(--home-ink);
+    background: #fff;
+}
 body.page-site .guide-section code,
 body.page-site .guide-section pre {
     background: var(--home-soft);

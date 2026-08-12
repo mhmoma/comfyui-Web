@@ -1801,19 +1801,70 @@ textarea {
 }
 
 .tutorial-content {
-    max-width: 680px;
+    max-width: 720px;
     max-height: 85vh;
     overflow-y: auto;
 }
 
+.tutorial-content > h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.tutorial-ver {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    opacity: 0.9;
+}
+
+.tutorial-lead {
+    font-size: 0.9rem !important;
+    color: var(--text-primary) !important;
+    margin: 0 0 10px !important;
+}
+
+.tutorial-toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    margin: 0 0 14px;
+    padding: 10px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.tutorial-toc a {
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 3px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-secondary);
+}
+
+.tutorial-toc a:hover {
+    border-color: var(--accent);
+}
+
 .tutorial-body h3 {
     color: var(--accent);
-    margin: 18px 0 8px;
+    margin: 20px 0 8px;
     font-size: 1rem;
 }
 
-.tutorial-body h3:first-child {
-    margin-top: 0;
+.tutorial-body h3:first-of-type {
+    margin-top: 4px;
+}
+
+.tutorial-body h4 {
+    margin: 12px 0 6px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
 }
 
 .tutorial-body p,
@@ -1822,7 +1873,7 @@ textarea {
     font-size: 0.88rem;
     color: var(--text-secondary);
     margin: 6px 0;
-    line-height: 1.6;
+    line-height: 1.65;
 }
 
 .tutorial-body ul,
@@ -1833,7 +1884,7 @@ textarea {
 .tutorial-body code {
     background: var(--bg-tertiary);
     padding: 2px 6px;
-    border-radius: 4px;
+    border-radius: 3px;
     font-size: 0.82rem;
     color: var(--accent);
 }
@@ -1841,12 +1892,73 @@ textarea {
 .tutorial-body pre {
     background: var(--bg-tertiary);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 4px;
     padding: 10px 14px;
     font-size: 0.82rem;
     overflow-x: auto;
     margin: 8px 0;
     color: var(--text-primary);
+}
+
+.tutorial-callout {
+    margin: 10px 0;
+    padding: 10px 12px;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+}
+
+.tutorial-callout strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.tutorial-where {
+    margin: 8px 0 12px !important;
+    padding: 8px 10px;
+    font-size: 0.82rem !important;
+    color: var(--text-primary) !important;
+    background: color-mix(in srgb, var(--accent) 12%, var(--bg-secondary));
+    border: 1px dashed var(--accent);
+    border-radius: 4px;
+}
+
+.tutorial-map {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 10px 0 12px;
+}
+
+.tutorial-map-item {
+    display: grid;
+    grid-template-columns: minmax(120px, 38%) 1fr;
+    gap: 8px 12px;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+
+.tutorial-map-item b {
+    color: var(--text-primary);
+}
+
+.tutorial-map-item span {
+    color: var(--text-secondary);
+}
+
+@media (max-width: 560px) {
+    .tutorial-map-item {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
 }
 
 

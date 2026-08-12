@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v5.00</title>
-    <link rel="stylesheet" href="style.css?v=472">
+    <title>生图工具 · ComfyUI Web v5.01</title>
+    <link rel="stylesheet" href="style.css?v=473">
     <meta name="theme-color" content="#e94560">
     <script>
     (function () {
@@ -27,7 +27,7 @@
     <div class="app">
         <header class="header">
             <a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v5.00</span></h1>
+            <h1>ComfyUI Web <span id="app-version" class="version-badge">v5.01</span></h1>
             <nav class="header-tools" aria-label="工具栏">
                 <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
                     <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
@@ -1238,30 +1238,142 @@
     <!-- 教程弹窗 -->
     <div id="modal-tutorial" class="modal hidden">
         <div class="modal-content tutorial-content">
-            <h2>使用教程</h2>
+            <h2>使用教程 <small class="tutorial-ver">适配 v5.01</small></h2>
             <div class="tutorial-body">
-                <h3>1. 启动 ComfyUI</h3>
-                <p>启动时需要加 <code>--enable-cors-header</code> 参数以允许网页跨域访问：</p>
-                <pre>python main.py --enable-cors-header</pre>
-                <p>如果使用 bat 启动脚本，找到启动文件在 <code>python main.py</code> 后加上该参数。</p>
-                <p>若需局域网其他设备访问，同时加 <code>--listen</code>：</p>
-                <pre>python main.py --enable-cors-header --listen 0.0.0.0</pre>
+                <p class="tutorial-lead">本教程面向完全新手。目标：用<strong>秋叶启动器</strong>或<strong>Boat / .bat 启动</strong>打开 ComfyUI，再在本站填好参数并出第一张图。</p>
 
-                <h3>2. 设置服务器地址</h3>
-                <p>点击右上角 ⚙️ 按钮，填入 ComfyUI 地址：</p>
+                <nav class="tutorial-toc" aria-label="教程目录">
+                    <a href="#tut-start">① 启动</a>
+                    <a href="#tut-connect">② 连接</a>
+                    <a href="#tut-map">③ 界面地图</a>
+                    <a href="#tut-arch">④ 架构用法</a>
+                    <a href="#tut-first">⑤ 第一次出图</a>
+                    <a href="#tut-dl">⑥ 模型下载</a>
+                    <a href="#tut-extra">⑦ 进阶 / 云端</a>
+                    <a href="#tut-faq">⑧ 常见问题</a>
+                </nav>
+
+                <h3 id="tut-start">1. 启动 ComfyUI（必加跨域参数）</h3>
+                <div class="tutorial-callout">
+                    <strong>为什么必须加参数？</strong>
+                    本站网页和 ComfyUI 不是同一个「网站」。不加 <code>--enable-cors-header</code>，浏览器会拦截请求，右上角会一直显示「未连接」。
+                </div>
+                <p>推荐额外加上 <code>--preview-method auto</code>（生成过程能看预览帧）。手机要连电脑时再加 <code>--listen</code>。</p>
+
+                <h4>A. 秋叶启动器</h4>
+                <ol>
+                    <li>打开<strong>秋叶启动器</strong>（不要只双击 ComfyUI 官方界面）。</li>
+                    <li>点左侧 <b>高级选项</b>（有的版本叫「高级设置」）。</li>
+                    <li>找到下方 <b>自定义参数</b> / <b>额外启动参数</b> 输入框。</li>
+                    <li>原样粘贴（不要多复制空格）：</li>
+                </ol>
+                <pre>--enable-cors-header --preview-method auto</pre>
+                <p>手机也要用时改成：</p>
+                <pre>--enable-cors-header --preview-method auto --listen</pre>
+                <ol start="5">
+                    <li>保存后点 <b>一键启动 / 启动</b>。等黑窗口跑完、浏览器弹出 ComfyUI 或显示已就绪。</li>
+                </ol>
+                <p class="tutorial-where">填写位置：秋叶启动器 → <b>高级选项</b> → <b>自定义参数</b> 文本框（不是本站设置页）。</p>
+
+                <h4>B. Boat 启动器 / .bat 启动</h4>
+                <p>若你用的是 <b>Boat</b> 等带界面的启动器：找「启动参数」「额外参数」「Command line」一类输入框，粘贴与上面相同的参数，再启动。</p>
+                <p>若是双击 <code>.bat</code> / <code>.cmd</code> 启动：</p>
+                <ol>
+                    <li>右键 bat → 用记事本打开。</li>
+                    <li>找到含 <code>main.py</code> 或 <code>python</code> / <code>ComfyUI</code> 的那一行。</li>
+                    <li>在行末追加参数（前面留一个空格），保存后重新双击启动。</li>
+                </ol>
+                <pre>python main.py --enable-cors-header --preview-method auto</pre>
+                <p>局域网示例：</p>
+                <pre>python main.py --enable-cors-header --preview-method auto --listen 0.0.0.0</pre>
+                <p class="tutorial-where">模型文件夹一般在启动器目录下的 <code>ComfyUI/models/</code>（有的整合包叫 <code>ComfyUI_windows_portable/ComfyUI/models/</code>）。</p>
+
+                <h4>C. 纯命令行</h4>
+                <pre>python main.py --enable-cors-header --preview-method auto</pre>
+
+                <h3 id="tut-connect">2. 打开本站并连上 ComfyUI</h3>
+                <ol>
+                    <li>浏览器打开本站 <b>生图工具</b>（当前页就是）。</li>
+                    <li>点右上角 <b>⚙️ 设置</b>。</li>
+                    <li>在「ComfyUI 地址」填：</li>
+                </ol>
                 <ul>
-                    <li>本机：<code>http://127.0.0.1:8188</code></li>
-                    <li>局域网：<code>http://你电脑的IP:8188</code></li>
+                    <li>本机：<code>http://127.0.0.1:8188</code>（多数人用这个）</li>
+                    <li>手机连电脑：<code>http://电脑局域网IP:8188</code>（电脑需用 <code>--listen</code> 启动）</li>
                 </ul>
-
-                <h3>3. 选择模型架构</h3>
-                <p>左侧面板顶部选择模型架构：</p>
+                <p>看顶栏左侧连接灯：</p>
                 <ul>
-                    <li><b>SDXL (Checkpoint)</b> — 传统 SDXL 单文件大模型</li>
-                    <li><b>Anima (Diffusion Model)</b> — 新架构，扩散模型 + 文本编码器 + VAE 分开加载</li>
+                    <li><b>绿</b> = 已连接，可以生图</li>
+                    <li><b>红 / 未连接</b> = 先确认 ComfyUI 已启动，且启动参数里有 <code>--enable-cors-header</code></li>
                 </ul>
+                <p class="tutorial-where">填写位置：本站顶栏 → <b>⚙️</b> → ComfyUI 地址。可用顶栏 <b>官方</b> 按钮打开原生 ComfyUI 页面核对是否已启动。</p>
 
-                <h3>4. 模型资源下载</h3>
+                <h3 id="tut-map">3. 界面地图：参数分别填在哪</h3>
+                <p>默认用左侧 <b>简易模式</b>（新手请用这个；「工作流模式」给会拖节点的人；「在线生图」走云端 NAI，不需本地 ComfyUI）。</p>
+                <div class="tutorial-map">
+                    <div class="tutorial-map-item"><b>左侧 · 基础设置</b><span>架构、模型、采样器/步数/CFG、宽高、种子</span></div>
+                    <div class="tutorial-map-item"><b>左侧 · 增强功能</b><span>VAE、LoRA、高清放大、FreeU（部分仅 SDXL）</span></div>
+                    <div class="tutorial-map-item"><b>左侧 · 图像控制</b><span>ControlNet、IP-Adapter、图生图（多仅 SDXL）</span></div>
+                    <div class="tutorial-map-item"><b>左侧 · 后处理</b><span>面部修复等生成后再跑的步骤</span></div>
+                    <div class="tutorial-map-item"><b>中间 · 提示词区</b><span>正向 / 反向提示词；可点标签、角色插入</span></div>
+                    <div class="tutorial-map-item"><b>下方 / 右侧</b><span>生成按钮、结果预览、历史记录</span></div>
+                </div>
+                <p>手机端：底部 Tab 切换「创作 / 角色 / 标签 / 设置 / 历史」；参数多在「设置」或创作页折叠组里。</p>
+
+                <h3 id="tut-arch">4. 两种模型架构（必读）</h3>
+                <p class="tutorial-where">切换位置：左侧 → 点开 <b>基础设置</b> → 第一项 <b>模型架构</b> 下拉框。</p>
+                <p>架构决定「模型怎么加载」和「哪些功能可用」。SDXL 与 Anima 的参数会分开记住，互不串。</p>
+
+                <h4>4.1 SDXL（Checkpoint）— 一个大模型文件</h4>
+                <ol>
+                    <li>架构选 <b>SDXL (Checkpoint)</b>。</li>
+                    <li>在 <b>Checkpoint</b> 下拉框选你的 <code>.safetensors</code>（文件需在 <code>models/checkpoints/</code>）。</li>
+                    <li>可选：左侧 <b>增强功能 → VAE 选择</b> 打开开关，另选 VAE（改善发色等）。</li>
+                </ol>
+                <p><b>适合：</b>写实、通用二次元大模型、要姿势/线稿控制、风格参考图。</p>
+                <p><b>推荐起步参数（可先别改）：</b></p>
+                <ul>
+                    <li>采样器 <code>euler</code> · 调度器 <code>normal</code></li>
+                    <li>步数 <code>30</code> · CFG <code>6</code> · Clip Skip <code>2</code></li>
+                    <li>尺寸常见 <code>1024×1536</code>（竖图）或 <code>1024×1024</code></li>
+                </ul>
+                <p><b>SDXL 可用的增强：</b>加速模式、外部 VAE、FreeU、ControlNet、IP-Adapter、图生图、LoRA、高清放大、面部修复等。</p>
+
+                <h4>4.2 Anima（Diffusion Model）— 三个文件一起选</h4>
+                <ol>
+                    <li>架构选 <b>Anima (Diffusion Model)</b>。</li>
+                    <li>会出现三个下拉框，必须都选对：</li>
+                </ol>
+                <ul>
+                    <li><b>扩散模型</b> → 文件在 <code>models/diffusion_models/</code>（如 Anima / Krea）</li>
+                    <li><b>文本编码器</b> → <code>models/text_encoders/</code></li>
+                    <li><b>VAE</b> → <code>models/vae/</code></li>
+                </ul>
+                <div class="tutorial-callout">
+                    <strong>小白口诀：</strong>Anima = 「画图脑子 + 读词器 + 解码器」三件套。少选一个都出不了图或报错。换扩散模型时，文本编码器和 VAE 常可共用同一套。
+                </div>
+                <p><b>适合：</b>二次元插画、概念图；本站局部重绘也按 Anima 工作流设计。</p>
+                <p><b>推荐起步参数（切换架构后会自动带一套默认）：</b></p>
+                <ul>
+                    <li>采样器 <code>euler</code> · 调度器 <code>simple</code></li>
+                    <li>步数 <code>30</code> · CFG <code>4</code> · Clip Skip <code>1</code></li>
+                    <li>尺寸默认约 <code>832×1216</code></li>
+                </ul>
+                <p><b>Anima 下会自动关掉/不可用：</b>ControlNet、IP-Adapter、FreeU、加速模式、SDXL 外部 VAE 开关。仍可用：LoRA、高清放大、图生图、面部修复、局部重绘等。</p>
+                <p>Krea 2 也走 Anima 架构：Turbo 快、Raw 更细；VAE 可与 Anima 共用（详见下方下载区）。</p>
+
+                <h3 id="tut-first">5. 第一次出图（照着点）</h3>
+                <ol>
+                    <li>确认顶栏连接为绿色。</li>
+                    <li>左侧选好架构，并选好模型（SDXL 一个 / Anima 三个）。</li>
+                    <li>中间 <b>正向提示词</b> 写想画的内容（英文标签更好；也可点「选角色」「选标签」插入）。</li>
+                    <li>可选填 <b>反向提示词</b>（不想要的东西）。</li>
+                    <li>看一眼 <b>基础设置</b> 里的步数 / CFG / 宽高；种子 <code>-1</code> = 每次随机。</li>
+                    <li>点 <b>生成图片</b>（手机端多为悬浮球）。等右侧/下方出图。</li>
+                </ol>
+                <p class="tutorial-where">提示词位置：主界面中间大输入框，不是左侧采样参数区。</p>
+
+                <h3 id="tut-dl">6. 模型资源下载</h3>
                 <p class="tutorial-dl-hint">点击 <b>📥 下载</b>：已连 ComfyUI 且装了 Manager 时自动装到对应文件夹；否则浏览器直接下载，再手动放入 <code>ComfyUI/models/</code> 下对应目录。</p>
 
                 <div class="tutorial-resource">
@@ -1377,28 +1489,35 @@
                     </div>
                 </div>
 
-                <h3>5. 生成图片</h3>
+                <h3 id="tut-extra">7. 进阶功能放哪、怎么开</h3>
+                <ul>
+                    <li><b>LoRA</b>：左侧 <b>增强功能</b> → 打开 LoRA 开关 → 浏览库或添加。文件放 <code>models/loras/</code>。</li>
+                    <li><b>高清放大</b>：增强功能 → 高清放大开关（生成后二次放大）。</li>
+                    <li><b>ControlNet / IP-Adapter</b>：仅 SDXL。左侧 <b>图像控制</b> 打开对应开关，上传控制图/参考图。</li>
+                    <li><b>图生图</b>：图像控制 → 参考图，调重绘强度。</li>
+                    <li><b>局部重绘</b>：出图后从结果/历史进入；需装 Anima LLLite 等节点（见站点教程页）。</li>
+                    <li><b>抠图 / 图层合成</b>：顶栏 ✂️ / 🧩，纯前端工具，不依赖架构。</li>
+                    <li><b>配置方案</b>：顶栏下拉或 ⚙️ 里保存多套参数；SDXL / Anima 分开存。</li>
+                </ul>
+
+                <h3>8. 不想装本地？用「在线生图」</h3>
                 <ol>
-                    <li>输入正向提示词（可使用标签选择器）</li>
-                    <li>可选填反向提示词排除不想要的元素</li>
-                    <li>调整采样参数、图片尺寸</li>
-                    <li>点击"生成图片"开始</li>
+                    <li>左侧模式切到 <b>在线生图</b>。</li>
+                    <li>在设置里按说明配置 NAI API Key。</li>
+                    <li>参数都在左侧「模型与基础参数 / 采样参数」等分组；提示词仍在中间。</li>
                 </ol>
+                <p>此模式不经过你的 ComfyUI，也无需 CORS。</p>
 
-                <h3>6. 可选功能</h3>
+                <h3 id="tut-faq">9. 常见问题</h3>
                 <ul>
-                    <li><b>LoRA</b> — 加载风格微调模型</li>
-                    <li><b>高清放大</b> — 生成后自动放大</li>
-                    <li><b>ControlNet</b> — 线稿/深度/姿态控制</li>
-                    <li><b>参考图 (img2img)</b> — 基于参考图重绘</li>
+                    <li><b>一直未连接</b>：先确认启动参数含 <code>--enable-cors-header</code>，再确认地址是 <code>http://127.0.0.1:8188</code>，最后重启 ComfyUI 并刷新本页。</li>
+                    <li><b>下拉框是空的</b>：模型没放到对应文件夹，或放完后没刷新/重启 ComfyUI。</li>
+                    <li><b>Anima 报错缺模型</b>：三个下拉框是否都选了，路径是否分别为 diffusion_models / text_encoders / vae。</li>
+                    <li><b>HTTPS 网页连不上本地</b>：浏览器会拦「安全页访问不安全本地地址」。请用本站本地预览，或确保页面与访问方式兼容；日常本机用 <code>127.0.0.1</code> 即可。</li>
+                    <li><b>Anima 找不到 ControlNet</b>：正常。请改用 SDXL，或不用姿势控制。</li>
+                    <li><b>种子</b>：<code>-1</code> 随机；固定数字可复现同一张构图倾向。</li>
                 </ul>
-
-                <h3>7. 注意事项</h3>
-                <ul>
-                    <li>HTTPS 页面无法访问 HTTP 的 ComfyUI，建议本地使用</li>
-                    <li>Anima 架构暂不支持 ControlNet（官方开发中）</li>
-                    <li>种子设为 -1 表示随机</li>
-                </ul>
+                <p>更完整的图文版（含局部重绘依赖）见站点 <a href="/guides/" target="_blank" rel="noopener">教程页 /guides/</a>。</p>
             </div>
             <div class="modal-actions">
                 <button id="btn-close-tutorial" class="btn-primary">知道了</button>
@@ -1575,7 +1694,7 @@
 
     <script src="vendor/jsQR.js"></script>
     <script src="lora-library.js?v=5"></script>
-    <script src="script.js?v=496"></script>
+    <script src="script.js?v=497"></script>
     <script src="/assets/pwa-register.js?v=3"></script>
 </body>
 </html>
