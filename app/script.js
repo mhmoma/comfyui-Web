@@ -853,7 +853,7 @@
         const artists = _resolveStyleArtists();
         btn.disabled = artists.length === 0;
         btn.title = artists.length
-            ? `把当前 ${artists.length} 个画师串收藏到「画师 → 画师串」（需选封面）`
+            ? `自动用当前生成图收藏 ${artists.length} 个画师串到「画师 → 画师串」`
             : '请先随机画师串，或在正向开头保留画师串';
     }
 
@@ -898,6 +898,34 @@
         }
     }
 
+    function _getCurrentResultImageEl() {
+        const resultImg = document.getElementById('result-image');
+        if (!resultImg || resultImg.classList.contains('hidden')) return null;
+        const src = String(resultImg.currentSrc || resultImg.src || '').trim();
+        if (!src || !resultImg.naturalWidth) return null;
+        return resultImg;
+    }
+
+    function _drawImgElToJpeg(el, maxSide = 480, quality = 0.85) {
+        if (!el?.naturalWidth) return '';
+        try {
+            let w = el.naturalWidth;
+            let h = el.naturalHeight;
+            if (w > maxSide || h > maxSide) {
+                const ratio = Math.min(maxSide / w, maxSide / h);
+                w = Math.round(w * ratio);
+                h = Math.round(h * ratio);
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            canvas.getContext('2d').drawImage(el, 0, 0, w, h);
+            return canvas.toDataURL('image/jpeg', quality);
+        } catch {
+            return '';
+        }
+    }
+
     function _collectStyleCoverCandidates(limit = 12) {
         const seen = new Set();
         const out = [];
@@ -907,10 +935,8 @@
             seen.add(u);
             out.push(u);
         };
-        const resultImg = document.getElementById('result-image');
-        if (resultImg && !resultImg.classList.contains('hidden') && resultImg.src) {
-            push(resultImg.src);
-        }
+        const resultImg = _getCurrentResultImageEl();
+        if (resultImg) push(resultImg.currentSrc || resultImg.src);
         try {
             const hist = typeof getHistory === 'function' ? getHistory() : [];
             for (const item of hist) {
@@ -961,23 +987,22 @@
         if (raw.startsWith('data:')) {
             return (await _compressDataUrlThumb(raw, maxSide)) || raw;
         }
-        // 优先用页面里已显示的同 src 图（避开跨域污染）
+        // 当前结果图：直接从 DOM 截，保证带进画师串
+        const resultImg = _getCurrentResultImageEl();
+        if (resultImg) {
+            const rsrc = String(resultImg.currentSrc || resultImg.src || '');
+            if (rsrc === raw || !raw) {
+                const shot = _drawImgElToJpeg(resultImg, maxSide);
+                if (shot) return shot;
+            }
+        }
         try {
             const imgs = document.querySelectorAll('#result-image, #history-grid img, .history-item img');
             for (const el of imgs) {
-                if (el?.src === raw && el.naturalWidth) {
-                    const canvas = document.createElement('canvas');
-                    let w = el.naturalWidth;
-                    let h = el.naturalHeight;
-                    if (w > maxSide || h > maxSide) {
-                        const ratio = Math.min(maxSide / w, maxSide / h);
-                        w = Math.round(w * ratio);
-                        h = Math.round(h * ratio);
-                    }
-                    canvas.width = w;
-                    canvas.height = h;
-                    canvas.getContext('2d').drawImage(el, 0, 0, w, h);
-                    return canvas.toDataURL('image/jpeg', 0.85);
+                const esrc = String(el?.currentSrc || el?.src || '');
+                if (esrc === raw && el.naturalWidth) {
+                    const shot = _drawImgElToJpeg(el, maxSide);
+                    if (shot) return shot;
                 }
             }
         } catch { /* fall through */ }
@@ -997,6 +1022,27 @@
         }
     }
 
+    /** 优先截当前生成图；没有再退历史第一张 */
+    async function _autoCaptureStyleCover(maxSide = 480) {
+        const resultImg = _getCurrentResultImageEl();
+        if (resultImg) {
+            const shot = _drawImgElToJpeg(resultImg, maxSide);
+            if (shot) return shot;
+            const fromSrc = await _imageSrcToChainThumb(resultImg.currentSrc || resultImg.src, maxSide);
+            if (fromSrc) return fromSrc;
+        }
+        try {
+            const hist = typeof getHistory === 'function' ? getHistory() : [];
+            for (const item of hist) {
+                const src = item?.fullUrl || item?.url;
+                if (!src) continue;
+                const thumb = await _imageSrcToChainThumb(src, maxSide);
+                if (thumb) return thumb;
+            }
+        } catch { /* ignore */ }
+        return '';
+    }
+
     let _styleCoverResolver = null;
 
     function _ensureStyleCoverPicker() {
@@ -1010,7 +1056,7 @@
             <div class="modal-content style-cover-card" role="dialog" aria-modal="true" aria-labelledby="style-cover-title">
                 <h3 id="style-cover-title">收藏画师串</h3>
                 <p id="style-cover-trigger" class="style-cover-trigger"></p>
-                <p class="style-cover-hint">选一张图做封面（本地永久保存）</p>
+                <p class="style-cover-hint">当前没有生成图，请上传一张封面（永久存本机）</p>
                 <div id="style-cover-grid" class="style-cover-grid"></div>
                 <div class="style-cover-upload-row">
                     <input type="file" id="style-cover-file" accept="image/*" class="hidden">
@@ -1039,7 +1085,7 @@
             const uploadData = overlay._uploadDataUrl || '';
             const cover = uploadData || (picked ? String(picked.value || '') : '');
             if (!cover) {
-                showToast('请选择或上传一张封面图');
+                showToast('请上传一张封面图');
                 return;
             }
             close({ cover });
@@ -1074,14 +1120,8 @@
             const triggerEl = overlay.querySelector('#style-cover-trigger');
             const grid = overlay.querySelector('#style-cover-grid');
             const nameEl = overlay.querySelector('#style-cover-upload-name');
-            const hint = overlay.querySelector('.style-cover-hint');
             if (triggerEl) triggerEl.textContent = artists.join(', ');
             if (nameEl) nameEl.textContent = '';
-            if (hint) {
-                hint.textContent = images.length
-                    ? '选一张生成/历史图做封面，或上传本地图（永久存本机）'
-                    : '暂无生成图，请上传一张封面（永久存本机）';
-            }
             grid.innerHTML = images.map((src, index) => {
                 const id = `style-cover-img-${index}`;
                 const checked = index === 0 ? ' checked' : '';
@@ -1114,21 +1154,20 @@
         const btn = document.getElementById('btn-favorite-style');
         if (btn) btn.disabled = true;
         try {
-            const images = _collectStyleCoverCandidates(12);
-            const pick = await _openStyleCoverPicker(artists, images);
-            if (!pick) return;
-            let cover = String(pick.cover || '').trim();
+            // 有当前生成图：直接截图写入，不再弹窗选图
+            let cover = await _autoCaptureStyleCover(480);
             if (!cover) {
-                showToast('请选择或上传一张封面图');
-                return;
-            }
-            if (!cover.startsWith('data:')) {
-                cover = await _imageSrcToChainThumb(cover, 480);
-            } else {
-                cover = (await _compressDataUrlThumb(cover, 480)) || cover;
+                const pick = await _openStyleCoverPicker(artists, _collectStyleCoverCandidates(12));
+                if (!pick) return;
+                cover = String(pick.cover || '').trim();
+                if (cover && !cover.startsWith('data:')) {
+                    cover = await _imageSrcToChainThumb(cover, 480);
+                } else if (cover.startsWith('data:')) {
+                    cover = (await _compressDataUrlThumb(cover, 480)) || cover;
+                }
             }
             if (!cover) {
-                showToast('封面处理失败，请换一张图或上传本地文件');
+                showToast('没有可用封面：请先生成一张图，或上传封面');
                 return;
             }
             await ArtistChainManager.add({
@@ -1139,7 +1178,7 @@
             if (posTagPicker && typeof _isArtistChainsMode === 'function' && _isArtistChainsMode(posTagPicker)) {
                 posTagPicker.renderGrid?.();
             }
-            showToast('已收藏（含封面，本地永久保存）');
+            showToast('已收藏当前图到画师串');
         } catch (err) {
             showToast(err?.message || '收藏失败');
         } finally {
@@ -9947,7 +9986,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.12');
+        console.log('[ComfyUI Web] v5.13');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
