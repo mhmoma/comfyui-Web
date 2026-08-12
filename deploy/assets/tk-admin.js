@@ -809,6 +809,7 @@
       await renderUserDetail(root, state.usersDetail);
       return;
     }
+    root.innerHTML = `<div class="panel"><p class="meta">正在加载玩家列表…</p></div>`;
     const q = (state.usersQ || "").trim();
     const data = await api(`/api/admin/players?mode=users&page=${state.usersPage}&q=${encodeURIComponent(q)}`);
     const rows = data.rows || [];
