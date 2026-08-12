@@ -705,16 +705,10 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 6px 8px;
     font-size: 0.85rem;
     color: var(--text-secondary);
-    flex-wrap: nowrap;
-    min-width: 0;
-}
-
-.prompt-label-row > span:first-child {
-    flex: 0 0 auto;
-    white-space: nowrap;
 }
 
 .prompt-block:first-child .prompt-label-row > span:first-child {
@@ -743,31 +737,29 @@ textarea {
     color: var(--text-primary);
 }
 
-/* Prompt Tools：单行横排，过长时可横滑 */
+/* Prompt Tools：允许换行，避免横滑把左侧按钮挤没 */
 .prompt-tools {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
     gap: 4px;
     justify-content: flex-end;
-    min-width: 0;
-    flex: 1 1 auto;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
 }
 
-.prompt-tools > * {
+.random-artist-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     flex: 0 0 auto;
 }
 
 .inserted-chars-wrap {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
     gap: 4px;
-    max-width: none;
+    max-width: 100%;
+    margin: 2px 0 0;
 }
 
 .inserted-chars-wrap.hidden {
@@ -3800,11 +3792,10 @@ body.char-browser-open {
     }
 
     .prompt-tools {
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         justify-content: flex-end;
         gap: 4px;
         max-width: 100%;
-        overflow-x: auto;
     }
 
     .prompt-area,
@@ -4747,26 +4738,22 @@ body.char-browser-open {
     }
 
     .main.mobile-tab-create .prompt-tags-bar {
-        flex: 0 0 auto;
+        flex: 1;
         display: flex;
-        flex-direction: row;
-        align-items: stretch;
+        flex-direction: column;
         min-height: 0;
     }
 
     .main.mobile-tab-create .prompt-tags {
-        flex: 1 1 auto;
+        flex: 1;
         max-height: none;
-        min-height: 36px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        overflow-y: hidden;
-        align-items: center;
-        align-content: center;
+        min-height: 44px;
+        align-items: flex-start;
+        align-content: flex-start;
     }
 
     .main.mobile-tab-create .prompt-tag {
-        align-self: center;
+        align-self: flex-start;
         height: auto;
     }
 
@@ -5926,20 +5913,18 @@ body.char-browser-open {
 /* ==================== 提示词标签可视化编辑器 ==================== */
 .prompt-tags {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 5px;
     padding: 6px 8px;
     min-height: 0;
-    max-height: none;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
+    max-height: 30vh;
+    overflow-y: auto;
     border-radius: 0 0 var(--radius) var(--radius);
     background: rgba(0, 0, 0, 0.15);
     border: 1px solid var(--border);
     border-top: none;
     margin-top: -1px;
+    transition: min-height 0.2s;
 }
 
 .prompt-tags:empty {
