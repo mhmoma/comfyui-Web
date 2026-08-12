@@ -42,7 +42,8 @@ body {
     height: 100vh;
 }
 
-/* Header：单行横向靠左，工具紧跟版本号 */
+/* Header：单行横向靠左，工具紧跟版本号
+   注意：不可对 header 用 overflow-y:hidden / 过小 max-height，否则旧版 🎨 主题面板会被裁切 */
 .header {
     display: flex !important;
     flex-direction: row !important;
@@ -52,9 +53,7 @@ body {
     gap: 8px;
     padding: 10px 20px;
     min-height: 56px;
-    max-height: 64px;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: visible;
     background: var(--header-bg);
     border-bottom: 1px solid var(--border);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -70,8 +69,12 @@ body {
     margin: 0 0 0 20px !important;
     padding: 0 !important;
     width: auto !important;
-    max-width: none !important;
-    flex: 0 0 auto !important;
+    max-width: min(100%, calc(100vw - 180px));
+    flex: 1 1 auto !important;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
 }
 
 .header-sep {
@@ -3612,14 +3615,19 @@ body.char-browser-open {
         padding: 6px 8px;
         padding-top: calc(6px + env(safe-area-inset-top, 0px));
         max-width: 100%;
-        overflow-x: auto;
-        overflow-y: hidden;
+        overflow: visible;
         flex-shrink: 0;
+    }
+
+    .header-tools {
+        max-width: calc(100vw - 56px);
+        overflow-x: auto;
+        overflow-y: visible;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
     }
 
-    .header::-webkit-scrollbar {
+    .header-tools::-webkit-scrollbar {
         display: none;
     }
 
@@ -5498,10 +5506,10 @@ body.char-browser-open {
 }
 
 .theme-panel {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 8px;
+    position: fixed;
+    top: 56px;
+    right: 12px;
+    margin-top: 0;
     background: var(--bg-panel);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -5509,11 +5517,31 @@ body.char-browser-open {
     display: flex;
     gap: 6px;
     box-shadow: var(--shadow);
-    z-index: 100;
+    z-index: 5000;
 }
 
 .theme-panel.hidden {
     display: none;
+}
+
+.settings-theme-row {
+    margin: 8px 0 4px;
+}
+
+.settings-theme-row.hidden {
+    display: none !important;
+}
+
+.settings-theme-dots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.settings-theme-dots .theme-dot {
+    width: 28px;
+    height: 28px;
 }
 
 .theme-dot {

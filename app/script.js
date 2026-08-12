@@ -9409,7 +9409,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.02');
+        console.log('[ComfyUI Web] v5.03');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -11237,6 +11237,12 @@
         return v === 'classic' ? 'classic' : 'v2';
     }
 
+    function syncClassicThemeSettingsVisibility() {
+        const row = document.getElementById('classic-theme-settings');
+        if (!row) return;
+        row.classList.toggle('hidden', getUiSkin() !== 'classic');
+    }
+
     function applyUiSkin(skin) {
         const next = skin === 'classic' ? 'classic' : 'v2';
         if (next === 'v2') {
@@ -11250,11 +11256,14 @@
         if (sel && sel.value !== next) sel.value = next;
 
         // 旧版恢复配色主题；新版不套 data-theme，避免冲突
+        const panel = document.getElementById('theme-panel');
         if (next === 'classic') {
             applyTheme(localStorage.getItem('comfyui_theme') || 'default');
         } else {
             document.documentElement.removeAttribute('data-theme');
+            panel?.classList.add('hidden');
         }
+        syncClassicThemeSettingsVisibility();
     }
 
     function setupUiSkin() {
@@ -11266,46 +11275,75 @@
     }
 
     // ==================== 主题系统（仅旧版界面） ====================
+    function positionThemePanel() {
+        const btn = document.getElementById('btn-theme');
+        const panel = document.getElementById('theme-panel');
+        if (!btn || !panel) return;
+        const rect = btn.getBoundingClientRect();
+        const panelWidth = panel.offsetWidth || 200;
+        const left = Math.min(
+            Math.max(8, rect.right - panelWidth),
+            window.innerWidth - panelWidth - 8
+        );
+        panel.style.top = `${Math.round(rect.bottom + 8)}px`;
+        panel.style.left = `${Math.round(left)}px`;
+        panel.style.right = 'auto';
+    }
+
+    function setTheme(theme) {
+        if (getUiSkin() === 'v2') return;
+        applyTheme(theme);
+        localStorage.setItem('comfyui_theme', theme);
+    }
+
     function setupTheme() {
         const saved = localStorage.getItem('comfyui_theme') || 'default';
         if (getUiSkin() === 'classic') applyTheme(saved);
+        syncClassicThemeSettingsVisibility();
 
         const btn = document.getElementById('btn-theme');
         const panel = document.getElementById('theme-panel');
         if (!btn || !panel) return;
 
         btn.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             if (getUiSkin() === 'v2') return;
+            const willOpen = panel.classList.contains('hidden');
             panel.classList.toggle('hidden');
+            if (willOpen) positionThemePanel();
         });
 
         document.addEventListener('click', (e) => {
-            if (!panel.contains(e.target) && e.target !== btn) {
-                panel.classList.add('hidden');
-            }
+            if (panel.classList.contains('hidden')) return;
+            if (panel.contains(e.target) || btn.contains(e.target)) return;
+            panel.classList.add('hidden');
         });
 
-        panel.querySelectorAll('.theme-dot').forEach(dot => {
-            dot.addEventListener('click', () => {
-                if (getUiSkin() === 'v2') return;
-                const theme = dot.dataset.theme;
-                applyTheme(theme);
-                localStorage.setItem('comfyui_theme', theme);
-                panel.querySelectorAll('.theme-dot').forEach(d => d.classList.remove('active'));
-                dot.classList.add('active');
-            });
+        window.addEventListener('resize', () => {
+            if (!panel.classList.contains('hidden')) positionThemePanel();
         });
+
+        const onDotClick = (dot) => {
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (getUiSkin() === 'v2') return;
+                setTheme(dot.dataset.theme);
+            });
+        };
+        panel.querySelectorAll('.theme-dot').forEach(onDotClick);
+        document.getElementById('settings-theme-dots')?.querySelectorAll('.theme-dot').forEach(onDotClick);
     }
 
     function applyTheme(theme) {
-        if (theme === 'default') {
+        const name = theme || 'default';
+        if (name === 'default') {
             document.documentElement.removeAttribute('data-theme');
         } else {
-            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.setAttribute('data-theme', name);
         }
         document.querySelectorAll('.theme-dot').forEach(d => {
-            d.classList.toggle('active', d.dataset.theme === theme);
+            d.classList.toggle('active', d.dataset.theme === name);
         });
     }
 
