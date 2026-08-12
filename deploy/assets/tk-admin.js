@@ -8,15 +8,19 @@
   const CLOUD_BASE = "https://tk-game-cloud.pages.dev";
 
   const MODULES = [
-    { id: "overview", label: "总览" },
-    { id: "notice", label: "公告" },
-    { id: "trade", label: "画师串交流" },
-    { id: "board", label: "留言板" },
-    { id: "news", label: "资讯" },
-    { id: "artists", label: "画师库" },
-    { id: "characters", label: "角色库" },
-    { id: "prefs", label: "玩家偏好" },
-    { id: "map", label: "能力地图" },
+    { id: "overview", label: "总览", group: "概览" },
+    { id: "users", label: "用户档案", group: "用户管理" },
+    { id: "reads", label: "已读状态", group: "用户管理" },
+    { id: "player-artists", label: "玩家画师串", group: "用户管理" },
+    { id: "economy", label: "画泥经济", group: "经济管理" },
+    { id: "prefs", label: "偏好明细", group: "经济管理" },
+    { id: "notice", label: "公告", group: "社区" },
+    { id: "trade", label: "画师串交流", group: "社区" },
+    { id: "board", label: "留言板", group: "社区" },
+    { id: "news", label: "资讯", group: "素材库" },
+    { id: "artists", label: "画师库", group: "素材库" },
+    { id: "characters", label: "角色库", group: "素材库" },
+    { id: "map", label: "能力地图", group: "概览" },
   ];
 
   const CLOUD_PREFIXES = [
@@ -26,6 +30,7 @@
     "/api/prefs",
     "/api/player-artists",
     "/api/admin/overview",
+    "/api/admin/players",
   ];
 
   let adminKey = localStorage.getItem(KEY_STORE) || "";
@@ -36,6 +41,19 @@
     tradePage: 1,
     tradeStatus: "active",
     prefsPage: 1,
+    prefsQ: "",
+    prefsKey: "",
+    usersPage: 1,
+    usersQ: "",
+    usersDetail: "",
+    economyPage: 1,
+    economyQ: "",
+    economyDetail: "",
+    readsPage: 1,
+    readsQ: "",
+    readsKey: "seen_version",
+    paPage: 1,
+    paQ: "",
     artistsPage: 1,
     artistsQ: "",
     artistsFilter: "all",
@@ -201,9 +219,21 @@
   function renderNav() {
     const nav = $("nav");
     if (!nav) return;
-    nav.innerHTML = MODULES.map((m) =>
-      `<button type="button" data-route="${m.id}" class="${route === m.id ? "active" : ""}">${escapeHtml(m.label)}</button>`
-    ).join("");
+    const groups = [];
+    MODULES.forEach((m) => {
+      const g = m.group || "其他";
+      if (!groups.includes(g)) groups.push(g);
+    });
+    nav.innerHTML = groups.map((g) => {
+      const items = MODULES.filter((m) => (m.group || "其他") === g);
+      return `
+        <div class="nav-group">
+          <div class="nav-group-title">${escapeHtml(g)}</div>
+          ${items.map((m) =>
+            `<button type="button" data-route="${m.id}" class="${route === m.id ? "active" : ""}">${escapeHtml(m.label)}</button>`
+          ).join("")}
+        </div>`;
+    }).join("");
   }
 
   async function render() {
@@ -213,6 +243,10 @@
     root.innerHTML = `<div class="panel meta">加载中…</div>`;
     try {
       if (route === "overview") await renderOverview(root);
+      else if (route === "users") await renderUsers(root);
+      else if (route === "reads") await renderReads(root);
+      else if (route === "economy") await renderEconomy(root);
+      else if (route === "player-artists") await renderPlayerArtists(root);
       else if (route === "notice") await renderNotice(root);
       else if (route === "board") await renderBoard(root);
       else if (route === "trade") await renderTrade(root);
@@ -232,7 +266,7 @@
   }
 
   async function renderOverview(root) {
-    setTop("总览", "云端库（新）+ 素材库（正式站）分开展示。");
+    setTop("总览", "用户 / 经济走新云端库；素材库仍在正式站。");
     let cloud = null;
     let asset = null;
     let cloudErr = "";
@@ -248,10 +282,12 @@
     const c = cloud?.modules || {};
     const a = asset?.modules || {};
     const cards = [
-      { href: "notice", k: "当前公告", v: c.notice?.active ? "有" : (cloud ? "无" : "—"), s: "云端库 · 游戏顶栏" },
-      { href: "trade", k: "画师串在售", v: c.trade?.active ?? "—", s: `云端 · 下架 ${c.trade?.off ?? 0} · 打码 ${c.trade?.imageBlocked ?? 0}` },
-      { href: "board", k: "留言条数", v: c.board?.total ?? "—", s: "云端库 · 可删 / 清空" },
-      { href: "prefs", k: "偏好记录", v: c.prefs?.total ?? "—", s: `云端 · 玩家画师串 ${c.playerArtists?.total ?? 0}` },
+      { href: "users", k: "云端用户", v: c.users?.total ?? "—", s: "有偏好记录的玩家" },
+      { href: "economy", k: "画泥持有", v: c.economy?.holders ?? "—", s: `全服余额合计 ${c.economy?.mudSum ?? "—"}` },
+      { href: "player-artists", k: "玩家画师串", v: c.playerArtists?.total ?? "—", s: "云端持久封面" },
+      { href: "notice", k: "当前公告", v: c.notice?.active ? "有" : (cloud ? "无" : "—"), s: "游戏顶栏" },
+      { href: "trade", k: "画师串在售", v: c.trade?.active ?? "—", s: `下架 ${c.trade?.off ?? 0} · 打码 ${c.trade?.imageBlocked ?? 0}` },
+      { href: "board", k: "留言条数", v: c.board?.total ?? "—", s: "可删 / 清空" },
       { href: "news", k: "已发资讯", v: a.news?.published ?? "—", s: `素材站 · 草稿 ${a.news?.draft ?? 0}` },
       { href: "artists", k: "画师库", v: a.artists?.total ?? "—", s: "素材站 · 公开检索库" },
       { href: "characters", k: "角色数", v: a.characters?.characters ?? "—", s: `素材站 · 系列 ${a.characters?.series ?? 0}` },
@@ -759,15 +795,522 @@
     });
   }
 
-  async function renderPrefs(root) {
-    setTop("玩家偏好", "已读/主题/解锁/收藏/画泥等；可按 UID 删除。");
-    const q = ($("prefs-q")?.value || state.prefsQ || "").trim();
-    state.prefsQ = q;
-    const data = await api(`/api/prefs?view=admin&page=${state.prefsPage}&q=${encodeURIComponent(q)}`);
+  async function renderUsers(root) {
+    setTop("用户档案", "按玩家汇总主题、已读、解锁、画泥；点开可改单项或清空档案。");
+    if (state.usersDetail) {
+      await renderUserDetail(root, state.usersDetail);
+      return;
+    }
+    const q = (state.usersQ || "").trim();
+    const data = await api(`/api/admin/players?mode=users&page=${state.usersPage}&q=${encodeURIComponent(q)}`);
     const rows = data.rows || [];
     root.innerHTML = `
       <div class="panel">
         <div class="toolbar">
+          <input class="grow" id="users-q" placeholder="搜 userId…" value="${escapeHtml(q)}">
+          <button type="button" class="primary" id="users-search">搜索</button>
+          <button type="button" id="users-refresh">刷新</button>
+        </div>
+        <p class="meta">共 ${data.total || 0} 名有云端记录的玩家</p>
+        <div class="table-wrap">
+          <table class="admin">
+            <thead>
+              <tr>
+                <th>用户</th><th>主题</th><th>日志已读</th><th>画泥</th><th>解锁</th><th>收藏标签</th><th>画师串</th><th>更新</th><th></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.length ? rows.map((row) => {
+                const s = row.summary || {};
+                return `<tr>
+                  <td class="mono">${escapeHtml(row.userId)}</td>
+                  <td>${escapeHtml(s.theme || "—")}</td>
+                  <td class="mono">${escapeHtml(s.seenVersion || "—")}</td>
+                  <td><strong>${escapeHtml(String(s.mudBalance ?? 0))}</strong></td>
+                  <td>${escapeHtml(String(s.unlockedCount ?? 0))}</td>
+                  <td>${escapeHtml(String(s.favTagCount ?? 0))}</td>
+                  <td>${escapeHtml(String(row.artistCount ?? 0))}</td>
+                  <td class="meta">${escapeHtml(formatTime(row.updatedAt))}</td>
+                  <td><button type="button" class="primary" data-open-user="${escapeHtml(row.userId)}">详情</button></td>
+                </tr>`;
+              }).join("") : `<tr><td colspan="9">暂无用户</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <button type="button" id="users-prev" ${state.usersPage <= 1 ? "disabled" : ""}>上一页</button>
+          <span class="meta">${state.usersPage} / ${data.totalPages || 1}</span>
+          <button type="button" id="users-next" ${state.usersPage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
+        </div>
+      </div>`;
+    $("users-search")?.addEventListener("click", () => {
+      state.usersQ = $("users-q")?.value || "";
+      state.usersPage = 1;
+      render();
+    });
+    $("users-q")?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        state.usersQ = $("users-q")?.value || "";
+        state.usersPage = 1;
+        render();
+      }
+    });
+    $("users-refresh")?.addEventListener("click", () => render());
+    $("users-prev")?.addEventListener("click", () => { state.usersPage = Math.max(1, state.usersPage - 1); render(); });
+    $("users-next")?.addEventListener("click", () => { state.usersPage += 1; render(); });
+    root.querySelectorAll("[data-open-user]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.usersDetail = btn.getAttribute("data-open-user") || "";
+        render();
+      });
+    });
+  }
+
+  function prefGroupsHtml(prefs, groups) {
+    const order = [
+      ["reads", "已读状态"],
+      ["profile", "界面与进度"],
+      ["economy", "画泥经济"],
+      ["other", "其他"],
+    ];
+    return order.map(([gid, title]) => {
+      const fromBag = Object.keys(prefs).filter((k) => (prefs[k].group || "other") === gid);
+      const known = groups?.[gid] || [];
+      const list = Array.from(new Set([...known, ...fromBag]));
+      if (!list.length) return "";
+      return `
+        <div class="detail-block">
+          <h3>${escapeHtml(title)}</h3>
+          <div class="table-wrap">
+            <table class="admin">
+              <thead><tr><th>字段</th><th>说明</th><th>值</th><th></th></tr></thead>
+              <tbody>
+                ${list.map((key) => {
+                  const row = prefs[key] || { value: "", label: key, hint: "" };
+                  const val = String(row.value ?? "");
+                  return `<tr>
+                    <td><strong>${escapeHtml(row.label || key)}</strong><div class="meta mono">${escapeHtml(key)}</div></td>
+                    <td class="meta">${escapeHtml(row.hint || "")}</td>
+                    <td>
+                      <textarea class="pref-edit mono" data-pref-key="${escapeHtml(key)}" rows="${val.length > 80 ? 4 : 2}">${escapeHtml(val)}</textarea>
+                    </td>
+                    <td class="stack-btns">
+                      <button type="button" class="primary" data-save-pref="${escapeHtml(key)}">保存</button>
+                      <button type="button" class="danger" data-del-pref="${escapeHtml(key)}">删除</button>
+                    </td>
+                  </tr>`;
+                }).join("")}
+              </tbody>
+            </table>
+          </div>
+        </div>`;
+    }).join("");
+  }
+
+  async function renderUserDetail(root, userId) {
+    setTop("用户详情", userId);
+    const data = await api(`/api/admin/players?userId=${encodeURIComponent(userId)}`);
+    const s = data.summary || {};
+    const prefs = data.prefs || {};
+    root.innerHTML = `
+      <div class="panel">
+        <div class="toolbar">
+          <button type="button" id="user-back">← 返回列表</button>
+          <button type="button" class="danger" id="user-wipe">清空该用户全部偏好</button>
+          <button type="button" class="warn" id="user-wipe-all">清空偏好 + 画师串</button>
+        </div>
+        <div class="summary-grid">
+          <div class="summary-card"><div class="k">主题</div><div class="v">${escapeHtml(s.theme || "—")}</div></div>
+          <div class="summary-card"><div class="k">更新日志已读</div><div class="v mono">${escapeHtml(s.seenVersion || "—")}</div></div>
+          <div class="summary-card"><div class="k">画泥</div><div class="v">${escapeHtml(String(s.mudBalance ?? 0))}</div></div>
+          <div class="summary-card"><div class="k">已购装扮</div><div class="v">${escapeHtml(String(s.mudOwnedCount ?? 0))}</div></div>
+          <div class="summary-card"><div class="k">解锁作品</div><div class="v">${escapeHtml(String(s.unlockedCount ?? 0))}</div></div>
+          <div class="summary-card"><div class="k">玩家画师串</div><div class="v">${escapeHtml(String(data.artistCount ?? 0))}</div></div>
+        </div>
+        ${prefGroupsHtml(prefs, data.groups)}
+      </div>`;
+    $("user-back")?.addEventListener("click", () => { state.usersDetail = ""; render(); });
+    $("user-wipe")?.addEventListener("click", async () => {
+      if (!confirm(`清空 ${userId} 的全部偏好？`)) return;
+      await api("/api/admin/players", {
+        method: "POST",
+        body: JSON.stringify({ action: "wipe_user", userId }),
+      });
+      state.usersDetail = "";
+      render();
+    });
+    $("user-wipe-all")?.addEventListener("click", async () => {
+      if (!confirm(`清空 ${userId} 的偏好 AND 玩家画师串？不可恢复`)) return;
+      await api("/api/admin/players", {
+        method: "POST",
+        body: JSON.stringify({ action: "wipe_user", userId, wipeArtists: true }),
+      });
+      state.usersDetail = "";
+      render();
+    });
+    root.querySelectorAll("[data-save-pref]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const key = btn.getAttribute("data-save-pref");
+        const ta = Array.from(root.querySelectorAll("textarea[data-pref-key]"))
+          .find((el) => el.getAttribute("data-pref-key") === key);
+        await api("/api/admin/players", {
+          method: "POST",
+          body: JSON.stringify({ action: "set_pref", userId, key, value: ta?.value ?? "" }),
+        });
+        render();
+      });
+    });
+    root.querySelectorAll("[data-del-pref]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const key = btn.getAttribute("data-del-pref");
+        if (!confirm(`删除字段 ${key}？`)) return;
+        await api(`/api/admin/players?userId=${encodeURIComponent(userId)}&key=${encodeURIComponent(key)}`, { method: "DELETE" });
+        render();
+      });
+    });
+  }
+
+  async function renderEconomy(root) {
+    setTop("画泥经济", "按余额排序；可调整余额、已购、装备、兑换码痕迹。");
+    if (state.economyDetail) {
+      await renderEconomyDetail(root, state.economyDetail);
+      return;
+    }
+    const q = (state.economyQ || "").trim();
+    const data = await api(`/api/admin/players?mode=economy&page=${state.economyPage}&q=${encodeURIComponent(q)}`);
+    const rows = data.rows || [];
+    const st = data.stats || {};
+    root.innerHTML = `
+      <div class="summary-grid">
+        <div class="summary-card"><div class="k">持有人数</div><div class="v">${escapeHtml(String(st.holders ?? 0))}</div></div>
+        <div class="summary-card"><div class="k">全服画泥合计</div><div class="v">${escapeHtml(String(st.mudSum ?? 0))}</div></div>
+        <div class="summary-card"><div class="k">人均（持有者）</div><div class="v">${escapeHtml(String(st.avg ?? 0))}</div></div>
+      </div>
+      <div class="panel">
+        <div class="toolbar">
+          <input class="grow" id="eco-q" placeholder="搜 userId / 余额…" value="${escapeHtml(q)}">
+          <button type="button" class="primary" id="eco-search">搜索</button>
+          <button type="button" id="eco-refresh">刷新</button>
+        </div>
+        <div class="table-wrap">
+          <table class="admin">
+            <thead>
+              <tr><th>用户</th><th>余额</th><th>已购</th><th>兑换码数</th><th>今日领泥</th><th>更新</th><th></th></tr>
+            </thead>
+            <tbody>
+              ${rows.length ? rows.map((row) => {
+                const day = row.drawDay && typeof row.drawDay === "object"
+                  ? `${row.drawDay.day || "—"} / ${row.drawDay.earned ?? 0}`
+                  : "—";
+                return `<tr>
+                  <td class="mono">${escapeHtml(row.userId)}</td>
+                  <td><strong>${escapeHtml(String(row.mudBalance ?? 0))}</strong></td>
+                  <td>${escapeHtml(String(row.mudOwnedCount ?? 0))}</td>
+                  <td>${escapeHtml(String(row.codesCount ?? 0))}</td>
+                  <td class="meta">${escapeHtml(day)}</td>
+                  <td class="meta">${escapeHtml(formatTime(row.updatedAt))}</td>
+                  <td><button type="button" class="primary" data-eco-user="${escapeHtml(row.userId)}">调整</button></td>
+                </tr>`;
+              }).join("") : `<tr><td colspan="7">暂无经济记录</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <button type="button" id="eco-prev" ${state.economyPage <= 1 ? "disabled" : ""}>上一页</button>
+          <span class="meta">${state.economyPage} / ${data.totalPages || 1}</span>
+          <button type="button" id="eco-next" ${state.economyPage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
+        </div>
+      </div>`;
+    $("eco-search")?.addEventListener("click", () => {
+      state.economyQ = $("eco-q")?.value || "";
+      state.economyPage = 1;
+      render();
+    });
+    $("eco-q")?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        state.economyQ = $("eco-q")?.value || "";
+        state.economyPage = 1;
+        render();
+      }
+    });
+    $("eco-refresh")?.addEventListener("click", () => render());
+    $("eco-prev")?.addEventListener("click", () => { state.economyPage = Math.max(1, state.economyPage - 1); render(); });
+    $("eco-next")?.addEventListener("click", () => { state.economyPage += 1; render(); });
+    root.querySelectorAll("[data-eco-user]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.economyDetail = btn.getAttribute("data-eco-user") || "";
+        render();
+      });
+    });
+  }
+
+  async function renderEconomyDetail(root, userId) {
+    setTop("经济调整", userId);
+    const data = await api(`/api/admin/players?userId=${encodeURIComponent(userId)}`);
+    const prefs = data.prefs || {};
+    const bal = prefs.mud_balance?.value || "0";
+    const owned = prefs.mud_owned?.value || "[]";
+    const equip = prefs.mud_equip?.value || "{}";
+    const codes = prefs.mud_codes?.value || "";
+    const draw = prefs.mud_draw_day?.value || "{}";
+    const ach = prefs.mud_ach_show?.value || "{}";
+    root.innerHTML = `
+      <div class="panel">
+        <div class="toolbar">
+          <button type="button" id="eco-back">← 返回经济榜</button>
+          <button type="button" data-go-user="${escapeHtml(userId)}">打开完整用户档案</button>
+        </div>
+        <div class="form-grid">
+          <label>画泥余额
+            <input id="eco-bal" type="number" min="0" step="1" value="${escapeHtml(bal)}">
+          </label>
+          <label>已购装扮 JSON 数组
+            <textarea id="eco-owned" class="mono" rows="4">${escapeHtml(owned)}</textarea>
+          </label>
+          <label>当前装备 JSON
+            <textarea id="eco-equip" class="mono" rows="4">${escapeHtml(equip)}</textarea>
+          </label>
+          <label>已用兑换码（逗号分隔）
+            <textarea id="eco-codes" class="mono" rows="2">${escapeHtml(codes)}</textarea>
+          </label>
+          <label>每日领泥 JSON
+            <textarea id="eco-draw" class="mono" rows="2">${escapeHtml(draw)}</textarea>
+          </label>
+          <label>成就展示 JSON
+            <textarea id="eco-ach" class="mono" rows="2">${escapeHtml(ach)}</textarea>
+          </label>
+        </div>
+        <div class="toolbar">
+          <button type="button" class="primary" id="eco-save">保存经济数据</button>
+          <button type="button" class="warn" id="eco-zero">余额清零</button>
+        </div>
+      </div>`;
+    $("eco-back")?.addEventListener("click", () => { state.economyDetail = ""; render(); });
+    root.querySelector("[data-go-user]")?.addEventListener("click", () => {
+      state.economyDetail = "";
+      state.usersDetail = userId;
+      go("users");
+    });
+    $("eco-zero")?.addEventListener("click", () => { if ($("eco-bal")) $("eco-bal").value = "0"; });
+    $("eco-save")?.addEventListener("click", async () => {
+      let mudOwned = $("eco-owned")?.value || "[]";
+      let mudEquip = $("eco-equip")?.value || "{}";
+      let mudDrawDay = $("eco-draw")?.value || "{}";
+      try { mudOwned = JSON.parse(mudOwned); } catch (_) { alert("已购 JSON 无效"); return; }
+      try { mudEquip = JSON.parse(mudEquip); } catch (_) { alert("装备 JSON 无效"); return; }
+      try { mudDrawDay = JSON.parse(mudDrawDay); } catch (_) { alert("每日领泥 JSON 无效"); return; }
+      await api("/api/admin/players", {
+        method: "POST",
+        body: JSON.stringify({
+          action: "set_economy",
+          userId,
+          mudBalance: Number($("eco-bal")?.value || 0),
+          mudOwned,
+          mudEquip,
+          mudCodes: $("eco-codes")?.value || "",
+          mudDrawDay,
+        }),
+      });
+      await api("/api/admin/players", {
+        method: "POST",
+        body: JSON.stringify({
+          action: "set_pref",
+          userId,
+          key: "mud_ach_show",
+          value: $("eco-ach")?.value || "{}",
+        }),
+      });
+      alert("已保存");
+      render();
+    });
+  }
+
+  async function renderReads(root) {
+    setTop("已读状态", "更新日志 / 公告 / 留言已读；可按类型筛选并删除异常记录。");
+    const q = (state.readsQ || "").trim();
+    const key = state.readsKey || "seen_version";
+    const data = await api(`/api/admin/players?mode=reads&key=${encodeURIComponent(key)}&page=${state.readsPage}&q=${encodeURIComponent(q)}`);
+    const rows = data.rows || [];
+    const keys = data.readKeys || [];
+    root.innerHTML = `
+      <div class="panel">
+        <div class="toolbar wrap">
+          <select id="reads-key">
+            ${keys.map((k) => `<option value="${escapeHtml(k.key)}" ${k.key === key ? "selected" : ""}>${escapeHtml(k.label)} (${escapeHtml(k.key)})</option>`).join("")}
+          </select>
+          <input class="grow" id="reads-q" placeholder="搜 userId / value…" value="${escapeHtml(q)}">
+          <button type="button" class="primary" id="reads-search">搜索</button>
+          <button type="button" id="reads-refresh">刷新</button>
+        </div>
+        <p class="meta">当前：${escapeHtml(data.key || key)} · ${data.total || 0} 条</p>
+        <div class="table-wrap">
+          <table class="admin">
+            <thead><tr><th>用户</th><th>类型</th><th>值</th><th>更新</th><th></th></tr></thead>
+            <tbody>
+              ${rows.length ? rows.map((row) => `
+                <tr>
+                  <td class="mono">${escapeHtml(row.userId)}</td>
+                  <td>${escapeHtml(row.label || row.key)}</td>
+                  <td class="mono">${escapeHtml(String(row.value || "").slice(0, 120))}</td>
+                  <td class="meta">${escapeHtml(formatTime(row.updatedAt))}</td>
+                  <td class="stack-btns">
+                    <button type="button" data-open-user="${escapeHtml(row.userId)}">档案</button>
+                    <button type="button" class="danger" data-del-read="${escapeHtml(row.userId)}" data-key="${escapeHtml(row.key)}">删除</button>
+                  </td>
+                </tr>`).join("") : `<tr><td colspan="5">暂无记录</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <button type="button" id="reads-prev" ${state.readsPage <= 1 ? "disabled" : ""}>上一页</button>
+          <span class="meta">${state.readsPage} / ${data.totalPages || 1}</span>
+          <button type="button" id="reads-next" ${state.readsPage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
+        </div>
+      </div>`;
+    $("reads-key")?.addEventListener("change", () => {
+      state.readsKey = $("reads-key")?.value || "seen_version";
+      state.readsPage = 1;
+      render();
+    });
+    $("reads-search")?.addEventListener("click", () => {
+      state.readsQ = $("reads-q")?.value || "";
+      state.readsKey = $("reads-key")?.value || state.readsKey;
+      state.readsPage = 1;
+      render();
+    });
+    $("reads-refresh")?.addEventListener("click", () => render());
+    $("reads-prev")?.addEventListener("click", () => { state.readsPage = Math.max(1, state.readsPage - 1); render(); });
+    $("reads-next")?.addEventListener("click", () => { state.readsPage += 1; render(); });
+    root.querySelectorAll("[data-open-user]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.usersDetail = btn.getAttribute("data-open-user") || "";
+        go("users");
+      });
+    });
+    root.querySelectorAll("[data-del-read]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        if (!confirm("删除该已读记录？")) return;
+        const uid = btn.getAttribute("data-del-read");
+        const k = btn.getAttribute("data-key");
+        await api(`/api/admin/players?userId=${encodeURIComponent(uid)}&key=${encodeURIComponent(k)}`, { method: "DELETE" });
+        render();
+      });
+    });
+  }
+
+  async function renderPlayerArtists(root) {
+    setTop("玩家画师串", "云端持久存档；可按用户/名称搜索并删除单条或整户。");
+    const q = (state.paQ || "").trim();
+    const data = await api(`/api/player-artists?view=admin&page=${state.paPage}&q=${encodeURIComponent(q)}`);
+    const rows = data.rows || [];
+    root.innerHTML = `
+      <div class="panel">
+        <div class="toolbar">
+          <input class="grow" id="pa-q" placeholder="搜 userId / 名称 / slug…" value="${escapeHtml(q)}">
+          <button type="button" class="primary" id="pa-search">搜索</button>
+          <button type="button" id="pa-refresh">刷新</button>
+        </div>
+        <p class="meta">共 ${data.total || 0} 条</p>
+        <div class="table-wrap">
+          <table class="admin">
+            <thead><tr><th>封面</th><th>用户</th><th>名称</th><th>slug</th><th>来源</th><th>更新</th><th></th></tr></thead>
+            <tbody>
+              ${rows.length ? rows.map((row) => {
+                const thumb = row.hasThumb && row.thumb_url
+                  ? (String(row.thumb_url).startsWith("data:")
+                    ? `<img class="thumb" src="${escapeHtml(row.thumb_url)}" alt="">`
+                    : `<img class="thumb" src="${escapeHtml(row.thumb_url)}" alt="" loading="lazy">`)
+                  : `<span class="meta">无图</span>`;
+                const src = [
+                  row.fromTrade ? "交易" : "",
+                  row.fromStyle ? "收藏风格" : "",
+                ].filter(Boolean).join(" · ") || "自定义";
+                return `<tr>
+                  <td>${thumb}</td>
+                  <td class="mono">${escapeHtml(row.userId)}</td>
+                  <td>${escapeHtml(row.name || "—")}</td>
+                  <td class="mono">${escapeHtml(row.slug || "")}</td>
+                  <td class="meta">${escapeHtml(src)}</td>
+                  <td class="meta">${escapeHtml(formatTime(row.updated_at))}</td>
+                  <td class="stack-btns">
+                    <button type="button" data-open-user="${escapeHtml(row.userId)}">档案</button>
+                    <button type="button" class="danger" data-del-pa="${escapeHtml(row.userId)}" data-slug="${escapeHtml(row.slug || "")}">删条</button>
+                    <button type="button" class="warn" data-wipe-pa="${escapeHtml(row.userId)}">清空该用户</button>
+                  </td>
+                </tr>`;
+              }).join("") : `<tr><td colspan="7">暂无玩家画师串</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <button type="button" id="pa-prev" ${state.paPage <= 1 ? "disabled" : ""}>上一页</button>
+          <span class="meta">${state.paPage} / ${data.totalPages || 1}</span>
+          <button type="button" id="pa-next" ${state.paPage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
+        </div>
+      </div>`;
+    $("pa-search")?.addEventListener("click", () => {
+      state.paQ = $("pa-q")?.value || "";
+      state.paPage = 1;
+      render();
+    });
+    $("pa-q")?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        state.paQ = $("pa-q")?.value || "";
+        state.paPage = 1;
+        render();
+      }
+    });
+    $("pa-refresh")?.addEventListener("click", () => render());
+    $("pa-prev")?.addEventListener("click", () => { state.paPage = Math.max(1, state.paPage - 1); render(); });
+    $("pa-next")?.addEventListener("click", () => { state.paPage += 1; render(); });
+    root.querySelectorAll("[data-open-user]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.usersDetail = btn.getAttribute("data-open-user") || "";
+        go("users");
+      });
+    });
+    root.querySelectorAll("[data-del-pa]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        if (!confirm("删除该条画师串？")) return;
+        await api("/api/player-artists?view=admin", {
+          method: "DELETE",
+          body: JSON.stringify({
+            admin: true,
+            userId: btn.getAttribute("data-del-pa"),
+            slug: btn.getAttribute("data-slug"),
+          }),
+        });
+        render();
+      });
+    });
+    root.querySelectorAll("[data-wipe-pa]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const uid = btn.getAttribute("data-wipe-pa");
+        if (!confirm(`清空用户 ${uid} 的全部玩家画师串？`)) return;
+        await api("/api/player-artists?view=admin", {
+          method: "DELETE",
+          body: JSON.stringify({ admin: true, userId: uid }),
+        });
+        render();
+      });
+    });
+  }
+
+  async function renderPrefs(root) {
+    setTop("偏好明细", "原始 key/value 表（排障用）。日常请用「用户档案 / 经济 / 已读」。");
+    const q = ($("prefs-q")?.value || state.prefsQ || "").trim();
+    state.prefsQ = q;
+    const keyFilter = state.prefsKey || "";
+    const data = await api(`/api/prefs?view=admin&page=${state.prefsPage}&q=${encodeURIComponent(q)}${keyFilter ? `&key=${encodeURIComponent(keyFilter)}` : ""}`);
+    const rows = data.rows || [];
+    const allowed = data.allowedKeys || [];
+    root.innerHTML = `
+      <div class="panel">
+        <div class="toolbar wrap">
+          <select id="prefs-key">
+            <option value="">全部 key</option>
+            ${allowed.map((k) => `<option value="${escapeHtml(k)}" ${k === keyFilter ? "selected" : ""}>${escapeHtml(k)}</option>`).join("")}
+          </select>
           <input class="grow" id="prefs-q" placeholder="搜 userId / value…" value="${escapeHtml(q)}">
           <button type="button" class="primary" id="prefs-search">搜索</button>
           <button type="button" id="prefs-refresh">刷新</button>
@@ -793,8 +1336,14 @@
           <button type="button" id="prefs-next" ${state.prefsPage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
         </div>
       </div>`;
+    $("prefs-key")?.addEventListener("change", () => {
+      state.prefsKey = $("prefs-key")?.value || "";
+      state.prefsPage = 1;
+      render();
+    });
     $("prefs-search")?.addEventListener("click", () => {
       state.prefsQ = $("prefs-q")?.value || "";
+      state.prefsKey = $("prefs-key")?.value || "";
       state.prefsPage = 1;
       render();
     });
@@ -820,18 +1369,19 @@
   }
 
   function renderMap(root) {
-    setTop("能力地图", "哪些能管、哪些不能管——按模块对照。");
+    setTop("能力地图", "按模块对照：玩家侧能力 ↔ 后台能做什么。");
     const rows = [
-      ["画师串交流", "市场/上架/购买/收益", "删除、强制下架、屏蔽打码", "可管", "#trade"],
+      ["用户档案", "主题/解锁/收藏/开关", "列表、详情编辑、清空档案", "可管", "#users"],
+      ["已读状态", "更新日志/公告/留言已读", "按类型筛选、删除", "可管", "#reads"],
+      ["画泥经济", "余额/装扮/装备/兑换码/每日领泥", "榜单、改余额、改背包", "可管", "#economy"],
+      ["玩家画师串", "自定义画师串+封面", "搜索、删条、清空用户", "可管", "#player-artists"],
+      ["偏好明细", "全部 prefs 原始表", "排障删除", "可管", "#prefs"],
+      ["画师串交流", "市场买卖", "删/下架/打码", "可管", "#trade"],
       ["留言板", "全服聊天", "删单条、清空", "可管", "#board"],
-      ["资讯", "站点教程资讯", "发帖/草稿/发布/删", "可管", "#news"],
-      ["画师库", "官方画师串检索", "分页搜索；最高级屏蔽", "可管", "#artists"],
-      ["角色库", "作品角色系列", "按作品搜索；最高级屏蔽（解锁码无效）", "可管", "#characters"],
-      ["玩家偏好", "版本已读 / 兑换码痕迹", "查询、删除", "可管", "#prefs"],
-      ["画泥经济", "商店/抽奖/交易花泥", "余额在玩家本地+KV", "不可信管", ""],
-      ["标签库", "tags.json", "静态文件，无 API CRUD", "仓库维护", ""],
-      ["举报审核", "—", "暂无独立举报队列", "未建", ""],
-      ["创意工坊", "—", "本游戏未接入", "—", ""],
+      ["公告", "游戏顶栏公告", "编辑发布", "可管", "#notice"],
+      ["资讯", "站点教程", "发帖草稿发布", "可管", "#news"],
+      ["画师库/角色库", "官方检索素材", "搜索、最高级屏蔽", "可管", "#artists"],
+      ["举报审核", "—", "暂无独立队列", "未建", ""],
     ];
     root.innerHTML = `
       <div class="panel">
