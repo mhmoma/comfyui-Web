@@ -705,8 +705,6 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 6px 8px;
     font-size: 0.85rem;
     color: var(--text-secondary);
 }
@@ -737,7 +735,7 @@ textarea {
     color: var(--text-primary);
 }
 
-/* Prompt Tools：允许换行，避免横滑把左侧按钮挤没 */
+/* Prompt Tools */
 .prompt-tools {
     display: flex;
     flex-wrap: wrap;
@@ -746,20 +744,12 @@ textarea {
     justify-content: flex-end;
 }
 
-.random-artist-group {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    flex: 0 0 auto;
-}
-
 .inserted-chars-wrap {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 4px;
-    max-width: 100%;
-    margin: 2px 0 0;
+    max-width: min(100%, 420px);
 }
 
 .inserted-chars-wrap.hidden {
@@ -5910,7 +5900,7 @@ body.char-browser-open {
     color: #d97706;
 }
 
-/* ==================== 提示词标签可视化编辑器 ==================== */
+/* ==================== 鎻愮ず璇嶆爣绛惧彲瑙嗗寲缂栬緫鍣?==================== */
 .prompt-tags {
     display: flex;
     flex-wrap: wrap;
