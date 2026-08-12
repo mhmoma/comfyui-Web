@@ -908,14 +908,12 @@
         const btn = document.getElementById('btn-favorite-style');
         if (btn) btn.disabled = true;
         try {
-            const prompt = artists.map(_formatRandomArtistToken).filter(Boolean).join(', ');
             await ArtistChainManager.add({
                 name: `随机风格 · ${artists.length}画师`,
                 prompt: artists.join(', '),
                 imageData: '',
             });
-            // 若当前在画师串分类，刷新网格
-            if (posTagPicker && _isArtistChainsMode(posTagPicker)) {
+            if (posTagPicker && typeof _isArtistChainsMode === 'function' && _isArtistChainsMode(posTagPicker)) {
                 posTagPicker.renderGrid?.();
             }
             showToast('已加入画师 → 画师串');
