@@ -206,6 +206,29 @@ export async function onRequestGet(context) {
     const url = new URL(request.url);
     const admin = checkAdmin(request, env);
 
+    // 全量导出（迁移）
+    if (admin && url.searchParams.get('view') === 'export') {
+      const { results } = await db.prepare(
+        'SELECT id, text, name, user_id, ip, badge, cosmetics, at FROM board_messages ORDER BY at ASC'
+      ).all();
+      return json(200, {
+        ok: true,
+        export: true,
+        at: Date.now(),
+        rows: (results || []).map((row) => ({
+          id: row.id,
+          text: row.text,
+          name: row.name || '访客',
+          userId: row.user_id || '',
+          ip: row.ip || '',
+          badge: row.badge || '',
+          cosmetics: row.cosmetics || '',
+          at: Number(row.at) || 0,
+        })),
+        total: (results || []).length,
+      });
+    }
+
     // 轻量未读：?meta=1&since=时间戳
     if (url.searchParams.get('meta') === '1') {
       const since = Math.max(0, Math.floor(Number(url.searchParams.get('since')) || 0));
