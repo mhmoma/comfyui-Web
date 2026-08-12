@@ -3142,20 +3142,32 @@
         }
     }
 
+    const _inpaintStatusEndpoint = { yolo: null, sam: null }; // null=未知 true=可用 false=404/无此接口
+
     async function updateInpaintSamStatus() {
         const el = dom.inpaintSamStatus;
         if (!el) return;
         const txt = el.querySelector('.inpaint-sam-text');
         el.classList.remove('inpaint-sam-on', 'inpaint-sam-mid');
         el.classList.add('inpaint-sam-off');
+        if (_inpaintStatusEndpoint.sam === false) {
+            if (txt) txt.textContent = 'SAM 模型：本机无检测接口（可忽略）';
+            return;
+        }
         if (txt) txt.textContent = 'SAM 模型：检测中…';
         try {
             const res = await fetch(`${getServer()}/api/sam-status`);
-            const data = await res.json();
+            if (res.status === 404) {
+                _inpaintStatusEndpoint.sam = false;
+                if (txt) txt.textContent = 'SAM 模型：本机无检测接口（可忽略）';
+                return;
+            }
+            const data = await res.json().catch(() => null);
             if (!res.ok || !data?.ok) {
                 if (txt) txt.textContent = 'SAM 模型：检测失败';
                 return;
             }
+            _inpaintStatusEndpoint.sam = true;
             if (!data.deps_ok) {
                 if (txt) txt.textContent = 'SAM 模型：依赖缺失（红灯）';
                 return;
@@ -3184,14 +3196,24 @@
         const txt = el.querySelector('.inpaint-sam-text');
         el.classList.remove('inpaint-sam-on', 'inpaint-sam-mid');
         el.classList.add('inpaint-sam-off');
+        if (_inpaintStatusEndpoint.yolo === false) {
+            if (txt) txt.textContent = 'YOLO 模型：本机无检测接口（可忽略）';
+            return;
+        }
         if (txt) txt.textContent = 'YOLO 模型：检测中…';
         try {
             const res = await fetch(`${getServer()}/api/yolo-status`);
-            const data = await res.json();
+            if (res.status === 404) {
+                _inpaintStatusEndpoint.yolo = false;
+                if (txt) txt.textContent = 'YOLO 模型：本机无检测接口（可忽略）';
+                return;
+            }
+            const data = await res.json().catch(() => null);
             if (!res.ok || !data?.ok) {
                 if (txt) txt.textContent = 'YOLO 模型：检测失败';
                 return;
             }
+            _inpaintStatusEndpoint.yolo = true;
             if (!data.deps_ok) {
                 if (txt) txt.textContent = 'YOLO 模型：依赖缺失（红灯）';
                 return;
@@ -9409,7 +9431,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.03');
+        console.log('[ComfyUI Web] v5.04');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -11426,22 +11448,35 @@
         },
 
         async callAPI(text) {
-            if (this.provider === 'mymemory') {
-                const lines = text.split('\n');
-                const results = [];
-                for (const line of lines.slice(0, 10)) {
-                    try {
-                        const resp = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(line)}&langpair=en|zh-CN`);
-                        const data = await resp.json();
-                        results.push(data.responseData?.translatedText || line);
-                    } catch { results.push(line); }
-                }
-                return results.join('\n');
-            }
+            const payload = {
+                text,
+                provider: this.provider === 'mymemory' ? 'mymemory' : 'google',
+            };
 
-            const resp = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh&dt=t&q=${encodeURIComponent(text)}`);
-            const data = await resp.json();
-            return (data[0] || []).map(s => s[0]).join('');
+            // 同域边缘代理：避免浏览器直连 Google 被 CORS 拦截（tomkk.xyz / pages.dev）
+            try {
+                const resp = await fetch('/api/translate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                if (resp.ok) {
+                    const data = await resp.json();
+                    if (data?.ok && typeof data.text === 'string') return data.text;
+                }
+            } catch { /* fall through */ }
+
+            // 浏览器回退：MyMemory 通常允许跨域（Google 直连会被 CORS 拦）
+            const lines = text.split('\n');
+            const results = [];
+            for (const line of lines.slice(0, 10)) {
+                try {
+                    const resp = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(line)}&langpair=en|zh-CN`);
+                    const data = await resp.json();
+                    results.push(data.responseData?.translatedText || line);
+                } catch { results.push(line); }
+            }
+            return results.join('\n');
         },
 
         saveCache() {
