@@ -705,8 +705,16 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 8px;
     font-size: 0.85rem;
     color: var(--text-secondary);
+    flex-wrap: nowrap;
+    min-width: 0;
+}
+
+.prompt-label-row > span:first-child {
+    flex: 0 0 auto;
+    white-space: nowrap;
 }
 
 .prompt-block:first-child .prompt-label-row > span:first-child {
@@ -735,21 +743,31 @@ textarea {
     color: var(--text-primary);
 }
 
-/* Prompt Tools */
+/* Prompt Tools：单行横排，过长时可横滑 */
 .prompt-tools {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 4px;
     justify-content: flex-end;
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.prompt-tools > * {
+    flex: 0 0 auto;
 }
 
 .inserted-chars-wrap {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 4px;
-    max-width: min(100%, 420px);
+    max-width: none;
 }
 
 .inserted-chars-wrap.hidden {
@@ -3782,10 +3800,11 @@ body.char-browser-open {
     }
 
     .prompt-tools {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: flex-end;
         gap: 4px;
         max-width: 100%;
+        overflow-x: auto;
     }
 
     .prompt-area,
@@ -4728,22 +4747,26 @@ body.char-browser-open {
     }
 
     .main.mobile-tab-create .prompt-tags-bar {
-        flex: 1;
+        flex: 0 0 auto;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        align-items: stretch;
         min-height: 0;
     }
 
     .main.mobile-tab-create .prompt-tags {
-        flex: 1;
+        flex: 1 1 auto;
         max-height: none;
-        min-height: 44px;
-        align-items: flex-start;
-        align-content: flex-start;
+        min-height: 36px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        align-items: center;
+        align-content: center;
     }
 
     .main.mobile-tab-create .prompt-tag {
-        align-self: flex-start;
+        align-self: center;
         height: auto;
     }
 
@@ -5900,21 +5923,23 @@ body.char-browser-open {
     color: #d97706;
 }
 
-/* ==================== 鎻愮ず璇嶆爣绛惧彲瑙嗗寲缂栬緫鍣?==================== */
+/* ==================== 提示词标签可视化编辑器 ==================== */
 .prompt-tags {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 5px;
     padding: 6px 8px;
     min-height: 0;
-    max-height: 30vh;
-    overflow-y: auto;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
     border-radius: 0 0 var(--radius) var(--radius);
     background: rgba(0, 0, 0, 0.15);
     border: 1px solid var(--border);
     border-top: none;
     margin-top: -1px;
-    transition: min-height 0.2s;
 }
 
 .prompt-tags:empty {
