@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>生图工具 · ComfyUI Web v5.09</title>
-    <link rel="stylesheet" href="style.css?v=479">
+    <title>生图工具 · ComfyUI Web v5.10</title>
+    <link rel="stylesheet" href="style.css?v=480">
     <meta name="theme-color" content="#e94560">
     <script>
     (function () {
@@ -27,7 +27,7 @@
     <div class="app">
         <header class="header">
             <a href="/" class="site-home-link" title="返回首页">🏠</a>
-            <h1>ComfyUI Web <span id="app-version" class="version-badge">v5.09</span></h1>
+            <h1>ComfyUI Web <span id="app-version" class="version-badge">v5.10</span></h1>
             <nav class="header-tools" aria-label="工具栏">
                 <div class="conn-status" id="conn-status" title="ComfyUI 连接状态">
                     <span class="conn-dot" id="conn-dot" aria-hidden="true"></span>
@@ -681,14 +681,16 @@
                             <span>正向提示词</span>
                             <div class="prompt-tools">
                                 <div id="inserted-chars-wrap" class="inserted-chars-wrap hidden" aria-label="已加入的角色"></div>
-                                <button type="button" id="btn-random-artists" class="btn-copy-prompt" title="从画师库随机生成融合画师串">🎲 随机画师串</button>
-                                <select id="random-artist-count" class="random-artist-count" title="随机画师数量" aria-label="随机画师数量">
-                                    <option value="2">2</option>
-                                    <option value="3" selected>3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                                <button type="button" id="btn-favorite-style" class="btn-copy-prompt" title="把当前随机画师串加入「画师 → 画师串」" disabled>⭐ 收藏串</button>
+                                <div class="random-artist-group" title="随机画师串">
+                                    <button type="button" id="btn-random-artists" class="btn-copy-prompt" title="从画师库随机生成融合画师串">🎲 随机画师串</button>
+                                    <select id="random-artist-count" class="random-artist-count" title="随机画师数量" aria-label="随机画师数量">
+                                        <option value="2">2</option>
+                                        <option value="3" selected>3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                    <button type="button" id="btn-favorite-style" class="btn-copy-prompt" title="把当前随机画师串加入「画师 → 画师串」" disabled>⭐ 收藏串</button>
+                                </div>
                                 <button id="btn-import-meta" class="btn-copy-prompt" title="从图片导入生成参数">📥 导入参数</button>
                                 <button class="btn-copy-prompt btn-clear-prompt" data-target="txt-positive" title="清空">🗑️ 清空</button>
                                 <button id="btn-wildcard" class="btn-copy-prompt" title="插入通配符">🎲 通配符</button>
@@ -1258,7 +1260,7 @@
     <!-- 教程弹窗 -->
     <div id="modal-tutorial" class="modal hidden">
         <div class="modal-content tutorial-content">
-            <h2>使用教程 <small class="tutorial-ver">适配 v5.09</small></h2>
+            <h2>使用教程 <small class="tutorial-ver">适配 v5.10</small></h2>
             <div class="tutorial-body">
                 <p class="tutorial-lead">本教程面向完全新手。目标：用<strong>秋叶启动器</strong>或<strong>Boat / .bat 启动</strong>打开 ComfyUI，再在本站填好参数并出第一张图。</p>
 
@@ -1714,7 +1716,7 @@
 
     <script src="vendor/jsQR.js"></script>
     <script src="lora-library.js?v=5"></script>
-    <script src="script.js?v=505"></script>
+    <script src="script.js?v=506"></script>
     <script src="/assets/pwa-register.js?v=3"></script>
 </body>
 </html>

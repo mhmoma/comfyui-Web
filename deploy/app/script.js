@@ -9724,7 +9724,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.09');
+        console.log('[ComfyUI Web] v5.10');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
