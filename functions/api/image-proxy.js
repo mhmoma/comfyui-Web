@@ -2,8 +2,8 @@
  * 服务端拉取平台画图链，转成 data URL 返回给游戏前端。
  * 绕过浏览器 CORS（dzmm draw 图在 iframe/本地预览下无法直接 fetch）。
  */
-const MAX_BYTES = 2_500_000;
-const MAX_DATA_URL = 1_200_000;
+const MAX_BYTES = 5_000_000;
+const MAX_DATA_URL = 4_500_000;
 
 const ALLOW_SUFFIXES = [
   "dzmm.ai",
