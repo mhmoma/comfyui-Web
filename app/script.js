@@ -7342,7 +7342,8 @@
     }
 
     function _injectArtistGroup() {
-        tagData = tagData.filter(g => !g._isArtistGroup);
+        // 去掉 tags.json 里的旧「画师风格」静态词表，以及上次注入的虚拟组，避免桌面标签栏出现双 Tab / 作品数分段
+        tagData = tagData.filter(g => !g._isArtistGroup && g.name !== '画师风格');
         const artistGroup = {
             name: '画师风格',
             _isArtistGroup: true,
@@ -9408,7 +9409,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.01');
+        console.log('[ComfyUI Web] v5.02');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
