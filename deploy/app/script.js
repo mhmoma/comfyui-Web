@@ -853,7 +853,7 @@
         const artists = _resolveStyleArtists();
         btn.disabled = artists.length === 0;
         btn.title = artists.length
-            ? `把当前 ${artists.length} 个画师串加入「画师 → 画师串」`
+            ? `把当前 ${artists.length} 个画师串收藏到「画师 → 画师串」（需选封面）`
             : '请先随机画师串，或在正向开头保留画师串';
     }
 
@@ -898,6 +898,212 @@
         }
     }
 
+    function _collectStyleCoverCandidates(limit = 12) {
+        const seen = new Set();
+        const out = [];
+        const push = (src) => {
+            const u = String(src || '').trim();
+            if (!u || seen.has(u)) return;
+            seen.add(u);
+            out.push(u);
+        };
+        const resultImg = document.getElementById('result-image');
+        if (resultImg && !resultImg.classList.contains('hidden') && resultImg.src) {
+            push(resultImg.src);
+        }
+        try {
+            const hist = typeof getHistory === 'function' ? getHistory() : [];
+            for (const item of hist) {
+                if (out.length >= limit) break;
+                push(item?.fullUrl || item?.url);
+            }
+        } catch { /* ignore */ }
+        return out.slice(0, limit);
+    }
+
+    function _escapeStyleAttr(value) {
+        return String(value || '').replace(/[&<>"'`]/g, (c) => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;',
+        }[c]));
+    }
+
+    function _compressDataUrlThumb(dataUrl, maxSide = 480, quality = 0.85) {
+        return new Promise((resolve) => {
+            if (!dataUrl) return resolve('');
+            const img = new Image();
+            img.onload = () => {
+                try {
+                    let w = img.naturalWidth || img.width;
+                    let h = img.naturalHeight || img.height;
+                    if (!w || !h) return resolve('');
+                    if (w > maxSide || h > maxSide) {
+                        const ratio = Math.min(maxSide / w, maxSide / h);
+                        w = Math.round(w * ratio);
+                        h = Math.round(h * ratio);
+                    }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                } catch {
+                    resolve('');
+                }
+            };
+            img.onerror = () => resolve('');
+            img.src = dataUrl;
+        });
+    }
+
+    async function _imageSrcToChainThumb(src, maxSide = 480) {
+        const raw = String(src || '').trim();
+        if (!raw) return '';
+        if (raw.startsWith('data:')) {
+            return (await _compressDataUrlThumb(raw, maxSide)) || raw;
+        }
+        // 优先用页面里已显示的同 src 图（避开跨域污染）
+        try {
+            const imgs = document.querySelectorAll('#result-image, #history-grid img, .history-item img');
+            for (const el of imgs) {
+                if (el?.src === raw && el.naturalWidth) {
+                    const canvas = document.createElement('canvas');
+                    let w = el.naturalWidth;
+                    let h = el.naturalHeight;
+                    if (w > maxSide || h > maxSide) {
+                        const ratio = Math.min(maxSide / w, maxSide / h);
+                        w = Math.round(w * ratio);
+                        h = Math.round(h * ratio);
+                    }
+                    canvas.width = w;
+                    canvas.height = h;
+                    canvas.getContext('2d').drawImage(el, 0, 0, w, h);
+                    return canvas.toDataURL('image/jpeg', 0.85);
+                }
+            }
+        } catch { /* fall through */ }
+        try {
+            const res = await fetch(raw);
+            if (!res.ok) throw new Error('fetch failed');
+            const blob = await res.blob();
+            const dataUrl = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(reader.error);
+                reader.readAsDataURL(blob);
+            });
+            return (await _compressDataUrlThumb(dataUrl, maxSide)) || '';
+        } catch {
+            return '';
+        }
+    }
+
+    let _styleCoverResolver = null;
+
+    function _ensureStyleCoverPicker() {
+        let overlay = document.getElementById('style-cover-overlay');
+        if (overlay) return overlay;
+        overlay = document.createElement('div');
+        overlay.id = 'style-cover-overlay';
+        overlay.className = 'modal hidden';
+        overlay.setAttribute('aria-hidden', 'true');
+        overlay.innerHTML = `
+            <div class="modal-content style-cover-card" role="dialog" aria-modal="true" aria-labelledby="style-cover-title">
+                <h3 id="style-cover-title">收藏画师串</h3>
+                <p id="style-cover-trigger" class="style-cover-trigger"></p>
+                <p class="style-cover-hint">选一张图做封面（本地永久保存）</p>
+                <div id="style-cover-grid" class="style-cover-grid"></div>
+                <div class="style-cover-upload-row">
+                    <input type="file" id="style-cover-file" accept="image/*" class="hidden">
+                    <button type="button" class="btn-secondary" id="style-cover-upload">上传封面</button>
+                    <span id="style-cover-upload-name" class="style-cover-upload-name"></span>
+                </div>
+                <div class="modal-actions style-cover-actions">
+                    <button type="button" class="btn-secondary" id="style-cover-cancel">取消</button>
+                    <button type="button" class="btn-primary" id="style-cover-ok">收藏</button>
+                </div>
+            </div>`;
+        document.body.appendChild(overlay);
+        const close = (result) => {
+            overlay.classList.add('hidden');
+            overlay.setAttribute('aria-hidden', 'true');
+            const resolver = _styleCoverResolver;
+            _styleCoverResolver = null;
+            if (resolver) resolver(result);
+        };
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) close(null);
+        });
+        overlay.querySelector('#style-cover-cancel').addEventListener('click', () => close(null));
+        overlay.querySelector('#style-cover-ok').addEventListener('click', () => {
+            const picked = overlay.querySelector('input[name="style-cover"]:checked');
+            const uploadData = overlay._uploadDataUrl || '';
+            const cover = uploadData || (picked ? String(picked.value || '') : '');
+            if (!cover) {
+                showToast('请选择或上传一张封面图');
+                return;
+            }
+            close({ cover });
+        });
+        overlay.querySelector('#style-cover-upload').addEventListener('click', () => {
+            overlay.querySelector('#style-cover-file').click();
+        });
+        overlay.querySelector('#style-cover-file').addEventListener('change', async (e) => {
+            const file = e.target.files?.[0];
+            e.target.value = '';
+            if (!file) return;
+            try {
+                const dataUrl = await _compressChainImageFile(file, 480);
+                overlay._uploadDataUrl = dataUrl;
+                const nameEl = overlay.querySelector('#style-cover-upload-name');
+                if (nameEl) nameEl.textContent = file.name || '已选本地图';
+                overlay.querySelectorAll('.style-cover-option').forEach((el) => el.classList.remove('is-selected'));
+                overlay.querySelectorAll('input[name="style-cover"]').forEach((inp) => { inp.checked = false; });
+            } catch (err) {
+                showToast(err?.message || '封面读取失败');
+            }
+        });
+        return overlay;
+    }
+
+    function _openStyleCoverPicker(artists, images) {
+        return new Promise((resolve) => {
+            const overlay = _ensureStyleCoverPicker();
+            if (_styleCoverResolver) _styleCoverResolver(null);
+            _styleCoverResolver = resolve;
+            overlay._uploadDataUrl = '';
+            const triggerEl = overlay.querySelector('#style-cover-trigger');
+            const grid = overlay.querySelector('#style-cover-grid');
+            const nameEl = overlay.querySelector('#style-cover-upload-name');
+            const hint = overlay.querySelector('.style-cover-hint');
+            if (triggerEl) triggerEl.textContent = artists.join(', ');
+            if (nameEl) nameEl.textContent = '';
+            if (hint) {
+                hint.textContent = images.length
+                    ? '选一张生成/历史图做封面，或上传本地图（永久存本机）'
+                    : '暂无生成图，请上传一张封面（永久存本机）';
+            }
+            grid.innerHTML = images.map((src, index) => {
+                const id = `style-cover-img-${index}`;
+                const checked = index === 0 ? ' checked' : '';
+                const selected = index === 0 ? ' is-selected' : '';
+                return `<label class="style-cover-option${selected}" for="${id}">
+                    <input type="radio" name="style-cover" id="${id}" value="${_escapeStyleAttr(src)}"${checked}>
+                    <img src="${_escapeStyleAttr(src)}" alt="封面${index + 1}" loading="lazy" decoding="async">
+                </label>`;
+            }).join('');
+            grid.querySelectorAll('input[name="style-cover"]').forEach((input) => {
+                input.addEventListener('change', () => {
+                    overlay._uploadDataUrl = '';
+                    if (nameEl) nameEl.textContent = '';
+                    grid.querySelectorAll('.style-cover-option').forEach((el) => el.classList.remove('is-selected'));
+                    input.closest('.style-cover-option')?.classList.add('is-selected');
+                });
+            });
+            overlay.classList.remove('hidden');
+            overlay.setAttribute('aria-hidden', 'false');
+        });
+    }
+
     async function favoriteCurrentStyle() {
         const artists = _resolveStyleArtists();
         if (!artists.length) {
@@ -908,15 +1114,32 @@
         const btn = document.getElementById('btn-favorite-style');
         if (btn) btn.disabled = true;
         try {
+            const images = _collectStyleCoverCandidates(12);
+            const pick = await _openStyleCoverPicker(artists, images);
+            if (!pick) return;
+            let cover = String(pick.cover || '').trim();
+            if (!cover) {
+                showToast('请选择或上传一张封面图');
+                return;
+            }
+            if (!cover.startsWith('data:')) {
+                cover = await _imageSrcToChainThumb(cover, 480);
+            } else {
+                cover = (await _compressDataUrlThumb(cover, 480)) || cover;
+            }
+            if (!cover) {
+                showToast('封面处理失败，请换一张图或上传本地文件');
+                return;
+            }
             await ArtistChainManager.add({
                 name: `随机风格 · ${artists.length}画师`,
                 prompt: artists.join(', '),
-                imageData: '',
+                imageData: cover,
             });
             if (posTagPicker && typeof _isArtistChainsMode === 'function' && _isArtistChainsMode(posTagPicker)) {
                 posTagPicker.renderGrid?.();
             }
-            showToast('已加入画师 → 画师串');
+            showToast('已收藏（含封面，本地永久保存）');
         } catch (err) {
             showToast(err?.message || '收藏失败');
         } finally {
@@ -9724,7 +9947,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.11');
+        console.log('[ComfyUI Web] v5.12');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();

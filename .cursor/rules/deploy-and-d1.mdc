@@ -6,7 +6,7 @@ alwaysApply: true
 
 # ComfyUI-Web 部署与 D1 数据库操作规范
 
-> **部署版本**: 1.220
+> **部署版本**: 1.221
 > **版本记录**: 见底部「版本历史」 
 > **重要**: 每次修改代码后，必须更新本文件的**部署版本号**和**版本历史**。凡前端相关代码变更（`index.html` / `script.js` / `style.css` 及 `deploy/` 对应文件），必须递增前端版本号与静态资源版本参数。
 
@@ -354,6 +354,7 @@ D1 绑定在 Settings → Functions → D1 database bindings：
 | 1.205 | 2026-08-11 | DZMM 站长中转 | 线上经 `dzmm_public_relay`（loca.lt）住宅出口；不再误报 Cookie/跨域；设置可改中转地址（`app v4.96` / `script.js?v=492`） |
 | 1.206 | 2026-08-11 | DZMM 出图 URL/CORS | 去掉 Bypass-Tunnel-Reminder 预检失败；图 URL 拼中转域名；线上不再误锁 127.0.0.1（`app v4.97` / `script.js?v=493`） |
 | 1.209 | 2026-08-11 | 强制刷新 NAI 修复缓存 | 升 `app v5.00` / `script.js?v=496` / SW `shell-v3`，避免 PWA/边缘缓存继续跑缺常量的旧脚本 |
+| 1.221 | 2026-08-12 | 收藏画师串带封面 | 收藏时必选生成/历史或上传封面，JPEG 缩略图永久写入 IndexedDB（`app v5.12` / `style.css?v=482` / `script.js?v=508`） |
 | 1.220 | 2026-08-12 | 随机数量下拉加宽 | 数量 select 略加宽，保证数字可见（pp v5.11 / style.css?v=481 / script.js?v=507） |
 | 1.219 | 2026-08-12 | 随机画师串成组紧凑 | 随机/数量/收藏绑一行；数量下拉缩到最短；其余提示词布局不动（`app v5.10` / `style.css?v=480` / `script.js?v=506`） |
 | 1.218 | 2026-08-12 | 回退提示词栏布局实验 | 还原到 v5.06 工具栏结构（角色 chip+随机画师串可见、允许换行）；撤销 v5.07/v5.08 单行/挪位实验（`app v5.09` / `style.css?v=479` / `script.js?v=505`） |
