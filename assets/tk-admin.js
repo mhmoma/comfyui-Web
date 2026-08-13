@@ -841,7 +841,7 @@
                   </td>
                   <td><strong>${escapeHtml(String(s.mudBalance ?? 0))}</strong></td>
                   <td>${escapeHtml(String(s.mudOwnedCount ?? 0))}</td>
-                  <td>${escapeHtml(String(s.unlockedCount ?? 0))}</td>
+                  <td>${s.unlockedAll || s.unlockedCount === -1 ? "全部" : escapeHtml(String(s.unlockedCount ?? 0))}</td>
                   <td>${escapeHtml(String(row.blockCount ?? 0))}</td>
                   <td>${escapeHtml(s.themeLabel || s.theme || "—")}</td>
                   <td class="meta">${escapeHtml(formatTime(row.updatedAt))}</td>
@@ -905,7 +905,7 @@
           <div class="summary-card"><div class="k">玩家</div><div class="v">${escapeHtml(name)}</div></div>
           <div class="summary-card"><div class="k">画泥余额</div><div class="v">${escapeHtml(String(s.mudBalance ?? 0))}</div></div>
           <div class="summary-card"><div class="k">已购装扮</div><div class="v">${escapeHtml(String(s.mudOwnedCount ?? 0))}</div></div>
-          <div class="summary-card"><div class="k">已解锁作品</div><div class="v">${escapeHtml(String(s.unlockedCount ?? 0))}</div></div>
+          <div class="summary-card"><div class="k">已解锁作品</div><div class="v">${s.unlockedAll || s.unlockedCount === -1 ? "全部" : escapeHtml(String(s.unlockedCount ?? 0))}</div></div>
           <div class="summary-card"><div class="k">个人隐藏</div><div class="v">${escapeHtml(String(blocks.length))}</div></div>
           <div class="summary-card"><div class="k">主题</div><div class="v">${escapeHtml(s.themeLabel || "—")}</div></div>
         </div>
@@ -946,22 +946,26 @@
       </div>
 
       <div class="panel detail-block">
-        <h3>③ 解锁状态（已解锁哪些）</h3>
+        <h3>③ 解锁状态</h3>
+        <p class="meta">「全部解锁」= 可直接选用全部作品（等同玩家 tk321）。「仅预览锁定列表」= 只让列表里看到锁着的作品，仍需单独解锁才能用（等同 tk666）。</p>
         <div class="chip-list">
-          ${unlocked.length ? unlocked.map((id) => `
+          ${s.unlockedAll || unlocked.includes("*")
+            ? `<span class="chip">★ 已全部解锁</span>`
+            : (unlocked.length ? unlocked.map((id) => `
             <span class="chip mono">
               ${escapeHtml(id)}
               <button type="button" class="danger tiny" data-del-unlock="${escapeHtml(id)}">收回</button>
-            </span>`).join("") : `<span class="meta">尚未解锁任何需码作品</span>`}
+            </span>`).join("") : `<span class="meta">尚未解锁任何需码作品</span>`)}
         </div>
         <div class="lazy-row">
           <input id="unlock-id" class="grow" placeholder="作品 ID（与角色库一致，如 fate_(series)）">
           <button type="button" class="primary" id="add-unlock">解锁该作品</button>
+          <button type="button" class="primary" id="unlock-all">全部解锁</button>
           <button type="button" class="warn" id="clear-unlocks">清空全部解锁</button>
         </div>
         <p class="meta">后台改解锁/画泥/装扮后，玩家需重新打开游戏才会同步。作品 ID 可在「角色库」复制。</p>
         <div class="lazy-row flags">
-          <label><input type="checkbox" id="flag-locked" ${s.lockedOn ? "checked" : ""}> 允许看锁定作品列表</label>
+          <label><input type="checkbox" id="flag-locked" ${s.lockedOn ? "checked" : ""}> 仅预览锁定列表（不真正解锁）</label>
           <label><input type="checkbox" id="flag-hidden" ${s.hiddenOn ? "checked" : ""}> 开启隐藏区（tk18）</label>
           <label><input type="checkbox" id="flag-adult" ${s.adultOn ? "checked" : ""}> 成人标签</label>
           <button type="button" class="primary" id="save-flags">保存开关</button>
@@ -1054,6 +1058,11 @@
       const seriesId = ($("unlock-id")?.value || "").trim();
       if (!seriesId) return alert("请填写作品 ID");
       await userAction(userId, "add_unlock", { seriesId });
+      render();
+    });
+    $("unlock-all")?.addEventListener("click", async () => {
+      if (!confirm(`确认给 ${name} 全部解锁？等同玩家端 tk321，可直接选用全部作品。`)) return;
+      await userAction(userId, "unlock_all");
       render();
     });
     $("clear-unlocks")?.addEventListener("click", async () => {
