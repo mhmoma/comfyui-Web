@@ -1,4 +1,49 @@
-const ALLOWED_KEYS = new Set(["seen_version", "mud_codes"]);
+const ALLOWED_KEYS = new Set([
+  "seen_version",
+  "mud_codes",
+  "ui_theme",
+  "notice_seen_at",
+  "board_seen_at",
+  "notice_bar_hide",
+  "unlocked_series",
+  "show_locked_series",
+  "show_hidden_series",
+  "show_adult_tags",
+  "fav_tags",
+  "fav_artist_data",
+  "tag_usage",
+  "recent_series",
+  "mud_balance",
+  "mud_owned",
+  "mud_equip",
+  "mud_ach_show",
+  "mud_draw_day",
+  "admin_stamp",
+]);
+
+const VALUE_MAX = {
+  seen_version: 32,
+  mud_codes: 512,
+  ui_theme: 16,
+  notice_seen_at: 24,
+  board_seen_at: 24,
+  notice_bar_hide: 96,
+  unlocked_series: 12_000,
+  show_locked_series: 8,
+  show_hidden_series: 8,
+  show_adult_tags: 8,
+  fav_tags: 6_000,
+  fav_artist_data: 12_000,
+  tag_usage: 12_000,
+  recent_series: 2_000,
+  mud_balance: 24,
+  mud_owned: 6_000,
+  mud_equip: 2_000,
+  mud_ach_show: 2_000,
+  mud_draw_day: 96,
+  admin_stamp: 24,
+};
+
 const PAGE_SIZE = 30;
 
 const SCHEMA = [
@@ -28,7 +73,7 @@ function json(status, data) {
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key, x-user-id",
     },
   });
 }
@@ -39,7 +84,7 @@ function corsPreflight() {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key, x-user-id",
     },
   });
 }
@@ -59,14 +104,26 @@ function cleanKey(value) {
 }
 
 function cleanValue(value, key = "") {
-  const max = key === "mud_codes" ? 512 : 64;
-  return String(value ?? "").trim().slice(0, max);
+  const max = VALUE_MAX[key] || 256;
+  return String(value ?? "").slice(0, max);
+}
+
+async function upsertPref(db, userId, key, value) {
+  const now = Date.now();
+  await db.prepare(
+    `INSERT INTO player_prefs (user_id, pref_key, pref_value, updated_at)
+     VALUES (?, ?, ?, ?)
+     ON CONFLICT(user_id, pref_key) DO UPDATE SET
+       pref_value = excluded.pref_value,
+       updated_at = excluded.updated_at`
+  ).bind(userId, key, value, now).run();
+  return now;
 }
 
 export async function onRequest(context) {
   const { request, env } = context;
   if (request.method === "OPTIONS") return corsPreflight();
-  if (!env.DB) return json(500, { ok: false, error: "no_db", message: "数据库未配置" });
+  if (!env.DB) return json(500, { ok: false, error: "no_db", message: "鏁版嵁搴撴湭閰嶇疆" });
 
   await ensureTable(env.DB);
   const url = new URL(request.url);
@@ -120,9 +177,25 @@ export async function onRequest(context) {
     }
 
     const userId = cleanUserId(url.searchParams.get("userId"));
+    if (!userId) return json(400, { ok: false, error: "no_user", message: "缂哄皯 userId" });
+
+    if (url.searchParams.get("all") === "1") {
+      const { results } = await env.DB.prepare(
+        "SELECT pref_key, pref_value, updated_at FROM player_prefs WHERE user_id = ?"
+      ).bind(userId).all();
+      const prefs = {};
+      for (const row of results || []) {
+        if (!ALLOWED_KEYS.has(row.pref_key)) continue;
+        prefs[row.pref_key] = {
+          value: row.pref_value || "",
+          updatedAt: Number(row.updated_at) || 0,
+        };
+      }
+      return json(200, { ok: true, userId, prefs });
+    }
+
     const key = cleanKey(url.searchParams.get("key") || "seen_version");
-    if (!userId) return json(400, { ok: false, error: "no_user", message: "缺少 userId" });
-    if (!key) return json(400, { ok: false, error: "bad_key", message: "不支持的 key" });
+    if (!key) return json(400, { ok: false, error: "bad_key", message: "涓嶆敮鎸佺殑 key" });
     const row = await env.DB.prepare(
       "SELECT pref_value, updated_at FROM player_prefs WHERE user_id = ? AND pref_key = ? LIMIT 1"
     ).bind(userId, key).first();
@@ -136,10 +209,10 @@ export async function onRequest(context) {
   }
 
   if (request.method === "DELETE") {
-    if (!admin) return json(403, { ok: false, error: "forbid", message: "需要管理密钥" });
+    if (!admin) return json(403, { ok: false, error: "forbid", message: "闇€瑕佺鐞嗗瘑閽? });
     const userId = cleanUserId(url.searchParams.get("userId"));
     const key = cleanKey(url.searchParams.get("key") || "");
-    if (!userId) return json(400, { ok: false, error: "no_user", message: "缺少 userId" });
+    if (!userId) return json(400, { ok: false, error: "no_user", message: "缂哄皯 userId" });
     if (key) {
       await env.DB.prepare(
         "DELETE FROM player_prefs WHERE user_id = ? AND pref_key = ?"
@@ -155,13 +228,13 @@ export async function onRequest(context) {
     try {
       body = await request.json();
     } catch (_) {
-      return json(400, { ok: false, error: "bad_json", message: "请求体无效" });
+      return json(400, { ok: false, error: "bad_json", message: "璇锋眰浣撴棤鏁? });
     }
 
     if (admin && String(body.action || "") === "admin_delete") {
       const userId = cleanUserId(body.userId);
       const key = cleanKey(body.key || "");
-      if (!userId) return json(400, { ok: false, error: "no_user", message: "缺少 userId" });
+      if (!userId) return json(400, { ok: false, error: "no_user", message: "缂哄皯 userId" });
       if (key) {
         await env.DB.prepare(
           "DELETE FROM player_prefs WHERE user_id = ? AND pref_key = ?"
@@ -173,21 +246,26 @@ export async function onRequest(context) {
     }
 
     const userId = cleanUserId(body.userId);
+    if (!userId) return json(400, { ok: false, error: "no_user", message: "缂哄皯 userId" });
+
+    if (body.prefs && typeof body.prefs === "object" && !Array.isArray(body.prefs)) {
+      const saved = {};
+      for (const [rawKey, rawVal] of Object.entries(body.prefs)) {
+        const key = cleanKey(rawKey);
+        if (!key) continue;
+        const value = cleanValue(rawVal, key);
+        const updatedAt = await upsertPref(env.DB, userId, key, value);
+        saved[key] = { value, updatedAt };
+      }
+      return json(200, { ok: true, userId, prefs: saved });
+    }
+
     const key = cleanKey(body.key || "seen_version");
     const value = cleanValue(body.value, key);
-    if (!userId) return json(400, { ok: false, error: "no_user", message: "缺少 userId" });
-    if (!key) return json(400, { ok: false, error: "bad_key", message: "不支持的 key" });
-    if (!value) return json(400, { ok: false, error: "empty", message: "value 不能为空" });
-    const now = Date.now();
-    await env.DB.prepare(
-      `INSERT INTO player_prefs (user_id, pref_key, pref_value, updated_at)
-       VALUES (?, ?, ?, ?)
-       ON CONFLICT(user_id, pref_key) DO UPDATE SET
-         pref_value = excluded.pref_value,
-         updated_at = excluded.updated_at`
-    ).bind(userId, key, value, now).run();
-    return json(200, { ok: true, userId, key, value, updatedAt: now });
+    if (!key) return json(400, { ok: false, error: "bad_key", message: "涓嶆敮鎸佺殑 key" });
+    const updatedAt = await upsertPref(env.DB, userId, key, value);
+    return json(200, { ok: true, userId, key, value, updatedAt });
   }
 
-  return json(405, { ok: false, error: "method", message: "不支持的方法" });
+  return json(405, { ok: false, error: "method", message: "涓嶆敮鎸佺殑鏂规硶" });
 }

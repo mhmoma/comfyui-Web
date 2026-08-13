@@ -1,8 +1,8 @@
 const PAGE_SIZE = 12;
 const MAX_TITLE = 40;
 const MAX_TRIGGER = 800;
-const MAX_IMAGE = 220_000;
-const MAX_THUMB = 60_000;
+const MAX_IMAGE = 280_000;
+const MAX_THUMB = 120_000;
 const MAX_PRICE = 5;
 const RATE_WINDOW_MS = 20_000;
 
@@ -410,31 +410,6 @@ export async function onRequest(context) {
     const adminView = admin && url.searchParams.get("view") === "admin";
     const listPageSize = adminView ? 12 : PAGE_SIZE;
     const thumbId = String(url.searchParams.get("thumb") || "").trim().slice(0, 64);
-
-    // 全量导出（迁移到 tk-game-cloud）
-    if (admin && url.searchParams.get("view") === "export") {
-      const { results: listings } = await env.DB.prepare(
-        `SELECT id, seller_id, seller_name, title, trigger_text, content_hash, price,
-                image, thumb, image_blocked, status, at
-         FROM artist_trade_listings
-         ORDER BY at ASC`
-      ).all();
-      const { results: purchases } = await env.DB.prepare(
-        `SELECT listing_id, buyer_id, at FROM artist_trade_purchases ORDER BY at ASC`
-      ).all();
-      const { results: earnings } = await env.DB.prepare(
-        `SELECT id, seller_id, buyer_id, listing_id, amount, claimed, at
-         FROM artist_trade_earnings ORDER BY at ASC`
-      ).all();
-      return json(200, {
-        ok: true,
-        export: true,
-        at: Date.now(),
-        listings: listings || [],
-        purchases: purchases || [],
-        earnings: earnings || [],
-      });
-    }
 
     // 单张缩略图：列表不再内嵌 data URL，浏览器可并行拉取 + CDN 缓存
     if (thumbId) {
