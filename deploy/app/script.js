@@ -1592,7 +1592,8 @@
         steps: 30,
         cfg: 4,
         sampler: 'euler',
-        scheduler: 'simple',
+        // 2.9B 作者推荐 sgm_uniform；原版 Anima 也可用 simple
+        scheduler: 'sgm_uniform',
         clipSkip: '1',
     };
 
@@ -2362,22 +2363,44 @@
         try {
             const unetData = await apiGet('/object_info/UNETLoader');
             const unets = unetData.UNETLoader.input.required.unet_name[0];
+            const prevUnet = dom.selUnet.value;
             dom.selUnet.innerHTML = '';
             unets.forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; dom.selUnet.appendChild(o); });
+            // 优先还原已选；否则若有 Anima-2.9B 则默认选它
+            if (prevUnet && unets.includes(prevUnet)) {
+                dom.selUnet.value = prevUnet;
+            } else {
+                const prefer29 = unets.find(m => /Anima-2\.9B/i.test(m));
+                if (prefer29) dom.selUnet.value = prefer29;
+            }
         } catch (e) { dom.selUnet.innerHTML = '<option>无可用模型</option>'; }
 
         try {
             const clipData = await apiGet('/object_info/CLIPLoader');
             const clips = clipData.CLIPLoader.input.required.clip_name[0];
+            const prevClip = dom.selClip.value;
             dom.selClip.innerHTML = '';
             clips.forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; dom.selClip.appendChild(o); });
+            if (prevClip && clips.includes(prevClip)) {
+                dom.selClip.value = prevClip;
+            } else {
+                const preferQwen = clips.find(m => /qwen_3_06b/i.test(m));
+                if (preferQwen) dom.selClip.value = preferQwen;
+            }
         } catch (e) { dom.selClip.innerHTML = '<option>无可用编码器</option>'; }
 
         try {
             const vaeData = await apiGet('/object_info/VAELoader');
             const vaes = vaeData.VAELoader.input.required.vae_name[0];
+            const prevVae = dom.selAnimaVae.value;
             dom.selAnimaVae.innerHTML = '';
             vaes.forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; dom.selAnimaVae.appendChild(o); });
+            if (prevVae && vaes.includes(prevVae)) {
+                dom.selAnimaVae.value = prevVae;
+            } else {
+                const preferQwenVae = vaes.find(m => /qwen_image_vae/i.test(m));
+                if (preferQwenVae) dom.selAnimaVae.value = preferQwenVae;
+            }
         } catch (e) { dom.selAnimaVae.innerHTML = '<option>无可用VAE</option>'; }
     }
 

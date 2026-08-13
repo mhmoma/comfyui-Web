@@ -144,8 +144,9 @@
         </section>
 
         <section class="guide-section" id="anima">
-            <h2>6. Anima Base v1.0 下载</h2>
-            <p>选 Anima 架构后，三个下拉框分别对应：</p>
+            <h2>6. Anima 模型下载</h2>
+            <p>选 Anima 架构后，三个下拉框分别对应扩散模型 / 文本编码器 / VAE。</p>
+            <h3>Anima Base v1.0（2B）</h3>
             <ul>
                 <li><code>anima-base-v1.0.safetensors</code> → <code>models/diffusion_models/</code>
                     — <a href="https://huggingface.co/circlestone-labs/Anima/resolve/main/split_files/diffusion_models/anima-base-v1.0.safetensors" target="_blank" rel="noopener">下载</a></li>
@@ -154,7 +155,14 @@
                 <li><code>qwen_image_vae.safetensors</code> → <code>models/vae/</code>
                     — <a href="https://huggingface.co/circlestone-labs/Anima/resolve/main/split_files/vae/qwen_image_vae.safetensors" target="_blank" rel="noopener">下载</a></li>
             </ul>
-            <p><a href="https://huggingface.co/circlestone-labs/Anima" target="_blank" rel="noopener">Hugging Face 主页 →</a> · 应用内 📖 教程可一键下载。</p>
+            <p><a href="https://huggingface.co/circlestone-labs/Anima" target="_blank" rel="noopener">Hugging Face 主页 →</a></p>
+            <h3>Anima-2.9B preview</h3>
+            <p>扩层版（约 2.9B）。扩散模型换成本文件即可，TE / VAE 与 Base 共用。需额外安装 ComfyUI 节点 <code>ComfyUI-Anima-2.9B</code>（不替换原版与 LLLite）。</p>
+            <ul>
+                <li><code>Anima-2.9B-preview-v1.safetensors</code> → <code>models/diffusion_models/</code>
+                    — <a href="https://hf-mirror.com/Gazingstars123/Anima-2.9B/resolve/main/Anima-2.9B-preview-v1.safetensors" target="_blank" rel="noopener">下载</a></li>
+            </ul>
+            <p>推荐参数：euler + sgm_uniform，步数 28–50，CFG 3.5–5。<a href="https://huggingface.co/Gazingstars123/Anima-2.9B" target="_blank" rel="noopener">模型主页 →</a> · 应用内 📖 教程可一键下载。</p>
         </section>
 
         <section class="guide-section" id="sdxl">
@@ -176,6 +184,7 @@
                 <li>ComfyUI-CropAndStitch</li>
                 <li>ComfyUI_essentials</li>
                 <li>ComfyUI-Anima-LLLite 与 inpaint 权重</li>
+                <li>若使用 Anima-2.9B：另装 <code>ComfyUI-Anima-2.9B</code>（加载器 patch，与 LLLite 并存）</li>
             </ul>
             <p>可用项目里的安装脚本一键检查。装好后在 <a href="/app/">生图工具</a> 从结果图 / 历史进入局部重绘。</p>
         </section>
