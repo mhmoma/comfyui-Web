@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>绘画大师运营台 · ComfyUI Web</title>
   <meta name="robots" content="noindex, nofollow">
-  <link rel="stylesheet" href="/assets/tk-admin.css?v=11">
+  <link rel="stylesheet" href="/assets/tk-admin.css?v=12">
 </head>
 <body>
   <section id="login" class="login-wrap">
     <div class="login-card">
       <h1>绘画大师运营台</h1>
+      <p class="admin-ver" data-admin-ver>运营台 v—</p>
       <p>用户管理用中文按钮：加钱、删装扮、解锁、按人隐藏作品。云端库 + 素材站。</p>
       <div class="login-row">
         <input id="admin-key" type="password" placeholder="ADMIN_KEY" autocomplete="current-password">
@@ -25,6 +26,7 @@
     <aside class="sidebar">
       <div class="brand">
         <strong>运营台</strong>
+        <span class="admin-ver" data-admin-ver>运营台 v—</span>
         <span>用户 · 经济 · 社区 · 素材</span>
       </div>
       <nav class="nav" id="nav"></nav>
@@ -39,12 +41,15 @@
           <h2 id="view-title">总览</h2>
           <p class="sub" id="view-sub"></p>
         </div>
-        <a class="meta" href="/" target="_blank" rel="noopener">打开站点</a>
+        <div class="topbar-right">
+          <span class="admin-ver-badge" data-admin-ver>运营台 v—</span>
+          <a class="meta" href="/" target="_blank" rel="noopener">打开站点</a>
+        </div>
       </div>
       <div id="view"></div>
     </main>
   </div>
 
-  <script src="/assets/tk-admin.js?v=17"></script>
+  <script src="/assets/tk-admin.js?v=18"></script>
 </body>
 </html>

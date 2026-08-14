@@ -1,6 +1,9 @@
 (function () {
   "use strict";
 
+  /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
+  const ADMIN_UI_VERSION = "1.18";
+
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针） */
   const ASSET_BASE = "https://comfyui-web-89u.pages.dev";
@@ -314,9 +317,20 @@
     return data;
   }
 
+  function paintAdminVersion() {
+    const label = `运营台 v${ADMIN_UI_VERSION}`;
+    document.querySelectorAll("[data-admin-ver]").forEach((el) => {
+      el.textContent = label;
+    });
+    try {
+      document.title = `绘画大师运营台 v${ADMIN_UI_VERSION}`;
+    } catch (_) {}
+  }
+
   function showLogin(err) {
     $("login")?.classList.remove("hidden");
     $("app")?.classList.add("hidden");
+    paintAdminVersion();
     if ($("login-error")) {
       $("login-error").textContent = err || "";
       $("login-error").classList.toggle("hidden", !err);
@@ -326,6 +340,7 @@
   function showApp() {
     $("login")?.classList.add("hidden");
     $("app")?.classList.remove("hidden");
+    paintAdminVersion();
   }
 
   async function verifyAuth() {
@@ -1679,6 +1694,7 @@
   }
 
   async function boot() {
+    paintAdminVersion();
     bindShell();
     routeFromHash();
     if (!adminKey) {
