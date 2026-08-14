@@ -19,6 +19,7 @@ const ALLOWED_KEYS = new Set([
   "mud_ach_show",
   "mud_draw_day",
   "admin_stamp",
+  "display_name",
 ]);
 
 const VALUE_MAX = {
@@ -42,6 +43,7 @@ const VALUE_MAX = {
   mud_ach_show: 2_000,
   mud_draw_day: 96,
   admin_stamp: 24,
+  display_name: 40,
 };
 
 const PAGE_SIZE = 30;
@@ -73,7 +75,7 @@ function json(status, data) {
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key, x-user-id",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key",
     },
   });
 }
@@ -84,7 +86,7 @@ function corsPreflight() {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key, x-user-id",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key",
     },
   });
 }
@@ -123,7 +125,7 @@ async function upsertPref(db, userId, key, value) {
 export async function onRequest(context) {
   const { request, env } = context;
   if (request.method === "OPTIONS") return corsPreflight();
-  if (!env.DB) return json(500, { ok: false, error: "no_db", message: "鏁版嵁搴撴湭閰嶇疆" });
+  if (!env.DB) return json(500, { ok: false, error: "no_db", message: "DB not configured" });
 
   await ensureTable(env.DB);
   const url = new URL(request.url);
@@ -177,7 +179,7 @@ export async function onRequest(context) {
     }
 
     const userId = cleanUserId(url.searchParams.get("userId"));
-    if (!userId) return json(400, { ok: false, error: "no_user", message: "缂哄皯 userId" });
+    if (!userId) return json(400, { ok: false, error: "no_user", message: "missing userId" });
 
     if (url.searchParams.get("all") === "1") {
       const { results } = await env.DB.prepare(
@@ -195,7 +197,7 @@ export async function onRequest(context) {
     }
 
     const key = cleanKey(url.searchParams.get("key") || "seen_version");
-    if (!key) return json(400, { ok: false, error: "bad_key", message: "涓嶆敮鎸佺殑 key" });
+    if (!key) return json(400, { ok: false, error: "bad_key", message: "unsupported key" });
     const row = await env.DB.prepare(
       "SELECT pref_value, updated_at FROM player_prefs WHERE user_id = ? AND pref_key = ? LIMIT 1"
     ).bind(userId, key).first();
@@ -209,10 +211,10 @@ export async function onRequest(context) {
   }
 
   if (request.method === "DELETE") {
-    if (!admin) return json(403, { ok: false, error: "forbid", message: "闇€瑕佺鐞嗗瘑閽? });
+    if (!admin) return json(403, { ok: false, error: "forbid", message: "admin key required" });
     const userId = cleanUserId(url.searchParams.get("userId"));
     const key = cleanKey(url.searchParams.get("key") || "");
-    if (!userId) return json(400, { ok: false, error: "no_user", message: "缂哄皯 userId" });
+    if (!userId) return json(400, { ok: false, error: "no_user", message: "missing userId" });
     if (key) {
       await env.DB.prepare(
         "DELETE FROM player_prefs WHERE user_id = ? AND pref_key = ?"
@@ -228,13 +230,13 @@ export async function onRequest(context) {
     try {
       body = await request.json();
     } catch (_) {
-      return json(400, { ok: false, error: "bad_json", message: "璇锋眰浣撴棤鏁? });
+      return json(400, { ok: false, error: "bad_json", message: "invalid json" });
     }
 
     if (admin && String(body.action || "") === "admin_delete") {
       const userId = cleanUserId(body.userId);
       const key = cleanKey(body.key || "");
-      if (!userId) return json(400, { ok: false, error: "no_user", message: "缂哄皯 userId" });
+      if (!userId) return json(400, { ok: false, error: "no_user", message: "missing userId" });
       if (key) {
         await env.DB.prepare(
           "DELETE FROM player_prefs WHERE user_id = ? AND pref_key = ?"
@@ -246,7 +248,7 @@ export async function onRequest(context) {
     }
 
     const userId = cleanUserId(body.userId);
-    if (!userId) return json(400, { ok: false, error: "no_user", message: "缂哄皯 userId" });
+    if (!userId) return json(400, { ok: false, error: "no_user", message: "missing userId" });
 
     if (body.prefs && typeof body.prefs === "object" && !Array.isArray(body.prefs)) {
       const saved = {};
@@ -262,10 +264,10 @@ export async function onRequest(context) {
 
     const key = cleanKey(body.key || "seen_version");
     const value = cleanValue(body.value, key);
-    if (!key) return json(400, { ok: false, error: "bad_key", message: "涓嶆敮鎸佺殑 key" });
+    if (!key) return json(400, { ok: false, error: "bad_key", message: "unsupported key" });
     const updatedAt = await upsertPref(env.DB, userId, key, value);
     return json(200, { ok: true, userId, key, value, updatedAt });
   }
 
-  return json(405, { ok: false, error: "method", message: "涓嶆敮鎸佺殑鏂规硶" });
+  return json(405, { ok: false, error: "method", message: "method not allowed" });
 }
