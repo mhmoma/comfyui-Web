@@ -79,6 +79,41 @@
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
 
+  let seriesNameCache = null;
+  async function ensureSeriesNameMap() {
+    if (seriesNameCache) return seriesNameCache;
+    const map = Object.create(null);
+    try {
+      const list = await assetApi("/api/characters/series");
+      const rows = Array.isArray(list) ? list : [];
+      rows.forEach((row) => {
+        const id = String(row?.id || "").trim();
+        if (!id) return;
+        map[id] = String(row?.name || id).trim() || id;
+      });
+    } catch (_) {}
+    seriesNameCache = map;
+    return map;
+  }
+
+  function seriesDisplayName(id, map) {
+    const sid = String(id || "").trim();
+    if (!sid) return "";
+    if (sid === "*") return "全部作品";
+    return (map && map[sid]) || sid;
+  }
+
+  function enrichSeriesText(text, map) {
+    const raw = String(text || "");
+    if (!raw || !map) return raw;
+    // 把作品 id 替换成「中文名（id）」；已是中文则尽量保留
+    return raw.replace(/\b([a-z0-9_().\-]+)\b/gi, (id) => {
+      if (!map[id]) return id;
+      if (map[id] === id) return id;
+      return `${map[id]}（${id}）`;
+    });
+  }
+
   function setKey(value) {
     adminKey = value || "";
     if (adminKey) localStorage.setItem(KEY_STORE, adminKey);
@@ -881,7 +916,10 @@
   }
 
   async function renderUserDetail(root, userId) {
-    const data = await api(`/api/admin/players?userId=${encodeURIComponent(userId)}`);
+    const [data, seriesMap] = await Promise.all([
+      api(`/api/admin/players?userId=${encodeURIComponent(userId)}`),
+      ensureSeriesNameMap(),
+    ]);
     const s = data.summary || {};
     const name = data.displayName || "未留名玩家";
     const catalog = data.mudCatalog || {};
@@ -895,11 +933,29 @@
       `<option value="${escapeHtml(id)}">${escapeHtml(label)}（${escapeHtml(id)}）</option>`
     ).join("");
 
+    const unlockChips = s.unlockedAll || unlocked.includes("*")
+      ? `<span class="chip">★ 已全部解锁</span>`
+      : (unlocked.length ? unlocked.map((id) => `
+            <span class="chip">
+              <strong>${escapeHtml(seriesDisplayName(id, seriesMap))}</strong>
+              ${seriesMap[id] && seriesMap[id] !== id ? `<span class="meta mono">（${escapeHtml(id)}）</span>` : ""}
+              <button type="button" class="danger tiny" data-del-unlock="${escapeHtml(id)}">收回</button>
+            </span>`).join("") : `<span class="meta">尚未解锁任何需码作品</span>`);
+
+    const blockChips = blocks.length ? blocks.map((b) => `
+            <span class="chip">
+              <strong>${escapeHtml(seriesDisplayName(b.targetId, seriesMap))}</strong>
+              ${seriesMap[b.targetId] && seriesMap[b.targetId] !== b.targetId
+                ? `<span class="meta mono">（${escapeHtml(b.targetId)}）</span>` : ""}
+              ${b.note ? `<span class="meta">（${escapeHtml(b.note)}）</span>` : ""}
+              <button type="button" class="danger tiny" data-unblock="${escapeHtml(b.targetId)}">解除</button>
+            </span>`).join("") : `<span class="meta">当前无个人限制</span>`;
+
     root.innerHTML = `
       <div class="panel">
         <div class="toolbar">
           <button type="button" id="user-back">← 返回用户列表</button>
-          <span class="meta">昵称来自留言/交易记录，未发言时可能显示「未留名」</span>
+          <span class="meta">昵称优先取平台名（进游戏后同步）；无则用留言/交易名</span>
         </div>
         <div class="summary-grid">
           <div class="summary-card"><div class="k">玩家</div><div class="v">${escapeHtml(name)}</div></div>
@@ -947,15 +1003,9 @@
 
       <div class="panel detail-block">
         <h3>③ 解锁状态</h3>
-        <p class="meta">「全部解锁」= 可直接选用全部作品（等同玩家 tk321）。「仅预览锁定列表」= 只让列表里看到锁着的作品，仍需单独解锁才能用（等同 tk666）。</p>
+        <p class="meta">「全部解锁」= 可直接选用全部作品。「仅预览锁定列表」= 只让列表里看到锁着的作品，仍需单独解锁才能用。</p>
         <div class="chip-list">
-          ${s.unlockedAll || unlocked.includes("*")
-            ? `<span class="chip">★ 已全部解锁</span>`
-            : (unlocked.length ? unlocked.map((id) => `
-            <span class="chip mono">
-              ${escapeHtml(id)}
-              <button type="button" class="danger tiny" data-del-unlock="${escapeHtml(id)}">收回</button>
-            </span>`).join("") : `<span class="meta">尚未解锁任何需码作品</span>`)}
+          ${unlockChips}
         </div>
         <div class="lazy-row">
           <input id="unlock-id" class="grow" placeholder="作品 ID（与角色库一致，如 fate_(series)）">
@@ -976,12 +1026,7 @@
         <h3>④ 高级限制（单独对该用户隐藏作品）</h3>
         <p class="meta">被限制的作品对该用户列表中不显示，也无法打开使用。不影响其他玩家。</p>
         <div class="chip-list">
-          ${blocks.length ? blocks.map((b) => `
-            <span class="chip">
-              <strong>${escapeHtml(b.targetId)}</strong>
-              ${b.note ? `<span class="meta">（${escapeHtml(b.note)}）</span>` : ""}
-              <button type="button" class="danger tiny" data-unblock="${escapeHtml(b.targetId)}">解除</button>
-            </span>`).join("") : `<span class="meta">当前无个人限制</span>`}
+          ${blockChips}
         </div>
         <div class="lazy-row">
           <input id="block-id" class="grow" placeholder="作品 ID（隐藏）">
@@ -1370,36 +1415,68 @@
   }
 
   async function renderPrefs(root) {
-    setTop("偏好明细", "原始 key/value 表（排障用）。日常请用「用户档案 / 经济 / 已读」。");
+    setTop("偏好明细", "中文项目与可读内容；玩家需进过新版游戏才会有平台昵称。");
     const q = ($("prefs-q")?.value || state.prefsQ || "").trim();
     state.prefsQ = q;
     const keyFilter = state.prefsKey || "";
-    const data = await api(`/api/prefs?view=admin&page=${state.prefsPage}&q=${encodeURIComponent(q)}${keyFilter ? `&key=${encodeURIComponent(keyFilter)}` : ""}`);
+    const [data, seriesMap] = await Promise.all([
+      api(`/api/prefs?view=admin&page=${state.prefsPage}&q=${encodeURIComponent(q)}${keyFilter ? `&key=${encodeURIComponent(keyFilter)}` : ""}`),
+      ensureSeriesNameMap(),
+    ]);
     const rows = data.rows || [];
-    const allowed = data.allowedKeys || [];
+    const allowed = (data.allowedKeys || []).map((item) => (
+      typeof item === "string" ? { key: item, label: item } : item
+    ));
     root.innerHTML = `
       <div class="panel">
         <div class="toolbar wrap">
           <select id="prefs-key">
-            <option value="">全部 key</option>
-            ${allowed.map((k) => `<option value="${escapeHtml(k)}" ${k === keyFilter ? "selected" : ""}>${escapeHtml(k)}</option>`).join("")}
+            <option value="">全部项目</option>
+            ${allowed.map((k) => `<option value="${escapeHtml(k.key)}" ${k.key === keyFilter ? "selected" : ""}>${escapeHtml(k.label || k.key)}</option>`).join("")}
           </select>
-          <input class="grow" id="prefs-q" placeholder="搜 userId / value…" value="${escapeHtml(q)}">
+          <input class="grow" id="prefs-q" placeholder="搜昵称 / 用户ID / 内容…" value="${escapeHtml(q)}">
           <button type="button" class="primary" id="prefs-search">搜索</button>
           <button type="button" id="prefs-refresh">刷新</button>
         </div>
         <div class="table-wrap">
           <table class="admin">
-            <thead><tr><th>用户</th><th>key</th><th>value</th><th>更新</th><th></th></tr></thead>
+            <thead><tr><th>玩家</th><th>项目</th><th>内容</th><th>更新</th><th></th></tr></thead>
             <tbody>
-              ${rows.length ? rows.map((row) => `
+              ${rows.length ? rows.map((row) => {
+                const name = row.displayName || "未留名";
+                const keyLabel = row.keyLabel || row.key;
+                let display = row.displayValue || String(row.value || "");
+                if (row.key === "unlocked_series" || row.key === "recent_series") {
+                  try {
+                    const arr = JSON.parse(String(row.value || "[]"));
+                    if (Array.isArray(arr) && arr.length) {
+                      if (arr.includes("*")) display = row.key === "unlocked_series" ? "全部作品" : "含全部标记";
+                      else {
+                        display = arr.map((id) => {
+                          const label = seriesDisplayName(id, seriesMap);
+                          return seriesMap[id] && seriesMap[id] !== id ? `${label}（${id}）` : label;
+                        }).join("、");
+                      }
+                    }
+                  } catch (_) {
+                    display = enrichSeriesText(display, seriesMap);
+                  }
+                }
+                return `
                 <tr>
-                  <td class="mono">${escapeHtml(row.userId)}</td>
-                  <td>${escapeHtml(row.key)}</td>
-                  <td class="mono">${escapeHtml(String(row.value || "").slice(0, 160))}</td>
+                  <td>
+                    <strong>${escapeHtml(name)}</strong>
+                    <div class="meta mono">${escapeHtml(row.userId)}</div>
+                  </td>
+                  <td>
+                    <strong>${escapeHtml(keyLabel)}</strong>
+                    <div class="meta mono">${escapeHtml(row.key)}</div>
+                  </td>
+                  <td title="${escapeHtml(String(row.value || "").slice(0, 500))}">${escapeHtml(String(display).slice(0, 280))}</td>
                   <td class="meta">${escapeHtml(formatTime(row.updatedAt))}</td>
                   <td><button type="button" class="danger" data-uid="${escapeHtml(row.userId)}" data-key="${escapeHtml(row.key)}">删除</button></td>
-                </tr>`).join("") : `<tr><td colspan="5">暂无记录</td></tr>`}
+                </tr>`;
+              }).join("") : `<tr><td colspan="5">暂无记录</td></tr>`}
             </tbody>
           </table>
         </div>
@@ -1448,7 +1525,7 @@
       ["已读状态", "更新日志/公告/留言已读", "按类型筛选、删除", "可管", "#reads"],
       ["画泥经济", "余额/装扮/装备/兑换码/每日领泥", "榜单、改余额、改背包", "可管", "#economy"],
       ["玩家画师串", "自定义画师串+封面", "搜索、删条、清空用户", "可管", "#player-artists"],
-      ["偏好明细", "全部 prefs 原始表", "排障删除", "可管", "#prefs"],
+      ["偏好明细", "全部偏好（中文可读）", "筛选、搜索、删除", "可管", "#prefs"],
       ["画师串交流", "市场买卖", "删/下架/打码", "可管", "#trade"],
       ["留言板", "全服聊天", "删单条、清空", "可管", "#board"],
       ["公告", "游戏顶栏公告", "编辑发布", "可管", "#notice"],
