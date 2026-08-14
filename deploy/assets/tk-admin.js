@@ -106,12 +106,136 @@
   function enrichSeriesText(text, map) {
     const raw = String(text || "");
     if (!raw || !map) return raw;
-    // 把作品 id 替换成「中文名（id）」；已是中文则尽量保留
     return raw.replace(/\b([a-z0-9_().\-]+)\b/gi, (id) => {
       if (!map[id]) return id;
       if (map[id] === id) return id;
       return `${map[id]}（${id}）`;
     });
+  }
+
+  const PREF_LABELS = {
+    seen_version: "更新日志已读",
+    mud_codes: "已用兑换码",
+    ui_theme: "界面主题",
+    notice_seen_at: "公告已读时间",
+    board_seen_at: "留言已读时间",
+    notice_bar_hide: "公告条已收起",
+    unlocked_series: "已解锁作品",
+    show_locked_series: "仅预览锁定列表",
+    show_hidden_series: "开启隐藏区",
+    show_adult_tags: "成人标签开关",
+    fav_tags: "收藏标签",
+    fav_artist_data: "收藏画师",
+    tag_usage: "标签使用统计",
+    recent_series: "最近作品",
+    mud_balance: "画泥余额",
+    mud_owned: "已购装扮",
+    mud_equip: "当前装备",
+    mud_ach_show: "成就展示",
+    mud_draw_day: "每日领泥",
+    admin_stamp: "管理改动戳",
+    display_name: "平台昵称",
+  };
+  const THEME_LABELS = { hard: "硬朗框", ink: "水墨像素", hand: "手绘本" };
+  const MUD_LABELS = {
+    bg_sky: "晴空蓝", bg_rose: "玫瑰粉", bg_mint: "薄荷绿", bg_violet: "葡萄紫",
+    bg_sunset: "晚霞橙", bg_ink: "墨金",
+    nb_gold_shine: "金边流光", nb_rainbow: "彩虹描边", nb_neon_cyan: "霓虹青",
+    nb_neon_pink: "霓虹粉", nb_silver: "银辉边", nb_ink: "墨线框", nb_candy: "糖果点线", nb_double: "双线描边",
+    fx_gold: "金字流光", fx_rainbow: "虹彩字", fx_neon: "霓虹脉冲", fx_sparkle: "星闪字",
+    fx_fire: "焰色字", fx_ocean: "海波字",
+    crown_star: "星光", crown_fire: "火焰", crown_flower: "樱花", crown_cat: "小猫",
+    crown_sparkle: "闪光", crown_dragon: "小龙",
+    title_newbie: "萌新画师", title_pro: "灵感捕手", title_night: "深夜炼丹",
+    title_color: "调色大师", title_luck: "欧皇本皇",
+  };
+  const SLOT_LABELS = { nameBg: "名字底色", nameBorder: "姓名边框", nameFx: "名字闪光", crown: "头顶标识", title: "称号" };
+  const FLAG_PREF_KEYS = new Set(["show_locked_series", "show_hidden_series", "show_adult_tags"]);
+
+  function parsePrefJson(raw, fallback) {
+    try { return JSON.parse(String(raw ?? "")); } catch (_) { return fallback; }
+  }
+
+  function formatPrefLocal(key, raw, seriesMap) {
+    const text = String(raw ?? "");
+    if (key === "ui_theme") return THEME_LABELS[text] || text || "—";
+    if (FLAG_PREF_KEYS.has(key)) return (text === "1" || text === "true") ? "开" : "关";
+    if (key === "mud_balance") return `${Math.max(0, Math.floor(Number(text) || 0))} 画泥`;
+    if (key === "display_name") return text || "—";
+    if (key === "seen_version") {
+      const ver = String(text).replace(/^"|"$/g, "");
+      return ver ? `已读到 v${ver}` : "未读";
+    }
+    if (key === "notice_bar_hide") return text ? `已收起（公告 ${text}）` : "未收起";
+    if (key === "notice_seen_at" || key === "board_seen_at" || key === "admin_stamp") {
+      return formatTime(text);
+    }
+    if (key === "mud_codes") {
+      const list = text.split(",").map((s) => s.trim()).filter(Boolean);
+      return list.length ? list.join("、") : "无";
+    }
+    if (key === "mud_owned") {
+      const arr = parsePrefJson(text, []);
+      if (!Array.isArray(arr) || !arr.length) return "无";
+      return arr.map((id) => MUD_LABELS[id] || String(id)).join("、");
+    }
+    if (key === "mud_equip") {
+      const obj = parsePrefJson(text, {});
+      if (!obj || typeof obj !== "object") return "—";
+      const parts = Object.entries(obj).filter(([, v]) => v).map(([slot, id]) => (
+        `${SLOT_LABELS[slot] || slot}：${MUD_LABELS[id] || id}`
+      ));
+      return parts.length ? parts.join("；") : "未装备";
+    }
+    if (key === "unlocked_series" || key === "recent_series") {
+      const arr = parsePrefJson(text, []);
+      if (!Array.isArray(arr) || !arr.length) return "无";
+      if (arr.includes("*")) return key === "unlocked_series" ? "全部作品" : "含全部标记";
+      return arr.map((id) => {
+        const label = seriesDisplayName(id, seriesMap);
+        return seriesMap?.[id] && seriesMap[id] !== id ? `${label}` : label;
+      }).join("、");
+    }
+    if (key === "fav_tags") {
+      const arr = parsePrefJson(text, []);
+      if (!Array.isArray(arr) || !arr.length) return "无";
+      const names = arr.slice(0, 24).map((t) => {
+        if (typeof t === "string") return t.replace(/^tag:/i, "").replace(/^artist:/i, "画师:");
+        if (t && typeof t === "object") return t.name || t.cn || t.id || "";
+        return String(t);
+      }).filter(Boolean);
+      return names.join("、") + (arr.length > 24 ? ` 等 ${arr.length} 个` : "");
+    }
+    if (key === "fav_artist_data") {
+      const obj = parsePrefJson(text, {});
+      const entries = Object.entries(obj || {});
+      if (!entries.length) return "无";
+      const names = entries.slice(0, 16).map(([k, v]) => (v && typeof v === "object" ? (v.name || v.title || k) : k));
+      return `${entries.length} 位：${names.join("、")}${entries.length > 16 ? "…" : ""}`;
+    }
+    if (key === "tag_usage") {
+      const obj = parsePrefJson(text, {});
+      const entries = Object.entries(obj || {}).sort((a, b) => {
+        const ca = (a[1] && typeof a[1] === "object") ? (Number(a[1].count) || 0) : (Number(a[1]) || 0);
+        const cb = (b[1] && typeof b[1] === "object") ? (Number(b[1].count) || 0) : (Number(b[1]) || 0);
+        return cb - ca;
+      });
+      if (!entries.length) return "无";
+      return entries.slice(0, 12).map(([k, v]) => {
+        if (v && typeof v === "object") return `${v.d || v.t || k}×${Number(v.count) || 1}`;
+        return `${k}×${v}`;
+      }).join("、") + (entries.length > 12 ? ` 等 ${entries.length} 项` : "");
+    }
+    if (key === "mud_draw_day") {
+      const obj = parsePrefJson(text, null);
+      if (!obj || typeof obj !== "object") return text || "—";
+      const day = obj.day || obj.date || "";
+      const earned = obj.earned ?? obj.n ?? obj.count;
+      if (day) return `日期 ${day}${earned != null && earned !== "" ? ` · 领取 ${earned}` : ""}`;
+      return text.slice(0, 120) || "—";
+    }
+    if (text.length > 220) return `${text.slice(0, 220)}…`;
+    return text || "—";
   }
 
   function setKey(value) {
@@ -1424,9 +1548,11 @@
       ensureSeriesNameMap(),
     ]);
     const rows = data.rows || [];
-    const allowed = (data.allowedKeys || []).map((item) => (
-      typeof item === "string" ? { key: item, label: item } : item
-    ));
+    const allowedRaw = data.allowedKeys || Object.keys(PREF_LABELS);
+    const allowed = allowedRaw.map((item) => {
+      if (typeof item === "string") return { key: item, label: PREF_LABELS[item] || item };
+      return { key: item.key, label: item.label || PREF_LABELS[item.key] || item.key };
+    });
     root.innerHTML = `
       <div class="panel">
         <div class="toolbar wrap">
@@ -1444,24 +1570,8 @@
             <tbody>
               ${rows.length ? rows.map((row) => {
                 const name = row.displayName || "未留名";
-                const keyLabel = row.keyLabel || row.key;
-                let display = row.displayValue || String(row.value || "");
-                if (row.key === "unlocked_series" || row.key === "recent_series") {
-                  try {
-                    const arr = JSON.parse(String(row.value || "[]"));
-                    if (Array.isArray(arr) && arr.length) {
-                      if (arr.includes("*")) display = row.key === "unlocked_series" ? "全部作品" : "含全部标记";
-                      else {
-                        display = arr.map((id) => {
-                          const label = seriesDisplayName(id, seriesMap);
-                          return seriesMap[id] && seriesMap[id] !== id ? `${label}（${id}）` : label;
-                        }).join("、");
-                      }
-                    }
-                  } catch (_) {
-                    display = enrichSeriesText(display, seriesMap);
-                  }
-                }
+                const keyLabel = row.keyLabel || PREF_LABELS[row.key] || row.key;
+                const display = formatPrefLocal(row.key, row.value, seriesMap);
                 return `
                 <tr>
                   <td>
