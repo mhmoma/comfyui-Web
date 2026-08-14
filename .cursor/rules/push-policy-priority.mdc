@@ -15,9 +15,13 @@ alwaysApply: true
 
 ## 2) 部署与推送固定策略
 
-- Cloudflare Pages 构建输出目录固定为：`deploy/`（部署源目录）。
+- Cloudflare Pages 构建输出目录固定为：`deploy/`（部署源目录）；`wrangler.toml` 必须含 `pages_build_output_dir = "deploy"`。
 - 仅允许推送到远程：`origin` 的 `main` 分支。
 - 禁止向 `deploy` 远程推送本项目代码。
+- **禁止**在 `wrangler.toml` 绑定另一账号的 D1（如 `ARTIST_DB` / `tk-artist-chains`）；游戏数据走 `tk-game-cloud` HTTP。
+- 改运营台 / 静态资源：必须先 `node scripts/sync-deploy.js`，再把源码与 `deploy/` 一并提交推送。
+- 改 `functions/`：注意 UTF-8/引号；错误文案优先 ASCII，避免 Pages `Unterminated string literal`。
+- 运营台 UI 变更须递增 `ADMIN_UI_VERSION` 与 `tk-admin.js?v=`（详见 `deploy-and-d1.mdc` §0）。
 
 ## 3) 代理与命令策略
 

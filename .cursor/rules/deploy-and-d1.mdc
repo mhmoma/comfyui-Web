@@ -6,22 +6,71 @@ alwaysApply: true
 
 # ComfyUI-Web 部署与 D1 数据库操作规范
 
-> **部署版本**: 1.222
+> **部署版本**: 1.223
 > **版本记录**: 见底部「版本历史」 
 > **重要**: 每次修改代码后，必须更新本文件的**部署版本号**和**版本历史**。凡前端相关代码变更（`index.html` / `script.js` / `style.css` 及 `deploy/` 对应文件），必须递增前端版本号与静态资源版本参数。
+
+---
+
+## 0. 双云端 + 运营台（必读，防踩坑）
+
+绘画大师相关后台挂在本站，但**数据分两个 Cloudflare 账号**，管理靠 HTTP，**禁止跨账号绑 D1**。
+
+| 角色 | 域名 / 工程 | 账号侧 | 管什么 |
+|------|-------------|--------|--------|
+| 素材站（本仓库） | `https://comfyui-web-89u.pages.dev` | web 本账号 | 画师库、角色/作品、资讯、站点静态资源、运营台页面 |
+| 游戏云端 | `https://tk-game-cloud.pages.dev`（工程多在 `D:\桌宠\tk-game-cloud`） | **另一账号** | 用户偏好、画泥、解锁、留言、公告、交易、玩家画师串等 |
+
+### 0.1 运营台
+
+- 页面：`/admin/`（`admin/` + `assets/tk-admin.js`），发布后在 `deploy/admin/`、`deploy/assets/`。
+- 前端分别请求：素材 API → 本站；用户/经济/社区 → `CLOUD_BASE`（tk-game-cloud）。两边都要配**同一把** `ADMIN_KEY`。
+- 界面版本常量：`assets/tk-admin.js` 里 `ADMIN_UI_VERSION`；改运营台 UI 必须递增，并同步 `admin/index.html` / `deploy/` 的 `tk-admin.js?v=`、`tk-admin.css?v=`，登录页/侧栏/顶栏会显示「运营台 vX.Y」。
+- 工作区路径：`D:\总项目\AI桌宠与ComfyUI绘画站合集\comfyui-web` 常是指向 `D:\桌宠\comfyui-web` 的同一仓库，改一处即可。
+
+### 0.2 部署流程（运营台 / 任意静态改动）
+
+1. 改源码（`admin/`、`assets/` 等）  
+2. **必须** `node scripts/sync-deploy.js`（或 `npm run sync:deploy`）同步到 `deploy/`  
+3. `git add` 源码 + `deploy/` 对应文件 +（如动到）`wrangler.toml` / 本规则  
+4. **只** `git push origin main` → Cloudflare Pages 自动部署  
+5. **禁止** `git push deploy`（那是别的项目仓库）  
+6. **禁止**对本站 Pages 使用另一账号的 D1 id（见下）
+
+### 0.3 `wrangler.toml`（Pages 发布硬约束）
+
+- **必须**有：`pages_build_output_dir = "deploy"`（否则 CF 跳过配置、可能发布根目录旧资源）。  
+- **只允许**本账号 D1：`DB` → `comfyui-characters`（`3ea1156e-…`）。  
+- **禁止**再加 `ARTIST_DB` / `tk-artist-chains`（`d9f1976c-…`）等到本仓库：那是 tk-game-cloud 账号的库，绑上会报 *database was not found*，整站 Functions 发布失败。玩家画师串走云端 HTTP，不绑到 web。
+
+### 0.4 Functions 编码
+
+- `functions/**/*.js` 推送前须能被 esbuild 编译。中文字符串若编码损坏会导致 `Unterminated string literal`，整站部署失败。  
+- 错误信息优先用 **ASCII**；若必须中文，保证文件为 **UTF-8** 且引号闭合。改 `functions/` 后看 Pages 日志是否 `Compiled Worker successfully` + `Success: Assets published!`（不要只看克隆成功）。
+
+### 0.5 部署失败对照
+
+| 日志特征 | 原因 | 处理 |
+|----------|------|------|
+| 仍克隆很旧的 commit | 自动部署未跟到最新 | 控制台 Retry 最新 main |
+| `does not contain pages_build_output_dir` | wrangler 无效被跳过 | 补上 `pages_build_output_dir = "deploy"` |
+| `Unterminated string literal` in functions | 文件编码/引号坏了 | 修对应 js，勿留半截中文 |
+| `D1 binding 'ARTIST_DB' ... was not found` | 跨账号 D1 | 删掉该 binding，只留本站 `DB` |
 
 ---
 
 ## 1. 项目基本信息
 
 - **项目名称**: ComfyUI Web (AI 绘画资讯与工具站)
-- **工作区路径**: `d:\桌宠\comfyui-web`
+- **工作区路径**: `D:\桌宠\comfyui-web`（或 `D:\总项目\AI桌宠与ComfyUI绘画站合集\comfyui-web`，多为同一仓库）
 - **线上地址**: https://comfyui-web-89u.pages.dev/
-- **部署平台**: Cloudflare Pages
-- **数据库**: Cloudflare D1
+- **运营台**: https://comfyui-web-89u.pages.dev/admin/
+- **部署平台**: Cloudflare Pages（Git → `origin/main` 自动部署；输出目录 `deploy/`）
+- **本站数据库**: Cloudflare D1
   - 数据库名: `comfyui-characters`
   - 数据库 ID: `3ea1156e-cbaa-40ec-b85c-4b55be6ecc58`
-  - 绑定变量名: `DB`
+  - 绑定变量名: `DB`（**仅此一个**）
+- **游戏数据云端**（另一账号，不在本 wrangler 绑 D1）: `https://tk-game-cloud.pages.dev`
 
 ---
 
@@ -30,8 +79,9 @@ alwaysApply: true
 本项目的部署策略是“**阶段化提交**”。根目录为开发工作区，可以存放任意文件。`deploy/` 目录是**唯一**的生产环境部署源。
 
 **Cloudflare 平台设置**:
-- 必须在 Cloudflare Pages 的 `设置 -> 构建和部署` 中，将 **构建输出目录 (Build output directory)** 设置为 `/deploy`。
+- 构建输出目录：`deploy`（与 `wrangler.toml` 的 `pages_build_output_dir` 一致）。
 - **构建命令 (Build command)** 必须留空。
+- D1 绑定：仅 `DB` → `comfyui-characters`。不要绑其它账号的库。
 
 ### 部署步骤
 
@@ -39,17 +89,17 @@ alwaysApply: true
     ```powershell
     npm run build
     ```
-    等价于 `npm run build:news`（生成资讯 JSON/详情页/RSS/sitemap）+ `npm run sync:deploy`（同步 `index.html`、`assets/`、`news/`、`guides/`、`about/`、`app/`、`card/` 到 deploy）。
+    等价于 `npm run build:news`（生成资讯 JSON/详情页/RSS/sitemap）+ `npm run sync:deploy`（同步 `index.html`、`assets/`、`news/`、`guides/`、`about/`、`app/`、`card/`、`admin/` 到 deploy）。
 
-    仅改生图工具时也可手动同步：
+    仅改运营台 / 静态资源时：
     ```powershell
     node scripts/sync-deploy.js
     ```
 
-2.  **提交更改**: 将对 `deploy/` 目录的修改提交到 Git。
+2.  **提交更改**: 源码与 `deploy/` **一起**提交（缺 `deploy/` 则线上仍是旧版）。
     ```powershell
-    git add deploy/
-    git commit -m "feat: Sync latest changes to deploy directory"
+    git add admin/ assets/ deploy/ wrangler.toml
+    git commit -m "feat: sync deploy for admin/UI"
     ```
 
 3.  **推送部署**: 将 commit 推送到 `origin` 的 `main` 分支，即可触发 Cloudflare 的自动部署。
@@ -192,6 +242,8 @@ D1 绑定在 Settings → Functions → D1 database bindings：
 |--------|--------|
 | `DB` | comfyui-characters (3ea1156e-cbaa-40ec-b85c-4b55be6ecc58) |
 
+> 不要绑定 `ARTIST_DB` / `tk-artist-chains`。游戏侧数据在另一账号的 tk-game-cloud。
+
 ---
 
 ## 6. 关键文件说明
@@ -221,6 +273,8 @@ D1 绑定在 Settings → Functions → D1 database bindings：
 
 | 版本 | 日期 | 操作 | 说明 |
 |------|------|------|------|
+| 1.223 | 2026-08-14 | 双云端/运营台部署硬规则 | 写明 web↔tk-game-cloud 分账号；只推 origin；必须 sync→deploy；`pages_build_output_dir=deploy`；禁止跨账号 ARTIST_DB；Functions 编码/运营台版本号；部署失败对照表 |
+| 1.222 | 2026-08-12 | 收藏自动带当前图 | 点收藏直接截取当前生成图写入画师串 IndexedDB；无图才弹上传（app v5.13 / script.js?v=509） |
 | 1.01 | 2026-07-02 | 首次推送 + 填充 | D1 数据库整合完成，862 系列 / 12,460 角色写入，前端改为懒加载 |
 | 1.02 | 2026-07-02 | 加入角色特征标签 | characters 表新增 tags 列，API 返回 tags，前端预览弹窗显示特征标签 + Trigger+Tags 按钮 |
 | 1.03 | 2026-07-02 | 取消角色上限 + 重填数据库 | 角色数从 12,460 → 30,609（无上限），seed 批次改为每页 10 系列（共 87 页），填充脚本加自动重试 |
