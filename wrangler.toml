@@ -1,7 +1,16 @@
 name = "comfyui-web"
 compatibility_date = "2024-01-01"
+# Pages 静态资源从 deploy/ 发布（改完需先 sync-deploy 再 push）
+pages_build_output_dir = "deploy"
 
+# 主库：角色 / 画师 / 交流 / 公告等
 [[d1_databases]]
 binding = "DB"
 database_name = "comfyui-characters"
 database_id = "3ea1156e-cbaa-40ec-b85c-4b55be6ecc58"
+
+# 独立库：玩家画师串（正文+持久封面），避免挤满主库
+[[d1_databases]]
+binding = "ARTIST_DB"
+database_name = "tk-artist-chains"
+database_id = "d9f1976c-992e-41f6-8bff-9e8296531198"
