@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.18";
+  const ADMIN_UI_VERSION = "1.19";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针） */
@@ -738,9 +738,12 @@
         <div class="list">
           ${rows.length ? rows.map((row) => {
             const blocked = !!row.imageBlocked;
-            const thumb = row.hasImage && !blocked
-              ? `${CLOUD_BASE}/api/artist-trade?thumb=${encodeURIComponent(row.id)}`
-              : "";
+            const direct = String(row.image || "").trim();
+            const thumb = blocked
+              ? ""
+              : (/^https?:\/\//i.test(direct)
+                ? direct
+                : (row.hasImage ? `${CLOUD_BASE}/api/artist-trade?thumb=${encodeURIComponent(row.id)}` : ""));
             const media = thumb
               ? `<img class="thumb" src="${escapeHtml(thumb)}" alt="" loading="lazy" decoding="async">`
               : `<div class="thumb-empty">${blocked ? "已打码" : "无图"}</div>`;

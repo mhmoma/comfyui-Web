@@ -6,7 +6,7 @@ alwaysApply: true
 
 # ComfyUI-Web 部署与 D1 数据库操作规范
 
-> **部署版本**: 1.224
+> **部署版本**: 1.226
 > **版本记录**: 见底部「版本历史」 
 > **重要**: 每次修改代码后，必须更新本文件的**部署版本号**和**版本历史**。凡前端相关代码变更（`index.html` / `script.js` / `style.css` 及 `deploy/` 对应文件），必须递增前端版本号与静态资源版本参数。
 
@@ -20,6 +20,16 @@ alwaysApply: true
 |------|-------------|--------|--------|
 | 素材站（本仓库） | `https://comfyui-web-89u.pages.dev` | web 本账号 | 画师库、角色/作品、资讯、站点静态资源、运营台页面 |
 | 游戏云端 | `https://tk-game-cloud.pages.dev`（工程多在 `D:\桌宠\tk-game-cloud`） | **另一账号** | 用户偏好、画泥、解锁、留言、公告、交易、玩家画师串等 |
+| 手动封面 R2 | 桶 `imtubro`（公开 `pub-….r2.dev`） | **passinbox** | 手动补录角色/画师封面（`chars/`、`artists/`）；交流/玩家图由 tk-game-cloud `MEDIA` 写入同桶 |
+
+### 0.0 手动补录封面（必读）
+
+- **新**手动角色 / 画师封面一律上传 R2，`th` / `thumb_url` / `img_url` 填 R2 公开 URL。
+- **禁止**再把新封面提交到 `assets/chars/`、`assets/artists/` 当正式发布路径。
+- 上传账号必须是 passinbox：`$env:CLOUDFLARE_ACCOUNT_ID="decf3492f6529f29230dfce7da57f2d7"` 后 `wrangler r2 object put imtubro/… --remote`。
+- 权威步骤：工作区 `TK绘画工具/docs/manual-character-add.md`、`manual-artist-add.md`。
+- D1 仍只写本站 web 账号；R2 仅外链，**禁止**跨账号绑 D1。
+- 交流示例图 / 玩家画师串封面：见 `tk-game-cloud`（`trade/`、`player-artists/`）；硬删除与屏蔽图片时删 R2，下架不删。
 
 ### 0.1 运营台
 
@@ -273,7 +283,9 @@ D1 绑定在 Settings → Functions → D1 database bindings：
 
 | 版本 | 日期 | 操作 | 说明 |
 |------|------|------|------|
-| 1.224 | 2026-08-15 | 鸣潮手动补录三角色 | D1 patch 千咲/绯雪/爱弥斯；`assets/chars/*.webp`；seed `action=patch`；修复自托管封面弹窗大图；系列计数 40→43；app `script.js?v=511` |
+| 1.226 | 2026-08-16 | 交流/玩家图 R2 | 运营台适配 https 缩略图；硬删/打码联动删 R2（实现在 tk-game-cloud） |
+| 1.225 | 2026-08-16 | 手动封面改 R2 | 补录角色/画师封面统一 R2 桶 imtubro；禁止新图走 Pages assets |
+| 1.224 | 2026-08-15 | 鸣潮补录三角色 | 角色库新增千咲、绯雪、爱弥斯 |
 | 1.223 | 2026-08-14 | 双云端/运营台部署硬规则 | 写明 web↔tk-game-cloud 分账号；只推 origin；必须 sync→deploy；`pages_build_output_dir=deploy`；禁止跨账号 ARTIST_DB；Functions 编码/运营台版本号；部署失败对照表 |
 | 1.222 | 2026-08-12 | 收藏自动带当前图 | 点收藏直接截取当前生成图写入画师串 IndexedDB；无图才弹上传（app v5.13 / script.js?v=509） |
 | 1.01 | 2026-07-02 | 首次推送 + 填充 | D1 数据库整合完成，862 系列 / 12,460 角色写入，前端改为懒加载 |
