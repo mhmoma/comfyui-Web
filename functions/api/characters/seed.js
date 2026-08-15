@@ -54,6 +54,51 @@ export async function onRequestPost(context) {
       return json(200, { ok: true, series: sc[0]?.cnt || 0, characters: cc[0]?.cnt || 0 });
     }
 
+    // 增量补录：[{ series_id, series_name?, characters:[{t,n,th,c,lora,tags}] }]
+    // 按 trigger_text 去重替换，并重算 series.count
+    if (action === 'patch') {
+      const body = await request.json();
+      if (!Array.isArray(body) || body.length === 0) {
+        return json(400, { error: 'POST body must be a non-empty array of patch objects' });
+      }
+      let upserted = 0;
+      const seriesTouched = [];
+      for (const patch of body) {
+        const seriesId = String(patch.series_id || '').trim();
+        if (!seriesId || !Array.isArray(patch.characters)) continue;
+        const seriesName = String(patch.series_name || seriesId);
+        await db.prepare(
+          'INSERT INTO series (id, name, count) VALUES (?, ?, 0) ON CONFLICT(id) DO UPDATE SET name = excluded.name'
+        ).bind(seriesId, seriesName).run();
+        for (const ch of patch.characters) {
+          const t = String(ch.t || '').trim();
+          if (!t) continue;
+          await db.prepare(
+            'DELETE FROM characters WHERE series_id = ? AND trigger_text = ?'
+          ).bind(seriesId, t).run();
+          await db.prepare(
+            'INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_url, tags) VALUES (?, ?, ?, ?, ?, ?, ?)'
+          ).bind(
+            seriesId,
+            t,
+            ch.n || t.split(',')[0].trim(),
+            ch.th || '',
+            ch.c || 0,
+            ch.lora || '',
+            ch.tags ? JSON.stringify(ch.tags) : ''
+          ).run();
+          upserted += 1;
+        }
+        const row = await db.prepare(
+          'SELECT COUNT(*) AS n FROM characters WHERE series_id = ?'
+        ).bind(seriesId).first();
+        const n = Number(row?.n || 0);
+        await db.prepare('UPDATE series SET count = ? WHERE id = ?').bind(n, seriesId).run();
+        seriesTouched.push({ id: seriesId, count: n });
+      }
+      return json(200, { ok: true, upserted, series: seriesTouched });
+    }
+
     const body = await request.json();
     if (!Array.isArray(body) || body.length === 0) {
       return json(400, { error: 'POST body must be a non-empty array of series objects' });

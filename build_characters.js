@@ -172,6 +172,44 @@ function main() {
     }),
   }));
 
+  // 手动补录（Animadex 未收录但模型可画的角色），见 manual_characters_patch.json
+  const patchFile = path.join(__dirname, 'manual_characters_patch.json');
+  if (fs.existsSync(patchFile)) {
+    const patches = JSON.parse(fs.readFileSync(patchFile, 'utf8'));
+    let patched = 0;
+    for (const patch of patches) {
+      let series = output.find((s) => s.id === patch.series_id);
+      if (!series) {
+        series = {
+          id: patch.series_id,
+          name: patch.series_name || getSeriesCN(patch.series_id),
+          count: 0,
+          heat: 0,
+          characters: [],
+        };
+        output.push(series);
+      }
+      const existing = new Set(series.characters.map((c) => String(c.t || '').toLowerCase()));
+      for (const ch of patch.characters || []) {
+        const key = String(ch.t || '').toLowerCase();
+        if (!key || existing.has(key)) continue;
+        series.characters.push({
+          t: ch.t,
+          n: ch.n,
+          th: ch.th || thumbFromTrigger(ch.t, ''),
+          c: ch.c || 0,
+          lora: ch.lora || undefined,
+          tags: ch.tags?.length ? ch.tags : undefined,
+        });
+        existing.add(key);
+        patched += 1;
+      }
+      series.count = series.characters.length;
+      series.characters.sort((a, b) => (b.c || 0) - (a.c || 0));
+    }
+    console.log(`Merged manual_characters_patch.json: +${patched} characters`);
+  }
+
   let totalChars = 0;
   for (const s of output) totalChars += s.characters.length;
 
