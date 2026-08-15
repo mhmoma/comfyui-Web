@@ -6,7 +6,7 @@ alwaysApply: true
 
 # ComfyUI-Web 部署与 D1 数据库操作规范
 
-> **部署版本**: 1.223
+> **部署版本**: 1.224
 > **版本记录**: 见底部「版本历史」 
 > **重要**: 每次修改代码后，必须更新本文件的**部署版本号**和**版本历史**。凡前端相关代码变更（`index.html` / `script.js` / `style.css` 及 `deploy/` 对应文件），必须递增前端版本号与静态资源版本参数。
 
@@ -273,6 +273,7 @@ D1 绑定在 Settings → Functions → D1 database bindings：
 
 | 版本 | 日期 | 操作 | 说明 |
 |------|------|------|------|
+| 1.224 | 2026-08-15 | 鸣潮手动补录三角色 | D1 patch 千咲/绯雪/爱弥斯；`assets/chars/*.webp`；seed `action=patch`；修复自托管封面弹窗大图；系列计数 40→43；app `script.js?v=511` |
 | 1.223 | 2026-08-14 | 双云端/运营台部署硬规则 | 写明 web↔tk-game-cloud 分账号；只推 origin；必须 sync→deploy；`pages_build_output_dir=deploy`；禁止跨账号 ARTIST_DB；Functions 编码/运营台版本号；部署失败对照表 |
 | 1.222 | 2026-08-12 | 收藏自动带当前图 | 点收藏直接截取当前生成图写入画师串 IndexedDB；无图才弹上传（app v5.13 / script.js?v=509） |
 | 1.01 | 2026-07-02 | 首次推送 + 填充 | D1 数据库整合完成，862 系列 / 12,460 角色写入，前端改为懒加载 |
