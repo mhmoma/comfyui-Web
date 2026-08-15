@@ -9250,18 +9250,43 @@
         }
     }
 
-    function loadImageWithFade(imgEl, url) {
+    function loadImageWithFade(imgEl, url, fallbackUrl) {
+        const primary = url || '';
+        const fallback = fallbackUrl && fallbackUrl !== primary ? fallbackUrl : '';
         imgEl.style.opacity = '0.3';
         imgEl.onload = () => { imgEl.style.opacity = '1'; };
-        imgEl.onerror = () => { imgEl.style.opacity = '1'; };
-        imgEl.src = url;
+        imgEl.onerror = () => {
+            if (fallback && imgEl.dataset.fallbackTried !== '1') {
+                imgEl.dataset.fallbackTried = '1';
+                imgEl.src = fallback;
+                return;
+            }
+            imgEl.style.opacity = '1';
+        };
+        delete imgEl.dataset.fallbackTried;
+        imgEl.src = primary;
+    }
+
+    /** Animadex 列表 thumb → 全图 png；自托管封面（Pages assets）保持原 URL */
+    function resolveCharPreviewUrl(thumbUrl) {
+        const thumb = String(thumbUrl || '').trim();
+        if (!thumb) return '';
+        if (thumb.includes('blobs.animadex.net') && thumb.includes('/thumbs/')) {
+            return thumb
+                .replace(/%2F/gi, '_')
+                .replace(/%3A/gi, '_')
+                .replace(/%3F/gi, '_')
+                .replace(/%22/gi, '_')
+                .replace(/\.+(?=\.webp(?:\?|$))/i, '')
+                .replace('/thumbs/', '/')
+                .replace(/\.webp(\?|$)/i, '.png$1');
+        }
+        return thumb;
     }
 
     function showCharPreview(tag) {
-        const imgUrl = tag.th
-            ? String(tag.th).replace(/%2F/gi, '_').replace(/%3A/gi, '_').replace(/%3F/gi, '_').replace(/%22/gi, '_').replace(/\.+(?=\.webp(?:\?|$))/i, '').replace('/thumbs/', '/').replace('.webp', '.png')
-            : '';
-        if (!imgUrl) return;
+        const imgUrl = resolveCharPreviewUrl(tag.th);
+        if (!imgUrl && !tag.th) return;
         let overlay = document.getElementById('char-preview-overlay');
         if (!overlay) {
             overlay = document.createElement('div');
@@ -9311,7 +9336,7 @@
         overlay._currentTag = tag;
         const previewImg = overlay.querySelector('.char-preview-img');
         previewImg.alt = tag.d;
-        loadImageWithFade(previewImg, imgUrl);
+        loadImageWithFade(previewImg, imgUrl || tag.th, tag.th);
         overlay.querySelector('.char-preview-name').textContent = tag.d;
         overlay.querySelector('.char-preview-trigger').innerHTML = `<span style="color:var(--text-secondary);font-size:0.7rem">触发词：</span>${tag.t}`;
         const tagsEl = overlay.querySelector('.char-preview-tags');
