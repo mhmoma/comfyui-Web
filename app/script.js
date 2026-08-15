@@ -8150,10 +8150,18 @@
     function _ssSet(key, val) { try { sessionStorage.setItem(key, JSON.stringify(val)); } catch { } }
 
     async function _fetchSeriesChars(seriesId) {
-        if (_charCache[seriesId]) return _charCache[seriesId];
+        const expected = Number(_resolveSeriesCharCount(seriesId) || 0);
+        if (_charCache[seriesId]) {
+            if (!expected || _charCache[seriesId].length === expected) return _charCache[seriesId];
+            delete _charCache[seriesId];
+        }
         const ssKey = '_ch_' + seriesId;
         const ss = _ssGet(ssKey);
-        if (ss) { _charCache[seriesId] = ss; return ss; }
+        if (ss && Array.isArray(ss) && (!expected || ss.length === expected)) {
+            _charCache[seriesId] = ss;
+            return ss;
+        }
+        try { sessionStorage.removeItem(ssKey); } catch { }
         const res = await fetch(`/api/characters/${encodeURIComponent(seriesId)}`);
         if (!res.ok) return [];
         const data = await res.json();
