@@ -5,8 +5,8 @@
     "trigger": "kuook",
     "count": 184,
     "score": 0.45,
-    "thumb_url": "https://comfyui-web-89u.pages.dev/assets/artists/kuook.webp",
-    "img_url": "https://comfyui-web-89u.pages.dev/assets/artists/kuook.webp"
+    "thumb_url": "https://pub-4d2d36a7cf42413583878dbeecf4f099.r2.dev/artists/kuook.webp",
+    "img_url": "https://pub-4d2d36a7cf42413583878dbeecf4f099.r2.dev/artists/kuook.webp"
   },
   {
     "slug": "xxoom",
@@ -14,7 +14,7 @@
     "trigger": "xxoom",
     "count": 98,
     "score": 0.45,
-    "thumb_url": "https://comfyui-web-89u.pages.dev/assets/artists/xxoom.webp",
-    "img_url": "https://comfyui-web-89u.pages.dev/assets/artists/xxoom.webp"
+    "thumb_url": "https://pub-4d2d36a7cf42413583878dbeecf4f099.r2.dev/artists/xxoom.webp",
+    "img_url": "https://pub-4d2d36a7cf42413583878dbeecf4f099.r2.dev/artists/xxoom.webp"
   }
 ]
