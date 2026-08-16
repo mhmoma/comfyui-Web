@@ -2,10 +2,14 @@ import {
   checkAdmin,
   cleanKind,
   cleanTargetId,
+  cleanUserId,
   corsPreflight,
   ensureContentBlocks,
   json,
+  listAllowsForUser,
   listBlockedIds,
+  listEffectiveBlockedIds,
+  setContentAllow,
   setContentBlock,
 } from "./_shared.js";
 
@@ -21,18 +25,31 @@ export async function onRequest(context) {
   const admin = checkAdmin(request, env);
 
   if (request.method === "GET") {
-    // 玩家端轻量拉取：被屏蔽的 id 列表（最高级限制）
+    // 玩家端轻量拉取：被屏蔽的 id 列表（最高级限制；可带 userId 扣除个人例外）
     if (url.searchParams.get("ids") === "1") {
+      const userId = cleanUserId(url.searchParams.get("userId"));
       const kind = cleanKind(url.searchParams.get("kind") || "");
       if (kind) {
-        const ids = await listBlockedIds(env.DB, kind);
-        return json(200, { ok: true, kind, ids }, { "Cache-Control": "public, max-age=30" });
+        const ids = await listEffectiveBlockedIds(env.DB, kind, userId);
+        return json(200, { ok: true, kind, ids }, { "Cache-Control": userId ? "private, max-age=15" : "public, max-age=30" });
       }
       const [series, artist] = await Promise.all([
-        listBlockedIds(env.DB, "series"),
-        listBlockedIds(env.DB, "artist"),
+        listEffectiveBlockedIds(env.DB, "series", userId),
+        listEffectiveBlockedIds(env.DB, "artist", userId),
       ]);
-      return json(200, { ok: true, series, artist }, { "Cache-Control": "public, max-age=30" });
+      return json(
+        200,
+        { ok: true, series, artist },
+        { "Cache-Control": userId ? "private, max-age=15" : "public, max-age=30" }
+      );
+    }
+
+    // 管理：某用户的最高级屏蔽例外
+    if (admin && url.searchParams.get("allows") === "1") {
+      const userId = cleanUserId(url.searchParams.get("userId"));
+      if (!userId) return json(400, { ok: false, error: "no_user", message: "需要 userId" });
+      const allows = await listAllowsForUser(env.DB, userId);
+      return json(200, { ok: true, userId, allows });
     }
 
     if (!admin || url.searchParams.get("view") !== "admin") {
@@ -58,6 +75,31 @@ export async function onRequest(context) {
     } catch (_) {
       return json(400, { ok: false, error: "bad_json", message: "请求体无效" });
     }
+
+    const action = String(body.action || "").trim();
+    // 个人例外：放开 / 收回最高级屏蔽可见权
+    if (action === "allow" || action === "deny_allow" || action === "clear_allows") {
+      const userId = cleanUserId(body.userId);
+      if (!userId) return json(400, { ok: false, error: "no_user", message: "需要 userId" });
+      if (action === "clear_allows") {
+        await env.DB.prepare(`DELETE FROM content_block_allows WHERE user_id = ?`).bind(userId).run();
+        return json(200, { ok: true, action, userId, cleared: true });
+      }
+      const kind = cleanKind(body.kind);
+      const id = cleanTargetId(body.id || body.targetId);
+      if (!kind || !id) {
+        return json(400, { ok: false, error: "bad_target", message: "需要 kind 与 id" });
+      }
+      const row = await setContentAllow(env.DB, {
+        userId,
+        kind,
+        id,
+        allow: action === "allow",
+        note: body.note || "",
+      });
+      return json(200, { ok: true, action, ...row });
+    }
+
     const kind = cleanKind(body.kind);
     const id = cleanTargetId(body.id || body.targetId);
     const blocked = body.blocked === true || body.blocked === 1 || body.blocked === "1";
@@ -75,6 +117,7 @@ export async function onRequest(context) {
 
   return json(405, { ok: false, error: "method", message: "不支持的方法" });
 }
+
 
 async function adminSeriesPage(db, { q, pageRaw, filter }) {
   const where = [];

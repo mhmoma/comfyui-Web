@@ -1,4 +1,4 @@
-import { ensureContentBlocks, listBlockedIds } from "../content-blocks/_shared.js";
+import { ensureContentBlocks, listEffectiveBlockedIds } from "../content-blocks/_shared.js";
 
 export async function onRequestGet(context) {
   const { request, env } = context;
@@ -9,6 +9,7 @@ export async function onRequestGet(context) {
   const url = new URL(request.url);
   const q = (url.searchParams.get("q") || "").trim();
   const limit = Math.min(parseInt(url.searchParams.get("limit") || "60", 10), 200);
+  const userId = String(url.searchParams.get("userId") || "").trim().slice(0, 80);
 
   if (!q || q.length < 1) {
     return new Response(JSON.stringify([]), {
@@ -18,7 +19,7 @@ export async function onRequestGet(context) {
 
   try {
     await ensureContentBlocks(db);
-    const blocked = await listBlockedIds(db, "artist");
+    const blocked = await listEffectiveBlockedIds(db, "artist", userId);
     const pattern = `%${q}%`;
     const binds = [pattern, pattern, pattern];
     let notIn = "";

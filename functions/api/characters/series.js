@@ -1,4 +1,4 @@
-import { ensureContentBlocks, isContentBlocked, listBlockedIds } from "../content-blocks/_shared.js";
+import { ensureContentBlocks, listEffectiveBlockedIds } from "../content-blocks/_shared.js";
 
 export async function onRequestGet(context) {
   const { env } = context;
@@ -13,8 +13,10 @@ export async function onRequestGet(context) {
 
   try {
     await ensureContentBlocks(db);
+    const url = new URL(context.request.url);
+    const userId = String(url.searchParams.get("userId") || "").trim().slice(0, 80);
     const blocked = new Set(
-      (await listBlockedIds(db, "series")).map((id) => String(id).toLowerCase())
+      (await listEffectiveBlockedIds(db, "series", userId)).map((id) => String(id).toLowerCase())
     );
 
     const { results } = await db.prepare(

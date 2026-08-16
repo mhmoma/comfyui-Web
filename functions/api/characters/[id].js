@@ -1,4 +1,4 @@
-import { ensureContentBlocks, isContentBlocked } from "../content-blocks/_shared.js";
+import { ensureContentBlocks, isContentBlockedForUser } from "../content-blocks/_shared.js";
 
 export async function onRequestGet(context) {
   const { request, env, params } = context;
@@ -11,11 +11,12 @@ export async function onRequestGet(context) {
   const paginate = pageRaw != null && pageRaw !== '';
   const page = Math.max(1, parseInt(pageRaw || '1', 10) || 1);
   const limit = Math.min(100, Math.max(1, Number.isFinite(limitRaw) ? limitRaw : 48));
+  const userId = String(url.searchParams.get('userId') || '').trim().slice(0, 80);
 
   const cors = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'Cache-Control': 'public, max-age=30, must-revalidate',
+    'Cache-Control': userId ? 'private, max-age=15, must-revalidate' : 'public, max-age=30, must-revalidate',
   };
 
   if (!db) {
@@ -27,7 +28,7 @@ export async function onRequestGet(context) {
 
   try {
     await ensureContentBlocks(db);
-    if (await isContentBlocked(db, 'series', seriesId)) {
+    if (await isContentBlockedForUser(db, 'series', seriesId, userId)) {
       return new Response(JSON.stringify({
         ok: false,
         error: 'blocked',

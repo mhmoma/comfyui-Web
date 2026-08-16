@@ -1,4 +1,4 @@
-import { ensureContentBlocks, listBlockedIds } from "../content-blocks/_shared.js";
+import { ensureContentBlocks, listEffectiveBlockedIds } from "../content-blocks/_shared.js";
 
 const VALID_SORT = { score: "score", count: "count", fav: "score", name: "name" };
 const VALID_ORDER = { asc: "ASC", desc: "DESC" };
@@ -16,6 +16,7 @@ export async function onRequestGet(context) {
   const orderParam = url.searchParams.get("order") || (sortParam === "name" ? "asc" : "desc");
   const letter = (url.searchParams.get("letter") || "").toLowerCase();
   const q = (url.searchParams.get("q") || "").trim().slice(0, 80);
+  const userId = String(url.searchParams.get("userId") || "").trim().slice(0, 80);
   const offset = (page - 1) * limit;
 
   const sortCol = VALID_SORT[sortParam] || "score";
@@ -23,7 +24,7 @@ export async function onRequestGet(context) {
 
   try {
     await ensureContentBlocks(db);
-    const blocked = await listBlockedIds(db, "artist");
+    const blocked = await listEffectiveBlockedIds(db, "artist", userId);
     const conditions = [];
     const binds = [];
 

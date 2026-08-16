@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.22";
+  const ADMIN_UI_VERSION = "1.23";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针） */
@@ -1321,7 +1321,7 @@
           <span class="meta">${state.charsPage} / ${data.totalPages || 1}</span>
           <button type="button" id="chars-next" ${state.charsPage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
         </div>
-        <div class="notes">最高级屏蔽写入服务端。玩家端系列列表不会再出现；角色接口返回 403；tk321 / 单作品解锁码也无法绕过。</div>
+        <div class="notes">最高级屏蔽写入服务端。玩家端系列列表不会再出现；角色接口返回 403；tk321 / 单作品解锁码也无法绕过。可在「用户档案」里给指定用户开例外。</div>
       </div>`;
     const syncQ = () => {
       state.charsQ = $("chars-q")?.value || "";
@@ -1441,9 +1441,10 @@
   }
 
   async function renderUserDetail(root, userId) {
-    const [data, seriesMap] = await Promise.all([
+    const [data, seriesMap, allowData] = await Promise.all([
       api(`/api/admin/players?userId=${encodeURIComponent(userId)}`),
       ensureSeriesNameMap(),
+      api(`/api/content-blocks?allows=1&userId=${encodeURIComponent(userId)}`).catch(() => ({ allows: [] })),
     ]);
     const s = data.summary || {};
     const name = data.displayName || "未留名玩家";
@@ -1451,6 +1452,7 @@
     const owned = s.mudOwnedLabeled || [];
     const unlocked = s.unlockedSeries || [];
     const blocks = data.blocks || [];
+    const allows = allowData.allows || [];
     const equip = s.mudEquipLabeled || [];
     setTop(`管理 · ${name}`, `ID：${userId}`);
 
@@ -1476,6 +1478,21 @@
               <button type="button" class="danger tiny" data-unblock="${escapeHtml(b.targetId)}">解除</button>
             </span>`).join("") : `<span class="meta">当前无个人限制</span>`;
 
+    const allowChips = allows.length ? allows.map((a) => {
+      const kind = a.kind === "artist" ? "artist" : "series";
+      const label = kind === "artist"
+        ? a.targetId
+        : seriesDisplayName(a.targetId, seriesMap);
+      return `
+            <span class="chip">
+              <strong>${kind === "artist" ? "画师" : "作品"} · ${escapeHtml(label)}</strong>
+              ${kind === "series" && seriesMap[a.targetId] && seriesMap[a.targetId] !== a.targetId
+                ? `<span class="meta mono">（${escapeHtml(a.targetId)}）</span>` : ""}
+              ${a.note ? `<span class="meta">（${escapeHtml(a.note)}）</span>` : ""}
+              <button type="button" class="danger tiny" data-deny-allow="${escapeHtml(a.targetId)}" data-kind="${kind}">收回</button>
+            </span>`;
+    }).join("") : `<span class="meta">暂无例外（与其他玩家一样看不到最高级屏蔽内容）</span>`;
+
     root.innerHTML = `
       <div class="panel">
         <div class="toolbar">
@@ -1488,6 +1505,7 @@
           <div class="summary-card"><div class="k">已购装扮</div><div class="v">${escapeHtml(String(s.mudOwnedCount ?? 0))}</div></div>
           <div class="summary-card"><div class="k">已解锁作品</div><div class="v">${s.unlockedAll || s.unlockedCount === -1 ? "全部" : escapeHtml(String(s.unlockedCount ?? 0))}</div></div>
           <div class="summary-card"><div class="k">个人隐藏</div><div class="v">${escapeHtml(String(blocks.length))}</div></div>
+          <div class="summary-card"><div class="k">屏蔽例外</div><div class="v">${escapeHtml(String(allows.length))}</div></div>
           <div class="summary-card"><div class="k">主题</div><div class="v">${escapeHtml(s.themeLabel || "—")}</div></div>
         </div>
       </div>
@@ -1562,7 +1580,25 @@
       </div>
 
       <div class="panel detail-block">
-        <h3>⑤ 其他</h3>
+        <h3>⑤ 最高级屏蔽例外（仅该用户可见）</h3>
+        <p class="meta">全局「最高级屏蔽」后其他人仍看不到；在此放行后，仅该用户能看到对应作品或画师。ID 与角色库/画师库一致。</p>
+        <div class="chip-list">
+          ${allowChips}
+        </div>
+        <div class="lazy-row">
+          <select id="allow-kind" style="max-width:110px">
+            <option value="series">作品</option>
+            <option value="artist">画师</option>
+          </select>
+          <input id="allow-id" class="grow" placeholder="作品 ID 或画师 slug">
+          <input id="allow-note" placeholder="备注（可选）" style="max-width:160px">
+          <button type="button" class="primary" id="add-allow">放行给该用户</button>
+          <button type="button" class="warn" id="clear-allows">清空其全部例外</button>
+        </div>
+      </div>
+
+      <div class="panel detail-block">
+        <h3>⑥ 其他</h3>
         <p class="meta">更新日志已读：${escapeHtml(s.seenVersion || "—")} · 兑换码：${escapeHtml((s.codes || []).join(", ") || "无")} · 画师串 ${escapeHtml(String(data.artistCount ?? 0))} 条</p>
         <p class="meta">留言禁言：${
           s.boardMutedUntil && s.boardMutedUntil > Date.now()
@@ -1673,6 +1709,44 @@
     $("clear-blocks")?.addEventListener("click", async () => {
       if (!confirm("清空该用户全部个人隐藏限制？")) return;
       await userAction(userId, "clear_blocks");
+      render();
+    });
+
+    root.querySelectorAll("[data-deny-allow]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        await api("/api/content-blocks", {
+          method: "POST",
+          body: JSON.stringify({
+            action: "deny_allow",
+            userId,
+            kind: btn.getAttribute("data-kind") || "series",
+            id: btn.getAttribute("data-deny-allow"),
+          }),
+        });
+        render();
+      });
+    });
+    $("add-allow")?.addEventListener("click", async () => {
+      const id = ($("allow-id")?.value || "").trim();
+      if (!id) return alert("请填写作品 ID 或画师 slug");
+      await api("/api/content-blocks", {
+        method: "POST",
+        body: JSON.stringify({
+          action: "allow",
+          userId,
+          kind: $("allow-kind")?.value || "series",
+          id,
+          note: ($("allow-note")?.value || "").trim(),
+        }),
+      });
+      render();
+    });
+    $("clear-allows")?.addEventListener("click", async () => {
+      if (!confirm("清空该用户全部最高级屏蔽例外？")) return;
+      await api("/api/content-blocks", {
+        method: "POST",
+        body: JSON.stringify({ action: "clear_allows", userId }),
+      });
       render();
     });
 
@@ -2098,7 +2172,7 @@
       ["审计日志", "—", "运营操作记录与检索", "可管", "#audit"],
       ["资讯", "站点教程", "发帖草稿发布", "可管", "#news"],
       ["素材入库", "—", "封面上传 R2 + 写 D1", "可管", "#catalog"],
-      ["画师库/角色库", "官方检索素材", "搜索、最高级屏蔽", "可管", "#artists"],
+      ["画师库/角色库", "官方检索素材", "搜索、最高级屏蔽、用户例外放行", "可管", "#artists"],
       ["举报审核", "—", "暂无独立队列", "未建", ""],
     ];
     root.innerHTML = `
