@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.28";
+  const ADMIN_UI_VERSION = "1.29";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针） */
@@ -1105,6 +1105,48 @@
     });
   }
 
+  function loadImageFromUrl(url) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error("image_decode_failed"));
+      img.src = url;
+    });
+  }
+
+  /** 封面入库前压到最长边 maxEdge，避免大 PNG 整包 dataURL 打跨域上传时 Failed to fetch */
+  async function fileToCoverDataUrl(file, maxEdge = 384, quality = 0.82) {
+    const raw = await fileToDataUrl(file);
+    const img = await loadImageFromUrl(raw);
+    const scale = Math.min(1, maxEdge / Math.max(img.width || 1, img.height || 1));
+    const w = Math.max(1, Math.round((img.width || 1) * scale));
+    const h = Math.max(1, Math.round((img.height || 1) * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("canvas_unavailable");
+    ctx.drawImage(img, 0, 0, w, h);
+    let out = "";
+    try {
+      out = canvas.toDataURL("image/webp", quality);
+    } catch (_) {
+      out = "";
+    }
+    if (!out.startsWith("data:image/webp")) {
+      out = canvas.toDataURL("image/jpeg", quality);
+    }
+    return out;
+  }
+
+  function catalogFetchError(err) {
+    const msg = String(err?.message || err || "");
+    if (/failed to fetch/i.test(msg)) {
+      return "Failed to fetch：连不上游戏云端上传（tk-game-cloud）或请求被中断。请换小图（最长边约 384）后重试，并确认能打开 https://tk-game-cloud.pages.dev ；仍失败再查广告拦截/代理。";
+    }
+    return msg;
+  }
+
   async function renderCatalog(root) {
     setTop("素材入库", "封面 → R2（passinbox）；元数据 → 素材站 D1。");
     root.innerHTML = `
@@ -1158,8 +1200,9 @@
         const file = $("cat-a-file")?.files?.[0];
         if (!slug || !name || !trigger) throw new Error("请填写 slug / 名称 / 触发词");
         if (!file) throw new Error("请选择封面图");
+        if (log) log.textContent = "压缩封面…";
+        const image = await fileToCoverDataUrl(file);
         if (log) log.textContent = "上传 R2…";
-        const image = await fileToDataUrl(file);
         const up = await cloudApi("/api/admin/media-upload", {
           method: "POST",
           body: JSON.stringify({ kind: "artist", slug, image }),
@@ -1180,7 +1223,7 @@
         });
         if (log) log.textContent = `完成\n封面：${up.url}\nD1：${JSON.stringify(seed)}`;
       } catch (err) {
-        if (log) log.textContent = `失败：${err.message || err}`;
+        if (log) log.textContent = `失败：${catalogFetchError(err)}`;
       }
     });
 
@@ -1195,8 +1238,9 @@
         const file = $("cat-c-file")?.files?.[0];
         if (!seriesId || !slug || !trigger || !name) throw new Error("请填写 series / slug / trigger / 名称");
         if (!file) throw new Error("请选择封面图");
+        if (log) log.textContent = "压缩封面…";
+        const image = await fileToCoverDataUrl(file);
         if (log) log.textContent = "上传 R2…";
-        const image = await fileToDataUrl(file);
         const up = await cloudApi("/api/admin/media-upload", {
           method: "POST",
           body: JSON.stringify({ kind: "char", slug, image }),
@@ -1224,7 +1268,7 @@
         });
         if (log) log.textContent = `完成\n封面：${up.url}\nD1：${JSON.stringify(seed)}`;
       } catch (err) {
-        if (log) log.textContent = `失败：${err.message || err}`;
+        if (log) log.textContent = `失败：${catalogFetchError(err)}`;
       }
     });
   }
