@@ -60,11 +60,13 @@ export async function onRequest(context) {
     const q = String(url.searchParams.get("q") || "").trim().slice(0, 80);
     const pageRaw = Math.floor(Number(url.searchParams.get("page")) || 1);
     const filter = String(url.searchParams.get("filter") || "all").trim(); // all | blocked | open
+    const pageSizeRaw = Math.floor(Number(url.searchParams.get("pageSize") || url.searchParams.get("limit")) || PAGE_SIZE);
+    const pageSize = Math.min(500, Math.max(1, pageSizeRaw || PAGE_SIZE));
 
     if (kind === "series") {
-      return json(200, await adminSeriesPage(env.DB, { q, pageRaw, filter }), { "Cache-Control": "no-store" });
+      return json(200, await adminSeriesPage(env.DB, { q, pageRaw, filter, pageSize }), { "Cache-Control": "no-store" });
     }
-    return json(200, await adminArtistPage(env.DB, { q, pageRaw, filter }), { "Cache-Control": "no-store" });
+    return json(200, await adminArtistPage(env.DB, { q, pageRaw, filter, pageSize }), { "Cache-Control": "no-store" });
   }
 
   if (request.method === "POST") {
@@ -119,7 +121,8 @@ export async function onRequest(context) {
 }
 
 
-async function adminSeriesPage(db, { q, pageRaw, filter }) {
+async function adminSeriesPage(db, { q, pageRaw, filter, pageSize = PAGE_SIZE }) {
+  const size = Math.min(500, Math.max(1, Number(pageSize) || PAGE_SIZE));
   const where = [];
   const binds = [];
   if (q) {
@@ -139,10 +142,10 @@ async function adminSeriesPage(db, { q, pageRaw, filter }) {
      ${whereSql}`
   ).bind(...binds).first();
   const total = Number(totalRow?.c) || 0;
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE) || 1);
+  const totalPages = Math.max(1, Math.ceil(total / size) || 1);
   let page = pageRaw < 1 ? 1 : pageRaw;
   if (page > totalPages) page = totalPages;
-  const offset = (page - 1) * PAGE_SIZE;
+  const offset = (page - 1) * size;
   const { results } = await db.prepare(
     `SELECT s.id, s.name,
             (SELECT COUNT(*) FROM characters c WHERE c.series_id = s.id) AS char_count,
@@ -154,7 +157,7 @@ async function adminSeriesPage(db, { q, pageRaw, filter }) {
      ${whereSql}
      ORDER BY blocked DESC, char_count DESC, s.name COLLATE NOCASE ASC
      LIMIT ? OFFSET ?`
-  ).bind(...binds, PAGE_SIZE, offset).all();
+  ).bind(...binds, size, offset).all();
 
   return {
     ok: true,
@@ -170,11 +173,12 @@ async function adminSeriesPage(db, { q, pageRaw, filter }) {
     page,
     total,
     totalPages,
-    pageSize: PAGE_SIZE,
+    pageSize: size,
   };
 }
 
-async function adminArtistPage(db, { q, pageRaw, filter }) {
+async function adminArtistPage(db, { q, pageRaw, filter, pageSize = PAGE_SIZE }) {
+  const size = Math.min(500, Math.max(1, Number(pageSize) || PAGE_SIZE));
   const where = [];
   const binds = [];
   if (q) {
@@ -194,10 +198,10 @@ async function adminArtistPage(db, { q, pageRaw, filter }) {
      ${whereSql}`
   ).bind(...binds).first();
   const total = Number(totalRow?.c) || 0;
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE) || 1);
+  const totalPages = Math.max(1, Math.ceil(total / size) || 1);
   let page = pageRaw < 1 ? 1 : pageRaw;
   if (page > totalPages) page = totalPages;
-  const offset = (page - 1) * PAGE_SIZE;
+  const offset = (page - 1) * size;
   const { results } = await db.prepare(
     `SELECT a.slug, a.name, a.trigger_text, a.count, a.score,
             COALESCE(b.blocked, 0) AS blocked,
@@ -208,7 +212,7 @@ async function adminArtistPage(db, { q, pageRaw, filter }) {
      ${whereSql}
      ORDER BY blocked DESC, a.count DESC, a.name COLLATE NOCASE ASC
      LIMIT ? OFFSET ?`
-  ).bind(...binds, PAGE_SIZE, offset).all();
+  ).bind(...binds, size, offset).all();
 
   return {
     ok: true,
@@ -227,6 +231,6 @@ async function adminArtistPage(db, { q, pageRaw, filter }) {
     page,
     total,
     totalPages,
-    pageSize: PAGE_SIZE,
+    pageSize: size,
   };
 }

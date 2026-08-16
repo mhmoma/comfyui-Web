@@ -406,6 +406,22 @@ button.linkish:hover { text-decoration: underline; }
 }
 .badge.warn { color: var(--warn); border-color: #e6d2a0; background: #fff8e8; }
 .badge.off { opacity: 0.7; }
+.allow-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
+}
+.status-dot.green { background: #1f8a4c; }
+.status-dot.red { background: #c0392b; }
 .mono { font-family: var(--mono); font-size: 0.74rem; word-break: break-all; }
 .trigger {
   margin: 0;

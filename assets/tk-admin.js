@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.26";
+  const ADMIN_UI_VERSION = "1.27";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针） */
@@ -63,6 +63,7 @@
     usersPage: 1,
     usersQ: "",
     usersDetail: "",
+    usersAllowTab: "series",
     economyPage: 1,
     economyQ: "",
     economyDetail: "",
@@ -1495,10 +1496,12 @@
   }
 
   async function renderUserDetail(root, userId) {
-    const [data, seriesMap, allowData] = await Promise.all([
+    const [data, seriesMap, allowData, blockedSeriesData, blockedArtistData] = await Promise.all([
       api(`/api/admin/players?userId=${encodeURIComponent(userId)}`),
       ensureSeriesNameMap(),
       assetApi(`/api/content-blocks?allows=1&userId=${encodeURIComponent(userId)}`).catch(() => ({ allows: [] })),
+      assetApi("/api/content-blocks?view=admin&kind=series&filter=blocked&page=1&pageSize=500").catch(() => ({ rows: [] })),
+      assetApi("/api/content-blocks?view=admin&kind=artist&filter=blocked&page=1&pageSize=500").catch(() => ({ rows: [] })),
     ]);
     const s = data.summary || {};
     const name = data.displayName || "未留名玩家";
@@ -1508,6 +1511,11 @@
     const blocks = data.blocks || [];
     const allows = allowData.allows || [];
     const equip = s.mudEquipLabeled || [];
+    const blockedSeries = (blockedSeriesData.rows || []).filter((r) => r.blocked);
+    const blockedArtists = (blockedArtistData.rows || []).filter((r) => r.blocked);
+    const allowSet = new Set(
+      allows.map((a) => `${a.kind === "artist" ? "artist" : "series"}:${String(a.targetId || "").toLowerCase()}`)
+    );
     setTop(`管理 · ${name}`, `ID：${userId}`);
 
     const catalogOpts = Object.entries(catalog).map(([id, label]) =>
@@ -1532,20 +1540,37 @@
               <button type="button" class="danger tiny" data-unblock="${escapeHtml(b.targetId)}">解除</button>
             </span>`).join("") : `<span class="meta">当前无个人限制</span>`;
 
-    const allowChips = allows.length ? allows.map((a) => {
-      const kind = a.kind === "artist" ? "artist" : "series";
-      const label = kind === "artist"
-        ? a.targetId
-        : seriesDisplayName(a.targetId, seriesMap);
-      return `
-            <span class="chip">
-              <strong>${kind === "artist" ? "画师" : "作品"} · ${escapeHtml(label)}</strong>
-              ${kind === "series" && seriesMap[a.targetId] && seriesMap[a.targetId] !== a.targetId
-                ? `<span class="meta mono">（${escapeHtml(a.targetId)}）</span>` : ""}
-              ${a.note ? `<span class="meta">（${escapeHtml(a.note)}）</span>` : ""}
-              <button type="button" class="danger tiny" data-deny-allow="${escapeHtml(a.targetId)}" data-kind="${kind}">收回</button>
-            </span>`;
-    }).join("") : `<span class="meta">暂无例外（与其他玩家一样看不到最高级屏蔽内容）</span>`;
+    const allowCatalogRows = (kind, rows) => {
+      if (!rows.length) {
+        return `<tr><td colspan="4" class="meta">当前没有已最高级屏蔽的${kind === "artist" ? "画师" : "作品"}</td></tr>`;
+      }
+      return rows.map((row) => {
+        const id = String(row.id || row.slug || "");
+        const key = `${kind}:${id.toLowerCase()}`;
+        const allowed = allowSet.has(key);
+        const label = kind === "artist"
+          ? (row.name || id)
+          : (row.name || seriesDisplayName(id, seriesMap) || id);
+        return `
+          <tr>
+            <td class="allow-status">
+              <span class="status-dot ${allowed ? "green" : "red"}" title="${allowed ? "已放行" : "未放行"}"></span>
+              <span class="meta">${allowed ? "已放行" : "未放行"}</span>
+            </td>
+            <td>${escapeHtml(label)}<div class="mono meta">${escapeHtml(id)}</div></td>
+            <td class="meta">${escapeHtml(String(row.count ?? ""))}</td>
+            <td>
+              ${allowed
+                ? `<button type="button" class="warn" data-deny-allow="${escapeHtml(id)}" data-kind="${kind}">收回放行</button>`
+                : `<button type="button" class="primary" data-grant-allow="${escapeHtml(id)}" data-kind="${kind}">放行给该用户</button>`}
+            </td>
+          </tr>`;
+      }).join("");
+    };
+
+    const allowTab = state.usersAllowTab === "artist" ? "artist" : "series";
+    const allowAllowedCount = allows.length;
+    const allowBlockedTotal = blockedSeries.length + blockedArtists.length;
 
     root.innerHTML = `
       <div class="panel">
@@ -1559,7 +1584,7 @@
           <div class="summary-card"><div class="k">已购装扮</div><div class="v">${escapeHtml(String(s.mudOwnedCount ?? 0))}</div></div>
           <div class="summary-card"><div class="k">已解锁作品</div><div class="v">${s.unlockedAll || s.unlockedCount === -1 ? "全部" : escapeHtml(String(s.unlockedCount ?? 0))}</div></div>
           <div class="summary-card"><div class="k">个人隐藏</div><div class="v">${escapeHtml(String(blocks.length))}</div></div>
-          <div class="summary-card"><div class="k">屏蔽例外</div><div class="v">${escapeHtml(String(allows.length))}</div></div>
+          <div class="summary-card"><div class="k">屏蔽例外</div><div class="v">${escapeHtml(String(allowAllowedCount))} / ${escapeHtml(String(allowBlockedTotal))}</div></div>
           <div class="summary-card"><div class="k">主题</div><div class="v">${escapeHtml(s.themeLabel || "—")}</div></div>
         </div>
       </div>
@@ -1635,19 +1660,27 @@
 
       <div class="panel detail-block">
         <h3>⑤ 最高级屏蔽例外（仅该用户可见）</h3>
-        <p class="meta">全局「最高级屏蔽」后其他人仍看不到；在此放行后，仅该用户能看到对应作品或画师。ID 与角色库/画师库一致。</p>
-        <div class="chip-list">
-          ${allowChips}
-        </div>
-        <div class="lazy-row">
-          <select id="allow-kind" style="max-width:110px">
-            <option value="series">作品</option>
-            <option value="artist">画师</option>
-          </select>
-          <input id="allow-id" class="grow" placeholder="作品 ID 或画师 slug">
-          <input id="allow-note" placeholder="备注（可选）" style="max-width:160px">
-          <button type="button" class="primary" id="add-allow">放行给该用户</button>
+        <p class="meta">下列为全局已最高级屏蔽的目录。绿灯=已放行给该用户；红灯=未放行（与其他玩家一样看不到）。</p>
+        <div class="toolbar">
+          <button type="button" id="allow-tab-series" class="${allowTab === "series" ? "primary" : ""}">作品（${blockedSeries.length}）</button>
+          <button type="button" id="allow-tab-artist" class="${allowTab === "artist" ? "primary" : ""}">画师（${blockedArtists.length}）</button>
+          <span class="meta">已放行 ${allowAllowedCount} · 全局屏蔽 ${allowBlockedTotal}</span>
           <button type="button" class="warn" id="clear-allows">清空其全部例外</button>
+        </div>
+        <div class="table-wrap">
+          <table class="admin">
+            <thead>
+              <tr>
+                <th>状态</th>
+                <th>${allowTab === "artist" ? "画师" : "作品"}</th>
+                <th>${allowTab === "artist" ? "热度" : "角色数"}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${allowCatalogRows(allowTab, allowTab === "artist" ? blockedArtists : blockedSeries)}
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -1784,24 +1817,31 @@
         }
       });
     });
-    $("add-allow")?.addEventListener("click", async () => {
-      const id = ($("allow-id")?.value || "").trim();
-      if (!id) return alert("请填写作品 ID 或画师 slug");
-      try {
-        await assetApi("/api/content-blocks", {
-          method: "POST",
-          body: JSON.stringify({
-            action: "allow",
-            userId,
-            kind: $("allow-kind")?.value || "series",
-            id,
-            note: ($("allow-note")?.value || "").trim(),
-          }),
-        });
-        render();
-      } catch (err) {
-        alert(`放行失败：${err.message || err}`);
-      }
+    root.querySelectorAll("[data-grant-allow]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        try {
+          await assetApi("/api/content-blocks", {
+            method: "POST",
+            body: JSON.stringify({
+              action: "allow",
+              userId,
+              kind: btn.getAttribute("data-kind") || "series",
+              id: btn.getAttribute("data-grant-allow"),
+            }),
+          });
+          render();
+        } catch (err) {
+          alert(`放行失败：${err.message || err}`);
+        }
+      });
+    });
+    $("allow-tab-series")?.addEventListener("click", () => {
+      state.usersAllowTab = "series";
+      render();
+    });
+    $("allow-tab-artist")?.addEventListener("click", () => {
+      state.usersAllowTab = "artist";
+      render();
     });
     $("clear-allows")?.addEventListener("click", async () => {
       if (!confirm("清空该用户全部最高级屏蔽例外？")) return;
