@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.20";
+  const ADMIN_UI_VERSION = "1.21";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针） */
@@ -22,6 +22,7 @@
     { id: "trade", label: "画师串交流", group: "社区" },
     { id: "board", label: "留言板", group: "社区" },
     { id: "news", label: "资讯", group: "素材库" },
+    { id: "catalog", label: "素材入库", group: "素材库" },
     { id: "artists", label: "画师库", group: "素材库" },
     { id: "characters", label: "角色库", group: "素材库" },
     { id: "map", label: "能力地图", group: "概览" },
@@ -36,6 +37,7 @@
     "/api/admin/overview",
     "/api/admin/players",
     "/api/admin/audit",
+    "/api/admin/media-upload",
     "/api/player-blocks",
   ];
 
@@ -43,6 +45,8 @@
   let route = "overview";
   const state = {
     boardPage: 1,
+    boardQ: "",
+    boardUserId: "",
     noticePage: 1,
     tradePage: 1,
     tradeStatus: "active",
@@ -60,6 +64,7 @@
     economyPage: 1,
     economyQ: "",
     economyDetail: "",
+    economyLedgerPage: 1,
     readsPage: 1,
     readsQ: "",
     readsKey: "seen_version",
@@ -448,6 +453,7 @@
       else if (route === "board") await renderBoard(root);
       else if (route === "trade") await renderTrade(root);
       else if (route === "news") renderNews(root);
+      else if (route === "catalog") await renderCatalog(root);
       else if (route === "artists") await renderArtists(root);
       else if (route === "characters") await renderCharacters(root);
       else if (route === "prefs") await renderPrefs(root);
@@ -593,7 +599,7 @@
   }
 
   async function renderNotice(root) {
-    setTop("公告", "左侧编辑，右侧实时预览（与玩家端黑白硬边栏一致）。支持 HTML / 图 / 代码 / 特效。");
+    setTop("公告", "玩家端始终只显示「最新一条生效公告」。可先存草稿，再点发布。");
     const data = await api(`/api/announcements?view=admin&page=${state.noticePage}`);
     const rows = data.rows || [];
     const plainPreview = (html) => String(html || "")
@@ -662,11 +668,12 @@
             <input id="notice-title" type="text" maxlength="80" placeholder="标题（大字显示，最多 80 字）">
             <textarea id="notice-body" maxlength="48000" rows="14" placeholder="正文：纯文本或 HTML。支持 b/i/code/pre/img/style、表情，以及 fx-blink / fx-pulse / fx-shake / fx-marquee / fx-stamp / fx-invert / fx-outline"></textarea>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-              <button type="button" id="notice-publish">发布公告</button>
+              <button type="button" class="primary" id="notice-publish">立即发布</button>
+              <button type="button" id="notice-draft">存为草稿</button>
               <button type="button" id="notice-preview-refresh">刷新预览</button>
               <button type="button" id="notice-refresh">刷新列表</button>
             </div>
-            <p class="meta" style="margin-top:8px">最多约 48KB。勿写 script。点列表「载入预览」可回看已发内容。</p>
+            <p class="meta" style="margin-top:8px">策略：同时只有 1 条对玩家生效；发布会自动下线旧公告。草稿不展示。勿写 script。</p>
           </div>
           <div class="notice-preview-pane">
             <div class="meta" style="margin-bottom:6px">玩家端预览</div>
@@ -691,8 +698,9 @@
               <div class="item-head">
                 <strong>${escapeHtml(row.title || "（无标题）")}</strong>
                 <div>
-                  <span class="badge ${row.active ? "" : "off"}">${row.active ? "生效中" : "已下线"}</span>
+                  <span class="badge ${row.active ? "" : "off"}">${row.active ? "生效中" : "草稿/下线"}</span>
                   <button type="button" data-load="${escapeHtml(row.id)}">载入预览</button>
+                  ${!row.active ? `<button type="button" class="primary" data-publish="${escapeHtml(row.id)}">发布此条</button>` : ""}
                   ${row.active ? `<button type="button" class="warn" data-off="${escapeHtml(row.id)}">下线</button>` : ""}
                   <button type="button" class="danger" data-del="${escapeHtml(row.id)}">删除</button>
                 </div>
@@ -733,10 +741,24 @@
         return;
       }
       updateLivePreview();
-      if (!confirm("发布后将替换当前生效公告，玩家会看到预览中的内容。继续？")) return;
+      if (!confirm("发布后将成为唯一生效公告（旧公告自动下线）。继续？")) return;
       await api("/api/announcements", {
         method: "POST",
         body: JSON.stringify({ action: "create", title, body }),
+      });
+      state.noticePage = 1;
+      render();
+    });
+    $("notice-draft")?.addEventListener("click", async () => {
+      const title = $("notice-title")?.value || "";
+      const body = $("notice-body")?.value || "";
+      if (!String(body).trim()) {
+        alert("请填写公告正文");
+        return;
+      }
+      await api("/api/announcements", {
+        method: "POST",
+        body: JSON.stringify({ action: "draft", title, body }),
       });
       state.noticePage = 1;
       render();
@@ -749,6 +771,16 @@
         if ($("notice-body")) $("notice-body").value = row.body || "";
         updateLivePreview();
         $("notice-body")?.scrollIntoView?.({ behavior: "smooth", block: "nearest" });
+      });
+    });
+    root.querySelectorAll("[data-publish]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        if (!confirm("发布此条为当前生效公告？其余将下线。")) return;
+        await api("/api/announcements", {
+          method: "POST",
+          body: JSON.stringify({ action: "publish", id: btn.getAttribute("data-publish") }),
+        });
+        render();
       });
     });
     root.querySelectorAll("[data-off]").forEach((btn) => {
@@ -771,22 +803,32 @@
   }
 
   async function renderBoard(root) {
-    setTop("留言板", "全服聊天巡查：删除单条或清空。点 UID 可进用户档案。");
-    const data = await api(`/api/board?page=${state.boardPage}`);
+    setTop("留言板", "搜索 / 按 UID 筛；删单条、删该用户全部；可禁言。");
+    const q = encodeURIComponent(state.boardQ || "");
+    const uid = encodeURIComponent(state.boardUserId || "");
+    const data = await api(`/api/board?page=${state.boardPage}&q=${q}&userId=${uid}`);
     const rows = data.rows || [];
     root.innerHTML = `
       <div class="panel">
         <div class="toolbar">
-          <span class="meta">共 ${data.total || 0} 条 · 第 ${data.page || 1}/${data.totalPages || 1} 页</span>
+          <input class="grow" id="board-q" placeholder="搜内容 / 昵称 / UID…" value="${escapeHtml(state.boardQ || "")}">
+          <input style="max-width:220px" id="board-uid" placeholder="精确 UID" value="${escapeHtml(state.boardUserId || "")}">
+          <button type="button" class="primary" id="board-search">搜索</button>
           <button type="button" id="board-refresh">刷新</button>
+          <button type="button" class="warn" id="board-del-user" ${state.boardUserId ? "" : "disabled"}>删该用户全部</button>
           <button type="button" class="danger" id="board-clear">清空全部</button>
         </div>
+        <div class="meta" style="margin-bottom:10px">共 ${data.total || 0} 条 · 敏感词拦截需在云端配置 BOARD_BLOCK_WORDS</div>
         <div class="list" id="board-list">
           ${rows.length ? rows.map((row) => `
             <article class="item">
               <div class="item-head">
                 <strong>${escapeHtml(row.name || "访客")}</strong>
-                <button type="button" class="danger" data-del="${escapeHtml(row.id)}">删除</button>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                  ${row.userId ? `<button type="button" class="warn" data-mute="${escapeHtml(row.userId)}">禁言7天</button>` : ""}
+                  ${row.userId ? `<button type="button" data-unmute="${escapeHtml(row.userId)}">解禁</button>` : ""}
+                  <button type="button" class="danger" data-del="${escapeHtml(row.id)}">删除</button>
+                </div>
               </div>
               <div>${escapeHtml(row.text || "")}</div>
               <div class="meta">${escapeHtml(formatTime(row.at))}
@@ -802,7 +844,23 @@
           <button type="button" id="board-next" ${state.boardPage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
         </div>
       </div>`;
+    const runBoardSearch = () => {
+      state.boardQ = $("board-q")?.value || "";
+      state.boardUserId = ($("board-uid")?.value || "").trim();
+      state.boardPage = 1;
+      render();
+    };
+    $("board-search")?.addEventListener("click", runBoardSearch);
+    $("board-q")?.addEventListener("keydown", (e) => { if (e.key === "Enter") runBoardSearch(); });
+    $("board-uid")?.addEventListener("keydown", (e) => { if (e.key === "Enter") runBoardSearch(); });
     $("board-refresh")?.addEventListener("click", () => render());
+    $("board-del-user")?.addEventListener("click", async () => {
+      const u = state.boardUserId || ($("board-uid")?.value || "").trim();
+      if (!u) return alert("请先填精确 UID");
+      if (!confirm(`删除用户 ${u} 的全部留言？`)) return;
+      await api(`/api/board?userId=${encodeURIComponent(u)}`, { method: "DELETE" });
+      render();
+    });
     $("board-clear")?.addEventListener("click", async () => {
       if (!confirm("清空全部留言？不可恢复。")) return;
       if (!confirm("再确认一次清空？")) return;
@@ -817,6 +875,20 @@
         if (!confirm("删除这条留言？")) return;
         await api(`/api/board?id=${encodeURIComponent(btn.getAttribute("data-del"))}`, { method: "DELETE" });
         render();
+      });
+    });
+    root.querySelectorAll("[data-mute]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const u = btn.getAttribute("data-mute");
+        if (!confirm(`禁言 ${u} 留言 7 天？`)) return;
+        await userAction(u, "mute_board", { days: 7 });
+        alert("已禁言");
+      });
+    });
+    root.querySelectorAll("[data-unmute]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        await userAction(btn.getAttribute("data-unmute"), "unmute_board");
+        alert("已解禁");
       });
     });
     bindOpenUser(root);
@@ -844,8 +916,11 @@
           </label>
           <button type="button" id="trade-search" class="primary">搜索</button>
           <button type="button" id="trade-refresh">刷新</button>
+          <button type="button" id="trade-batch-off">批量下架</button>
+          <button type="button" class="warn" id="trade-batch-block">批量打码</button>
+          <button type="button" class="danger" id="trade-batch-del">批量删除</button>
         </div>
-        <div class="meta" style="margin-bottom:10px">共 ${data.total || 0} 条 · 第 ${data.page || 1}/${data.totalPages || 1} 页</div>
+        <div class="meta" style="margin-bottom:10px">共 ${data.total || 0} 条 · 第 ${data.page || 1}/${data.totalPages || 1} 页 · 勾选后批量（最多 50）</div>
         <div class="list">
           ${rows.length ? rows.map((row) => {
             const blocked = !!row.imageBlocked;
@@ -860,6 +935,9 @@
               : `<div class="thumb-empty">${blocked ? "已打码" : "无图"}</div>`;
             return `<article class="item">
               <div class="thumb-row">
+                <label style="align-self:flex-start;padding-top:4px">
+                  <input type="checkbox" class="trade-check" value="${escapeHtml(row.id)}">
+                </label>
                 ${media}
                 <div>
                   <div class="item-head">
@@ -905,6 +983,18 @@
     $("trade-refresh")?.addEventListener("click", () => render());
     $("trade-prev")?.addEventListener("click", () => { state.tradePage = Math.max(1, state.tradePage - 1); render(); });
     $("trade-next")?.addEventListener("click", () => { state.tradePage += 1; render(); });
+    const selectedTradeIds = () =>
+      Array.from(root.querySelectorAll(".trade-check:checked")).map((el) => el.value).filter(Boolean);
+    const runBatch = async (action, confirmText) => {
+      const listingIds = selectedTradeIds();
+      if (!listingIds.length) return alert("请先勾选商品");
+      if (!confirm(`${confirmText}\n已选 ${listingIds.length} 条`)) return;
+      await api("/api/artist-trade", { method: "POST", body: JSON.stringify({ action, listingIds }) });
+      render();
+    };
+    $("trade-batch-off")?.addEventListener("click", () => runBatch("admin_batch_force_off", "批量强制下架？"));
+    $("trade-batch-block")?.addEventListener("click", () => runBatch("admin_batch_block_image", "批量打码并删图？不可恢复。"));
+    $("trade-batch-del")?.addEventListener("click", () => runBatch("admin_batch_delete", "批量删除？购买与收益也会清。"));
     root.querySelectorAll("[data-del]").forEach((btn) => {
       btn.addEventListener("click", async () => {
         if (!confirm("删除整条？购买记录与未领收益也会清除。")) return;
@@ -935,6 +1025,133 @@
       <div class="panel" style="padding:0;overflow:hidden">
         <iframe class="embed" src="/admin/news.html?embed=1" title="资讯管理"></iframe>
       </div>`;
+  }
+
+  function fileToDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result || ""));
+      reader.onerror = () => reject(new Error("read_failed"));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function renderCatalog(root) {
+    setTop("素材入库", "封面上传到 R2（passinbox），元数据写入素材站 D1。画师 / 角色各一套表单。");
+    root.innerHTML = `
+      <div class="panel">
+        <strong>补录画师</strong>
+        <p class="meta">封面 → R2 <code>artists/&lt;slug&gt;</code>；再 POST 素材站 <code>/api/artists/seed</code>。</p>
+        <div class="toolbar" style="flex-direction:column;align-items:stretch">
+          <input id="cat-a-slug" placeholder="slug（如 kuook）">
+          <input id="cat-a-name" placeholder="显示名（可含中文别名）">
+          <input id="cat-a-trigger" placeholder="触发词 trigger（默认=slug）">
+          <input id="cat-a-count" type="number" placeholder="count 权重" value="0">
+          <input id="cat-a-score" type="number" step="0.01" placeholder="score" value="0.45">
+          <input id="cat-a-file" type="file" accept="image/*">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="primary" id="cat-a-submit">上传封面并写入画师库</button>
+          </div>
+          <pre class="meta" id="cat-a-log" style="white-space:pre-wrap;margin:0"></pre>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:14px">
+        <strong>补录角色</strong>
+        <p class="meta">封面 → R2 <code>chars/&lt;slug&gt;</code>；再 patch 素材站角色表（按 series + trigger）。</p>
+        <div class="toolbar" style="flex-direction:column;align-items:stretch">
+          <input id="cat-c-series" placeholder="series_id（作品 ID）">
+          <input id="cat-c-series-name" placeholder="作品显示名（可选）">
+          <input id="cat-c-slug" placeholder="封面文件名 slug（如 ww_xxx）">
+          <input id="cat-c-trigger" placeholder="角色 trigger_text">
+          <input id="cat-c-name" placeholder="角色显示名">
+          <input id="cat-c-count" type="number" placeholder="count" value="0">
+          <input id="cat-c-tags" placeholder="tags（逗号分隔，可选）">
+          <input id="cat-c-file" type="file" accept="image/*">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="primary" id="cat-c-submit">上传封面并写入角色库</button>
+          </div>
+          <pre class="meta" id="cat-c-log" style="white-space:pre-wrap;margin:0"></pre>
+        </div>
+      </div>`;
+
+    $("cat-a-submit")?.addEventListener("click", async () => {
+      const log = $("cat-a-log");
+      try {
+        const slug = String($("cat-a-slug")?.value || "").trim();
+        const name = String($("cat-a-name")?.value || "").trim();
+        const trigger = String($("cat-a-trigger")?.value || slug).trim();
+        const file = $("cat-a-file")?.files?.[0];
+        if (!slug || !name || !trigger) throw new Error("请填写 slug / 名称 / 触发词");
+        if (!file) throw new Error("请选择封面图");
+        if (log) log.textContent = "上传 R2…";
+        const image = await fileToDataUrl(file);
+        const up = await cloudApi("/api/admin/media-upload", {
+          method: "POST",
+          body: JSON.stringify({ kind: "artist", slug, image }),
+        });
+        if (!up?.url) throw new Error(up?.message || "R2 上传失败");
+        if (log) log.textContent = `R2 OK\n${up.url}\n写入 D1…`;
+        const seed = await assetApi("/api/artists/seed", {
+          method: "POST",
+          body: JSON.stringify([{
+            slug,
+            name,
+            trigger,
+            count: Number($("cat-a-count")?.value || 0) || 0,
+            score: Number($("cat-a-score")?.value || 0.45) || 0.45,
+            thumb_url: up.url,
+            img_url: up.url,
+          }]),
+        });
+        if (log) log.textContent = `完成\n封面：${up.url}\nD1：${JSON.stringify(seed)}`;
+      } catch (err) {
+        if (log) log.textContent = `失败：${err.message || err}`;
+      }
+    });
+
+    $("cat-c-submit")?.addEventListener("click", async () => {
+      const log = $("cat-c-log");
+      try {
+        const seriesId = String($("cat-c-series")?.value || "").trim();
+        const seriesName = String($("cat-c-series-name")?.value || seriesId).trim();
+        const slug = String($("cat-c-slug")?.value || "").trim();
+        const trigger = String($("cat-c-trigger")?.value || "").trim();
+        const name = String($("cat-c-name")?.value || "").trim();
+        const file = $("cat-c-file")?.files?.[0];
+        if (!seriesId || !slug || !trigger || !name) throw new Error("请填写 series / slug / trigger / 名称");
+        if (!file) throw new Error("请选择封面图");
+        if (log) log.textContent = "上传 R2…";
+        const image = await fileToDataUrl(file);
+        const up = await cloudApi("/api/admin/media-upload", {
+          method: "POST",
+          body: JSON.stringify({ kind: "char", slug, image }),
+        });
+        if (!up?.url) throw new Error(up?.message || "R2 上传失败");
+        if (log) log.textContent = `R2 OK\n${up.url}\n写入 D1…`;
+        const tagsRaw = String($("cat-c-tags")?.value || "").trim();
+        const tags = tagsRaw
+          ? tagsRaw.split(/[,，]/).map((s) => s.trim()).filter(Boolean)
+          : [];
+        const seed = await assetApi("/api/characters/seed?action=patch", {
+          method: "POST",
+          body: JSON.stringify([{
+            series_id: seriesId,
+            series_name: seriesName,
+            characters: [{
+              t: trigger,
+              n: name,
+              th: up.url,
+              c: Number($("cat-c-count")?.value || 0) || 0,
+              lora: "",
+              tags,
+            }],
+          }]),
+        });
+        if (log) log.textContent = `完成\n封面：${up.url}\nD1：${JSON.stringify(seed)}`;
+      } catch (err) {
+        if (log) log.textContent = `失败：${err.message || err}`;
+      }
+    });
   }
 
   async function renderArtists(root) {
@@ -1303,6 +1520,11 @@
       <div class="panel detail-block">
         <h3>⑤ 其他</h3>
         <p class="meta">更新日志已读：${escapeHtml(s.seenVersion || "—")} · 兑换码：${escapeHtml((s.codes || []).join(", ") || "无")} · 画师串 ${escapeHtml(String(data.artistCount ?? 0))} 条</p>
+        <p class="meta">留言禁言：${
+          s.boardMutedUntil && s.boardMutedUntil > Date.now()
+            ? `至 ${escapeHtml(formatTime(s.boardMutedUntil))}`
+            : "未禁言"
+        }</p>
         <div class="lazy-row">
           <select id="set-theme">
             <option value="hard" ${s.theme === "hard" ? "selected" : ""}>硬朗框</option>
@@ -1310,6 +1532,8 @@
             <option value="hand" ${s.theme === "hand" ? "selected" : ""}>手绘本</option>
           </select>
           <button type="button" id="save-theme">改主题</button>
+          <button type="button" class="warn" id="mute-board-7">禁言留言7天</button>
+          <button type="button" id="unmute-board">解禁留言</button>
           <button type="button" class="danger" id="user-wipe">清空该用户全部偏好</button>
           <button type="button" class="warn" id="user-wipe-all">清空偏好+画师串</button>
         </div>
@@ -1412,6 +1636,15 @@
       await userAction(userId, "set_flag", { key: "ui_theme", value: $("set-theme")?.value });
       render();
     });
+    $("mute-board-7")?.addEventListener("click", async () => {
+      if (!confirm("禁言该用户留言 7 天？")) return;
+      await userAction(userId, "mute_board", { days: 7 });
+      render();
+    });
+    $("unmute-board")?.addEventListener("click", async () => {
+      await userAction(userId, "unmute_board");
+      render();
+    });
     $("user-wipe")?.addEventListener("click", async () => {
       if (!confirm(`清空 ${name} 的全部偏好？`)) return;
       await userAction(userId, "wipe_user");
@@ -1427,7 +1660,7 @@
   }
 
   async function renderEconomy(root) {
-    setTop("画泥经济", "按余额排序；点玩家名进入完整中文管理。");
+    setTop("画泥经济", "持有榜 + 运营加减泥流水（来自审计）。");
     if (state.economyDetail) {
       state.usersDetail = state.economyDetail;
       state.economyDetail = "";
@@ -1435,9 +1668,13 @@
       return;
     }
     const q = (state.economyQ || "").trim();
-    const data = await api(`/api/admin/players?mode=economy&page=${state.economyPage}&q=${encodeURIComponent(q)}`);
+    const [data, ledger] = await Promise.all([
+      api(`/api/admin/players?mode=economy&page=${state.economyPage}&q=${encodeURIComponent(q)}`),
+      api(`/api/admin/audit?page=${state.economyLedgerPage}&actions=${encodeURIComponent("add_mud,set_mud")}`),
+    ]);
     const rows = data.rows || [];
     const st = data.stats || {};
+    const ledgerRows = ledger.rows || [];
     root.innerHTML = `
       <div class="summary-grid">
         <div class="summary-card"><div class="k">持有人数</div><div class="v">${escapeHtml(String(st.holders ?? 0))}</div></div>
@@ -1476,28 +1713,51 @@
           <span class="meta">${state.economyPage} / ${data.totalPages || 1}</span>
           <button type="button" id="eco-next" ${state.economyPage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
         </div>
+      </div>
+      <div class="panel" style="margin-top:14px">
+        <strong>运营画泥流水</strong>
+        <p class="meta">仅后台加减泥；玩家商店购买尚未单独入账。</p>
+        <div class="table-wrap">
+          <table class="admin">
+            <thead><tr><th>时间</th><th>动作</th><th>用户</th><th>说明</th></tr></thead>
+            <tbody>
+              ${ledgerRows.length ? ledgerRows.map((row) => `
+                <tr>
+                  <td class="meta">${escapeHtml(formatTime(row.at))}</td>
+                  <td><span class="badge">${escapeHtml(row.action || "")}</span></td>
+                  <td>${row.userId
+                    ? `<button type="button" class="linkish" data-open-user="${escapeHtml(row.userId)}">${escapeHtml(row.userId)}</button>`
+                    : "—"}</td>
+                  <td>${escapeHtml(row.detail || "")}</td>
+                </tr>`).join("") : `<tr><td colspan="4" class="meta">暂无加减泥记录</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <button type="button" id="eco-ledger-prev" ${state.economyLedgerPage <= 1 ? "disabled" : ""}>上一页</button>
+          <span class="meta">${state.economyLedgerPage} / ${ledger.totalPages || 1}</span>
+          <button type="button" id="eco-ledger-next" ${state.economyLedgerPage >= (ledger.totalPages || 1) ? "disabled" : ""}>下一页</button>
+        </div>
       </div>`;
-    $("eco-search")?.addEventListener("click", () => {
+    const syncEco = () => {
       state.economyQ = $("eco-q")?.value || "";
       state.economyPage = 1;
       render();
-    });
-    $("eco-q")?.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        state.economyQ = $("eco-q")?.value || "";
-        state.economyPage = 1;
-        render();
-      }
-    });
+    };
+    $("eco-search")?.addEventListener("click", syncEco);
+    $("eco-q")?.addEventListener("keydown", (e) => { if (e.key === "Enter") syncEco(); });
     $("eco-refresh")?.addEventListener("click", () => render());
     $("eco-prev")?.addEventListener("click", () => { state.economyPage = Math.max(1, state.economyPage - 1); render(); });
     $("eco-next")?.addEventListener("click", () => { state.economyPage += 1; render(); });
+    $("eco-ledger-prev")?.addEventListener("click", () => { state.economyLedgerPage = Math.max(1, state.economyLedgerPage - 1); render(); });
+    $("eco-ledger-next")?.addEventListener("click", () => { state.economyLedgerPage += 1; render(); });
     root.querySelectorAll("[data-eco-user]").forEach((btn) => {
       btn.addEventListener("click", () => {
         state.usersDetail = btn.getAttribute("data-eco-user") || "";
         go("users");
       });
     });
+    bindOpenUser(root);
   }
 
   async function renderEconomyDetail() {
@@ -1773,14 +2033,15 @@
     const rows = [
       ["用户档案", "主题/解锁/收藏/开关", "列表、详情编辑、清空档案", "可管", "#users"],
       ["已读状态", "更新日志/公告/留言已读", "按类型筛选、删除", "可管", "#reads"],
-      ["画泥经济", "余额/装扮/装备/兑换码/每日领泥", "榜单、改余额、改背包", "可管", "#economy"],
+      ["画泥经济", "余额/装扮/装备/兑换码/每日领泥", "榜单、改余额、运营加减泥流水", "可管", "#economy"],
       ["玩家画师串", "自定义画师串+封面", "搜索、删条、清空用户", "可管", "#player-artists"],
       ["偏好明细", "全部偏好（中文可读）", "筛选、搜索、删除", "可管", "#prefs"],
-      ["画师串交流", "市场买卖", "搜/筛/删/下架/打码，UID 跳转", "可管", "#trade"],
-      ["留言板", "全服聊天", "删单条、清空，UID 跳转", "可管", "#board"],
-      ["公告", "游戏顶栏公告", "编辑发布", "可管", "#notice"],
+      ["画师串交流", "市场买卖", "搜/筛/批量删下架打码，UID 跳转", "可管", "#trade"],
+      ["留言板", "全服聊天", "搜筛、按人删、禁言，UID 跳转", "可管", "#board"],
+      ["公告", "游戏顶栏公告", "草稿/发布；同时仅 1 条生效", "可管", "#notice"],
       ["审计日志", "—", "运营操作记录与检索", "可管", "#audit"],
       ["资讯", "站点教程", "发帖草稿发布", "可管", "#news"],
+      ["素材入库", "—", "封面上传 R2 + 写 D1", "可管", "#catalog"],
       ["画师库/角色库", "官方检索素材", "搜索、最高级屏蔽", "可管", "#artists"],
       ["举报审核", "—", "暂无独立队列", "未建", ""],
     ];
