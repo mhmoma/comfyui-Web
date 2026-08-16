@@ -29,19 +29,19 @@ export async function onRequest(context) {
     if (url.searchParams.get("ids") === "1") {
       const userId = cleanUserId(url.searchParams.get("userId"));
       const kind = cleanKind(url.searchParams.get("kind") || "");
+      // 玩家端：短缓存即可（客户端还有 45s 内存 TTL）；管理改屏蔽后最多延迟约半分钟
+      const playerCache = userId
+        ? { "Cache-Control": "private, max-age=30" }
+        : { "Cache-Control": "public, max-age=30, stale-while-revalidate=120" };
       if (kind) {
         const ids = await listEffectiveBlockedIds(env.DB, kind, userId);
-        return json(200, { ok: true, kind, ids }, { "Cache-Control": "no-store" });
+        return json(200, { ok: true, kind, ids }, playerCache);
       }
       const [series, artist] = await Promise.all([
         listEffectiveBlockedIds(env.DB, "series", userId),
         listEffectiveBlockedIds(env.DB, "artist", userId),
       ]);
-      return json(
-        200,
-        { ok: true, series, artist },
-        { "Cache-Control": "no-store" }
-      );
+      return json(200, { ok: true, series, artist }, playerCache);
     }
 
     // 管理：某用户的最高级屏蔽例外
