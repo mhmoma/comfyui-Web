@@ -69,7 +69,8 @@ export async function onRequestGet(context) {
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
-          "Cache-Control": "public, max-age=30",
+          // 含最高级屏蔽过滤，禁止边缘缓存旧列表
+          "Cache-Control": "private, max-age=0, must-revalidate",
         },
       }
     );

@@ -42,7 +42,7 @@ export async function onRequestGet(context) {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "public, max-age=30, must-revalidate",
+        "Cache-Control": "private, max-age=0, must-revalidate",
       },
     });
   } catch (e) {

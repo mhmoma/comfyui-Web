@@ -2,13 +2,15 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.24";
+  const ADMIN_UI_VERSION = "1.25";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针） */
   const ASSET_BASE = "https://comfyui-web-89u.pages.dev";
   /** 游戏云端（公告/留言/交易/偏好/玩家画师串） */
   const CLOUD_BASE = "https://tk-game-cloud.pages.dev";
+
+  let assetAuthOk = false;
 
   const MODULES = [
     { id: "overview", label: "总览", group: "概览" },
@@ -356,12 +358,33 @@
   }
 
   async function verifyAuth() {
-    // 游戏数据只认新云端库；素材站密钥另作二次探针（资讯/画师/角色）
+    // 游戏数据只认新云端库；素材站密钥必须另检（最高级屏蔽 / 资讯 / 入库）
     await cloudApi("/api/admin/overview");
     try {
       await assetApi("/api/articles/auth");
+      assetAuthOk = true;
     } catch (_) {
-      // 素材站密钥不一致时仍可进后台，仅云端模块可用
+      assetAuthOk = false;
+    }
+  }
+
+  function assetGateHtml(feature) {
+    return `<div class="panel err">
+      <p><strong>素材站密钥无效</strong>：${escapeHtml(feature)}不可用。</p>
+      <p class="meta">运营台登录目前只校验了云端密钥。画师库/角色库的「最高级屏蔽」写在素材站 D1，两边 ADMIN_KEY 必须相同。</p>
+      <p class="meta">请确认 Cloudflare 里 comfyui-web 与 tk-game-cloud 的 ADMIN_KEY 一致后重新登录。</p>
+    </div>`;
+  }
+
+  async function ensureAssetAuth() {
+    if (assetAuthOk) return true;
+    try {
+      await assetApi("/api/articles/auth");
+      assetAuthOk = true;
+      return true;
+    } catch (_) {
+      assetAuthOk = false;
+      return false;
     }
   }
 
@@ -510,6 +533,7 @@
       "云端站：" + CLOUD_BASE,
       ...(cloudErr ? [`云端告警：${cloudErr}`] : []),
       ...(assetErr ? [`素材站告警：${assetErr}`] : []),
+      ...(!assetAuthOk ? ["素材站密钥未通过：画师/角色最高级屏蔽不可用，请确认两边 ADMIN_KEY 一致"] : []),
     ];
     const healthTone = cloudErr ? "health-err" : (h && h.ok === false ? "health-warn" : "health-ok");
     const healthTitle = cloudErr
@@ -1206,9 +1230,13 @@
 
   async function renderArtists(root) {
     setTop("画师库", "分页搜索；最高级屏蔽后玩家端列表/搜索都看不到，解锁码也无效。");
+    if (!(await ensureAssetAuth())) {
+      root.innerHTML = assetGateHtml("画师库最高级屏蔽");
+      return;
+    }
     const q = state.artistsQ || "";
     const filter = state.artistsFilter || "all";
-    const data = await api(
+    const data = await assetApi(
       `/api/content-blocks?view=admin&kind=artist&page=${state.artistsPage}&q=${encodeURIComponent(q)}&filter=${encodeURIComponent(filter)}`
     );
     const rows = data.rows || [];
@@ -1265,29 +1293,41 @@
     root.querySelectorAll("[data-block]").forEach((btn) => {
       btn.addEventListener("click", async () => {
         if (!confirm("最高级屏蔽该画师？玩家将完全看不到，任何解锁码无效。")) return;
-        await api("/api/content-blocks", {
-          method: "POST",
-          body: JSON.stringify({ kind: "artist", id: btn.getAttribute("data-block"), blocked: true }),
-        });
-        render();
+        try {
+          await assetApi("/api/content-blocks", {
+            method: "POST",
+            body: JSON.stringify({ kind: "artist", id: btn.getAttribute("data-block"), blocked: true }),
+          });
+          render();
+        } catch (err) {
+          alert(`屏蔽失败：${err.message || err}`);
+        }
       });
     });
     root.querySelectorAll("[data-unblock]").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        await api("/api/content-blocks", {
-          method: "POST",
-          body: JSON.stringify({ kind: "artist", id: btn.getAttribute("data-unblock"), blocked: false }),
-        });
-        render();
+        try {
+          await assetApi("/api/content-blocks", {
+            method: "POST",
+            body: JSON.stringify({ kind: "artist", id: btn.getAttribute("data-unblock"), blocked: false }),
+          });
+          render();
+        } catch (err) {
+          alert(`解除失败：${err.message || err}`);
+        }
       });
     });
   }
 
   async function renderCharacters(root) {
     setTop("角色库 / 作品", "按作品（系列）分页搜索；最高级屏蔽后列表消失，解锁码/全解锁也无法打开。");
+    if (!(await ensureAssetAuth())) {
+      root.innerHTML = assetGateHtml("角色库最高级屏蔽");
+      return;
+    }
     const q = state.charsQ || "";
     const filter = state.charsFilter || "all";
-    const data = await api(
+    const data = await assetApi(
       `/api/content-blocks?view=admin&kind=series&page=${state.charsPage}&q=${encodeURIComponent(q)}&filter=${encodeURIComponent(filter)}`
     );
     const rows = data.rows || [];
@@ -1344,20 +1384,28 @@
     root.querySelectorAll("[data-block]").forEach((btn) => {
       btn.addEventListener("click", async () => {
         if (!confirm("最高级屏蔽该作品？任何解锁码都不能打开。")) return;
-        await api("/api/content-blocks", {
-          method: "POST",
-          body: JSON.stringify({ kind: "series", id: btn.getAttribute("data-block"), blocked: true }),
-        });
-        render();
+        try {
+          await assetApi("/api/content-blocks", {
+            method: "POST",
+            body: JSON.stringify({ kind: "series", id: btn.getAttribute("data-block"), blocked: true }),
+          });
+          render();
+        } catch (err) {
+          alert(`屏蔽失败：${err.message || err}`);
+        }
       });
     });
     root.querySelectorAll("[data-unblock]").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        await api("/api/content-blocks", {
-          method: "POST",
-          body: JSON.stringify({ kind: "series", id: btn.getAttribute("data-unblock"), blocked: false }),
-        });
-        render();
+        try {
+          await assetApi("/api/content-blocks", {
+            method: "POST",
+            body: JSON.stringify({ kind: "series", id: btn.getAttribute("data-unblock"), blocked: false }),
+          });
+          render();
+        } catch (err) {
+          alert(`解除失败：${err.message || err}`);
+        }
       });
     });
   }
@@ -1450,7 +1498,7 @@
     const [data, seriesMap, allowData] = await Promise.all([
       api(`/api/admin/players?userId=${encodeURIComponent(userId)}`),
       ensureSeriesNameMap(),
-      api(`/api/content-blocks?allows=1&userId=${encodeURIComponent(userId)}`).catch(() => ({ allows: [] })),
+      assetApi(`/api/content-blocks?allows=1&userId=${encodeURIComponent(userId)}`).catch(() => ({ allows: [] })),
     ]);
     const s = data.summary || {};
     const name = data.displayName || "未留名玩家";
@@ -1720,40 +1768,52 @@
 
     root.querySelectorAll("[data-deny-allow]").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        await api("/api/content-blocks", {
-          method: "POST",
-          body: JSON.stringify({
-            action: "deny_allow",
-            userId,
-            kind: btn.getAttribute("data-kind") || "series",
-            id: btn.getAttribute("data-deny-allow"),
-          }),
-        });
-        render();
+        try {
+          await assetApi("/api/content-blocks", {
+            method: "POST",
+            body: JSON.stringify({
+              action: "deny_allow",
+              userId,
+              kind: btn.getAttribute("data-kind") || "series",
+              id: btn.getAttribute("data-deny-allow"),
+            }),
+          });
+          render();
+        } catch (err) {
+          alert(`操作失败：${err.message || err}`);
+        }
       });
     });
     $("add-allow")?.addEventListener("click", async () => {
       const id = ($("allow-id")?.value || "").trim();
       if (!id) return alert("请填写作品 ID 或画师 slug");
-      await api("/api/content-blocks", {
-        method: "POST",
-        body: JSON.stringify({
-          action: "allow",
-          userId,
-          kind: $("allow-kind")?.value || "series",
-          id,
-          note: ($("allow-note")?.value || "").trim(),
-        }),
-      });
-      render();
+      try {
+        await assetApi("/api/content-blocks", {
+          method: "POST",
+          body: JSON.stringify({
+            action: "allow",
+            userId,
+            kind: $("allow-kind")?.value || "series",
+            id,
+            note: ($("allow-note")?.value || "").trim(),
+          }),
+        });
+        render();
+      } catch (err) {
+        alert(`放行失败：${err.message || err}`);
+      }
     });
     $("clear-allows")?.addEventListener("click", async () => {
       if (!confirm("清空该用户全部最高级屏蔽例外？")) return;
-      await api("/api/content-blocks", {
-        method: "POST",
-        body: JSON.stringify({ action: "clear_allows", userId }),
-      });
-      render();
+      try {
+        await assetApi("/api/content-blocks", {
+          method: "POST",
+          body: JSON.stringify({ action: "clear_allows", userId }),
+        });
+        render();
+      } catch (err) {
+        alert(`清空失败：${err.message || err}`);
+      }
     });
 
     $("save-theme")?.addEventListener("click", async () => {

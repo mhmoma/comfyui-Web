@@ -31,7 +31,7 @@ export async function onRequest(context) {
       const kind = cleanKind(url.searchParams.get("kind") || "");
       if (kind) {
         const ids = await listEffectiveBlockedIds(env.DB, kind, userId);
-        return json(200, { ok: true, kind, ids }, { "Cache-Control": userId ? "private, max-age=15" : "public, max-age=30" });
+        return json(200, { ok: true, kind, ids }, { "Cache-Control": "no-store" });
       }
       const [series, artist] = await Promise.all([
         listEffectiveBlockedIds(env.DB, "series", userId),
@@ -40,7 +40,7 @@ export async function onRequest(context) {
       return json(
         200,
         { ok: true, series, artist },
-        { "Cache-Control": userId ? "private, max-age=15" : "public, max-age=30" }
+        { "Cache-Control": "no-store" }
       );
     }
 
@@ -49,7 +49,7 @@ export async function onRequest(context) {
       const userId = cleanUserId(url.searchParams.get("userId"));
       if (!userId) return json(400, { ok: false, error: "no_user", message: "需要 userId" });
       const allows = await listAllowsForUser(env.DB, userId);
-      return json(200, { ok: true, userId, allows });
+      return json(200, { ok: true, userId, allows }, { "Cache-Control": "no-store" });
     }
 
     if (!admin || url.searchParams.get("view") !== "admin") {
@@ -62,9 +62,9 @@ export async function onRequest(context) {
     const filter = String(url.searchParams.get("filter") || "all").trim(); // all | blocked | open
 
     if (kind === "series") {
-      return json(200, await adminSeriesPage(env.DB, { q, pageRaw, filter }));
+      return json(200, await adminSeriesPage(env.DB, { q, pageRaw, filter }), { "Cache-Control": "no-store" });
     }
-    return json(200, await adminArtistPage(env.DB, { q, pageRaw, filter }));
+    return json(200, await adminArtistPage(env.DB, { q, pageRaw, filter }), { "Cache-Control": "no-store" });
   }
 
   if (request.method === "POST") {
