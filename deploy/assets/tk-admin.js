@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.25";
+  const ADMIN_UI_VERSION = "1.26";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针） */
@@ -139,7 +139,7 @@
     notice_bar_hide: "公告条已收起",
     unlocked_series: "已解锁作品",
     show_locked_series: "仅预览锁定列表",
-    show_hidden_series: "开启隐藏区",
+    show_hidden_series: "解锁硬拦截(tk18)",
     show_adult_tags: "成人标签开关",
     fav_tags: "收藏标签",
     fav_artist_data: "收藏画师",
@@ -1613,7 +1613,7 @@
         <p class="meta">后台改解锁/画泥/装扮后，玩家需重新打开游戏才会同步。作品 ID 可在「角色库」复制。</p>
         <div class="lazy-row flags">
           <label><input type="checkbox" id="flag-locked" ${s.lockedOn ? "checked" : ""}> 仅预览锁定列表（不真正解锁）</label>
-          <label><input type="checkbox" id="flag-hidden" ${s.hiddenOn ? "checked" : ""}> 开启隐藏区（tk18）</label>
+          <label><input type="checkbox" id="flag-hidden" ${s.hiddenOn ? "checked" : ""}> 解锁硬拦截（tk18，并入普通列表）</label>
           <label><input type="checkbox" id="flag-adult" ${s.adultOn ? "checked" : ""}> 成人标签</label>
           <button type="button" class="primary" id="save-flags">保存开关</button>
         </div>
