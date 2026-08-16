@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.23";
+  const ADMIN_UI_VERSION = "1.24";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针） */
@@ -473,6 +473,7 @@
     let cloud = null;
     let asset = null;
     let cloudErr = "";
+    let assetErr = "";
     try {
       cloud = await cloudApi("/api/admin/overview");
     } catch (err) {
@@ -480,7 +481,9 @@
     }
     try {
       asset = await assetApi("/api/admin/overview");
-    } catch (_) {}
+    } catch (err) {
+      assetErr = err.message || "素材站总览失败";
+    }
 
     const c = cloud?.modules || {};
     const a = asset?.modules || {};
@@ -497,14 +500,16 @@
     const assetCards = [
       { href: "catalog", k: "素材入库", v: "入口", s: "R2 + D1 补录" },
       { href: "news", k: "已发资讯", v: a.news?.published ?? "—", s: `草稿 ${a.news?.draft ?? 0}` },
-      { href: "artists", k: "画师库", v: a.artists?.total ?? "—", s: "屏蔽 / 检索" },
-      { href: "characters", k: "角色", v: a.characters?.characters ?? "—", s: `系列 ${a.characters?.series ?? 0}` },
+      { href: "artists", k: "画师库", v: a.artists?.total ?? "—", s: `屏蔽 ${a.artists?.blocked ?? 0}` },
+      { href: "characters", k: "角色", v: a.characters?.characters ?? "—", s: `系列 ${a.characters?.series ?? 0} · 屏蔽 ${a.characters?.blocked ?? 0}` },
     ];
     const notes = [
       ...(cloud?.notes || []),
+      ...(asset?.notes || []),
       "素材站：" + ASSET_BASE,
       "云端站：" + CLOUD_BASE,
       ...(cloudErr ? [`云端告警：${cloudErr}`] : []),
+      ...(assetErr ? [`素材站告警：${assetErr}`] : []),
     ];
     const healthTone = cloudErr ? "health-err" : (h && h.ok === false ? "health-warn" : "health-ok");
     const healthTitle = cloudErr
@@ -548,12 +553,13 @@
             </div>
           </div>
         </section>
-        <section class="mod-section">
+        <section class="mod-section ${assetErr ? "health-err" : ""}">
           <div class="mod-section-head">
-            <strong>素材站 · 库 / 资讯</strong>
+            <strong>${assetErr ? "素材站不可用" : "素材站 · 库 / 资讯"}</strong>
             <span class="meta">web 账号</span>
           </div>
           <div class="mod-section-body">
+            ${assetErr ? `<p class="err" style="margin:0 0 10px">${escapeHtml(assetErr)}</p>` : ""}
             <div class="grid-cards">
               ${assetCards.map((card) => `
                 <button type="button" class="stat-card" data-go="${card.href}">
