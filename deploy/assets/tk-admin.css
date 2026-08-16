@@ -278,6 +278,16 @@ button.linkish:hover { text-decoration: underline; }
   border-radius: var(--radius);
   padding: 14px;
 }
+.panel.warn {
+  border-color: #e6d2a0;
+  background: #fff8e8;
+}
+.panel.err {
+  border-color: #f0c0c0;
+  background: #fff5f5;
+  color: inherit;
+}
+.panel.err strong { color: var(--danger); }
 .toolbar {
   display: flex;
   gap: 8px;

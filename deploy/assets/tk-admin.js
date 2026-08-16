@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.19";
+  const ADMIN_UI_VERSION = "1.20";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针） */
@@ -12,6 +12,7 @@
 
   const MODULES = [
     { id: "overview", label: "总览", group: "概览" },
+    { id: "audit", label: "审计日志", group: "概览" },
     { id: "users", label: "用户档案", group: "用户管理" },
     { id: "reads", label: "已读状态", group: "用户管理" },
     { id: "player-artists", label: "玩家画师串", group: "用户管理" },
@@ -34,6 +35,7 @@
     "/api/player-artists",
     "/api/admin/overview",
     "/api/admin/players",
+    "/api/admin/audit",
     "/api/player-blocks",
   ];
 
@@ -44,6 +46,11 @@
     noticePage: 1,
     tradePage: 1,
     tradeStatus: "active",
+    tradeQ: "",
+    tradeBlocked: false,
+    auditPage: 1,
+    auditQ: "",
+    auditAction: "",
     prefsPage: 1,
     prefsQ: "",
     prefsKey: "",
@@ -386,6 +393,20 @@
     location.hash = id;
   }
 
+  /** 社区列表 → 用户档案详情 */
+  function openUser(uid) {
+    const id = String(uid || "").trim();
+    if (!id) return;
+    state.usersDetail = id;
+    go("users");
+  }
+
+  function bindOpenUser(root) {
+    root?.querySelectorAll?.("[data-open-user]")?.forEach((btn) => {
+      btn.addEventListener("click", () => openUser(btn.getAttribute("data-open-user")));
+    });
+  }
+
   function setTop(title, sub) {
     if ($("view-title")) $("view-title").textContent = title;
     if ($("view-sub")) $("view-sub").textContent = sub || "";
@@ -418,6 +439,7 @@
     root.innerHTML = `<div class="panel meta">加载中…</div>`;
     try {
       if (route === "overview") await renderOverview(root);
+      else if (route === "audit") await renderAudit(root);
       else if (route === "users") await renderUsers(root);
       else if (route === "reads") await renderReads(root);
       else if (route === "economy") await renderEconomy(root);
@@ -456,6 +478,7 @@
 
     const c = cloud?.modules || {};
     const a = asset?.modules || {};
+    const h = cloud?.health || null;
     const cards = [
       { href: "users", k: "云端用户", v: c.users?.total ?? "—", s: "有偏好记录的玩家" },
       { href: "economy", k: "画泥持有", v: c.economy?.holders ?? "—", s: `全服余额合计 ${c.economy?.mudSum ?? "—"}` },
@@ -463,6 +486,7 @@
       { href: "notice", k: "当前公告", v: c.notice?.active ? "有" : (cloud ? "无" : "—"), s: "游戏顶栏" },
       { href: "trade", k: "画师串在售", v: c.trade?.active ?? "—", s: `下架 ${c.trade?.off ?? 0} · 打码 ${c.trade?.imageBlocked ?? 0}` },
       { href: "board", k: "留言条数", v: c.board?.total ?? "—", s: "可删 / 清空" },
+      { href: "audit", k: "审计条数", v: c.audit?.total ?? "—", s: "运营操作记录" },
       { href: "news", k: "已发资讯", v: a.news?.published ?? "—", s: `素材站 · 草稿 ${a.news?.draft ?? 0}` },
       { href: "artists", k: "画师库", v: a.artists?.total ?? "—", s: "素材站 · 公开检索库" },
       { href: "characters", k: "角色数", v: a.characters?.characters ?? "—", s: `素材站 · 系列 ${a.characters?.series ?? 0}` },
@@ -473,7 +497,24 @@
       "云端站：" + CLOUD_BASE,
       ...(cloudErr ? [`云端告警：${cloudErr}`] : []),
     ];
+    const healthClass = cloudErr ? "err" : (h && h.ok === false ? "warn" : "");
+    const healthTitle = cloudErr
+      ? "云端不可用"
+      : (h?.ok === false ? "云端健康告警" : "云端健康正常");
+    const healthLines = cloudErr
+      ? [cloudErr]
+      : (h?.hints || ["已连通云端 overview"]);
     root.innerHTML = `
+      <div class="panel ${healthClass}">
+        <strong>${escapeHtml(healthTitle)}</strong>
+        <ul>${healthLines.map((n) => `<li>${escapeHtml(n)}</li>`).join("")}</ul>
+        ${h ? `<div class="meta" style="margin-top:8px">
+          MEDIA ${h.mediaBinding ? "✓" : "✗"} ·
+          交流 HTTPS ${h.trade?.https ?? "—"} / dataURL ${h.trade?.dataUrl ?? "—"} ·
+          玩家封面 HTTPS ${h.playerArtists?.https ?? "—"} / dataURL ${h.playerArtists?.dataUrl ?? "—"} ·
+          审计 ${h.auditRows ?? "—"}
+        </div>` : ""}
+      </div>
       <div class="grid-cards">
         ${cards.map((card) => `
           <button type="button" class="stat-card" data-go="${card.href}">
@@ -489,6 +530,66 @@
     root.querySelectorAll("[data-go]").forEach((el) => {
       el.addEventListener("click", () => go(el.getAttribute("data-go")));
     });
+  }
+
+  async function renderAudit(root) {
+    setTop("审计日志", "记录运营改画泥、解锁、删交流、打码等操作。");
+    const q = encodeURIComponent(state.auditQ || "");
+    const act = encodeURIComponent(state.auditAction || "");
+    const data = await api(`/api/admin/audit?page=${state.auditPage}&q=${q}&action=${act}`);
+    const rows = data.rows || [];
+    root.innerHTML = `
+      <div class="panel">
+        <div class="toolbar">
+          <input class="grow" id="audit-q" placeholder="搜 UID / 目标 / 动作 / 说明…" value="${escapeHtml(state.auditQ || "")}">
+          <select id="audit-action" style="max-width:180px">
+            <option value="">全部动作</option>
+            ${[
+              "add_mud", "set_mud", "grant_owned", "remove_owned", "clear_owned",
+              "add_unlock", "unlock_all", "remove_unlock", "clear_unlocks",
+              "wipe_user", "trade_delete", "trade_force_off", "trade_block_image",
+            ].map((a) => `<option value="${a}" ${state.auditAction === a ? "selected" : ""}>${a}</option>`).join("")}
+          </select>
+          <button type="button" id="audit-search" class="primary">搜索</button>
+          <button type="button" id="audit-refresh">刷新</button>
+        </div>
+        <div class="meta" style="margin-bottom:10px">共 ${data.total || 0} 条</div>
+        <div class="table-wrap">
+          <table class="admin">
+            <thead><tr><th>时间</th><th>动作</th><th>用户</th><th>目标</th><th>说明</th></tr></thead>
+            <tbody>
+              ${rows.length ? rows.map((row) => `
+                <tr>
+                  <td class="meta">${escapeHtml(formatTime(row.at))}</td>
+                  <td><span class="badge">${escapeHtml(row.action || "")}</span></td>
+                  <td>${row.userId
+                    ? `<button type="button" class="linkish" data-open-user="${escapeHtml(row.userId)}">${escapeHtml(row.userId)}</button>`
+                    : "—"}</td>
+                  <td class="mono">${escapeHtml(row.targetType || "")}${row.targetId ? ` · ${escapeHtml(row.targetId)}` : ""}</td>
+                  <td>${escapeHtml(row.detail || "")}</td>
+                </tr>`).join("") : `<tr><td colspan="5" class="meta">暂无审计记录（部署后新操作才会写入）</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <button type="button" id="audit-prev" ${state.auditPage <= 1 ? "disabled" : ""}>上一页</button>
+          <span class="meta">${state.auditPage} / ${data.totalPages || 1}</span>
+          <button type="button" id="audit-next" ${state.auditPage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
+        </div>
+      </div>`;
+    const runSearch = () => {
+      state.auditQ = $("audit-q")?.value || "";
+      state.auditAction = $("audit-action")?.value || "";
+      state.auditPage = 1;
+      render();
+    };
+    $("audit-search")?.addEventListener("click", runSearch);
+    $("audit-q")?.addEventListener("keydown", (e) => { if (e.key === "Enter") runSearch(); });
+    $("audit-action")?.addEventListener("change", runSearch);
+    $("audit-refresh")?.addEventListener("click", () => render());
+    $("audit-prev")?.addEventListener("click", () => { state.auditPage = Math.max(1, state.auditPage - 1); render(); });
+    $("audit-next")?.addEventListener("click", () => { state.auditPage += 1; render(); });
+    bindOpenUser(root);
   }
 
   async function renderNotice(root) {
@@ -670,7 +771,7 @@
   }
 
   async function renderBoard(root) {
-    setTop("留言板", "全服聊天巡查：删除单条或清空。");
+    setTop("留言板", "全服聊天巡查：删除单条或清空。点 UID 可进用户档案。");
     const data = await api(`/api/board?page=${state.boardPage}`);
     const rows = data.rows || [];
     root.innerHTML = `
@@ -690,7 +791,7 @@
               <div>${escapeHtml(row.text || "")}</div>
               <div class="meta">${escapeHtml(formatTime(row.at))}
                 ${row.ip ? ` · IP ${escapeHtml(row.ip)}` : ""}
-                ${row.userId ? ` · UID ${escapeHtml(row.userId)}` : ""}
+                ${row.userId ? ` · UID <button type="button" class="linkish" data-open-user="${escapeHtml(row.userId)}">${escapeHtml(row.userId)}</button>` : ""}
                 · <span class="mono">${escapeHtml(row.id)}</span>
               </div>
             </article>`).join("") : `<div class="meta">暂无留言</div>`}
@@ -718,23 +819,33 @@
         render();
       });
     });
+    bindOpenUser(root);
   }
 
   async function renderTrade(root) {
-    setTop("画师串交流", "删除整条 / 强制下架 / 屏蔽图片（打码后连卖家也看不到）。");
-    const data = await api(`/api/artist-trade?view=admin&status=${encodeURIComponent(state.tradeStatus)}&page=${state.tradePage}`);
+    setTop("画师串交流", "搜索卖家/标题，筛选打码；删 / 下架 / 打码。点 UID 进档案。");
+    const q = encodeURIComponent(state.tradeQ || "");
+    const blockedFlag = state.tradeBlocked ? "1" : "0";
+    const data = await api(
+      `/api/artist-trade?view=admin&status=${encodeURIComponent(state.tradeStatus)}&page=${state.tradePage}&q=${q}&imageBlocked=${blockedFlag}`
+    );
     const rows = data.rows || [];
     root.innerHTML = `
       <div class="panel">
         <div class="toolbar">
-          <select id="trade-status" style="max-width:140px">
+          <input class="grow" id="trade-q" placeholder="搜标题 / 卖家名 / UID / 触发词…" value="${escapeHtml(state.tradeQ || "")}">
+          <select id="trade-status" style="max-width:120px">
             <option value="active" ${state.tradeStatus === "active" ? "selected" : ""}>在售</option>
             <option value="off" ${state.tradeStatus === "off" ? "selected" : ""}>已下架</option>
             <option value="all" ${state.tradeStatus === "all" ? "selected" : ""}>全部</option>
           </select>
-          <span class="meta grow">共 ${data.total || 0} 条 · 第 ${data.page || 1}/${data.totalPages || 1} 页</span>
+          <label class="meta" style="display:flex;align-items:center;gap:6px;white-space:nowrap">
+            <input type="checkbox" id="trade-blocked" ${state.tradeBlocked ? "checked" : ""}> 仅打码
+          </label>
+          <button type="button" id="trade-search" class="primary">搜索</button>
           <button type="button" id="trade-refresh">刷新</button>
         </div>
+        <div class="meta" style="margin-bottom:10px">共 ${data.total || 0} 条 · 第 ${data.page || 1}/${data.totalPages || 1} 页</div>
         <div class="list">
           ${rows.length ? rows.map((row) => {
             const blocked = !!row.imageBlocked;
@@ -758,7 +869,11 @@
                       ${blocked ? `<span class="badge warn">图片已屏蔽</span>` : ""}
                     </div>
                   </div>
-                  <div class="meta">卖家 ${escapeHtml(row.sellerName || "访客")} · UID <span class="mono">${escapeHtml(row.sellerId || "-")}</span> · ${Number(row.price) || 0} 画泥 · ${escapeHtml(formatTime(row.at))}</div>
+                  <div class="meta">卖家 ${escapeHtml(row.sellerName || "访客")} · UID ${
+                    row.sellerId
+                      ? `<button type="button" class="linkish" data-open-user="${escapeHtml(row.sellerId)}">${escapeHtml(row.sellerId)}</button>`
+                      : "-"
+                  } · ${Number(row.price) || 0} 画泥 · ${escapeHtml(formatTime(row.at))}</div>
                   <pre class="trigger">${escapeHtml(row.trigger || "")}</pre>
                   <div class="item-actions">
                     <button type="button" class="warn" data-block="${escapeHtml(row.id)}" ${blocked || !row.hasImage ? "disabled" : ""}>屏蔽图片</button>
@@ -776,11 +891,17 @@
           <button type="button" id="trade-next" ${state.tradePage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
         </div>
       </div>`;
-    $("trade-status")?.addEventListener("change", (e) => {
-      state.tradeStatus = e.target.value;
+    const runTradeSearch = () => {
+      state.tradeQ = $("trade-q")?.value || "";
+      state.tradeStatus = $("trade-status")?.value || "active";
+      state.tradeBlocked = !!$("trade-blocked")?.checked;
       state.tradePage = 1;
       render();
-    });
+    };
+    $("trade-search")?.addEventListener("click", runTradeSearch);
+    $("trade-q")?.addEventListener("keydown", (e) => { if (e.key === "Enter") runTradeSearch(); });
+    $("trade-status")?.addEventListener("change", runTradeSearch);
+    $("trade-blocked")?.addEventListener("change", runTradeSearch);
     $("trade-refresh")?.addEventListener("click", () => render());
     $("trade-prev")?.addEventListener("click", () => { state.tradePage = Math.max(1, state.tradePage - 1); render(); });
     $("trade-next")?.addEventListener("click", () => { state.tradePage += 1; render(); });
@@ -805,6 +926,7 @@
         render();
       });
     });
+    bindOpenUser(root);
   }
 
   function renderNews(root) {
@@ -1654,9 +1776,10 @@
       ["画泥经济", "余额/装扮/装备/兑换码/每日领泥", "榜单、改余额、改背包", "可管", "#economy"],
       ["玩家画师串", "自定义画师串+封面", "搜索、删条、清空用户", "可管", "#player-artists"],
       ["偏好明细", "全部偏好（中文可读）", "筛选、搜索、删除", "可管", "#prefs"],
-      ["画师串交流", "市场买卖", "删/下架/打码", "可管", "#trade"],
-      ["留言板", "全服聊天", "删单条、清空", "可管", "#board"],
+      ["画师串交流", "市场买卖", "搜/筛/删/下架/打码，UID 跳转", "可管", "#trade"],
+      ["留言板", "全服聊天", "删单条、清空，UID 跳转", "可管", "#board"],
       ["公告", "游戏顶栏公告", "编辑发布", "可管", "#notice"],
+      ["审计日志", "—", "运营操作记录与检索", "可管", "#audit"],
       ["资讯", "站点教程", "发帖草稿发布", "可管", "#news"],
       ["画师库/角色库", "官方检索素材", "搜索、最高级屏蔽", "可管", "#artists"],
       ["举报审核", "—", "暂无独立队列", "未建", ""],
