@@ -25,6 +25,16 @@ CREATE INDEX IF NOT EXISTS idx_chars_trigger ON characters(trigger_text COLLATE 
 
 const CHARS_PER_BATCH = 50;
 
+const CORS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key",
+};
+
+export async function onRequestOptions() {
+  return new Response(null, { status: 204, headers: { ...CORS, "Access-Control-Max-Age": "86400" } });
+}
+
 export async function onRequestPost(context) {
   const { request, env } = context;
   const db = env.DB;
@@ -138,9 +148,16 @@ export async function onRequestPost(context) {
   }
 }
 
+export async function onRequest(context) {
+  const { request } = context;
+  if (request.method === "OPTIONS") return onRequestOptions();
+  if (request.method === "POST") return onRequestPost(context);
+  return json(405, { error: "method" });
+}
+
 function json(status, data) {
   return new Response(JSON.stringify(data, null, 2), {
     status,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json", ...CORS },
   });
 }
