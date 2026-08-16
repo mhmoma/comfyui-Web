@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.21";
+  const ADMIN_UI_VERSION = "1.22";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针） */
@@ -12,20 +12,20 @@
 
   const MODULES = [
     { id: "overview", label: "总览", group: "概览" },
-    { id: "audit", label: "审计日志", group: "概览" },
-    { id: "users", label: "用户档案", group: "用户管理" },
-    { id: "reads", label: "已读状态", group: "用户管理" },
-    { id: "player-artists", label: "玩家画师串", group: "用户管理" },
-    { id: "economy", label: "画泥经济", group: "经济管理" },
-    { id: "prefs", label: "偏好明细", group: "经济管理" },
+    { id: "audit", label: "审计", group: "概览" },
+    { id: "map", label: "能力地图", group: "概览" },
+    { id: "users", label: "用户档案", group: "人" },
+    { id: "reads", label: "已读状态", group: "人" },
+    { id: "player-artists", label: "玩家画师串", group: "人" },
+    { id: "economy", label: "画泥经济", group: "钱" },
+    { id: "prefs", label: "偏好明细", group: "钱" },
     { id: "notice", label: "公告", group: "社区" },
     { id: "trade", label: "画师串交流", group: "社区" },
     { id: "board", label: "留言板", group: "社区" },
-    { id: "news", label: "资讯", group: "素材库" },
-    { id: "catalog", label: "素材入库", group: "素材库" },
-    { id: "artists", label: "画师库", group: "素材库" },
-    { id: "characters", label: "角色库", group: "素材库" },
-    { id: "map", label: "能力地图", group: "概览" },
+    { id: "catalog", label: "素材入库", group: "素材" },
+    { id: "artists", label: "画师库", group: "素材" },
+    { id: "characters", label: "角色库", group: "素材" },
+    { id: "news", label: "资讯", group: "素材" },
   ];
 
   const CLOUD_PREFIXES = [
@@ -485,17 +485,20 @@
     const c = cloud?.modules || {};
     const a = asset?.modules || {};
     const h = cloud?.health || null;
-    const cards = [
-      { href: "users", k: "云端用户", v: c.users?.total ?? "—", s: "有偏好记录的玩家" },
-      { href: "economy", k: "画泥持有", v: c.economy?.holders ?? "—", s: `全服余额合计 ${c.economy?.mudSum ?? "—"}` },
-      { href: "player-artists", k: "玩家画师串", v: c.playerArtists?.total ?? "—", s: "云端持久封面" },
+    const cloudCards = [
+      { href: "users", k: "云端用户", v: c.users?.total ?? "—", s: "有偏好记录" },
+      { href: "economy", k: "画泥持有", v: c.economy?.holders ?? "—", s: `合计 ${c.economy?.mudSum ?? "—"}` },
+      { href: "player-artists", k: "玩家画师串", v: c.playerArtists?.total ?? "—", s: "云端封面" },
       { href: "notice", k: "当前公告", v: c.notice?.active ? "有" : (cloud ? "无" : "—"), s: "游戏顶栏" },
-      { href: "trade", k: "画师串在售", v: c.trade?.active ?? "—", s: `下架 ${c.trade?.off ?? 0} · 打码 ${c.trade?.imageBlocked ?? 0}` },
-      { href: "board", k: "留言条数", v: c.board?.total ?? "—", s: "可删 / 清空" },
-      { href: "audit", k: "审计条数", v: c.audit?.total ?? "—", s: "运营操作记录" },
-      { href: "news", k: "已发资讯", v: a.news?.published ?? "—", s: `素材站 · 草稿 ${a.news?.draft ?? 0}` },
-      { href: "artists", k: "画师库", v: a.artists?.total ?? "—", s: "素材站 · 公开检索库" },
-      { href: "characters", k: "角色数", v: a.characters?.characters ?? "—", s: `素材站 · 系列 ${a.characters?.series ?? 0}` },
+      { href: "trade", k: "交流在售", v: c.trade?.active ?? "—", s: `下架 ${c.trade?.off ?? 0} · 打码 ${c.trade?.imageBlocked ?? 0}` },
+      { href: "board", k: "留言", v: c.board?.total ?? "—", s: "社区巡查" },
+      { href: "audit", k: "审计", v: c.audit?.total ?? "—", s: "运营操作" },
+    ];
+    const assetCards = [
+      { href: "catalog", k: "素材入库", v: "入口", s: "R2 + D1 补录" },
+      { href: "news", k: "已发资讯", v: a.news?.published ?? "—", s: `草稿 ${a.news?.draft ?? 0}` },
+      { href: "artists", k: "画师库", v: a.artists?.total ?? "—", s: "屏蔽 / 检索" },
+      { href: "characters", k: "角色", v: a.characters?.characters ?? "—", s: `系列 ${a.characters?.series ?? 0}` },
     ];
     const notes = [
       ...(cloud?.notes || []),
@@ -503,35 +506,70 @@
       "云端站：" + CLOUD_BASE,
       ...(cloudErr ? [`云端告警：${cloudErr}`] : []),
     ];
-    const healthClass = cloudErr ? "err" : (h && h.ok === false ? "warn" : "");
+    const healthTone = cloudErr ? "health-err" : (h && h.ok === false ? "health-warn" : "health-ok");
     const healthTitle = cloudErr
       ? "云端不可用"
       : (h?.ok === false ? "云端健康告警" : "云端健康正常");
     const healthLines = cloudErr
       ? [cloudErr]
       : (h?.hints || ["已连通云端 overview"]);
+    const pill = (ok, text) =>
+      `<span class="health-pill ${ok ? "ok" : "bad"}">${escapeHtml(text)}</span>`;
     root.innerHTML = `
-      <div class="panel ${healthClass}">
-        <strong>${escapeHtml(healthTitle)}</strong>
-        <ul>${healthLines.map((n) => `<li>${escapeHtml(n)}</li>`).join("")}</ul>
-        ${h ? `<div class="meta" style="margin-top:8px">
-          MEDIA ${h.mediaBinding ? "✓" : "✗"} ·
-          交流 HTTPS ${h.trade?.https ?? "—"} / dataURL ${h.trade?.dataUrl ?? "—"} ·
-          玩家封面 HTTPS ${h.playerArtists?.https ?? "—"} / dataURL ${h.playerArtists?.dataUrl ?? "—"} ·
-          审计 ${h.auditRows ?? "—"}
-        </div>` : ""}
-      </div>
-      <div class="grid-cards">
-        ${cards.map((card) => `
-          <button type="button" class="stat-card" data-go="${card.href}">
-            <div class="k">${escapeHtml(card.k)}</div>
-            <div class="v">${escapeHtml(String(card.v))}</div>
-            <div class="s">${escapeHtml(card.s)}</div>
-          </button>`).join("")}
-      </div>
-      <div class="panel notes">
-        <strong>说明</strong>
-        <ul>${notes.map((n) => `<li>${escapeHtml(n)}</li>`).join("")}</ul>
+      <div class="mod-stack">
+        <section class="mod-section ${healthTone}">
+          <div class="mod-section-head">
+            <strong>${escapeHtml(healthTitle)}</strong>
+            <span class="meta">tk-game-cloud</span>
+          </div>
+          <div class="mod-section-body">
+            <ul class="notes" style="margin:0;padding-left:1.1em">${healthLines.map((n) => `<li>${escapeHtml(n)}</li>`).join("")}</ul>
+            ${h ? `<div class="health-pills">
+              ${pill(!!h.mediaBinding, `MEDIA ${h.mediaBinding ? "已绑" : "未绑"}`)}
+              ${pill(!(h.trade?.dataUrl > 0), `交流 HTTPS ${h.trade?.https ?? "—"}`)}
+              ${pill(!(h.playerArtists?.dataUrl > 0), `玩家封面 HTTPS ${h.playerArtists?.https ?? "—"}`)}
+              ${pill(true, `审计 ${h.auditRows ?? "—"}`)}
+            </div>` : ""}
+          </div>
+        </section>
+        <section class="mod-section">
+          <div class="mod-section-head">
+            <strong>云端 · 人 / 钱 / 社区</strong>
+            <span class="meta">passinbox</span>
+          </div>
+          <div class="mod-section-body">
+            <div class="grid-cards">
+              ${cloudCards.map((card) => `
+                <button type="button" class="stat-card" data-go="${card.href}">
+                  <div class="k">${escapeHtml(card.k)}</div>
+                  <div class="v">${escapeHtml(String(card.v))}</div>
+                  <div class="s">${escapeHtml(card.s)}</div>
+                </button>`).join("")}
+            </div>
+          </div>
+        </section>
+        <section class="mod-section">
+          <div class="mod-section-head">
+            <strong>素材站 · 库 / 资讯</strong>
+            <span class="meta">web 账号</span>
+          </div>
+          <div class="mod-section-body">
+            <div class="grid-cards">
+              ${assetCards.map((card) => `
+                <button type="button" class="stat-card" data-go="${card.href}">
+                  <div class="k">${escapeHtml(card.k)}</div>
+                  <div class="v">${escapeHtml(String(card.v))}</div>
+                  <div class="s">${escapeHtml(card.s)}</div>
+                </button>`).join("")}
+            </div>
+          </div>
+        </section>
+        <section class="mod-section">
+          <div class="mod-section-head"><strong>说明</strong></div>
+          <div class="mod-section-body notes">
+            <ul>${notes.map((n) => `<li>${escapeHtml(n)}</li>`).join("")}</ul>
+          </div>
+        </section>
       </div>`;
     root.querySelectorAll("[data-go]").forEach((el) => {
       el.addEventListener("click", () => go(el.getAttribute("data-go")));
@@ -1037,41 +1075,47 @@
   }
 
   async function renderCatalog(root) {
-    setTop("素材入库", "封面上传到 R2（passinbox），元数据写入素材站 D1。画师 / 角色各一套表单。");
+    setTop("素材入库", "封面 → R2（passinbox）；元数据 → 素材站 D1。");
     root.innerHTML = `
-      <div class="panel">
-        <strong>补录画师</strong>
-        <p class="meta">封面 → R2 <code>artists/&lt;slug&gt;</code>；再 POST 素材站 <code>/api/artists/seed</code>。</p>
-        <div class="toolbar" style="flex-direction:column;align-items:stretch">
-          <input id="cat-a-slug" placeholder="slug（如 kuook）">
-          <input id="cat-a-name" placeholder="显示名（可含中文别名）">
-          <input id="cat-a-trigger" placeholder="触发词 trigger（默认=slug）">
-          <input id="cat-a-count" type="number" placeholder="count 权重" value="0">
-          <input id="cat-a-score" type="number" step="0.01" placeholder="score" value="0.45">
-          <input id="cat-a-file" type="file" accept="image/*">
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button type="button" class="primary" id="cat-a-submit">上传封面并写入画师库</button>
+      <div class="catalog-grid">
+        <section class="mod-section">
+          <div class="mod-section-head">
+            <strong>补录画师</strong>
+            <span class="meta">artists/&lt;slug&gt;</span>
           </div>
-          <pre class="meta" id="cat-a-log" style="white-space:pre-wrap;margin:0"></pre>
-        </div>
-      </div>
-      <div class="panel" style="margin-top:14px">
-        <strong>补录角色</strong>
-        <p class="meta">封面 → R2 <code>chars/&lt;slug&gt;</code>；再 patch 素材站角色表（按 series + trigger）。</p>
-        <div class="toolbar" style="flex-direction:column;align-items:stretch">
-          <input id="cat-c-series" placeholder="series_id（作品 ID）">
-          <input id="cat-c-series-name" placeholder="作品显示名（可选）">
-          <input id="cat-c-slug" placeholder="封面文件名 slug（如 ww_xxx）">
-          <input id="cat-c-trigger" placeholder="角色 trigger_text">
-          <input id="cat-c-name" placeholder="角色显示名">
-          <input id="cat-c-count" type="number" placeholder="count" value="0">
-          <input id="cat-c-tags" placeholder="tags（逗号分隔，可选）">
-          <input id="cat-c-file" type="file" accept="image/*">
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button type="button" class="primary" id="cat-c-submit">上传封面并写入角色库</button>
+          <div class="mod-section-body">
+            <div class="toolbar">
+              <input id="cat-a-slug" placeholder="slug（如 kuook）">
+              <input id="cat-a-name" placeholder="显示名">
+              <input id="cat-a-trigger" placeholder="触发词（默认=slug）">
+              <input id="cat-a-count" type="number" placeholder="count" value="0">
+              <input id="cat-a-score" type="number" step="0.01" placeholder="score" value="0.45">
+              <input id="cat-a-file" type="file" accept="image/*">
+              <button type="button" class="primary" id="cat-a-submit">上传并写入画师库</button>
+              <pre class="meta" id="cat-a-log" style="white-space:pre-wrap;margin:0;width:100%"></pre>
+            </div>
           </div>
-          <pre class="meta" id="cat-c-log" style="white-space:pre-wrap;margin:0"></pre>
-        </div>
+        </section>
+        <section class="mod-section">
+          <div class="mod-section-head">
+            <strong>补录角色</strong>
+            <span class="meta">chars/&lt;slug&gt;</span>
+          </div>
+          <div class="mod-section-body">
+            <div class="toolbar">
+              <input id="cat-c-series" placeholder="series_id">
+              <input id="cat-c-series-name" placeholder="作品显示名（可选）">
+              <input id="cat-c-slug" placeholder="封面 slug">
+              <input id="cat-c-trigger" placeholder="trigger_text">
+              <input id="cat-c-name" placeholder="角色显示名">
+              <input id="cat-c-count" type="number" placeholder="count" value="0">
+              <input id="cat-c-tags" placeholder="tags（逗号分隔）">
+              <input id="cat-c-file" type="file" accept="image/*">
+              <button type="button" class="primary" id="cat-c-submit">上传并写入角色库</button>
+              <pre class="meta" id="cat-c-log" style="white-space:pre-wrap;margin:0;width:100%"></pre>
+            </div>
+          </div>
+        </section>
       </div>`;
 
     $("cat-a-submit")?.addEventListener("click", async () => {
@@ -1676,12 +1720,18 @@
     const st = data.stats || {};
     const ledgerRows = ledger.rows || [];
     root.innerHTML = `
+      <div class="mod-stack">
       <div class="summary-grid">
         <div class="summary-card"><div class="k">持有人数</div><div class="v">${escapeHtml(String(st.holders ?? 0))}</div></div>
         <div class="summary-card"><div class="k">全服画泥合计</div><div class="v">${escapeHtml(String(st.mudSum ?? 0))}</div></div>
         <div class="summary-card"><div class="k">人均（持有者）</div><div class="v">${escapeHtml(String(st.avg ?? 0))}</div></div>
       </div>
-      <div class="panel">
+      <section class="mod-section">
+        <div class="mod-section-head">
+          <strong>持有榜</strong>
+          <span class="meta">点管理进档案</span>
+        </div>
+        <div class="mod-section-body">
         <div class="toolbar">
           <input class="grow" id="eco-q" placeholder="搜昵称 / 用户ID / 余额…" value="${escapeHtml(q)}">
           <button type="button" class="primary" id="eco-search">搜索</button>
@@ -1713,10 +1763,14 @@
           <span class="meta">${state.economyPage} / ${data.totalPages || 1}</span>
           <button type="button" id="eco-next" ${state.economyPage >= (data.totalPages || 1) ? "disabled" : ""}>下一页</button>
         </div>
-      </div>
-      <div class="panel" style="margin-top:14px">
-        <strong>运营画泥流水</strong>
-        <p class="meta">仅后台加减泥；玩家商店购买尚未单独入账。</p>
+        </div>
+      </section>
+      <section class="mod-section">
+        <div class="mod-section-head">
+          <strong>运营画泥流水</strong>
+          <span class="meta">仅后台加减泥</span>
+        </div>
+        <div class="mod-section-body">
         <div class="table-wrap">
           <table class="admin">
             <thead><tr><th>时间</th><th>动作</th><th>用户</th><th>说明</th></tr></thead>
@@ -1738,6 +1792,8 @@
           <span class="meta">${state.economyLedgerPage} / ${ledger.totalPages || 1}</span>
           <button type="button" id="eco-ledger-next" ${state.economyLedgerPage >= (ledger.totalPages || 1) ? "disabled" : ""}>下一页</button>
         </div>
+        </div>
+      </section>
       </div>`;
     const syncEco = () => {
       state.economyQ = $("eco-q")?.value || "";
