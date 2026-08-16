@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.29";
+  const ADMIN_UI_VERSION = "1.30";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针） */
@@ -39,7 +39,6 @@
     "/api/admin/overview",
     "/api/admin/players",
     "/api/admin/audit",
-    "/api/admin/media-upload",
     "/api/player-blocks",
   ];
 
@@ -1142,7 +1141,7 @@
   function catalogFetchError(err) {
     const msg = String(err?.message || err || "");
     if (/failed to fetch/i.test(msg)) {
-      return "Failed to fetch：连不上游戏云端上传（tk-game-cloud）或请求被中断。请换小图（最长边约 384）后重试，并确认能打开 https://tk-game-cloud.pages.dev ；仍失败再查广告拦截/代理。";
+      return "Failed to fetch：素材站上传接口无响应（网络中断或页面未更新到 v1.30）。请硬刷新后再试；仍失败把封面放到「画师新」让命令行补录。";
     }
     return msg;
   }
@@ -1202,8 +1201,8 @@
         if (!file) throw new Error("请选择封面图");
         if (log) log.textContent = "压缩封面…";
         const image = await fileToCoverDataUrl(file);
-        if (log) log.textContent = "上传 R2…";
-        const up = await cloudApi("/api/admin/media-upload", {
+        if (log) log.textContent = "上传 R2（经素材站代理）…";
+        const up = await assetApi("/api/admin/media-upload", {
           method: "POST",
           body: JSON.stringify({ kind: "artist", slug, image }),
         });
@@ -1240,8 +1239,8 @@
         if (!file) throw new Error("请选择封面图");
         if (log) log.textContent = "压缩封面…";
         const image = await fileToCoverDataUrl(file);
-        if (log) log.textContent = "上传 R2…";
-        const up = await cloudApi("/api/admin/media-upload", {
+        if (log) log.textContent = "上传 R2（经素材站代理）…";
+        const up = await assetApi("/api/admin/media-upload", {
           method: "POST",
           body: JSON.stringify({ kind: "char", slug, image }),
         });
