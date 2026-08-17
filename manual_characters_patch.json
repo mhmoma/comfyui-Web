@@ -135,19 +135,5 @@
         ]
       }
     ]
-  },
-  {
-    "series_id": "brown_dust_(series)",
-    "series_name": "棕色灰尘",
-    "characters": [
-      {
-        "t": "zenith (poolside guardian) (brown dust), brown_dust_(series)",
-        "delete": true
-      },
-      {
-        "t": "tyr (brown dust), brown_dust_(series)",
-        "delete": true
-      }
-    ]
   }
 ]

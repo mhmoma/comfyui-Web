@@ -2296,7 +2296,6 @@ INSERT INTO series (id, name, count) VALUES ('the_last_guardian', '最后的守�
 INSERT INTO series (id, name, count) VALUES ('tsuma_shibori', '妻扎堀', 2);
 INSERT INTO series (id, name, count) VALUES ('shimeji_simulation', '志路模拟', 2);
 INSERT INTO series (id, name, count) VALUES ('sasami-san@ganbaranai', '佐佐美桑@ganbaranai', 2);
-INSERT INTO series (id, name, count) VALUES ('brown_dust_(series)', '棕色灰尘', 0);
 INSERT INTO series (id, name, count) VALUES ('kuu_ka_kuwareru_ka?', '库卡库瓦雷鲁卡？', 2);
 INSERT INTO series (id, name, count) VALUES ('wreck-it_ralph', '无敌破坏王', 2);
 INSERT INTO series (id, name, count) VALUES ('ex_astris', '来自星星', 2);
