@@ -523,7 +523,7 @@ INSERT INTO series (id, name, count) VALUES ('voms', 'VOMS虚拟主播', 9);
 INSERT INTO series (id, name, count) VALUES ('dennou_coil', '电脑线圈', 9);
 INSERT INTO series (id, name, count) VALUES ('steven_universe', '宇宙小子', 9);
 INSERT INTO series (id, name, count) VALUES ('the_owl_house', '猫头鹰魔法社', 9);
-INSERT INTO series (id, name, count) VALUES ('brown_dust_2', '棕色尘埃2', 9);
+INSERT INTO series (id, name, count) VALUES ('brown_dust_2', '棕色尘埃2', 11);
 INSERT INTO series (id, name, count) VALUES ('homestuck', 'Homestuck', 9);
 INSERT INTO series (id, name, count) VALUES ('prism_project', 'Prism Project', 9);
 INSERT INTO series (id, name, count) VALUES ('shokugeki_no_souma', '食戟之灵', 9);
@@ -2296,7 +2296,7 @@ INSERT INTO series (id, name, count) VALUES ('the_last_guardian', '最后的守�
 INSERT INTO series (id, name, count) VALUES ('tsuma_shibori', '妻扎堀', 2);
 INSERT INTO series (id, name, count) VALUES ('shimeji_simulation', '志路模拟', 2);
 INSERT INTO series (id, name, count) VALUES ('sasami-san@ganbaranai', '佐佐美桑@ganbaranai', 2);
-INSERT INTO series (id, name, count) VALUES ('brown_dust_(series)', '棕色灰尘', 2);
+INSERT INTO series (id, name, count) VALUES ('brown_dust_(series)', '棕色灰尘', 0);
 INSERT INTO series (id, name, count) VALUES ('kuu_ka_kuwareru_ka?', '库卡库瓦雷鲁卡？', 2);
 INSERT INTO series (id, name, count) VALUES ('wreck-it_ralph', '无敌破坏王', 2);
 INSERT INTO series (id, name, count) VALUES ('ex_astris', '来自星星', 2);
@@ -33491,6 +33491,8 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('brown_dust_2', 'teresse (brown dust), brown dust 2', 'Teresse (brown Dust)', 'https://blobs.animadex.net/Outputs/thumbs/teresse%20(brown%20dust)%2C%20brown%20dust%202.webp', 42, ''),
 ('brown_dust_2', 'sylvia (brown dust), brown dust 2', 'Sylvia (brown Dust)', 'https://blobs.animadex.net/Outputs/thumbs/sylvia%20(brown%20dust)%2C%20brown%20dust%202.webp', 37, ''),
 ('brown_dust_2', 'angelica (brown dust), brown dust 2', 'Angelica (brown Dust)', 'https://blobs.animadex.net/Outputs/thumbs/angelica%20(brown%20dust)%2C%20brown%20dust%202.webp', 33, ''),
+('brown_dust_2', 'zenith (poolside guardian) (brown dust), brown dust 2', 'Zenith (Poolside Guardian)', 'https://blobs.animadex.net/Outputs/thumbs/zenith%20(poolside%20guardian)%20(brown%20dust)%2C%20brown_dust_(series).webp', 35, ''),
+('brown_dust_2', 'tyr (brown dust), brown dust 2', 'Tyr', 'https://blobs.animadex.net/Outputs/thumbs/tyr%20(brown%20dust)%2C%20brown_dust_(series).webp', 26, ''),
 ('homestuck', 'rose lalonde, homestuck', 'Rose Lalonde', 'https://blobs.animadex.net/Outputs/thumbs/rose%20lalonde%2C%20homestuck.webp', 62, ''),
 ('homestuck', 'dave strider, homestuck', 'Dave Strider', 'https://blobs.animadex.net/Outputs/thumbs/dave%20strider%2C%20homestuck.webp', 55, ''),
 ('homestuck', 'jade harley, homestuck', 'Jade Harley', 'https://blobs.animadex.net/Outputs/thumbs/jade%20harley%2C%20homestuck.webp', 53, ''),
@@ -40183,8 +40185,6 @@ INSERT INTO characters (series_id, trigger_text, name, thumb_url, count, lora_ur
 ('shimeji_simulation', 'yamashita majime, shimeji simulation', 'Yamashita Majime', 'https://blobs.animadex.net/Outputs/thumbs/yamashita%20majime%2C%20shimeji%20simulation.webp', 109, ''),
 ('sasami-san@ganbaranai', 'tsukuyomi sasami, sasami-san@ganbaranai', 'Tsukuyomi Sasami', 'https://blobs.animadex.net/Outputs/thumbs/tsukuyomi%20sasami%2C%20sasami-san%40ganbaranai.webp', 49, ''),
 ('sasami-san@ganbaranai', 'yagami kagami, sasami-san@ganbaranai', 'Yagami Kagami', 'https://blobs.animadex.net/Outputs/thumbs/yagami%20kagami%2C%20sasami-san%40ganbaranai.webp', 43, ''),
-('brown_dust_(series)', 'zenith (poolside guardian) (brown dust), brown_dust_(series)', 'Zenith (poolside Guardian) (brown Dust)', 'https://blobs.animadex.net/Outputs/thumbs/zenith%20(poolside%20guardian)%20(brown%20dust)%2C%20brown_dust_(series).webp', 35, ''),
-('brown_dust_(series)', 'tyr (brown dust), brown_dust_(series)', 'Tyr (brown Dust)', 'https://blobs.animadex.net/Outputs/thumbs/tyr%20(brown%20dust)%2C%20brown_dust_(series).webp', 26, ''),
 ('kuu_ka_kuwareru_ka?', 'utsui chizuru, kuu ka kuwareru ka?', 'Utsui Chizuru', 'https://blobs.animadex.net/Outputs/thumbs/utsui%20chizuru%2C%20kuu%20ka%20kuwareru%20ka_.webp', 37, ''),
 ('kuu_ka_kuwareru_ka?', 'yamagata kousuke, kuu ka kuwareru ka?', 'Yamagata Kousuke', 'https://blobs.animadex.net/Outputs/thumbs/yamagata%20kousuke%2C%20kuu%20ka%20kuwareru%20ka_.webp', 31, ''),
 ('wreck-it_ralph', 'vanellope von schweetz, wreck-it ralph', 'Vanellope Von Schweetz', 'https://blobs.animadex.net/Outputs/thumbs/vanellope%20von%20schweetz%2C%20wreck-it%20ralph.webp', 113, ''),

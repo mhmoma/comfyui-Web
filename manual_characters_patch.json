@@ -83,5 +83,71 @@
         ]
       }
     ]
+  },
+  {
+    "series_id": "brown_dust_2",
+    "series_name": "棕色尘埃2",
+    "characters": [
+      {
+        "t": "zenith (poolside guardian) (brown dust), brown dust 2",
+        "n": "Zenith (Poolside Guardian)",
+        "th": "https://blobs.animadex.net/Outputs/thumbs/zenith%20(poolside%20guardian)%20(brown%20dust)%2C%20brown_dust_(series).webp",
+        "c": 35,
+        "tags": [
+          "1girl",
+          "orange hair",
+          "purple eyes",
+          "hair between eyes",
+          "long hair",
+          "ponytail",
+          "large breasts",
+          "cleavage",
+          "sideboob",
+          "skindentation",
+          "swimsuit",
+          "one-piece swimsuit",
+          "visor cap",
+          "jacket",
+          "off shoulder",
+          "whistle"
+        ]
+      },
+      {
+        "t": "tyr (brown dust), brown dust 2",
+        "n": "Tyr",
+        "th": "https://blobs.animadex.net/Outputs/thumbs/tyr%20(brown%20dust)%2C%20brown_dust_(series).webp",
+        "c": 26,
+        "tags": [
+          "1girl",
+          "animal ears",
+          "animal ear fluff",
+          "blue eyes",
+          "long hair",
+          "hair ornament",
+          "hair bun",
+          "huge breasts",
+          "cleavage",
+          "covered navel",
+          "detached sleeves",
+          "bare shoulders",
+          "thigh strap",
+          "skindentation"
+        ]
+      }
+    ]
+  },
+  {
+    "series_id": "brown_dust_(series)",
+    "series_name": "棕色灰尘",
+    "characters": [
+      {
+        "t": "zenith (poolside guardian) (brown dust), brown_dust_(series)",
+        "delete": true
+      },
+      {
+        "t": "tyr (brown dust), brown_dust_(series)",
+        "delete": true
+      }
+    ]
   }
 ]

@@ -83,6 +83,14 @@ export async function onRequestPost(context) {
         for (const ch of patch.characters) {
           const t = String(ch.t || '').trim();
           if (!t) continue;
+          // 支持 { t, delete: true } 按系列+触发词删除（用于系列归并）
+          if (ch.delete === true || ch._delete === true) {
+            await db.prepare(
+              'DELETE FROM characters WHERE series_id = ? AND trigger_text = ?'
+            ).bind(seriesId, t).run();
+            upserted += 1;
+            continue;
+          }
           await db.prepare(
             'DELETE FROM characters WHERE series_id = ? AND trigger_text = ?'
           ).bind(seriesId, t).run();
