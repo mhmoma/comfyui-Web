@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.35";
+  const ADMIN_UI_VERSION = "1.36";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -1085,7 +1085,7 @@
               ? ""
               : (/^https?:\/\//i.test(direct)
                 ? direct
-                : (row.hasImage ? `${CLOUD_BASE}/api/artist-trade?thumb=${encodeURIComponent(row.id)}` : ""));
+                : (row.hasImage ? `${TRADE_BASE}/api/artist-trade?thumb=${encodeURIComponent(row.id)}` : ""));
             const media = thumb
               ? `<img class="thumb" src="${escapeHtml(thumb)}" alt="" loading="lazy" decoding="async">`
               : `<div class="thumb-empty">${blocked ? "已打码" : "无图"}</div>`;
