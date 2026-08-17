@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.32";
+  const ADMIN_UI_VERSION = "1.33";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -566,7 +566,7 @@
           <div class="mod-section-body">
             <ul class="notes" style="margin:0;padding-left:1.1em">${healthLines.map((n) => `<li>${escapeHtml(n)}</li>`).join("")}</ul>
             ${h ? `<div class="health-pills">
-              ${pill(!!h.mediaBinding, `MEDIA ${h.mediaBinding ? "已绑" : "未绑"}`)}
+              ${pill(!!(h.mediaOk ?? h.mediaBinding), h.mediaMode === "proxy" ? "图床 代理OK" : (h.mediaBinding || h.mediaOk ? "MEDIA 已绑" : "图床 未配"))}
               ${pill(!(h.trade?.dataUrl > 0), `交流 HTTPS ${h.trade?.https ?? "—"}`)}
               ${pill(!(h.playerArtists?.dataUrl > 0), `玩家封面 HTTPS ${h.playerArtists?.https ?? "—"}`)}
               ${pill(true, `审计 ${h.auditRows ?? "—"}`)}
@@ -576,7 +576,7 @@
         <section class="mod-section">
           <div class="mod-section-head">
             <strong>云端 · 人 / 钱 / 社区</strong>
-            <span class="meta">passinbox</span>
+            <span class="meta">web 新账号</span>
           </div>
           <div class="mod-section-body">
             <div class="grid-cards">
@@ -592,7 +592,7 @@
         <section class="mod-section ${assetErr ? "health-err" : ""}">
           <div class="mod-section-head">
             <strong>${assetErr ? "素材站不可用" : "素材站 · 库 / 资讯"}</strong>
-            <span class="meta">web 账号</span>
+            <span class="meta">素材库</span>
           </div>
           <div class="mod-section-body">
             ${assetErr ? `<p class="err" style="margin:0 0 10px">${escapeHtml(assetErr)}</p>` : ""}
