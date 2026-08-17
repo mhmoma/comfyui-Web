@@ -71,9 +71,9 @@ export async function onRequestGet(context) {
       },
     },
     notes: [
-      "本总览来自素材站 D1（画师 / 角色 / 资讯）。",
-      "用户解锁、个人隐藏、画泥等在云端 tk-game-cloud。",
-      "最高级屏蔽写入本站 content_blocks。",
+      "本总览来自 comfyui-web 素材库 D1（画师 / 角色 / 资讯）。",
+      "用户偏好、画泥、交易、画师串在 web 新账号游戏云端（6og）。",
+      "封面文件在 tk 原账号 R2；最高级屏蔽写入本站 content_blocks。",
     ],
   });
 }

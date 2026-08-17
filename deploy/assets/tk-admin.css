@@ -540,6 +540,56 @@ iframe.embed {
 .health-pill.ok { color: var(--ok); border-color: #b7d4c8; background: #eef7f2; }
 .health-pill.bad { color: var(--danger); border-color: #efc4bf; background: #fff5f4; }
 
+.acct-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+@media (max-width: 960px) {
+  .acct-grid { grid-template-columns: 1fr; }
+}
+.acct-card {
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 100%;
+}
+.acct-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+.acct-role {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.acct-url {
+  font-size: 0.68rem;
+  color: var(--muted);
+  word-break: break-all;
+}
+.acct-duty {
+  font-size: 0.75rem;
+  line-height: 1.35;
+  margin: 4px 0 2px;
+}
+.acct-pill {
+  align-self: flex-start;
+  margin-top: auto;
+  display: inline-flex;
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  color: var(--muted);
+  background: #f7f2ea;
+}
+.acct-pill.ok { color: var(--ok); border-color: #b7d4c8; background: #eef7f2; }
+.acct-pill.bad { color: var(--danger); border-color: #efc4bf; background: #fff5f4; }
+
 /* 公告编辑：左编辑右预览 */
 .notice-editor-grid {
   display: grid;
