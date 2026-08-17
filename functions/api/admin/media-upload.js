@@ -4,7 +4,7 @@
  */
 import { checkAdmin, corsPreflight, json } from "../articles/_shared.js";
 
-const DEFAULT_CLOUD = "https://tk-game-cloud.pages.dev";
+const DEFAULT_CLOUD = "https://tk-game-cloud-6og.pages.dev";
 
 export async function onRequestOptions() {
   return corsPreflight();

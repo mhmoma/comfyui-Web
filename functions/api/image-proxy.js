@@ -1,6 +1,6 @@
 /**
  * 服务端拉取平台画图链。
- * - 默认 / raw=1：直接回传图片二进制（带 CORS），供前端 canvas 署名
+ * - 默认：直接回传图片二进制（带 CORS）
  * - format=dataurl：兼容旧调用，返回 JSON { dataUrl }
  */
 const MAX_BYTES = 8_000_000;

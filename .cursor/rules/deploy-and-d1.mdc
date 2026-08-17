@@ -12,29 +12,30 @@ alwaysApply: true
 
 ---
 
-## 0. 双云端 + 运营台（必读，防踩坑）
+## 0. 三 Cloudflare 账号 + 运营台（必读，防踩坑）
 
-绘画大师相关后台挂在本站，但**数据分两个 Cloudflare 账号**，管理靠 HTTP，**禁止跨账号绑 D1**。
+绘画大师相关后台分 **三个 Cloudflare 账号**，管理靠 HTTP，**禁止跨账号绑 D1**。  
+**注意：控制台名叫 `web` 的是「新账号 / 游戏云端」，不是素材站。**
 
-| 角色 | 域名 / 工程 | 账号侧 | 管什么 |
-|------|-------------|--------|--------|
-| 素材站（本仓库） | `https://comfyui-web-89u.pages.dev` | web 本账号 | 画师库、角色/作品、资讯、站点静态资源、运营台页面 |
-| 游戏云端 | `https://tk-game-cloud.pages.dev`（工程多在 `D:\桌宠\tk-game-cloud`） | **另一账号** | 用户偏好、画泥、解锁、留言、公告、交易、玩家画师串等 |
-| 手动封面 R2 | 桶 `imtubro`（公开 `pub-….r2.dev`） | **passinbox** | 手动补录角色/画师封面（`chars/`、`artists/`）；交流/玩家图由 tk-game-cloud `MEDIA` 写入同桶 |
+| 口称呼 | 域名 / 工程 | 账号 | 管什么 |
+|--------|-------------|------|--------|
+| **comfyui-web / 素材库** | `https://comfyui-web-89u.pages.dev`；本仓库 | 素材库专用账号 | 画师/角色库 D1、资讯、运营台页面 |
+| **web / 新账号** | `https://tk-game-cloud-6og.pages.dev`；`D:\桌宠\tk-game-cloud` | 控制台名 `web`（`19ac0925…`） | 正式游戏云端 D1（偏好/画泥/交易/画师串） |
+| **tk / 原账号** | `https://tk-game-cloud.pages.dev` + R2 `imtubro` | passinbox（`decf3492…`） | 图床；`/api/media` 代理；非正式存档 API |
 
 ### 0.0 手动补录封面（必读）
 
 - **新**手动角色 / 画师封面一律上传 R2，`th` / `thumb_url` / `img_url` 填 R2 公开 URL。
 - **禁止**再把新封面提交到 `assets/chars/`、`assets/artists/` 当正式发布路径。
-- 上传账号必须是 passinbox：`$env:CLOUDFLARE_ACCOUNT_ID="decf3492f6529f29230dfce7da57f2d7"` 后 `wrangler r2 object put imtubro/… --remote`。
+- 上传账号必须是 **tk / 原账号** passinbox：`$env:CLOUDFLARE_ACCOUNT_ID="decf3492f6529f29230dfce7da57f2d7"` 后 `wrangler r2 object put imtubro/… --remote`。
 - 权威步骤：工作区 `TK绘画工具/docs/manual-character-add.md`、`manual-artist-add.md`。
-- D1 仍只写本站 web 账号；R2 仅外链，**禁止**跨账号绑 D1。
-- 交流示例图 / 玩家画师串封面：见 `tk-game-cloud`（`trade/`、`player-artists/`）；硬删除与屏蔽图片时删 R2，下架不删。
+- D1 元数据只写 **comfyui-web 素材库**；R2 仅外链，**禁止**跨账号绑 D1。
+- 交流示例图 / 玩家画师串封面：同桶；硬删除与屏蔽图片时删 R2，下架不删。
 
 ### 0.1 运营台
 
 - 页面：`/admin/`（`admin/` + `assets/tk-admin.js`），发布后在 `deploy/admin/`、`deploy/assets/`。
-- 前端分别请求：素材 API → 本站；用户/经济/社区 → `CLOUD_BASE`（tk-game-cloud）。两边都要配**同一把** `ADMIN_KEY`。
+- 前端分别请求：素材 API → **comfyui-web**；用户/经济/社区 → `CLOUD_BASE`（**web 新账号** `tk-game-cloud-6og`）。两边都要配**同一把** `ADMIN_KEY`。
 - 界面版本常量：`assets/tk-admin.js` 里 `ADMIN_UI_VERSION`；改运营台 UI 必须递增，并同步 `admin/index.html` / `deploy/` 的 `tk-admin.js?v=`、`tk-admin.css?v=`，登录页/侧栏/顶栏会显示「运营台 vX.Y」。
 - 工作区路径：`D:\总项目\AI桌宠与ComfyUI绘画站合集\comfyui-web` 常是指向 `D:\桌宠\comfyui-web` 的同一仓库，改一处即可。
 
@@ -80,7 +81,8 @@ alwaysApply: true
   - 数据库名: `comfyui-characters`
   - 数据库 ID: `3ea1156e-cbaa-40ec-b85c-4b55be6ecc58`
   - 绑定变量名: `DB`（**仅此一个**）
-- **游戏数据云端**（另一账号，不在本 wrangler 绑 D1）: `https://tk-game-cloud.pages.dev`
+- **游戏数据云端**（**web / 新账号**）: `https://tk-game-cloud-6og.pages.dev`
+- **图床 R2**（**tk / 原账号** passinbox）: 桶 `imtubro`；写图经旧站 `/api/media`
 
 ---
 

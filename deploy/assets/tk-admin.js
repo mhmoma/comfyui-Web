@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.31";
+  const ADMIN_UI_VERSION = "1.32";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -20,7 +20,7 @@
     return "https://comfyui-web-89u.pages.dev";
   })();
   /** 游戏云端（公告/留言/交易/偏好/玩家画师串） */
-  const CLOUD_BASE = "https://tk-game-cloud.pages.dev";
+  const CLOUD_BASE = "https://tk-game-cloud-6og.pages.dev";
 
   let assetAuthOk = false;
 
