@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.34";
+  const ADMIN_UI_VERSION = "1.35";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -19,10 +19,12 @@
     } catch (_) {}
     return "https://comfyui-web-89u.pages.dev";
   })();
-  /** 游戏云端（公告/留言/交易/偏好/玩家画师串）——web 新账号 */
+  /** 游戏云端（公告/留言/偏好/画泥）——web 新账号 */
   const CLOUD_BASE = "https://tk-game-cloud-6og.pages.dev";
+  /** 交易+画师串+图床——tk 原账号 */
+  const TRADE_BASE = "https://tk-game-cloud.pages.dev";
   /** 图床代理站（tk 原账号 R2 imtubro） */
-  const MEDIA_PROXY_HOST = "https://tk-game-cloud.pages.dev";
+  const MEDIA_PROXY_HOST = TRADE_BASE;
 
   let assetAuthOk = false;
 
@@ -44,16 +46,19 @@
     { id: "news", label: "资讯", group: "素材" },
   ];
 
-  const CLOUD_PREFIXES = [
+  const SESSION_PREFIXES = [
     "/api/announcements",
     "/api/board",
-    "/api/artist-trade",
     "/api/prefs",
-    "/api/player-artists",
     "/api/admin/overview",
     "/api/admin/players",
     "/api/admin/audit",
     "/api/player-blocks",
+  ];
+  const TRADE_PREFIXES = [
+    "/api/artist-trade",
+    "/api/player-artists",
+    "/api/admin/media-upload",
   ];
 
   let adminKey = localStorage.getItem(KEY_STORE) || "";
@@ -280,8 +285,10 @@
   function resolveUrl(path) {
     if (/^https?:\/\//i.test(path)) return path;
     const p = String(path || "");
-    const useCloud = CLOUD_PREFIXES.some((prefix) => p === prefix || p.startsWith(`${prefix}?`) || p.startsWith(`${prefix}/`));
-    const base = useCloud ? CLOUD_BASE : ASSET_BASE;
+    const useTrade = TRADE_PREFIXES.some((prefix) => p === prefix || p.startsWith(`${prefix}?`) || p.startsWith(`${prefix}/`));
+    if (useTrade) return new URL(p, TRADE_BASE).toString();
+    const useSession = SESSION_PREFIXES.some((prefix) => p === prefix || p.startsWith(`${prefix}?`) || p.startsWith(`${prefix}/`));
+    const base = useSession ? CLOUD_BASE : ASSET_BASE;
     return new URL(p, base).toString();
   }
 
@@ -345,6 +352,26 @@
     return data;
   }
 
+  async function tradeApi(path, opts = {}) {
+    const res = await fetch(new URL(path, TRADE_BASE).toString(), {
+      ...opts,
+      headers: {
+        ...(opts.headers || {}),
+        "x-admin-key": adminKey,
+        ...(opts.body ? { "Content-Type": "application/json" } : {}),
+      },
+    });
+    let data = null;
+    try { data = await res.json(); } catch (_) {}
+    if (!res.ok) {
+      const err = new Error(data?.message || data?.error || `HTTP ${res.status}`);
+      err.status = res.status;
+      err.data = data;
+      throw err;
+    }
+    return data;
+  }
+
   function paintAdminVersion() {
     const label = `运营台 v${ADMIN_UI_VERSION}`;
     document.querySelectorAll("[data-admin-ver]").forEach((el) => {
@@ -372,8 +399,9 @@
   }
 
   async function verifyAuth() {
-    // 游戏数据只认新云端库；素材站密钥必须另检（最高级屏蔽 / 资讯 / 入库）
+    // 会话云端 + 交易云端 + 素材库 三端密钥都要通
     await cloudApi("/api/admin/overview");
+    await tradeApi("/api/admin/overview");
     try {
       await assetApi("/api/articles/auth");
       assetAuthOk = true;
@@ -506,15 +534,22 @@
   }
 
   async function renderOverview(root) {
-    setTop("总览", "按三账号分责：游戏云端（web 新）· 图床（tk 原）· 素材库（comfyui-web）。");
+    setTop("总览", "分压：web 新管会话存档；tk 原管交易/画师串/图床；comfyui-web 管素材库。");
     let cloud = null;
+    let trade = null;
     let asset = null;
     let cloudErr = "";
+    let tradeErr = "";
     let assetErr = "";
     try {
       cloud = await cloudApi("/api/admin/overview");
     } catch (err) {
       cloudErr = err.message || "游戏云端总览失败";
+    }
+    try {
+      trade = await tradeApi("/api/admin/overview");
+    } catch (err) {
+      tradeErr = err.message || "交易/图床总览失败";
     }
     try {
       asset = await assetApi("/api/admin/overview");
@@ -523,22 +558,25 @@
     }
 
     const c = cloud?.modules || {};
+    const t = trade?.modules || {};
     const a = asset?.modules || {};
-    const h = cloud?.health || null;
+    const h = trade?.health || cloud?.health || null;
     const mediaOk = !!(h?.mediaOk ?? h?.mediaBinding);
     const mediaMode = h?.mediaMode || (h?.mediaBinding ? "local" : (h?.mediaProxy ? "proxy" : "none"));
     const mediaLabel =
       mediaMode === "local" ? "本站 MEDIA" : mediaMode === "proxy" ? "R2 代理 OK" : "图床未配";
 
-    const gameCards = [
+    const sessionCards = [
       { href: "users", k: "云端用户", v: c.users?.total ?? "—", s: "player_prefs" },
       { href: "economy", k: "画泥持有", v: c.economy?.holders ?? "—", s: `合计 ${c.economy?.mudSum ?? "—"}` },
-      { href: "player-artists", k: "玩家画师串", v: c.playerArtists?.total ?? "—", s: "串列表在 D1" },
       { href: "notice", k: "当前公告", v: c.notice?.active ? "有" : (cloud ? "无" : "—"), s: "游戏顶栏" },
-      { href: "trade", k: "交流在售", v: c.trade?.active ?? "—", s: `下架 ${c.trade?.off ?? 0} · 打码 ${c.trade?.imageBlocked ?? 0}` },
       { href: "board", k: "留言", v: c.board?.total ?? "—", s: "社区巡查" },
       { href: "audit", k: "审计", v: c.audit?.total ?? "—", s: "运营操作" },
       { href: "prefs", k: "偏好条目", v: c.prefs?.total ?? "—", s: "明细页" },
+    ];
+    const tradeCards = [
+      { href: "player-artists", k: "玩家画师串", v: t.playerArtists?.total ?? "—", s: "tk 原 D1" },
+      { href: "trade", k: "交流在售", v: t.trade?.active ?? "—", s: `下架 ${t.trade?.off ?? 0} · 打码 ${t.trade?.imageBlocked ?? 0}` },
     ];
     const assetCards = [
       { href: "catalog", k: "素材入库", v: "入口", s: "封面→图床 · 元数据→本库" },
@@ -553,7 +591,8 @@
       `<span class="acct-pill ${ok ? "ok" : "bad"}">${escapeHtml(label)}</span>`;
 
     const gameTone = cloudErr ? "health-err" : "";
-    const mediaTone = cloudErr ? "" : (!h ? "" : (mediaOk ? "health-ok" : "health-warn"));
+    const tradeTone = tradeErr ? "health-err" : "";
+    const mediaTone = tradeErr ? "" : (!h ? "" : (mediaOk ? "health-ok" : "health-warn"));
     const assetTone = assetErr ? "health-err" : "";
 
     root.innerHTML = `
@@ -567,17 +606,17 @@
             <div class="acct-grid">
               <div class="acct-card">
                 <div class="acct-name">web 新</div>
-                <div class="acct-role">游戏云端 D1</div>
+                <div class="acct-role">会话云端 D1</div>
                 <div class="acct-url mono">${escapeHtml(CLOUD_BASE.replace(/^https?:\/\//, ""))}</div>
-                <div class="acct-duty">偏好 · 画泥 · 交易 · 画师串 · 留言 · 公告</div>
+                <div class="acct-duty">偏好 · 画泥 · 留言 · 公告</div>
                 ${acctPill(!cloudErr, cloudErr ? "不可用" : "已连通")}
               </div>
               <div class="acct-card">
                 <div class="acct-name">tk 原</div>
-                <div class="acct-role">图床 R2 · imtubro</div>
-                <div class="acct-url mono">${escapeHtml(MEDIA_PROXY_HOST.replace(/^https?:\/\//, ""))}/api/media</div>
-                <div class="acct-duty">交流图 · 玩家封面 · 库封面文件</div>
-                ${acctPill(mediaOk, mediaOk ? mediaLabel : "未配/异常")}
+                <div class="acct-role">交易 + 图床 R2</div>
+                <div class="acct-url mono">${escapeHtml(TRADE_BASE.replace(/^https?:\/\//, ""))}</div>
+                <div class="acct-duty">交流 · 玩家画师串 · MEDIA 写图</div>
+                ${acctPill(!tradeErr && mediaOk, tradeErr ? "不可用" : (mediaOk ? mediaLabel : "图床未配"))}
               </div>
               <div class="acct-card">
                 <div class="acct-name">comfyui-web</div>
@@ -592,13 +631,13 @@
 
         <section class="mod-section ${gameTone}">
           <div class="mod-section-head">
-            <strong>${cloudErr ? "游戏云端不可用" : "web 新 · 游戏云端"}</strong>
-            <span class="meta">tk-game-cloud-6og · D1</span>
+            <strong>${cloudErr ? "会话云端不可用" : "web 新 · 会话云端"}</strong>
+            <span class="meta">6og · prefs / 画泥 / 留言</span>
           </div>
           <div class="mod-section-body">
             ${cloudErr ? `<p class="err" style="margin:0 0 10px">${escapeHtml(cloudErr)}</p>` : ""}
             <div class="grid-cards">
-              ${gameCards.map((card) => `
+              ${sessionCards.map((card) => `
                 <button type="button" class="stat-card" data-go="${card.href}">
                   <div class="k">${escapeHtml(card.k)}</div>
                   <div class="v">${escapeHtml(String(card.v))}</div>
@@ -608,18 +647,25 @@
           </div>
         </section>
 
-        <section class="mod-section ${mediaTone}">
+        <section class="mod-section ${tradeTone} ${mediaTone}">
           <div class="mod-section-head">
-            <strong>tk 原 · 图床</strong>
-            <span class="meta">R2 imtubro · 经代理写入</span>
+            <strong>${tradeErr ? "交易/图床不可用" : "tk 原 · 交易与图床"}</strong>
+            <span class="meta">pages.dev · MEDIA 本机</span>
           </div>
           <div class="mod-section-body">
-            <p class="meta" style="margin:0 0 10px">正式站不绑 MEDIA；写图走 ${escapeHtml(MEDIA_PROXY_HOST)}/api/media。公开链仍是 pub-…r2.dev。</p>
-            <div class="health-pills">
+            ${tradeErr ? `<p class="err" style="margin:0 0 10px">${escapeHtml(tradeErr)}</p>` : ""}
+            <div class="health-pills" style="margin-bottom:10px">
               ${pill(mediaOk, mediaLabel)}
               ${pill(!(h?.trade?.dataUrl > 0), `交流 HTTPS ${h?.trade?.https ?? "—"}`)}
               ${pill(!(h?.playerArtists?.dataUrl > 0), `玩家封面 HTTPS ${h?.playerArtists?.https ?? "—"}`)}
-              ${pill(!(h?.trade?.dataUrl > 0) && !(h?.playerArtists?.dataUrl > 0), h?.trade?.dataUrl > 0 || h?.playerArtists?.dataUrl > 0 ? "仍有 dataURL" : "无 dataURL 残留")}
+            </div>
+            <div class="grid-cards">
+              ${tradeCards.map((card) => `
+                <button type="button" class="stat-card" data-go="${card.href}">
+                  <div class="k">${escapeHtml(card.k)}</div>
+                  <div class="v">${escapeHtml(String(card.v))}</div>
+                  <div class="s">${escapeHtml(card.s)}</div>
+                </button>`).join("")}
             </div>
           </div>
         </section>
