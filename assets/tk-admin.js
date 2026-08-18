@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.37";
+  const ADMIN_UI_VERSION = "1.39";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -449,7 +449,7 @@
     return `<div class="panel err">
       <p><strong>素材站密钥无效</strong>：${escapeHtml(feature)}不可用。</p>
       <p class="meta">运营台登录目前只校验了云端密钥。画师库/角色库的「最高级屏蔽」写在素材站 D1，两边 ADMIN_KEY 必须相同。</p>
-      <p class="meta">请确认 Cloudflare 里 comfyui-web 与 tk-game-cloud 的 ADMIN_KEY 一致后重新登录。</p>
+      <p class="meta">请确认 Cloudflare 里 comfyui-web、6og、tk 原站的 ADMIN_KEY 一致后重新登录。</p>
     </div>`;
   }
 
@@ -602,7 +602,7 @@
       mediaMode === "local" ? "本站 MEDIA" : mediaMode === "proxy" ? "R2 代理 OK" : "图床未配";
 
     const sessionCards = [
-      { href: "users", k: "云端用户", v: c.users?.total ?? "—", s: "player_prefs" },
+      { href: "users", k: "云端用户", v: c.users?.total ?? "—", s: "6og player_prefs" },
       { href: "economy", k: "画泥持有", v: c.economy?.holders ?? "—", s: `合计 ${c.economy?.mudSum ?? "—"}` },
       { href: "economy", k: "满10张已领", v: c.drawLife?.claimed ?? "—", s: `有记录 ${c.drawLife?.tracked ?? "—"}` },
       { href: "users", k: "邀请兑换", v: c.invite?.redeems ?? "—", s: `发码 ${c.invite?.codes ?? "—"}` },
@@ -610,7 +610,7 @@
       { href: "notice", k: "当前公告", v: c.notice?.active ? "有" : (cloud ? "无" : "—"), s: "游戏顶栏" },
       { href: "board", k: "留言", v: c.board?.total ?? "—", s: "社区巡查" },
       { href: "prefs", k: "记事本用户", v: c.extras?.notepadUsers ?? "—", s: "提示词记事本" },
-      { href: "audit", k: "审计", v: c.audit?.total ?? "—", s: "运营操作" },
+      { href: "audit", k: "审计", v: c.audit?.total ?? "—", s: "6og 会话操作" },
       { href: "prefs", k: "偏好条目", v: c.prefs?.total ?? "—", s: "明细页" },
     ];
     const tradeCards = [
@@ -618,10 +618,11 @@
       { href: "trade", k: "交流在售", v: t.trade?.active ?? "—", s: `下架 ${t.trade?.off ?? 0} · 打码 ${t.trade?.imageBlocked ?? 0}` },
     ];
     const assetCards = [
-      { href: "catalog", k: "素材入库", v: "入口", s: "封面→图床 · 元数据→本库" },
+      { href: "catalog", k: "素材入库", v: "入口", s: "封面→tk 原 R2 · 元数据→本库" },
       { href: "news", k: "已发资讯", v: a.news?.published ?? "—", s: `草稿 ${a.news?.draft ?? 0}` },
       { href: "artists", k: "画师库", v: a.artists?.total ?? "—", s: `屏蔽 ${a.artists?.blocked ?? 0}` },
       { href: "characters", k: "角色", v: a.characters?.characters ?? "—", s: `系列 ${a.characters?.series ?? 0} · 屏蔽 ${a.characters?.blocked ?? 0}` },
+      { href: "catalog", k: "自建词条", v: a.extras?.customTagUsers ?? "—", s: "素材库 player_custom_tags" },
     ];
 
     const pill = (ok, text) =>
@@ -734,7 +735,7 @@
   }
 
   async function renderAudit(root) {
-    setTop("审计日志", "记录运营改画泥、解锁、删交流、打码等操作。");
+    setTop("审计日志", "会话操作记在 6og（改画泥、解锁、清空偏好）。交流删/打码在 tk 原站执行，不进此表。");
     const q = encodeURIComponent(state.auditQ || "");
     const act = encodeURIComponent(state.auditAction || "");
     const data = await api(`/api/admin/audit?page=${state.auditPage}&q=${q}&action=${act}`);
@@ -794,7 +795,7 @@
   }
 
   async function renderNotice(root) {
-    setTop("公告", "玩家端始终只显示「最新一条生效公告」。可先存草稿，再点发布。");
+    setTop("公告", "数据在 6og。玩家端始终只显示「最新一条生效公告」。可先存草稿，再点发布。");
     const data = await api(`/api/announcements?view=admin&page=${state.noticePage}`);
     const rows = data.rows || [];
     const plainPreview = (html) => String(html || "")
@@ -998,7 +999,7 @@
   }
 
   async function renderBoard(root) {
-    setTop("留言板", "搜索 / 按 UID 筛；删单条、删该用户全部；可禁言。");
+    setTop("留言板", "数据在 6og。搜索 / 按 UID 筛；删单条、删该用户全部；可禁言。");
     const q = encodeURIComponent(state.boardQ || "");
     const uid = encodeURIComponent(state.boardUserId || "");
     const data = await api(`/api/board?page=${state.boardPage}&q=${q}&userId=${uid}`);
@@ -1090,7 +1091,7 @@
   }
 
   async function renderTrade(root) {
-    setTop("画师串交流", "搜索卖家/标题，筛选打码；删 / 下架 / 打码。点 UID 进档案。");
+    setTop("画师串交流", "数据在 tk 原 D1 + R2。搜索卖家/标题，筛选打码；删 / 下架 / 打码。点 UID 进档案。");
     const q = encodeURIComponent(state.tradeQ || "");
     const blockedFlag = state.tradeBlocked ? "1" : "0";
     const data = await api(
@@ -1215,7 +1216,7 @@
   }
 
   function renderNews(root) {
-    setTop("资讯", "发帖 / 草稿 / 发布仍用完整编辑器（同密钥，刷新不掉登录）。");
+    setTop("资讯", "素材库 D1。发帖 / 草稿 / 发布仍用完整编辑器（同密钥，刷新不掉登录）。");
     root.innerHTML = `
       <div class="panel" style="padding:0;overflow:hidden">
         <iframe class="embed" src="/admin/news.html?embed=1" title="资讯管理"></iframe>
@@ -1400,7 +1401,7 @@
   }
 
   async function renderArtists(root) {
-    setTop("画师库", "分页搜索；最高级屏蔽后玩家端列表/搜索都看不到，解锁码也无效。");
+    setTop("画师库", "素材库 D1。分页搜索；最高级屏蔽后玩家端列表/搜索都看不到，解锁码也无效。");
     if (!(await ensureAssetAuth())) {
       root.innerHTML = assetGateHtml("画师库最高级屏蔽");
       return;
@@ -1491,7 +1492,7 @@
   }
 
   async function renderCharacters(root) {
-    setTop("角色库 / 作品", "按作品（系列）分页搜索；最高级屏蔽后列表消失，解锁码/全解锁也无法打开。");
+    setTop("角色库 / 作品", "素材库 D1。按作品（系列）分页搜索；最高级屏蔽后列表消失，解锁码/全解锁也无法打开。");
     if (!(await ensureAssetAuth())) {
       root.innerHTML = assetGateHtml("角色库最高级屏蔽");
       return;
@@ -1589,7 +1590,7 @@
   }
 
   async function renderUsers(root) {
-    setTop("用户管理", "显示玩家昵称；点进去用中文按钮管画泥、装扮、解锁、隐藏作品。");
+    setTop("用户管理", "会话在 6og；画师串条数与清串打 tk 原。点进去用中文按钮管画泥、装扮、解锁、隐藏作品。");
     if (state.usersDetail) {
       await renderUserDetail(root, state.usersDetail);
       return;
@@ -1666,13 +1667,17 @@
   }
 
   async function renderUserDetail(root, userId) {
-    const [data, seriesMap, allowData, blockedSeriesData, blockedArtistData] = await Promise.all([
+    const [data, seriesMap, allowData, blockedSeriesData, blockedArtistData, paData] = await Promise.all([
       api(`/api/admin/players?userId=${encodeURIComponent(userId)}`),
       ensureSeriesNameMap(),
       assetApi(`/api/content-blocks?allows=1&userId=${encodeURIComponent(userId)}`).catch(() => ({ allows: [] })),
       assetApi("/api/content-blocks?view=admin&kind=series&filter=blocked&page=1&pageSize=500").catch(() => ({ rows: [] })),
       assetApi("/api/content-blocks?view=admin&kind=artist&filter=blocked&page=1&pageSize=500").catch(() => ({ rows: [] })),
+      api(`/api/player-artists?userId=${encodeURIComponent(userId)}`).catch(() => null),
     ]);
+    const artistCount = Number(
+      paData?.total ?? (paData?.items || []).length ?? data.artistCount ?? 0
+    ) || 0;
     const s = data.summary || {};
     const name = data.displayName || "未留名玩家";
     const catalog = data.mudCatalog || {};
@@ -1866,7 +1871,7 @@
 
       <div class="panel detail-block">
         <h3>⑥ 其他</h3>
-        <p class="meta">更新日志已读：${escapeHtml(s.seenVersion || "—")} · 兑换码：${escapeHtml((s.codes || []).join(", ") || "无")} · 画师串 ${escapeHtml(String(data.artistCount ?? 0))} 条</p>
+        <p class="meta">更新日志已读：${escapeHtml(s.seenVersion || "—")} · 兑换码：${escapeHtml((s.codes || []).join(", ") || "无")} · 画师串 ${escapeHtml(String(artistCount))} 条</p>
         <p class="meta">留言禁言：${
           s.boardMutedUntil && s.boardMutedUntil > Date.now()
             ? `至 ${escapeHtml(formatTime(s.boardMutedUntil))}`
@@ -2069,13 +2074,19 @@
     $("user-wipe-all")?.addEventListener("click", async () => {
       if (!confirm(`清空 ${name} 的偏好和画师串？不可恢复`)) return;
       await userAction(userId, "wipe_user", { wipeArtists: true });
+      try {
+        await api("/api/player-artists?view=admin", {
+          method: "DELETE",
+          body: JSON.stringify({ admin: true, userId }),
+        });
+      } catch (_) {}
       state.usersDetail = "";
       render();
     });
   }
 
   async function renderEconomy(root) {
-    setTop("画泥经济", "持有榜 + 运营加减泥流水（来自审计）。");
+    setTop("画泥经济", "数据在 6og。持有榜 + 运营加减泥流水（来自审计）。");
     if (state.economyDetail) {
       state.usersDetail = state.economyDetail;
       state.economyDetail = "";
@@ -2195,7 +2206,7 @@
   function prefGroupsHtml() { return ""; }
 
   async function renderReads(root) {
-    setTop("已读状态", "更新日志 / 公告 / 留言已读；可按类型筛选并删除异常记录。");
+    setTop("已读状态", "数据在 6og。更新日志 / 公告 / 留言已读；可按类型筛选并删除异常记录。");
     const q = (state.readsQ || "").trim();
     const key = state.readsKey || "seen_version";
     const data = await api(`/api/admin/players?mode=reads&key=${encodeURIComponent(key)}&page=${state.readsPage}&q=${encodeURIComponent(q)}`);
@@ -2268,7 +2279,7 @@
   }
 
   async function renderPlayerArtists(root) {
-    setTop("玩家画师串", "云端持久存档；可按用户/名称搜索并删除单条或整户。");
+    setTop("玩家画师串", "数据在 tk 原 D1 + R2；可按用户/名称搜索并删除单条或整户。");
     const q = (state.paQ || "").trim();
     const data = await api(`/api/player-artists?view=admin&page=${state.paPage}&q=${encodeURIComponent(q)}`);
     const rows = data.rows || [];
@@ -2366,7 +2377,7 @@
   }
 
   async function renderPrefs(root) {
-    setTop("偏好明细", "中文项目与可读内容；玩家需进过新版游戏才会有平台昵称。");
+    setTop("偏好明细", "6og player_prefs；玩家需进过新版游戏才会有平台昵称。");
     const q = ($("prefs-q")?.value || state.prefsQ || "").trim();
     state.prefsQ = q;
     const keyFilter = state.prefsKey || "";
@@ -2456,22 +2467,23 @@
   }
 
   function renderMap(root) {
-    setTop("能力地图", "按模块对照：玩家侧能力 ↔ 后台能做什么。");
+    setTop("能力地图", "按模块对照：玩家侧能力 ↔ 后台能做什么（并标明落在哪一座云）。");
     const rows = [
-      ["用户档案", "主题/解锁/收藏/开关/记事本/小艾进度", "列表、详情编辑、清空档案、重置满10奖励", "可管", "#users"],
-      ["已读状态", "更新日志/公告/留言已读/已知晓", "按类型筛选、删除", "可管", "#reads"],
-      ["画泥经济", "余额/装扮/兑换码/每日领泥/满10张奖励/转账", "榜单、改余额、流水、看里程碑", "可管", "#economy"],
-      ["邀请码", "邀请解锁全作品、邀请人+100泥", "总览统计；用户档案可查解锁态", "可管", "#users"],
-      ["钱包", "收款短码、玩家互转画泥", "总览转账笔数；余额在经济页改", "可管", "#economy"],
-      ["玩家画师串", "自定义画师串+封面", "搜索、删条、清空用户", "可管", "#player-artists"],
-      ["偏好明细", "全部云端偏好（含青年标签/记事本/草稿）", "筛选、搜索、删除", "可管", "#prefs"],
-      ["画师串交流", "市场买卖", "搜/筛/批量删下架打码，UID 跳转", "可管", "#trade"],
-      ["留言板", "全服聊天", "搜筛、按人删、禁言，UID 跳转", "可管", "#board"],
-      ["公告", "游戏顶栏公告", "草稿/发布；同时仅 1 条生效", "可管", "#notice"],
-      ["审计日志", "—", "运营操作记录与检索", "可管", "#audit"],
-      ["资讯", "站点教程", "发帖草稿发布", "可管", "#news"],
-      ["素材入库", "—", "封面上传 R2 + 写 D1", "可管", "#catalog"],
-      ["画师库/角色库", "官方检索素材", "搜索、最高级屏蔽、用户例外放行", "可管", "#artists"],
+      ["用户档案", "主题/解锁/收藏/开关/记事本/小艾进度", "6og 列表与详情；清串会打 tk 原", "可管", "#users"],
+      ["已读状态", "更新日志/公告/留言已读/已知晓", "6og 筛选、删除", "可管", "#reads"],
+      ["画泥经济", "余额/装扮/兑换码/每日领泥/满10张奖励/转账", "6og 榜单、改余额、流水", "可管", "#economy"],
+      ["邀请码", "邀请解锁全作品、邀请人+100泥", "6og 统计；用户档案可查解锁态", "可管", "#users"],
+      ["钱包", "收款短码、玩家互转画泥", "6og 转账笔数；余额在经济页改", "可管", "#economy"],
+      ["玩家画师串", "自定义画师串+封面", "tk 原：搜索、删条、清空用户", "可管", "#player-artists"],
+      ["偏好明细", "全部云端偏好（含青年标签/记事本/草稿）", "6og 筛选、搜索、删除", "可管", "#prefs"],
+      ["画师串交流", "市场买卖", "tk 原：搜/筛/批量删下架打码", "可管", "#trade"],
+      ["留言板", "全服聊天", "6og 搜筛、按人删、禁言", "可管", "#board"],
+      ["公告", "游戏顶栏公告", "6og 草稿/发布；同时仅 1 条生效", "可管", "#notice"],
+      ["审计日志", "—", "6og 会话操作记录（不含交流打码）", "可管", "#audit"],
+      ["资讯", "站点教程", "素材站发帖草稿发布", "可管", "#news"],
+      ["素材入库", "—", "封面上传 tk 原 R2 + 写本库 D1", "可管", "#catalog"],
+      ["画师库/角色库", "官方检索素材", "本库搜索、最高级屏蔽、用户例外放行", "可管", "#artists"],
+      ["自建词条", "玩家自定义中英词条", "落在素材库 D1（无独立页，总览见数量）", "只读统计", "#catalog"],
       ["改图消耗", "参考图改图（扣泥）", "走画泥余额，无独立队列", "随经济", "#economy"],
       ["举报审核", "—", "暂无独立队列", "未建", ""],
     ];

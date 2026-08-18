@@ -12,13 +12,13 @@
     <div class="login-card">
       <h1>绘画大师运营台</h1>
       <p class="admin-ver" data-admin-ver>运营台 v—</p>
-      <p>用户管理用中文按钮：加钱、删装扮、解锁、按人隐藏作品。云端库 + 素材站。</p>
+      <p>用户管理用中文按钮：加钱、删装扮、解锁、按人隐藏作品。会话在 6og，交流/图床在 tk 原，素材库在本站。</p>
       <div class="login-row">
         <input id="admin-key" type="password" placeholder="ADMIN_KEY" autocomplete="current-password">
         <button type="button" class="primary" id="btn-login">进入后台</button>
       </div>
       <p id="login-error" class="err hidden"></p>
-      <p class="hint">与 Cloudflare 环境变量 <code>ADMIN_KEY</code> 相同（正式站与 tk-game-cloud 都要配置）。不要把密钥写进仓库。</p>
+      <p class="hint">三端 Cloudflare 的 <code>ADMIN_KEY</code> 必须相同（comfyui-web / 6og / tk 原）。不要把密钥写进仓库。</p>
     </div>
   </section>
 
@@ -50,6 +50,6 @@
     </main>
   </div>
 
-  <script src="/assets/tk-admin.js?v=37"></script>
+  <script src="/assets/tk-admin.js?v=39"></script>
 </body>
 </html>

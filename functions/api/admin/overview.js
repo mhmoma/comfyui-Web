@@ -34,6 +34,7 @@ export async function onRequestGet(context) {
     charactersTotal,
     blocksSeries,
     blocksArtist,
+    customTagUsers,
   ] = await Promise.all([
     countSafe(db, "SELECT COUNT(*) AS c FROM articles WHERE status = 'published'"),
     countSafe(db, "SELECT COUNT(*) AS c FROM articles WHERE status = 'draft'"),
@@ -42,6 +43,7 @@ export async function onRequestGet(context) {
     countSafe(db, "SELECT COUNT(*) AS c FROM characters"),
     countSafe(db, "SELECT COUNT(*) AS c FROM content_blocks WHERE kind = 'series' AND blocked = 1"),
     countSafe(db, "SELECT COUNT(*) AS c FROM content_blocks WHERE kind = 'artist' AND blocked = 1"),
+    countSafe(db, "SELECT COUNT(*) AS c FROM player_custom_tags"),
   ]);
 
   return json(200, {
@@ -69,11 +71,14 @@ export async function onRequestGet(context) {
         blocked: blocksSeries,
         href: "#characters",
       },
+      extras: {
+        customTagUsers,
+      },
     },
     notes: [
-      "本总览来自 comfyui-web 素材库 D1（画师 / 角色 / 资讯）。",
-      "用户偏好、画泥、交易、画师串在 web 新账号游戏云端（6og）。",
-      "封面文件在 tk 原账号 R2；最高级屏蔽写入本站 content_blocks。",
+      "本总览来自 comfyui-web 素材库 D1（画师 / 角色 / 资讯 / 自建词条）。",
+      "偏好 / 画泥 / 留言 / 公告在 web 新 6og。",
+      "交流 / 玩家画师串 / 封面文件在 tk 原；最高级屏蔽写入本站 content_blocks。",
     ],
   });
 }
