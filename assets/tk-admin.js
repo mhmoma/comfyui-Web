@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.36";
+  const ADMIN_UI_VERSION = "1.37";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -151,6 +151,7 @@
 
   const PREF_LABELS = {
     seen_version: "更新日志已读",
+    changelog_ack: "更新日志已知晓",
     mud_codes: "已用兑换码",
     ui_theme: "界面主题",
     notice_seen_at: "公告已读时间",
@@ -160,17 +161,24 @@
     show_locked_series: "仅预览锁定列表",
     show_hidden_series: "解锁硬拦截(tk18)",
     show_adult_tags: "成人标签开关",
+    show_youth_tags: "年龄相关标签开关",
     fav_tags: "收藏标签",
     fav_artist_data: "收藏画师",
-    tag_usage: "标签使用统计",
+    tag_usage: "常用标签（前20）",
     recent_series: "最近作品",
     mud_balance: "画泥余额",
     mud_owned: "已购装扮",
     mud_equip: "当前装备",
     mud_ach_show: "成就展示",
-    mud_draw_day: "每日领泥",
+    mud_draw_day: "每日绘画领泥",
+    mud_draw_life: "累计绘画里程碑",
     admin_stamp: "管理改动戳",
     display_name: "平台昵称",
+    xiaoai_chat_model: "小艾对话模型",
+    tag_translate_provider: "标签翻译接口",
+    xiaoai_intimate: "小艾好感进度",
+    prompt_notepad: "提示词记事本",
+    session_draft: "会话草稿",
   };
   const THEME_LABELS = { hard: "硬朗框", ink: "水墨像素", hand: "手绘本" };
   const MUD_LABELS = {
@@ -186,7 +194,7 @@
     title_color: "调色大师", title_luck: "欧皇本皇",
   };
   const SLOT_LABELS = { nameBg: "名字底色", nameBorder: "姓名边框", nameFx: "名字闪光", crown: "头顶标识", title: "称号" };
-  const FLAG_PREF_KEYS = new Set(["show_locked_series", "show_hidden_series", "show_adult_tags"]);
+  const FLAG_PREF_KEYS = new Set(["show_locked_series", "show_hidden_series", "show_adult_tags", "show_youth_tags"]);
 
   function parsePrefJson(raw, fallback) {
     try { return JSON.parse(String(raw ?? "")); } catch (_) { return fallback; }
@@ -269,6 +277,33 @@
       const earned = obj.earned ?? obj.n ?? obj.count;
       if (day) return `日期 ${day}${earned != null && earned !== "" ? ` · 领取 ${earned}` : ""}`;
       return text.slice(0, 120) || "—";
+    }
+    if (key === "mud_draw_life") {
+      const obj = parsePrefJson(text, null);
+      if (!obj || typeof obj !== "object") return text || "—";
+      const count = Math.max(0, Math.floor(Number(obj.count) || 0));
+      const claimed = !!(obj.bonus10 || obj.bonus_10 || obj.claimed10);
+      return `累计 ${count} 张 · 满10奖励${claimed ? "已领" : "未领"}`;
+    }
+    if (key === "prompt_notepad") {
+      const arr = parsePrefJson(text, []);
+      if (!Array.isArray(arr)) return text ? "有内容" : "无";
+      return arr.length ? `${arr.length} 条记事` : "无";
+    }
+    if (key === "session_draft") {
+      const obj = parsePrefJson(text, null);
+      if (!obj || typeof obj !== "object") return text ? "有草稿" : "无";
+      const at = Number(obj.at) || 0;
+      return at ? `有草稿 · ${formatTime(at)}` : "有草稿";
+    }
+    if (key === "xiaoai_intimate") {
+      const obj = parsePrefJson(text, null);
+      if (!obj || typeof obj !== "object") return text || "—";
+      return `好感 ${Math.max(0, Math.floor(Number(obj.affinity) || 0))}`;
+    }
+    if (key === "changelog_ack") {
+      const ver = String(text).replace(/^"|"$/g, "");
+      return ver ? `已知晓 v${ver}` : "未确认";
     }
     if (text.length > 220) return `${text.slice(0, 220)}…`;
     return text || "—";
@@ -569,8 +604,12 @@
     const sessionCards = [
       { href: "users", k: "云端用户", v: c.users?.total ?? "—", s: "player_prefs" },
       { href: "economy", k: "画泥持有", v: c.economy?.holders ?? "—", s: `合计 ${c.economy?.mudSum ?? "—"}` },
+      { href: "economy", k: "满10张已领", v: c.drawLife?.claimed ?? "—", s: `有记录 ${c.drawLife?.tracked ?? "—"}` },
+      { href: "users", k: "邀请兑换", v: c.invite?.redeems ?? "—", s: `发码 ${c.invite?.codes ?? "—"}` },
+      { href: "economy", k: "钱包转账", v: c.wallet?.transfers ?? "—", s: "转账笔数" },
       { href: "notice", k: "当前公告", v: c.notice?.active ? "有" : (cloud ? "无" : "—"), s: "游戏顶栏" },
       { href: "board", k: "留言", v: c.board?.total ?? "—", s: "社区巡查" },
+      { href: "prefs", k: "记事本用户", v: c.extras?.notepadUsers ?? "—", s: "提示词记事本" },
       { href: "audit", k: "审计", v: c.audit?.total ?? "—", s: "运营操作" },
       { href: "prefs", k: "偏好条目", v: c.prefs?.total ?? "—", s: "明细页" },
     ];
@@ -608,7 +647,7 @@
                 <div class="acct-name">web 新</div>
                 <div class="acct-role">会话云端 D1</div>
                 <div class="acct-url mono">${escapeHtml(CLOUD_BASE.replace(/^https?:\/\//, ""))}</div>
-                <div class="acct-duty">偏好 · 画泥 · 留言 · 公告</div>
+                <div class="acct-duty">偏好 · 画泥 · 留言 · 公告 · 邀请 · 钱包 · 记事本</div>
                 ${acctPill(!cloudErr, cloudErr ? "不可用" : "已连通")}
               </div>
               <div class="acct-card">
@@ -632,7 +671,7 @@
         <section class="mod-section ${gameTone}">
           <div class="mod-section-head">
             <strong>${cloudErr ? "会话云端不可用" : "web 新 · 会话云端"}</strong>
-            <span class="meta">6og · prefs / 画泥 / 留言</span>
+            <span class="meta">6og · prefs / 画泥 / 邀请 / 钱包</span>
           </div>
           <div class="mod-section-body">
             ${cloudErr ? `<p class="err" style="margin:0 0 10px">${escapeHtml(cloudErr)}</p>` : ""}
@@ -1717,6 +1756,10 @@
           <div class="summary-card"><div class="k">个人隐藏</div><div class="v">${escapeHtml(String(blocks.length))}</div></div>
           <div class="summary-card"><div class="k">屏蔽例外</div><div class="v">${escapeHtml(String(allowAllowedCount))} / ${escapeHtml(String(allowBlockedTotal))}</div></div>
           <div class="summary-card"><div class="k">主题</div><div class="v">${escapeHtml(s.themeLabel || "—")}</div></div>
+          <div class="summary-card"><div class="k">累计绘画</div><div class="v">${escapeHtml(String(s.drawLife?.count ?? 0))} 张</div></div>
+          <div class="summary-card"><div class="k">满10奖励</div><div class="v">${s.drawLife?.bonus10 ? "已领" : "未领"}</div></div>
+          <div class="summary-card"><div class="k">记事本</div><div class="v">${escapeHtml(String(s.notepadCount ?? 0))} 条</div></div>
+          <div class="summary-card"><div class="k">小艾好感</div><div class="v">${escapeHtml(String(s.xiaoaiAffinity ?? 0))}</div></div>
         </div>
       </div>
 
@@ -1769,9 +1812,15 @@
         <p class="meta">后台改解锁/画泥/装扮后，玩家需重新打开游戏才会同步。作品 ID 可在「角色库」复制。</p>
         <div class="lazy-row flags">
           <label><input type="checkbox" id="flag-locked" ${s.lockedOn ? "checked" : ""}> 仅预览锁定列表（不真正解锁）</label>
-          <label><input type="checkbox" id="flag-hidden" ${s.hiddenOn ? "checked" : ""}> 解锁硬拦截（tk18，并入普通列表）</label>
+          <label><input type="checkbox" id="flag-hidden" ${s.hiddenOn ? "checked" : ""}> 解锁硬拦截（并入普通列表）</label>
           <label><input type="checkbox" id="flag-adult" ${s.adultOn ? "checked" : ""}> 成人标签</label>
+          <label><input type="checkbox" id="flag-youth" ${s.youthOn ? "checked" : ""}> 年龄相关标签</label>
           <button type="button" class="primary" id="save-flags">保存开关</button>
+        </div>
+        <div class="lazy-row" style="margin-top:8px">
+          <span class="meta">累计绘画 ${escapeHtml(String(s.drawLife?.count ?? 0))} 张 · 满10奖励 ${s.drawLife?.bonus10 ? "已领" : "未领"} · 草稿 ${s.hasSessionDraft ? "有" : "无"}</span>
+          <button type="button" class="warn" id="reset-draw-life">重置满10奖励（可再领）</button>
+          <button type="button" class="warn" id="reset-draw-life-full">清零累计+奖励</button>
         </div>
       </div>
 
@@ -1905,7 +1954,18 @@
       await userAction(userId, "set_flag", { key: "show_locked_series", value: !!$("flag-locked")?.checked });
       await userAction(userId, "set_flag", { key: "show_hidden_series", value: !!$("flag-hidden")?.checked });
       await userAction(userId, "set_flag", { key: "show_adult_tags", value: !!$("flag-adult")?.checked });
+      await userAction(userId, "set_flag", { key: "show_youth_tags", value: !!$("flag-youth")?.checked });
       alert("开关已保存");
+      render();
+    });
+    $("reset-draw-life")?.addEventListener("click", async () => {
+      if (!confirm(`重置 ${name} 的「满10张奖励」领取状态（保留累计次数，可再领一次）？`)) return;
+      await userAction(userId, "reset_draw_life", { keepCount: true });
+      render();
+    });
+    $("reset-draw-life-full")?.addEventListener("click", async () => {
+      if (!confirm(`清零 ${name} 的累计绘画次数，并允许重新领取满10奖励？`)) return;
+      await userAction(userId, "reset_draw_life", { keepCount: false });
       render();
     });
 
@@ -2398,11 +2458,13 @@
   function renderMap(root) {
     setTop("能力地图", "按模块对照：玩家侧能力 ↔ 后台能做什么。");
     const rows = [
-      ["用户档案", "主题/解锁/收藏/开关", "列表、详情编辑、清空档案", "可管", "#users"],
-      ["已读状态", "更新日志/公告/留言已读", "按类型筛选、删除", "可管", "#reads"],
-      ["画泥经济", "余额/装扮/装备/兑换码/每日领泥", "榜单、改余额、运营加减泥流水", "可管", "#economy"],
+      ["用户档案", "主题/解锁/收藏/开关/记事本/小艾进度", "列表、详情编辑、清空档案、重置满10奖励", "可管", "#users"],
+      ["已读状态", "更新日志/公告/留言已读/已知晓", "按类型筛选、删除", "可管", "#reads"],
+      ["画泥经济", "余额/装扮/兑换码/每日领泥/满10张奖励/转账", "榜单、改余额、流水、看里程碑", "可管", "#economy"],
+      ["邀请码", "邀请解锁全作品、邀请人+100泥", "总览统计；用户档案可查解锁态", "可管", "#users"],
+      ["钱包", "收款短码、玩家互转画泥", "总览转账笔数；余额在经济页改", "可管", "#economy"],
       ["玩家画师串", "自定义画师串+封面", "搜索、删条、清空用户", "可管", "#player-artists"],
-      ["偏好明细", "全部偏好（中文可读）", "筛选、搜索、删除", "可管", "#prefs"],
+      ["偏好明细", "全部云端偏好（含青年标签/记事本/草稿）", "筛选、搜索、删除", "可管", "#prefs"],
       ["画师串交流", "市场买卖", "搜/筛/批量删下架打码，UID 跳转", "可管", "#trade"],
       ["留言板", "全服聊天", "搜筛、按人删、禁言，UID 跳转", "可管", "#board"],
       ["公告", "游戏顶栏公告", "草稿/发布；同时仅 1 条生效", "可管", "#notice"],
@@ -2410,6 +2472,7 @@
       ["资讯", "站点教程", "发帖草稿发布", "可管", "#news"],
       ["素材入库", "—", "封面上传 R2 + 写 D1", "可管", "#catalog"],
       ["画师库/角色库", "官方检索素材", "搜索、最高级屏蔽、用户例外放行", "可管", "#artists"],
+      ["改图消耗", "参考图改图（扣泥）", "走画泥余额，无独立队列", "随经济", "#economy"],
       ["举报审核", "—", "暂无独立队列", "未建", ""],
     ];
     root.innerHTML = `
