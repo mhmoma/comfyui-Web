@@ -342,6 +342,13 @@ export function simpleMdToHtml(md) {
       continue;
     }
     if (line.trim() === '') { closeUl(); i += 1; continue; }
+    // Markdown 分隔线：--- / *** / ___（单独一行）
+    if (/^(-{3,}|\*{3,}|_{3,})\s*$/.test(line.trim())) {
+      closeUl();
+      out.push('<hr class="md-hr">');
+      i += 1;
+      continue;
+    }
     if (line.startsWith('![')) {
       closeUl();
       const m = line.match(/!\[([^\]]*)\]\(([^)]+)\)/);
