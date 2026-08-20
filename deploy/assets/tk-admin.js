@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.41";
+  const ADMIN_UI_VERSION = "1.42";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -104,6 +104,7 @@
     newsCategory: "",
     newsQ: "",
     newsEditingId: "",
+    newsAttachments: [],
   };
 
   const $ = (id) => document.getElementById(id);
@@ -1385,8 +1386,22 @@
             <input id="news-title" maxlength="120" placeholder="文章标题" value="${escapeHtml(editing?.title || "")}">
             <label class="news-label">作者 <span class="meta">默认「${escapeHtml(defaultAuthor)}」</span></label>
             <input id="news-author" maxlength="40" placeholder="${escapeHtml(defaultAuthor)}" value="${escapeHtml(defaultAuthor)}">
-            <label class="news-label">正文 <span class="meta" id="news-char-count">0 / 5000</span></label>
-            <textarea id="news-content" rows="10" maxlength="5000" placeholder="支持 Markdown：## 标题、**粗体**、- 列表">${escapeHtml(editing?.content || "")}</textarea>
+            <label class="news-label">正文 <span class="meta" id="news-char-count">0 / 48000</span></label>
+            <div class="news-rich-toolbar" id="news-toolbar">
+              <button type="button" data-tool="bold" title="粗体">粗体</button>
+              <button type="button" data-tool="code" title="代码块">代码</button>
+              <button type="button" data-tool="html" title="HTML 块（渲染）">HTML</button>
+              <button type="button" data-tool="css" title="CSS 块（本篇生效）">CSS</button>
+              <button type="button" data-tool="img-url" title="图片 URL">图URL</button>
+              <button type="button" data-tool="img-file" title="本地图/动图">本地导入</button>
+              <button type="button" data-tool="emoji" title="表情">表情</button>
+              <button type="button" data-tool="preview" title="预览渲染">预览</button>
+            </div>
+            <input type="file" id="news-file" accept="image/*,image/gif,.gif,.webp,.png,.jpg,.jpeg" hidden>
+            <div class="news-emoji-bar hidden" id="news-emoji-bar"></div>
+            <div class="news-attach-bar" id="news-attach-bar"></div>
+            <textarea id="news-content" rows="14" maxlength="48000" placeholder="支持 Markdown、表格、代码块；html/css 围栏会按效果渲染；图片可用工具插入">${escapeHtml(editing?.content || "")}</textarea>
+            <p class="meta" style="margin:4px 0 8px">附件点「插入」写到光标处；可改光标位置再插，实现贴文内任意位置。</p>
             <label class="news-label">摘要 <span class="meta">可选</span></label>
             <input id="news-summary" maxlength="200" placeholder="列表页摘要" value="${escapeHtml(editing?.summary || "")}">
             <label class="news-label">标签 <span class="meta">逗号分隔</span></label>
@@ -1555,11 +1570,208 @@
 
     const contentEl = root.querySelector("#news-content");
     const charEl = root.querySelector("#news-char-count");
+    const NEWS_MAX = 48000;
     const syncChar = () => {
-      if (charEl) charEl.textContent = `${(contentEl?.value || "").length} / 5000`;
+      if (charEl) charEl.textContent = `${(contentEl?.value || "").length} / ${NEWS_MAX}`;
     };
     syncChar();
     contentEl?.addEventListener("input", syncChar);
+
+    const insertAtCursor = (text) => {
+      if (!contentEl) return;
+      const start = contentEl.selectionStart ?? contentEl.value.length;
+      const end = contentEl.selectionEnd ?? start;
+      const before = contentEl.value.slice(0, start);
+      const after = contentEl.value.slice(end);
+      const next = before + text + after;
+      if (next.length > NEWS_MAX) {
+        newsMsg("超出字数上限", true);
+        return;
+      }
+      contentEl.value = next;
+      const pos = start + text.length;
+      contentEl.focus();
+      contentEl.setSelectionRange(pos, pos);
+      syncChar();
+    };
+
+    const renderAttachBar = () => {
+      const bar = root.querySelector("#news-attach-bar");
+      if (!bar) return;
+      const list = state.newsAttachments || [];
+      if (!list.length) {
+        bar.innerHTML = `<span class="meta">暂无附件。本地导入或图 URL 会显示在这里，点「插入」放到光标处。</span>`;
+        return;
+      }
+      bar.innerHTML = list.map((a, idx) => `
+        <div class="news-attach-chip" draggable="true" data-att-idx="${idx}">
+          <img src="${escapeHtml(a.url)}" alt="" loading="lazy">
+          <span class="meta" title="${escapeHtml(a.name || a.url)}">${escapeHtml((a.name || "图").slice(0, 12))}</span>
+          <button type="button" data-att-ins="${idx}">插入</button>
+          <button type="button" class="danger" data-att-del="${idx}">移除</button>
+        </div>`).join("");
+
+      let dragFrom = -1;
+      bar.querySelectorAll(".news-attach-chip").forEach((chip) => {
+        chip.addEventListener("dragstart", () => {
+          dragFrom = Number(chip.getAttribute("data-att-idx"));
+        });
+        chip.addEventListener("dragover", (e) => e.preventDefault());
+        chip.addEventListener("drop", (e) => {
+          e.preventDefault();
+          const to = Number(chip.getAttribute("data-att-idx"));
+          if (dragFrom < 0 || to < 0 || dragFrom === to) return;
+          const arr = state.newsAttachments.slice();
+          const [item] = arr.splice(dragFrom, 1);
+          arr.splice(to, 0, item);
+          state.newsAttachments = arr;
+          renderAttachBar();
+        });
+      });
+      bar.querySelectorAll("[data-att-ins]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const a = state.newsAttachments[Number(btn.getAttribute("data-att-ins"))];
+          if (!a?.url) return;
+          const alt = (a.name || "image").replace(/[\[\]]/g, "");
+          insertAtCursor(`![${alt}](${a.url})\n`);
+        });
+      });
+      bar.querySelectorAll("[data-att-del]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const i = Number(btn.getAttribute("data-att-del"));
+          state.newsAttachments.splice(i, 1);
+          renderAttachBar();
+        });
+      });
+    };
+    renderAttachBar();
+
+    const addAttachment = (url, name) => {
+      const u = String(url || "").trim();
+      if (!u) return;
+      state.newsAttachments = state.newsAttachments || [];
+      state.newsAttachments.push({
+        id: crypto.randomUUID?.() || String(Date.now()),
+        url: u,
+        name: name || "image",
+      });
+      renderAttachBar();
+    };
+
+    const EMOJIS = "😀😁😂🤣😊😍🤔😎😭🔥✅❌⭐🎉💡📌🚀💻🎨🖼📎".split("");
+    const emojiBar = root.querySelector("#news-emoji-bar");
+    if (emojiBar) {
+      emojiBar.innerHTML = EMOJIS.map((e) =>
+        `<button type="button" class="news-emoji-btn" data-emoji="${e}">${e}</button>`
+      ).join("");
+      emojiBar.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-emoji]");
+        if (!btn) return;
+        insertAtCursor(btn.getAttribute("data-emoji") || "");
+      });
+    }
+
+    const showPreview = async () => {
+      try {
+        const data = await assetApi("/api/articles/preview", {
+          method: "POST",
+          body: JSON.stringify({ content: contentEl?.value || "" }),
+        });
+        const overlay = document.createElement("div");
+        overlay.className = "news-preview-overlay";
+        overlay.innerHTML = `
+          <div class="news-preview-card">
+            <div class="toolbar">
+              <strong>正文预览</strong>
+              <span class="grow"></span>
+              <button type="button" id="news-preview-close">关闭</button>
+            </div>
+            <div class="article-content news-preview-body">${data.html || ""}</div>
+          </div>`;
+        document.body.appendChild(overlay);
+        const close = () => overlay.remove();
+        overlay.addEventListener("click", (ev) => { if (ev.target === overlay) close(); });
+        overlay.querySelector("#news-preview-close")?.addEventListener("click", close);
+      } catch (e) {
+        newsMsg(e.message || "预览失败", true);
+      }
+    };
+
+    const uploadNewsImage = async (file) => {
+      if (!file) return;
+      if (file.size > 2.4 * 1024 * 1024) {
+        newsMsg("文件过大（约 2.5MB 内），请压缩或改用图 URL", true);
+        return;
+      }
+      newsMsg("上传中…");
+      try {
+        const isGif = /gif$/i.test(file.type) || /\.gif$/i.test(file.name || "");
+        const image = isGif ? await fileToDataUrl(file) : await fileToCoverDataUrl(file, 1280, 0.88);
+        const slug = `n_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`;
+        const up = await assetApi("/api/admin/media-upload", {
+          method: "POST",
+          body: JSON.stringify({ kind: "news", slug, image }),
+        });
+        if (!up?.url) throw new Error(up?.message || "上传失败");
+        addAttachment(up.url, file.name || slug);
+        insertAtCursor(`![${(file.name || "image").replace(/[\[\]]/g, "")}](${up.url})\n`);
+        newsMsg("已上传并插入到光标处");
+      } catch (e) {
+        newsMsg(e.message || "上传失败", true);
+      }
+    };
+
+    root.querySelector("#news-file")?.addEventListener("change", async (e) => {
+      const file = e.target.files?.[0];
+      e.target.value = "";
+      await uploadNewsImage(file);
+    });
+
+    root.querySelector("#news-toolbar")?.addEventListener("click", async (e) => {
+      const btn = e.target.closest("[data-tool]");
+      if (!btn) return;
+      const tool = btn.getAttribute("data-tool");
+      if (tool === "bold") {
+        const ta = contentEl;
+        if (!ta) return;
+        const a = ta.selectionStart ?? 0;
+        const b = ta.selectionEnd ?? a;
+        const sel = ta.value.slice(a, b) || "粗体文字";
+        insertAtCursor(`**${sel}**`);
+        return;
+      }
+      if (tool === "code") {
+        insertAtCursor("```js\n// 代码\nconsole.log('ok');\n```\n");
+        return;
+      }
+      if (tool === "html") {
+        insertAtCursor("```html\n<p style=\"color:#0f5c48\"><strong>自定义 HTML</strong></p>\n```\n");
+        return;
+      }
+      if (tool === "css") {
+        insertAtCursor("```css\np { line-height: 1.7; }\n```\n");
+        return;
+      }
+      if (tool === "img-url") {
+        const url = prompt("图片 / 动图 URL（https://…）");
+        if (!url || !url.trim()) return;
+        const u = url.trim();
+        addAttachment(u, "url");
+        insertAtCursor(`![image](${u})\n`);
+        return;
+      }
+      if (tool === "img-file") {
+        root.querySelector("#news-file")?.click();
+        return;
+      }
+      if (tool === "emoji") {
+        emojiBar?.classList.toggle("hidden");
+        return;
+      }
+      if (tool === "preview") {
+        await showPreview();
+      }
+    });
 
     let currentCat = cat;
     root.querySelector("#news-cats")?.addEventListener("click", (e) => {
@@ -2958,7 +3170,7 @@
       ["留言板", "全服聊天", "6og 搜筛、按人删、禁言", "可管", "#board"],
       ["公告", "游戏顶栏公告", "6og 草稿/发布；同时仅 1 条生效", "可管", "#notice"],
       ["审计日志", "—", "6og 会话操作记录（不含交流打码）", "可管", "#audit"],
-      ["资讯", "站点教程", "素材站发帖草稿发布", "可管", "#news"],
+      ["资讯", "站点教程", "素材站发帖；主管理员可管次级资讯账号", "可管", "#news"],
       ["素材入库", "—", "封面上传 tk 原 R2 + 写本库 D1", "可管", "#catalog"],
       ["画师库/角色库", "官方检索素材", "本库搜索、最高级屏蔽、用户例外放行", "可管", "#artists"],
       ["自建词条", "玩家自定义中英词条", "落在素材库 D1（无独立页，总览见数量）", "只读统计", "#catalog"],
@@ -3011,9 +3223,17 @@
     try {
       await verifyAuth();
       showApp();
+      if (adminRole === "news") {
+        route = "news";
+        try { location.hash = "#news"; } catch (_) {}
+      }
+      routeFromHash();
       render();
     } catch (_) {
       setKey("");
+      adminRole = "full";
+      adminDisplayName = "";
+      assetAuthOk = false;
       showLogin("请重新登录");
     }
   }

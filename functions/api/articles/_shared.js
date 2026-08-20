@@ -184,11 +184,59 @@ function inlineMd(text) {
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
 }
 
+function escapeHtmlText(text) {
+  return String(text || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+/** 允许的标签；去掉 script/iframe/on* 等 */
+export function sanitizeHtml(html) {
+  let s = String(html || '');
+  s = s.replace(/<\s*(script|iframe|object|embed|form|input|link|meta|base)[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi, '');
+  s = s.replace(/<\s*(script|iframe|object|embed|form|input|link|meta|base)[^>]*\/?>/gi, '');
+  s = s.replace(/\son[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '');
+  s = s.replace(/\s(href|src)\s*=\s*(["'])\s*javascript:[^"']*\2/gi, ' $1="#"');
+  s = s.replace(/\s(href|src)\s*=\s*javascript:[^\s>]*/gi, ' $1="#"');
+  return s;
+}
+
+/** 正文内联样式：禁止 import / expression / javascript */
+export function sanitizeCss(css) {
+  let s = String(css || '');
+  s = s.replace(/@import[\s\S]*?;/gi, '');
+  s = s.replace(/expression\s*\(/gi, 'invalid(');
+  s = s.replace(/javascript\s*:/gi, 'invalid:');
+  s = s.replace(/-moz-binding\s*:/gi, 'invalid:');
+  s = s.replace(/behavior\s*:/gi, 'invalid:');
+  // 限制选择器作用域：包进 .article-content（简单前缀）
+  return s;
+}
+
+function scopeCss(css) {
+  const clean = sanitizeCss(css).trim();
+  if (!clean) return '';
+  // 粗略：每条规则前加 .article-content（已在 style 外层包 div 时仍加一层保险）
+  return clean.replace(/(^|})\s*([^{}@][^{]*)\{/g, (m, brace, sel) => {
+    const scoped = String(sel)
+      .split(',')
+      .map((part) => {
+        const p = part.trim();
+        if (!p) return p;
+        if (p.startsWith('.article-content')) return p;
+        if (p.startsWith('@')) return p;
+        return `.article-content ${p}`;
+      })
+      .join(', ');
+    return `${brace} ${scoped}{`;
+  });
+}
+
 export function simpleMdToHtml(md) {
   const lines = String(md || '').split('\n');
   const out = [];
   let inUl = false;
-  let inPre = false;
   let i = 0;
 
   function closeUl() {
@@ -213,23 +261,42 @@ export function simpleMdToHtml(md) {
     return t.includes('|') && !t.startsWith('```');
   }
 
+  function flushFence(lang, bodyLines) {
+    const body = bodyLines.join('\n');
+    const l = String(lang || '').trim().toLowerCase();
+    if (l === 'html' || l === 'htm') {
+      out.push(`<div class="md-html">${sanitizeHtml(body)}</div>`);
+      return;
+    }
+    if (l === 'css') {
+      const scoped = scopeCss(body);
+      if (scoped) out.push(`<style data-article-css>${scoped}</style>`);
+      out.push(`<pre class="md-code"><code class="language-css">${escapeHtmlText(body)}</code></pre>`);
+      return;
+    }
+    const cls = l ? ` language-${escapeHtmlText(l.replace(/[^a-z0-9_+-]/gi, ''))}` : '';
+    out.push(`<pre class="md-code"><code class="${cls.trim()}">${escapeHtmlText(body)}</code></pre>`);
+  }
+
   while (i < lines.length) {
     const line = lines[i];
 
+    // 围栏代码 / html / css
     if (line.startsWith('```')) {
       closeUl();
-      if (!inPre) { out.push('<pre><code>'); inPre = true; }
-      else { out.push('</code></pre>'); inPre = false; }
+      const lang = line.slice(3).trim();
       i += 1;
-      continue;
-    }
-    if (inPre) {
-      out.push(line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-      i += 1;
+      const bodyLines = [];
+      while (i < lines.length && !lines[i].startsWith('```')) {
+        bodyLines.push(lines[i]);
+        i += 1;
+      }
+      if (i < lines.length && lines[i].startsWith('```')) i += 1;
+      flushFence(lang, bodyLines);
       continue;
     }
 
-    // GFM 表格：表头 + 分隔行 + 数据行
+    // GFM 表格
     if (
       isTableRow(line)
       && i + 1 < lines.length
@@ -272,7 +339,13 @@ export function simpleMdToHtml(md) {
     if (line.startsWith('![')) {
       closeUl();
       const m = line.match(/!\[([^\]]*)\]\(([^)]+)\)/);
-      if (m) out.push(`<p><img src="${m[2]}" alt="${m[1]}" loading="lazy"></p>`);
+      if (m) {
+        const src = String(m[2] || '').trim();
+        const alt = escapeHtmlText(m[1] || '');
+        if (/^https?:\/\//i.test(src) || src.startsWith('/')) {
+          out.push(`<p class="md-img"><img src="${escapeHtmlText(src)}" alt="${alt}" loading="lazy"></p>`);
+        }
+      }
       i += 1;
       continue;
     }
@@ -281,6 +354,5 @@ export function simpleMdToHtml(md) {
     i += 1;
   }
   closeUl();
-  if (inPre) out.push('</code></pre>');
   return out.join('\n');
 }

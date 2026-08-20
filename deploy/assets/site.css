@@ -822,6 +822,37 @@ a:hover { color: var(--accent); }
     font-weight: 600;
     white-space: nowrap;
 }
+.article-content .md-code {
+    margin: 12px 0 16px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: var(--radius);
+    background: #1b1915;
+    color: #f4efe4;
+    font-size: 0.86rem;
+    line-height: 1.5;
+}
+.article-content .md-code code {
+    background: none;
+    padding: 0;
+    color: inherit;
+    font-family: Consolas, "Courier New", ui-monospace, monospace;
+    white-space: pre;
+}
+.article-content .md-html {
+    margin: 10px 0 14px;
+}
+.article-content .md-img {
+    margin: 12px 0;
+}
+.article-content .md-img img,
+.article-content .md-html img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    display: block;
+}
 .article-tags {
     display: flex;
     gap: 8px;

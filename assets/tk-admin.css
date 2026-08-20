@@ -820,3 +820,112 @@ iframe.embed {
   0% { transform: translateX(0); }
   100% { transform: translateX(-100%); }
 }
+
+/* 资讯富文本工具栏 / 附件 */
+.news-rich-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0 0 6px;
+}
+.news-rich-toolbar button {
+  min-height: 28px;
+  padding: 0 8px;
+  font-size: 0.78rem;
+}
+.news-emoji-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0 0 6px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: var(--radius);
+}
+.news-emoji-btn {
+  min-height: 28px;
+  min-width: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.news-attach-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 8px;
+  min-height: 28px;
+  align-items: center;
+}
+.news-attach-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: var(--radius);
+  cursor: grab;
+}
+.news-attach-chip img {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 2px;
+  background: #eee;
+}
+.news-attach-chip button {
+  min-height: 24px;
+  padding: 0 6px;
+  font-size: 0.72rem;
+}
+.news-preview-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.news-preview-card {
+  width: min(720px, 100%);
+  max-height: 85vh;
+  overflow: auto;
+  background: #f4efe4;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.news-preview-body {
+  margin-top: 8px;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid var(--line);
+  line-height: 1.6;
+}
+.news-preview-body img { max-width: 100%; height: auto; }
+.news-preview-body .md-code {
+  background: #1b1915;
+  color: #f4efe4;
+  padding: 10px;
+  overflow: auto;
+  font-size: 0.85rem;
+}
+.news-preview-body .md-table-wrap { overflow-x: auto; }
+.news-preview-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.news-preview-body th,
+.news-preview-body td {
+  border: 1px solid #ddd;
+  padding: 6px 8px;
+  text-align: left;
+}
+
