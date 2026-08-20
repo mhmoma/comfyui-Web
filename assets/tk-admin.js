@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.39";
+  const ADMIN_UI_VERSION = "1.40";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -97,6 +97,10 @@
     charsPage: 1,
     charsQ: "",
     charsFilter: "all",
+    newsStatus: "",
+    newsCategory: "",
+    newsQ: "",
+    newsEditingId: "",
   };
 
   const $ = (id) => document.getElementById(id);
@@ -552,7 +556,7 @@
       else if (route === "notice") await renderNotice(root);
       else if (route === "board") await renderBoard(root);
       else if (route === "trade") await renderTrade(root);
-      else if (route === "news") renderNews(root);
+      else if (route === "news") await renderNews(root);
       else if (route === "catalog") await renderCatalog(root);
       else if (route === "artists") await renderArtists(root);
       else if (route === "characters") await renderCharacters(root);
@@ -1215,12 +1219,308 @@
     bindOpenUser(root);
   }
 
-  function renderNews(root) {
-    setTop("资讯", "素材库 D1。发帖 / 草稿 / 发布仍用完整编辑器（同密钥，刷新不掉登录）。");
+  async function renderNews(root) {
+    setTop("资讯", "素材库 D1。原生发帖 / 草稿 / 发布，与运营台主 UI 同布局（同密钥）。");
+    const CAT_LABELS = { model: "模型动态", tutorial: "教程技巧", tool: "工具更新", community: "社区精选" };
+    const newsMsg = (text, isErr) => {
+      const el = root.querySelector("#news-msg");
+      if (!el) return;
+      el.textContent = text || "";
+      el.className = "meta" + (isErr ? " news-msg-err" : " news-msg-ok");
+      if (text) setTimeout(() => { if (el.textContent === text) el.textContent = ""; }, 4000);
+    };
+
+    const parseTags = (str) => String(str || "").split(/[,，]/).map((t) => t.trim()).filter(Boolean);
+    const articleUrl = (a) => {
+      if (a?.slug) return `/news/detail?slug=${encodeURIComponent(a.slug)}`;
+      if (a?.id) return `/news/detail?id=${encodeURIComponent(a.id)}`;
+      return "/news/";
+    };
+
+    let stats = { total: 0, published: 0, draft: 0 };
+    let articles = [];
+    let needsInit = false;
+    let loadErr = "";
+
+    try {
+      const params = new URLSearchParams({ limit: "100" });
+      if (state.newsStatus) params.set("status", state.newsStatus);
+      if (state.newsCategory) params.set("category", state.newsCategory);
+      if (state.newsQ) params.set("q", state.newsQ);
+      const [feed, st] = await Promise.all([
+        assetApi(`/api/articles?${params}`),
+        assetApi("/api/articles?stats=1").catch(() => null),
+      ]);
+      needsInit = !!feed.needs_init;
+      articles = feed.articles || [];
+      if (st?.stats) stats = st.stats;
+    } catch (e) {
+      loadErr = e.message || "加载失败";
+    }
+
+    let editing = null;
+    if (state.newsEditingId) {
+      try {
+        let detail;
+        try {
+          detail = await assetApi(`/api/articles/by-id/${encodeURIComponent(state.newsEditingId)}`);
+        } catch (_) {
+          detail = await assetApi(`/api/articles?id=${encodeURIComponent(state.newsEditingId)}`);
+        }
+        editing = detail.article || null;
+        if (!editing) state.newsEditingId = "";
+      } catch (_) {
+        state.newsEditingId = "";
+      }
+    }
+
+    const cat = editing?.category || "tool";
+    const isEdit = !!editing;
+
     root.innerHTML = `
-      <div class="panel" style="padding:0;overflow:hidden">
-        <iframe class="embed" src="/admin/news.html?embed=1" title="资讯管理"></iframe>
+      <div class="panel news-panel">
+        <div class="toolbar news-toolbar">
+          <span class="badge">全部 <b id="news-stat-total">${stats.total}</b></span>
+          <span class="badge" style="color:var(--ok)">已发布 <b>${stats.published}</b></span>
+          <span class="badge" style="color:var(--warn)">草稿 <b>${stats.draft}</b></span>
+          <span class="grow"></span>
+          <button type="button" id="news-init">初始化数据库</button>
+          <button type="button" id="news-refresh">刷新</button>
+          <a class="btn-link" href="/news/" target="_blank" rel="noopener">查看前台 →</a>
+        </div>
+        ${loadErr ? `<div class="panel err" style="margin:0 0 8px">${escapeHtml(loadErr)}</div>` : ""}
+        ${needsInit ? `<div class="panel warn" style="margin:0 0 8px">articles 表未初始化，请先点「初始化数据库」。</div>` : ""}
+        <div class="news-layout">
+          <div class="news-compose">
+            <div class="item-head" style="margin-bottom:6px">
+              <div>
+                <strong id="news-mode-label">${isEdit ? "编辑动态" : "发布新动态"}</strong>
+                <div class="meta" id="news-mode-hint">${isEdit ? `正在编辑：${escapeHtml(editing.title || "")}` : "内容将显示在资讯板块"}</div>
+              </div>
+              <button type="button" id="news-cancel-edit" class="${isEdit ? "" : "hidden"}">取消编辑</button>
+            </div>
+            <label class="news-label">标题 <span class="meta">可选</span></label>
+            <input id="news-title" maxlength="120" placeholder="文章标题" value="${escapeHtml(editing?.title || "")}">
+            <label class="news-label">作者 <span class="meta">默认「纵欲」</span></label>
+            <input id="news-author" maxlength="40" placeholder="纵欲" value="${escapeHtml(editing?.author || "纵欲")}">
+            <label class="news-label">正文 <span class="meta" id="news-char-count">0 / 5000</span></label>
+            <textarea id="news-content" rows="10" maxlength="5000" placeholder="支持 Markdown：## 标题、**粗体**、- 列表">${escapeHtml(editing?.content || "")}</textarea>
+            <label class="news-label">摘要 <span class="meta">可选</span></label>
+            <input id="news-summary" maxlength="200" placeholder="列表页摘要" value="${escapeHtml(editing?.summary || "")}">
+            <label class="news-label">标签 <span class="meta">逗号分隔</span></label>
+            <input id="news-tags" placeholder="教程, AI编程" value="${escapeHtml((editing?.tags || []).join(", "))}">
+            <label class="news-label">封面图 URL</label>
+            <input id="news-cover" type="url" placeholder="https://…" value="${escapeHtml(editing?.cover_url || "")}">
+            <div class="news-cats" id="news-cats">
+              ${["tool", "model", "tutorial", "community"].map((c) =>
+                `<button type="button" data-cat="${c}" class="${cat === c ? "active" : ""}">${CAT_LABELS[c]}</button>`
+              ).join("")}
+            </div>
+            <div class="toolbar" style="margin-top:8px;margin-bottom:0">
+              <label class="meta" style="display:flex;align-items:center;gap:6px">
+                <input type="checkbox" id="news-draft" ${editing?.status === "draft" ? "checked" : ""}> 存为草稿
+              </label>
+              <span class="grow"></span>
+              <button type="button" id="news-clear">清空</button>
+              <button type="button" class="primary" id="news-publish">${isEdit ? "保存修改" : "发布"}</button>
+            </div>
+            <p id="news-msg" class="meta" style="min-height:1.2em;margin:6px 0 0"></p>
+          </div>
+          <div class="news-list-col">
+            <div class="toolbar">
+              <input class="grow" id="news-q" placeholder="搜索标题 / 内容…" value="${escapeHtml(state.newsQ || "")}">
+              <button type="button" class="primary" id="news-search">搜索</button>
+            </div>
+            <div class="toolbar">
+              <button type="button" data-nstatus="" class="filter-chip ${!state.newsStatus ? "active" : ""}">全部</button>
+              <button type="button" data-nstatus="published" class="filter-chip ${state.newsStatus === "published" ? "active" : ""}">已发布</button>
+              <button type="button" data-nstatus="draft" class="filter-chip ${state.newsStatus === "draft" ? "active" : ""}">草稿</button>
+              <select id="news-filter-cat" style="max-width:140px">
+                <option value="">全部分类</option>
+                ${Object.entries(CAT_LABELS).map(([k, v]) =>
+                  `<option value="${k}" ${state.newsCategory === k ? "selected" : ""}>${v}</option>`
+                ).join("")}
+              </select>
+            </div>
+            <div class="table-wrap">
+              ${!articles.length
+                ? `<p class="meta">${needsInit ? "请先初始化数据库" : "没有匹配的内容"}</p>`
+                : `<table class="admin">
+                    <thead><tr><th>标题 / 摘要</th><th>分类</th><th>状态</th><th>时间</th><th>操作</th></tr></thead>
+                    <tbody>
+                      ${articles.map((a) => `
+                        <tr>
+                          <td>
+                            <div><strong>${escapeHtml(a.title || "")}</strong></div>
+                            <div class="meta">${escapeHtml(a.author || "纵欲")} · ${escapeHtml(a.summary || "")}</div>
+                          </td>
+                          <td><span class="badge">${escapeHtml(CAT_LABELS[a.category] || a.category || "")}</span></td>
+                          <td>${a.status === "draft"
+                            ? `<span class="badge warn">草稿</span>`
+                            : `<span class="badge" style="color:var(--ok)">已发布</span>`}</td>
+                          <td class="meta">${escapeHtml(formatTime(a.published_at))}</td>
+                          <td class="item-actions">
+                            <button type="button" data-edit="${escapeHtml(a.id)}">编辑</button>
+                            <a class="btn-link" href="${articleUrl(a)}" target="_blank" rel="noopener">预览</a>
+                            ${a.status === "draft"
+                              ? `<button type="button" data-pub="${escapeHtml(a.id)}">发布</button>`
+                              : `<button type="button" data-draft="${escapeHtml(a.id)}">转草稿</button>`}
+                            <button type="button" class="danger" data-del="${escapeHtml(a.id)}">删除</button>
+                          </td>
+                        </tr>`).join("")}
+                    </tbody>
+                  </table>`}
+            </div>
+          </div>
+        </div>
       </div>`;
+
+    const contentEl = root.querySelector("#news-content");
+    const charEl = root.querySelector("#news-char-count");
+    const syncChar = () => {
+      if (charEl) charEl.textContent = `${(contentEl?.value || "").length} / 5000`;
+    };
+    syncChar();
+    contentEl?.addEventListener("input", syncChar);
+
+    let currentCat = cat;
+    root.querySelector("#news-cats")?.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-cat]");
+      if (!btn) return;
+      currentCat = btn.getAttribute("data-cat");
+      root.querySelectorAll("#news-cats [data-cat]").forEach((b) => {
+        b.classList.toggle("active", b === btn);
+      });
+    });
+
+    const readForm = () => ({
+      title: root.querySelector("#news-title")?.value.trim() || "",
+      author: root.querySelector("#news-author")?.value.trim() || "纵欲",
+      content: root.querySelector("#news-content")?.value.trim() || "",
+      summary: root.querySelector("#news-summary")?.value.trim() || "",
+      tags: parseTags(root.querySelector("#news-tags")?.value),
+      cover_url: root.querySelector("#news-cover")?.value.trim() || "",
+      category: currentCat,
+      status: root.querySelector("#news-draft")?.checked ? "draft" : "published",
+    });
+
+    const patchById = async (id, payload) => {
+      try {
+        return await assetApi(`/api/articles/by-id/${encodeURIComponent(id)}`, {
+          method: "PATCH",
+          body: JSON.stringify(payload),
+        });
+      } catch (_) {
+        return assetApi(`/api/articles?id=${encodeURIComponent(id)}`, {
+          method: "PATCH",
+          body: JSON.stringify(payload),
+        });
+      }
+    };
+
+    const delById = async (id) => {
+      try {
+        return await assetApi(`/api/articles/by-id/${encodeURIComponent(id)}`, { method: "DELETE" });
+      } catch (_) {
+        return assetApi(`/api/articles?id=${encodeURIComponent(id)}`, { method: "DELETE" });
+      }
+    };
+
+    root.querySelector("#news-publish")?.addEventListener("click", async () => {
+      const form = readForm();
+      if (!form.content) { newsMsg("正文不能为空", true); return; }
+      const btn = root.querySelector("#news-publish");
+      if (btn) { btn.disabled = true; btn.textContent = isEdit ? "保存中…" : "发布中…"; }
+      try {
+        const payload = {
+          content: form.content,
+          title: form.title || undefined,
+          author: form.author,
+          summary: form.summary || undefined,
+          tags: form.tags,
+          category: form.category,
+          cover_url: form.cover_url,
+          status: form.status,
+        };
+        if (isEdit) await patchById(editing.id, payload);
+        else await assetApi("/api/articles", { method: "POST", body: JSON.stringify(payload) });
+        state.newsEditingId = "";
+        newsMsg(isEdit ? "修改已保存" : form.status === "draft" ? "草稿已保存" : "发布成功");
+        await render();
+      } catch (e) {
+        newsMsg(e.message || "保存失败", true);
+        if (btn) { btn.disabled = false; btn.textContent = isEdit ? "保存修改" : "发布"; }
+      }
+    });
+
+    root.querySelector("#news-clear")?.addEventListener("click", () => {
+      if (!confirm("清空当前编辑内容？")) return;
+      state.newsEditingId = "";
+      render();
+    });
+    root.querySelector("#news-cancel-edit")?.addEventListener("click", () => {
+      state.newsEditingId = "";
+      render();
+    });
+    root.querySelector("#news-refresh")?.addEventListener("click", () => render());
+    root.querySelector("#news-init")?.addEventListener("click", async () => {
+      try {
+        await assetApi("/api/articles/init", { method: "POST" });
+        newsMsg("数据库已初始化");
+        await render();
+      } catch (e) {
+        newsMsg(e.message || "初始化失败", true);
+      }
+    });
+
+    const runSearch = () => {
+      state.newsQ = root.querySelector("#news-q")?.value.trim() || "";
+      render();
+    };
+    root.querySelector("#news-search")?.addEventListener("click", runSearch);
+    root.querySelector("#news-q")?.addEventListener("keydown", (e) => { if (e.key === "Enter") runSearch(); });
+    root.querySelector("#news-filter-cat")?.addEventListener("change", (e) => {
+      state.newsCategory = e.target.value || "";
+      render();
+    });
+    root.querySelectorAll("[data-nstatus]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.newsStatus = btn.getAttribute("data-nstatus") || "";
+        render();
+      });
+    });
+    root.querySelectorAll("[data-edit]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.newsEditingId = btn.getAttribute("data-edit") || "";
+        render();
+      });
+    });
+    root.querySelectorAll("[data-pub]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        try {
+          await patchById(btn.getAttribute("data-pub"), { status: "published" });
+          await render();
+        } catch (e) { alert(e.message || "发布失败"); }
+      });
+    });
+    root.querySelectorAll("[data-draft]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        try {
+          await patchById(btn.getAttribute("data-draft"), { status: "draft" });
+          await render();
+        } catch (e) { alert(e.message || "操作失败"); }
+      });
+    });
+    root.querySelectorAll("[data-del]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        if (!confirm("删除这篇文章？不可恢复。")) return;
+        try {
+          await delById(btn.getAttribute("data-del"));
+          if (state.newsEditingId === btn.getAttribute("data-del")) state.newsEditingId = "";
+          await render();
+        } catch (e) { alert(e.message || "删除失败"); }
+      });
+    });
   }
 
   function fileToDataUrl(file) {

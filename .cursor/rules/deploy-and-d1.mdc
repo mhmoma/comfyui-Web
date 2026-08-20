@@ -6,7 +6,7 @@ alwaysApply: true
 
 # ComfyUI-Web 部署与 D1 数据库操作规范
 
-> **部署版本**: 1.228
+> **部署版本**: 1.230
 > **版本记录**: 见底部「版本历史」 
 > **重要**: 每次修改代码后，必须更新本文件的**部署版本号**和**版本历史**。凡前端相关代码变更（`index.html` / `script.js` / `style.css` 及 `deploy/` 对应文件），必须递增前端版本号与静态资源版本参数。
 
@@ -20,8 +20,8 @@ alwaysApply: true
 | 口称呼 | 域名 / 工程 | 账号 | 管什么 |
 |--------|-------------|------|--------|
 | **comfyui-web / 素材库** | `https://comfyui-web-89u.pages.dev`；本仓库 | 素材库专用账号 | 画师/角色库 D1、资讯、运营台页面 |
-| **web / 新账号** | `https://tk-game-cloud-6og.pages.dev`；`D:\桌宠\tk-game-cloud` | 控制台名 `web`（`19ac0925…`） | 正式游戏云端 D1（偏好/画泥/交易/画师串） |
-| **tk / 原账号** | `https://tk-game-cloud.pages.dev` + R2 `imtubro` | passinbox（`decf3492…`） | 图床；`/api/media` 代理；非正式存档 API |
+| **web / 新账号** | `https://tk-game-cloud-6og.pages.dev`；`D:\桌宠\tk-game-cloud` | 控制台名 `web`（`19ac0925…`） | 会话 D1（偏好/画泥/留言/公告）；**不走 git**，`.env` 的 `web_*` wrangler 直发 |
+| **tk / 原账号** | `https://tk-game-cloud.pages.dev` + R2 `imtubro` | passinbox（`decf3492…`） | 交流/画师串 D1 + 图床；**不走 git**，`.env` 的 `Tk_*` wrangler 直发 |
 
 ### 0.0 手动补录封面（必读）
 
@@ -44,9 +44,11 @@ alwaysApply: true
 1. 改源码（`admin/`、`assets/` 等）  
 2. **必须** `node scripts/sync-deploy.js`（或 `npm run sync:deploy`）同步到 `deploy/`  
 3. `git add` 源码 + `deploy/` 对应文件 +（如动到）`wrangler.toml` / 本规则  
-4. **只** `git push origin main` → Cloudflare Pages 自动部署  
+4. **只** `git push origin main` → Cloudflare Pages **自动部署**  
 5. **禁止** `git push deploy`（那是别的项目仓库）  
-6. **禁止**对本站 Pages 使用另一账号的 D1 id（见下）
+6. **禁止**对本站 `wrangler pages deploy`（git 会自动发；手动 wrangler 容易打到错账号）  
+7. **禁止**对本站 Pages 使用另一账号的 D1 id（见下）  
+8. 6og / tk 原 **不要**靠本仓库 git 上线，用工作区 `.env` 对应 key 做 wrangler
 
 ### 0.3 `wrangler.toml`（Pages 发布硬约束）
 
@@ -285,6 +287,8 @@ D1 绑定在 Settings → Functions → D1 database bindings：
 
 | 版本 | 日期 | 操作 | 说明 |
 |------|------|------|------|
+| 1.230 | 2026-08-20 | 资讯管理去 iframe | 运营台资讯改为原生全宽面板（对齐主 UI）；`ADMIN_UI_VERSION` 1.40；`tk-admin.js?v=40` / `tk-admin.css?v=19` |
+| 1.229 | 2026-08-19 | 部署口径 | 本站只 git 自动 Pages；6og/tk 原用 .env wrangler，不走 git |
 | 1.228 | 2026-08-19 | 运营台对齐三库 | 总览/地图标明 6og·tk原·素材站落点；自建词条进素材总览；错站 API 410 |
 | 1.227 | 2026-08-19 | 运营台分压修正 | 用户档案画师串计数/清空走 tk 原站；素材总览备注不再说交易在 6og |
 | 1.226 | 2026-08-16 | 交流/玩家图 R2 | 运营台适配 https 缩略图；硬删/打码联动删 R2（实现在 tk-game-cloud） |
