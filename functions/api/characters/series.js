@@ -19,13 +19,30 @@ export async function onRequestGet(context) {
       (await listEffectiveBlockedIds(db, "series", userId)).map((id) => String(id).toLowerCase())
     );
 
+    // 避免对每个系列做相关子查询（3690+ 系列时可达数秒～十几秒）
     const { results } = await db.prepare(
       `SELECT s.id, s.name,
-              (SELECT COUNT(*) FROM characters c WHERE c.series_id = s.id) AS char_count,
-              (SELECT c.thumb_url FROM characters c
-               WHERE c.series_id = s.id AND c.thumb_url IS NOT NULL AND c.thumb_url != ''
-               ORDER BY c.count DESC LIMIT 1) AS cover_url
+              COALESCE(cnt.n, 0) AS char_count,
+              cov.thumb_url AS cover_url
        FROM series s
+       LEFT JOIN (
+         SELECT series_id, COUNT(*) AS n
+         FROM characters
+         GROUP BY series_id
+       ) cnt ON cnt.series_id = s.id
+       LEFT JOIN (
+         SELECT c.series_id, c.thumb_url
+         FROM characters c
+         INNER JOIN (
+           SELECT series_id, MAX(count) AS max_count
+           FROM characters
+           WHERE thumb_url IS NOT NULL AND thumb_url != ''
+           GROUP BY series_id
+         ) best
+           ON best.series_id = c.series_id AND c.count = best.max_count
+         WHERE c.thumb_url IS NOT NULL AND c.thumb_url != ''
+         GROUP BY c.series_id
+       ) cov ON cov.series_id = s.id
        ORDER BY char_count DESC, s.name COLLATE NOCASE ASC`
     ).all();
 

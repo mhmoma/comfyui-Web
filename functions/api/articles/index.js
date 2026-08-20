@@ -52,7 +52,8 @@ export async function onRequestGet(context) {
       return json(200, { ok: true, stats });
     }
 
-    let sql = `SELECT id, slug, title, summary, cover_url, content, category, tags, author, status, published_at, created_at, updated_at
+    // 列表不拉 content，避免长文把首页/资讯列表拖慢
+    let sql = `SELECT id, slug, title, summary, cover_url, category, tags, author, status, published_at, created_at, updated_at
                FROM articles WHERE 1=1`;
     const binds = [];
 

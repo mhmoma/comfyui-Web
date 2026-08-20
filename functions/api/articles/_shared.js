@@ -33,21 +33,27 @@ CREATE TABLE IF NOT EXISTS news_admins (
 CREATE INDEX IF NOT EXISTS idx_news_admins_hash ON news_admins(key_hash);
 `;
 
-/** 旧库无 author 列时自动补齐（可重复调用） */
+let authorColumnReady = false;
+let newsAdminsReady = false;
+
+/** 旧库无 author 列时自动补齐（每 isolate 只试一次，避免每次 ALTER 拖垮 D1） */
 export async function ensureAuthorColumn(db) {
+  if (!db || authorColumnReady) return;
   try {
     await db.prepare(`ALTER TABLE articles ADD COLUMN author TEXT DEFAULT ''`).run();
   } catch {
     /* column already exists */
   }
+  authorColumnReady = true;
 }
 
 export async function ensureNewsAdminsTable(db) {
-  if (!db) return;
+  if (!db || newsAdminsReady) return;
   const stmts = NEWS_ADMINS_SCHEMA.split(';').map((s) => s.trim()).filter(Boolean);
   for (const stmt of stmts) {
     await db.prepare(stmt).run();
   }
+  newsAdminsReady = true;
 }
 
 export function normalizeAuthor(name) {
