@@ -43,6 +43,7 @@ function mdToHtml(md) {
     let inPre = false;
     let inUl = false;
     let inOl = false;
+    let i = 0;
 
     function closeLists() {
         if (inUl) { out.push('</ul>'); inUl = false; }
@@ -58,38 +59,86 @@ function mdToHtml(md) {
             .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
     }
 
-    for (const line of lines) {
+    function splitCells(line) {
+        let s = String(line || '').trim();
+        if (s.startsWith('|')) s = s.slice(1);
+        if (s.endsWith('|')) s = s.slice(0, -1);
+        return s.split('|').map((c) => c.trim());
+    }
+
+    function isSepRow(line) {
+        const cells = splitCells(line);
+        if (!cells.length) return false;
+        return cells.every((c) => /^:?-{3,}:?$/.test(c));
+    }
+
+    function isTableRow(line) {
+        const t = String(line || '').trim();
+        return t.includes('|') && !t.startsWith('```');
+    }
+
+    while (i < lines.length) {
+        const line = lines[i];
         if (line.startsWith('```')) {
             closeLists();
             if (!inPre) { out.push('<pre><code>'); inPre = true; }
             else { out.push('</code></pre>'); inPre = false; }
+            i += 1;
             continue;
         }
-        if (inPre) { out.push(line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')); continue; }
+        if (inPre) {
+            out.push(line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+            i += 1;
+            continue;
+        }
 
-        if (line.startsWith('### ')) { closeLists(); out.push(`<h3>${inline(line.slice(4))}</h3>`); continue; }
-        if (line.startsWith('## ')) { closeLists(); out.push(`<h2>${inline(line.slice(3))}</h2>`); continue; }
-        if (line.startsWith('# ')) { closeLists(); out.push(`<h1>${inline(line.slice(2))}</h1>`); continue; }
-        if (line.startsWith('> ')) { closeLists(); out.push(`<blockquote><p>${inline(line.slice(2))}</p></blockquote>`); continue; }
+        if (isTableRow(line) && i + 1 < lines.length && isSepRow(lines[i + 1])) {
+            closeLists();
+            const headers = splitCells(line);
+            i += 2;
+            const rows = [];
+            while (i < lines.length && isTableRow(lines[i]) && !isSepRow(lines[i])) {
+                rows.push(splitCells(lines[i]));
+                i += 1;
+            }
+            out.push('<div class="md-table-wrap"><table class="md-table">');
+            out.push('<thead><tr>' + headers.map((h) => `<th>${inline(h)}</th>`).join('') + '</tr></thead>');
+            out.push('<tbody>');
+            for (const row of rows) {
+                const cells = headers.map((_, idx) => row[idx] ?? '');
+                out.push('<tr>' + cells.map((c) => `<td>${inline(c)}</td>`).join('') + '</tr>');
+            }
+            out.push('</tbody></table></div>');
+            continue;
+        }
+
+        if (line.startsWith('### ')) { closeLists(); out.push(`<h3>${inline(line.slice(4))}</h3>`); i += 1; continue; }
+        if (line.startsWith('## ')) { closeLists(); out.push(`<h2>${inline(line.slice(3))}</h2>`); i += 1; continue; }
+        if (line.startsWith('# ')) { closeLists(); out.push(`<h1>${inline(line.slice(2))}</h1>`); i += 1; continue; }
+        if (line.startsWith('> ')) { closeLists(); out.push(`<blockquote><p>${inline(line.slice(2))}</p></blockquote>`); i += 1; continue; }
         if (/^[-*] /.test(line)) {
             if (!inUl) { closeLists(); out.push('<ul>'); inUl = true; }
             out.push(`<li>${inline(line.slice(2))}</li>`);
+            i += 1;
             continue;
         }
         if (/^\d+\. /.test(line)) {
             if (!inOl) { closeLists(); out.push('<ol>'); inOl = true; }
             out.push(`<li>${inline(line.replace(/^\d+\. /, ''))}</li>`);
+            i += 1;
             continue;
         }
-        if (line.trim() === '') { closeLists(); continue; }
+        if (line.trim() === '') { closeLists(); i += 1; continue; }
         if (line.startsWith('![')) {
             closeLists();
             const imgM = line.match(/!\[([^\]]*)\]\(([^)]+)\)/);
             if (imgM) out.push(`<p><img src="${imgM[2]}" alt="${imgM[1]}"></p>`);
+            i += 1;
             continue;
         }
         closeLists();
         out.push(`<p>${inline(line)}</p>`);
+        i += 1;
     }
     closeLists();
     if (inPre) out.push('</code></pre>');

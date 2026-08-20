@@ -188,29 +188,99 @@ export function simpleMdToHtml(md) {
   const lines = String(md || '').split('\n');
   const out = [];
   let inUl = false;
+  let inPre = false;
+  let i = 0;
 
   function closeUl() {
     if (inUl) { out.push('</ul>'); inUl = false; }
   }
 
-  for (const line of lines) {
-    if (line.startsWith('## ')) { closeUl(); out.push(`<h2>${inlineMd(line.slice(3))}</h2>`); continue; }
-    if (line.startsWith('### ')) { closeUl(); out.push(`<h3>${inlineMd(line.slice(4))}</h3>`); continue; }
+  function splitCells(line) {
+    let s = String(line || '').trim();
+    if (s.startsWith('|')) s = s.slice(1);
+    if (s.endsWith('|')) s = s.slice(0, -1);
+    return s.split('|').map((c) => c.trim());
+  }
+
+  function isSepRow(line) {
+    const cells = splitCells(line);
+    if (!cells.length) return false;
+    return cells.every((c) => /^:?-{3,}:?$/.test(c));
+  }
+
+  function isTableRow(line) {
+    const t = String(line || '').trim();
+    return t.includes('|') && !t.startsWith('```');
+  }
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    if (line.startsWith('```')) {
+      closeUl();
+      if (!inPre) { out.push('<pre><code>'); inPre = true; }
+      else { out.push('</code></pre>'); inPre = false; }
+      i += 1;
+      continue;
+    }
+    if (inPre) {
+      out.push(line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+      i += 1;
+      continue;
+    }
+
+    // GFM 表格：表头 + 分隔行 + 数据行
+    if (
+      isTableRow(line)
+      && i + 1 < lines.length
+      && isSepRow(lines[i + 1])
+    ) {
+      closeUl();
+      const headers = splitCells(line);
+      i += 2;
+      const rows = [];
+      while (i < lines.length && isTableRow(lines[i]) && !isSepRow(lines[i])) {
+        rows.push(splitCells(lines[i]));
+        i += 1;
+      }
+      out.push('<div class="md-table-wrap"><table class="md-table">');
+      out.push('<thead><tr>' + headers.map((h) => `<th>${inlineMd(h)}</th>`).join('') + '</tr></thead>');
+      out.push('<tbody>');
+      for (const row of rows) {
+        const cells = headers.map((_, idx) => row[idx] ?? '');
+        out.push('<tr>' + cells.map((c) => `<td>${inlineMd(c)}</td>`).join('') + '</tr>');
+      }
+      out.push('</tbody></table></div>');
+      continue;
+    }
+
+    if (line.startsWith('## ')) { closeUl(); out.push(`<h2>${inlineMd(line.slice(3))}</h2>`); i += 1; continue; }
+    if (line.startsWith('### ')) { closeUl(); out.push(`<h3>${inlineMd(line.slice(4))}</h3>`); i += 1; continue; }
+    if (line.startsWith('> ')) {
+      closeUl();
+      out.push(`<blockquote><p>${inlineMd(line.slice(2))}</p></blockquote>`);
+      i += 1;
+      continue;
+    }
     if (/^[-*] /.test(line)) {
       if (!inUl) { closeUl(); out.push('<ul>'); inUl = true; }
       out.push(`<li>${inlineMd(line.slice(2))}</li>`);
+      i += 1;
       continue;
     }
-    if (line.trim() === '') { closeUl(); continue; }
+    if (line.trim() === '') { closeUl(); i += 1; continue; }
     if (line.startsWith('![')) {
       closeUl();
       const m = line.match(/!\[([^\]]*)\]\(([^)]+)\)/);
       if (m) out.push(`<p><img src="${m[2]}" alt="${m[1]}" loading="lazy"></p>`);
+      i += 1;
       continue;
     }
     closeUl();
     out.push(`<p>${inlineMd(line)}</p>`);
+    i += 1;
   }
   closeUl();
+  if (inPre) out.push('</code></pre>');
   return out.join('\n');
 }
