@@ -19,30 +19,15 @@ export async function onRequestGet(context) {
       (await listEffectiveBlockedIds(db, "series", userId)).map((id) => String(id).toLowerCase())
     );
 
-    // 避免对每个系列做相关子查询（3690+ 系列时可达数秒～十几秒）
+    // 列表只要 id/name/count；封面按系列点开再取，避免 3600+ 行 JOIN + 大 JSON 把生图页拖死
     const { results } = await db.prepare(
-      `SELECT s.id, s.name,
-              COALESCE(cnt.n, 0) AS char_count,
-              cov.thumb_url AS cover_url
+      `SELECT s.id, s.name, COALESCE(cnt.n, 0) AS char_count
        FROM series s
        LEFT JOIN (
          SELECT series_id, COUNT(*) AS n
          FROM characters
          GROUP BY series_id
        ) cnt ON cnt.series_id = s.id
-       LEFT JOIN (
-         SELECT c.series_id, c.thumb_url
-         FROM characters c
-         INNER JOIN (
-           SELECT series_id, MAX(count) AS max_count
-           FROM characters
-           WHERE thumb_url IS NOT NULL AND thumb_url != ''
-           GROUP BY series_id
-         ) best
-           ON best.series_id = c.series_id AND c.count = best.max_count
-         WHERE c.thumb_url IS NOT NULL AND c.thumb_url != ''
-         GROUP BY c.series_id
-       ) cov ON cov.series_id = s.id
        ORDER BY char_count DESC, s.name COLLATE NOCASE ASC`
     ).all();
 
@@ -52,14 +37,18 @@ export async function onRequestGet(context) {
         id: r.id,
         name: r.name,
         count: r.char_count || 0,
-        cover_url: r.cover_url || null,
+        cover_url: null,
       }));
+
+    const cacheHeaders = userId
+      ? { "Cache-Control": "private, max-age=0, must-revalidate" }
+      : { "Cache-Control": "public, max-age=120, s-maxage=300" };
 
     return new Response(JSON.stringify(mapped), {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "private, max-age=0, must-revalidate",
+        ...cacheHeaders,
       },
     });
   } catch (e) {
