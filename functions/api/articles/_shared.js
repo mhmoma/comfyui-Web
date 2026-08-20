@@ -44,7 +44,10 @@ export async function ensureAuthorColumn(db) {
 
 export async function ensureNewsAdminsTable(db) {
   if (!db) return;
-  await db.exec(NEWS_ADMINS_SCHEMA);
+  const stmts = NEWS_ADMINS_SCHEMA.split(';').map((s) => s.trim()).filter(Boolean);
+  for (const stmt of stmts) {
+    await db.prepare(stmt).run();
+  }
 }
 
 export function normalizeAuthor(name) {
