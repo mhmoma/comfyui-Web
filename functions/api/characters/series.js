@@ -19,16 +19,9 @@ export async function onRequestGet(context) {
       (await listEffectiveBlockedIds(db, "series", userId)).map((id) => String(id).toLowerCase())
     );
 
-    // 列表只要 id/name/count；封面按系列点开再取，避免 3600+ 行 JOIN + 大 JSON 把生图页拖死
+    // 数量来自静态 series_char_counts.json；这里只返回系列目录，保证秒开
     const { results } = await db.prepare(
-      `SELECT s.id, s.name, COALESCE(cnt.n, 0) AS char_count
-       FROM series s
-       LEFT JOIN (
-         SELECT series_id, COUNT(*) AS n
-         FROM characters
-         GROUP BY series_id
-       ) cnt ON cnt.series_id = s.id
-       ORDER BY char_count DESC, s.name COLLATE NOCASE ASC`
+      `SELECT id, name FROM series ORDER BY name COLLATE NOCASE ASC`
     ).all();
 
     const mapped = (results || [])
@@ -36,13 +29,14 @@ export async function onRequestGet(context) {
       .map((r) => ({
         id: r.id,
         name: r.name,
-        count: r.char_count || 0,
+        count: 0,
         cover_url: null,
       }));
 
+    // 名称序足够稳定；前端会用 counts.json 覆盖 count 并排序展示
     const cacheHeaders = userId
       ? { "Cache-Control": "private, max-age=0, must-revalidate" }
-      : { "Cache-Control": "public, max-age=120, s-maxage=300" };
+      : { "Cache-Control": "public, max-age=300, s-maxage=600" };
 
     return new Response(JSON.stringify(mapped), {
       headers: {
