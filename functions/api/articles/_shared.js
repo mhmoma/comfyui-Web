@@ -22,6 +22,17 @@ CREATE INDEX IF NOT EXISTS idx_articles_published ON articles(published_at DESC)
 CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category);
 `;
 
+export const NEWS_ADMINS_SCHEMA = `
+CREATE TABLE IF NOT EXISTS news_admins (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL DEFAULT '',
+  key_hash TEXT NOT NULL UNIQUE,
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_news_admins_hash ON news_admins(key_hash);
+`;
+
 /** 旧库无 author 列时自动补齐（可重复调用） */
 export async function ensureAuthorColumn(db) {
   try {
@@ -29,6 +40,11 @@ export async function ensureAuthorColumn(db) {
   } catch {
     /* column already exists */
   }
+}
+
+export async function ensureNewsAdminsTable(db) {
+  if (!db) return;
+  await db.exec(NEWS_ADMINS_SCHEMA);
 }
 
 export function normalizeAuthor(name) {
@@ -57,9 +73,56 @@ export function corsPreflight() {
   });
 }
 
+/** 仅主管理员（环境变量 ADMIN_KEY） */
 export function checkAdmin(request, env) {
   const adminKey = request.headers.get('x-admin-key');
-  return env.ADMIN_KEY && adminKey === env.ADMIN_KEY;
+  return !!(env.ADMIN_KEY && adminKey && adminKey === env.ADMIN_KEY);
+}
+
+export async function hashAdminKey(key) {
+  const data = new TextEncoder().encode(String(key || ''));
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+export function generateNewsAdminKey() {
+  const bytes = crypto.getRandomValues(new Uint8Array(24));
+  return [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * 解析管理员身份：full = 主密钥；news = 次级资讯账号（D1）
+ * @returns {Promise<null|{role:'full'|'news', name:string, id?:string}>}
+ */
+export async function getAdminContext(request, env) {
+  const key = (request.headers.get('x-admin-key') || '').trim();
+  if (!key) return null;
+  if (env.ADMIN_KEY && key === env.ADMIN_KEY) {
+    return { role: 'full', name: '主管理员' };
+  }
+  const db = env.DB;
+  if (!db) return null;
+  try {
+    await ensureNewsAdminsTable(db);
+    const keyHash = await hashAdminKey(key);
+    const row = await db.prepare(
+      'SELECT id, name FROM news_admins WHERE key_hash = ? LIMIT 1'
+    ).bind(keyHash).first();
+    if (!row) return null;
+    return {
+      role: 'news',
+      name: String(row.name || '次级管理员').slice(0, 40) || '次级管理员',
+      id: row.id,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/** 主管理员或资讯次级账号 */
+export async function checkNewsEditor(request, env) {
+  const ctx = await getAdminContext(request, env);
+  return !!ctx;
 }
 
 export function rowToArticle(row, { includeContent = false } = {}) {

@@ -1,4 +1,11 @@
-import { ARTICLES_SCHEMA, ensureAuthorColumn, json, corsPreflight, checkAdmin } from './_shared.js';
+import {
+  ARTICLES_SCHEMA,
+  ensureAuthorColumn,
+  ensureNewsAdminsTable,
+  json,
+  corsPreflight,
+  checkAdmin,
+} from './_shared.js';
 
 export async function onRequestOptions() {
   return corsPreflight();
@@ -17,7 +24,8 @@ export async function onRequestPost(context) {
       await db.prepare(stmt).run();
     }
     await ensureAuthorColumn(db);
-    return json(200, { ok: true, message: 'articles 表已就绪（含 author）' });
+    await ensureNewsAdminsTable(db);
+    return json(200, { ok: true, message: 'articles / news_admins 表已就绪' });
   } catch (e) {
     return json(500, { error: e.message });
   }

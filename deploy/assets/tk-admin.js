@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.40";
+  const ADMIN_UI_VERSION = "1.41";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -27,6 +27,9 @@
   const MEDIA_PROXY_HOST = TRADE_BASE;
 
   let assetAuthOk = false;
+  /** full = 主管理员；news = 仅资讯次级账号 */
+  let adminRole = "full";
+  let adminDisplayName = "";
 
   const MODULES = [
     { id: "overview", label: "总览", group: "概览" },
@@ -437,16 +440,28 @@
     paintAdminVersion();
   }
 
+  function visibleModules() {
+    if (adminRole === "news") {
+      return MODULES.filter((m) => m.id === "news");
+    }
+    return MODULES;
+  }
+
   async function verifyAuth() {
-    // 会话云端 + 交易云端 + 素材库 三端密钥都要通
+    // 先探素材站：主密钥或资讯次级密钥
+    const auth = await assetApi("/api/articles/auth");
+    adminRole = auth.role === "news" ? "news" : "full";
+    adminDisplayName = auth.name || (adminRole === "news" ? "次级管理员" : "主管理员");
+    assetAuthOk = true;
+
+    if (adminRole === "news") {
+      // 次级账号只打素材站资讯，不校验 6og / tk 原
+      return;
+    }
+
+    // 主管理员：会话云端 + 交易云端也要通
     await cloudApi("/api/admin/overview");
     await tradeApi("/api/admin/overview");
-    try {
-      await assetApi("/api/articles/auth");
-      assetAuthOk = true;
-    } catch (_) {
-      assetAuthOk = false;
-    }
   }
 
   function assetGateHtml(feature) {
@@ -476,10 +491,17 @@
     try {
       await verifyAuth();
       showApp();
+      if (adminRole === "news") {
+        route = "news";
+        try { location.hash = "#news"; } catch (_) {}
+      }
       routeFromHash();
       render();
     } catch (err) {
       setKey("");
+      adminRole = "full";
+      adminDisplayName = "";
+      assetAuthOk = false;
       const msg = err.status === 403
         ? "密钥错误"
         : (err.status === 503 ? "云端未配置 ADMIN_KEY" : (err.message || "登录失败"));
@@ -489,16 +511,28 @@
 
   function logout() {
     setKey("");
+    adminRole = "full";
+    adminDisplayName = "";
+    assetAuthOk = false;
     showLogin("");
     if ($("admin-key")) $("admin-key").value = "";
   }
 
   function routeFromHash() {
     const id = String(location.hash || "#overview").replace(/^#/, "") || "overview";
-    route = MODULES.some((m) => m.id === id) ? id : "overview";
+    const mods = visibleModules();
+    if (adminRole === "news") {
+      route = "news";
+      return;
+    }
+    route = mods.some((m) => m.id === id) ? id : "overview";
   }
 
   function go(id) {
+    if (adminRole === "news" && id !== "news") {
+      location.hash = "news";
+      return;
+    }
     location.hash = id;
   }
 
@@ -524,13 +558,14 @@
   function renderNav() {
     const nav = $("nav");
     if (!nav) return;
+    const mods = visibleModules();
     const groups = [];
-    MODULES.forEach((m) => {
+    mods.forEach((m) => {
       const g = m.group || "其他";
       if (!groups.includes(g)) groups.push(g);
     });
     nav.innerHTML = groups.map((g) => {
-      const items = MODULES.filter((m) => (m.group || "其他") === g);
+      const items = mods.filter((m) => (m.group || "其他") === g);
       return `
         <div class="nav-group">
           <div class="nav-group-title">${escapeHtml(g)}</div>
@@ -1220,7 +1255,13 @@
   }
 
   async function renderNews(root) {
-    setTop("资讯", "素材库 D1。原生发帖 / 草稿 / 发布，与运营台主 UI 同布局（同密钥）。");
+    const isFull = adminRole === "full";
+    setTop(
+      "资讯",
+      isFull
+        ? "素材库 D1。主管理员可发帖，并在下方管理「仅资讯」次级账号。"
+        : `次级账号「${adminDisplayName || "资讯编辑"}」：仅可管理资讯，其它模块不可见。`
+    );
     const CAT_LABELS = { model: "模型动态", tutorial: "教程技巧", tool: "工具更新", community: "社区精选" };
     const newsMsg = (text, isErr) => {
       const el = root.querySelector("#news-msg");
@@ -1241,19 +1282,25 @@
     let articles = [];
     let needsInit = false;
     let loadErr = "";
+    let newsAdmins = [];
 
     try {
       const params = new URLSearchParams({ limit: "100" });
       if (state.newsStatus) params.set("status", state.newsStatus);
       if (state.newsCategory) params.set("category", state.newsCategory);
       if (state.newsQ) params.set("q", state.newsQ);
-      const [feed, st] = await Promise.all([
+      const tasks = [
         assetApi(`/api/articles?${params}`),
         assetApi("/api/articles?stats=1").catch(() => null),
-      ]);
+      ];
+      if (isFull) tasks.push(assetApi("/api/admin/news-admins").catch(() => ({ admins: [] })));
+      const results = await Promise.all(tasks);
+      const feed = results[0];
+      const st = results[1];
       needsInit = !!feed.needs_init;
       articles = feed.articles || [];
       if (st?.stats) stats = st.stats;
+      if (isFull) newsAdmins = results[2]?.admins || [];
     } catch (e) {
       loadErr = e.message || "加载失败";
     }
@@ -1276,20 +1323,55 @@
 
     const cat = editing?.category || "tool";
     const isEdit = !!editing;
+    const defaultAuthor = editing?.author
+      || (adminRole === "news" && adminDisplayName ? adminDisplayName : "纵欲");
 
     root.innerHTML = `
+      ${isFull ? `
+      <div class="panel" style="margin-bottom:8px">
+        <div class="item-head">
+          <div>
+            <strong>资讯次级账号</strong>
+            <div class="meta">仅能登录发资讯；密钥只在创建/重置时显示一次，请立刻复制发给对方。</div>
+          </div>
+        </div>
+        <div class="toolbar" style="margin-top:8px">
+          <input id="na-name" placeholder="显示名（如：小编阿花）" style="max-width:200px">
+          <input id="na-key" placeholder="自定义密钥（可空=自动生成）" class="grow">
+          <button type="button" class="primary" id="na-create">新增次级账号</button>
+        </div>
+        <p id="na-msg" class="meta" style="min-height:1.2em;margin:4px 0 8px"></p>
+        <div id="na-once" class="panel warn hidden" style="margin:0 0 8px"></div>
+        <div class="table-wrap">
+          ${newsAdmins.length ? `<table class="admin">
+            <thead><tr><th>名称</th><th>创建时间</th><th>操作</th></tr></thead>
+            <tbody>
+              ${newsAdmins.map((a) => `
+                <tr>
+                  <td><strong>${escapeHtml(a.name || "")}</strong><div class="meta mono">${escapeHtml(a.id)}</div></td>
+                  <td class="meta">${escapeHtml(formatTime(a.created_at))}</td>
+                  <td class="item-actions">
+                    <button type="button" data-na-reset="${escapeHtml(a.id)}">重置密钥</button>
+                    <button type="button" class="danger" data-na-del="${escapeHtml(a.id)}">删除</button>
+                  </td>
+                </tr>`).join("")}
+            </tbody>
+          </table>` : `<p class="meta">暂无次级账号。创建后把密钥发给对方，对方用同一登录框即可（只会看到资讯）。</p>`}
+        </div>
+      </div>` : ""}
       <div class="panel news-panel">
         <div class="toolbar news-toolbar">
+          <span class="badge">${isFull ? "主管理员" : "次级 · 仅资讯"}</span>
           <span class="badge">全部 <b id="news-stat-total">${stats.total}</b></span>
           <span class="badge" style="color:var(--ok)">已发布 <b>${stats.published}</b></span>
           <span class="badge" style="color:var(--warn)">草稿 <b>${stats.draft}</b></span>
           <span class="grow"></span>
-          <button type="button" id="news-init">初始化数据库</button>
+          ${isFull ? `<button type="button" id="news-init">初始化数据库</button>` : ""}
           <button type="button" id="news-refresh">刷新</button>
           <a class="btn-link" href="/news/" target="_blank" rel="noopener">查看前台 →</a>
         </div>
         ${loadErr ? `<div class="panel err" style="margin:0 0 8px">${escapeHtml(loadErr)}</div>` : ""}
-        ${needsInit ? `<div class="panel warn" style="margin:0 0 8px">articles 表未初始化，请先点「初始化数据库」。</div>` : ""}
+        ${needsInit ? `<div class="panel warn" style="margin:0 0 8px">articles 表未初始化，请主管理员先点「初始化数据库」。</div>` : ""}
         <div class="news-layout">
           <div class="news-compose">
             <div class="item-head" style="margin-bottom:6px">
@@ -1301,8 +1383,8 @@
             </div>
             <label class="news-label">标题 <span class="meta">可选</span></label>
             <input id="news-title" maxlength="120" placeholder="文章标题" value="${escapeHtml(editing?.title || "")}">
-            <label class="news-label">作者 <span class="meta">默认「纵欲」</span></label>
-            <input id="news-author" maxlength="40" placeholder="纵欲" value="${escapeHtml(editing?.author || "纵欲")}">
+            <label class="news-label">作者 <span class="meta">默认「${escapeHtml(defaultAuthor)}」</span></label>
+            <input id="news-author" maxlength="40" placeholder="${escapeHtml(defaultAuthor)}" value="${escapeHtml(defaultAuthor)}">
             <label class="news-label">正文 <span class="meta" id="news-char-count">0 / 5000</span></label>
             <textarea id="news-content" rows="10" maxlength="5000" placeholder="支持 Markdown：## 标题、**粗体**、- 列表">${escapeHtml(editing?.content || "")}</textarea>
             <label class="news-label">摘要 <span class="meta">可选</span></label>
@@ -1374,6 +1456,102 @@
           </div>
         </div>
       </div>`;
+
+    const showNaKey = (key, hint) => {
+      const box = root.querySelector("#na-once");
+      if (!box) return;
+      box.classList.remove("hidden");
+      box.innerHTML = `<strong>请立即复制密钥</strong>（只显示一次）<br>
+        <code class="mono" style="user-select:all;word-break:break-all">${escapeHtml(key)}</code>
+        <div class="meta" style="margin-top:6px">${escapeHtml(hint || "")}</div>
+        <button type="button" class="primary" id="na-copy" style="margin-top:8px">复制密钥</button>`;
+      box.querySelector("#na-copy")?.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(key);
+          const m = root.querySelector("#na-msg");
+          if (m) m.textContent = "已复制到剪贴板";
+        } catch (_) {
+          alert("复制失败，请手动选中密钥");
+        }
+      });
+    };
+
+    if (isFull) {
+      const naMsg = (t, err) => {
+        const el = root.querySelector("#na-msg");
+        if (!el) return;
+        el.textContent = t || "";
+        el.className = "meta" + (err ? " news-msg-err" : " news-msg-ok");
+      };
+      const bindNaRow = (scope) => {
+        scope.querySelectorAll("[data-na-reset]").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            if (!confirm("重置后旧密钥立即失效，确定？")) return;
+            try {
+              const data = await assetApi(`/api/admin/news-admins?id=${encodeURIComponent(btn.getAttribute("data-na-reset"))}`, {
+                method: "PATCH",
+                body: JSON.stringify({ reset_key: true }),
+              });
+              naMsg("已重置密钥");
+              if (data.key) showNaKey(data.key, data.hint);
+            } catch (e) {
+              naMsg(e.message || "重置失败", true);
+            }
+          });
+        });
+        scope.querySelectorAll("[data-na-del]").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            if (!confirm("删除该次级账号？对方将无法再登录发资讯。")) return;
+            try {
+              await assetApi(`/api/admin/news-admins?id=${encodeURIComponent(btn.getAttribute("data-na-del"))}`, {
+                method: "DELETE",
+              });
+              await render();
+            } catch (e) {
+              naMsg(e.message || "删除失败", true);
+            }
+          });
+        });
+      };
+      bindNaRow(root);
+      root.querySelector("#na-create")?.addEventListener("click", async () => {
+        const name = root.querySelector("#na-name")?.value.trim() || "";
+        const key = root.querySelector("#na-key")?.value.trim() || "";
+        try {
+          const data = await assetApi("/api/admin/news-admins", {
+            method: "POST",
+            body: JSON.stringify({ name: name || undefined, key: key || undefined }),
+          });
+          if (root.querySelector("#na-name")) root.querySelector("#na-name").value = "";
+          if (root.querySelector("#na-key")) root.querySelector("#na-key").value = "";
+          naMsg(`已创建「${data.admin?.name || ""}」——请先复制密钥，再点刷新`);
+          if (data.key) showNaKey(data.key, data.hint);
+          const panel = root.querySelector("#na-once")?.closest(".panel");
+          let tbody = panel?.querySelector("tbody");
+          if (!tbody && panel && data.admin) {
+            const wrap = panel.querySelector(".table-wrap");
+            if (wrap) {
+              wrap.innerHTML = `<table class="admin"><thead><tr><th>名称</th><th>创建时间</th><th>操作</th></tr></thead><tbody></tbody></table>`;
+              tbody = wrap.querySelector("tbody");
+            }
+          }
+          if (tbody && data.admin) {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td><strong>${escapeHtml(data.admin.name || "")}</strong><div class="meta mono">${escapeHtml(data.admin.id)}</div></td>
+              <td class="meta">${escapeHtml(formatTime(data.admin.created_at))}</td>
+              <td class="item-actions">
+                <button type="button" data-na-reset="${escapeHtml(data.admin.id)}">重置密钥</button>
+                <button type="button" class="danger" data-na-del="${escapeHtml(data.admin.id)}">删除</button>
+              </td>`;
+            tbody.prepend(tr);
+            bindNaRow(tr);
+          }
+        } catch (e) {
+          naMsg(e.message || "创建失败", true);
+        }
+      });
+    }
 
     const contentEl = root.querySelector("#news-content");
     const charEl = root.querySelector("#news-char-count");

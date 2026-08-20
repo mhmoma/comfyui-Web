@@ -1,5 +1,5 @@
 import {
-  json, corsPreflight, checkAdmin, rowToArticle,
+  json, corsPreflight, checkNewsEditor, rowToArticle,
   makeSlug, makeTitle, makeSummary,
   ensureAuthorColumn, normalizeAuthor, DEFAULT_AUTHOR,
 } from './_shared.js';
@@ -15,7 +15,7 @@ export async function onRequestGet(context) {
   await ensureAuthorColumn(db);
 
   const url = new URL(request.url);
-  const isAdmin = checkAdmin(request, env);
+  const isAdmin = await checkNewsEditor(request, env);
   const now = Date.now();
 
   const idParam = (url.searchParams.get('id') || '').trim();
@@ -92,7 +92,7 @@ export async function onRequestGet(context) {
 
 export async function onRequestPost(context) {
   const { request, env } = context;
-  if (!checkAdmin(request, env)) return json(403, { error: 'Forbidden' });
+  if (!(await checkNewsEditor(request, env))) return json(403, { error: 'Forbidden' });
 
   const db = env.DB;
   if (!db) return json(500, { error: 'Database not configured' });
@@ -145,7 +145,7 @@ async function getRowById(db, id) {
 
 export async function onRequestPatch(context) {
   const { request, env } = context;
-  if (!checkAdmin(request, env)) return json(403, { error: 'Forbidden' });
+  if (!(await checkNewsEditor(request, env))) return json(403, { error: 'Forbidden' });
 
   const db = env.DB;
   if (!db) return json(500, { error: 'Database not configured' });
@@ -190,7 +190,7 @@ export async function onRequestPatch(context) {
 
 export async function onRequestDelete(context) {
   const { request, env } = context;
-  if (!checkAdmin(request, env)) return json(403, { error: 'Forbidden' });
+  if (!(await checkNewsEditor(request, env))) return json(403, { error: 'Forbidden' });
 
   const db = env.DB;
   if (!db) return json(500, { error: 'Database not configured' });

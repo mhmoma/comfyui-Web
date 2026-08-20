@@ -44,6 +44,16 @@ CREATE INDEX IF NOT EXISTS idx_articles_status ON articles(status);
 CREATE INDEX IF NOT EXISTS idx_articles_published ON articles(published_at DESC);
 CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category);
 
+-- 资讯次级管理员（密钥仅存 SHA-256；明文只在创建/重置时返回一次）
+CREATE TABLE IF NOT EXISTS news_admins (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL DEFAULT '',
+  key_hash TEXT NOT NULL UNIQUE,
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_news_admins_hash ON news_admins(key_hash);
+
 -- 绘画大师全服留言板
 CREATE TABLE IF NOT EXISTS board_messages (
   id TEXT PRIMARY KEY,

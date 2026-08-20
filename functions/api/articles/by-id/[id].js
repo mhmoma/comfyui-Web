@@ -1,5 +1,5 @@
 import {
-  json, corsPreflight, checkAdmin, rowToArticle, makeTitle, makeSummary,
+  json, corsPreflight, checkNewsEditor, rowToArticle, makeTitle, makeSummary,
   ensureAuthorColumn, normalizeAuthor,
 } from '../_shared.js';
 
@@ -18,7 +18,7 @@ export async function onRequestGet(context) {
   await ensureAuthorColumn(db);
 
   const id = params.id;
-  const isAdmin = checkAdmin(request, env);
+  const isAdmin = await checkNewsEditor(request, env);
   const now = Date.now();
 
   try {
@@ -37,7 +37,7 @@ export async function onRequestGet(context) {
 
 export async function onRequestPatch(context) {
   const { request, env, params } = context;
-  if (!checkAdmin(request, env)) return json(403, { error: 'Forbidden' });
+  if (!(await checkNewsEditor(request, env))) return json(403, { error: 'Forbidden' });
 
   const db = env.DB;
   if (!db) return json(500, { error: 'Database not configured' });
@@ -79,7 +79,7 @@ export async function onRequestPatch(context) {
 
 export async function onRequestDelete(context) {
   const { request, env, params } = context;
-  if (!checkAdmin(request, env)) return json(403, { error: 'Forbidden' });
+  if (!(await checkNewsEditor(request, env))) return json(403, { error: 'Forbidden' });
 
   const db = env.DB;
   if (!db) return json(500, { error: 'Database not configured' });
