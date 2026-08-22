@@ -7971,6 +7971,26 @@
         return 0;
     }
 
+    /** 作品栏：角色数降序（同数再按中文名）；对象/属性固定置顶 */
+    function _sortSeriesSubgroupsByCharCount(group) {
+        if (!group?.subgroups?.length) return;
+        const base = [];
+        const series = [];
+        group.subgroups.forEach((sub) => {
+            if (!sub) return;
+            if (sub._seriesId) series.push(sub);
+            else if (sub.name === '对象' || sub.name === '属性') base.push(sub);
+            else base.push(sub);
+        });
+        series.sort((a, b) => {
+            const ca = Number(a._seriesCount) || _resolveSeriesCharCount(a._seriesId) || 0;
+            const cb = Number(b._seriesCount) || _resolveSeriesCharCount(b._seriesId) || 0;
+            if (cb !== ca) return cb - ca;
+            return String(a.name || '').localeCompare(String(b.name || ''), 'zh');
+        });
+        group.subgroups = [...base, ...series];
+    }
+
     function _patchSeriesCountsOnTagData() {
         if (_charGroupIdx < 0 || !_seriesCharCounts) return;
         const group = tagData[_charGroupIdx];
@@ -7978,6 +7998,7 @@
         group.subgroups.forEach(sub => {
             if (sub?._seriesId) sub._seriesCount = _resolveSeriesCharCount(sub._seriesId);
         });
+        _sortSeriesSubgroupsByCharCount(group);
     }
 
     async function _loadSeriesCharCounts() {
@@ -8033,6 +8054,7 @@
             }));
             group.subgroups = [...baseSubs, ...dbSubs];
         }
+        _sortSeriesSubgroupsByCharCount(group);
         return true;
     }
 
@@ -10399,8 +10421,15 @@
             return;
         }
 
-        let list = subs;
-        if (q) list = subs.filter(s => s.name.toLowerCase().includes(q));
+        let list = subs.slice();
+        if (q) list = list.filter(s => s.name.toLowerCase().includes(q));
+        // 展示序：角色数降序（与历史「按作品角色数量」一致；API 仅返回名称序以秒开）
+        list.sort((a, b) => {
+            const ca = Number(a._seriesCount) || _resolveSeriesCharCount(a._seriesId) || 0;
+            const cb = Number(b._seriesCount) || _resolveSeriesCharCount(b._seriesId) || 0;
+            if (cb !== ca) return cb - ca;
+            return String(a.name || '').localeCompare(String(b.name || ''), 'zh');
+        });
 
         const totalPages = Math.max(1, Math.ceil(list.length / _SERIES_PAGE_SIZE));
         if (_seriesListState.page > totalPages) _seriesListState.page = totalPages;

@@ -20,6 +20,7 @@ export async function onRequestGet(context) {
     );
 
     // 数量来自静态 series_char_counts.json；这里只返回系列目录，保证秒开
+    // 展示排序由前端按角色数降序完成（勿在此按 name 当最终 UI 序）
     const { results } = await db.prepare(
       `SELECT id, name FROM series ORDER BY name COLLATE NOCASE ASC`
     ).all();
@@ -33,7 +34,7 @@ export async function onRequestGet(context) {
         cover_url: null,
       }));
 
-    // 名称序足够稳定；前端会用 counts.json 覆盖 count 并排序展示
+    // 前端用 series_char_counts.json 覆盖 count，并按角色数降序展示
     const cacheHeaders = userId
       ? { "Cache-Control": "private, max-age=0, must-revalidate" }
       : { "Cache-Control": "public, max-age=300, s-maxage=600" };
