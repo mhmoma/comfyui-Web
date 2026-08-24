@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.43";
+  const ADMIN_UI_VERSION = "1.45";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -46,6 +46,7 @@
     { id: "catalog", label: "素材入库", group: "素材" },
     { id: "artists", label: "画师库", group: "素材" },
     { id: "characters", label: "角色库", group: "素材" },
+    { id: "tk188-tags", label: "重口18+标签", group: "素材" },
     { id: "news", label: "资讯", group: "素材" },
   ];
 
@@ -170,6 +171,7 @@
     show_hidden_series: "解锁硬拦截(tk18)",
     show_adult_tags: "成人标签开关",
     show_youth_tags: "年龄相关标签开关",
+    show_extreme_tags: "重口18+标签开关",
     fav_tags: "收藏标签",
     fav_artist_data: "收藏画师",
     tag_usage: "常用标签（前20）",
@@ -202,7 +204,7 @@
     title_color: "调色大师", title_luck: "欧皇本皇",
   };
   const SLOT_LABELS = { nameBg: "名字底色", nameBorder: "姓名边框", nameFx: "名字闪光", crown: "头顶标识", title: "称号" };
-  const FLAG_PREF_KEYS = new Set(["show_locked_series", "show_hidden_series", "show_adult_tags", "show_youth_tags"]);
+  const FLAG_PREF_KEYS = new Set(["show_locked_series", "show_hidden_series", "show_adult_tags", "show_youth_tags", "show_extreme_tags"]);
 
   function parsePrefJson(raw, fallback) {
     try { return JSON.parse(String(raw ?? "")); } catch (_) { return fallback; }
@@ -596,6 +598,7 @@
       else if (route === "catalog") await renderCatalog(root);
       else if (route === "artists") await renderArtists(root);
       else if (route === "characters") await renderCharacters(root);
+      else if (route === "tk188-tags") await renderTk188Tags(root);
       else if (route === "prefs") await renderPrefs(root);
       else if (route === "map") renderMap(root);
     } catch (err) {
@@ -1131,7 +1134,7 @@
   }
 
   async function renderTrade(root) {
-    setTop("画师串交流", "数据在 tk 原 D1 + R2。搜索卖家/标题，筛选打码；删 / 下架 / 打码。点 UID 进档案。");
+    setTop("画师串交流", "数据在 tk 原账号 D1（TRADE_BASE），不写 6og / 素材站。可打「优质」标；删 / 下架 / 打码。点 UID 进档案。");
     const q = encodeURIComponent(state.tradeQ || "");
     const blockedFlag = state.tradeBlocked ? "1" : "0";
     const data = await api(
@@ -1160,6 +1163,7 @@
         <div class="list">
           ${rows.length ? rows.map((row) => {
             const blocked = !!row.imageBlocked;
+            const featured = !!row.featured;
             const direct = String(row.image || "").trim();
             const thumb = blocked
               ? ""
@@ -1180,6 +1184,7 @@
                     <strong>${escapeHtml(row.title || "未命名")}</strong>
                     <div>
                       <span class="badge ${row.status === "off" ? "off" : ""}">${row.status === "off" ? "已下架" : "在售"}</span>
+                      ${featured ? `<span class="badge" style="background:#c41818;color:#fff">优质</span>` : ""}
                       ${blocked ? `<span class="badge warn">图片已屏蔽</span>` : ""}
                     </div>
                   </div>
@@ -1190,6 +1195,7 @@
                   } · ${Number(row.price) || 0} 画泥 · ${escapeHtml(formatTime(row.at))}</div>
                   <pre class="trigger">${escapeHtml(row.trigger || "")}</pre>
                   <div class="item-actions">
+                    <button type="button" data-feature="${escapeHtml(row.id)}" data-on="${featured ? "0" : "1"}">${featured ? "取消优质" : "标为优质"}</button>
                     <button type="button" class="warn" data-block="${escapeHtml(row.id)}" ${blocked || !row.hasImage ? "disabled" : ""}>屏蔽图片</button>
                     <button type="button" data-off="${escapeHtml(row.id)}" ${row.status === "off" ? "disabled" : ""}>强制下架</button>
                     <button type="button" class="danger" data-del="${escapeHtml(row.id)}">删除整条</button>
@@ -1231,6 +1237,17 @@
     $("trade-batch-off")?.addEventListener("click", () => runBatch("admin_batch_force_off", "批量强制下架？"));
     $("trade-batch-block")?.addEventListener("click", () => runBatch("admin_batch_block_image", "批量打码并删图？不可恢复。"));
     $("trade-batch-del")?.addEventListener("click", () => runBatch("admin_batch_delete", "批量删除？购买与收益也会清。"));
+    root.querySelectorAll("[data-feature]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const listingId = btn.getAttribute("data-feature");
+        const featured = btn.getAttribute("data-on") === "1";
+        await api("/api/artist-trade", {
+          method: "POST",
+          body: JSON.stringify({ action: "admin_set_featured", listingId, featured }),
+        });
+        render();
+      });
+    });
     root.querySelectorAll("[data-del]").forEach((btn) => {
       btn.addEventListener("click", async () => {
         if (!confirm("删除整条？购买记录与未领收益也会清除。")) return;
@@ -1964,6 +1981,144 @@
     return msg;
   }
 
+  async function renderTk188Tags(root) {
+    setTop("重口18+标签", "玩家端默认隐藏；控制台 tk188 解锁。线上 D1 优先，空则读 tk188-tags.json。");
+    root.innerHTML = `<div class="panel meta">加载中…</div>`;
+    let data = null;
+    try {
+      data = await assetApi("/api/admin/tk188-tags");
+    } catch (err) {
+      root.innerHTML = `<div class="panel err">${escapeHtml(err.message || "加载失败")}</div>`;
+      return;
+    }
+    const groups = Array.isArray(data.groups) ? data.groups : [];
+    const group = groups[0] || { name: "重口18+", subgroups: [] };
+    const subgroups = group.subgroups || [];
+    const tagCount = data.tagCount ?? subgroups.reduce((n, s) => n + (s.tags || []).length, 0);
+    const subOpts = subgroups.map((s) => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)}</option>`).join("");
+
+    const tables = subgroups.map((sub) => {
+      const rows = (sub.tags || []).map((tag) => `
+        <tr>
+          <td class="mono">${escapeHtml(tag.t)}</td>
+          <td>${escapeHtml(tag.d || "")}</td>
+          <td><button type="button" class="warn" data-del-tag="${escapeHtml(sub.name)}" data-tag-t="${escapeHtml(tag.t)}">删</button></td>
+        </tr>`).join("");
+      return `
+        <section class="mod-section">
+          <div class="mod-section-head"><strong>${escapeHtml(sub.name)}</strong><span class="meta">${(sub.tags || []).length} 条</span></div>
+          <div class="mod-section-body table-wrap">
+            <table class="admin">
+              <thead><tr><th>英文</th><th>中文</th><th></th></tr></thead>
+              <tbody>${rows || `<tr><td colspan="3" class="meta">暂无</td></tr>`}</tbody>
+            </table>
+          </div>
+        </section>`;
+    }).join("");
+
+    root.innerHTML = `
+      <div class="mod-stack">
+        <div class="summary-grid">
+          <div class="summary-card"><div class="k">标签数</div><div class="v">${escapeHtml(String(tagCount))}</div></div>
+          <div class="summary-card"><div class="k">数据源</div><div class="v">${escapeHtml(data.source || "—")}</div></div>
+          <div class="summary-card"><div class="k">更新</div><div class="v meta">${escapeHtml(data.updatedAt ? formatTime(data.updatedAt) : "静态默认")}</div></div>
+        </div>
+        <section class="mod-section">
+          <div class="mod-section-head"><strong>追加标签</strong></div>
+          <div class="mod-section-body lazy-row">
+            <select id="tk188-sub">${subOpts || `<option value="其他">其他</option>`}</select>
+            <input id="tk188-en" class="grow" placeholder="英文 tag（如 nose_hook）">
+            <input id="tk188-zh" placeholder="中文译名">
+            <button type="button" class="primary" id="tk188-add">追加</button>
+          </div>
+        </section>
+        ${tables || `<div class="panel meta">暂无子分类</div>`}
+        <section class="mod-section">
+          <div class="mod-section-head"><strong>JSON 编辑</strong><span class="meta">保存后玩家拉 /api/tk188-tags 即生效</span></div>
+          <div class="mod-section-body">
+            <textarea id="tk188-json" rows="16" style="width:100%;font-family:monospace">${escapeHtml(JSON.stringify(groups, null, 2))}</textarea>
+            <div class="lazy-row" style="margin-top:8px">
+              <button type="button" class="primary" id="tk188-save">保存到 D1</button>
+              <button type="button" id="tk188-reload">重新加载</button>
+            </div>
+          </div>
+        </section>
+      </div>`;
+
+    let workingGroups = JSON.parse(JSON.stringify(groups));
+
+    function syncJsonField() {
+      const ta = $("tk188-json");
+      if (ta) ta.value = JSON.stringify(workingGroups, null, 2);
+    }
+
+    async function saveAndReload() {
+      await assetApi("/api/admin/tk188-tags", {
+        method: "POST",
+        body: JSON.stringify({ groups: workingGroups }),
+      });
+      renderTk188Tags(root);
+    }
+
+    $("tk188-add")?.addEventListener("click", async () => {
+      const subName = String($("tk188-sub")?.value || "").trim();
+      const en = String($("tk188-en")?.value || "").trim().toLowerCase().replace(/\s+/g, "_");
+      const zh = String($("tk188-zh")?.value || "").trim();
+      if (!subName || !en) return alert("请选子分类并填英文 tag");
+      let g = workingGroups[0];
+      if (!g) {
+        g = { name: "重口18+", subgroups: [] };
+        workingGroups = [g];
+      }
+      let sub = (g.subgroups || []).find((s) => s.name === subName);
+      if (!sub) {
+        sub = { name: subName, tags: [] };
+        g.subgroups = g.subgroups || [];
+        g.subgroups.push(sub);
+      }
+      if ((sub.tags || []).some((t) => String(t.t).toLowerCase() === en)) return alert("该 tag 已存在");
+      sub.tags = sub.tags || [];
+      sub.tags.push({ t: en, d: zh || en });
+      try {
+        await saveAndReload();
+      } catch (err) {
+        alert(`保存失败：${err.message || err}`);
+      }
+    });
+
+    root.querySelectorAll("[data-del-tag]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const subName = btn.getAttribute("data-del-tag");
+        const t = btn.getAttribute("data-tag-t");
+        const g = workingGroups[0];
+        const sub = (g?.subgroups || []).find((s) => s.name === subName);
+        if (!sub) return;
+        sub.tags = (sub.tags || []).filter((tag) => String(tag.t) !== t);
+        try {
+          await saveAndReload();
+        } catch (err) {
+          alert(`删除失败：${err.message || err}`);
+        }
+      });
+    });
+
+    $("tk188-save")?.addEventListener("click", async () => {
+      try {
+        const parsed = JSON.parse(String($("tk188-json")?.value || "[]"));
+        await assetApi("/api/admin/tk188-tags", {
+          method: "POST",
+          body: JSON.stringify({ groups: parsed }),
+        });
+        alert("已保存");
+        renderTk188Tags(root);
+      } catch (err) {
+        alert(`保存失败：${err.message || err}`);
+      }
+    });
+
+    $("tk188-reload")?.addEventListener("click", () => renderTk188Tags(root));
+  }
+
   async function renderCatalog(root) {
     setTop("素材入库", "封面 → tk 原账号 R2；元数据 → comfyui-web 素材库 D1。");
     root.innerHTML = `
@@ -2510,6 +2665,7 @@
           <label><input type="checkbox" id="flag-hidden" ${s.hiddenOn ? "checked" : ""}> 解锁硬拦截（并入普通列表）</label>
           <label><input type="checkbox" id="flag-adult" ${s.adultOn ? "checked" : ""}> 成人标签</label>
           <label><input type="checkbox" id="flag-youth" ${s.youthOn ? "checked" : ""}> 年龄相关标签</label>
+          <label><input type="checkbox" id="flag-extreme" ${s.extremeOn ? "checked" : ""}> 重口18+标签</label>
           <button type="button" class="primary" id="save-flags">保存开关</button>
         </div>
         <div class="lazy-row" style="margin-top:8px">
@@ -2650,6 +2806,7 @@
       await userAction(userId, "set_flag", { key: "show_hidden_series", value: !!$("flag-hidden")?.checked });
       await userAction(userId, "set_flag", { key: "show_adult_tags", value: !!$("flag-adult")?.checked });
       await userAction(userId, "set_flag", { key: "show_youth_tags", value: !!$("flag-youth")?.checked });
+      await userAction(userId, "set_flag", { key: "show_extreme_tags", value: !!$("flag-extreme")?.checked });
       alert("开关已保存");
       render();
     });
