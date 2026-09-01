@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.45";
+  const ADMIN_UI_VERSION = "1.46";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -41,7 +41,7 @@
     { id: "economy", label: "画泥经济", group: "钱" },
     { id: "prefs", label: "偏好明细", group: "钱" },
     { id: "notice", label: "公告", group: "社区" },
-    { id: "trade", label: "画师串交流", group: "社区" },
+    { id: "trade", label: "画展区", group: "社区" },
     { id: "board", label: "留言板", group: "社区" },
     { id: "catalog", label: "素材入库", group: "素材" },
     { id: "artists", label: "画师库", group: "素材" },
@@ -76,6 +76,7 @@
     tradeStatus: "active",
     tradeQ: "",
     tradeBlocked: false,
+    tradeCategory: "all",
     auditPage: 1,
     auditQ: "",
     auditAction: "",
@@ -1134,11 +1135,12 @@
   }
 
   async function renderTrade(root) {
-    setTop("画师串交流", "数据在 tk 原账号 D1（TRADE_BASE），不写 6og / 素材站。可打「优质」标；删 / 下架 / 打码。点 UID 进档案。");
+    setTop("画展区", "数据在 tk 原账号 D1（TRADE_BASE）。可改角色/画风分类、优质标；删 / 下架 / 打码。点 UID 进档案。");
     const q = encodeURIComponent(state.tradeQ || "");
     const blockedFlag = state.tradeBlocked ? "1" : "0";
+    const cat = encodeURIComponent(state.tradeCategory || "all");
     const data = await api(
-      `/api/artist-trade?view=admin&status=${encodeURIComponent(state.tradeStatus)}&page=${state.tradePage}&q=${q}&imageBlocked=${blockedFlag}`
+      `/api/artist-trade?view=admin&status=${encodeURIComponent(state.tradeStatus)}&page=${state.tradePage}&q=${q}&imageBlocked=${blockedFlag}&category=${cat}`
     );
     const rows = data.rows || [];
     root.innerHTML = `
@@ -1149,6 +1151,13 @@
             <option value="active" ${state.tradeStatus === "active" ? "selected" : ""}>在售</option>
             <option value="off" ${state.tradeStatus === "off" ? "selected" : ""}>已下架</option>
             <option value="all" ${state.tradeStatus === "all" ? "selected" : ""}>全部</option>
+          </select>
+          <select id="trade-category" style="max-width:120px">
+            <option value="all" ${state.tradeCategory === "all" ? "selected" : ""}>分类全部</option>
+            <option value="character" ${state.tradeCategory === "character" ? "selected" : ""}>角色</option>
+            <option value="style" ${state.tradeCategory === "style" ? "selected" : ""}>画风</option>
+            <option value="featured" ${state.tradeCategory === "featured" ? "selected" : ""}>优质</option>
+            <option value="normal" ${state.tradeCategory === "normal" ? "selected" : ""}>普通</option>
           </select>
           <label class="meta" style="display:flex;align-items:center;gap:6px;white-space:nowrap">
             <input type="checkbox" id="trade-blocked" ${state.tradeBlocked ? "checked" : ""}> 仅打码
@@ -1185,6 +1194,7 @@
                     <div>
                       <span class="badge ${row.status === "off" ? "off" : ""}">${row.status === "off" ? "已下架" : "在售"}</span>
                       ${featured ? `<span class="badge" style="background:#c41818;color:#fff">优质</span>` : ""}
+                      <span class="badge">${row.category === "character" ? "角色" : "画风"}</span>
                       ${blocked ? `<span class="badge warn">图片已屏蔽</span>` : ""}
                     </div>
                   </div>
@@ -1196,6 +1206,7 @@
                   <pre class="trigger">${escapeHtml(row.trigger || "")}</pre>
                   <div class="item-actions">
                     <button type="button" data-feature="${escapeHtml(row.id)}" data-on="${featured ? "0" : "1"}">${featured ? "取消优质" : "标为优质"}</button>
+                    <button type="button" data-cat="${escapeHtml(row.id)}" data-to="${row.category === "character" ? "style" : "character"}">${row.category === "character" ? "改为画风" : "改为角色"}</button>
                     <button type="button" class="warn" data-block="${escapeHtml(row.id)}" ${blocked || !row.hasImage ? "disabled" : ""}>屏蔽图片</button>
                     <button type="button" data-off="${escapeHtml(row.id)}" ${row.status === "off" ? "disabled" : ""}>强制下架</button>
                     <button type="button" class="danger" data-del="${escapeHtml(row.id)}">删除整条</button>
@@ -1214,6 +1225,7 @@
     const runTradeSearch = () => {
       state.tradeQ = $("trade-q")?.value || "";
       state.tradeStatus = $("trade-status")?.value || "active";
+      state.tradeCategory = $("trade-category")?.value || "all";
       state.tradeBlocked = !!$("trade-blocked")?.checked;
       state.tradePage = 1;
       render();
@@ -1221,6 +1233,7 @@
     $("trade-search")?.addEventListener("click", runTradeSearch);
     $("trade-q")?.addEventListener("keydown", (e) => { if (e.key === "Enter") runTradeSearch(); });
     $("trade-status")?.addEventListener("change", runTradeSearch);
+    $("trade-category")?.addEventListener("change", runTradeSearch);
     $("trade-blocked")?.addEventListener("change", runTradeSearch);
     $("trade-refresh")?.addEventListener("click", () => render());
     $("trade-prev")?.addEventListener("click", () => { state.tradePage = Math.max(1, state.tradePage - 1); render(); });
@@ -1248,6 +1261,17 @@
         render();
       });
     });
+    root.querySelectorAll("[data-cat]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const listingId = btn.getAttribute("data-cat");
+        const category = btn.getAttribute("data-to") === "character" ? "character" : "style";
+        await api("/api/artist-trade", {
+          method: "POST",
+          body: JSON.stringify({ action: "admin_set_category", listingId, category }),
+        });
+        render();
+      });
+    });
     root.querySelectorAll("[data-del]").forEach((btn) => {
       btn.addEventListener("click", async () => {
         if (!confirm("删除整条？购买记录与未领收益也会清除。")) return;
@@ -1264,7 +1288,7 @@
     });
     root.querySelectorAll("[data-off]").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        if (!confirm("强制下架该画师串？")) return;
+        if (!confirm("强制下架该投稿？")) return;
         await api("/api/artist-trade", { method: "POST", body: JSON.stringify({ action: "admin_force_off", listingId: btn.getAttribute("data-off") }) });
         render();
       });
@@ -3323,7 +3347,7 @@
       ["钱包", "收款短码、玩家互转画泥", "6og 转账笔数；余额在经济页改", "可管", "#economy"],
       ["玩家画师串", "自定义画师串+封面", "tk 原：搜索、删条、清空用户", "可管", "#player-artists"],
       ["偏好明细", "全部云端偏好（含青年标签/记事本/草稿）", "6og 筛选、搜索、删除", "可管", "#prefs"],
-      ["画师串交流", "市场买卖", "tk 原：搜/筛/批量删下架打码", "可管", "#trade"],
+      ["画展区", "分类展销", "tk 原：角色/画风/优质 · 搜/筛/批量", "可管", "#trade"],
       ["留言板", "全服聊天", "6og 搜筛、按人删、禁言", "可管", "#board"],
       ["公告", "游戏顶栏公告", "6og 草稿/发布；同时仅 1 条生效", "可管", "#notice"],
       ["审计日志", "—", "6og 会话操作记录（不含交流打码）", "可管", "#audit"],
