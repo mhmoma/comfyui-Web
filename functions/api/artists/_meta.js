@@ -1,5 +1,7 @@
 export const ARTISTS_META_JSON = "/artists-meta.json";
 
+let bootstrapInflight = null;
+
 export async function loadArtistsMeta(request) {
   try {
     const url = new URL(ARTISTS_META_JSON, request.url);
@@ -50,9 +52,65 @@ export async function readAppMetaTotal(db, letter) {
   }
 }
 
+async function writeAppMeta(db, key, value) {
+  await ensureAppMetaTable(db);
+  await db.prepare(
+    "INSERT OR REPLACE INTO app_meta (key, value, updated_at) VALUES (?, ?, ?)"
+  ).bind(key, String(value), Date.now()).run();
+}
+
+/** 额度恢复后首次缺 total 时自动 COUNT 一次并写入 app_meta，之后只读 1 行。 */
+async function bootstrapArtistTotal(db, letter) {
+  const cacheKey = !letter || letter === "all" ? "all" : letter;
+  if (bootstrapInflight && bootstrapInflight.key === cacheKey) {
+    return bootstrapInflight.promise;
+  }
+
+  const promise = (async () => {
+    const existing = await readAppMetaTotal(db, letter);
+    if (existing != null) return existing;
+
+    let where = "";
+    const binds = [];
+    let metaKey = "artists_total";
+
+    if (letter && letter !== "all") {
+      metaKey = letter === "other" ? "artists_letter_other" : `artists_letter_${letter}`;
+      if (letter === "other") {
+        where = " WHERE LOWER(SUBSTR(name, 1, 1)) NOT BETWEEN 'a' AND 'z'";
+      } else if (/^[a-z]$/.test(letter)) {
+        where = " WHERE LOWER(SUBSTR(name, 1, 1)) = ?";
+        binds.push(letter);
+      } else {
+        return null;
+      }
+    }
+
+    const { results } = await db.prepare(`SELECT COUNT(*) AS cnt FROM artists${where}`).bind(...binds).all();
+    const total = Number(results[0]?.cnt) || 0;
+    await writeAppMeta(db, metaKey, total);
+    return total;
+  })();
+
+  bootstrapInflight = { key: cacheKey, promise };
+  try {
+    return await promise;
+  } finally {
+    if (bootstrapInflight?.promise === promise) bootstrapInflight = null;
+  }
+}
+
 export async function resolveArtistTotal(db, request, letter) {
   const meta = await loadArtistsMeta(request);
   let total = metaTotalForLetter(meta, letter);
   if (total != null) return total;
-  return readAppMetaTotal(db, letter);
+
+  total = await readAppMetaTotal(db, letter);
+  if (total != null) return total;
+
+  try {
+    return await bootstrapArtistTotal(db, letter);
+  } catch (_) {
+    return null;
+  }
 }

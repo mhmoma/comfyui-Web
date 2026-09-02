@@ -99,7 +99,7 @@ export async function onRequestPost(context) {
       return json(200, {
         ok: true,
         ...meta,
-        message: "app_meta rebuilt; run node scripts/build-artists-meta.js for static JSON",
+        message: "app_meta rebuilt",
       });
     }
 
