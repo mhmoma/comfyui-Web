@@ -25,8 +25,13 @@ export async function onRequestGet(context) {
   const sortDir = VALID_ORDER[orderParam] || "DESC";
 
   try {
-    await ensureContentBlocks(db);
-    const blocked = await listEffectiveBlockedIds(db, "artist", userId);
+    let blocked = [];
+    try {
+      await ensureContentBlocks(db);
+      blocked = await listEffectiveBlockedIds(db, "artist", userId);
+    } catch (_) {
+      /* D1 不可用时跳过屏蔽，保证列表可读 */
+    }
     const conditions = [];
     const binds = [];
 
