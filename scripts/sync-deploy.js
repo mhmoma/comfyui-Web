@@ -35,10 +35,13 @@ function main() {
 
     const files = [
         ['index.html', 'index.html'],
+        ['tk188-tags.json', 'tk188-tags.json'],
         ['feed.xml', 'feed.xml'],
         ['sitemap.xml', 'sitemap.xml'],
         ['manifest.webmanifest', 'manifest.webmanifest'],
         ['sw.js', 'sw.js'],
+        ['series-list-20260811.json', 'series-list-20260811.json'],
+        ['artists-meta.json', 'artists-meta.json'],
     ];
     for (const [src, dest] of files) {
         const srcPath = path.join(ROOT, src);

@@ -1,7 +1,19 @@
 import { ensureContentBlocks, listEffectiveBlockedIds } from "../content-blocks/_shared.js";
 
+const SERIES_JSON = "/series-list-20260811.json";
+
+async function loadSeriesStatic(request) {
+  const staticUrl = new URL(SERIES_JSON, request.url);
+  const staticRes = await fetch(staticUrl.toString(), {
+    cf: { cacheEverything: true, cacheTtl: 86400 },
+  });
+  if (!staticRes.ok) return null;
+  const data = await staticRes.json();
+  return Array.isArray(data) ? data : null;
+}
+
 export async function onRequestGet(context) {
-  const { env } = context;
+  const { env, request } = context;
   const db = env.DB;
 
   if (!db) {
@@ -13,31 +25,42 @@ export async function onRequestGet(context) {
 
   try {
     await ensureContentBlocks(db);
-    const url = new URL(context.request.url);
+    const url = new URL(request.url);
     const userId = String(url.searchParams.get("userId") || "").trim().slice(0, 80);
     const blocked = new Set(
       (await listEffectiveBlockedIds(db, "series", userId)).map((id) => String(id).toLowerCase())
     );
 
-    // 数量来自静态 series_char_counts.json；这里只返回系列目录，保证秒开
-    // 展示排序由前端按角色数降序完成（勿在此按 name 当最终 UI 序）
-    const { results } = await db.prepare(
-      `SELECT id, name FROM series ORDER BY name COLLATE NOCASE ASC`
-    ).all();
+    let mapped = null;
+    const staticList = await loadSeriesStatic(request);
+    if (staticList) {
+      mapped = staticList
+        .filter((r) => !blocked.has(String(r.id || "").toLowerCase()))
+        .map((r) => ({
+          id: r.id,
+          name: r.name,
+          count: Number(r.count) || 0,
+          cover_url: r.cover_url || null,
+        }));
+    }
 
-    const mapped = (results || [])
-      .filter((r) => !blocked.has(String(r.id || "").toLowerCase()))
-      .map((r) => ({
-        id: r.id,
-        name: r.name,
-        count: 0,
-        cover_url: null,
-      }));
+    if (!mapped) {
+      const { results } = await db.prepare(
+        `SELECT id, name FROM series ORDER BY name COLLATE NOCASE ASC`
+      ).all();
+      mapped = (results || [])
+        .filter((r) => !blocked.has(String(r.id || "").toLowerCase()))
+        .map((r) => ({
+          id: r.id,
+          name: r.name,
+          count: 0,
+          cover_url: null,
+        }));
+    }
 
-    // 前端用 series_char_counts.json 覆盖 count，并按角色数降序展示
     const cacheHeaders = userId
       ? { "Cache-Control": "private, max-age=0, must-revalidate" }
-      : { "Cache-Control": "public, max-age=300, s-maxage=600" };
+      : { "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800" };
 
     return new Response(JSON.stringify(mapped), {
       headers: {

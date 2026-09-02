@@ -22,6 +22,45 @@ const CORS = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-key",
 };
 
+async function ensureAppMetaTable(db) {
+  await db.prepare(
+    `CREATE TABLE IF NOT EXISTS app_meta (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL,
+      updated_at INTEGER NOT NULL
+    )`
+  ).run();
+}
+
+async function writeMetaKey(db, key, value) {
+  await ensureAppMetaTable(db);
+  await db.prepare(
+    "INSERT OR REPLACE INTO app_meta (key, value, updated_at) VALUES (?, ?, ?)"
+  ).bind(key, String(value), Date.now()).run();
+}
+
+async function rebuildArtistsMeta(db) {
+  const { results } = await db.prepare("SELECT COUNT(*) as cnt FROM artists").all();
+  const total = Number(results[0]?.cnt) || 0;
+  await writeMetaKey(db, "artists_total", total);
+
+  const letters = {};
+  for (const ch of "abcdefghijklmnopqrstuvwxyz") {
+    const row = await db.prepare(
+      "SELECT COUNT(*) AS cnt FROM artists WHERE LOWER(SUBSTR(name, 1, 1)) = ?"
+    ).bind(ch).first();
+    letters[ch] = Number(row?.cnt) || 0;
+    await writeMetaKey(db, `artists_letter_${ch}`, letters[ch]);
+  }
+  const otherRow = await db.prepare(
+    "SELECT COUNT(*) AS cnt FROM artists WHERE LOWER(SUBSTR(name, 1, 1)) NOT BETWEEN 'a' AND 'z'"
+  ).first();
+  letters.other = Number(otherRow?.cnt) || 0;
+  await writeMetaKey(db, "artists_letter_other", letters.other);
+
+  return { total, letters };
+}
+
 export async function onRequestOptions() {
   return new Response(null, { status: 204, headers: { ...CORS, "Access-Control-Max-Age": "86400" } });
 }
@@ -51,8 +90,17 @@ export async function onRequestPost(context) {
     }
 
     if (action === "status") {
-      const { results } = await db.prepare("SELECT COUNT(*) as cnt FROM artists").all();
-      return json(200, { ok: true, artists: results[0]?.cnt || 0 });
+      const meta = await rebuildArtistsMeta(db);
+      return json(200, { ok: true, artists: meta.total });
+    }
+
+    if (action === "rebuild-meta") {
+      const meta = await rebuildArtistsMeta(db);
+      return json(200, {
+        ok: true,
+        ...meta,
+        message: "app_meta rebuilt; run node scripts/build-artists-meta.js for static JSON",
+      });
     }
 
     const body = await request.json();
@@ -73,7 +121,7 @@ export async function onRequestPost(context) {
       inserted += chunk.length;
     }
 
-    return json(200, { ok: true, inserted });
+    return json(200, { ok: true, inserted, note: "After bulk seed run ?action=rebuild-meta once" });
   } catch (e) {
     return json(500, { error: e.message, stack: e.stack });
   }

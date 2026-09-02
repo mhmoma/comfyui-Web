@@ -7694,6 +7694,7 @@
     let _artistGroupIdx = -1;
     let _artistPage = 1;
     let _artistTotalPages = 1;
+    let _artistHasMore = false;
     let _artistCurrentSort = 'score';
     let _artistCurrentLetter = 'all';
     const _ARTIST_SORT_MODES = [
@@ -8103,7 +8104,7 @@
         }
     }
 
-    const SERIES_CACHE_MAX_AGE = 60 * 60 * 1000;
+    const SERIES_CACHE_MAX_AGE = 24 * 60 * 60 * 1000;
 
     async function _refreshTagsAndSeriesInBackground() {
         let tagsChanged = false;
@@ -8224,7 +8225,24 @@
                 score: a.score,
                 fav: a.fav_count,
             }));
-            const result = { tags, pages: data.pages, total: data.total };
+            const result = { tags, pages: data.pages, total: data.total, hasMore: !!data.hasMore };
+            if (page > 1 && (result.pages == null || result.total == null)) {
+                const headKey = `${sort}_${order}_1_${letter}`;
+                const head = _artistCache[headKey] || _ssGet('_ar_' + headKey);
+                if (head) {
+                    if (result.pages == null) result.pages = head.pages;
+                    if (result.total == null) result.total = head.total;
+                }
+            }
+            if (result.pages == null) {
+                if (result.total != null && result.total > 0) {
+                    result.pages = Math.max(1, Math.ceil(result.total / 100));
+                } else {
+                    result.pages = result.hasMore ? page + 1 : Math.max(page, 1);
+                }
+            } else if (result.hasMore) {
+                result.pages = Math.max(result.pages, page + 1);
+            }
             if (Object.keys(_artistCache).length >= _CACHE_MAX) {
                 delete _artistCache[Object.keys(_artistCache)[0]];
             }
