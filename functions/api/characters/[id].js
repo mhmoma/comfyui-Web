@@ -6,6 +6,14 @@ let indexMem = null;
 let indexInflight = null;
 const seriesCache = new Map(); // seriesId -> rows
 
+/** 磁盘名可能含字面 %28；HTTP 路径必须再 encode，否则会打成 SPA HTML */
+function charsFileUrl(request, fname) {
+  const name = String(fname || "").replace(/^\/+/, "").trim();
+  if (!name) return "";
+  const origin = new URL(request.url).origin;
+  return `${origin}/chars/${encodeURIComponent(name)}`;
+}
+
 async function loadCharsIndex(request) {
   if (indexMem) return indexMem;
   if (indexInflight) return indexInflight;
@@ -14,7 +22,9 @@ async function loadCharsIndex(request) {
       cf: { cacheEverything: true, cacheTtl: 86400 },
     });
     if (!res.ok) return null;
-    const data = await res.json();
+    const ctype = String(res.headers.get("content-type") || "");
+    if (!ctype.includes("json")) return null;
+    const data = await res.json().catch(() => null);
     if (!data || typeof data !== "object" || !data.files) return null;
     indexMem = data;
     return data;
@@ -29,11 +39,15 @@ async function loadSeriesStatic(request, seriesId) {
   const index = await loadCharsIndex(request);
   const fname = index?.files?.[seriesId];
   if (!fname) return null;
-  const res = await fetch(new URL(`/chars/${fname}`, request.url).toString(), {
+  const url = charsFileUrl(request, fname);
+  if (!url) return null;
+  const res = await fetch(url, {
     cf: { cacheEverything: true, cacheTtl: 86400 },
   });
   if (!res.ok) return null;
-  const data = await res.json();
+  const ctype = String(res.headers.get("content-type") || "");
+  if (!ctype.includes("json")) return null;
+  const data = await res.json().catch(() => null);
   if (!Array.isArray(data)) return null;
   if (seriesCache.size > 80) {
     const first = seriesCache.keys().next().value;

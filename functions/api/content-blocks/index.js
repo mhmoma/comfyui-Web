@@ -19,7 +19,6 @@ export async function onRequest(context) {
   const { request, env } = context;
   if (request.method === "OPTIONS") return corsPreflight();
   if (!env.DB) return json(500, { ok: false, error: "no_db", message: "数据库未配置" });
-  await ensureContentBlocks(env.DB);
 
   const url = new URL(request.url);
   const admin = checkAdmin(request, env);
@@ -33,15 +32,22 @@ export async function onRequest(context) {
       const playerCache = userId
         ? { "Cache-Control": "private, max-age=30" }
         : { "Cache-Control": "public, max-age=30, stale-while-revalidate=120" };
-      if (kind) {
-        const ids = await listEffectiveBlockedIds(env.DB, kind, userId);
-        return json(200, { ok: true, kind, ids }, playerCache);
+      try {
+        await ensureContentBlocks(env.DB);
+        if (kind) {
+          const ids = await listEffectiveBlockedIds(env.DB, kind, userId);
+          return json(200, { ok: true, kind, ids }, playerCache);
+        }
+        const [series, artist] = await Promise.all([
+          listEffectiveBlockedIds(env.DB, "series", userId),
+          listEffectiveBlockedIds(env.DB, "artist", userId),
+        ]);
+        return json(200, { ok: true, series, artist }, playerCache);
+      } catch (_) {
+        // D1 额度满时 fail-open：不当成全屏蔽，避免角色库/CMD 整站挂死
+        if (kind) return json(200, { ok: true, kind, ids: [], degraded: true }, playerCache);
+        return json(200, { ok: true, series: [], artist: [], degraded: true }, playerCache);
       }
-      const [series, artist] = await Promise.all([
-        listEffectiveBlockedIds(env.DB, "series", userId),
-        listEffectiveBlockedIds(env.DB, "artist", userId),
-      ]);
-      return json(200, { ok: true, series, artist }, playerCache);
     }
 
     // 管理：某用户的最高级屏蔽例外
