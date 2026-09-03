@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.48";
+  const ADMIN_UI_VERSION = "1.49";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -465,9 +465,9 @@
       return;
     }
 
-    // 主管理员：会话云端 + 交易云端也要通
-    await cloudApi("/api/admin/overview");
-    await tradeApi("/api/admin/overview");
+    // 主管理员：只用轻量 ping 探活，禁止登录时打 overview 扫表
+    await cloudApi("/api/admin/ping");
+    await tradeApi("/api/admin/ping");
   }
 
   function assetGateHtml(feature) {
@@ -615,29 +615,73 @@
     }
   }
 
-  async function renderOverview(root) {
-    setTop("总览", "分压：web 新管会话存档；tk 原管交易/画师串/图床；comfyui-web 管素材库。");
+  const OVERVIEW_CACHE_KEY = "tk_admin_overview_cache_v1";
+  const OVERVIEW_CACHE_MS = 30 * 60 * 1000;
+
+  function readOverviewCache() {
+    try {
+      const raw = sessionStorage.getItem(OVERVIEW_CACHE_KEY);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (!data || Date.now() - Number(data.at || 0) > OVERVIEW_CACHE_MS) return null;
+      return data;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function writeOverviewCache(payload) {
+    try {
+      sessionStorage.setItem(OVERVIEW_CACHE_KEY, JSON.stringify({ ...payload, at: Date.now() }));
+    } catch (_) {}
+  }
+
+  async function fetchOverviewBundle(force) {
+    if (!force) {
+      const hit = readOverviewCache();
+      if (hit) return { ...hit, fromCache: true };
+    }
     let cloud = null;
     let trade = null;
     let asset = null;
     let cloudErr = "";
     let tradeErr = "";
     let assetErr = "";
+    const q = force ? "?refresh=1" : "";
     try {
-      cloud = await cloudApi("/api/admin/overview");
+      cloud = await cloudApi(`/api/admin/overview${q}`);
     } catch (err) {
       cloudErr = err.message || "游戏云端总览失败";
     }
     try {
-      trade = await tradeApi("/api/admin/overview");
+      trade = await tradeApi(`/api/admin/overview${q}`);
     } catch (err) {
       tradeErr = err.message || "交易/图床总览失败";
     }
     try {
-      asset = await assetApi("/api/admin/overview");
+      asset = await assetApi(`/api/admin/overview${q}`);
     } catch (err) {
       assetErr = err.message || "素材库总览失败";
     }
+    const payload = { cloud, trade, asset, cloudErr, tradeErr, assetErr };
+    if (cloud || trade || asset) writeOverviewCache(payload);
+    return { ...payload, fromCache: false };
+  }
+
+  async function renderOverview(root) {
+    setTop("总览", "按需加载：登录不扫库；总览 30 分钟内复用缓存。");
+    const force = !!state.overviewForceRefresh;
+    state.overviewForceRefresh = false;
+    const bundle = await fetchOverviewBundle(force);
+    const cloud = bundle.cloud;
+    const trade = bundle.trade;
+    const asset = bundle.asset;
+    const cloudErr = bundle.cloudErr || "";
+    const tradeErr = bundle.tradeErr || "";
+    const assetErr = bundle.assetErr || "";
+    const cacheHint = bundle.fromCache
+      ? `浏览器缓存中 · `
+      : `已拉取 · `;
 
     const c = cloud?.modules || {};
     const t = trade?.modules || {};
@@ -685,6 +729,11 @@
 
     root.innerHTML = `
       <div class="mod-stack">
+        <div class="panel" style="margin-bottom:10px">
+          <span class="meta">${cacheHint}</span>
+          <button type="button" class="tiny" id="overview-refresh">强制刷新总览</button>
+          <span class="meta">（会重算缓存，额度紧时少点）</span>
+        </div>
         <section class="mod-section acct-map">
           <div class="mod-section-head">
             <strong>三账号职责</strong>
@@ -779,6 +828,11 @@
       </div>`;
     root.querySelectorAll("[data-go]").forEach((el) => {
       el.addEventListener("click", () => go(el.getAttribute("data-go")));
+    });
+    $("overview-refresh")?.addEventListener("click", () => {
+      state.overviewForceRefresh = true;
+      try { sessionStorage.removeItem(OVERVIEW_CACHE_KEY); } catch (_) {}
+      render();
     });
   }
 
