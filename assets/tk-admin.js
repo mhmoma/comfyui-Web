@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.46";
+  const ADMIN_UI_VERSION = "1.47";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -33,6 +33,7 @@
 
   const MODULES = [
     { id: "overview", label: "总览", group: "概览" },
+    { id: "analytics", label: "活跃统计", group: "概览" },
     { id: "audit", label: "审计", group: "概览" },
     { id: "map", label: "能力地图", group: "概览" },
     { id: "users", label: "用户档案", group: "人" },
@@ -55,6 +56,7 @@
     "/api/board",
     "/api/prefs",
     "/api/admin/overview",
+    "/api/admin/analytics",
     "/api/admin/players",
     "/api/admin/audit",
     "/api/player-blocks",
@@ -587,6 +589,7 @@
     root.innerHTML = `<div class="panel meta">加载中…</div>`;
     try {
       if (route === "overview") await renderOverview(root);
+      else if (route === "analytics") await renderAnalytics(root);
       else if (route === "audit") await renderAudit(root);
       else if (route === "users") await renderUsers(root);
       else if (route === "reads") await renderReads(root);
@@ -646,6 +649,7 @@
       mediaMode === "local" ? "本站 MEDIA" : mediaMode === "proxy" ? "R2 代理 OK" : "图床未配";
 
     const sessionCards = [
+      { href: "analytics", k: "今日活跃", v: c.analytics?.today ?? "—", s: `北京日 ${c.analytics?.day || "—"}` },
       { href: "users", k: "云端用户", v: c.users?.total ?? "—", s: "6og player_prefs" },
       { href: "economy", k: "画泥持有", v: c.economy?.holders ?? "—", s: `合计 ${c.economy?.mudSum ?? "—"}` },
       { href: "economy", k: "满10张已领", v: c.drawLife?.claimed ?? "—", s: `有记录 ${c.drawLife?.tracked ?? "—"}` },
@@ -692,7 +696,7 @@
                 <div class="acct-name">web 新</div>
                 <div class="acct-role">会话云端 D1</div>
                 <div class="acct-url mono">${escapeHtml(CLOUD_BASE.replace(/^https?:\/\//, ""))}</div>
-                <div class="acct-duty">偏好 · 画泥 · 留言 · 公告 · 邀请 · 钱包 · 记事本</div>
+                <div class="acct-duty">偏好 · 画泥 · 留言 · 公告 · 邀请 · 钱包 · 记事本 · 活跃</div>
                 ${acctPill(!cloudErr, cloudErr ? "不可用" : "已连通")}
               </div>
               <div class="acct-card">
@@ -776,6 +780,86 @@
     root.querySelectorAll("[data-go]").forEach((el) => {
       el.addEventListener("click", () => go(el.getAttribute("data-go")));
     });
+  }
+
+  async function renderAnalytics(root) {
+    setTop("活跃统计", "数据在 6og · 北京时间自然日 · 当天至少 ping 一次的平台 userId");
+    const data = await cloudApi("/api/admin/analytics");
+    const s = data?.summary || {};
+    const series30 = Array.isArray(data?.series?.last30) ? data.series.last30 : [];
+    const maxDau = Math.max(1, ...series30.map((r) => Number(r.dau) || 0));
+    const cards = [
+      { k: "今日活跃", v: s.today ?? "—", s: data?.today || "—" },
+      { k: "昨日活跃", v: s.yesterday ?? "—", s: "自然日" },
+      { k: "本周 UV", v: s.week ?? "—", s: `自 ${s.weekFrom || "—"}` },
+      { k: "本月 UV", v: s.month ?? "—", s: `自 ${s.monthFrom || "—"}` },
+      { k: "近 7 日 UV", v: s.last7 ?? "—", s: "独立用户" },
+      { k: "近 30 日 UV", v: s.last30 ?? "—", s: "独立用户" },
+      { k: "今日回流", v: s.returningToday ?? "—", s: "今日活跃且此前出现过" },
+      { k: "累计曾活跃", v: s.everUsers ?? "—", s: "全历史独立 userId" },
+      {
+        k: "历史峰值",
+        v: s.peak?.dau ?? "—",
+        s: s.peak?.day ? `日 ${s.peak.day}` : "暂无",
+      },
+    ];
+    const notes = Array.isArray(data?.notes) ? data.notes : [];
+    root.innerHTML = `
+      <div class="mod-stack">
+        <section class="mod-section">
+          <div class="mod-section-head">
+            <strong>核心指标</strong>
+            <span class="meta">时区 ${escapeHtml(data?.tz || "Asia/Shanghai")}</span>
+          </div>
+          <div class="mod-section-body">
+            <div class="grid-cards">
+              ${cards.map((card) => `
+                <div class="stat-card" style="cursor:default">
+                  <div class="k">${escapeHtml(card.k)}</div>
+                  <div class="v">${escapeHtml(String(card.v))}</div>
+                  <div class="s">${escapeHtml(card.s)}</div>
+                </div>`).join("")}
+            </div>
+          </div>
+        </section>
+        <section class="mod-section">
+          <div class="mod-section-head">
+            <strong>近 30 天日活</strong>
+            <span class="meta">每日独立用户数</span>
+          </div>
+          <div class="mod-section-body">
+            <div class="dau-bars" aria-label="近30天日活柱状图">
+              ${series30.map((row) => {
+                const dau = Number(row.dau) || 0;
+                const pct = Math.max(2, Math.round((dau / maxDau) * 100));
+                const label = String(row.day || "").slice(5);
+                return `<div class="dau-bar" title="${escapeHtml(`${row.day}: ${dau}`)}">
+                  <div class="dau-bar-fill" style="height:${pct}%"></div>
+                  <div class="dau-bar-val">${dau}</div>
+                  <div class="dau-bar-day">${escapeHtml(label)}</div>
+                </div>`;
+              }).join("")}
+            </div>
+            <div class="table-wrap" style="margin-top:14px">
+              <table class="admin">
+                <thead><tr><th>日期</th><th>日活</th></tr></thead>
+                <tbody>
+                  ${[...series30].reverse().map((row) => `
+                    <tr>
+                      <td class="mono">${escapeHtml(row.day || "")}</td>
+                      <td>${Number(row.dau) || 0}</td>
+                    </tr>`).join("")}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <section class="mod-section">
+          <div class="mod-section-body">
+            ${notes.map((n) => `<p class="meta" style="margin:0 0 6px">${escapeHtml(n)}</p>`).join("")}
+          </div>
+        </section>
+      </div>`;
   }
 
   async function renderAudit(root) {
@@ -3341,6 +3425,7 @@
     setTop("能力地图", "按模块对照：玩家侧能力 ↔ 后台能做什么（并标明落在哪一座云）。");
     const rows = [
       ["用户档案", "主题/解锁/收藏/开关/记事本/小艾进度", "6og 列表与详情；清串会打 tk 原", "可管", "#users"],
+      ["活跃统计", "今日/本周/本月 UV、近30天日活", "6og player_daily_active", "只读", "#analytics"],
       ["已读状态", "更新日志/公告/留言已读/已知晓", "6og 筛选、删除", "可管", "#reads"],
       ["画泥经济", "余额/装扮/兑换码/每日领泥/满10张奖励/转账", "6og 榜单、改余额、流水", "可管", "#economy"],
       ["邀请码", "邀请解锁全作品、邀请人+100泥", "6og 统计；用户档案可查解锁态", "可管", "#users"],

@@ -350,6 +350,48 @@ button.linkish:hover { text-decoration: underline; }
 }
 .stat-card .s { color: var(--muted); font-size: 0.68rem; margin-top: 3px; line-height: 1.3; }
 
+.dau-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 140px;
+  padding: 8px 4px 0;
+  overflow-x: auto;
+}
+.dau-bar {
+  flex: 1 0 18px;
+  min-width: 18px;
+  max-width: 28px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2px;
+}
+.dau-bar-fill {
+  width: 100%;
+  background: var(--accent, #2c6e49);
+  border-radius: 2px 2px 0 0;
+  min-height: 2px;
+}
+.dau-bar-val {
+  font-size: 0.58rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.dau-bar-day {
+  font-size: 0.55rem;
+  color: var(--muted);
+  writing-mode: horizontal-tb;
+  transform: rotate(-45deg);
+  transform-origin: top center;
+  height: 18px;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
 .panel {
   background: var(--panel);
   border: 1px solid var(--line);
