@@ -49,6 +49,7 @@ function main() {
         if (fs.existsSync(srcPath)) copyFile(srcPath, path.join(DEPLOY, dest));
     }
 
+    copyDir(path.join(ROOT, 'chars'), path.join(DEPLOY, 'chars'));
     copyDir(path.join(ROOT, 'assets'), path.join(DEPLOY, 'assets'));
     copyDir(path.join(ROOT, 'news'), path.join(DEPLOY, 'news'));
     copyDir(path.join(ROOT, 'guides'), path.join(DEPLOY, 'guides'));
