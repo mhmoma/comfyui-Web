@@ -55,19 +55,8 @@ export async function onRequestGet(context) {
       return new Response(JSON.stringify((results || []).map(mapRow)), { headers: cors });
     }
 
-    const countRow = like
-      ? await db.prepare(
-          `SELECT COUNT(*) AS n FROM characters
-           WHERE series_id = ? AND (name LIKE ? OR trigger_text LIKE ?)`
-        ).bind(seriesId, like, like).first()
-      : await db.prepare(
-          `SELECT COUNT(*) AS n FROM characters WHERE series_id = ?`
-        ).bind(seriesId).first();
-    const total = Number(countRow?.n || 0);
-    const totalPages = Math.max(1, Math.ceil(total / limit) || 1);
-    const safePage = Math.min(page, totalPages);
-    const offset = (safePage - 1) * limit;
-
+    // 用 LIMIT+1 判断 hasMore，避免每次 COUNT(*) 再扫一遍同系列角色
+    const offset = (page - 1) * limit;
     const { results } = like
       ? await db.prepare(
           `SELECT trigger_text AS t, name AS d, thumb_url AS th, lora_url AS lora, tags
@@ -75,20 +64,30 @@ export async function onRequestGet(context) {
            WHERE series_id = ? AND (name LIKE ? OR trigger_text LIKE ?)
            ORDER BY count DESC
            LIMIT ? OFFSET ?`
-        ).bind(seriesId, like, like, limit, offset).all()
+        ).bind(seriesId, like, like, limit + 1, offset).all()
       : await db.prepare(
           `SELECT trigger_text AS t, name AS d, thumb_url AS th, lora_url AS lora, tags
            FROM characters WHERE series_id = ?
            ORDER BY count DESC
            LIMIT ? OFFSET ?`
-        ).bind(seriesId, limit, offset).all();
+        ).bind(seriesId, limit + 1, offset).all();
+
+    const fetched = results || [];
+    const hasMore = fetched.length > limit;
+    const items = (hasMore ? fetched.slice(0, limit) : fetched).map(mapRow);
+    const knownTotal = !like
+      ? Number((await db.prepare(`SELECT count AS n FROM series WHERE id = ? LIMIT 1`).bind(seriesId).first())?.n || 0)
+      : 0;
+    const total = knownTotal > 0 ? knownTotal : (hasMore ? offset + limit + 1 : offset + items.length);
+    const totalPages = Math.max(1, Math.ceil(total / limit) || 1);
 
     return new Response(JSON.stringify({
-      items: (results || []).map(mapRow),
+      items,
       total,
-      page: safePage,
+      page,
       limit,
       totalPages,
+      hasMore,
     }), { headers: cors });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: cors });

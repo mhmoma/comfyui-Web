@@ -42,6 +42,7 @@ function main() {
         ['sw.js', 'sw.js'],
         ['series-list-20260811.json', 'series-list-20260811.json'],
         ['artists-meta.json', 'artists-meta.json'],
+        ['artists-by-score.json', 'artists-by-score.json'],
     ];
     for (const [src, dest] of files) {
         const srcPath = path.join(ROOT, src);

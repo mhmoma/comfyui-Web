@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS artists (
   img_url TEXT DEFAULT ''
 );
 CREATE INDEX IF NOT EXISTS idx_artists_count ON artists(count DESC);
+CREATE INDEX IF NOT EXISTS idx_artists_score ON artists(score DESC);
 CREATE INDEX IF NOT EXISTS idx_artists_name ON artists(name COLLATE NOCASE);
 CREATE INDEX IF NOT EXISTS idx_artists_trigger ON artists(trigger_text COLLATE NOCASE);
 `;

@@ -16,25 +16,21 @@ export async function onRequestGet(context) {
   const { env, request } = context;
   const db = env.DB;
 
-  if (!db) {
-    return new Response(JSON.stringify({ error: "Database not configured" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
-    });
-  }
-
   try {
     const url = new URL(request.url);
     const userId = String(url.searchParams.get("userId") || "").trim().slice(0, 80);
 
     let blocked = new Set();
-    try {
-      await ensureContentBlocks(db);
-      blocked = new Set(
-        (await listEffectiveBlockedIds(db, "series", userId)).map((id) => String(id).toLowerCase())
-      );
-    } catch (_) {
-      /* D1 额度用尽等：跳过屏蔽过滤，优先保证静态列表可用 */
+    // 无 userId 时公共列表不查屏蔽表，避免热路径碰 D1
+    if (db && userId) {
+      try {
+        await ensureContentBlocks(db);
+        blocked = new Set(
+          (await listEffectiveBlockedIds(db, "series", userId)).map((id) => String(id).toLowerCase())
+        );
+      } catch (_) {
+        /* D1 额度用尽等：跳过屏蔽过滤，优先保证静态列表可用 */
+      }
     }
 
     let mapped = null;
@@ -51,6 +47,12 @@ export async function onRequestGet(context) {
     }
 
     if (!mapped) {
+      if (!db) {
+        return new Response(JSON.stringify({ error: "series_unavailable" }), {
+          status: 503,
+          headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+        });
+      }
       try {
         const { results } = await db.prepare(
           `SELECT id, name FROM series ORDER BY name COLLATE NOCASE ASC`

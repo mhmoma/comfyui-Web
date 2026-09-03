@@ -1,4 +1,5 @@
 import { ensureContentBlocks, listEffectiveBlockedIds } from "../content-blocks/_shared.js";
+import { filterCatalog, loadArtistsCatalog, sortCatalog } from "./_catalog.js";
 
 export async function onRequestGet(context) {
   const { request, env } = context;
@@ -18,8 +19,25 @@ export async function onRequestGet(context) {
   }
 
   try {
-    await ensureContentBlocks(db);
-    const blocked = await listEffectiveBlockedIds(db, "artist", userId);
+    let blocked = [];
+    try {
+      await ensureContentBlocks(db);
+      blocked = await listEffectiveBlockedIds(db, "artist", userId);
+    } catch (_) {}
+
+    const catalog = await loadArtistsCatalog(request);
+    if (catalog) {
+      let rows = filterCatalog(catalog, { q, blocked });
+      rows = sortCatalog(rows, "count", "DESC").slice(0, limit);
+      return new Response(JSON.stringify(rows), {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "public, max-age=300",
+        },
+      });
+    }
+
     const pattern = `%${q}%`;
     const binds = [pattern, pattern, pattern];
     let notIn = "";

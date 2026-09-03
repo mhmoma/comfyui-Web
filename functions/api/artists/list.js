@@ -1,5 +1,6 @@
 import { ensureContentBlocks, listEffectiveBlockedIds } from "../content-blocks/_shared.js";
 import { resolveArtistTotal } from "./_meta.js";
+import { filterCatalog, loadArtistsCatalog, sortCatalog } from "./_catalog.js";
 
 const VALID_SORT = { score: "score", count: "count", fav: "score", name: "name" };
 const VALID_ORDER = { asc: "ASC", desc: "DESC" };
@@ -7,8 +8,6 @@ const VALID_ORDER = { asc: "ASC", desc: "DESC" };
 export async function onRequestGet(context) {
   const { request, env } = context;
   const db = env.DB;
-
-  if (!db) return json(500, { error: "DB not bound" });
 
   const url = new URL(request.url);
   const page = Math.max(1, parseInt(url.searchParams.get("page") || "1", 10));
@@ -26,12 +25,49 @@ export async function onRequestGet(context) {
 
   try {
     let blocked = [];
-    try {
-      await ensureContentBlocks(db);
-      blocked = await listEffectiveBlockedIds(db, "artist", userId);
-    } catch (_) {
-      /* D1 不可用时跳过屏蔽，保证列表可读 */
+    if (db && userId) {
+      try {
+        await ensureContentBlocks(db);
+        blocked = await listEffectiveBlockedIds(db, "artist", userId);
+      } catch (_) {
+        /* D1 不可用时跳过屏蔽，保证列表可读 */
+      }
     }
+
+    // 优先静态目录：避免 ORDER BY score 无索引时每次全表扫描 ~1.6 万行
+    const catalog = await loadArtistsCatalog(request);
+    if (catalog) {
+      let rows = filterCatalog(catalog, { letter, q, blocked });
+      rows = sortCatalog(rows, sortCol, sortDir);
+      const total = rows.length;
+      const slice = rows.slice(offset, offset + limit + 1);
+      const hasMore = slice.length > limit;
+      const results = hasMore ? slice.slice(0, limit) : slice;
+      const pages = Math.max(1, Math.ceil(total / limit) || 1);
+
+      return new Response(
+        JSON.stringify({
+          total: needTotal ? total : null,
+          page,
+          pages: needTotal ? pages : null,
+          hasMore,
+          results,
+          source: "static",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Cache-Control": userId || blocked.length || q
+              ? "private, max-age=0, must-revalidate"
+              : "public, max-age=86400, stale-while-revalidate=604800",
+          },
+        }
+      );
+    }
+
+    if (!db) return json(500, { error: "DB not bound" });
+
     const conditions = [];
     const binds = [];
 
@@ -54,6 +90,10 @@ export async function onRequestGet(context) {
     }
 
     const where = conditions.length > 0 ? " WHERE " + conditions.join(" AND ") : "";
+    try {
+      await db.prepare("CREATE INDEX IF NOT EXISTS idx_artists_score ON artists(score DESC)").run();
+    } catch (_) {}
+
     const dataQuery = `SELECT slug, name, trigger_text, count, score, thumb_url, img_url FROM artists${where} ORDER BY ${sortCol} ${sortDir} LIMIT ? OFFSET ?`;
 
     const dataResult = await db.prepare(dataQuery).bind(...binds, limit + 1, offset).all();
@@ -81,6 +121,7 @@ export async function onRequestGet(context) {
         pages,
         hasMore,
         results,
+        source: "d1",
       }),
       {
         headers: {
