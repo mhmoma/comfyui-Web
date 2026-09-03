@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.47";
+  const ADMIN_UI_VERSION = "1.48";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -783,18 +783,20 @@
   }
 
   async function renderAnalytics(root) {
-    setTop("活跃统计", "数据在 6og · 北京时间自然日 · 当天至少 ping 一次的平台 userId");
+    setTop("活跃统计", "数据在 6og · 北京时间自然日 · 活跃与出图次数");
     const data = await cloudApi("/api/admin/analytics");
     const s = data?.summary || {};
     const series30 = Array.isArray(data?.series?.last30) ? data.series.last30 : [];
+    const todayUsers = Array.isArray(data?.todayUsers) ? data.todayUsers : [];
     const maxDau = Math.max(1, ...series30.map((r) => Number(r.dau) || 0));
     const cards = [
       { k: "今日活跃", v: s.today ?? "—", s: data?.today || "—" },
-      { k: "昨日活跃", v: s.yesterday ?? "—", s: "自然日" },
-      { k: "本周 UV", v: s.week ?? "—", s: `自 ${s.weekFrom || "—"}` },
-      { k: "本月 UV", v: s.month ?? "—", s: `自 ${s.monthFrom || "—"}` },
-      { k: "近 7 日 UV", v: s.last7 ?? "—", s: "独立用户" },
-      { k: "近 30 日 UV", v: s.last30 ?? "—", s: "独立用户" },
+      { k: "今日出图", v: s.todayDraws ?? "—", s: `人均 ${s.todayDrawsAvg ?? "—"} 张` },
+      { k: "昨日活跃", v: s.yesterday ?? "—", s: `出图 ${s.yesterdayDraws ?? "—"}` },
+      { k: "本周 UV", v: s.week ?? "—", s: `出图 ${s.weekDraws ?? "—"} · 自 ${s.weekFrom || "—"}` },
+      { k: "本月 UV", v: s.month ?? "—", s: `出图 ${s.monthDraws ?? "—"} · 自 ${s.monthFrom || "—"}` },
+      { k: "近 7 日 UV", v: s.last7 ?? "—", s: `出图 ${s.last7Draws ?? "—"}` },
+      { k: "近 30 日 UV", v: s.last30 ?? "—", s: `出图 ${s.last30Draws ?? "—"}` },
       { k: "今日回流", v: s.returningToday ?? "—", s: "今日活跃且此前出现过" },
       { k: "累计曾活跃", v: s.everUsers ?? "—", s: "全历史独立 userId" },
       {
@@ -824,8 +826,27 @@
         </section>
         <section class="mod-section">
           <div class="mod-section-head">
-            <strong>近 30 天日活</strong>
-            <span class="meta">每日独立用户数</span>
+            <strong>今日用户出图</strong>
+            <span class="meta">按出图数排序 · 最多 100 人</span>
+          </div>
+          <div class="mod-section-body table-wrap">
+            ${todayUsers.length ? `<table class="admin">
+              <thead><tr><th>用户</th><th>今日出图</th><th>最近活跃</th></tr></thead>
+              <tbody>
+                ${todayUsers.map((u) => `
+                  <tr>
+                    <td class="mono">${escapeHtml(u.userId || "")}</td>
+                    <td>${Number(u.draws) || 0}</td>
+                    <td class="meta">${u.lastAt ? escapeHtml(new Date(u.lastAt).toLocaleString("zh-CN", { hour12: false })) : "—"}</td>
+                  </tr>`).join("")}
+              </tbody>
+            </table>` : `<p class="meta" style="margin:0">今日暂无活跃用户</p>`}
+          </div>
+        </section>
+        <section class="mod-section">
+          <div class="mod-section-head">
+            <strong>近 30 天</strong>
+            <span class="meta">日活柱 · 出图见表</span>
           </div>
           <div class="mod-section-body">
             <div class="dau-bars" aria-label="近30天日活柱状图">
@@ -833,7 +854,7 @@
                 const dau = Number(row.dau) || 0;
                 const pct = Math.max(2, Math.round((dau / maxDau) * 100));
                 const label = String(row.day || "").slice(5);
-                return `<div class="dau-bar" title="${escapeHtml(`${row.day}: ${dau}`)}">
+                return `<div class="dau-bar" title="${escapeHtml(`${row.day}: 活跃 ${dau} · 出图 ${Number(row.draws) || 0}`)}">
                   <div class="dau-bar-fill" style="height:${pct}%"></div>
                   <div class="dau-bar-val">${dau}</div>
                   <div class="dau-bar-day">${escapeHtml(label)}</div>
@@ -842,13 +863,19 @@
             </div>
             <div class="table-wrap" style="margin-top:14px">
               <table class="admin">
-                <thead><tr><th>日期</th><th>日活</th></tr></thead>
+                <thead><tr><th>日期</th><th>日活</th><th>出图</th><th>人均</th></tr></thead>
                 <tbody>
-                  ${[...series30].reverse().map((row) => `
-                    <tr>
+                  ${[...series30].reverse().map((row) => {
+                    const dau = Number(row.dau) || 0;
+                    const draws = Number(row.draws) || 0;
+                    const avg = dau > 0 ? Math.round((draws / dau) * 10) / 10 : 0;
+                    return `<tr>
                       <td class="mono">${escapeHtml(row.day || "")}</td>
-                      <td>${Number(row.dau) || 0}</td>
-                    </tr>`).join("")}
+                      <td>${dau}</td>
+                      <td>${draws}</td>
+                      <td>${avg}</td>
+                    </tr>`;
+                  }).join("")}
                 </tbody>
               </table>
             </div>
