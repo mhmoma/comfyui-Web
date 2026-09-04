@@ -121,28 +121,108 @@
         return m ? parseInt(m[1], 10) : null;
     }
 
+    /** 去掉扩展名；剥掉「_中文备注」后缀，避免改名后搜偏 */
+    function _loraFileStem(rel) {
+        let base = String(rel || '').split(/[/\\]/).pop() || '';
+        base = base.replace(/\.(safetensors|pt|ckpt)$/i, '');
+        // 从第一个 CJK / 假名 起整段当备注去掉（保留其前的英文原名）
+        const cut = base.search(/[\u3040-\u30ff\u3400-\u9fff]/);
+        if (cut > 0) {
+            base = base.slice(0, cut).replace(/[_\-\s]+$/g, '');
+        }
+        return base;
+    }
+
+    function _normStem(s) {
+        return String(s || '')
+            .toLowerCase()
+            .replace(/\.(safetensors|pt|ckpt)$/i, '')
+            .replace(/[\s\-]+/g, '_')
+            .replace(/_+/g, '_')
+            .replace(/^_|_$/g, '');
+    }
+
+    function _buildSearchQueries(rel) {
+        const stem = _loraFileStem(rel);
+        const norm = _normStem(stem);
+        const queries = [
+            stem,
+            norm.replace(/_/g, ' '),
+            stem.replace(/([a-z])([A-Z])/g, '$1 $2'),
+        ];
+        // 再试去掉末尾版本号碎屑的短名（提高命中，不用于低分兜底）
+        const short = stem.replace(/[-_]?(v?\d+(\.\d+)*)+$/i, '').replace(/[_\-\s]+$/g, '');
+        if (short && short.length >= 4 && short !== stem) queries.push(short);
+        // 取最长的「连续英文数字段」作关键词
+        const tokens = stem.split(/[^a-zA-Z0-9]+/).filter((t) => t.length >= 4);
+        tokens.sort((a, b) => b.length - a.length);
+        if (tokens[0]) queries.push(tokens[0]);
+        return [...new Set(queries.map((q) => q.trim()).filter((q) => q.length >= 3))];
+    }
+
+    function _scoreModelAgainstStem(model, stemNorm) {
+        if (!model || !stemNorm) return 0;
+        let score = 0;
+        const name = _normStem(model.name || '');
+        if (name === stemNorm) score += 20;
+        else if (name && (name.includes(stemNorm) || stemNorm.includes(name))) score += 6;
+
+        let bestFile = 0;
+        (model.modelVersions || []).forEach((v) => {
+            (v.files || []).forEach((f) => {
+                const fn = _normStem(f.name || '');
+                if (!fn) return;
+                if (fn === stemNorm) bestFile = Math.max(bestFile, 40);
+                else if (fn.startsWith(stemNorm) || stemNorm.startsWith(fn)) bestFile = Math.max(bestFile, 28);
+                else if (fn.includes(stemNorm) || stemNorm.includes(fn)) {
+                    // 短串互含很容易误伤，长度差太大时降分
+                    const ratio = Math.min(fn.length, stemNorm.length) / Math.max(fn.length, stemNorm.length);
+                    bestFile = Math.max(bestFile, ratio >= 0.55 ? 16 : 4);
+                }
+            });
+        });
+        score += bestFile;
+        return score;
+    }
+
     function _pickSearchMatch(rel, items) {
         if (!items?.length) return null;
-        const base = rel.split('/').pop().replace(/\.(safetensors|pt|ckpt)$/i, '').toLowerCase();
+        const stemNorm = _normStem(_loraFileStem(rel));
         let best = null;
         let bestScore = 0;
         items.forEach((m) => {
-            let score = 0;
-            const name = (m.name || '').toLowerCase();
-            if (name.includes(base) || base.includes(name.replace(/\s+/g, ''))) score += 8;
-            (m.modelVersions || []).forEach((v) => {
-                (v.files || []).forEach((f) => {
-                    const fn = (f.name || '').toLowerCase().replace(/\.(safetensors|pt|ckpt)$/i, '');
-                    if (fn === base) score += 30;
-                    else if (fn.includes(base) || base.includes(fn)) score += 15;
-                });
-            });
+            const score = _scoreModelAgainstStem(m, stemNorm);
             if (score > bestScore) {
                 bestScore = score;
                 best = m;
             }
         });
-        return bestScore >= 8 ? best : items[0];
+        // 必须有足够把握；禁止「搜不到就拿第一条」导致张冠李戴
+        if (bestScore >= 16) return best;
+        return null;
+    }
+
+    function _pickVersionForStem(versions, stemNorm) {
+        if (!versions?.length) return null;
+        let best = versions[0];
+        let bestScore = 0;
+        versions.forEach((v) => {
+            let score = 0;
+            (v.files || []).forEach((f) => {
+                const fn = _normStem(f.name || '');
+                if (fn === stemNorm) score = Math.max(score, 40);
+                else if (fn.startsWith(stemNorm) || stemNorm.startsWith(fn)) score = Math.max(score, 28);
+                else if (fn.includes(stemNorm) || stemNorm.includes(fn)) score = Math.max(score, 12);
+            });
+            // 同名模型多版本时，略偏好较新（列表通常新在前）
+            if (score > bestScore || (score === bestScore && score > 0 && !bestScore)) {
+                bestScore = score;
+                best = v;
+            } else if (score === bestScore && score >= 28) {
+                best = v;
+            }
+        });
+        return bestScore >= 12 ? best : versions[0];
     }
 
     async function fetchCivitaiModel(modelId) {
@@ -155,36 +235,29 @@
         const model = await fetchCivitaiModel(modelId);
         const versions = model.modelVersions || [];
         if (!versions.length) throw new Error('该模型没有可用版本');
-        const base = rel.split('/').pop().replace(/\.(safetensors|pt|ckpt)$/i, '').toLowerCase();
-        let version = versions[0];
-        for (const v of versions) {
-            const hit = (v.files || []).some((f) => {
-                const fn = (f.name || '').toLowerCase().replace(/\.(safetensors|pt|ckpt)$/i, '');
-                return fn === base || fn.includes(base);
-            });
-            if (hit) { version = v; break; }
-        }
+        const stemNorm = _normStem(_loraFileStem(rel));
+        const version = _pickVersionForStem(versions, stemNorm) || versions[0];
         return _saveCacheEntry(rel, _mergeCivitaiMeta(rel, model, version));
     }
 
     async function syncCivitaiCloudBySearch(rel) {
-        const baseName = rel.split('/').pop().replace(/\.(safetensors|pt|ckpt)$/i, '');
-        const queries = [
-            baseName,
-            baseName.replace(/[_-]+/g, ' '),
-            baseName.replace(/([a-z])([A-Z])/g, '$1 $2'),
-        ];
+        const queries = _buildSearchQueries(rel);
         let lastErr = null;
+        let sawResults = false;
         for (const q of queries) {
             try {
-                const result = await searchCivitai(q, 15);
+                const result = await searchCivitai(q, 20);
                 const items = result.items || [];
+                if (items.length) sawResults = true;
                 const pick = _pickSearchMatch(rel, items);
                 if (!pick?.id) continue;
                 return await syncCivitaiByModelId(rel, pick.id);
             } catch (e) {
                 lastErr = e;
             }
+        }
+        if (sawResults) {
+            throw new Error('C 站搜到了结果但文件名匹配不准，请粘贴模型链接/ID 再同步（已禁止自动瞎选）');
         }
         throw lastErr || new Error('C 站搜索无匹配结果，请手动填写模型 ID');
     }
@@ -684,7 +757,7 @@
                 await this.openDetail(rel);
                 this.renderGrid();
             } catch (e) {
-                alert(`同步失败：${e.message}\n\n云端可自动按文件名搜 C 站；不准时可填 C 站模型链接/ID 再点同步。`);
+                alert(`同步失败：${e.message}\n\n优先用 hash/原文件名精确匹配；匹配不准不会再瞎选第一条。可粘贴 C 站模型链接/ID 再点同步。`);
             } finally {
                 if (btn) { btn.disabled = false; btn.textContent = '同步 C 站'; }
             }

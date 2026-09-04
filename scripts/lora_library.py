@@ -366,11 +366,82 @@ def sync_item_civitai(loras_root: str, rel_path: str, api_key: str = '', host: s
 
     ss_meta = read_safetensors_header(full)
     civitai_meta = {}
-    for key in ('sshs_model_hash', 'sshs_legacy_hash', 'civitai_model_id', 'civitai_version_id'):
+    for key in ('sshs_model_hash', 'sshs_legacy_hash', 'ss_sd_model_hash', 'civitai_model_id', 'civitai_version_id'):
         if ss_meta.get(key):
             civitai_meta[key] = ss_meta[key]
 
-    version = civitai_by_hash(file_hash, api_key, host)
+    # 优先按多种 hash 精确命中，避免文件名搜索张冠李戴
+    hash_candidates: List[str] = []
+    for h in (
+        file_hash,
+        ss_meta.get('sshs_model_hash'),
+        ss_meta.get('sshs_legacy_hash'),
+        ss_meta.get('ss_sd_model_hash'),
+        meta.get('autov2'),
+        meta.get('autov3'),
+    ):
+        if not h:
+            continue
+        h = str(h).strip().lower()
+        if h and h not in hash_candidates:
+            hash_candidates.append(h)
+
+    version: Dict[str, Any] = {}
+    last_err: Optional[Exception] = None
+    for h in hash_candidates:
+        try:
+            version = civitai_by_hash(h, api_key, host)
+            if version and version.get('id'):
+                break
+        except Exception as e:
+            last_err = e
+            version = {}
+
+    if not version or not version.get('id'):
+        # 可选：按「剥掉中文备注后的文件名」做严格搜索（仍无把握则失败）
+        stem = os.path.splitext(os.path.basename(rel_path))[0]
+        cut = None
+        for i, ch in enumerate(stem):
+            if '\u3040' <= ch <= '\u30ff' or '\u3400' <= ch <= '\u9fff':
+                cut = i
+                break
+        if cut and cut > 0:
+            stem = stem[:cut].rstrip('_- ')
+        try:
+            search = civitai_search(stem, 20, api_key, host)
+            items_s = search.get('items') or []
+            stem_l = stem.lower().replace(' ', '_').replace('-', '_')
+            best = None
+            best_score = 0
+            for m in items_s:
+                for v in (m.get('modelVersions') or []):
+                    for f in (v.get('files') or []):
+                        fn = (f.get('name') or '').lower().replace('.safetensors', '').replace('.pt', '').replace('.ckpt', '')
+                        fn = fn.replace(' ', '_').replace('-', '_')
+                        score = 0
+                        if fn == stem_l:
+                            score = 40
+                        elif fn.startswith(stem_l) or stem_l.startswith(fn):
+                            score = 28
+                        elif stem_l in fn or fn in stem_l:
+                            ratio = min(len(fn), len(stem_l)) / max(len(fn), len(stem_l), 1)
+                            score = 16 if ratio >= 0.55 else 0
+                        if score > best_score:
+                            best_score = score
+                            best = (m, v)
+            if best and best_score >= 16:
+                model_pre, version = best[0], best[1]
+                extracted = _extract_civitai_fields(version, model_pre)
+                merged = {**meta, **extracted, 'sha256': file_hash, 'synced_at': time.time(), 'match_via': 'strict_name'}
+                save_item_meta(loras_root, rel_path, merged)
+                _scan_cache['ts'] = 0
+                return {'ok': True, 'item': {**item, **merged}}
+        except Exception as e:
+            last_err = e
+        raise RuntimeError(
+            f'无法用 hash/严格文件名匹配 C 站（请改用模型 ID）。最后错误: {last_err}'
+        )
+
     model = {}
     model_id = version.get('modelId')
     if model_id:
@@ -380,7 +451,14 @@ def sync_item_civitai(loras_root: str, rel_path: str, api_key: str = '', host: s
             model = {}
 
     extracted = _extract_civitai_fields(version, model)
-    merged = {**meta, **extracted, 'sha256': file_hash, 'synced_at': time.time()}
+    merged = {
+        **meta,
+        **extracted,
+        **civitai_meta,
+        'sha256': file_hash,
+        'synced_at': time.time(),
+        'match_via': 'hash',
+    }
     save_item_meta(loras_root, rel_path, merged)
 
     preview_local = find_preview(full)
