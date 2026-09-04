@@ -8097,7 +8097,7 @@
         }
 
         const hasDbSeries = group.subgroups.some(s => s && s._seriesId);
-        // 已有 D1 系列且基础分类完整 → 只更新封面/计数，保护本地角色 tags 缓存
+        // 已有系列且基础分类完整 → 只更新封面/计数，保护本地角色 tags 缓存
         if (hasDbSeries && !needBaseRestore) {
             const seriesMap = Object.fromEntries(seriesList.map(s => [s.id, s]));
             group.subgroups.forEach(sub => {
@@ -8112,7 +8112,7 @@
             return true;
         }
 
-        // 首次注入，或修复旧缓存：基础分类 + D1 系列（保留已加载的系列角色 tags）
+        // 首次注入，或修复旧缓存：基础分类 + 作品系列（保留已加载的系列角色 tags）
         const dbSubs = seriesList.map(s => {
             const prev = s.id ? existingById[s.id] : null;
             return {
@@ -8127,6 +8127,10 @@
         _sortSeriesSubgroupsByCharCount(group);
         return true;
     }
+
+    // 对齐 TK：作品列表本地静态包优先，API 仅兜底（避免热路径打 D1/Workers）
+    const SERIES_STATIC_URL = '/series-list-20260811.json';
+    const SERIES_CACHE_MAX_AGE = 24 * 60 * 60 * 1000;
 
     async function _loadSeriesFromLocalCache() {
         const seriesList = await _bigCacheGet('_series_cache');
@@ -8146,6 +8150,41 @@
         await _bigCacheSet('_series_cache_ts', Date.now());
     }
 
+    /** 本地静态 JSON → API；与 TK seriesCatalog 同序 */
+    async function _fetchSeriesListPreferStatic() {
+        try {
+            const res = await fetch(SERIES_STATIC_URL);
+            if (res.ok) {
+                const data = await res.json();
+                if (Array.isArray(data) && data.length) {
+                    return { list: data, source: 'static' };
+                }
+            }
+        } catch { /* fall through */ }
+        try {
+            const res = await fetch('/api/characters/series');
+            if (res.ok) {
+                const data = await res.json();
+                if (Array.isArray(data) && data.length) {
+                    return { list: data, source: 'api' };
+                }
+            }
+        } catch { /* fall through */ }
+        return null;
+    }
+
+    async function _applyFetchedSeriesList(seriesList, source) {
+        if (!Array.isArray(seriesList) || !seriesList.length) return false;
+        await _ensurePersonBaseSubsFresh();
+        const changed = _applySeriesListToTagData(seriesList);
+        await _saveSeriesLocalCache(seriesList);
+        if (changed) {
+            try { await _bigCacheSet('_tags_cache', tagData); } catch { /* ignore */ }
+        }
+        console.log(`[series] Loaded ${seriesList.length} from ${source || 'cache'}`);
+        return true;
+    }
+
     async function _loadSeriesFromApi(forceRefresh = false) {
         if (_charGroupIdx < 0) {
             _charGroupIdx = tagData.findIndex(g => g.name === '人物');
@@ -8162,25 +8201,14 @@
         }
 
         try {
-            const res = await fetch('/api/characters/series');
-            if (!res.ok) return false;
-            const seriesList = await res.json();
-            await _ensurePersonBaseSubsFresh();
-            const changed = _applySeriesListToTagData(seriesList);
-            await _saveSeriesLocalCache(seriesList);
-            // 基础分类被恢复后写回标签缓存，避免下次冷启动仍缺「身份」等 Tab
-            if (changed) {
-                try { await _bigCacheSet('_tags_cache', tagData); } catch { /* ignore */ }
-            }
-            console.log(`[D1] Loaded ${seriesList.length} series from database`);
-            return true;
+            const fetched = await _fetchSeriesListPreferStatic();
+            if (!fetched) return false;
+            return await _applyFetchedSeriesList(fetched.list, fetched.source);
         } catch (e) {
-            console.warn('[D1] 角色系列加载失败:', e.message);
+            console.warn('[series] 角色系列加载失败:', e.message);
             return false;
         }
     }
-
-    const SERIES_CACHE_MAX_AGE = 24 * 60 * 60 * 1000;
 
     async function _refreshTagsAndSeriesInBackground() {
         let tagsChanged = false;
@@ -8239,7 +8267,11 @@
 
         _charGroupIdx = tagData.findIndex(g => g.name === '人物');
         await _loadSeriesCharCounts();
-        await _loadSeriesFromLocalCache();
+        // 对齐 TK：IDB → 本地静态包 → API；有缓存也后台刷新
+        const hadSeriesCache = await _loadSeriesFromLocalCache();
+        if (!hadSeriesCache) {
+            await _loadSeriesFromApi(true);
+        }
         _injectArtistGroup();
 
         _refreshTagsAndSeriesInBackground();
@@ -10160,7 +10192,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.15');
+        console.log('[ComfyUI Web] v5.16');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
