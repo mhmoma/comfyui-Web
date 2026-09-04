@@ -19,7 +19,11 @@ function json(status, data) {
   });
 }
 
-export async function movedOnRequest(context, kind) {
+/**
+ * @param {string} kind "session" | "trade"
+ * @param {string} [pathnameOverride] upstream path, e.g. /api/admin/overview
+ */
+export async function proxyOnRequest(context, kind, pathnameOverride) {
   const request = context?.request;
   if (!request) return json(500, { ok: false, error: "no_request" });
 
@@ -32,7 +36,8 @@ export async function movedOnRequest(context, kind) {
 
   const base = (kind === "trade" ? TRADE : SESSION).replace(/\/$/, "");
   const src = new URL(request.url);
-  const dest = `${base}${src.pathname}${src.search}`;
+  const path = pathnameOverride || src.pathname;
+  const dest = `${base}${path}${src.search}`;
 
   const headers = new Headers();
   for (const name of ["content-type", "x-admin-key", "x-user-id", "authorization", "accept"]) {
@@ -69,4 +74,8 @@ export async function movedOnRequest(context, kind) {
       ...cors,
     },
   });
+}
+
+export async function movedOnRequest(context, kind) {
+  return proxyOnRequest(context, kind);
 }
