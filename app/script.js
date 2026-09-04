@@ -7957,7 +7957,7 @@
     }
 
     // 一次性清掉旧版错误合并的标签缓存（对象/作品栏空白的主因）
-    const TAGS_CACHE_EPOCH = 'v518-person-works';
+    const TAGS_CACHE_EPOCH = 'v519-fix-empty-tags';
     async function _bustBrokenTagsCacheOnce() {
         try {
             if (localStorage.getItem('_cw_tags_epoch') === TAGS_CACHE_EPOCH) return;
@@ -7970,6 +7970,7 @@
     }
 
     let _seriesListMem = null;
+    let _personBaseSubsFresh = null;
 
     function _setSeriesListMem(seriesList) {
         if (Array.isArray(seriesList) && seriesList.length) {
@@ -7995,6 +7996,47 @@
         return (group?.subgroups || []).filter(s => s && s._seriesId);
     }
 
+    async function _ensurePersonBaseSubsFresh() {
+        // 已有带词条的完整快照则复用
+        if (_personBaseSubsFresh?.length) {
+            const ok = PERSON_SUB_ORDER.some((name) => {
+                const s = _personBaseSubsFresh.find((x) => x && x.name === name);
+                return s && Array.isArray(s.tags) && s.tags.length > 0;
+            });
+            if (ok) return;
+        }
+        // 优先直接拉 tags.json，避免把空/坏的本地缓存当成权威快照
+        try {
+            const res = await fetch('/tags.json', { cache: 'no-cache' });
+            if (res.ok) {
+                const data = await res.json();
+                const person = Array.isArray(data) ? data.find(g => g && g.name === '人物') : null;
+                if (person?.subgroups?.length) {
+                    const fresh = person.subgroups
+                        .filter(s => s && !s._seriesId && PERSON_SUB_SET.has(s.name))
+                        .map(s => ({
+                            name: s.name,
+                            tags: Array.isArray(s.tags) ? s.tags.slice() : [],
+                        }));
+                    if (fresh.some(s => s.tags.length > 0)) {
+                        _personBaseSubsFresh = fresh;
+                        return;
+                    }
+                }
+            }
+        } catch { /* fall through */ }
+
+        const idx = tagData.findIndex(g => g && g.name === '人物');
+        const current = idx >= 0 ? (tagData[idx].subgroups || []) : [];
+        const currentBase = current.filter(s => s && !s._seriesId && PERSON_SUB_SET.has(s.name));
+        if (currentBase.some(s => Array.isArray(s.tags) && s.tags.length > 0)) {
+            _personBaseSubsFresh = currentBase.map(s => ({
+                name: s.name,
+                tags: Array.isArray(s.tags) ? s.tags.slice() : [],
+            }));
+        }
+    }
+
     async function _ensurePersonAttrsOnTagData() {
         await _ensurePersonBaseSubsFresh();
         if (_charGroupIdx < 0) {
@@ -8010,11 +8052,12 @@
         const attrs = PERSON_SUB_ORDER.map((name) => {
             const fresh = _personBaseSubsFresh.find(s => s && s.name === name);
             const prev = existing.get(name);
-            const tags = (prev && Array.isArray(prev.tags) && prev.tags.length)
-                ? prev.tags
-                : (fresh?.tags || []);
+            const prevTags = prev && Array.isArray(prev.tags) ? prev.tags : [];
+            const freshTags = fresh && Array.isArray(fresh.tags) ? fresh.tags : [];
+            // 本地有词条用本地；否则用 tags.json 快照（禁止留下空分类）
+            const tags = prevTags.length ? prevTags : freshTags;
             return { name, tags };
-        }).filter(s => PERSON_SUB_SET.has(s.name));
+        });
         group.subgroups = [...attrs, ...series];
         return true;
     }
@@ -8038,7 +8081,7 @@
     }
 
     function _injectArtistGroup() {
-        // 去掉 tags.json 里的旧「画师风格」静态词表，以及上次注入的虚拟组，避免桌面标签栏出现双 Tab / 作品数分段
+        // 去掉 tags.json 里的旧「画师风格」静态词表，以及上次注入的虚拟组
         tagData = tagData.filter(g => !g._isArtistGroup && g.name !== '画师风格');
         _injectWorksGroup();
         const artistGroup = {
@@ -8120,37 +8163,6 @@
         } catch {
             return false;
         }
-    }
-
-    // tags.json「人物」基础分类快照（对象/身份/年龄…），用于修复旧缓存只剩「对象」的问题
-    let _personBaseSubsFresh = null;
-
-    async function _ensurePersonBaseSubsFresh() {
-        if (_personBaseSubsFresh?.length) return;
-        const idx = tagData.findIndex(g => g && g.name === '人物');
-        const current = idx >= 0 ? (tagData[idx].subgroups || []) : [];
-        const currentBase = current.filter(s => s && !s._seriesId);
-        // 仍含「身份」说明基础分类完整，可直接快照
-        if (currentBase.some(s => s.name === '身份') && currentBase.some(s => s.name === '对象')) {
-            _personBaseSubsFresh = currentBase.map(s => ({
-                name: s.name,
-                tags: Array.isArray(s.tags) ? s.tags.slice() : [],
-            }));
-            return;
-        }
-        try {
-            const res = await fetch('/tags.json');
-            if (!res.ok) return;
-            const data = await res.json();
-            const person = Array.isArray(data) ? data.find(g => g && g.name === '人物') : null;
-            if (!person?.subgroups?.length) return;
-            _personBaseSubsFresh = person.subgroups
-                .filter(s => s && !s._seriesId)
-                .map(s => ({
-                    name: s.name,
-                    tags: Array.isArray(s.tags) ? s.tags.slice() : [],
-                }));
-        } catch { /* ignore */ }
     }
 
     function _buildSeriesNameSet(seriesList) {
@@ -8648,14 +8660,14 @@
         }
 
         _isOnArtistTab() {
-            return this.id === 'tag-picker-pos' && document.querySelector('.main')?.classList.contains('mobile-tab-artists');
+            return this.id === 'pos' && document.querySelector('.main')?.classList.contains('mobile-tab-artists');
         }
 
         _shouldHideGroup(groupIdx) {
-            const g = tagData[groupIdx];
             // 作品栏只在正向标签区；手机「标签」Tab 用独立角色页，这里隐藏作品组
+            // TagPicker 构造 id 是 'pos' / 'neg'（不是 DOM id tag-picker-pos）
             if (_isWorksGroupIndex(groupIdx)) {
-                if (this.id !== 'tag-picker-pos') return true;
+                if (this.id !== 'pos') return true;
                 const ctx = this._getMobileTabContext();
                 if (ctx === 'tags' || ctx === 'artists') return true;
             }
@@ -8682,7 +8694,7 @@
         _ensureValidGroupForMobile() {
             const ctx = this._getMobileTabContext();
             if (!ctx) return;
-            if (ctx === 'artists' && this.id !== 'tag-picker-pos') return;
+            if (ctx === 'artists' && this.id !== 'pos') return;
 
             if (this._shouldHideGroup(this.groupIdx)) {
                 if (ctx === 'tags') {
@@ -10415,7 +10427,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.18');
+        console.log('[ComfyUI Web] v5.19');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
