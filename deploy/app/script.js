@@ -7682,8 +7682,16 @@
     const _charCache = {};
     const _CACHE_MAX = 50;
     let _charGroupIdx = -1;
+    let _worksGroupIdx = -1;
     let _seriesCharCounts = null;
-    const CHAR_BASE_SUBS = 1;
+    // 对齐 TK：人物属性子分类（不含作品角色表）
+    const PERSON_SUB_ORDER = [
+        '对象', '身份', '二次元角色', '年龄', '皮肤', '身材', '脸型', '头发', '面部',
+        '耳朵', '眉毛', '眼睛', '瞳孔', '鼻子', '嘴巴', '牙齿', '舌头', '指甲',
+        '肩部', '胸部', '腰部', '腹部', '翅膀',
+    ];
+    const PERSON_SUB_SET = new Set(PERSON_SUB_ORDER);
+    const CHAR_BASE_SUBS = PERSON_SUB_ORDER.length;
     let _charPage = 1;
     const CHARS_PER_PAGE = 100;
     const CHAR_BROWSER_PER_PAGE = 40;
@@ -7948,9 +7956,28 @@
         }
     }
 
+    function _orderPersonBaseSubs(baseSubs) {
+        const map = new Map((baseSubs || []).map(s => [s.name, s]));
+        return PERSON_SUB_ORDER.map(name => map.get(name)).filter(Boolean);
+    }
+
+    function _injectWorksGroup() {
+        tagData = tagData.filter(g => !g._isWorksGroup);
+        const charIdx = tagData.findIndex(g => g && g.name === '人物');
+        const insertAt = charIdx >= 0 ? charIdx + 1 : 0;
+        tagData.splice(insertAt, 0, {
+            name: '作品',
+            _isWorksGroup: true,
+            subgroups: [{ name: '全部作品', _worksList: true, tags: [] }],
+        });
+        _worksGroupIdx = insertAt;
+        _charGroupIdx = tagData.findIndex(g => g && g.name === '人物');
+    }
+
     function _injectArtistGroup() {
         // 去掉 tags.json 里的旧「画师风格」静态词表，以及上次注入的虚拟组，避免桌面标签栏出现双 Tab / 作品数分段
         tagData = tagData.filter(g => !g._isArtistGroup && g.name !== '画师风格');
+        _injectWorksGroup();
         const artistGroup = {
             name: '画师风格',
             _isArtistGroup: true,
@@ -7963,6 +7990,14 @@
         };
         tagData.push(artistGroup);
         _artistGroupIdx = tagData.length - 1;
+        _worksGroupIdx = tagData.findIndex(g => g && g._isWorksGroup);
+        _charGroupIdx = tagData.findIndex(g => g && g.name === '人物');
+    }
+
+    function _isWorksGroupIndex(groupIdx) {
+        const g = tagData[groupIdx];
+        if (!g) return false;
+        return groupIdx === _worksGroupIdx || g._isWorksGroup === true;
     }
 
     function _resolveSeriesCharCount(seriesId) {
@@ -7972,7 +8007,7 @@
         return 0;
     }
 
-    /** 作品栏：角色数降序（同数再按中文名）；对象/身份等基础分类固定在前 */
+    /** 作品栏：角色数降序；人物属性按 TK PERSON_SUB_ORDER 固定在前 */
     function _sortSeriesSubgroupsByCharCount(group) {
         if (!group?.subgroups?.length) return;
         const base = [];
@@ -7988,7 +8023,7 @@
             if (cb !== ca) return cb - ca;
             return String(a.name || '').localeCompare(String(b.name || ''), 'zh');
         });
-        group.subgroups = [...base, ...series];
+        group.subgroups = [..._orderPersonBaseSubs(base), ...series];
     }
 
     function _patchSeriesCountsOnTagData() {
@@ -8075,7 +8110,8 @@
         if (!baseSubs.some(s => s.name === '身份') && _personBaseSubsFresh?.length) {
             baseSubs = _personBaseSubsFresh.filter(s => s && !seriesNameSet.has(s.name));
         }
-        return baseSubs;
+        // 对齐 TK：人物栏只保留属性分类
+        return _orderPersonBaseSubs(baseSubs);
     }
 
     function _applySeriesListToTagData(seriesList) {
@@ -8480,7 +8516,10 @@
                     debounce = setTimeout(() => this._showCategoryAutocomplete(), 200);
                 } else {
                     this._hideAutocomplete();
-                    debounce = setTimeout(() => this.renderGrid(), 350);
+                    debounce = setTimeout(() => {
+                        if (_isWorksGroupIndex(this.groupIdx)) _charPage = 1;
+                        this.renderGrid();
+                    }, 350);
                 }
             });
             this.searchEl.addEventListener('focus', () => {
@@ -8531,6 +8570,13 @@
         }
 
         _shouldHideGroup(groupIdx) {
+            const g = tagData[groupIdx];
+            // 作品栏只在正向标签区；手机「标签」Tab 用独立角色页，这里隐藏作品组
+            if (_isWorksGroupIndex(groupIdx)) {
+                if (this.id !== 'tag-picker-pos') return true;
+                const ctx = this._getMobileTabContext();
+                if (ctx === 'tags' || ctx === 'artists') return true;
+            }
             const ctx = this._getMobileTabContext();
             if (!ctx) return false;
             if (ctx === 'tags' && _isArtistGroupHiddenOnTags(groupIdx)) return true;
@@ -8539,10 +8585,16 @@
         }
 
         _shouldHideSubgroup(groupIdx, subIdx) {
-            const ctx = this._getMobileTabContext();
-            if (ctx !== 'tags' || groupIdx !== _charGroupIdx) return false;
-            const sub = tagData[groupIdx]?.subgroups[subIdx];
-            return !!(sub && sub._seriesId);
+            // 人物栏永不展示作品系列（系列进「作品」栏）
+            if (groupIdx === _charGroupIdx) {
+                const sub = tagData[groupIdx]?.subgroups[subIdx];
+                if (!sub) return true;
+                if (sub._seriesId) return true;
+                // 对齐 TK：只保留属性子分类
+                if (!PERSON_SUB_SET.has(sub.name)) return true;
+                return false;
+            }
+            return false;
         }
 
         _ensureValidGroupForMobile() {
@@ -8614,6 +8666,11 @@
                     if (i === _charGroupIdx && this._getMobileTabContext() === 'tags') {
                         this.subIdx = 0;
                     }
+                    if (_isWorksGroupIndex(i)) {
+                        this.searchEl.placeholder = '搜索作品名...';
+                    } else if (this.searchModeBtn && this._searchMode === 'tag') {
+                        this.searchEl.placeholder = '搜索标签...';
+                    }
                     if (i === _artistGroupIdx) {
                         _artistPage = 1;
                         _artistCurrentSort = 'score';
@@ -8667,9 +8724,23 @@
             }
             const subs = (tagData[this.groupIdx]?.subgroups || []).filter(Boolean);
             const ctx = this._getMobileTabContext();
-            const visibleEntries = subs.map((s, i) => ({ s, i })).filter(({ i }) => !this._shouldHideSubgroup(this.groupIdx, i));
+            let visibleEntries = subs.map((s, i) => ({ s, i })).filter(({ i }) => !this._shouldHideSubgroup(this.groupIdx, i));
+            // 人物属性按 TK 顺序
+            if (this.groupIdx === _charGroupIdx) {
+                visibleEntries = PERSON_SUB_ORDER
+                    .map(name => visibleEntries.find(e => e.s.name === name))
+                    .filter(Boolean);
+                if (visibleEntries.length && !visibleEntries.some(e => e.i === this.subIdx)) {
+                    this.subIdx = visibleEntries[0].i;
+                }
+            }
 
             if (ctx === 'artists' && this.groupIdx === _artistGroupIdx) {
+                return;
+            }
+
+            // 作品栏：无子 Tab，直接出作品名列表
+            if (_isWorksGroupIndex(this.groupIdx)) {
                 return;
             }
 
@@ -8712,6 +8783,71 @@
             });
             if (this.groupIdx === _artistGroupIdx) {
                 this._renderArtistLetterBar();
+            }
+            this._updateMobileCharLayout();
+        }
+
+        _getPersonSeriesList() {
+            const group = _charGroupIdx >= 0 ? tagData[_charGroupIdx] : null;
+            return (group?.subgroups || []).filter(s => s && s._seriesId);
+        }
+
+        _renderWorksSeriesGrid() {
+            this._removePagination();
+            const letterBar = this.subTabsEl?.parentElement?.querySelector('.artist-letter-bar');
+            if (letterBar) letterBar.remove();
+
+            let series = this._getPersonSeriesList();
+            const q = (this.searchEl?.value || '').trim().toLowerCase();
+            if (q) {
+                series = series.filter(s =>
+                    String(s.name || '').toLowerCase().includes(q)
+                    || String(s._seriesId || '').toLowerCase().includes(q)
+                );
+            }
+
+            this.gridEl.innerHTML = '';
+            if (!series.length) {
+                this.gridEl.innerHTML = `<div style="padding:30px;color:var(--text-secondary);text-align:center;width:100%;font-size:0.85rem">${q ? '未找到匹配作品' : '作品列表加载中…'}</div>`;
+                this._updateMobileCharLayout();
+                return;
+            }
+
+            const PER_PAGE = 48;
+            const totalPages = Math.max(1, Math.ceil(series.length / PER_PAGE));
+            if (_charPage > totalPages) _charPage = totalPages;
+            if (_charPage < 1) _charPage = 1;
+            const pageItems = series.slice((_charPage - 1) * PER_PAGE, _charPage * PER_PAGE);
+
+            const wrap = document.createElement('div');
+            wrap.className = 'works-series-grid char-series-grid';
+            pageItems.forEach(s => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'works-series-item char-series-card';
+                const count = Number(s._seriesCount) || _resolveSeriesCharCount(s._seriesId) || 0;
+                btn.innerHTML = `<span class="works-series-name char-series-name">${escapeHtml(s.name || s._seriesId)}</span><span class="works-series-count char-series-count">${count ? `${count} 角色` : ''}</span>`;
+                btn.addEventListener('click', () => openCharBrowser(s._seriesId, s.name));
+                wrap.appendChild(btn);
+            });
+            this.gridEl.appendChild(wrap);
+
+            if (totalPages > 1) {
+                const nav = document.createElement('div');
+                nav.className = 'artist-pagination';
+                const prev = document.createElement('button');
+                prev.textContent = '← 上一页';
+                prev.disabled = _charPage <= 1;
+                prev.addEventListener('click', () => { _charPage--; this._renderWorksSeriesGrid(); });
+                const info = document.createElement('span');
+                info.className = 'page-info';
+                info.textContent = `第 ${_charPage} / ${totalPages} 页（共 ${series.length} 部）`;
+                const next = document.createElement('button');
+                next.textContent = '下一页 →';
+                next.disabled = _charPage >= totalPages;
+                next.addEventListener('click', () => { _charPage++; this._renderWorksSeriesGrid(); });
+                nav.append(prev, info, next);
+                this.gridEl.parentElement.insertBefore(nav, this.gridEl.nextSibling);
             }
             this._updateMobileCharLayout();
         }
@@ -8775,6 +8911,12 @@
                     this._renderItems(items);
                 }
                 this._updateMobileCharLayout();
+                return;
+            }
+
+            // 作品栏：显示作品名，点击进入角色
+            if (_isWorksGroupIndex(this.groupIdx)) {
+                this._renderWorksSeriesGrid();
                 return;
             }
 
@@ -10192,7 +10334,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.16');
+        console.log('[ComfyUI Web] v5.17');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();

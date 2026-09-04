@@ -1142,6 +1142,48 @@ textarea {
     overflow-y: auto;
 }
 
+/* 作品栏：作品名列表（对齐 TK：与人物属性分类分离） */
+.works-series-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    padding: 4px 2px 12px;
+    box-sizing: border-box;
+}
+.works-series-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+    min-width: 108px;
+    max-width: 160px;
+    flex: 0 1 140px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-input);
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s, background 0.15s;
+}
+.works-series-item:hover {
+    border-color: var(--accent, #3d7a5a);
+    background: var(--bg-hover, rgba(61, 122, 90, 0.08));
+}
+.works-series-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.25;
+    word-break: break-word;
+}
+.works-series-count {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+}
+
 .tag-item {
     position: relative;
     display: flex;
