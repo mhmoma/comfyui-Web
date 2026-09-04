@@ -35,12 +35,14 @@ function main() {
 
     const files = [
         ['index.html', 'index.html'],
+        ['tags.json', 'tags.json'],
         ['tk188-tags.json', 'tk188-tags.json'],
         ['feed.xml', 'feed.xml'],
         ['sitemap.xml', 'sitemap.xml'],
         ['manifest.webmanifest', 'manifest.webmanifest'],
         ['sw.js', 'sw.js'],
         ['series-list-20260811.json', 'series-list-20260811.json'],
+        ['series_char_counts.json', 'series_char_counts.json'],
         ['artists-meta.json', 'artists-meta.json'],
         ['artists-by-score.json', 'artists-by-score.json'],
     ];

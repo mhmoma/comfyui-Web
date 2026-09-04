@@ -7957,7 +7957,8 @@
     }
 
     // 一次性清掉旧版错误合并的标签缓存（对象/作品栏空白的主因）
-    const TAGS_CACHE_EPOCH = 'v519-fix-empty-tags';
+    // v520：线上 tags.json 曾只剩「对象」有词，其余人物属性为空，需强制丢弃 IDB 坏快照
+    const TAGS_CACHE_EPOCH = 'v520-restore-person-attrs';
     async function _bustBrokenTagsCacheOnce() {
         try {
             if (localStorage.getItem('_cw_tags_epoch') === TAGS_CACHE_EPOCH) return;
@@ -7971,6 +7972,16 @@
 
     let _seriesListMem = null;
     let _personBaseSubsFresh = null;
+
+    function _personBaseSubsLooksComplete(subs) {
+        if (!Array.isArray(subs) || !subs.length) return false;
+        // 至少要有一批核心分类带词；旧坏快照只有「对象」有词
+        const need = ['对象', '身份', '身材', '头发', '眼睛'];
+        return need.every((name) => {
+            const s = subs.find((x) => x && x.name === name);
+            return s && Array.isArray(s.tags) && s.tags.length > 0;
+        });
+    }
 
     function _setSeriesListMem(seriesList) {
         if (Array.isArray(seriesList) && seriesList.length) {
@@ -7997,14 +8008,8 @@
     }
 
     async function _ensurePersonBaseSubsFresh() {
-        // 已有带词条的完整快照则复用
-        if (_personBaseSubsFresh?.length) {
-            const ok = PERSON_SUB_ORDER.some((name) => {
-                const s = _personBaseSubsFresh.find((x) => x && x.name === name);
-                return s && Array.isArray(s.tags) && s.tags.length > 0;
-            });
-            if (ok) return;
-        }
+        // 已有「完整」快照才复用；仅「对象」有词的坏快照必须重拉
+        if (_personBaseSubsLooksComplete(_personBaseSubsFresh)) return;
         // 优先直接拉 tags.json，避免把空/坏的本地缓存当成权威快照
         try {
             const res = await fetch('/tags.json', { cache: 'no-cache' });
@@ -8018,7 +8023,7 @@
                             name: s.name,
                             tags: Array.isArray(s.tags) ? s.tags.slice() : [],
                         }));
-                    if (fresh.some(s => s.tags.length > 0)) {
+                    if (_personBaseSubsLooksComplete(fresh) || fresh.some(s => s.tags.length > 0)) {
                         _personBaseSubsFresh = fresh;
                         return;
                     }
@@ -8029,7 +8034,7 @@
         const idx = tagData.findIndex(g => g && g.name === '人物');
         const current = idx >= 0 ? (tagData[idx].subgroups || []) : [];
         const currentBase = current.filter(s => s && !s._seriesId && PERSON_SUB_SET.has(s.name));
-        if (currentBase.some(s => Array.isArray(s.tags) && s.tags.length > 0)) {
+        if (_personBaseSubsLooksComplete(currentBase) || currentBase.some(s => Array.isArray(s.tags) && s.tags.length > 0)) {
             _personBaseSubsFresh = currentBase.map(s => ({
                 name: s.name,
                 tags: Array.isArray(s.tags) ? s.tags.slice() : [],
@@ -8054,8 +8059,8 @@
             const prev = existing.get(name);
             const prevTags = prev && Array.isArray(prev.tags) ? prev.tags : [];
             const freshTags = fresh && Array.isArray(fresh.tags) ? fresh.tags : [];
-            // 本地有词条用本地；否则用 tags.json 快照（禁止留下空分类）
-            const tags = prevTags.length ? prevTags : freshTags;
+            // 优先用词条更多的一侧；禁止空分类盖住 tags.json 快照
+            const tags = freshTags.length >= prevTags.length ? freshTags : prevTags;
             return { name, tags };
         });
         group.subgroups = [...attrs, ...series];
@@ -10427,7 +10432,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.19');
+        console.log('[ComfyUI Web] v5.20');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
