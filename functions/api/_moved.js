@@ -66,11 +66,24 @@ export async function proxyOnRequest(context, kind, pathnameOverride) {
     });
   }
 
+  const ct = String(upstream.headers.get("Content-Type") || "");
   const buf = await upstream.arrayBuffer();
+  // 上游 Worker 崩溃时常回 HTML/空壳，转成可读 JSON，避免运营台只看到裸 500
+  if (upstream.status >= 500 && !/json/i.test(ct)) {
+    const preview = new TextDecoder().decode(buf).replace(/\s+/g, " ").trim().slice(0, 240);
+    return json(upstream.status, {
+      ok: false,
+      error: "upstream_http_error",
+      message: preview || `上游 ${base} 返回 HTTP ${upstream.status}`,
+      use: dest,
+      status: upstream.status,
+    });
+  }
+
   return new Response(buf, {
     status: upstream.status,
     headers: {
-      "Content-Type": upstream.headers.get("Content-Type") || "application/json; charset=utf-8",
+      "Content-Type": ct || "application/json; charset=utf-8",
       ...cors,
     },
   });
