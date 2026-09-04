@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.49";
+  const ADMIN_UI_VERSION = "1.50";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -51,16 +51,18 @@
     { id: "news", label: "资讯", group: "素材" },
   ];
 
+  /** 走素材站同源代理（转发到 6og）；勿放 /api/admin/overview（素材站有同名本地实现） */
   const SESSION_PREFIXES = [
     "/api/announcements",
     "/api/board",
     "/api/prefs",
-    "/api/admin/overview",
     "/api/admin/analytics",
     "/api/admin/players",
     "/api/admin/audit",
+    "/api/admin/ping",
     "/api/player-blocks",
   ];
+  /** 交流/画师串仍直连 tk 原；media-upload 已在素材站有同源代理 */
   const TRADE_PREFIXES = [
     "/api/artist-trade",
     "/api/player-artists",
@@ -334,10 +336,19 @@
     if (/^https?:\/\//i.test(path)) return path;
     const p = String(path || "");
     const useTrade = TRADE_PREFIXES.some((prefix) => p === prefix || p.startsWith(`${prefix}?`) || p.startsWith(`${prefix}/`));
-    if (useTrade) return new URL(p, TRADE_BASE).toString();
-    const useSession = SESSION_PREFIXES.some((prefix) => p === prefix || p.startsWith(`${prefix}?`) || p.startsWith(`${prefix}/`));
-    const base = useSession ? CLOUD_BASE : ASSET_BASE;
-    return new URL(p, base).toString();
+    if (useTrade) {
+      // media-upload / artist-trade / player-artists：素材站同源代理
+      if (
+        p.startsWith("/api/admin/media-upload") ||
+        p.startsWith("/api/artist-trade") ||
+        p.startsWith("/api/player-artists")
+      ) {
+        return new URL(p, ASSET_BASE).toString();
+      }
+      return new URL(p, TRADE_BASE).toString();
+    }
+    // 会话 API 与素材 API：一律同源（会话由 _moved 转发到 6og）
+    return new URL(p, ASSET_BASE).toString();
   }
 
   async function api(path, opts = {}) {
@@ -381,7 +392,15 @@
   }
 
   async function cloudApi(path, opts = {}) {
-    const res = await fetch(new URL(path, CLOUD_BASE).toString(), {
+    const p = String(path || "");
+    // 与素材站同名的 overview 必须直连 6og；其余可走同源会话代理
+    const direct =
+      p === "/api/admin/overview" ||
+      p.startsWith("/api/admin/overview?");
+    const url = direct
+      ? new URL(p, CLOUD_BASE).toString()
+      : resolveUrl(p);
+    const res = await fetch(url, {
       ...opts,
       headers: {
         ...(opts.headers || {}),
@@ -401,7 +420,17 @@
   }
 
   async function tradeApi(path, opts = {}) {
-    const res = await fetch(new URL(path, TRADE_BASE).toString(), {
+    const p = String(path || "");
+    // /api/admin/ping 在两边同名：trade 探活必须直连 tk 原
+    const direct =
+      p === "/api/admin/ping" ||
+      p.startsWith("/api/admin/ping?") ||
+      p === "/api/admin/overview" ||
+      p.startsWith("/api/admin/overview?");
+    const url = direct
+      ? new URL(p, TRADE_BASE).toString()
+      : resolveUrl(p);
+    const res = await fetch(url, {
       ...opts,
       headers: {
         ...(opts.headers || {}),
