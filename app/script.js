@@ -7972,7 +7972,7 @@
         return 0;
     }
 
-    /** 作品栏：角色数降序（同数再按中文名）；对象/属性固定置顶 */
+    /** 作品栏：角色数降序（同数再按中文名）；对象/身份等基础分类固定在前 */
     function _sortSeriesSubgroupsByCharCount(group) {
         if (!group?.subgroups?.length) return;
         const base = [];
@@ -7980,7 +7980,6 @@
         group.subgroups.forEach((sub) => {
             if (!sub) return;
             if (sub._seriesId) series.push(sub);
-            else if (sub.name === '对象' || sub.name === '属性') base.push(sub);
             else base.push(sub);
         });
         series.sort((a, b) => {
@@ -8025,6 +8024,60 @@
         }
     }
 
+    // tags.json「人物」基础分类快照（对象/身份/年龄…），用于修复旧缓存只剩「对象」的问题
+    let _personBaseSubsFresh = null;
+
+    async function _ensurePersonBaseSubsFresh() {
+        if (_personBaseSubsFresh?.length) return;
+        const idx = tagData.findIndex(g => g && g.name === '人物');
+        const current = idx >= 0 ? (tagData[idx].subgroups || []) : [];
+        const currentBase = current.filter(s => s && !s._seriesId);
+        // 仍含「身份」说明基础分类完整，可直接快照
+        if (currentBase.some(s => s.name === '身份') && currentBase.some(s => s.name === '对象')) {
+            _personBaseSubsFresh = currentBase.map(s => ({
+                name: s.name,
+                tags: Array.isArray(s.tags) ? s.tags.slice() : [],
+            }));
+            return;
+        }
+        try {
+            const res = await fetch('/tags.json');
+            if (!res.ok) return;
+            const data = await res.json();
+            const person = Array.isArray(data) ? data.find(g => g && g.name === '人物') : null;
+            if (!person?.subgroups?.length) return;
+            _personBaseSubsFresh = person.subgroups
+                .filter(s => s && !s._seriesId)
+                .map(s => ({
+                    name: s.name,
+                    tags: Array.isArray(s.tags) ? s.tags.slice() : [],
+                }));
+        } catch { /* ignore */ }
+    }
+
+    function _buildSeriesNameSet(seriesList) {
+        const seriesNameSet = new Set();
+        seriesList.forEach((s) => {
+            if (!s) return;
+            if (s.name) seriesNameSet.add(s.name);
+            const cn = _SERIES_CN[s.name] || s.name;
+            if (cn) seriesNameSet.add(cn);
+        });
+        return seriesNameSet;
+    }
+
+    function _collectPersonBaseSubs(group, seriesNameSet) {
+        let baseSubs = (group.subgroups || []).filter((s) => {
+            if (!s || s._seriesId) return false;
+            return !seriesNameSet.has(s.name);
+        });
+        // 旧逻辑曾只保留「对象/属性」，导致「身份」等分类丢失 → 用 tags.json 快照恢复
+        if (!baseSubs.some(s => s.name === '身份') && _personBaseSubsFresh?.length) {
+            baseSubs = _personBaseSubsFresh.filter(s => s && !seriesNameSet.has(s.name));
+        }
+        return baseSubs;
+    }
+
     function _applySeriesListToTagData(seriesList) {
         if (_charGroupIdx < 0) {
             _charGroupIdx = tagData.findIndex(g => g.name === '人物');
@@ -8032,9 +8085,20 @@
         if (_charGroupIdx < 0 || !Array.isArray(seriesList) || !seriesList.length) return false;
         const group = tagData[_charGroupIdx];
         if (!group) return false;
+        if (!group.subgroups) group.subgroups = [];
+
+        const seriesNameSet = _buildSeriesNameSet(seriesList);
+        const baseSubs = _collectPersonBaseSubs(group, seriesNameSet);
+        const needBaseRestore = !group.subgroups.some(s => s && !s._seriesId && s.name === '身份');
+
+        const existingById = {};
+        for (const s of group.subgroups) {
+            if (s && s._seriesId) existingById[s._seriesId] = s;
+        }
 
         const hasDbSeries = group.subgroups.some(s => s && s._seriesId);
-        if (hasDbSeries) {
+        // 已有 D1 系列且基础分类完整 → 只更新封面/计数，保护本地角色 tags 缓存
+        if (hasDbSeries && !needBaseRestore) {
             const seriesMap = Object.fromEntries(seriesList.map(s => [s.id, s]));
             group.subgroups.forEach(sub => {
                 if (!sub?._seriesId) return;
@@ -8044,17 +8108,22 @@
                     sub._seriesCount = _resolveSeriesCharCount(sub._seriesId);
                 }
             });
-        } else {
-            const baseSubs = group.subgroups.filter(s => s && (s.name === '对象' || s.name === '属性'));
-            const dbSubs = seriesList.map(s => ({
+            _sortSeriesSubgroupsByCharCount(group);
+            return true;
+        }
+
+        // 首次注入，或修复旧缓存：基础分类 + D1 系列（保留已加载的系列角色 tags）
+        const dbSubs = seriesList.map(s => {
+            const prev = s.id ? existingById[s.id] : null;
+            return {
                 name: _SERIES_CN[s.name] || s.name,
                 _seriesId: s.id,
                 _seriesCount: _resolveSeriesCharCount(s.id),
-                _coverUrl: s.cover_url || '',
-                tags: [],
-            }));
-            group.subgroups = [...baseSubs, ...dbSubs];
-        }
+                _coverUrl: s.cover_url || prev?._coverUrl || '',
+                tags: Array.isArray(prev?.tags) ? prev.tags : [],
+            };
+        });
+        group.subgroups = [...baseSubs, ...dbSubs];
         _sortSeriesSubgroupsByCharCount(group);
         return true;
     }
@@ -8062,6 +8131,7 @@
     async function _loadSeriesFromLocalCache() {
         const seriesList = await _bigCacheGet('_series_cache');
         if (!seriesList || !Array.isArray(seriesList) || !seriesList.length) return false;
+        await _ensurePersonBaseSubsFresh();
         return _applySeriesListToTagData(seriesList);
     }
 
@@ -8086,7 +8156,8 @@
 
         const seriesSubs = group.subgroups.filter(s => s && s._seriesId);
         const hasDbSeries = seriesSubs.length > 0;
-        if (!forceRefresh && hasDbSeries && seriesSubs.every(s => s._coverUrl !== undefined)) {
+        const hasPersonBase = group.subgroups.some(s => s && !s._seriesId && s.name === '身份');
+        if (!forceRefresh && hasDbSeries && hasPersonBase && seriesSubs.every(s => s._coverUrl !== undefined)) {
             return false;
         }
 
@@ -8094,8 +8165,13 @@
             const res = await fetch('/api/characters/series');
             if (!res.ok) return false;
             const seriesList = await res.json();
-            _applySeriesListToTagData(seriesList);
+            await _ensurePersonBaseSubsFresh();
+            const changed = _applySeriesListToTagData(seriesList);
             await _saveSeriesLocalCache(seriesList);
+            // 基础分类被恢复后写回标签缓存，避免下次冷启动仍缺「身份」等 Tab
+            if (changed) {
+                try { await _bigCacheSet('_tags_cache', tagData); } catch { /* ignore */ }
+            }
             console.log(`[D1] Loaded ${seriesList.length} series from database`);
             return true;
         } catch (e) {
@@ -10084,7 +10160,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.14');
+        console.log('[ComfyUI Web] v5.15');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
