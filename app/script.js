@@ -7956,6 +7956,69 @@
         }
     }
 
+    // 一次性清掉旧版错误合并的标签缓存（对象/作品栏空白的主因）
+    const TAGS_CACHE_EPOCH = 'v518-person-works';
+    async function _bustBrokenTagsCacheOnce() {
+        try {
+            if (localStorage.getItem('_cw_tags_epoch') === TAGS_CACHE_EPOCH) return;
+            await _bigCacheSet('_tags_cache', null);
+            await _bigCacheSet('_tags_ver', '');
+            await _bigCacheSet('_series_cache_ts', 0);
+            localStorage.setItem('_cw_tags_epoch', TAGS_CACHE_EPOCH);
+            console.log('[series] cleared stale tags cache', TAGS_CACHE_EPOCH);
+        } catch { /* ignore */ }
+    }
+
+    let _seriesListMem = null;
+
+    function _setSeriesListMem(seriesList) {
+        if (Array.isArray(seriesList) && seriesList.length) {
+            _seriesListMem = seriesList.map(s => ({
+                id: s.id,
+                name: s.name,
+                count: s.count,
+                cover_url: s.cover_url || null,
+            }));
+        }
+    }
+
+    function _seriesRowsForWorksUi() {
+        if (Array.isArray(_seriesListMem) && _seriesListMem.length) {
+            return _seriesListMem.map(s => ({
+                name: _SERIES_CN[s.name] || s.name,
+                _seriesId: s.id,
+                _seriesCount: _resolveSeriesCharCount(s.id) || Number(s.count) || 0,
+                _coverUrl: s.cover_url || '',
+            }));
+        }
+        const group = _charGroupIdx >= 0 ? tagData[_charGroupIdx] : null;
+        return (group?.subgroups || []).filter(s => s && s._seriesId);
+    }
+
+    async function _ensurePersonAttrsOnTagData() {
+        await _ensurePersonBaseSubsFresh();
+        if (_charGroupIdx < 0) {
+            _charGroupIdx = tagData.findIndex(g => g && g.name === '人物');
+        }
+        if (_charGroupIdx < 0 || !_personBaseSubsFresh?.length) return false;
+        const group = tagData[_charGroupIdx];
+        if (!group) return false;
+        const series = (group.subgroups || []).filter(s => s && s._seriesId);
+        const existing = new Map(
+            (group.subgroups || []).filter(s => s && !s._seriesId).map(s => [s.name, s])
+        );
+        const attrs = PERSON_SUB_ORDER.map((name) => {
+            const fresh = _personBaseSubsFresh.find(s => s && s.name === name);
+            const prev = existing.get(name);
+            const tags = (prev && Array.isArray(prev.tags) && prev.tags.length)
+                ? prev.tags
+                : (fresh?.tags || []);
+            return { name, tags };
+        }).filter(s => PERSON_SUB_SET.has(s.name));
+        group.subgroups = [...attrs, ...series];
+        return true;
+    }
+
     function _orderPersonBaseSubs(baseSubs) {
         const map = new Map((baseSubs || []).map(s => [s.name, s]));
         return PERSON_SUB_ORDER.map(name => map.get(name)).filter(Boolean);
@@ -8171,8 +8234,11 @@
     async function _loadSeriesFromLocalCache() {
         const seriesList = await _bigCacheGet('_series_cache');
         if (!seriesList || !Array.isArray(seriesList) || !seriesList.length) return false;
+        _setSeriesListMem(seriesList);
         await _ensurePersonBaseSubsFresh();
-        return _applySeriesListToTagData(seriesList);
+        const ok = _applySeriesListToTagData(seriesList);
+        await _ensurePersonAttrsOnTagData();
+        return ok;
     }
 
     async function _saveSeriesLocalCache(seriesList) {
@@ -8186,10 +8252,10 @@
         await _bigCacheSet('_series_cache_ts', Date.now());
     }
 
-    /** 本地静态 JSON → API；与 TK seriesCatalog 同序 */
+    /** 仅静态 JSON / IDB，不打 /api/characters/series（避免 Workers+偶发 D1） */
     async function _fetchSeriesListPreferStatic() {
         try {
-            const res = await fetch(SERIES_STATIC_URL);
+            const res = await fetch(SERIES_STATIC_URL, { cache: 'force-cache' });
             if (res.ok) {
                 const data = await res.json();
                 if (Array.isArray(data) && data.length) {
@@ -8198,12 +8264,9 @@
             }
         } catch { /* fall through */ }
         try {
-            const res = await fetch('/api/characters/series');
-            if (res.ok) {
-                const data = await res.json();
-                if (Array.isArray(data) && data.length) {
-                    return { list: data, source: 'api' };
-                }
+            const cached = await _bigCacheGet('_series_cache');
+            if (Array.isArray(cached) && cached.length) {
+                return { list: cached, source: 'idb' };
             }
         } catch { /* fall through */ }
         return null;
@@ -8211,8 +8274,10 @@
 
     async function _applyFetchedSeriesList(seriesList, source) {
         if (!Array.isArray(seriesList) || !seriesList.length) return false;
+        _setSeriesListMem(seriesList);
         await _ensurePersonBaseSubsFresh();
         const changed = _applySeriesListToTagData(seriesList);
+        await _ensurePersonAttrsOnTagData();
         await _saveSeriesLocalCache(seriesList);
         if (changed) {
             try { await _bigCacheSet('_tags_cache', tagData); } catch { /* ignore */ }
@@ -8233,6 +8298,14 @@
         const hasDbSeries = seriesSubs.length > 0;
         const hasPersonBase = group.subgroups.some(s => s && !s._seriesId && s.name === '身份');
         if (!forceRefresh && hasDbSeries && hasPersonBase && seriesSubs.every(s => s._coverUrl !== undefined)) {
+            if (!(_seriesListMem && _seriesListMem.length)) {
+                _setSeriesListMem(seriesSubs.map(s => ({
+                    id: s._seriesId,
+                    name: s.name,
+                    count: s._seriesCount,
+                    cover_url: s._coverUrl || null,
+                })));
+            }
             return false;
         }
 
@@ -8261,6 +8334,10 @@
                     _charGroupIdx = tagData.findIndex(g => g.name === '人物');
                     await _loadSeriesCharCounts();
                     await _loadSeriesFromLocalCache();
+                    if (!(_seriesListMem && _seriesListMem.length)) {
+                        await _loadSeriesFromApi(true);
+                    }
+                    await _ensurePersonAttrsOnTagData();
                     _injectArtistGroup();
                     tagsChanged = true;
                 }
@@ -8282,6 +8359,7 @@
 
     async function loadTags() {
         await _migrateLargeCacheToIdb();
+        await _bustBrokenTagsCacheOnce();
 
         const cached = await _bigCacheGet('_tags_cache');
         if (cached && Array.isArray(cached) && cached.length) {
@@ -8303,11 +8381,18 @@
 
         _charGroupIdx = tagData.findIndex(g => g.name === '人物');
         await _loadSeriesCharCounts();
-        // 对齐 TK：IDB → 本地静态包 → API；有缓存也后台刷新
+        // 对齐 TK：静态作品表优先；并强制恢复人物属性分类
         const hadSeriesCache = await _loadSeriesFromLocalCache();
         if (!hadSeriesCache) {
             await _loadSeriesFromApi(true);
+        } else {
+            await _ensurePersonAttrsOnTagData();
         }
+        // 仍无作品内存时再强拉静态包
+        if (!(_seriesListMem && _seriesListMem.length)) {
+            await _loadSeriesFromApi(true);
+        }
+        await _ensurePersonAttrsOnTagData();
         _injectArtistGroup();
 
         _refreshTagsAndSeriesInBackground();
@@ -8341,11 +8426,8 @@
     }
 
     async function _searchCharsFromDb(query) {
-        try {
-            const res = await fetch(`/api/characters/search?q=${encodeURIComponent(query)}&limit=100`);
-            if (!res.ok) { console.warn('[API] Character search failed:', res.status); return []; }
-            return await res.json();
-        } catch (e) { console.warn('[API] Character search error:', e.message); return []; }
+        // 禁用：/api/characters/search 纯 D1 LIKE，热搜索会打满额度。改走「作品」栏。
+        return [];
     }
 
     async function _fetchArtists(sort = 'score', order = 'desc', page = 1, letter = 'all') {
@@ -8788,8 +8870,7 @@
         }
 
         _getPersonSeriesList() {
-            const group = _charGroupIdx >= 0 ? tagData[_charGroupIdx] : null;
-            return (group?.subgroups || []).filter(s => s && s._seriesId);
+            return _seriesRowsForWorksUi();
         }
 
         _renderWorksSeriesGrid() {
@@ -10334,7 +10415,7 @@
     }
 
     async function init() {
-        console.log('[ComfyUI Web] v5.17');
+        console.log('[ComfyUI Web] v5.18');
         await loadTags();
         await ensureHistoryLoaded();
         renderHistory();
@@ -10669,13 +10750,12 @@
         }
         _seriesListState.filter = q;
 
-        let subs = (_charGroupIdx >= 0 ? tagData[_charGroupIdx]?.subgroups : []) || [];
-        subs = subs.filter(s => s && s._seriesId);
+        let subs = _seriesRowsForWorksUi();
 
         if (!subs.length) {
             scroll.innerHTML = '<div class="char-browser-empty">正在加载作品列表…<br><small>共 800+ 个作品，请稍候</small></div>';
             _renderSeriesPagination(0, 1, paginationId, rerender);
-            _loadSeriesFromApi().then(ok => {
+            _loadSeriesFromApi(true).then(ok => {
                 if (ok) renderMobileSeriesList(q, options);
                 else scroll.innerHTML = '<div class="char-browser-empty">作品列表加载失败<br><small>请检查网络后刷新页面</small></div>';
             });

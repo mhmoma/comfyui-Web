@@ -5,8 +5,6 @@ export async function onRequestGet(context) {
   const { request, env } = context;
   const db = env.DB;
 
-  if (!db) return json(500, { error: "DB not bound" });
-
   const url = new URL(request.url);
   const q = (url.searchParams.get("q") || "").trim();
   const limit = Math.min(parseInt(url.searchParams.get("limit") || "60", 10), 200);
@@ -20,10 +18,13 @@ export async function onRequestGet(context) {
 
   try {
     let blocked = [];
-    try {
-      await ensureContentBlocks(db);
-      blocked = await listEffectiveBlockedIds(db, "artist", userId);
-    } catch (_) {}
+    // 无 userId 时不碰 D1 屏蔽表（热搜索不烧额度）
+    if (db && userId) {
+      try {
+        await ensureContentBlocks(db);
+        blocked = await listEffectiveBlockedIds(db, "artist", userId);
+      } catch (_) {}
+    }
 
     const catalog = await loadArtistsCatalog(request);
     if (catalog) {
@@ -38,6 +39,7 @@ export async function onRequestGet(context) {
       });
     }
 
+    if (!db) return json(500, { error: "DB not bound" });
     const pattern = `%${q}%`;
     const binds = [pattern, pattern, pattern];
     let notIn = "";
