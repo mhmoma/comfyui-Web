@@ -197,7 +197,7 @@ export async function onRequestGet(context) {
     notes: [
       "本总览来自 comfyui-web 素材库（画师/角色数优先静态；资讯/屏蔽等缓存约 6 小时）。",
       "偏好 / 画泥 / 留言 / 公告在 web 新 6og。",
-      "交流 / 玩家画师串 / 封面文件在 tk 原；最高级屏蔽写入本站 content_blocks。",
+      "交流 / 玩家画师串 / 封面文件在比赛服；最高级屏蔽写入本站 content_blocks。",
       "加 ?refresh=1 强制重算。",
     ],
   });

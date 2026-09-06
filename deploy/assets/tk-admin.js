@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.54";
+  const ADMIN_UI_VERSION = "1.55";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -21,9 +21,9 @@
   })();
   /** 游戏云端（公告/留言/偏好/画泥）——web 新账号 */
   const CLOUD_BASE = "https://tk-game-cloud-6og.pages.dev";
-  /** 交易+画师串+图床——tk 原账号 */
+  /** 交易+画师串+图床——比赛服（与大赛同站） */
   const TRADE_BASE = "https://tk-contest-ckm.pages.dev";
-  /** 图床代理站（tk 原账号 R2 imtubro） */
+  /** 图床与交易同站 */
   const MEDIA_PROXY_HOST = TRADE_BASE;
 
   let assetAuthOk = false;
@@ -62,7 +62,7 @@
     "/api/admin/ping",
     "/api/player-blocks",
   ];
-  /** 交流/画师串仍直连 tk 原；media-upload 已在素材站有同源代理 */
+  /** 交流/画师串经素材站代理到比赛服；media-upload 同源代理 */
   const TRADE_PREFIXES = [
     "/api/artist-trade",
     "/api/player-artists",
@@ -501,7 +501,7 @@
     assetAuthOk = true;
 
     if (adminRole === "news") {
-      // 次级账号只打素材站资讯，不校验 6og / tk 原
+      // 次级账号只打素材站资讯，不校验 6og / 比赛服
       return;
     }
 
@@ -514,7 +514,7 @@
     return `<div class="panel err">
       <p><strong>素材站密钥无效</strong>：${escapeHtml(feature)}不可用。</p>
       <p class="meta">运营台登录目前只校验了云端密钥。画师库/角色库的「最高级屏蔽」写在素材站 D1，两边 ADMIN_KEY 必须相同。</p>
-      <p class="meta">请确认 Cloudflare 里 comfyui-web、6og、tk 原站的 ADMIN_KEY 一致后重新登录。</p>
+      <p class="meta">请确认 Cloudflare 里 comfyui-web、6og、比赛服的 ADMIN_KEY 一致后重新登录。</p>
     </div>`;
   }
 
@@ -746,11 +746,11 @@
       { href: "prefs", k: "偏好条目", v: c.prefs?.total ?? "—", s: "明细页" },
     ];
     const tradeCards = [
-      { href: "player-artists", k: "玩家画师串", v: t.playerArtists?.total ?? "—", s: "tk 原 D1" },
+      { href: "player-artists", k: "玩家画师串", v: t.playerArtists?.total ?? "—", s: "比赛服 D1" },
       { href: "trade", k: "交流在售", v: t.trade?.active ?? "—", s: `下架 ${t.trade?.off ?? 0} · 打码 ${t.trade?.imageBlocked ?? 0}` },
     ];
     const assetCards = [
-      { href: "catalog", k: "素材入库", v: "入口", s: "封面→tk 原 R2 · 元数据→本库" },
+      { href: "catalog", k: "素材入库", v: "入口", s: "封面→比赛服 R2 · 元数据→本库" },
       { href: "news", k: "已发资讯", v: a.news?.published ?? "—", s: `草稿 ${a.news?.draft ?? 0}` },
       { href: "artists", k: "画师库", v: a.artists?.total ?? "—", s: `屏蔽 ${a.artists?.blocked ?? 0}` },
       { href: "characters", k: "角色", v: a.characters?.characters ?? "—", s: `系列 ${a.characters?.series ?? 0} · 屏蔽 ${a.characters?.blocked ?? 0}` },
@@ -776,8 +776,8 @@
         </div>
         <section class="mod-section acct-map">
           <div class="mod-section-head">
-            <strong>三账号职责</strong>
-            <span class="meta">勿把「web」当成素材站</span>
+            <strong>三端职责</strong>
+            <span class="meta">勿把「web」当成素材站；交易在比赛服</span>
           </div>
           <div class="mod-section-body">
             <div class="acct-grid">
@@ -789,10 +789,10 @@
                 ${acctPill(!cloudErr, cloudErr ? "不可用" : "已连通")}
               </div>
               <div class="acct-card">
-                <div class="acct-name">tk 原</div>
-                <div class="acct-role">交易 + 图床 R2</div>
+                <div class="acct-name">比赛服</div>
+                <div class="acct-role">交易 + 图床 + 大赛</div>
                 <div class="acct-url mono">${escapeHtml(TRADE_BASE.replace(/^https?:\/\//, ""))}</div>
-                <div class="acct-duty">交流 · 玩家画师串 · MEDIA 写图</div>
+                <div class="acct-duty">交流 · 玩家画师串 · MEDIA 写图 · 全服大赛</div>
                 ${acctPill(!tradeErr && mediaOk, tradeErr ? "不可用" : (mediaOk ? mediaLabel : "图床未配"))}
               </div>
               <div class="acct-card">
@@ -826,8 +826,8 @@
 
         <section class="mod-section ${tradeTone} ${mediaTone}">
           <div class="mod-section-head">
-            <strong>${tradeErr ? "交易/图床不可用" : "tk 原 · 交易与图床"}</strong>
-            <span class="meta">pages.dev · MEDIA 本机</span>
+            <strong>${tradeErr ? "交易/图床不可用" : "比赛服 · 交易与图床"}</strong>
+            <span class="meta">tk-contest-ckm · MEDIA</span>
           </div>
           <div class="mod-section-body">
             ${tradeErr ? `<p class="err" style="margin:0 0 10px">${escapeHtml(tradeErr)}</p>` : ""}
@@ -984,7 +984,7 @@
   }
 
   async function renderAudit(root) {
-    setTop("审计日志", "会话操作记在 6og（改画泥、解锁、清空偏好）。交流删/打码在 tk 原站执行，不进此表。");
+    setTop("审计日志", "会话操作记在 6og（改画泥、解锁、清空偏好）。交流删/打码在比赛服执行，不进此表。");
     const q = encodeURIComponent(state.auditQ || "");
     const act = encodeURIComponent(state.auditAction || "");
     const data = await api(`/api/admin/audit?page=${state.auditPage}&q=${q}&action=${act}`);
@@ -2349,7 +2349,7 @@
   }
 
   async function renderCatalog(root) {
-    setTop("素材入库", "封面 → tk 原账号 R2；元数据 → comfyui-web 素材库 D1。");
+    setTop("素材入库", "封面 → 比赛服 R2；元数据 → comfyui-web 素材库 D1。");
     root.innerHTML = `
       <div class="catalog-grid">
         <section class="mod-section">
@@ -2664,7 +2664,7 @@
   }
 
   async function renderUsers(root) {
-    setTop("用户管理", "会话在 6og；画师串条数与清串打 tk 原。点进去用中文按钮管画泥、装扮、解锁、隐藏作品。");
+    setTop("用户管理", "会话在 6og；画师串条数与清串打比赛服。点进去用中文按钮管画泥、装扮、解锁、隐藏作品。");
     if (state.usersDetail) {
       await renderUserDetail(root, state.usersDetail);
       return;
@@ -3473,7 +3473,7 @@
   }
 
   async function renderPlayerArtists(root) {
-    setTop("玩家画师串", "数据在 tk 原 D1 + R2；可按用户/名称搜索并删除单条或整户。");
+    setTop("玩家画师串", "数据在比赛服 D1 + R2；可按用户/名称搜索并删除单条或整户。");
     const q = (state.paQ || "").trim();
     const data = await api(`/api/player-artists?view=admin&page=${state.paPage}&q=${encodeURIComponent(q)}`);
     const rows = data.rows || [];
@@ -3663,20 +3663,20 @@
   function renderMap(root) {
     setTop("能力地图", "按模块对照：玩家侧能力 ↔ 后台能做什么（并标明落在哪一座云）。");
     const rows = [
-      ["用户档案", "主题/解锁/收藏/开关/记事本/小艾进度", "6og 列表与详情；清串会打 tk 原", "可管", "#users"],
+      ["用户档案", "主题/解锁/收藏/开关/记事本/小艾进度", "6og 列表与详情；清串会打比赛服", "可管", "#users"],
       ["活跃统计", "今日/本周/本月 UV、近30天日活", "6og player_daily_active", "只读", "#analytics"],
       ["已读状态", "更新日志/公告/留言已读/已知晓", "6og 筛选、删除", "可管", "#reads"],
       ["画泥经济", "余额/装扮/兑换码/每日领泥/满10张奖励/转账/充值码生成", "6og 榜单、改余额、流水、爱发电码", "可管", "#economy"],
       ["邀请码", "邀请解锁全作品、邀请人+100泥", "6og 统计；用户档案可查解锁态", "可管", "#users"],
       ["钱包", "收款短码、玩家互转画泥", "6og 转账笔数；余额在经济页改", "可管", "#economy"],
-      ["玩家画师串", "自定义画师串+封面", "tk 原：搜索、删条、清空用户", "可管", "#player-artists"],
+      ["玩家画师串", "自定义画师串+封面", "比赛服：搜索、删条、清空用户", "可管", "#player-artists"],
       ["偏好明细", "全部云端偏好（含青年标签/记事本/草稿）", "6og 筛选、搜索、删除", "可管", "#prefs"],
-      ["画展区", "分类展销", "tk 原：角色/画风/优质 · 搜/筛/批量", "可管", "#trade"],
+      ["画展区", "分类展销", "比赛服：角色/画风/优质 · 搜/筛/批量", "可管", "#trade"],
       ["留言板", "全服聊天", "6og 搜筛、按人删、禁言", "可管", "#board"],
       ["公告", "游戏顶栏公告", "6og 草稿/发布；同时仅 1 条生效", "可管", "#notice"],
       ["审计日志", "—", "6og 会话操作记录（不含交流打码）", "可管", "#audit"],
       ["资讯", "站点教程", "素材站发帖；主管理员可管次级资讯账号", "可管", "#news"],
-      ["素材入库", "—", "封面上传 tk 原 R2 + 写本库 D1", "可管", "#catalog"],
+      ["素材入库", "—", "封面上传比赛服 R2 + 写本库 D1", "可管", "#catalog"],
       ["画师库/角色库", "官方检索素材", "本库搜索、最高级屏蔽、用户例外放行", "可管", "#artists"],
       ["自建词条", "玩家自定义中英词条", "落在素材库 D1（无独立页，总览见数量）", "只读统计", "#catalog"],
       ["改图消耗", "参考图改图（扣泥）", "走画泥余额，无独立队列", "随经济", "#economy"],
