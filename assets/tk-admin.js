@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.52";
+  const ADMIN_UI_VERSION = "1.53";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -95,6 +95,8 @@
     economyQ: "",
     economyDetail: "",
     economyLedgerPage: 1,
+    mudCodePackId: "pack_1",
+    mudCodeLastText: "",
     readsPage: 1,
     readsQ: "",
     readsKey: "seen_version",
@@ -3160,7 +3162,7 @@
   }
 
   async function renderEconomy(root) {
-    setTop("画泥经济", "数据在 6og。持有榜 + 运营加减泥流水（来自审计）。");
+    setTop("画泥经济", "数据在 6og。持有榜、充值码生成（爱发电）、运营加减泥流水。");
     if (state.economyDetail) {
       state.usersDetail = state.economyDetail;
       state.economyDetail = "";
@@ -3168,13 +3170,47 @@
       return;
     }
     const q = (state.economyQ || "").trim();
-    const [data, ledger] = await Promise.all([
+    const [data, ledger, mudCodes] = await Promise.all([
       api(`/api/admin/players?mode=economy&page=${state.economyPage}&q=${encodeURIComponent(q)}`),
       api(`/api/admin/audit?page=${state.economyLedgerPage}&actions=${encodeURIComponent("add_mud,set_mud")}`),
+      api(`/api/admin/mud-codes?status=unused&limit=1`).catch(() => ({ packs: [], stock: [], ok: false })),
     ]);
     const rows = data.rows || [];
     const st = data.stats || {};
     const ledgerRows = ledger.rows || [];
+    const packs = Array.isArray(mudCodes.packs) && mudCodes.packs.length
+      ? mudCodes.packs
+      : [
+          { id: "pack_1", label: "试水画泥", priceYuan: 1, amount: 100 },
+          { id: "pack_10", label: "大袋画泥", priceYuan: 10, amount: 1500 },
+        ];
+    const stockMap = Object.fromEntries(
+      (mudCodes.stock || []).map((s) => [String(s.packId || ""), s])
+    );
+    if (!packs.some((p) => p.id === state.mudCodePackId)) {
+      state.mudCodePackId = packs[0]?.id || "pack_1";
+    }
+    const packOpts = packs
+      .map((p) => {
+        const stock = stockMap[p.id] || {};
+        const unused = Math.max(0, Math.floor(Number(stock.unused) || 0));
+        const label = `${p.label || p.id} · ¥${p.priceYuan} → ${p.amount} 泥（未用 ${unused}）`;
+        return `<option value="${escapeHtml(p.id)}" ${p.id === state.mudCodePackId ? "selected" : ""}>${escapeHtml(label)}</option>`;
+      })
+      .join("");
+    const stockCards = packs
+      .map((p) => {
+        const stock = stockMap[p.id] || {};
+        const unused = Math.max(0, Math.floor(Number(stock.unused) || 0));
+        const used = Math.max(0, Math.floor(Number(stock.used) || 0));
+        return `<div class="summary-card">
+          <div class="k">${escapeHtml(p.label || p.id)} · ¥${escapeHtml(String(p.priceYuan))}</div>
+          <div class="v">${unused}</div>
+          <div class="meta">未用库存 · 已兑 ${used} · 每码 ${escapeHtml(String(p.amount))} 泥</div>
+        </div>`;
+      })
+      .join("");
+
     root.innerHTML = `
       <div class="mod-stack">
       <div class="summary-grid">
@@ -3182,6 +3218,31 @@
         <div class="summary-card"><div class="k">全服画泥合计</div><div class="v">${escapeHtml(String(st.mudSum ?? 0))}</div></div>
         <div class="summary-card"><div class="k">人均（持有者）</div><div class="v">${escapeHtml(String(st.avg ?? 0))}</div></div>
       </div>
+
+      <section class="mod-section">
+        <div class="mod-section-head">
+          <strong>爱发电充值码</strong>
+          <span class="meta">生成后复制到爱发电「自动随机回复」· 一行一码</span>
+        </div>
+        <div class="mod-section-body">
+          <div class="summary-grid" style="margin-bottom:12px">${stockCards || `<p class="meta">暂无库存统计（部署 6og 后刷新）</p>`}</div>
+          <div class="toolbar wrap">
+            <label class="meta">档位
+              <select id="mud-code-pack">${packOpts}</select>
+            </label>
+            <label class="meta">数量
+              <input id="mud-code-count" type="number" min="1" max="900" value="100" style="width:88px">
+            </label>
+            <input class="grow" id="mud-code-note" placeholder="备注（可选，如 afdian 补货）" maxlength="80">
+            <button type="button" class="primary" id="mud-code-gen">生成</button>
+            <button type="button" id="mud-code-copy" ${state.mudCodeLastText ? "" : "disabled"}>复制全部</button>
+            <button type="button" id="mud-code-refresh">刷新库存</button>
+          </div>
+          <p class="meta" id="mud-code-status">单次最多 200；数量更大时会自动分批。玩家钱包「充值」兑 HN- 码。</p>
+          <textarea id="mud-code-out" rows="12" spellcheck="false" placeholder="生成的码会出现在这里，可直接粘贴到爱发电">${escapeHtml(state.mudCodeLastText || "")}</textarea>
+        </div>
+      </section>
+
       <section class="mod-section">
         <div class="mod-section-head">
           <strong>持有榜</strong>
@@ -3270,6 +3331,65 @@
       });
     });
     bindOpenUser(root);
+
+    $("mud-code-pack")?.addEventListener("change", () => {
+      state.mudCodePackId = $("mud-code-pack")?.value || "pack_1";
+    });
+    $("mud-code-refresh")?.addEventListener("click", () => render());
+    $("mud-code-copy")?.addEventListener("click", async () => {
+      const text = String($("mud-code-out")?.value || "").trim();
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        const stEl = $("mud-code-status");
+        if (stEl) stEl.textContent = `已复制 ${text.split(/\n+/).filter(Boolean).length} 个码`;
+      } catch (_) {
+        $("mud-code-out")?.select();
+        const stEl = $("mud-code-status");
+        if (stEl) stEl.textContent = "复制失败，请手动全选复制";
+      }
+    });
+    $("mud-code-gen")?.addEventListener("click", async () => {
+      const packId = String($("mud-code-pack")?.value || state.mudCodePackId || "").trim();
+      const totalWant = Math.min(900, Math.max(1, Math.floor(Number($("mud-code-count")?.value) || 1)));
+      const note = String($("mud-code-note")?.value || "").trim();
+      const btn = $("mud-code-gen");
+      const stEl = $("mud-code-status");
+      const out = $("mud-code-out");
+      if (btn) btn.disabled = true;
+      const collected = [];
+      const batch = 200;
+      try {
+        let done = 0;
+        while (done < totalWant) {
+          const n = Math.min(batch, totalWant - done);
+          if (stEl) stEl.textContent = `生成中… ${done}/${totalWant}`;
+          const res = await api("/api/admin/mud-codes", {
+            method: "POST",
+            body: JSON.stringify({ action: "generate", packId, count: n, note }),
+          });
+          const codes = (res.codes || []).map((c) => c.code).filter(Boolean);
+          collected.push(...codes);
+          done += codes.length;
+          if (!codes.length) break;
+        }
+        const text = collected.join("\n");
+        state.mudCodeLastText = text;
+        state.mudCodePackId = packId;
+        if (out) out.value = text;
+        if (stEl) {
+          stEl.textContent = collected.length
+            ? `已生成 ${collected.length} 个，点「复制全部」贴进爱发电自动随机回复`
+            : "未生成任何码";
+        }
+        const copyBtn = $("mud-code-copy");
+        if (copyBtn) copyBtn.disabled = !collected.length;
+      } catch (err) {
+        if (stEl) stEl.textContent = err?.message || "生成失败";
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    });
   }
 
   async function renderEconomyDetail() {
@@ -3546,7 +3666,7 @@
       ["用户档案", "主题/解锁/收藏/开关/记事本/小艾进度", "6og 列表与详情；清串会打 tk 原", "可管", "#users"],
       ["活跃统计", "今日/本周/本月 UV、近30天日活", "6og player_daily_active", "只读", "#analytics"],
       ["已读状态", "更新日志/公告/留言已读/已知晓", "6og 筛选、删除", "可管", "#reads"],
-      ["画泥经济", "余额/装扮/兑换码/每日领泥/满10张奖励/转账", "6og 榜单、改余额、流水", "可管", "#economy"],
+      ["画泥经济", "余额/装扮/兑换码/每日领泥/满10张奖励/转账/充值码生成", "6og 榜单、改余额、流水、爱发电码", "可管", "#economy"],
       ["邀请码", "邀请解锁全作品、邀请人+100泥", "6og 统计；用户档案可查解锁态", "可管", "#users"],
       ["钱包", "收款短码、玩家互转画泥", "6og 转账笔数；余额在经济页改", "可管", "#economy"],
       ["玩家画师串", "自定义画师串+封面", "tk 原：搜索、删条、清空用户", "可管", "#player-artists"],
