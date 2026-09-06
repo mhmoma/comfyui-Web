@@ -10,7 +10,7 @@ import {
   json,
 } from "../articles/_shared.js";
 
-const DEFAULT_CLOUD = "https://tk-game-cloud.pages.dev";
+const DEFAULT_CLOUD = "https://tk-contest-ckm.pages.dev";
 
 export async function onRequestOptions() {
   return corsPreflight();

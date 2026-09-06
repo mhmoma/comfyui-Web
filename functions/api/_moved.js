@@ -4,7 +4,7 @@
  * Never touches local D1 for these routes.
  */
 const SESSION = "https://tk-game-cloud-6og.pages.dev";
-const TRADE = "https://tk-game-cloud.pages.dev";
+const TRADE = "https://tk-contest-ckm.pages.dev";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",

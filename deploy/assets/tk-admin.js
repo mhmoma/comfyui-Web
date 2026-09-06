@@ -2,7 +2,7 @@
   "use strict";
 
   /** 运营台界面版本：改后台 UI 时务必递增，方便确认线上是否已部署 */
-  const ADMIN_UI_VERSION = "1.53";
+  const ADMIN_UI_VERSION = "1.54";
 
   const KEY_STORE = "comfyui_admin_key"; // localStorage：刷新不掉登录
   /** 素材站（画师/角色/资讯/登录探针）——tomkk.xyz 自定义域优先同源，避免跨域预检失败 */
@@ -22,7 +22,7 @@
   /** 游戏云端（公告/留言/偏好/画泥）——web 新账号 */
   const CLOUD_BASE = "https://tk-game-cloud-6og.pages.dev";
   /** 交易+画师串+图床——tk 原账号 */
-  const TRADE_BASE = "https://tk-game-cloud.pages.dev";
+  const TRADE_BASE = "https://tk-contest-ckm.pages.dev";
   /** 图床代理站（tk 原账号 R2 imtubro） */
   const MEDIA_PROXY_HOST = TRADE_BASE;
 
@@ -1340,7 +1340,7 @@
   }
 
   async function renderTrade(root) {
-    setTop("画展区", "数据在 tk 原账号 D1（TRADE_BASE）。可改角色/画风分类、优质标；删 / 下架 / 打码。点 UID 进档案。");
+    setTop("画展区", "数据在比赛服 D1（TRADE_BASE）。可改角色/画风分类、优质标；删 / 下架 / 打码。点 UID 进档案。");
     const q = encodeURIComponent(state.tradeQ || "");
     const blockedFlag = state.tradeBlocked ? "1" : "0";
     const cat = encodeURIComponent(state.tradeCategory || "all");
